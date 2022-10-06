@@ -1,5 +1,4 @@
 ﻿using BezoekersRegistratieSysteemBL.Exceptions;
-using BezoekersRegistratieSysteemBL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +7,21 @@ using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
-    public abstract class Werknemer : IPersoon
+    public abstract class Werknemer : Persoon
     {
-        public string Voornaam { get; set; }
-        public string Achternaam { get; set; }
-        public string Email { get; set; }
-        public Bedrijf bedrijf { get; set; }
-        public string Functie { get; set; }
-        public Werknemer(string voornaam, string achternaam, string email, Bedrijf bedrijf, string functie) : base(voornaam, achternaam, email, bedrijf)
+        public Bedrijf Bedrijf { get; private set; }
+        public string Functie { get; private set; }
+        
+        public Werknemer(string voornaam, string achternaam, string email, Bedrijf bedrijf, string functie) : base(voornaam, achternaam, email)
         {
+            ZetBedrijf(bedrijf);
             ZetFunctie(functie);
+        }
+        
+        public void ZetBedrijf(Bedrijf bedrijf)
+        {
+            if (bedrijf == null) throw new WerknemerException("Bedrijf mag niet leeg zijn");
+            Bedrijf = bedrijf;
         }
         
         public void ZetFunctie(string functie)
