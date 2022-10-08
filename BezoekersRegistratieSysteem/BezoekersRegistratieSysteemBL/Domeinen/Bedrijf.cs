@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
-    public class Bedrijf
+    public class Bedrijf : IEquatable<Bedrijf?>
     {
         public uint Id { get; private set; }
         public string Naam { get; private set; }
@@ -83,6 +83,32 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         public IReadOnlyList<Werknemer> GeefWerknemers()
         {
             return _werknemers.AsReadOnly();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as Bedrijf);
+        }
+
+        public bool Equals(Bedrijf? other)
+        {
+            return other is not null &&
+                   Id == other.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id);
+        }
+
+        public static bool operator ==(Bedrijf? left, Bedrijf? right)
+        {
+            return EqualityComparer<Bedrijf>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(Bedrijf? left, Bedrijf? right)
+        {
+            return !(left == right);
         }
     }
 }

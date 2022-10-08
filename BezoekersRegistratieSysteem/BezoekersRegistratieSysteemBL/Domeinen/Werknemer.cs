@@ -4,10 +4,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 {
     public class Werknemer : Persoon
     {
-        public Bedrijf Bedrijf { get; private set; }
+        public Bedrijf? Bedrijf { get; private set; }
         public string Functie { get; private set; }
 
-        public Werknemer(uint id, string voornaam, string achternaam, string email, Bedrijf bedrijf, string functie) : base(id, voornaam, achternaam, email)
+        public Werknemer(uint id, string voornaam, string achternaam, string email, Bedrijf? bedrijf, string functie) : base(id, voornaam, achternaam, email)
         {
             ZetBedrijf(bedrijf);
             ZetFunctie(functie);

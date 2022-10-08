@@ -5,7 +5,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces
     public interface IWerknemerRepository
     {
         void VoegWerknemerToe(Werknemer werknemer);
-        void VerwijderWerknemer(Werknemer werknemer);
+        void VerwijderWerknemer(uint id);
         void WijzigWerknemer(uint id, Werknemer werknemer);
         void GeefWerknemerOpNaam(string naam);
         //IReadOnlyList<Werknemer> GeefAanwezigeWerknemers();

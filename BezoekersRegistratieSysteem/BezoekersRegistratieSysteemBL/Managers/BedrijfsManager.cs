@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
+using BezoekersRegistratieSysteemBL.Interfaces;
 
 namespace BezoekersRegistratieSysteemBL.Managers
 {
@@ -7,23 +8,35 @@ namespace BezoekersRegistratieSysteemBL.Managers
     {
         private List<Bedrijf> _bedrijven = new List<Bedrijf>();
 
-        public void VoegBedrijfToe(Bedrijf bedrijf)
+        private IBedrijfRepository _bedrijfRepository;
+
+        public BedrijfsManager(IBedrijfRepository bedrijfRepository)
         {
-            if (bedrijf == null) throw new BedrijfManagerException("Bedrijf mag niet leeg zijn");
+            this._bedrijfRepository = bedrijfRepository;
+        }
+
+        public void VoegBedrijfToe(uint id, string naam, string btw,string adres, string email, string telefoonnummer)
+        {
+            Bedrijf bedrijf = new Bedrijf(id, naam, btw, adres, email, telefoonnummer);
             _bedrijven.Add(bedrijf);
+            _bedrijfRepository.VoegBedrijfToe(bedrijf);
         }
 
         public void VerwijderBedrijf(Bedrijf bedrijf)
         {
             if (bedrijf == null) throw new BedrijfManagerException("Bedrijf mag niet leeg zijn");
+            if (!_bedrijven.Contains(bedrijf)) throw new BedrijfManagerException("Bedrijf bestaat niet");
             _bedrijven.Remove(bedrijf);
+            _bedrijfRepository.VerwijderBedrijf(bedrijf.Id);
         }
 
         public void BewerkBedrijf(Bedrijf bedrijf)
         {
             if (bedrijf == null) throw new BedrijfManagerException("Bedrijf mag niet leeg zijn");
+            if (!_bedrijven.Contains(bedrijf)) throw new BedrijfManagerException("Bedrijf bestaat niet");
             _bedrijven.Remove(bedrijf);
             _bedrijven.Add(bedrijf);
+            _bedrijfRepository.WijzigBedrijf(bedrijf.Id, bedrijf);
         }
 
         public IReadOnlyList<Bedrijf> Geefbedrijven()
@@ -36,10 +49,9 @@ namespace BezoekersRegistratieSysteemBL.Managers
             if (string.IsNullOrWhiteSpace(bedrijfsnaam)) throw new BedrijfManagerException("Bedrijfsnaam mag niet leeg zijn");
             foreach (Bedrijf bedrijf in _bedrijven)
             {
-                if (bedrijf.Naam == bedrijfsnaam) return bedrijf;
-                else throw new BedrijfManagerException("Bedrijf bestaat niet");
+                if (bedrijf.Naam.Equals(bedrijfsnaam)) return bedrijf;
             }
-            return null;
+            throw new BedrijfManagerException("Bedrijf bestaat niet");
         }
     }
 }
