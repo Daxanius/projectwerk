@@ -1,9 +1,4 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemBL.Managers
 {
@@ -11,7 +6,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
     {
         public void MaakAfspraak(Afspraak afspraak)
         {
-            
+
         }
 
         public void VerwijderAfspraak(Afspraak afspraak)
@@ -23,10 +18,10 @@ namespace BezoekersRegistratieSysteemBL.Managers
         {
 
         }
-        
+
         public void BeeindigAfspraak(Afspraak afspraak)
         {
-            
+
         }
 
         public IReadOnlyList<Afspraak> GeefHuidigeAfspraken(DateTime tijdstip)
@@ -38,7 +33,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
         {
             return null;
         }
-        
+
         public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum)
         {
             return null;

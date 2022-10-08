@@ -1,11 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
@@ -15,7 +9,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         public string Voornaam { get; private set; }
         public string Achternaam { get; private set; }
         public string Email { get; private set; }
-        
+
         public Persoon(uint id, string voornaam, string achternaam, string email)
         {
             ZetId(id);

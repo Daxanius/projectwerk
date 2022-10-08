@@ -1,10 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemBL.Managers
 {
@@ -30,7 +25,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
             _bedrijven.Remove(bedrijf);
             _bedrijven.Add(bedrijf);
         }
-        
+
         public IReadOnlyList<Bedrijf> Geefbedrijven()
         {
             return _bedrijven.AsReadOnly();
@@ -39,7 +34,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
         public Bedrijf GeefBedrijf(string bedrijfsnaam)
         {
             if (string.IsNullOrWhiteSpace(bedrijfsnaam)) throw new BedrijfManagerException("Bedrijfsnaam mag niet leeg zijn");
-            foreach(Bedrijf bedrijf in _bedrijven)
+            foreach (Bedrijf bedrijf in _bedrijven)
             {
                 if (bedrijf.Naam == bedrijfsnaam) return bedrijf;
                 else throw new BedrijfManagerException("Bedrijf bestaat niet");
