@@ -11,7 +11,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
     {
         public string Bedrijf { get; private set; }
 
-        public Bezoeker(string voornaam, string achternaam, string email, string bedrijf) : base(voornaam, achternaam, email)
+        public Bezoeker(uint id, string voornaam, string achternaam, string email, string bedrijf) : base(id, voornaam, achternaam, email)
         {
             ZetBedrijf(bedrijf);
         }
