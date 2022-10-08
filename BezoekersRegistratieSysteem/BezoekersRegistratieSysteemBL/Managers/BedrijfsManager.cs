@@ -1,5 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.Exceptions;
+using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 
 namespace BezoekersRegistratieSysteemBL.Managers
 {

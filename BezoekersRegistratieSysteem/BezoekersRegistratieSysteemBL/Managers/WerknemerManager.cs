@@ -37,17 +37,20 @@ namespace BezoekersRegistratieSysteemBL.Managers
 
         public void GeefWerknemerOpNaam(string naam)
         {
+            if (string.IsNullOrWhiteSpace(naam)) throw new WerknemerManagerException("Naam mag niet leeg zijn");
             _werknemerRepository.GeefWerknemerOpNaam(naam);
         }
 
         public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(Bedrijf bedrijf)
         {
+            if (bedrijf == null) throw new WerknemerManagerException("Bedrijf mag niet leeg zijn");
             return _werknemerRepository.GeefWerknemersPerBedrijf(bedrijf.Id);
         }
 
         public IReadOnlyList<Werknemer> GeefWerknemersPerFunctie(string functie)
         {
             //Wildcard
+            if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerManagerException("Functie mag niet leeg zijn");
             return _werknemerRepository.GeefWerknemersPerFunctie(functie);
         }
     }
