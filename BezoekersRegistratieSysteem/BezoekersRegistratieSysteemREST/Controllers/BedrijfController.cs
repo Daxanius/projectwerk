@@ -20,7 +20,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			throw new NotImplementedException();
 		}
 
-		[HttpPost]
+		[HttpPut]
 		public ActionResult<Bedrijf> Post([FromBody] Bedrijf bedrijf) {
 			throw new NotImplementedException();
 		}
