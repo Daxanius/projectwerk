@@ -30,6 +30,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
             _werknemerRepository.WijzigWerknemer(werknemer.Id, werknemer);
         }
 
+        //We need to solve this.... possibly idk... send help
         //public IReadOnlyList<Werknemer> GeefAanwezigeWerknemers()
         //{
         //    return _werknemerRepository.GeefAanwezigeWerknemers();

@@ -1,5 +1,6 @@
-﻿namespace BezoekersRegistratieSysteemBL.Managers
-    using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
+﻿using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
+
+namespace BezoekersRegistratieSysteemBL.Managers
 {
     public class BezoekerManager
     {
