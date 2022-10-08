@@ -25,13 +25,13 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 
         public void ZetStarttijd(DateTime starttijd)
         {
-            if (starttijd == null) throw new AfspraakException("starttijd mag niet leeg zijn");
+            if (Eindtijd is not null) throw new AfspraakException("afspraak reeds beëindigd");
             Starttijd = starttijd;
         }
 
         public void ZetEindtijd(DateTime? eindtijd)
         {
-            if (eindtijd == null) throw new AfspraakException("eindtijd mag niet leeg zijn");
+            if (eindtijd <= Starttijd) throw new AfspraakException("eindtijd moet na starttijd liggen");
             Eindtijd = eindtijd;
         }
 

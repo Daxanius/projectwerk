@@ -15,15 +15,17 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 
         public void ZetBedrijf(Bedrijf bedrijf)
         {
+            if (bedrijf.Equals(Bedrijf)) throw new WerknemerException("Bedrijf mag niet leeg zijn");
             if (bedrijf == null) throw new WerknemerException("Bedrijf mag niet leeg zijn");
+            if (Bedrijf != null) Bedrijf.VerwijderWerknemer(this);
             Bedrijf = bedrijf;
+            if (!bedrijf.GeefWerknemers().Contains(this)) bedrijf.VoegWerknemerToe(this);
         }
 
         public void VerwijderBedrijf()
         {
-            if (Bedrijf != null)
-                if (Bedrijf.GeefWerknemers().Contains(this))
-                    Bedrijf.VerwijderWerknemer(this);
+            if (Bedrijf == null) throw new WerknemerException("Bedrijf is al leeg");
+            if (Bedrijf.GeefWerknemers().Contains(this)) Bedrijf.VerwijderWerknemer(this);
             Bedrijf = null;
         }
 
