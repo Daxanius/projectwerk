@@ -1,27 +1,54 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
+using BezoekersRegistratieSysteemBL.Interfaces;
 
 namespace BezoekersRegistratieSysteemBL.Managers
 {
     public class WerknemerManager
     {
-        public void GeefAanwezigeWerknemers()
+        private IWerknemerRepository _werknemerRepository;
+
+        public WerknemerManager(IWerknemerRepository werknemerRepository)
         {
-            throw new NotImplementedException();
+            this._werknemerRepository = werknemerRepository;
         }
+        public void VoegWerknemerToe(uint id, string voornaam, string achternaam, string email, Bedrijf bedrijf, string functie)
+        {
+            Werknemer werknemer = new Werknemer(id, voornaam, achternaam, email, bedrijf, functie);
+            _werknemerRepository.VoegWerknemerToe(werknemer);
+        }
+
+        public void VerwijderWerknemer(Werknemer werknemer)
+        {
+            if (werknemer == null) throw new WerknemerManagerException("Werknemer mag niet leeg zijn");
+            _werknemerRepository.VerwijderWerknemer(werknemer);
+        }
+
+        public void WijzigWerknemer(Werknemer werknemer)
+        {
+            if (werknemer == null) throw new WerknemerManagerException("Werknemer mag niet leeg zijn");
+            _werknemerRepository.WijzigWerknemer(werknemer.Id, werknemer);
+        }
+
+        //public IReadOnlyList<Werknemer> GeefAanwezigeWerknemers()
+        //{
+        //    return _werknemerRepository.GeefAanwezigeWerknemers();
+        //}
 
         public void GeefWerknemerOpNaam(string naam)
         {
-            throw new NotImplementedException();
+            _werknemerRepository.GeefWerknemerOpNaam(naam);
         }
 
-        public void GeefWerknemersPerBedrijf(Bedrijf bedrijf)
+        public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(Bedrijf bedrijf)
         {
-            throw new NotImplementedException();
+            return _werknemerRepository.GeefWerknemersPerBedrijf(bedrijf.Id);
         }
 
-        public void GeefWerknemersPerFunctie(string functie)
+        public IReadOnlyList<Werknemer> GeefWerknemersPerFunctie(string functie)
         {
-            throw new NotImplementedException();
+            //Wildcard
+            return _werknemerRepository.GeefWerknemersPerFunctie(functie);
         }
     }
 }

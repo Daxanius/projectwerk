@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemBL.Exceptions;
+﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
@@ -6,11 +6,11 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
     {
         public uint Id { get; private set; }
         public DateTime Starttijd { get; private set; }
-        public DateTime Eindtijd { get; private set; }
+        public DateTime? Eindtijd { get; private set; }
         public Bezoeker Bezoeker { get; private set; }
         public Werknemer Werknemer { get; private set; }
 
-        public Afspraak(uint id, DateTime starttijd, DateTime eindtijd, Bezoeker bezoeker, Werknemer werknemer)
+        public Afspraak(uint id, DateTime starttijd, DateTime? eindtijd, Bezoeker bezoeker, Werknemer werknemer)
         {
             ZetId(id);
             ZetStarttijd(starttijd);
@@ -29,7 +29,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
             Starttijd = starttijd;
         }
 
-        public void ZetEindtijd(DateTime eindtijd)
+        public void ZetEindtijd(DateTime? eindtijd)
         {
             if (eindtijd == null) throw new AfspraakException("eindtijd mag niet leeg zijn");
             Eindtijd = eindtijd;

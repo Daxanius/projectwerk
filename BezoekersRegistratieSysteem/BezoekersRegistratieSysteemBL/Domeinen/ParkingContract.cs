@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemBL.Exceptions;
+﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
