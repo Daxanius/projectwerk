@@ -4,14 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace BezoekersRegistratieSysteemREST.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class AfspraakController : ControllerBase {
+	public class WerknemerController : ControllerBase {
 		[HttpGet("{id}")]
-		public Afspraak Get(uint id) {
+		public Werknemer Get(uint id) {
+			throw new NotImplementedException();
+		}
+
+		[HttpGet("{naam}")]
+		public Werknemer GetOpNaam(string id) {
 			throw new NotImplementedException();
 		}
 
 		[HttpGet]
-		public IEnumerable<Afspraak> GetAll([FromQuery] DateTime? dag, [FromQuery] uint werknemer) {
+		public IEnumerable<Werknemer> GetAll([FromQuery] uint? bedrijf, [FromQuery] string? functie) {
 			throw new NotImplementedException();
 		}
 
@@ -21,13 +26,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		[HttpPost]
-		public ActionResult<Afspraak> Post([FromBody] Afspraak afspraak) {
-			throw new NotImplementedException();
-		}
-
-		[HttpPost]
-		[Route("end/{id}")]
-		public Afspraak End(uint id) {
+		public ActionResult<Werknemer> Post([FromBody] Werknemer afspraak) {
 			throw new NotImplementedException();
 		}
 	}
