@@ -19,6 +19,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_bezoekerRepository.VerwijderBezoeker(id);
 		}
 
+		public Bezoeker GeefBezoeker(uint id) {
+			// TODO: Geef bezoeker op ID
+			throw new NotImplementedException();
+		}
+
 		public void WijzigBezoeker(Bezoeker bezoeker) {
 			if (bezoeker == null) throw new BezoekerManagerException("Bezoeker mag niet leeg zijn");
 			_bezoekerRepository.WijzigBezoeker(bezoeker.Id, bezoeker);

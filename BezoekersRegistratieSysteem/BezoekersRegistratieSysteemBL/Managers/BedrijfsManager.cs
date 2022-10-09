@@ -25,6 +25,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _bedrijfRepository.VerwijderBedrijf(id);
         }
 
+        public Bedrijf GeefBedrijf(uint id) {
+            if (!_bedrijven.ContainsKey(id)) throw new BedrijfManagerException("Bedrijf bestaat niet");
+            return _bedrijven[id];
+        }
+
         public void BewerkBedrijf(Bedrijf bedrijf) {
             if (bedrijf == null) throw new BedrijfManagerException("Bedrijf mag niet leeg zijn");
             if (!_bedrijven.ContainsKey(bedrijf.Id)) throw new BedrijfManagerException("Bedrijf bestaat niet");

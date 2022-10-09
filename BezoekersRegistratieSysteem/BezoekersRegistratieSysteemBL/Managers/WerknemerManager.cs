@@ -19,6 +19,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_werknemerRepository.VerwijderWerknemer(id);
 		}
 
+		public Werknemer GeefWerknemer(uint id) {
+			// TODO: Geef werknemer op ID
+			throw new NotImplementedException();
+		}
+
 		public void WijzigWerknemer(Werknemer werknemer) {
 			if (werknemer == null) throw new WerknemerManagerException("Werknemer mag niet leeg zijn");
 			_werknemerRepository.WijzigWerknemer(werknemer.Id, werknemer);

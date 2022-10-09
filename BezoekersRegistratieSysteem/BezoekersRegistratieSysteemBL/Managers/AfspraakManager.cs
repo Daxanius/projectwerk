@@ -19,6 +19,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_afspraakRepository.VerwijderAfspraak(id);
 		}
 
+		public Afspraak GeefAfspraak(uint id) {
+			// TODO: Geef afspraak op ID
+			throw new NotImplementedException();
+		}
+
 		public void BewerkAfspraak(Afspraak afspraak) {
 			if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
 			_afspraakRepository.BewerkAfspraak(afspraak.Id);
