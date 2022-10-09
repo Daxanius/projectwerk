@@ -13,10 +13,10 @@ builder.Services.AddSwaggerGen();
 // Alle managers als singleton toevoegen
 // dit omdat de API interract met de managers
 // WAARCHUWING: DE REPOS ZIJN TIJDELIJK, MOETEN VERVANGEN WORDEN DOOR DB
-builder.Services.AddSingleton<BedrijfsManager>(new BedrijfsManager(new BedrijfRepo()));
-builder.Services.AddSingleton<AfspraakManager>(new AfspraakManager(new AfspraakRepo()));
-builder.Services.AddSingleton<BezoekerManager>(new BezoekerManager(new BezoekerRepo()));
-builder.Services.AddSingleton<WerknemerManager>(new WerknemerManager(new WerknemerRepo()));
+builder.Services.AddSingleton(new BedrijfsManager(new BedrijfRepo()));
+builder.Services.AddSingleton(new AfspraakManager(new AfspraakRepo()));
+builder.Services.AddSingleton(new BezoekerManager(new BezoekerRepo()));
+builder.Services.AddSingleton(new WerknemerManager(new WerknemerRepo()));
 
 // Wij hebben liever lowercase URLs voor onze Aapie
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
