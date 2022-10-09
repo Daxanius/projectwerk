@@ -1,6 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemBL.Interfaces {
+	/// <summary>
+	/// Afspraak storage hook
+	/// </summary>
 	public interface IAfspraakRepository {
 		void BeeindigAfspraak(uint id);
 		void BewerkAfspraak(uint id);

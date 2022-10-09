@@ -4,7 +4,7 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
 	public class AfspraakManager {
-		private IAfspraakRepository _afspraakRepository;
+		private readonly IAfspraakRepository _afspraakRepository;
 
 		public AfspraakManager(IAfspraakRepository afspraakRepository) {
 			this._afspraakRepository = afspraakRepository;
@@ -52,12 +52,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDatum(Werknemer werknemer, DateTime datum) {
 			if (werknemer == null) throw new AfspraakManagerException("werknemer mag niet leeg zijn");
-			if (datum == null) throw new AfspraakManagerException("datum mag niet leeg zijn");
 			return _afspraakRepository.GeefAfsprakenPerWerknemerOpDatum(werknemer.Id, datum);
 		}
 
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
-			if (datum == null) throw new AfspraakManagerException("datum mag niet leeg zijn");
 			return _afspraakRepository.GeefAfsprakenPerDag(datum);
 		}
 	}

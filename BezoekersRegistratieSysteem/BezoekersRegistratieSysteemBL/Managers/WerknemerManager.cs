@@ -4,11 +4,12 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
 	public class WerknemerManager {
-		private IWerknemerRepository _werknemerRepository;
+		private readonly IWerknemerRepository _werknemerRepository;
 
 		public WerknemerManager(IWerknemerRepository werknemerRepository) {
 			this._werknemerRepository = werknemerRepository;
 		}
+
 		public void VoegWerknemerToe(string voornaam, string achternaam, string email, Bedrijf bedrijf, string functie) {
 			Werknemer werknemer = new Werknemer(voornaam, achternaam, email, bedrijf, functie);
 			_werknemerRepository.VoegWerknemerToe(werknemer);

@@ -1,6 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemBL.Interfaces {
+	/// <summary>
+	/// Bezoeker storage hook
+	/// </summary>
 	public interface IBezoekerRepository {
 		IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers();
 		IReadOnlyList<Bezoeker> GeefBezoekersOpDatum(DateTime datum);

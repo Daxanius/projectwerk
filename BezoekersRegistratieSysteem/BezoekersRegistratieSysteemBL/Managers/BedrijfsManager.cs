@@ -4,9 +4,9 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
     public class BedrijfsManager {
-        private List<Bedrijf> _bedrijven = new List<Bedrijf>();
+        private readonly List<Bedrijf> _bedrijven = new List<Bedrijf>();
 
-        private IBedrijfRepository _bedrijfRepository;
+        private readonly IBedrijfRepository _bedrijfRepository;
 
         public BedrijfsManager(IBedrijfRepository bedrijfRepository) {
             this._bedrijfRepository = bedrijfRepository;

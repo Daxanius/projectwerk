@@ -4,11 +4,12 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
 	public class BezoekerManager {
-		private IBezoekerRepository _bezoekerRepository;
+		private readonly IBezoekerRepository _bezoekerRepository;
 
 		public BezoekerManager(IBezoekerRepository bezoekerRepository) {
 			this._bezoekerRepository = bezoekerRepository;
 		}
+
 		public void VoegBezoekerToe(string voornaam, string achternaam, string email, string bedrijf) {
 			Bezoeker bezoeker = new Bezoeker(voornaam, achternaam, email, bedrijf);
 			_bezoekerRepository.VoegBezoekerToe(bezoeker);
@@ -29,7 +30,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		}
 
 		public IReadOnlyList<Bezoeker> GeefBezoekersOpDatum(DateTime datum) {
-			if (datum == null) throw new BezoekerManagerException("Datum mag niet leeg zijn");
 			return _bezoekerRepository.GeefBezoekersOpDatum(datum);
 		}
 
