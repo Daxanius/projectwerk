@@ -19,12 +19,23 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 
 		[HttpGet]
 		public IEnumerable<Bedrijf> GetAll() {
-			throw new NotImplementedException();
+			// Kan dit fout gaan?
+			return _bedrijfManager.Geefbedrijven();
 		}
 
 		[HttpDelete("{id}")]
 		public IActionResult Delete(uint id) {
-			throw new NotImplementedException();
+			// Id opvragen? Leeg levert een crash op
+			Bedrijf bedrijf = new("", "", "", "", "");
+			bedrijf.ZetId(id);
+
+			try {
+				_bedrijfManager.VerwijderBedrijf(bedrijf);
+				return Ok();
+			} catch (Exception) {
+				// Welke IActionResults zijn er??
+				return BadRequest();
+			}
 		}
 
 		[HttpPut]
