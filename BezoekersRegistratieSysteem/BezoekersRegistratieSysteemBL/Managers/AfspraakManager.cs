@@ -15,9 +15,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_afspraakRepository.VoegAfspraakToe(afspraak);
 		}
 
-		public void VerwijderAfspraak(Afspraak afspraak) {
-			if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
-			_afspraakRepository.VerwijderAfspraak(afspraak.Id);
+		public void VerwijderAfspraak(uint id) {
+			_afspraakRepository.VerwijderAfspraak(id);
 		}
 
 		public void BewerkAfspraak(Afspraak afspraak) {
