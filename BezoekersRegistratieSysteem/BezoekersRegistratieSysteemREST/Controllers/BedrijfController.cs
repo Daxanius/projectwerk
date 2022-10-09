@@ -1,10 +1,17 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Managers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
 	public class BedrijfController : ControllerBase {
+		private readonly BedrijfsManager _bedrijfManager;
+
+		public BedrijfController(BedrijfsManager afspraakManager) {
+			_bedrijfManager = afspraakManager;
+		}
+
 		[HttpGet("{id}")]
 		public Bedrijf Get(uint id) {
 			throw new NotImplementedException();
