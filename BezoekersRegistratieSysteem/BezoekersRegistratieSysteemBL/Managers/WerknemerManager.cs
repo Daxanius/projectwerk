@@ -12,9 +12,9 @@ namespace BezoekersRegistratieSysteemBL.Managers
         {
             this._werknemerRepository = werknemerRepository;
         }
-        public void VoegWerknemerToe(uint id, string voornaam, string achternaam, string email, Bedrijf bedrijf, string functie)
+        public void VoegWerknemerToe(string voornaam, string achternaam, string email, Bedrijf bedrijf, string functie)
         {
-            Werknemer werknemer = new Werknemer(id, voornaam, achternaam, email, bedrijf, functie);
+            Werknemer werknemer = new Werknemer(voornaam, achternaam, email, bedrijf, functie);
             _werknemerRepository.VoegWerknemerToe(werknemer);
         }
 
@@ -36,10 +36,10 @@ namespace BezoekersRegistratieSysteemBL.Managers
         //    return _werknemerRepository.GeefAanwezigeWerknemers();
         //}
 
-        public void GeefWerknemerOpNaam(string naam)
+        public Werknemer GeefWerknemerOpNaam(string naam)
         {
             if (string.IsNullOrWhiteSpace(naam)) throw new WerknemerManagerException("Naam mag niet leeg zijn");
-            _werknemerRepository.GeefWerknemerOpNaam(naam);
+            return _werknemerRepository.GeefWerknemerOpNaam(naam);
         }
 
         public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(Bedrijf bedrijf)

@@ -12,9 +12,9 @@ namespace BezoekersRegistratieSysteemBL.Managers
         {
             this._bezoekerRepository = bezoekerRepository;
         }
-        public void VoegBezoekerToe(uint id, string voornaam, string achternaam, string email, string bedrijf)
+        public void VoegBezoekerToe(string voornaam, string achternaam, string email, string bedrijf)
         {
-            Bezoeker bezoeker = new Bezoeker(id, voornaam, achternaam, email, bedrijf);
+            Bezoeker bezoeker = new Bezoeker(voornaam, achternaam, email, bedrijf);
             _bezoekerRepository.VoegBezoekerToe(bezoeker);
         }
 
@@ -30,21 +30,21 @@ namespace BezoekersRegistratieSysteemBL.Managers
             _bezoekerRepository.WijzigBezoeker(bezoeker.Id, bezoeker);
         }
         
-        public void GeefAanwezigeBezoekers()
+        public IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers()
         {
-            _bezoekerRepository.GeefAanwezigeBezoekers();
+            return _bezoekerRepository.GeefAanwezigeBezoekers();
         }
 
-        public void GeefBezoekersOpDatum(DateTime datum)
+        public IReadOnlyList<Bezoeker> GeefBezoekersOpDatum(DateTime datum)
         {
             if (datum == null) throw new BezoekerManagerException("Datum mag niet leeg zijn");
-            _bezoekerRepository.GeefBezoekersOpDatum(datum);
+            return _bezoekerRepository.GeefBezoekersOpDatum(datum);
         }
 
-        public void GeefBezoekersOpNaam(string naam)
+        public Bezoeker GeefBezoekerOpNaam(string naam)
         {
             if (string.IsNullOrWhiteSpace(naam)) throw new BezoekerManagerException("Naam mag niet leeg zijn");
-            _bezoekerRepository.GeefBezoekersOpNaam(naam);
+            return _bezoekerRepository.GeefBezoekerOpNaam(naam);
         }
     }
 }

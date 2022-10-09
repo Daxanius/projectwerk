@@ -15,9 +15,10 @@ namespace BezoekersRegistratieSysteemBL.Managers
             this._bedrijfRepository = bedrijfRepository;
         }
 
-        public void VoegBedrijfToe(uint id, string naam, string btw,string adres, string email, string telefoonnummer)
+        public void VoegBedrijfToe(string naam, string btw,string adres, string email, string telefoonnummer)
         {
-            Bedrijf bedrijf = new Bedrijf(id, naam, btw, adres, email, telefoonnummer);
+            Bedrijf bedrijf = new Bedrijf(naam, btw, adres, email, telefoonnummer);
+            if (_bedrijven.Contains(bedrijf)) throw new BedrijfManagerException("Bedrijf bestaat al");
             _bedrijven.Add(bedrijf);
             _bedrijfRepository.VoegBedrijfToe(bedrijf);
         }

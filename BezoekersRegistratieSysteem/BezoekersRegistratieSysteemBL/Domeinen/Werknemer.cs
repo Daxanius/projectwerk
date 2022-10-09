@@ -4,10 +4,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 {
     public class Werknemer : Persoon
     {
-        public Bedrijf? Bedrijf { get; private set; }
+        public Bedrijf Bedrijf { get; private set; }
         public string Functie { get; private set; }
 
-        public Werknemer(uint id, string voornaam, string achternaam, string email, Bedrijf? bedrijf, string functie) : base(id, voornaam, achternaam, email)
+        public Werknemer(string voornaam, string achternaam, string email, Bedrijf bedrijf, string functie) : base(voornaam, achternaam, email)
         {
             ZetBedrijf(bedrijf);
             ZetFunctie(functie);
@@ -15,8 +15,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 
         public void ZetBedrijf(Bedrijf bedrijf)
         {
-            if (bedrijf.Equals(Bedrijf)) throw new WerknemerException("Bedrijf mag niet leeg zijn");
             if (bedrijf == null) throw new WerknemerException("Bedrijf mag niet leeg zijn");
+            if (bedrijf.Equals(Bedrijf)) throw new WerknemerException("Bedrijf mag niet leeg zijn");
             if (Bedrijf != null) Bedrijf.VerwijderWerknemer(this);
             Bedrijf = bedrijf;
             if (!bedrijf.GeefWerknemers().Contains(this)) bedrijf.VoegWerknemerToe(this);

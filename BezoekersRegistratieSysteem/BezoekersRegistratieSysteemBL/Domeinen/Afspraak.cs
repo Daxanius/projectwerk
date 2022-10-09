@@ -10,9 +10,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         public Bezoeker Bezoeker { get; private set; }
         public Werknemer Werknemer { get; private set; }
 
-        public Afspraak(uint id, DateTime starttijd, DateTime? eindtijd, Bezoeker bezoeker, Werknemer werknemer)
+        public Afspraak(DateTime starttijd, DateTime? eindtijd, Bezoeker bezoeker, Werknemer werknemer)
         {
-            ZetId(id);
             ZetStarttijd(starttijd);
             ZetEindtijd(eindtijd);
             ZetBezoeker(bezoeker);
