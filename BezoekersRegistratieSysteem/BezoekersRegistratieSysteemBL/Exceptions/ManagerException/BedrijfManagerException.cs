@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace BezoekersRegistratieSysteemBL.Exceptions
+namespace BezoekersRegistratieSysteemBL.Exceptions.ManagerException
 {
     public class BedrijfManagerException : Exception
     {

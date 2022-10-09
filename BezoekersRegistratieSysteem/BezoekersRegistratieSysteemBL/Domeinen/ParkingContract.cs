@@ -1,19 +1,14 @@
-﻿using BezoekersRegistratieSysteemBL.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
     public class ParkingContract
     {
         public DateTime Starttijd { get; private set; }
-        public DateTime Eindtijd { get; private set; }
+        public DateTime? Eindtijd { get; private set; }
         public int AantalPlaatsen { get; private set; }
 
-        public ParkingContract(DateTime starttijd, DateTime eindtijd, int aantalPlaatsen)
+        public ParkingContract(DateTime starttijd, DateTime? eindtijd, int aantalPlaatsen)
         {
             ZetStarttijd(starttijd);
             ZetEindtijd(eindtijd);
@@ -22,15 +17,13 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 
         public void ZetStarttijd(DateTime starttijd)
         {
-            if (starttijd == null)
-                throw new ParkingContractException("Starttijd mag niet leeg zijn");
+            if (Eindtijd is not null) throw new ParkingContractException("Starttijd mag niet leeg zijn");
             Starttijd = starttijd;
         }
 
-        public void ZetEindtijd(DateTime eindtijd)
+        public void ZetEindtijd(DateTime? eindtijd)
         {
-            if (eindtijd == null)
-                throw new ParkingContractException("Eindtijd mag niet leeg zijn");
+            if (eindtijd < Starttijd) throw new ParkingContractException("Eindtijd mag niet leeg zijn");
             Eindtijd = eindtijd;
         }
 

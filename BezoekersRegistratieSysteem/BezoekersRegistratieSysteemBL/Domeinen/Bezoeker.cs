@@ -1,21 +1,20 @@
-﻿using BezoekersRegistratieSysteemBL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
-    public abstract class Bezoeker : IPersoon
+    public class Bezoeker : Persoon
     {
-        public string Voornaam { get; set; }
-        public string Achternaam { get; set; }
-        public string Email { get; set; }
-        public Bedrijf bedrijf { get; set; }
-        
-        public Bezoeker(string voornaam, string achternaam, string email, Bedrijf bedrijf) : base(voornaam, achternaam, email, bedrijf)
+        public string Bedrijf { get; private set; }
+
+        public Bezoeker(string voornaam, string achternaam, string email, string bedrijf) : base(voornaam, achternaam, email)
         {
+            ZetBedrijf(bedrijf);
+        }
+
+        public void ZetBedrijf(string bedrijf)
+        {
+            if (string.IsNullOrWhiteSpace(bedrijf)) throw new BezoekerException("Bedrijf mag niet leeg zijn");
+            Bedrijf = bedrijf;
         }
     }
 }
