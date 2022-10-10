@@ -21,9 +21,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpGet("{id}")]
 		public ActionResult<Afspraak> GeefAfspraak(uint id) {
 			try {
-				return Ok(_afspraakManager.GeefAfspraak(id));
+				return _afspraakManager.GeefAfspraak(id);
 			} catch (Exception) {
-				return BadRequest();
+				return NotFound();
 			}
 		}
 
@@ -64,12 +64,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		/// <exception cref="NotImplementedException"></exception>
 		[HttpDelete("{id}")]
-		public IActionResult Delete(uint id) {
+		public IActionResult VerwijderAfspraak(uint id) {
 			try {
 				_afspraakManager.VerwijderAfspraak(id);
 				return Ok();
 			} catch (Exception) {
-				return BadRequest();
+				return NotFound();
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <exception cref="NotImplementedException"></exception>
 		[HttpPost]
 		[Route("end")]
-		public ActionResult<Afspraak> End([FromBody] Afspraak afspraak) {
+		public IActionResult End([FromBody] Afspraak afspraak) {
 			if (afspraak == null) {
 				return BadRequest();
 			}
@@ -117,7 +117,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				_afspraakManager.BeeindigAfspraak(afspraak);
 				return Ok();
 			} catch (Exception) {
-				return BadRequest();
+				return NotFound();
 			}
 		}
 	}

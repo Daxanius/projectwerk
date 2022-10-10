@@ -12,29 +12,79 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			_bezoekerManager = bezoekerManager;
 		}
 
+		/// <summary>
+		/// Geef een bezoeker op ID
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpGet("{id}")]
-		public Bezoeker Get(uint id) {
-			throw new NotImplementedException();
+		public ActionResult<Bezoeker> GeefBezoeker(uint id) {
+			try {
+				return _bezoekerManager.GeefBezoeker(id);
+			} catch (Exception) {
+				return NotFound();
+			}
 		}
 
+		/// <summary>
+		/// Geef een bezoeker op naam
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
 		[HttpGet("{naam}")]
-		public Bezoeker GetOpNaam(string id) {
-			throw new NotImplementedException();
+		public ActionResult<Bezoeker> GeefOpNaam(string naam) {
+			// De naam mag niet leeg zijn
+			if (string.IsNullOrEmpty(naam)) return BadRequest();
+
+			try {
+				return _bezoekerManager.GeefBezoekerOpNaam(naam);
+			} catch (Exception) {
+				return NotFound();
+			}
 		}
 
 		[HttpGet]
-		public IEnumerable<Bezoeker> GetAll([FromQuery] DateTime? datum) {
-			throw new NotImplementedException();
+		public IEnumerable<Bezoeker> GeefBEzoekers([FromQuery] DateTime? datum) {
+			// Als een datum is meegegeven, geven we op datum
+			if (datum != null) {
+				return _bezoekerManager.GeefBezoekersOpDatum(datum ?? DateTime.Now);
+			}
+
+			return _bezoekerManager.GeefAanwezigeBezoekers();
 		}
 
+		/// <summary>
+		/// Verwijder een bezoeker
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
 		[HttpDelete("{id}")]
-		public IActionResult Delete(uint id) {
-			throw new NotImplementedException();
+		public IActionResult VerwijderBezoeker(uint id) {
+			try {
+				_bezoekerManager.VerwijderBezoeker(id);
+				return Ok();
+			} catch (Exception) {
+				// Welke IActionResults zijn er??
+				return NotFound();
+			}
 		}
 
+		/// <summary>
+		/// Voeg een bezoeker toe
+		/// </summary>
+		/// <param name="afspraak"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
 		[HttpPut]
-		public ActionResult<Bezoeker> Post([FromBody] Bezoeker afspraak) {
-			throw new NotImplementedException();
+		public ActionResult<Bezoeker> VoegBezoekerTOe([FromBody] Bezoeker bezoeker) {
+			try {
+				_bezoekerManager.VoegBezoekerToe(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
+				return bezoeker;
+			} catch (Exception) {
+				return BadRequest();
+			}
 		}
 	}
 }

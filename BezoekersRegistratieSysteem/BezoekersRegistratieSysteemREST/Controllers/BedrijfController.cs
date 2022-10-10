@@ -33,9 +33,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpGet("{naam}")]
 		public ActionResult<Bedrijf> GeefBedrijf(string naam) {
 			try {
-				return Ok(_bedrijfManager.GeefBedrijf(naam));
+				return _bedrijfManager.GeefBedrijf(naam);
 			} catch (Exception) {
-				return BadRequest();
+				return NotFound();
 			}
 		}
 
@@ -52,13 +52,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpDelete]
-		public IActionResult Delete([FromBody] uint id) {
+		public IActionResult VerwijderBedrijf([FromBody] uint id) {
 			try {
 				_bedrijfManager.VerwijderBedrijf(id);
 				return Ok();
 			} catch (Exception) {
 				// Welke IActionResults zijn er??
-				return BadRequest();
+				return NotFound();
 			}
 		}
 
@@ -72,9 +72,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<Bedrijf> VoegBedrijfToe([FromBody] Bedrijf bedrijf) {
 			try {
 				_bedrijfManager.VoegBedrijfToe(bedrijf.Naam, bedrijf.BTW, bedrijf.Adres, bedrijf.Email, bedrijf.TelefoonNummer);
-				return Ok(bedrijf);
+				return bedrijf;
 			} catch (Exception) {
-				return NotFound();
+				return BadRequest();
 			}
 		}
 	}
