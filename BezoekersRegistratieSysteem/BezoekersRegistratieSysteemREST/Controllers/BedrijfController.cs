@@ -12,25 +12,49 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			_bedrijfManager = afspraakManager;
 		}
 
+		/// <summary>
+		/// Verkrijgt een bedrijf op ID
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
 		[HttpGet("{id}")]
-		public Bedrijf Get(uint id) {
+		public Bedrijf GeefBedrijf(uint id) {
+			// Implementatie NIET mogelijk, kan geen bedrijf opvragen op ID
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Verkrijgt een bedrijf op naam
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		[HttpGet("{naam}")]
+		public ActionResult<Bedrijf> GeefBedrijf(string naam) {
+			try {
+				return Ok(_bedrijfManager.GeefBedrijf(naam));
+			} catch (Exception) {
+				return BadRequest();
+			}
+		}
+
 		[HttpGet]
-		public IEnumerable<Bedrijf> GetAll() {
+		public IEnumerable<Bedrijf> GeefAlleBedrijven() {
 			// Kan dit fout gaan?
 			return _bedrijfManager.Geefbedrijven();
 		}
 
-		[HttpDelete("{id}")]
-		public IActionResult Delete(uint id) {
-			// Id opvragen? Leeg levert een crash op
-			Bedrijf bedrijf = new("", "", "", "", "");
-			bedrijf.ZetId(id);
-
+		/// <summary>
+		/// Verwijdert een bedrijf, vraagt momenteel
+		/// het ID als parameter
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpDelete]
+		public IActionResult Delete([FromBody] uint id) {
 			try {
-				_bedrijfManager.VerwijderBedrijf(bedrijf);
+				_bedrijfManager.VerwijderBedrijf(id);
 				return Ok();
 			} catch (Exception) {
 				// Welke IActionResults zijn er??
@@ -38,9 +62,20 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			}
 		}
 
+		/// <summary>
+		/// Voegt een bedrijf toe
+		/// </summary>
+		/// <param name="bedrijf"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
 		[HttpPut]
-		public ActionResult<Bedrijf> Post([FromBody] Bedrijf bedrijf) {
-			throw new NotImplementedException();
+		public ActionResult<Bedrijf> VoegBedrijfToe([FromBody] Bedrijf bedrijf) {
+			try {
+				_bedrijfManager.VoegBedrijfToe(bedrijf.Naam, bedrijf.BTW, bedrijf.Adres, bedrijf.Email, bedrijf.TelefoonNummer);
+				return Ok(bedrijf);
+			} catch (Exception) {
+				return NotFound();
+			}
 		}
 	}
 }
