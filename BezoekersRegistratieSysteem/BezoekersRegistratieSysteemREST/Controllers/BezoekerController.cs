@@ -90,5 +90,22 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				return BadRequest(ex.Message);
 			}
 		}
+
+		/// <summary>
+		/// Bewerk een bezoeker
+		/// </summary>
+		/// <param name="bezoeker"></param>
+		/// <returns></returns>
+		[HttpPut]
+		public ActionResult<Bezoeker> BewerkBezoeker([FromBody] Bezoeker bezoeker) {
+			if (bezoeker == null) return BadRequest();
+
+			try {
+				_bezoekerManager.WijzigBezoeker(bezoeker);
+				return bezoeker;
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
 	}
 }

@@ -112,5 +112,22 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				return NotFound(ex.Message);
 			}
 		}
+
+		/// <summary>
+		/// Bewerk een afspraak
+		/// </summary>
+		/// <param name="afspraak"></param>
+		/// <returns></returns>
+		[HttpPut]
+		public ActionResult<Afspraak> BewerkAfspraak([FromBody] Afspraak afspraak) {
+			if (afspraak == null) return BadRequest();
+
+			try {
+				_afspraakManager.BewerkAfspraak(afspraak);
+				return afspraak;
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
 	}
 }

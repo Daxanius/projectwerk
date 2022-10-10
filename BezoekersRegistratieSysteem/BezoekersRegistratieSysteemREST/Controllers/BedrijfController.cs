@@ -82,5 +82,24 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				return BadRequest(ex.Message);
 			}
 		}
+
+		/// <summary>
+		/// Bewerk een bedrijf
+		/// </summary>
+		/// <param name="bedrijf"></param>
+		/// <returns></returns>
+		[HttpPut]
+		public ActionResult<Bedrijf> BewerkBedrijf([FromBody] Bedrijf bedrijf) {
+			if (bedrijf == null) return BadRequest();
+
+			try {
+				// Waarom vraagt bewerk nu opeens een instantie van Bedrijf ipv primitives gelijk
+				// bij VoegBedrijfToe?
+				_bedrijfManager.BewerkBedrijf(bedrijf);
+				return bedrijf;
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
 	}
 }
