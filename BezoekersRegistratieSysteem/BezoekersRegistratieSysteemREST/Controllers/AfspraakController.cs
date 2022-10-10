@@ -22,8 +22,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<Afspraak> GeefAfspraak(uint id) {
 			try {
 				return _afspraakManager.GeefAfspraak(id);
-			} catch (Exception) {
-				return NotFound();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
 			}
 		}
 
@@ -68,8 +68,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				_afspraakManager.VerwijderAfspraak(id);
 				return Ok();
-			} catch (Exception) {
-				return NotFound();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
 			}
 		}
 
@@ -93,8 +93,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				*/
 				_afspraakManager.MaakAfspraak(DateTime.Now, bezoeker, werknemer);
 				return Ok();
-			} catch (Exception) {
-				return BadRequest();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
 			}
 		}
 
@@ -112,8 +112,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				_afspraakManager.BeeindigAfspraak(afspraak);
 				return Ok();
-			} catch (Exception) {
-				return NotFound();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
 			}
 		}
 	}

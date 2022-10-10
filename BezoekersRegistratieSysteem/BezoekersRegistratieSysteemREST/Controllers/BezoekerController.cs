@@ -21,8 +21,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<Bezoeker> GeefBezoeker(uint id) {
 			try {
 				return _bezoekerManager.GeefBezoeker(id);
-			} catch (Exception) {
-				return NotFound();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
 			}
 		}
 
@@ -39,8 +39,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 
 			try {
 				return _bezoekerManager.GeefBezoekerOpNaam(naam);
-			} catch (Exception) {
-				return NotFound();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
 			}
 		}
 
@@ -65,9 +65,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				_bezoekerManager.VerwijderBezoeker(id);
 				return Ok();
-			} catch (Exception) {
+			} catch (Exception ex) {
 				// Welke IActionResults zijn er??
-				return NotFound();
+				return NotFound(ex.Message);
 			}
 		}
 
@@ -84,8 +84,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				_bezoekerManager.VoegBezoekerToe(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
 				return bezoeker;
-			} catch (Exception) {
-				return BadRequest();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
 			}
 		}
 	}

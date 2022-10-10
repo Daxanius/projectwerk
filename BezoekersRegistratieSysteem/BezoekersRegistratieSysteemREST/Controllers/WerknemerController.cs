@@ -21,8 +21,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<Werknemer> GeefWerknemer(uint id) {
 			try {
 				return _werknemerManager.GeefWerknemer(id);
-			} catch (Exception) {
-				return NotFound();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
 			}
 		}
 
@@ -37,8 +37,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 
 			try {
 				return _werknemerManager.GeefWerknemerOpNaam(naam);
-			} catch (Exception) {
-				return NotFound();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
 			}
 		}
 
@@ -68,9 +68,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				_werknemerManager.VerwijderWerknemer(id);
 				return Ok();
-			} catch (Exception) {
+			} catch (Exception ex) {
 				// Welke IActionResults zijn er??
-				return NotFound();
+				return NotFound(ex.Message);
 			}
 		}
 
@@ -87,8 +87,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				_werknemerManager.VoegWerknemerToe(werknemer.Voornaam, werknemer.Achternaam, werknemer.Email, werknemer.Bedrijf, werknemer.Functie);
 				return werknemer;
-			} catch (Exception) {
-				return BadRequest();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
 			}
 		}
 	}

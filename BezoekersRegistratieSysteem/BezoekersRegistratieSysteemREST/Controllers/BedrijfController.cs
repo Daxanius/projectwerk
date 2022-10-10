@@ -19,9 +19,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		/// <exception cref="NotImplementedException"></exception>
 		[HttpGet("{id}")]
-		public Bedrijf GeefBedrijf(uint id) {
-			// Implementatie NIET mogelijk, kan geen bedrijf opvragen op ID
-			throw new NotImplementedException();
+		public ActionResult<Bedrijf> GeefBedrijf(uint id) {
+			try {
+				return _bedrijfManager.GeefBedrijf(id);
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
 		}
 
 		/// <summary>
@@ -37,8 +40,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 
 			try {
 				return _bedrijfManager.GeefBedrijf(naam);
-			} catch (Exception) {
-				return NotFound();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
 			}
 		}
 
@@ -59,9 +62,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				_bedrijfManager.VerwijderBedrijf(id);
 				return Ok();
-			} catch (Exception) {
+			} catch (Exception ex) {
 				// Welke IActionResults zijn er??
-				return NotFound();
+				return NotFound(ex.Message);
 			}
 		}
 
@@ -78,8 +81,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				_bedrijfManager.VoegBedrijfToe(bedrijf.Naam, bedrijf.BTW, bedrijf.Adres, bedrijf.Email, bedrijf.TelefoonNummer);
 				return bedrijf;
-			} catch (Exception) {
-				return BadRequest();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
 			}
 		}
 	}
