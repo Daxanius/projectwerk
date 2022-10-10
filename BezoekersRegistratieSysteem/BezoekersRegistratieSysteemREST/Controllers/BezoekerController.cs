@@ -77,7 +77,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afspraak"></param>
 		/// <returns></returns>
 		/// <exception cref="NotImplementedException"></exception>
-		[HttpPut]
+		[HttpPost]
 		public ActionResult<Bezoeker> VoegBezoekerTOe([FromBody] Bezoeker bezoeker) {
 			try {
 				_bezoekerManager.VoegBezoekerToe(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);

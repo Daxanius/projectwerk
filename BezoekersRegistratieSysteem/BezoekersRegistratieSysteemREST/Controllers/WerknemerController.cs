@@ -50,7 +50,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			if (!string.IsNullOrEmpty(functie)) {
 				return Ok(_werknemerManager.GeefWerknemersPerFunctie(functie));
 			}
-
+			
 			// Kan niet alle werknemers opvragen
 			return BadRequest();
 		}
@@ -78,7 +78,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afspraak"></param>
 		/// <returns></returns>
 		/// <exception cref="NotImplementedException"></exception>
-		[HttpPut]
+		[HttpPost]
 		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] Werknemer werknemer) {
 			try {
 				_werknemerManager.VoegWerknemerToe(werknemer.Voornaam, werknemer.Achternaam, werknemer.Email, werknemer.Bedrijf, werknemer.Functie);

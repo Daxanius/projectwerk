@@ -68,7 +68,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijf"></param>
 		/// <returns></returns>
 		/// <exception cref="NotImplementedException"></exception>
-		[HttpPut]
+		[HttpPost]
 		public ActionResult<Bedrijf> VoegBedrijfToe([FromBody] Bedrijf bedrijf) {
 			try {
 				_bedrijfManager.VoegBedrijfToe(bedrijf.Naam, bedrijf.BTW, bedrijf.Adres, bedrijf.Email, bedrijf.TelefoonNummer);
