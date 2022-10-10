@@ -79,6 +79,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <exception cref="NotImplementedException"></exception>
 		[HttpPost]
 		public ActionResult<Bezoeker> VoegBezoekerTOe([FromBody] Bezoeker bezoeker) {
+			if (bezoeker == null) return BadRequest();
+
 			try {
 				_bezoekerManager.VoegBezoekerToe(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
 				return bezoeker;

@@ -81,9 +81,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPost]
 		public IActionResult MaakAfspraak([FromQuery] Bezoeker bezoeker, [FromQuery] Werknemer werknemer) {
-			if (bezoeker == null) {
-				return BadRequest();
-			}
+			if (bezoeker == null || werknemer == null) return BadRequest();
 
 			try {
 				/*
@@ -109,9 +107,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpPost]
 		[Route("end")]
 		public IActionResult End([FromBody] Afspraak afspraak) {
-			if (afspraak == null) {
-				return BadRequest();
-			}
+			if (afspraak == null) return BadRequest();
 
 			try {
 				_afspraakManager.BeeindigAfspraak(afspraak);

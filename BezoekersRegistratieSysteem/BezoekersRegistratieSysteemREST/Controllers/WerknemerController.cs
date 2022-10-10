@@ -33,6 +33,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpGet("{naam}")]
 		public ActionResult<Werknemer> GeefWerknemer(string naam) {
+			if (string.IsNullOrEmpty(naam)) return BadRequest();
+
 			try {
 				return _werknemerManager.GeefWerknemerOpNaam(naam);
 			} catch (Exception) {
@@ -50,7 +52,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			if (!string.IsNullOrEmpty(functie)) {
 				return Ok(_werknemerManager.GeefWerknemersPerFunctie(functie));
 			}
-			
+
 			// Kan niet alle werknemers opvragen
 			return BadRequest();
 		}
@@ -80,6 +82,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <exception cref="NotImplementedException"></exception>
 		[HttpPost]
 		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] Werknemer werknemer) {
+			if (werknemer == null) return BadRequest();
+
 			try {
 				_werknemerManager.VoegWerknemerToe(werknemer.Voornaam, werknemer.Achternaam, werknemer.Email, werknemer.Bedrijf, werknemer.Functie);
 				return werknemer;

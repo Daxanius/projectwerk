@@ -32,6 +32,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <exception cref="NotImplementedException"></exception>
 		[HttpGet("{naam}")]
 		public ActionResult<Bedrijf> GeefBedrijf(string naam) {
+			// Je kunt nooit genoeg controles hebben
+			if (string.IsNullOrEmpty(naam)) return BadRequest();
+
 			try {
 				return _bedrijfManager.GeefBedrijf(naam);
 			} catch (Exception) {
@@ -70,6 +73,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <exception cref="NotImplementedException"></exception>
 		[HttpPost]
 		public ActionResult<Bedrijf> VoegBedrijfToe([FromBody] Bedrijf bedrijf) {
+			if (bedrijf == null) return BadRequest();
+
 			try {
 				_bedrijfManager.VoegBedrijfToe(bedrijf.Naam, bedrijf.BTW, bedrijf.Adres, bedrijf.Email, bedrijf.TelefoonNummer);
 				return bedrijf;
