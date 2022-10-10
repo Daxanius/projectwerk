@@ -80,7 +80,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemer"></param>
 		/// <returns></returns>
 		[HttpPut]
-		public IActionResult MaakAfspraak([FromBody] Bezoeker bezoeker, [FromBody] Werknemer werknemer) {
+		public IActionResult MaakAfspraak([FromQuery] Bezoeker bezoeker, [FromQuery] Werknemer werknemer) {
 			if (bezoeker == null) {
 				return BadRequest();
 			}
