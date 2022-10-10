@@ -34,7 +34,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpGet("{naam}")]
 		public ActionResult<Bedrijf> GeefBedrijf(string naam) {
 			// Je kunt nooit genoeg controles hebben
-			if (string.IsNullOrEmpty(naam)) return BadRequest();
+			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is niet geldig");
 
 			try {
 				return _bedrijfManager.GeefBedrijf(naam);
@@ -73,7 +73,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPost]
 		public ActionResult<Bedrijf> VoegBedrijfToe([FromBody] Bedrijf bedrijf) {
-			if (bedrijf == null) return BadRequest();
+			if (bedrijf == null) return BadRequest($"{nameof(bedrijf)} is null");
 
 			try {
 				_bedrijfManager.VoegBedrijfToe(bedrijf.Naam, bedrijf.BTW, bedrijf.Adres, bedrijf.Email, bedrijf.TelefoonNummer);
@@ -90,7 +90,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPut]
 		public ActionResult<Bedrijf> BewerkBedrijf([FromBody] Bedrijf bedrijf) {
-			if (bedrijf == null) return BadRequest();
+			if (bedrijf == null) return BadRequest($"{nameof(bedrijf)} is null");
 
 			try {
 				// Waarom vraagt bewerk nu opeens een instantie van Bedrijf ipv primitives gelijk

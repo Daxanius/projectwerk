@@ -34,7 +34,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpGet("{naam}")]
 		public ActionResult<Bezoeker> GeefOpNaam(string naam) {
 			// De naam mag niet leeg zijn
-			if (string.IsNullOrEmpty(naam)) return BadRequest();
+			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is null");
 
 			try {
 				return _bezoekerManager.GeefBezoekerOpNaam(naam);
@@ -81,7 +81,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPost]
 		public ActionResult<Bezoeker> VoegBezoekerTOe([FromBody] Bezoeker bezoeker) {
-			if (bezoeker == null) return BadRequest();
+			if (bezoeker == null) return BadRequest($"{nameof(bezoeker)} is null");
 
 			try {
 				_bezoekerManager.VoegBezoekerToe(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
@@ -98,7 +98,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPut]
 		public ActionResult<Bezoeker> BewerkBezoeker([FromBody] Bezoeker bezoeker) {
-			if (bezoeker == null) return BadRequest();
+			if (bezoeker == null) return BadRequest($"{nameof(bezoeker)} is null");
 
 			try {
 				_bezoekerManager.WijzigBezoeker(bezoeker);

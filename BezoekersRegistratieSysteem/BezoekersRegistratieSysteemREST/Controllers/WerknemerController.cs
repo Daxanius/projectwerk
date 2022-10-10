@@ -33,7 +33,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpGet("{naam}")]
 		public ActionResult<Werknemer> GeefWerknemer(string naam) {
-			if (string.IsNullOrEmpty(naam)) return BadRequest();
+			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is null");
 
 			try {
 				return _werknemerManager.GeefWerknemerOpNaam(naam);
@@ -86,7 +86,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPost]
 		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] Werknemer werknemer) {
-			if (werknemer == null) return BadRequest();
+			if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
 
 			try {
 				_werknemerManager.VoegWerknemerToe(werknemer.Voornaam, werknemer.Achternaam, werknemer.Email, werknemer.Bedrijf, werknemer.Functie);
@@ -103,7 +103,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPut]
 		public ActionResult<Werknemer> BewerkWerknemer([FromBody] Werknemer werknemer) {
-			if (werknemer == null) return BadRequest();
+			if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
 
 			try {
 				_werknemerManager.WijzigWerknemer(werknemer);

@@ -78,7 +78,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPost]
 		public IActionResult MaakAfspraak([FromQuery] Bezoeker bezoeker, [FromQuery] Werknemer werknemer) {
-			if (bezoeker == null || werknemer == null) return BadRequest();
+			if (bezoeker == null || werknemer == null) return BadRequest($"{nameof(bezoeker)} of {nameof(werknemer)} is null");
 
 			try {
 				/*
@@ -103,7 +103,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpPost]
 		[Route("end")]
 		public IActionResult End([FromBody] Afspraak afspraak) {
-			if (afspraak == null) return BadRequest();
+			if (afspraak == null) return BadRequest($"{nameof(afspraak)} is null");
 
 			try {
 				_afspraakManager.BeeindigAfspraak(afspraak);
@@ -120,7 +120,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPut]
 		public ActionResult<Afspraak> BewerkAfspraak([FromBody] Afspraak afspraak) {
-			if (afspraak == null) return BadRequest();
+			if (afspraak == null) return BadRequest($"{nameof(afspraak)} is null");
 
 			try {
 				_afspraakManager.BewerkAfspraak(afspraak);
