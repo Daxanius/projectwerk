@@ -42,6 +42,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			}
 		}
 
+		/// <summary>
+		/// Geef werknemers, op bedrijf OF op functie
+		/// </summary>
+		/// <param name="bedrijf"></param>
+		/// <param name="functie"></param>
+		/// <returns></returns>
 		[HttpGet]
 		public ActionResult<IEnumerable<Werknemer>> GeefWerknemers([FromQuery] Bedrijf? bedrijf, [FromQuery] string? functie) {
 			// Zou bedrijf niet beter een ID zijn?
@@ -62,7 +68,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpDelete("{id}")]
 		public IActionResult VerwijderWerknemer(uint id) {
 			try {
@@ -79,7 +84,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="afspraak"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpPost]
 		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] Werknemer werknemer) {
 			if (werknemer == null) return BadRequest();

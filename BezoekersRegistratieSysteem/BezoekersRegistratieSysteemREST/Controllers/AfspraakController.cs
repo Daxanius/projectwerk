@@ -17,7 +17,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpGet("{id}")]
 		public ActionResult<Afspraak> GeefAfspraak(uint id) {
 			try {
@@ -34,7 +33,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="dag"></param>
 		/// <param name="werknemer"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpGet]
 		public IEnumerable<Afspraak> GeefAfspraken([FromQuery] DateTime? dag, [FromQuery] Werknemer? werknemer) {
 			// Als beide de dag EN de werknemer zijn meegegeven
@@ -62,7 +60,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpDelete("{id}")]
 		public IActionResult VerwijderAfspraak(uint id) {
 			try {
@@ -103,7 +100,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpPost]
 		[Route("end")]
 		public IActionResult End([FromBody] Afspraak afspraak) {

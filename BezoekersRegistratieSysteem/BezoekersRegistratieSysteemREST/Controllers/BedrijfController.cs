@@ -17,7 +17,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpGet("{id}")]
 		public ActionResult<Bedrijf> GeefBedrijf(uint id) {
 			try {
@@ -32,7 +31,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpGet("{naam}")]
 		public ActionResult<Bedrijf> GeefBedrijf(string naam) {
 			// Je kunt nooit genoeg controles hebben
@@ -73,7 +71,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="bedrijf"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpPost]
 		public ActionResult<Bedrijf> VoegBedrijfToe([FromBody] Bedrijf bedrijf) {
 			if (bedrijf == null) return BadRequest();

@@ -31,7 +31,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpGet("{naam}")]
 		public ActionResult<Bezoeker> GeefOpNaam(string naam) {
 			// De naam mag niet leeg zijn
@@ -44,8 +43,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			}
 		}
 
+		/// <summary>
+		/// Geef bezoekers, optioneel op datum
+		/// </summary>
+		/// <param name="datum"></param>
+		/// <returns></returns>
 		[HttpGet]
-		public IEnumerable<Bezoeker> GeefBEzoekers([FromQuery] DateTime? datum) {
+		public IEnumerable<Bezoeker> GeefBezoekers([FromQuery] DateTime? datum) {
 			// Als een datum is meegegeven, geven we op datum
 			if (datum != null) {
 				return _bezoekerManager.GeefBezoekersOpDatum(datum ?? DateTime.Now);
@@ -59,7 +63,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpDelete("{id}")]
 		public IActionResult VerwijderBezoeker(uint id) {
 			try {
@@ -76,7 +79,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="afspraak"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		[HttpPost]
 		public ActionResult<Bezoeker> VoegBezoekerTOe([FromBody] Bezoeker bezoeker) {
 			if (bezoeker == null) return BadRequest();
