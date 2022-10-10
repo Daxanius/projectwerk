@@ -11,13 +11,17 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		}
 
 		public void VoegWerknemerToe(string voornaam, string achternaam, string email, Bedrijf bedrijf, string functie) {
-			Werknemer werknemer = new Werknemer(voornaam, achternaam, email, bedrijf, functie);
+			Werknemer werknemer = new(voornaam, achternaam, email, bedrijf, functie);
 			_werknemerRepository.VoegWerknemerToe(werknemer);
 		}
 
-		public void VerwijderWerknemer(Werknemer werknemer) {
-			if (werknemer == null) throw new WerknemerManagerException("Werknemer mag niet leeg zijn");
-			_werknemerRepository.VerwijderWerknemer(werknemer.Id);
+		public void VerwijderWerknemer(uint id) {
+			_werknemerRepository.VerwijderWerknemer(id);
+		}
+
+		public Werknemer GeefWerknemer(uint id) {
+			// TODO: Geef werknemer op ID
+			throw new NotImplementedException();
 		}
 
 		public void WijzigWerknemer(Werknemer werknemer) {

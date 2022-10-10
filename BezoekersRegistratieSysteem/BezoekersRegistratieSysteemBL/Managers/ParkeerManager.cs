@@ -3,7 +3,7 @@ using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
 	public class ParkeerManager {
-		private readonly Dictionary<Bedrijf, List<string>> _nummerplaten = new Dictionary<Bedrijf, List<string>>();
+		private readonly Dictionary<Bedrijf, List<string>> _nummerplaten = new();
 
 		public void VoegNummerplaatToe(Bedrijf bedrijf, string parkeerplaats) {
 			if (bedrijf == null) throw new ParkeerManagerException("Bedrijf mag niet leeg zijn");

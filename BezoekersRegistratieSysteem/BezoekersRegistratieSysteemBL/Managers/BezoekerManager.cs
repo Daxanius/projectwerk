@@ -11,13 +11,17 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		}
 
 		public void VoegBezoekerToe(string voornaam, string achternaam, string email, string bedrijf) {
-			Bezoeker bezoeker = new Bezoeker(voornaam, achternaam, email, bedrijf);
+			Bezoeker bezoeker = new(voornaam, achternaam, email, bedrijf);
 			_bezoekerRepository.VoegBezoekerToe(bezoeker);
 		}
 
-		public void VerwijderBezoeker(Bezoeker bezoeker) {
-			if (bezoeker == null) throw new BezoekerManagerException("Bezoeker mag niet leeg zijn");
-			_bezoekerRepository.VerwijderBezoeker(bezoeker.Id);
+		public void VerwijderBezoeker(uint id) {
+			_bezoekerRepository.VerwijderBezoeker(id);
+		}
+
+		public Bezoeker GeefBezoeker(uint id) {
+			// TODO: Geef bezoeker op ID
+			throw new NotImplementedException();
 		}
 
 		public void WijzigBezoeker(Bezoeker bezoeker) {
