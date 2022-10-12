@@ -43,7 +43,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 
 		#region Valid
 		[Fact]
-		public void ZetBezoeker_NotNull_Valid()
+		public void ZetBezoeker()
 		{
 			string voornaam, achternaam, email, bedrijf;
 
@@ -63,16 +63,16 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		}
 
 		[Fact]
-		public void ZetWerknemer_NotNull_Valid()
+		public void ZetWerknemer()
 		{
 			validAfspraak.ZetWerknemer(validWerknemer);
-			Assert.Equal(validAfspraak.Werknemer, validWerknemer); //Verder doen
+			Assert.Equal(validAfspraak.Werknemer, validWerknemer);
 		}
 
 		[Fact]
-		public void ZetEindtijd_NotVoorStartijd_Valid()
+		public void ZetEindtijd()
 		{
-
+			validAfspraak.ZetEindtijd(validEindtijd);
 		}
 		#endregion
 	}

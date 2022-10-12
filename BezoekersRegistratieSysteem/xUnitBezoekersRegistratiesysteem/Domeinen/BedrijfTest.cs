@@ -2,6 +2,8 @@
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization.Metadata;
@@ -21,6 +23,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: validBedrijf, functie: "CEO");
 		}
 
+		#region InValid
 		[Theory]
 		[InlineData(null)]
 		[InlineData("")]
@@ -111,5 +114,69 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		{
 			Assert.NotNull(validBedrijf.GeefWerknemers());
 		}
+		#endregion
+
+		#region Valid
+		[Fact]
+		public void ZetNaam()
+		{
+			string naam = "stan";
+			validBedrijf.ZetNaam(naam);
+			Assert.Equal(naam, validBedrijf.Naam);
+		}
+
+		[Fact]
+		public void ZetBTW()
+		{
+			string btw = "BE0475730461";
+			validBedrijf.ZetNaam(btw);
+			Assert.Equal(btw, validBedrijf.BTW);
+		}
+
+		[Fact]
+		public void ZetTelefoonNummer()
+		{
+			string telefoon = "0476687244";
+			validBedrijf.ZetTelefoonNummer(telefoon);
+			Assert.Equal(telefoon, validBedrijf.TelefoonNummer);
+		}
+
+		[Fact]
+		public void ZetAdres()
+		{
+			string email = "mail@gmail.com";
+			validBedrijf.ZetEmail(email);
+			Assert.Equal(email, validBedrijf.Email);
+		}
+
+		[Fact]
+		public void VoegWerknemerToe()
+		{
+			Bedrijf bedrijf = validBedrijf;
+			Persoon werknemer = new Werknemer("stan", "persoons", "stan@mailpersoons.be", bedrijf, "CEO");
+
+			Assert.Contains<Werknemer>(werknemer as Werknemer, bedrijf.GeefWerknemers());
+		}
+
+		[Fact]
+		public void VerwijderWerknemer()
+		{
+			Bedrijf bedrijf = validBedrijf;
+			Persoon werknemer2 = new Werknemer("stape", "persoon", "stan2@mailpersoons.be", bedrijf, "CEA");
+
+			bedrijf.VerwijderWerknemer(werknemer2 as Werknemer);
+
+			Assert.DoesNotContain<Werknemer>(werknemer2 as Werknemer, bedrijf.GeefWerknemers());
+			Assert.Equal(1, bedrijf.GeefWerknemers().Count);
+		}
+
+		[Fact]
+		public void GeefWerknemers()
+		{
+			var werknemers = validBedrijf.GeefWerknemers();
+
+			Assert.Equal(1, werknemers.Count);
+		}
+		#endregion
 	}
 }

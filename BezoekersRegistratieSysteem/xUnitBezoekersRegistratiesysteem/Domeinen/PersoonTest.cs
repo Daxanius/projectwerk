@@ -20,6 +20,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			validPersoon2 = validBezoeker;
 		}
 
+		#region InValid
 		[Theory]
 		[InlineData(null)]
 		[InlineData("")]
@@ -68,5 +69,44 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			Assert.Throws<PersoonException>(() => validPersoon1.ZetEmail(email));
 			Assert.Throws<PersoonException>(() => validPersoon2.ZetEmail(email));
 		}
+		#endregion
+
+		#region Valid
+		[Fact]
+		public void ZetVoornaam()
+		{
+			string voorNaam = "Dax";
+
+			validPersoon1.ZetVoornaam(voorNaam);
+			validPersoon2.ZetVoornaam(voorNaam);
+
+			Assert.Equal(voorNaam, validPersoon1.Voornaam);
+			Assert.Equal(voorNaam, validPersoon2.Voornaam);
+		}
+
+		[Fact]
+		public void ZetAchternaamn()
+		{
+			string achterNaam = "Rammstein";
+
+			validPersoon1.ZetAchternaam(achterNaam);
+			validPersoon2.ZetAchternaam(achterNaam);
+
+			Assert.Equal(achterNaam, validPersoon1.Achternaam);
+			Assert.Equal(achterNaam, validPersoon2.Achternaam);
+		}
+
+		[Fact]
+		public void ZetEmail()
+		{
+			string email = "Sabaton@gmail.com";
+
+			validPersoon1.ZetEmail(email);
+			validPersoon2.ZetEmail(email);
+
+			Assert.Equal(email, validPersoon1.Email);
+			Assert.Equal(email, validPersoon2.Email);
+		}
+		#endregion
 	}
 }

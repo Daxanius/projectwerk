@@ -1,6 +1,7 @@
 using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
+using System.Security;
 
 namespace xUnitBezoekersRegistratiesysteem.Domein
 {
@@ -12,6 +13,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			validBezoeker = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: "Artevelde");
 		}
 
+		#region InValid
 		[Theory]
 		[InlineData(null)]
 		[InlineData("")]
@@ -24,5 +26,16 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		{
 			Assert.Throws<BezoekerException>(() => validBezoeker.ZetBedrijf(bedrijf));
 		}
+		#endregion
+
+		#region Valid
+		[Fact]
+		public void ZetBedrijf()
+		{
+			string bedrijf = "Hogent";
+			validBezoeker.ZetBedrijf(bedrijf);
+			Assert.Equal(bedrijf, validBezoeker.Bedrijf);
+		}
+		#endregion
 	}
 }

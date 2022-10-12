@@ -24,6 +24,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: validBedrijf, functie: "CEO");
 		}
 
+		#region InValid
 		[Fact]
 		public void ZetAantalPlaatsen_Negatief_Exception()
 		{
@@ -36,5 +37,27 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			ParkingContract parkingContract = new ParkingContract(starttijd: validEindtijd, aantalPlaatsen: validAantalPlaatsen);
 			Assert.Throws<ParkingContractException>(() => parkingContract.ZetEindtijd(new()));
 		}
+		#endregion
+
+		#region Valid
+		[Fact]
+		public void ZetAantalPlaatsen()
+		{
+			ParkingContract parkingContract = new ParkingContract(starttijd: validStarttijd, aantalPlaatsen: 6);
+			int aantalPlaatsen = 5;
+
+			parkingContract.ZetAantalPlaatsen(aantalPlaatsen);
+			Assert.Equal(aantalPlaatsen, parkingContract.AantalPlaatsen);
+		}
+
+		[Fact]
+		public void ZetEindtijd()
+		{
+			ParkingContract parkingContract = new ParkingContract(starttijd: validStarttijd, aantalPlaatsen: 8);
+
+			parkingContract.ZetEindtijd(validStarttijd.AddHours(8));
+			Assert.Equal(validStarttijd.AddHours(8), parkingContract.Eindtijd);
+		}
+		#endregion
 	}
 }
