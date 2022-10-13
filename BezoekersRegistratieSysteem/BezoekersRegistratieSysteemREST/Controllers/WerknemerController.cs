@@ -32,11 +32,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="naam"></param>
 		/// <returns></returns>
 		[HttpGet("{naam}")]
-		public ActionResult<Werknemer> GeefWerknemer(string naam) {
+		public ActionResult<IEnumerable<Werknemer>> GeefWerknemer(string naam) {
 			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is null");
 
 			try {
-				return _werknemerManager.GeefWerknemerOpNaam(naam);
+				return Ok(_werknemerManager.GeefWerknemersOpNaam(naam).AsEnumerable());
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -49,14 +49,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="functie"></param>
 		/// <returns></returns>
 		[HttpGet]
-		public ActionResult<IEnumerable<Werknemer>> GeefWerknemers([FromQuery] Bedrijf? bedrijf, [FromQuery] string? functie) {
+		public ActionResult<IEnumerable<Werknemer>> GeefWerknemers([FromQuery] Bedrijf? bedrijf) {
 			// Zou bedrijf niet beter een ID zijn?
 			if (bedrijf != null) {
 				return Ok(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf));
-			}
-
-			if (!string.IsNullOrEmpty(functie)) {
-				return Ok(_werknemerManager.GeefWerknemersPerFunctie(functie));
 			}
 
 			// Kan niet alle werknemers opvragen
