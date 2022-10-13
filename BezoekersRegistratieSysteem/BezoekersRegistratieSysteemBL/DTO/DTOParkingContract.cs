@@ -6,8 +6,8 @@
 			AantalPlaatsen = aantalPlaatsen;
 		}
 
-		public DateTime Starttijd { get; private set; }
-		public DateTime? Eindtijd { get; private set; }
-		public int AantalPlaatsen { get; private set; }
+		public DateTime Starttijd { get; set; }
+		public DateTime? Eindtijd { get; set; }
+		public int AantalPlaatsen { get; set; }
 	}
 }
