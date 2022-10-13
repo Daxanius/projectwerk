@@ -10,7 +10,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			this._afspraakRepository = afspraakRepository;
 		}
 
-		public void MaakAfspraak(DateTime starttijd, Bezoeker bezoeker, Werknemer werknemer) {
+		public void VoegAfspraakToe(DateTime starttijd, Bezoeker bezoeker, Werknemer werknemer) {
 			Afspraak afspraak = new(starttijd, bezoeker, werknemer);
 			_afspraakRepository.VoegAfspraakToe(afspraak);
 		}
@@ -18,20 +18,19 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		public void VerwijderAfspraak(uint afspraakId) {
 			_afspraakRepository.VerwijderAfspraak(afspraakId);
 		}
-
-		public Afspraak GeefAfspraak(uint afspraakId) {
-			return _afspraakRepository.GeefAfspraakOpId(afspraakId);
-		}
-
 		public void BewerkAfspraak(Afspraak afspraak) {
-			if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
-			_afspraakRepository.BewerkAfspraak(afspraak);
+            if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BewerkAfspraak - Afspraak mag niet null zijn");
+            _afspraakRepository.BewerkAfspraak(afspraak);
 		}
 
 		public void BeeindigAfspraak(Afspraak afspraak) {
-			if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
-			if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("afspraak reeds beëindigd");
-			_afspraakRepository.BeeindigAfspraak(afspraak.Id);
+            if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraak - Afspraak mag niet null zijn");
+            if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraak - Afspraak is al beeindigd");
+            _afspraakRepository.BeeindigAfspraak(afspraak.Id);
+		}
+
+		public Afspraak GeefAfspraak(uint afspraakId) {
+			return _afspraakRepository.GeefAfspraak(afspraakId);
 		}
 
 		public IReadOnlyList<Afspraak> GeefHuidigeAfspraken() {
@@ -39,23 +38,22 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		}
 
 		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(Bedrijf bedrijf) {
-			if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
-			return _afspraakRepository.GeefHuidigeAfsprakenPerBedrijf(bedrijf.Id);
+            if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerBedrijf - Bedrijf mag niet null zijn");
+            return _afspraakRepository.GeefHuidigeAfsprakenPerBedrijf(bedrijf.Id);
+		}
+		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(Werknemer werknemer) {
+            if (werknemer == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerWerknemer - Werknemer mag niet null zijn");
+            return _afspraakRepository.GeefHuidigeAfsprakenPerWerknemer(werknemer.Id);
 		}
 
 		public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(Werknemer werknemer) {
-			if (werknemer == null) throw new AfspraakManagerException("werknemer mag niet leeg zijn");
-			return _afspraakRepository.GeefAlleAfsprakenPerWerknemer(werknemer.Id);
-		}
-
-		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(Werknemer werknemer) {
-			if (werknemer == null) throw new AfspraakManagerException("werknemer mag niet leeg zijn");
-			return _afspraakRepository.GeefHuidigeAfsprakenPerWerknemer(werknemer.Id);
+            if (werknemer == null) throw new AfspraakManagerException("AfspraakManager - GeefAlleAfsprakenPerWerknemer - Werknemer mag niet null zijn");
+            return _afspraakRepository.GeefAlleAfsprakenPerWerknemer(werknemer.Id);
 		}
 
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(Werknemer werknemer, DateTime datum) {
-			if (werknemer == null) throw new AfspraakManagerException("werknemer mag niet leeg zijn");
-			return _afspraakRepository.GeefAfsprakenPerWerknemerOpDag(werknemer.Id, datum);
+            if (werknemer == null) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerWerknemerOpDag - Werknemer mag niet null zijn");
+            return _afspraakRepository.GeefAfsprakenPerWerknemerOpDag(werknemer.Id, datum);
 		}
 
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {

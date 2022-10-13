@@ -18,15 +18,18 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		public void VerwijderBezoeker(uint id) {
 			_bezoekerRepository.VerwijderBezoeker(id);
 		}
-
-		public Bezoeker GeefBezoeker(uint id) {
-			// TODO: Geef bezoeker op ID
-			throw new NotImplementedException();
+		public void WijzigBezoeker(Bezoeker bezoeker) {
+            if (bezoeker == null) throw new BezoekerManagerException("BezoekerManager - WijzigBezoeker - bezoeker mag niet leeg zijn");
+            _bezoekerRepository.WijzigBezoeker(bezoeker.Id, bezoeker);
 		}
 
-		public void WijzigBezoeker(Bezoeker bezoeker) {
-			if (bezoeker == null) throw new BezoekerManagerException("Bezoeker mag niet leeg zijn");
-			_bezoekerRepository.WijzigBezoeker(bezoeker.Id, bezoeker);
+		public Bezoeker GeefBezoeker(uint id) {
+            return _bezoekerRepository.GeefBezoeker(id);
+        }
+        
+		public Bezoeker GeefBezoekerOpNaam(string naam) {
+            if (string.IsNullOrWhiteSpace(naam)) throw new BezoekerManagerException("BezoekerManager - GeefBezoekerOpNaam - naam mag niet leeg zijn");
+            return _bezoekerRepository.GeefBezoekerOpNaam(naam);
 		}
 
 		public IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers() {
@@ -35,11 +38,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 		public IReadOnlyList<Bezoeker> GeefBezoekersOpDatum(DateTime datum) {
 			return _bezoekerRepository.GeefBezoekersOpDatum(datum);
-		}
-
-		public Bezoeker GeefBezoekerOpNaam(string naam) {
-			if (string.IsNullOrWhiteSpace(naam)) throw new BezoekerManagerException("Naam mag niet leeg zijn");
-			return _bezoekerRepository.GeefBezoekerOpNaam(naam);
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="starttijd"></param>
         /// <exception cref="AfspraakException"></exception>
         public void ZetStarttijd(DateTime starttijd) {
-            if (Eindtijd is not null) throw new AfspraakException("afspraak reeds beëindigd");
+            if (Eindtijd is not null) throw new AfspraakException("Afspraak - ZetStarttijd - Afspraak is al afgelopen");
             Starttijd = starttijd;
         }
 
@@ -48,7 +48,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="eindtijd"></param>
         /// <exception cref="AfspraakException"></exception>
         public void ZetEindtijd(DateTime eindtijd) {
-            if (eindtijd <= Starttijd) throw new AfspraakException("eindtijd moet na starttijd liggen");
+            if (eindtijd <= Starttijd) throw new AfspraakException("Afspraak - ZetEindtijd - Eindtijd moet na starttijd liggen");
             Eindtijd = eindtijd;
         }
 
@@ -58,7 +58,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="bezoeker"></param>
         /// <exception cref="AfspraakException"></exception>
         public void ZetBezoeker(Bezoeker bezoeker) {
-            Bezoeker = bezoeker ?? throw new AfspraakException("bezoeker mag niet leeg zijn");
+            Bezoeker = bezoeker ?? throw new AfspraakException("Afspraak - ZetBezoeker - Bezoeker mag niet leeg zijn");
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="werknemer"></param>
         /// <exception cref="AfspraakException"></exception>
         public void ZetWerknemer(Werknemer werknemer) {
-            Werknemer = werknemer ?? throw new AfspraakException("werknemer mag niet leeg zijn");
+            Werknemer = werknemer ?? throw new AfspraakException("Afspraak - ZetWerknemer - Werknemer mag niet leeg zijn");
         }
     }
 }
