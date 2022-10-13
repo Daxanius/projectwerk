@@ -12,7 +12,19 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			throw new NotImplementedException();
 		}
 
+		public void BewerkAfspraak(Afspraak afspraak) {
+			throw new NotImplementedException();
+		}
+
+		public Afspraak GeefAfspraakOpId(uint afspraakid) {
+			throw new NotImplementedException();
+		}
+
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(uint werknemerId, DateTime datum) {
 			throw new NotImplementedException();
 		}
 

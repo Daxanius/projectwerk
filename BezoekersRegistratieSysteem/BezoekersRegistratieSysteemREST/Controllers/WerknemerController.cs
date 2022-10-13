@@ -89,6 +89,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
 
 			try {
+				// Bedrijf is mogelijks null, maar VoegWerknemerToe heeft een bedrijf nodig, kan dit aangepast worden?
 				_werknemerManager.VoegWerknemerToe(werknemer.Voornaam, werknemer.Achternaam, werknemer.Email, werknemer.Bedrijf, werknemer.Functie);
 				return werknemer;
 			} catch (Exception ex) {

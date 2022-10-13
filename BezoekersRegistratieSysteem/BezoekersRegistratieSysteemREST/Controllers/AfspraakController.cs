@@ -37,7 +37,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public IEnumerable<Afspraak> GeefAfspraken([FromQuery] DateTime? dag, [FromQuery] Werknemer? werknemer) {
 			// Als beide de dag EN de werknemer zijn meegegeven
 			if (werknemer != null && dag != null) {
-				return _afspraakManager.GeefAfsprakenPerWerknemerOpDatum(werknemer, dag ?? DateTime.Now);
+				return _afspraakManager.GeefAfsprakenPerWerknemerOpDag(werknemer, dag ?? DateTime.Now);
 			}
 
 			// Als alleen de dag is meegegeven
