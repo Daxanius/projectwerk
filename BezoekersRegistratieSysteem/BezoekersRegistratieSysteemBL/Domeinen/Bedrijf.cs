@@ -45,8 +45,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="naam"></param>
 		/// <exception cref="BedrijfException"></exception>
 		public void ZetNaam(string naam) {
-			if (string.IsNullOrWhiteSpace(naam)) throw new BedrijfException("Naam mag niet leeg zijn");
-			Naam = naam;
+            if (string.IsNullOrWhiteSpace(naam)) throw new BedrijfException("Bedrijf - Zetnaam - naam mag niet leeg zijn");
+            Naam = naam;
 		}
 
 		/// <summary>
@@ -56,8 +56,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="btw"></param>
 		/// <exception cref="BedrijfException"></exception>
 		public void ZetBTW(string btw) {
-			if (string.IsNullOrWhiteSpace(btw)) throw new BedrijfException("BTW mag niet leeg zijn");
-			BTW = btw;
+            if (string.IsNullOrWhiteSpace(btw)) throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
+            BTW = btw;
 		}
 
 		/// <summary>
@@ -67,8 +67,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="telefoonNummer"></param>
 		/// <exception cref="BedrijfException"></exception>
 		public void ZetTelefoonNummer(string telefoonNummer) {
-			if (string.IsNullOrWhiteSpace(telefoonNummer)) throw new BedrijfException("Telefoonnummer mag niet leeg zijn");
-			TelefoonNummer = telefoonNummer;
+            if (string.IsNullOrWhiteSpace(telefoonNummer)) throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet leeg zijn");
+            //Een telefoonnummer kan maximaal 15 cijfers bevatten. Het eerste deel van het telefoonnummer is de landcode (een tot drie cijfers),
+			//Het tweede deel is de nationale bestemmingscode (NDC),
+			//Het laatste deel is het abonneenummer (SN).
+            if (telefoonNummer.Length > 15) throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet langer zijn dan 15 karakters");
+            TelefoonNummer = telefoonNummer;
 		}
 
 		/// <summary>
@@ -78,11 +82,11 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="email"></param>
 		/// <exception cref="BedrijfException"></exception>
 		public void ZetEmail(string email) {
-			if (string.IsNullOrWhiteSpace(email)) throw new BedrijfException("Email mag niet leeg zijn");
-			//Checkt of email geldig is
-			if (Nutsvoorziening.IsEmailGeldig(email)) Email = email.Trim();
-			else throw new BedrijfException("Email is niet geldig");
-		}
+            if (string.IsNullOrWhiteSpace(email)) throw new BedrijfException("Bedrijf - ZetEmail - email mag niet leeg zijn");
+            //Checkt of email geldig is
+            if (Nutsvoorziening.IsEmailGeldig(email)) Email = email.Trim();
+            else throw new BedrijfException("Bedrijf - ZetEmail - email is niet geldig");
+        }
 
 		/// <summary>
 		/// Past het adres aan,
@@ -91,8 +95,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="adres"></param>
 		/// <exception cref="BedrijfException"></exception>
 		public void ZetAdres(string adres) {
-			if (string.IsNullOrWhiteSpace(adres)) throw new BedrijfException("Adres mag niet leeg zijn");
-			Adres = adres;
+            if (string.IsNullOrWhiteSpace(adres)) throw new BedrijfException("Bedrijf - ZetAdres - adres mag niet leeg zijn");
+            Adres = adres;
 		}
 
 		/// <summary>
@@ -102,12 +106,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="werknemer"></param>
 		/// <exception cref="BedrijfException"></exception>
 		public void VoegWerknemerToe(Werknemer werknemer) {
-			if (werknemer == null) throw new BedrijfException("Werknemer mag niet leeg zijn");
-			if (_werknemers.Contains(werknemer)) throw new BedrijfException("Werknemer bestaat al");
+            if (werknemer == null) throw new BedrijfException("Bedrijf - VoegWerknemerToe - werknemer mag niet leeg zijn");
+            if (_werknemers.Contains(werknemer)) throw new BedrijfException("Bedrijf - VoegWerknemerToe - werknemer bestaat al");
 
-			// ZetBedrijf voert al de nodige controles uit om het
-			// vorige bedrijf te vervangen door dit bedrijf
-			_werknemers.Add(werknemer);
+            // ZetBedrijf voert al de nodige controles uit om het
+            // vorige bedrijf te vervangen door dit bedrijf
+            _werknemers.Add(werknemer);
 			werknemer.ZetBedrijf(this);
 		}
 
@@ -117,12 +121,11 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="werknemer"></param>
 		/// <exception cref="BedrijfException"></exception>
 		public void VerwijderWerknemer(Werknemer werknemer) {
-			if (werknemer == null) throw new BedrijfException("Werknemer mag niet leeg zijn");
-			if (!_werknemers.Contains(werknemer)) throw new BedrijfException("Werknemer bestaat niet");
-			werknemer.VerwijderBedrijf();
-
-			// Is dit werkelijk nodig? Kan een werknemer zonder een bedrijf zitten?
+            if (werknemer == null) throw new BedrijfException("Bedrijf - VerwijderWerknemer - werknemer mag niet leeg zijn");
+            if (!_werknemers.Contains(werknemer)) throw new BedrijfException("Bedrijf - VerwijderWerknemer - werknemer bestaat niet");
 			_werknemers.Remove(werknemer);
+            
+			// TODO Werknemer non-actief zetten
 		}
 
 		public IReadOnlyList<Werknemer> GeefWerknemers() {

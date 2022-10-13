@@ -26,8 +26,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="bedrijf"></param>
 		/// <exception cref="WerknemerException"></exception>
 		public void ZetBedrijf(Bedrijf bedrijf) {
-			if (bedrijf == null) throw new WerknemerException("Bedrijf mag niet leeg zijn");
-			if (Bedrijf != null) Bedrijf.VerwijderWerknemer(this);
+            if (bedrijf == null) throw new WerknemerException("Werknemer - ZetBedrijf - bedrijf mag niet leeg zijn");
+            if (Bedrijf != null) Bedrijf.VerwijderWerknemer(this);
 
 			// Als dit bedrijf niet al deze werknemer bevat, voeg deze dan toe aan het bedrijf
 			if (!bedrijf.GeefWerknemers().Contains(this)) bedrijf.VoegWerknemerToe(this);
@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		public void VerwijderBedrijf() {
 			// Dit word gebruikt als we een werknemer uit bedrijf halen
-			// hierdoor is Bedrijf nullable. Kunnen werknemers zonder bedrijf zitten?
+			// hierdoor is Bedrijf nullable.
 			Bedrijf = null;
 		}
 
@@ -49,8 +49,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="functie"></param>
 		/// <exception cref="WerknemerException"></exception>
 		public void ZetFunctie(string functie) {
-			if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Functie mag niet leeg zijn");
-			Functie = functie;
+            if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Werknemer - ZetFunctie - functie mag niet leeg zijn");
+            Functie = functie;
 		}
 	}
 }

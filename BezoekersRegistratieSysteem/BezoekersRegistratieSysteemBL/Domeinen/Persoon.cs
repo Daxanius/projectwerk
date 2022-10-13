@@ -36,8 +36,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="voornaam"></param>
 		/// <exception cref="PersoonException"></exception>
 		public void ZetVoornaam(string voornaam) {
-			if (string.IsNullOrWhiteSpace(voornaam)) throw new PersoonException("Voornaam mag niet leeg zijn");
-			Voornaam = voornaam;
+            if (string.IsNullOrWhiteSpace(voornaam)) throw new PersoonException("Persoon - ZetVoornaam - voornaam mag niet leeg zijn");
+            Voornaam = voornaam;
 		}
 
 		/// <summary>
@@ -46,8 +46,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="achternaam"></param>
 		/// <exception cref="PersoonException"></exception>
 		public void ZetAchternaam(string achternaam) {
-			if (string.IsNullOrWhiteSpace(achternaam)) throw new PersoonException("Achternaam mag niet leeg zijn");
-			Achternaam = achternaam;
+            if (string.IsNullOrWhiteSpace(achternaam)) throw new PersoonException("Persoon - ZetAchternaam - achternaam mag niet leeg zijn");
+            Achternaam = achternaam;
 		}
 
 		/// <summary>
@@ -57,10 +57,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="email"></param>
 		/// <exception cref="PersoonException"></exception>
 		public void ZetEmail(string email) {
-			if (string.IsNullOrWhiteSpace(email)) throw new PersoonException("Email mag niet leeg zijn");
-			//Checkt of email geldig is
-			if (Nutsvoorziening.IsEmailGeldig(email)) Email = email.Trim();
-			else throw new PersoonException("Email is niet geldig");
-		}
+            if (string.IsNullOrWhiteSpace(email)) throw new PersoonException("Persoon - ZetEmail - email mag niet leeg zijn");
+            //Checkt of email geldig is
+            if (Nutsvoorziening.IsEmailGeldig(email)) Email = email.Trim();
+            else throw new PersoonException("Persoon - ZetEmail - email is niet geldig");
+        }
 	}
 }

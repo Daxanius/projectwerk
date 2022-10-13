@@ -18,37 +18,24 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		public void VerwijderWerknemer(uint id) {
 			_werknemerRepository.VerwijderWerknemer(id);
 		}
+        
+		public void WijzigWerknemer(Werknemer werknemer) {
+            if (werknemer == null) throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer mag niet leeg zijn");
+            _werknemerRepository.WijzigWerknemer(werknemer.Id, werknemer);
+		}
 
 		public Werknemer GeefWerknemer(uint id) {
-			// TODO: Geef werknemer op ID
-			throw new NotImplementedException();
-		}
+            return _werknemerRepository.GeefWerknemer(id);
+        }
 
-		public void WijzigWerknemer(Werknemer werknemer) {
-			if (werknemer == null) throw new WerknemerManagerException("Werknemer mag niet leeg zijn");
-			_werknemerRepository.WijzigWerknemer(werknemer.Id, werknemer);
-		}
-
-		//We need to solve this.... possibly idk... send help
-		//public IReadOnlyList<Werknemer> GeefAanwezigeWerknemers()
-		//{
-		//    return _werknemerRepository.GeefAanwezigeWerknemers();
-		//}
-
-		public Werknemer GeefWerknemerOpNaam(string naam) {
-			if (string.IsNullOrWhiteSpace(naam)) throw new WerknemerManagerException("Naam mag niet leeg zijn");
-			return _werknemerRepository.GeefWerknemerOpNaam(naam);
+		public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string naam) {
+            if (string.IsNullOrWhiteSpace(naam)) throw new WerknemerManagerException("WerknemerManager - GeefWerknemerOpNaam - naam mag niet leeg zijn");
+            return _werknemerRepository.GeefWerknemersOpNaam(naam);
 		}
 
 		public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(Bedrijf bedrijf) {
-			if (bedrijf == null) throw new WerknemerManagerException("Bedrijf mag niet leeg zijn");
-			return _werknemerRepository.GeefWerknemersPerBedrijf(bedrijf.Id);
-		}
-
-		public IReadOnlyList<Werknemer> GeefWerknemersPerFunctie(string functie) {
-			//Wildcard
-			if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerManagerException("Functie mag niet leeg zijn");
-			return _werknemerRepository.GeefWerknemersPerFunctie(functie);
+            if (bedrijf == null) throw new WerknemerManagerException("WerknemerManager - GeefWerknemersPerBedrijf - bedrijf mag niet leeg zijn");
+            return _werknemerRepository.GeefWerknemersPerBedrijf(bedrijf.Id);
 		}
 	}
 }

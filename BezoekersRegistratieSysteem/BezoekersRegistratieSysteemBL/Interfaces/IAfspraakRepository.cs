@@ -5,16 +5,16 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 	/// Afspraak storage hook
 	/// </summary>
 	public interface IAfspraakRepository {
-		void BeeindigAfspraak(uint afspraakId);
+		void VoegAfspraakToe(Afspraak afspraak);
+		void VerwijderAfspraak(uint afspraakId);
 		void BewerkAfspraak(Afspraak afspraak);
-		Afspraak GeefAfspraakOpId(uint afspraakid);
-		IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum);
-		IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(uint werknemerId, DateTime datum);
-		IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(uint werknemerId);
+		void BeeindigAfspraak(uint afspraakId);
+		Afspraak GeefAfspraak(uint afspraakid);
 		IReadOnlyList<Afspraak> GeefHuidigeAfspraken();
 		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint bedrijfId);
 		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId);
-		void VerwijderAfspraak(uint afspraakId);
-		void VoegAfspraakToe(Afspraak afspraak);
+		IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(uint werknemerId);
+		IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(uint werknemerId, DateTime datum);
+		IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum);
 	}
 }

@@ -24,8 +24,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="bedrijf"></param>
 		/// <exception cref="BezoekerException"></exception>
 		public void ZetBedrijf(string bedrijf) {
-			if (string.IsNullOrWhiteSpace(bedrijf)) throw new BezoekerException("Bedrijf mag niet leeg zijn");
-			Bedrijf = bedrijf;
+            if (string.IsNullOrWhiteSpace(bedrijf)) throw new BezoekerException("Bezoeker - ZetBedrijf - bedrijf mag niet leeg zijn");
+            Bedrijf = bedrijf;
 		}
 	}
 }
