@@ -15,18 +15,17 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_afspraakRepository.VoegAfspraakToe(afspraak);
 		}
 
-		public void VerwijderAfspraak(uint id) {
-			_afspraakRepository.VerwijderAfspraak(id);
+		public void VerwijderAfspraak(uint afspraakId) {
+			_afspraakRepository.VerwijderAfspraak(afspraakId);
 		}
 
-		public Afspraak GeefAfspraak(uint id) {
-			// TODO: Geef afspraak op ID
-			throw new NotImplementedException();
+		public Afspraak GeefAfspraak(uint afspraakId) {
+			return _afspraakRepository.GeefAfspraakOpId(afspraakId);
 		}
 
 		public void BewerkAfspraak(Afspraak afspraak) {
 			if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
-			_afspraakRepository.BewerkAfspraak(afspraak.Id);
+			_afspraakRepository.BewerkAfspraak(afspraak);
 		}
 
 		public void BeeindigAfspraak(Afspraak afspraak) {
@@ -54,9 +53,9 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			return _afspraakRepository.GeefHuidigeAfsprakenPerWerknemer(werknemer.Id);
 		}
 
-		public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDatum(Werknemer werknemer, DateTime datum) {
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(Werknemer werknemer, DateTime datum) {
 			if (werknemer == null) throw new AfspraakManagerException("werknemer mag niet leeg zijn");
-			return _afspraakRepository.GeefAfsprakenPerWerknemerOpDatum(werknemer.Id, datum);
+			return _afspraakRepository.GeefAfsprakenPerWerknemerOpDag(werknemer.Id, datum);
 		}
 
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
