@@ -99,20 +99,20 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             Adres = adres;
 		}
 
-		/// <summary>
-		/// Voegt een werknemer toe
-		/// en past de werknemer aan
-		/// </summary>
-		/// <param name="werknemer"></param>
-		/// <exception cref="BedrijfException"></exception>
-		public void VoegWerknemerToe(Werknemer werknemer) {
+        /// <summary>
+        /// Voegt een werknemer toe
+        /// en past de werknemer aan
+        /// </summary>
+        /// <param name="werknemer"></param>
+        /// <param name="functie"></param>
+        /// <exception cref="BedrijfException"></exception>
+        public void VoegWerknemerToe(Werknemer werknemer, string functie) {
             if (werknemer == null) throw new BedrijfException("Bedrijf - VoegWerknemerToe - werknemer mag niet leeg zijn");
-            if (_werknemers.Contains(werknemer)) throw new BedrijfException("Bedrijf - VoegWerknemerToe - werknemer bestaat al");
+            if (string.IsNullOrWhiteSpace(functie)) throw new BedrijfException("Bedrijf - VoegWerknemerToe - functie mag niet leeg zijn");
 
-            // ZetBedrijf voert al de nodige controles uit om het
-            // vorige bedrijf te vervangen door dit bedrijf
+            // VoegBedrijfEnFunctieToe voert al de nodige controles uit om het
             _werknemers.Add(werknemer);
-			werknemer.ZetBedrijf(this);
+			werknemer.VoegBedrijfEnFunctieToe(this, functie);
 		}
 
 		/// <summary>

@@ -27,5 +27,14 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             if (string.IsNullOrWhiteSpace(bedrijf)) throw new BezoekerException("Bezoeker - ZetBedrijf - bedrijf mag niet leeg zijn");
             Bedrijf = bedrijf;
 		}
+
+		public bool BezoekerIsGelijk(Bezoeker bezoeker)
+		{
+			if (bezoeker.Voornaam != Voornaam) return false;
+            if (bezoeker.Achternaam != Achternaam) return false;
+            if (bezoeker.Email != Email) return false;
+            if (bezoeker.Bedrijf != Bedrijf) return false;
+			return true;
+        }
 	}
 }
