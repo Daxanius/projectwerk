@@ -31,9 +31,7 @@ CREATE TABLE [dbo].[Bedrijf](
 CREATE TABLE [dbo].[Werknemer](
 	[Id] INT NOT NULL IDENTITY PRIMARY KEY,
 	[ANaam] VARCHAR(255) NOT NULL,
-	[VNaam] VARCHAR(255) NOT NULL,
-	[FunctieId] INT NOT NULL,
-	CONSTRAINT [FK_Werknemer_Functie_Id] FOREIGN KEY ([FunctieId]) REFERENCES [dbo].[Functie](Id)
+	[VNaam] VARCHAR(255) NOT NULL
 )
 
 CREATE TABLE [dbo].[Werknemerbedrijf](
@@ -41,8 +39,10 @@ CREATE TABLE [dbo].[Werknemerbedrijf](
 	[BedrijfId] INT NOT NULL,
 	[WerknemerId] INT NOT NULL,
 	[Status] INT NOT NULL DEFAULT 1,
+	[FunctieId] INT NOT NULL,
 	CONSTRAINT [FK_WerknemerBedrijf_Bedrijf_Id] FOREIGN KEY ([BedrijfId]) REFERENCES [dbo].[Bedrijf](Id),
-	CONSTRAINT [FK_WerknemerBedrijf_Werknemer_Id] FOREIGN KEY ([WerknemerId]) REFERENCES [dbo].[Werknemer](Id)
+	CONSTRAINT [FK_WerknemerBedrijf_Werknemer_Id] FOREIGN KEY ([WerknemerId]) REFERENCES [dbo].[Werknemer](Id),
+	CONSTRAINT [FK_Werknemer_Functie_Id] FOREIGN KEY ([FunctieId]) REFERENCES [dbo].[Functie](Id)
 )
 
 CREATE TABLE [dbo].[Bezoeker](
