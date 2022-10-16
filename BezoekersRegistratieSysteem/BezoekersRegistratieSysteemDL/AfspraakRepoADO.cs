@@ -20,6 +20,7 @@ namespace BezoekersRegistratieSysteemDL {
             return new SqlConnection(_connectieString);
         }
         //ELKE QUERY MOET NOG GETEST WORDEN
+        //CONTROLES OP STATUS OP BEPAALDE ZAKEN?
         public void BeeindigAfspraak(uint afspraakId) {
             //GETS REPLACED WITH BeeindigAfspraakUser && BeeindigAfspraakSystem
         }
@@ -55,12 +56,19 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
         public void BewerkAfspraak(Afspraak afspraak) {
-            //Dit gaat er nu van uit dat alles dat veranderd wordt bestaat
             SqlConnection con = GetConnection();
             string query = "UPDATE Afspraak " +
                            "SET StartTijd = @start, " +
                            "EindTijd = @eind, " +
-                           "WerknemerBedrijfId = @werknemerId, " +
+                           "WerknemerBedrijfId = (SELECT wb.Id " +
+                                                 "FROM WerknemerBedrijf wb " +
+                                                 "WHERE wb.BedrijfId = @bedrijfId AND " +
+                                                 "wb.WerknemerId = @werknemerId AND " +
+                                                 "wb.FunctieId = (SELECT f.Id " +
+                                                                 "FROM Functie f " +
+                                                                 "WHERE f.FunctieNaam = @functienaam " +
+                                                                 ") " +
+                                                 "), " +
                            "BezoekerId = @bezoekerId " +
                            "WHERE Id = @afspraakid";
             try {
@@ -70,11 +78,16 @@ namespace BezoekersRegistratieSysteemDL {
                     cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
                     cmd.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
                     cmd.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
                     cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
                     cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@functienaam", SqlDbType.VarChar));
                     cmd.Parameters["@afspraakid"].Value = afspraak.Id;
                     cmd.Parameters["@start"].Value = afspraak.Starttijd;
                     cmd.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+                    //FUNCTIE GETBEDRIJF
+                    //cmd.Parameters["@bedrijfId"].Value = afspraak.Werknemer.Bedrijf.Id;
+                    //cmd.Parameters["@functienaam"].Value = afspraak.Werknemer.Bedrijf.Naam;
                     cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
                     cmd.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
                     cmd.ExecuteNonQuery();
