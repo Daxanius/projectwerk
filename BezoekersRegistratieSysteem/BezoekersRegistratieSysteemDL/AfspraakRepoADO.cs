@@ -55,7 +55,37 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
         public void BewerkAfspraak(Afspraak afspraak) {
-            throw new NotImplementedException();
+            //Dit gaat er nu van uit dat alles dat veranderd wordt bestaat
+            SqlConnection con = GetConnection();
+            string query = "UPDATE Afspraak " +
+                           "SET StartTijd = @start, " +
+                           "EindTijd = @eind, " +
+                           "WerknemerBedrijfId = @werknemerId, " +
+                           "BezoekerId = @bezoekerId " +
+                           "WHERE Id = @afspraakid";
+            try {
+                con.Open();
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+                    cmd.Parameters["@afspraakid"].Value = afspraak.Id;
+                    cmd.Parameters["@start"].Value = afspraak.Starttijd;
+                    cmd.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+                    cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+                    cmd.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BewerkAfspraak {ex.Message}", ex);
+                exx.Data.Add("afspraak", afspraak);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
         public Afspraak GeefAfspraak(uint afspraakId) {
