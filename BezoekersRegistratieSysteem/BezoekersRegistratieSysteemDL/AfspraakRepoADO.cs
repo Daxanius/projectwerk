@@ -179,7 +179,33 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         public void VoegAfspraakToe(Afspraak afspraak) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, BezoekerId) " +
+                           "output INSERTED.ID " +
+                           "VALUES(@start,@eind,@werknemerId,@bezoekerId)";
+            try {
+                con.Open();
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+                    cmd.Parameters["@start"].Value = afspraak.Starttijd;
+                    cmd.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+                    cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+                    cmd.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
+                    uint i = (uint)cmd.ExecuteScalar();
+                    afspraak.ZetId(i);
+                    //return afspraak;
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: VoegAfspraakToe {ex.Message}", ex);
+                exx.Data.Add("afspraak", afspraak);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
     }
 }
