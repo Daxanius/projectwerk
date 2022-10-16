@@ -16,6 +16,7 @@ INSERT INTO Functie
 INSERT INTO AfspraakStatus
 	(Name)
 	VALUES('In gang'),
+		  ('Verwijderd'),
 		  ('Stopgezet door gebruiker'),
-		  ('Stopgezet door administratief medewerker'),
-		  ('Stopgezet door systeem')
+		  ('Stopgezet door systeem'),
+		  ('Stopgezet door administratief medewerker')
