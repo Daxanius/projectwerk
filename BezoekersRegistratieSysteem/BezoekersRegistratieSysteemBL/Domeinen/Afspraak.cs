@@ -15,11 +15,33 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <summary>
         /// Constructor
         /// </summary>
+        public Afspraak() { }
+        
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="starttijd"></param>
         /// <param name="bezoeker"></param>
         /// <param name="werknemer"></param>
         public Afspraak(DateTime starttijd, Bezoeker bezoeker, Werknemer werknemer) {
             ZetStarttijd(starttijd);
+            ZetBezoeker(bezoeker);
+            ZetWerknemer(werknemer);
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="starttijd"></param>
+        /// <param name="eindtijd"></param>
+        /// <param name="bezoeker"></param>
+        /// <param name="werknemer"></param>
+        public Afspraak(uint id, DateTime starttijd, DateTime? eindtijd, Bezoeker bezoeker, Werknemer werknemer)
+        {
+            ZetId(id);
+            ZetStarttijd(starttijd);
+            ZetEindtijd(eindtijd);
             ZetBezoeker(bezoeker);
             ZetWerknemer(werknemer);
         }
@@ -47,8 +69,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// </summary>
         /// <param name="eindtijd"></param>
         /// <exception cref="AfspraakException"></exception>
-        public void ZetEindtijd(DateTime eindtijd) {
-            if (eindtijd <= Starttijd) throw new AfspraakException("Afspraak - ZetEindtijd - Eindtijd moet na starttijd liggen");
+        public void ZetEindtijd(DateTime? eindtijd) {
+            if (eindtijd.HasValue && eindtijd <= Starttijd) throw new AfspraakException("Afspraak - ZetEindtijd - Eindtijd moet na starttijd liggen");
             Eindtijd = eindtijd;
         }
 
@@ -68,12 +90,6 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <exception cref="AfspraakException"></exception>
         public void ZetWerknemer(Werknemer werknemer) {
             Werknemer = werknemer ?? throw new AfspraakException("Afspraak - ZetWerknemer - Werknemer mag niet leeg zijn");
-        }
-
-        public bool AfspraakIsGelijk(Afspraak afspraak)
-        {
-            if (afspraak is null) return false;
-            return true;
         }
     }
 }

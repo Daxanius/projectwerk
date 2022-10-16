@@ -11,6 +11,9 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void BeeindigAfspraakBezoeker(uint id);
 		void BeeindigAfspraakSysteem(uint id);
 		Afspraak GeefAfspraak(uint afspraakid);
+
+		void BestaatAfspraak(Afspraak afspraak);
+        
 		IReadOnlyList<Afspraak> GeefHuidigeAfspraken();
 		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint bedrijfId);
 		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId);

@@ -8,6 +8,9 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void VoegBezoekerToe(Bezoeker bezoeker);
         void VerwijderBezoeker(uint id);
 		void WijzigBezoeker(uint id, Bezoeker bezoeker);
+
+		void BestaatBezoeker(Bezoeker bezoeker);
+        
         Bezoeker GeefBezoeker(uint id);
 		Bezoeker GeefBezoekerOpNaam(string naam);
 		IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers();

@@ -7,6 +7,11 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 	public class Bezoeker : Persoon {
 		public string Bedrijf { get; private set; }
 
+        /// <summary>
+		/// Constructor
+		/// </summary>
+		public Bezoeker() { }
+        
 		/// <summary>
 		/// Constructor
 		/// </summary>
@@ -18,23 +23,36 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			ZetBedrijf(bedrijf);
 		}
 
-		/// <summary>
-		/// Past het bedrijf aan
+        /// <summary>
+		/// Constructor
 		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="voornaam"></param>
+		/// <param name="achternaam"></param>
+		/// <param name="email"></param>
 		/// <param name="bedrijf"></param>
-		/// <exception cref="BezoekerException"></exception>
-		public void ZetBedrijf(string bedrijf) {
+        public Bezoeker(uint id, string voornaam, string achternaam, string email, string bedrijf) : base(id, voornaam, achternaam, email)
+        {
+            ZetBedrijf(bedrijf);
+        }
+
+        /// <summary>
+        /// Past het bedrijf aan
+        /// </summary>
+        /// <param name="bedrijf"></param>
+        /// <exception cref="BezoekerException"></exception>
+        public void ZetBedrijf(string bedrijf) {
             if (string.IsNullOrWhiteSpace(bedrijf)) throw new BezoekerException("Bezoeker - ZetBedrijf - bedrijf mag niet leeg zijn");
             Bedrijf = bedrijf;
 		}
 
-		public bool BezoekerIsGelijk(Bezoeker bezoeker)
-		{
-			if (bezoeker.Voornaam != Voornaam) return false;
-            if (bezoeker.Achternaam != Achternaam) return false;
-            if (bezoeker.Email != Email) return false;
-            if (bezoeker.Bedrijf != Bedrijf) return false;
-			return true;
-        }
+		//public bool BezoekerIsGelijk(Bezoeker bezoeker)
+		//{
+		//	if (bezoeker.Voornaam != Voornaam) return false;
+		//  if (bezoeker.Achternaam != Achternaam) return false;
+		//  if (bezoeker.Email != Email) return false;
+		//  if (bezoeker.Bedrijf != Bedrijf) return false;
+		//	return true;
+		//}
 	}
 }

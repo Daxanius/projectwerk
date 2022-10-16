@@ -5,16 +5,31 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 	public class Werknemer : Persoon {
 
         private Dictionary<Bedrijf, List<string>> _functiePerBedrijf = new Dictionary<Bedrijf, List<string>>();
-        
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="voornaam"></param>
-		/// <param name="achternaam"></param>
-		/// <param name="email"></param>
-		/// 
-		public Werknemer(string voornaam, string achternaam, string email) : base(voornaam, achternaam, email) {
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public Werknemer() { }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="voornaam"></param>
+        /// <param name="achternaam"></param>
+        /// <param name="email"></param>
+        public Werknemer(string voornaam, string achternaam, string email) : base(voornaam, achternaam, email) {
 		}
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="voornaam"></param>
+        /// <param name="achternaam"></param>
+        /// <param name="email"></param>
+        public Werknemer(uint id, string voornaam, string achternaam, string email) : base(id, voornaam, achternaam, email)
+        {
+        }
 
         /// <summary>
         /// Voegt bedrijf en functie toe aan de werknemer.

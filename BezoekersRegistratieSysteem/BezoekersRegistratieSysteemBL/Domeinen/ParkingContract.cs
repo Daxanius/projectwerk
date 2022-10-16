@@ -6,22 +6,40 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public DateTime? Eindtijd { get; private set; }
 		public int AantalPlaatsen { get; private set; }
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="starttijd"></param>
-		/// <param name="aantalPlaatsen"></param>
-		public ParkingContract(DateTime starttijd, int aantalPlaatsen) {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ParkingContract() { }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="starttijd"></param>
+        /// <param name="aantalPlaatsen"></param>
+        public ParkingContract(DateTime starttijd, int aantalPlaatsen) {
 			ZetStarttijd(starttijd);
 			ZetAantalPlaatsen(aantalPlaatsen);
 		}
 
-		/// <summary>
-		/// Past starttijd aan
+        /// <summary>
+		/// Constructor
 		/// </summary>
 		/// <param name="starttijd"></param>
-		/// <exception cref="ParkingContractException"></exception>
-		public void ZetStarttijd(DateTime starttijd) {
+		/// <param name="eindtijd"></param>
+		/// <param name="aantalPlaatsen"></param>
+		public ParkingContract(DateTime starttijd, DateTime? eindtijd, int aantalPlaatsen)
+        {
+            ZetStarttijd(starttijd);
+            ZetEindtijd(eindtijd);
+            ZetAantalPlaatsen(aantalPlaatsen);
+        }
+
+        /// <summary>
+        /// Past starttijd aan
+        /// </summary>
+        /// <param name="starttijd"></param>
+        /// <exception cref="ParkingContractException"></exception>
+        public void ZetStarttijd(DateTime starttijd) {
             if (Eindtijd is not null) throw new ParkingContractException("ParkingContract - ZetStarttijd - Parking is al afgelopen");
             Starttijd = starttijd;
 		}
@@ -31,7 +49,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="eindtijd"></param>
 		/// <exception cref="ParkingContractException"></exception>
-		public void ZetEindtijd(DateTime eindtijd) {
+		public void ZetEindtijd(DateTime? eindtijd) {
             if (eindtijd < Starttijd) throw new ParkingContractException("ParkingContract - ZetEindtijd - Eindtijd moet na starttijd liggen");
             Eindtijd = eindtijd;
 		}
