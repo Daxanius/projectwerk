@@ -403,7 +403,36 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         public void BestaatAfspraak(Afspraak afspraak) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+                           "FROM Afspraak a ";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    if (afspraak.Id != 0) {
+                        query += "WHERE a.Id = @id";
+                        cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                        cmd.Parameters["@id"].Value = afspraak.Id;
+                    } else {
+                        query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
+                                 "WHERE bz.Email = @mail";
+                        cmd.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
+                        cmd.Parameters["@mail"].Value = afspraak.Bezoeker.Email;
+                    }
+                    cmd.CommandText = query;
+                    int i = (int)cmd.ExecuteScalar();
+                    if (i == 0) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BestaatAfspraak {ex.Message}", ex);
+                exx.Data.Add("afspraak", afspraak);
+            } finally {
+                con.Close();
+            }
         }
     }
 }
