@@ -37,8 +37,8 @@ CREATE TABLE [dbo].[Werknemer](
 
 CREATE TABLE [dbo].[Werknemerbedrijf](
 	[Id] BIGINT NOT NULL IDENTITY PRIMARY KEY,
-	[BedrijfId] INT NOT NULL,
-	[WerknemerId] INT NOT NULL,
+	[BedrijfId] BIGINT NOT NULL,
+	[WerknemerId] BIGINT NOT NULL,
 	[Status] INT NOT NULL DEFAULT 1,
 	[FunctieId] INT NOT NULL,
 	CONSTRAINT [FK_WerknemerBedrijf_Bedrijf_Id] FOREIGN KEY ([BedrijfId]) REFERENCES [dbo].[Bedrijf](Id),
@@ -59,12 +59,10 @@ CREATE TABLE [dbo].[Afspraak](
 	[Id] BIGINT NOT NULL IDENTITY PRIMARY KEY,
 	[StartTijd] DATETIME NOT NULL DEFAULT GETDATE(),
 	[EindTijd] DATETIME NULL,
-	[WerknemerBedrijfId] INT NOT NULL,
+	[WerknemerBedrijfId] BIGINT NOT NULL,
 	[AfspraakStatusId] INT NOT NULL DEFAULT 1,
-	[BezoekerId] INT NOT NULL,
+	[BezoekerId] BIGINT NOT NULL,
 	CONSTRAINT [FK_Afspraak_WerknemerBedrijf_Id] FOREIGN KEY ([WerknemerBedrijfId]) REFERENCES [dbo].[Werknemerbedrijf](Id),
 	CONSTRAINT [FK_Afspraak_AfspraakStatus_Id] FOREIGN KEY ([AfspraakStatusId]) REFERENCES [dbo].[AfspraakStatus](Id),
 	CONSTRAINT [FK_Afspraak_Bezoeker_Id] FOREIGN KEY ([BezoekerId]) REFERENCES [dbo].[Bezoeker](Id)
 )
-
-
