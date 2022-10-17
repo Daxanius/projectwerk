@@ -531,11 +531,7 @@ namespace BezoekersRegistratieSysteemDL {
                     }
                     cmd.CommandText = query;
                     int i = (int)cmd.ExecuteScalar();
-                    if (i == 0) {
-                        return false;
-                    } else {
-                        return true;
-                    }
+                    return (i > 0);
                 }
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BestaatAfspraak {ex.Message}", ex);
