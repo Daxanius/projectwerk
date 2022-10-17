@@ -158,6 +158,11 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
+        /// <summary>
+		/// Geef afspraak
+		/// </summary>
+		/// <param name="afspraakId"></param>
+		/// <exception cref="AfspraakADOException"></exception>
         public Afspraak GeefAfspraak(uint afspraakId) {
             SqlConnection con = GetConnection();
             /* INFO SELECT
@@ -249,6 +254,11 @@ namespace BezoekersRegistratieSysteemDL {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+		/// Maakt afspraak aan in DB
+		/// </summary>
+		/// <param name="afspraak"></param>
+		/// <exception cref="AfspraakADOException"></exception>
         public void VoegAfspraakToe(Afspraak afspraak) {
             SqlConnection con = GetConnection();
             string query = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, BezoekerId) " +
