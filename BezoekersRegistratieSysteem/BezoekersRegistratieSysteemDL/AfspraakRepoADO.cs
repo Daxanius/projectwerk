@@ -21,8 +21,12 @@ namespace BezoekersRegistratieSysteemDL {
         }
         //ELKE QUERY MOET NOG GETEST WORDEN
         //CONTROLES OP STATUS OP BEPAALDE ZAKEN?
-        public void BeeindigAfspraak(uint afspraakId) {
-            //GETS REPLACED WITH BeeindigAfspraakUser && BeeindigAfspraakSystem
+        public void BeeindigAfspraakBezoeker(uint id) {
+            throw new NotImplementedException();
+        }
+
+        public void BeeindigAfspraakSysteem(uint id) {
+            throw new NotImplementedException();
         }
         private void BeeindigAfspraak(uint afspraakId, int statusId) {
             SqlConnection con = GetConnection();
@@ -219,6 +223,10 @@ namespace BezoekersRegistratieSysteemDL {
             } finally {
                 con.Close();
             }
+        }
+
+        public void BestaatAfspraak(Afspraak afspraak) {
+            throw new NotImplementedException();
         }
     }
 }
