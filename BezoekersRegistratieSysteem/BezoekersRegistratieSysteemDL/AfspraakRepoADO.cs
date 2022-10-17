@@ -169,7 +169,7 @@ namespace BezoekersRegistratieSysteemDL {
             string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
                            "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
                            "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
-                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, " +
+                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, w.Email as WerknemerMail " +
                            "f.FuntieNaam " +
                            "FROM Afspraak a " +
                            "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
@@ -207,6 +207,7 @@ namespace BezoekersRegistratieSysteemDL {
                         uint werknemerId = (uint)reader["WerknemerId"];
                         string werknemerANaam = (string)reader["WerknemerANaam"];
                         string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                        string werknemerMail = (string)reader["WerknemerMail"];
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
 

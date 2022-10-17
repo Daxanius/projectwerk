@@ -31,7 +31,8 @@ CREATE TABLE [dbo].[Bedrijf](
 CREATE TABLE [dbo].[Werknemer](
 	[Id] BIGINT NOT NULL IDENTITY PRIMARY KEY,
 	[ANaam] VARCHAR(255) NOT NULL,
-	[VNaam] VARCHAR(255) NOT NULL
+	[VNaam] VARCHAR(255) NOT NULL,
+	[Email] VARCHAR(255) NOT NULL,
 )
 
 CREATE TABLE [dbo].[Werknemerbedrijf](
