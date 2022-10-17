@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.DTO;
 using BezoekersRegistratieSysteemBL.Managers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,13 +70,14 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Voegt een bedrijf toe
 		/// </summary>
-		/// <param name="bedrijf"></param>
+		/// <param name="bedrijfData"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<Bedrijf> VoegBedrijfToe([FromBody] Bedrijf bedrijf) {
-			if (bedrijf == null) return BadRequest($"{nameof(bedrijf)} is null");
+		public ActionResult<Bedrijf> VoegBedrijfToe([FromBody] DTOBedrijf bedrijfData) {
+			if (bedrijfData == null) return BadRequest($"{nameof(bedrijfData)} is null");
 
 			try {
+				Bedrijf bedrijf = new(bedrijfData.Naam, bedrijfData.BTW, bedrijfData.TelefoonNummer, bedrijfData.Email, bedrijfData.Adres);
 				_bedrijfManager.VoegBedrijfToe(bedrijf);
 				return bedrijf;
 			} catch (Exception ex) {

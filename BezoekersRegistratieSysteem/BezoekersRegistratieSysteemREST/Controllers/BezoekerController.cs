@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.DTO;
 using BezoekersRegistratieSysteemBL.Managers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 	public class BezoekerController : ControllerBase {
 		private readonly BezoekerManager _bezoekerManager;
 
-		public BezoekerController(BezoekerManager bezoekerManager) {
+		public BezoekerController(BezoekerManager bezoekerManager, BedrijfManager bedrijfManager) {
 			_bezoekerManager = bezoekerManager;
 		}
 
@@ -80,10 +81,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afspraak"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<Bezoeker> VoegBezoekerTOe([FromBody] Bezoeker bezoeker) {
-			if (bezoeker == null) return BadRequest($"{nameof(bezoeker)} is null");
+		public ActionResult<Bezoeker> VoegBezoekerTOe([FromBody] DTOBezoeker bezoekerData) {
+			if (bezoekerData == null) return BadRequest($"{nameof(bezoekerData)} is null");
 
 			try {
+				Bezoeker bezoeker = new(bezoekerData.Voornaam, bezoekerData.Achternaam, bezoekerData.Email, bezoekerData.Bedrijf);
 				_bezoekerManager.VoegBezoekerToe(bezoeker);
 				return bezoeker;
 			} catch (Exception ex) {

@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.DTO;
 using BezoekersRegistratieSysteemBL.Managers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -81,11 +82,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afspraak"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] Werknemer werknemer) {
-			if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
+		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] DTOWerknemer werknemerData) {
+			if (werknemerData == null) return BadRequest($"{nameof(werknemerData)} is null");
 
 			try {
-				// Bedrijf is mogelijks null, maar VoegWerknemerToe heeft een bedrijf nodig, kan dit aangepast worden?
+				Werknemer werknemer = new(werknemerData.Voornaam, werknemerData.Achternaam, werknemerData.Email);
 				_werknemerManager.VoegWerknemerToe(werknemer);
 				return werknemer;
 			} catch (Exception ex) {
