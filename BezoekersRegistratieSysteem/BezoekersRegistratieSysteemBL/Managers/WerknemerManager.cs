@@ -42,7 +42,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             if (_werknemerRepository.GeefWerknemer(werknemer.Id).WerknemerIsGelijk(werknemer)) throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer bestaat niet");
             try
 			{
-				_werknemerRepository.WijzigWerknemer(werknemer.Id, werknemer);
+				_werknemerRepository.WijzigWerknemer(werknemer);
 			}
             catch (Exception ex)
             {

@@ -40,7 +40,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             if (_bezoekerRepository.GeefBezoeker(bezoeker.Id).BezoekerIsGelijk(bezoeker)) throw new BezoekerManagerException("BezoekerManager - WijzigBezoeker - bezoeker is niet gewijzigd");
             try
 			{
-                _bezoekerRepository.WijzigBezoeker(bezoeker.Id, bezoeker);
+                _bezoekerRepository.WijzigBezoeker(bezoeker);
 			}
             catch (Exception ex)
             {

@@ -7,7 +7,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 	public interface IBezoekerRepository {
 		void VoegBezoekerToe(Bezoeker bezoeker);
         void VerwijderBezoeker(uint id);
-		void WijzigBezoeker(uint id, Bezoeker bezoeker);
+		void WijzigBezoeker(Bezoeker bezoeker);
 
 		bool BestaatBezoeker(Bezoeker bezoeker);
         bool BestaatBezoeker(uint bezoekerId);

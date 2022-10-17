@@ -42,7 +42,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             if (_bedrijfRepository.GeefBedrijf(bedrijf.Id).BedrijfIsGelijk(bedrijf)) throw new BedrijfManagerException("BedrijfManager - UpdateBedrijf - bedrijf is niet gewijzigd");
             try
             {
-                _bedrijfRepository.BewerkBedrijf(bedrijf.Id, bedrijf);              
+                _bedrijfRepository.BewerkBedrijf(bedrijf);              
             }
             catch (Exception ex)
             {

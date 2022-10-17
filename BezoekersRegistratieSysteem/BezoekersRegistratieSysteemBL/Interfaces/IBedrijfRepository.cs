@@ -7,7 +7,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 	public interface IBedrijfRepository {
 		Bedrijf VoegBedrijfToe(Bedrijf bedrijf);
 		void VerwijderBedrijf(uint id);
-		void BewerkBedrijf(uint id, Bedrijf bedrijf);
+		void BewerkBedrijf(Bedrijf bedrijf);
         
 		bool BestaatBedrijf(Bedrijf bedrijf);
 		bool BestaatBedrijf(uint bedrijf);

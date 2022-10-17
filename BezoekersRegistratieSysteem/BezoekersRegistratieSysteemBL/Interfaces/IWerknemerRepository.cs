@@ -7,7 +7,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 	public interface IWerknemerRepository {
 		Werknemer VoegWerknemerToe(Werknemer werknemer);
 		void VerwijderWerknemer(uint id);
-		void WijzigWerknemer(uint id, Werknemer werknemer);
+		void WijzigWerknemer(Werknemer werknemer);
 
 		bool BestaatWerknemer(Werknemer werknemer);
         bool BestaatWerknemer(uint id);
