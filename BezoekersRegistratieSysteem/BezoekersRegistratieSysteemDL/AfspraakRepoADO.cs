@@ -346,7 +346,9 @@ namespace BezoekersRegistratieSysteemDL {
                     return afspraken.AsReadOnly();
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfspraken {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: GeefAlleAfspraken {ex.Message}", ex);
+                exx.Data.Add("datum", _datum);
+                exx.Data.Add("werknemerId", _werknemerId);
                 throw exx;
             } finally {
                 con.Close();
@@ -361,8 +363,7 @@ namespace BezoekersRegistratieSysteemDL {
             try {
                 return GeefHuidigeAfspraken(null, null);
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfspraken {ex.Message}", ex);
-                throw exx;
+                throw new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfspraken {ex.Message}", ex);
             }
         }
 
@@ -375,8 +376,7 @@ namespace BezoekersRegistratieSysteemDL {
             try {
                 return GeefHuidigeAfspraken(bedrijfId, null);
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfsprakenPerBedrijf {ex.Message}", ex);
-                throw exx;
+                throw new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfsprakenPerBedrijf {ex.Message}", ex);
             }
         }
 
@@ -389,8 +389,7 @@ namespace BezoekersRegistratieSysteemDL {
             try {
                 return GeefHuidigeAfspraken(null, werknemerId);
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfsprakenPerWerknemer {ex.Message}", ex);
-                throw exx;
+                throw new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfsprakenPerWerknemer {ex.Message}", ex);
             }
         }
 
@@ -469,6 +468,8 @@ namespace BezoekersRegistratieSysteemDL {
                 }
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfspraken {ex.Message}", ex);
+                exx.Data.Add("bedrijfId", _bedrijfId);
+                exx.Data.Add("werknemerId", _werknemerId);
                 throw exx;
             } finally {
                 con.Close();
