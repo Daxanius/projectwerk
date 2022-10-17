@@ -285,6 +285,12 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
+        /// <summary>
+		/// PRIVATE: Geeft lijst van huidige Afspraken
+		/// </summary>
+		/// <param name="_bedrijfId"></param>
+		/// <param name="_werknemerId"></param>
+		/// <exception cref="AfspraakADOException"></exception>
         private IReadOnlyList<Afspraak> GeefHuidigeAfspraken(uint? _bedrijfId, uint? _werknemerId) {
             SqlConnection con = GetConnection();
             /* INFO SELECT
