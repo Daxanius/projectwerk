@@ -1,15 +1,20 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
 	public class AfspraakController : ControllerBase {
 		private readonly AfspraakManager _afspraakManager;
+		private readonly BezoekerManager _bezoekerManager;
+		private readonly WerknemerManager _werknemerManager;
 
-		public AfspraakController(AfspraakManager afspraakManager) {
+		public AfspraakController(AfspraakManager afspraakManager, BezoekerManager bezoekerManager, WerknemerManager werknemerManager) {
 			_afspraakManager = afspraakManager;
+			_bezoekerManager = bezoekerManager;
+			_werknemerManager = werknemerManager;
 		}
 
 		/// <summary>
@@ -77,9 +82,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemer"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public IActionResult MaakAfspraak([FromQuery] Bezoeker bezoeker, [FromQuery] Werknemer werknemer) {
-			if (bezoeker == null || werknemer == null) return BadRequest($"{nameof(bezoeker)} of {nameof(werknemer)} is null");
-
+		public ActionResult<Afspraak> MaakAfspraak([FromQuery] uint bezoekerId, [FromQuery] uint werknemerId) {
 			try {
 				/*
 					Kunnen werknemer en bezoeker ids zijn? Zou dit niet ook beter de afspraak returnen?
@@ -88,9 +91,14 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 					dan is de starttijd ingesteld op de lokale tijd van de server, en niet op de tijd
 					van de client.
 				*/
+
+				// De bezoeker en de werknemer ophalen
+				Bezoeker bezoeker = _bezoekerManager.GeefBezoeker(bezoekerId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+
 				Afspraak afspraak = new(0, DateTime.Now, null, bezoeker, werknemer);
 				_afspraakManager.VoegAfspraakToe(afspraak);
-				return Ok();
+				return afspraak;
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}

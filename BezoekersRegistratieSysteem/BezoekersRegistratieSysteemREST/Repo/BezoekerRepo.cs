@@ -4,6 +4,9 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 namespace BezoekersRegistratieSysteemREST.Repo {
 	// TIJDELIJK
 	public class BezoekerRepo : IBezoekerRepository {
+		private readonly Dictionary<uint, Bezoeker> _bezoekers = new();
+		private uint _lastId = 0;
+
 		public void BestaatBezoeker(Bezoeker bezoeker) {
 			throw new NotImplementedException();
 		}
@@ -13,7 +16,8 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 		}
 
 		public Bezoeker GeefBezoeker(uint id) {
-			throw new NotImplementedException();
+			if (!_bezoekers.ContainsKey(id)) throw new Exception("Bezoeker bestaat niet");
+			return _bezoekers[id];
 		}
 
 		public Bezoeker GeefBezoekerOpNaam(string naam) {
@@ -25,15 +29,17 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 		}
 
 		public void VerwijderBezoeker(uint id) {
-			throw new NotImplementedException();
+			if (!_bezoekers.ContainsKey(id)) throw new Exception("Bezoeker bestaat niet");
+			_bezoekers.Remove(id);
 		}
 
 		public void VoegBezoekerToe(Bezoeker bezoeker) {
-			throw new NotImplementedException();
+			_bezoekers.Add(_lastId++, bezoeker);
 		}
 
 		public void WijzigBezoeker(uint id, Bezoeker bezoeker) {
-			throw new NotImplementedException();
+			if (!_bezoekers.ContainsKey(id)) throw new Exception("Bezoeker bestaat niet");
+			_bezoekers[id] = bezoeker;
 		}
 	}
 }
