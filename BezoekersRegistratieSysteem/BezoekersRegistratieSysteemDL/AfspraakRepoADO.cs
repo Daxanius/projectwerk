@@ -525,7 +525,7 @@ namespace BezoekersRegistratieSysteemDL {
                         cmd.Parameters["@id"].Value = afspraak.Id;
                     } else {
                         query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
-                                 "WHERE bz.Email = @mail";
+                                 "WHERE bz.Email = @mail AND a.eindTijd is null";
                         cmd.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
                         cmd.Parameters["@mail"].Value = afspraak.Bezoeker.Email;
                     }
