@@ -91,5 +91,16 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         public void ZetWerknemer(Werknemer werknemer) {
             Werknemer = werknemer ?? throw new AfspraakException("Afspraak - ZetWerknemer - Werknemer mag niet leeg zijn");
         }
+
+        public bool AfspraakIsGelijk(Afspraak afspraak)
+        {
+            if (afspraak is null) return false;
+            if (afspraak.Id != Id) return false;
+            if (afspraak.Starttijd != Starttijd) return false;
+            if (afspraak.Eindtijd != Eindtijd) return false;
+            if (afspraak.Bezoeker != Bezoeker) return false;
+            if (afspraak.Werknemer != Werknemer) return false;
+            return true;
+        }
     }
 }

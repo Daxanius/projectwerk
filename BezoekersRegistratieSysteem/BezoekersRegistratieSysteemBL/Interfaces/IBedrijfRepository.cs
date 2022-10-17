@@ -5,13 +5,15 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 	/// Bedrijf storage hook
 	/// </summary>
 	public interface IBedrijfRepository {
-		void VoegBedrijfToe(Bedrijf bedrijf);
+		Bedrijf VoegBedrijfToe(Bedrijf bedrijf);
 		void VerwijderBedrijf(uint id);
 		void BewerkBedrijf(uint id, Bedrijf bedrijf);
         
-		void BestaatBedrijf(Bedrijf bedrijf);
-        
-        Bedrijf GetBedrijf(uint id);
+		bool BestaatBedrijf(Bedrijf bedrijf);
+		bool BestaatBedrijf(uint bedrijf);
+        bool BestaatBedrijf(string bedrijfsnaam);
+
+        Bedrijf GeefBedrijf(uint id);
 		IReadOnlyList<Bedrijf> Geefbedrijven();
 		Bedrijf GeefBedrijf(string bedrijfsnaam);
     }
