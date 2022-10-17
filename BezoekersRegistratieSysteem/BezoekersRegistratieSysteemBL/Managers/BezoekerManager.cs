@@ -11,7 +11,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		}
 
 		public void VoegBezoekerToe(Bezoeker bezoeker) {
-			try
+            if (_bezoekerRepository.BestaatBezoeker(bezoeker)) throw new BezoekerManagerException("BezoekerManager - VoegBezoekerToe - bezoeker bestaat al");
+            try
 			{
 				_bezoekerRepository.VoegBezoekerToe(bezoeker);
 			}
@@ -21,10 +22,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             }
         }
 
-		public void VerwijderBezoeker(uint id) {
-			try
+		public void VerwijderBezoeker(Bezoeker bezoeker) {
+            if (!_bezoekerRepository.BestaatBezoeker(bezoeker)) throw new BezoekerManagerException("BezoekerManager - VerwijderBezoeker - bezoeker bestaat niet");
+            try
 			{
-				_bezoekerRepository.VerwijderBezoeker(id);
+				_bezoekerRepository.VerwijderBezoeker(bezoeker.Id);
 			}
             catch (Exception ex)
             {
@@ -34,11 +36,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         
 		public void WijzigBezoeker(Bezoeker bezoeker) {
             if (bezoeker == null) throw new BezoekerManagerException("BezoekerManager - WijzigBezoeker - bezoeker mag niet leeg zijn");
-			try
+            if (!_bezoekerRepository.BestaatBezoeker(bezoeker)) throw new BezoekerManagerException("BezoekerManager - WijzigBezoeker - bezoeker bestaat niet");
+            if (_bezoekerRepository.GeefBezoeker(bezoeker.Id).BezoekerIsGelijk(bezoeker)) throw new BezoekerManagerException("BezoekerManager - WijzigBezoeker - bezoeker is niet gewijzigd");
+            try
 			{
-                //if (!_bezoekerRepo.BestaatBezoeker(bezoeker)) throw new BezoekerManagerException("BezoekerManager - WijzigBezoeker - bezoeker bestaat niet");
-                //if (_bezoekerRepo.GeefBezoeker(bezoeker.Id).BezoekerIsGelijk(bezoeker))
-                _bezoekerRepository.WijzigBezoeker(bezoeker.Id, bezoeker);
+                _bezoekerRepository.WijzigBezoeker(bezoeker);
 			}
             catch (Exception ex)
             {
@@ -47,7 +49,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
 
 		public Bezoeker GeefBezoeker(uint id) {
-			try
+            if (!_bezoekerRepository.BestaatBezoeker(id)) throw new BezoekerManagerException("BezoekerManager - GeefBezoeker - bezoeker bestaat niet");
+            try
 			{
 				return _bezoekerRepository.GeefBezoeker(id);
 			}
@@ -57,12 +60,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             }
         }
         
-		public Bezoeker GeefBezoekerOpNaam(string naam) {
-            if (string.IsNullOrWhiteSpace(naam)) throw new BezoekerManagerException("BezoekerManager - GeefBezoekerOpNaam - naam mag niet leeg zijn");
-			try
+		public IReadOnlyList<Bezoeker> GeefBezoekerOpNaam(string voornaam, string achternaam)
+        {
+            if (string.IsNullOrWhiteSpace(voornaam) || string.IsNullOrWhiteSpace(achternaam)) throw new BezoekerManagerException("BezoekerManager - GeefBezoekerOpNaam - naam mag niet leeg zijn");
+            try
 			{
-				return _bezoekerRepository.GeefBezoekerOpNaam(naam);
-			}
+                return _bezoekerRepository.GeefBezoekerOpNaam(voornaam, achternaam);
+            }
             catch (Exception ex)
             {
                 throw new BezoekerManagerException(ex.Message);
