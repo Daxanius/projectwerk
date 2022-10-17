@@ -169,8 +169,8 @@ namespace BezoekersRegistratieSysteemDL {
             string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
                            "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
                            "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
-                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, w.Email as WerknemerMail " +
-                           "f.FuntieNaam " +
+                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, w.Email as WerknemerMail, " +
+                           "f.FunctieNaam " +
                            "FROM Afspraak a " +
                            "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
                            "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
