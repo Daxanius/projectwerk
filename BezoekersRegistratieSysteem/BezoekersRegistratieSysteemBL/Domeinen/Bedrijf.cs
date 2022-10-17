@@ -15,15 +15,20 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 
 		private readonly List<Werknemer> _werknemers = new List<Werknemer>();
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="naam"></param>
-		/// <param name="btw"></param>
-		/// <param name="telefoonNummer"></param>
-		/// <param name="email"></param>
-		/// <param name="adres"></param>
-		public Bedrijf(string naam, string btw, string telefoonNummer, string email, string adres) {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public Bedrijf() { }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="naam"></param>
+        /// <param name="btw"></param>
+        /// <param name="telefoonNummer"></param>
+        /// <param name="email"></param>
+        /// <param name="adres"></param>
+        public Bedrijf(string naam, string btw, string telefoonNummer, string email, string adres) {
 			ZetNaam(naam);
 			ZetBTW(btw);
 			ZetTelefoonNummer(telefoonNummer);
@@ -31,11 +36,30 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			ZetAdres(adres);
 		}
 
-		/// <summary>
-		/// Past de ID aan
+        /// <summary>
+		/// Constructor
 		/// </summary>
 		/// <param name="id"></param>
-		public void ZetId(uint id) {
+		/// <param name="naam"></param>
+		/// <param name="btw"></param>
+		/// <param name="telefoonNummer"></param>
+		/// <param name="email"></param>
+		/// <param name="adres"></param>
+		public Bedrijf(uint id, string naam, string btw, string telefoonNummer, string email, string adres)
+        {
+			ZetId(id);
+            ZetNaam(naam);
+            ZetBTW(btw);
+            ZetTelefoonNummer(telefoonNummer);
+            ZetEmail(email);
+            ZetAdres(adres);
+        }
+
+        /// <summary>
+        /// Past de ID aan
+        /// </summary>
+        /// <param name="id"></param>
+        public void ZetId(uint id) {
 			Id = id;
 		}
 
@@ -99,20 +123,20 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             Adres = adres;
 		}
 
-		/// <summary>
-		/// Voegt een werknemer toe
-		/// en past de werknemer aan
-		/// </summary>
-		/// <param name="werknemer"></param>
-		/// <exception cref="BedrijfException"></exception>
-		public void VoegWerknemerToe(Werknemer werknemer) {
+        /// <summary>
+        /// Voegt een werknemer toe
+        /// en past de werknemer aan
+        /// </summary>
+        /// <param name="werknemer"></param>
+        /// <param name="functie"></param>
+        /// <exception cref="BedrijfException"></exception>
+        public void VoegWerknemerToe(Werknemer werknemer, string functie) {
             if (werknemer == null) throw new BedrijfException("Bedrijf - VoegWerknemerToe - werknemer mag niet leeg zijn");
-            if (_werknemers.Contains(werknemer)) throw new BedrijfException("Bedrijf - VoegWerknemerToe - werknemer bestaat al");
+            if (string.IsNullOrWhiteSpace(functie)) throw new BedrijfException("Bedrijf - VoegWerknemerToe - functie mag niet leeg zijn");
 
-            // ZetBedrijf voert al de nodige controles uit om het
-            // vorige bedrijf te vervangen door dit bedrijf
+            // VoegBedrijfEnFunctieToe voert al de nodige controles uit om het
             _werknemers.Add(werknemer);
-			werknemer.ZetBedrijf(this);
+			werknemer.VoegBedrijfEnFunctieToe(this, functie);
 		}
 
 		/// <summary>

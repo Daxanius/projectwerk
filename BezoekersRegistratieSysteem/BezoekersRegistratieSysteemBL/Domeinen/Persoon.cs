@@ -10,23 +10,43 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public string Achternaam { get; private set; }
 		public string Email { get; private set; }
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="voornaam"></param>
-		/// <param name="achternaam"></param>
-		/// <param name="email"></param>
-		public Persoon(string voornaam, string achternaam, string email) {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public Persoon() { }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="voornaam"></param>
+        /// <param name="achternaam"></param>
+        /// <param name="email"></param>
+        public Persoon(string voornaam, string achternaam, string email) {
 			ZetVoornaam(voornaam);
 			ZetAchternaam(achternaam);
 			ZetEmail(email);
 		}
 
-		/// <summary>
-		/// Past de ID aan
-		/// </summary>
+        /// <summary>
+        /// Constructor
+        /// </summary>
 		/// <param name="id"></param>
-		public void ZetId(uint id) {
+        /// <param name="voornaam"></param>
+        /// <param name="achternaam"></param>
+        /// <param name="email"></param>
+        public Persoon(uint id, string voornaam, string achternaam, string email)
+        {
+            ZetId(id);
+            ZetVoornaam(voornaam);
+            ZetAchternaam(achternaam);
+            ZetEmail(email);
+        }
+
+        /// <summary>
+        /// Past de ID aan
+        /// </summary>
+        /// <param name="id"></param>
+        public void ZetId(uint id) {
 			Id = id;
 		}
 

@@ -8,6 +8,9 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void VoegWerknemerToe(Werknemer werknemer);
 		void VerwijderWerknemer(uint id);
 		void WijzigWerknemer(uint id, Werknemer werknemer);
+
+		void BestaatWerknemer(Werknemer werknemer);
+        
         Werknemer GeefWerknemer(uint id);
         IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string naam);
 		IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(uint id);

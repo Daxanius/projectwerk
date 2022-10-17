@@ -8,6 +8,9 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void VoegBedrijfToe(Bedrijf bedrijf);
 		void VerwijderBedrijf(uint id);
 		void BewerkBedrijf(uint id, Bedrijf bedrijf);
+        
+		void BestaatBedrijf(Bedrijf bedrijf);
+        
         Bedrijf GetBedrijf(uint id);
 		IReadOnlyList<Bedrijf> Geefbedrijven();
 		Bedrijf GeefBedrijf(string bedrijfsnaam);

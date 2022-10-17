@@ -10,34 +10,85 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			this._bezoekerRepository = bezoekerRepository;
 		}
 
-		public void VoegBezoekerToe(string voornaam, string achternaam, string email, string bedrijf) {
-			Bezoeker bezoeker = new(voornaam, achternaam, email, bedrijf);
-			_bezoekerRepository.VoegBezoekerToe(bezoeker);
-		}
+		public void VoegBezoekerToe(Bezoeker bezoeker) {
+			try
+			{
+				_bezoekerRepository.VoegBezoekerToe(bezoeker);
+			}
+            catch (Exception ex)
+            {
+                throw new BezoekerManagerException(ex.Message);
+            }
+        }
 
 		public void VerwijderBezoeker(uint id) {
-			_bezoekerRepository.VerwijderBezoeker(id);
-		}
+			try
+			{
+				_bezoekerRepository.VerwijderBezoeker(id);
+			}
+            catch (Exception ex)
+            {
+                throw new BezoekerManagerException(ex.Message);
+            }
+        }
+        
 		public void WijzigBezoeker(Bezoeker bezoeker) {
             if (bezoeker == null) throw new BezoekerManagerException("BezoekerManager - WijzigBezoeker - bezoeker mag niet leeg zijn");
-            _bezoekerRepository.WijzigBezoeker(bezoeker.Id, bezoeker);
-		}
+			try
+			{
+                //if (!_bezoekerRepo.BestaatBezoeker(bezoeker)) throw new BezoekerManagerException("BezoekerManager - WijzigBezoeker - bezoeker bestaat niet");
+                //if (_bezoekerRepo.GeefBezoeker(bezoeker.Id).BezoekerIsGelijk(bezoeker))
+                _bezoekerRepository.WijzigBezoeker(bezoeker.Id, bezoeker);
+			}
+            catch (Exception ex)
+            {
+                throw new BezoekerManagerException(ex.Message);
+            }
+        }
 
 		public Bezoeker GeefBezoeker(uint id) {
-            return _bezoekerRepository.GeefBezoeker(id);
+			try
+			{
+				return _bezoekerRepository.GeefBezoeker(id);
+			}
+            catch (Exception ex)
+            {
+                throw new BezoekerManagerException(ex.Message);
+            }
         }
         
 		public Bezoeker GeefBezoekerOpNaam(string naam) {
             if (string.IsNullOrWhiteSpace(naam)) throw new BezoekerManagerException("BezoekerManager - GeefBezoekerOpNaam - naam mag niet leeg zijn");
-            return _bezoekerRepository.GeefBezoekerOpNaam(naam);
-		}
+			try
+			{
+				return _bezoekerRepository.GeefBezoekerOpNaam(naam);
+			}
+            catch (Exception ex)
+            {
+                throw new BezoekerManagerException(ex.Message);
+            }
+        }
 
 		public IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers() {
-			return _bezoekerRepository.GeefAanwezigeBezoekers();
-		}
+			try
+			{
+				return _bezoekerRepository.GeefAanwezigeBezoekers();
+			}
+            catch (Exception ex)
+            {
+                throw new BezoekerManagerException(ex.Message);
+            }
+        }
 
 		public IReadOnlyList<Bezoeker> GeefBezoekersOpDatum(DateTime datum) {
-			return _bezoekerRepository.GeefBezoekersOpDatum(datum);
-		}
+			try
+			{
+				return _bezoekerRepository.GeefBezoekersOpDatum(datum);
+			}
+            catch (Exception ex)
+            {
+                throw new BezoekerManagerException(ex.Message);
+            }
+        }
 	}
 }
