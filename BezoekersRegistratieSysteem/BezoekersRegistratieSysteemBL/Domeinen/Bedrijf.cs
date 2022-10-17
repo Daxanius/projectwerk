@@ -17,16 +17,20 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 
 		private readonly List<Werknemer> _werknemers = new List<Werknemer>();
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="naam"></param>
-		/// <param name="btw"></param>
-		/// <param name="telefoonNummer"></param>
-		/// <param name="email"></param>
-		/// <param name="adres"></param>
-		public Bedrijf(string naam, string btw, string telefoonNummer, string email, string adres)
-		{
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public Bedrijf() { }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="naam"></param>
+        /// <param name="btw"></param>
+        /// <param name="telefoonNummer"></param>
+        /// <param name="email"></param>
+        /// <param name="adres"></param>
+        public Bedrijf(string naam, string btw, string telefoonNummer, string email, string adres) {
 			ZetNaam(naam);
 			ZetBTW(btw);
 			ZetTelefoonNummer(telefoonNummer);
@@ -34,12 +38,30 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			ZetAdres(adres);
 		}
 
-		/// <summary>
-		/// Past de ID aan
+        /// <summary>
+		/// Constructor
 		/// </summary>
 		/// <param name="id"></param>
-		public void ZetId(uint id)
-		{
+		/// <param name="naam"></param>
+		/// <param name="btw"></param>
+		/// <param name="telefoonNummer"></param>
+		/// <param name="email"></param>
+		/// <param name="adres"></param>
+		public Bedrijf(uint id, string naam, string btw, string telefoonNummer, string email, string adres)
+        {
+			ZetId(id);
+            ZetNaam(naam);
+            ZetBTW(btw);
+            ZetTelefoonNummer(telefoonNummer);
+            ZetEmail(email);
+            ZetAdres(adres);
+        }
+
+        /// <summary>
+        /// Past de ID aan
+        /// </summary>
+        /// <param name="id"></param>
+        public void ZetId(uint id) {
 			Id = id;
 		}
 
@@ -48,11 +70,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="naam"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetNaam(string naam)
-		{
-			if (string.IsNullOrWhiteSpace(naam))
-				throw new BedrijfException("Naam mag niet leeg zijn");
-			Naam = naam;
+		public void ZetNaam(string naam) {
+            if (string.IsNullOrWhiteSpace(naam)) throw new BedrijfException("Bedrijf - Zetnaam - naam mag niet leeg zijn");
+            Naam = naam;
 		}
 
 		/// <summary>
@@ -61,11 +81,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="btw"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetBTW(string btw)
-		{
-			if (string.IsNullOrWhiteSpace(btw))
-				throw new BedrijfException("BTW mag niet leeg zijn");
-			BTW = btw;
+		public void ZetBTW(string btw) {
+            if (string.IsNullOrWhiteSpace(btw)) throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
+            BTW = btw;
 		}
 
 		/// <summary>
@@ -74,11 +92,13 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="telefoonNummer"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetTelefoonNummer(string telefoonNummer)
-		{
-			if (string.IsNullOrWhiteSpace(telefoonNummer))
-				throw new BedrijfException("Telefoonnummer mag niet leeg zijn");
-			TelefoonNummer = telefoonNummer; //TODO: Controlleren of het nummer een max aantal cijfers heeft
+		public void ZetTelefoonNummer(string telefoonNummer) {
+            if (string.IsNullOrWhiteSpace(telefoonNummer)) throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet leeg zijn");
+            //Een telefoonnummer kan maximaal 15 cijfers bevatten. Het eerste deel van het telefoonnummer is de landcode (een tot drie cijfers),
+			//Het tweede deel is de nationale bestemmingscode (NDC),
+			//Het laatste deel is het abonneenummer (SN).
+            if (telefoonNummer.Length > 15) throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet langer zijn dan 15 karakters");
+            TelefoonNummer = telefoonNummer;
 		}
 
 		/// <summary>
@@ -87,16 +107,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="email"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetEmail(string email)
-		{
-			if (string.IsNullOrWhiteSpace(email))
-				throw new BedrijfException("Email mag niet leeg zijn");
-			//Checkt of email geldig is
-			if (Nutsvoorziening.IsEmailGeldig(email))
-				Email = email.Trim();
-			else
-				throw new BedrijfException("Email is niet geldig");
-		}
+		public void ZetEmail(string email) {
+            if (string.IsNullOrWhiteSpace(email)) throw new BedrijfException("Bedrijf - ZetEmail - email mag niet leeg zijn");
+            //Checkt of email geldig is
+            if (Nutsvoorziening.IsEmailGeldig(email)) Email = email.Trim();
+            else throw new BedrijfException("Bedrijf - ZetEmail - email is niet geldig");
+        }
 
 		/// <summary>
 		/// Past het adres aan,
@@ -104,30 +120,25 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="adres"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetAdres(string adres)
-		{
-			if (string.IsNullOrWhiteSpace(adres))
-				throw new BedrijfException("Adres mag niet leeg zijn");
-			Adres = adres;
+		public void ZetAdres(string adres) {
+            if (string.IsNullOrWhiteSpace(adres)) throw new BedrijfException("Bedrijf - ZetAdres - adres mag niet leeg zijn");
+            Adres = adres;
 		}
 
-		/// <summary>
-		/// Voegt een werknemer toe
-		/// en past de werknemer aan
-		/// </summary>
-		/// <param name="werknemer"></param>
-		/// <exception cref="BedrijfException"></exception>
-		public void VoegWerknemerToe(Werknemer werknemer)
-		{
-			if (werknemer == null)
-				throw new BedrijfException("Werknemer mag niet leeg zijn");
-			if (_werknemers.Contains(werknemer))
-				throw new BedrijfException("Werknemer bestaat al");
+        /// <summary>
+        /// Voegt een werknemer toe
+        /// en past de werknemer aan
+        /// </summary>
+        /// <param name="werknemer"></param>
+        /// <param name="functie"></param>
+        /// <exception cref="BedrijfException"></exception>
+        public void VoegWerknemerToeInBedrijf(Werknemer werknemer, string functie) {
+            if (werknemer == null) throw new BedrijfException("Bedrijf - VoegWerknemerToe - werknemer mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(functie)) throw new BedrijfException("Bedrijf - VoegWerknemerToe - functie mag niet leeg zijn");
 
-			// ZetBedrijf voert al de nodige controles uit om het
-			// vorige bedrijf te vervangen door dit bedrijf
-			_werknemers.Add(werknemer);
-			werknemer.ZetBedrijf(this);
+            // VoegBedrijfEnFunctieToe voert al de nodige controles uit om het
+            _werknemers.Add(werknemer);
+			werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, functie);
 		}
 
 		/// <summary>
@@ -135,17 +146,28 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="werknemer"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void VerwijderWerknemer(Werknemer werknemer)
-		{
-			if (werknemer == null)
-				throw new BedrijfException("Werknemer mag niet leeg zijn");
-			if (!_werknemers.Contains(werknemer))
-				throw new BedrijfException("Werknemer bestaat niet");
-			werknemer.VerwijderBedrijf();
-
-			// Is dit werkelijk nodig? Kan een werknemer zonder een bedrijf zitten?
+		public void VerwijderWerknemerUitBedrijf(Werknemer werknemer) {
+            if (werknemer == null) throw new BedrijfException("Bedrijf - VerwijderWerknemer - werknemer mag niet leeg zijn");
+            if (!_werknemers.Contains(werknemer)) throw new BedrijfException("Bedrijf - VerwijderWerknemer - werknemer bestaat niet");
 			_werknemers.Remove(werknemer);
-		}
+            werknemer.VerwijderBedrijfVanWerknemer(this);
+        }
+
+        public bool BedrijfIsGelijk(Bedrijf bedrijf)
+		{
+            if (bedrijf == null) return false;
+            if (Id != bedrijf.Id) return false;
+            if (Naam != bedrijf.Naam) return false;
+            if (BTW != bedrijf.BTW) return false;
+            if (TelefoonNummer != bedrijf.TelefoonNummer) return false;
+            if (Email != bedrijf.Email) return false;
+            if (Adres != bedrijf.Adres) return false;
+			foreach (Werknemer werknemer in _werknemers)
+			{
+                if (!bedrijf._werknemers.Contains(werknemer)) return false;
+            }
+            return true;
+        }
 
 		public IReadOnlyList<Werknemer> GeefWerknemers()
 		{

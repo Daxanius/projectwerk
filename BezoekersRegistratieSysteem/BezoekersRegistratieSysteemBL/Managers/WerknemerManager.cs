@@ -7,48 +7,83 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		private readonly IWerknemerRepository _werknemerRepository;
 
 		public WerknemerManager(IWerknemerRepository werknemerRepository) {
-			this._werknemerRepository = werknemerRepository;
-		}
+            this._werknemerRepository = werknemerRepository;
+        }
 
-		public void VoegWerknemerToe(string voornaam, string achternaam, string email, Bedrijf bedrijf, string functie) {
-			Werknemer werknemer = new(voornaam, achternaam, email, bedrijf, functie);
-			_werknemerRepository.VoegWerknemerToe(werknemer);
-		}
+		public Werknemer VoegWerknemerToe(Werknemer werknemer) {
+            if (werknemer == null) throw new WerknemerManagerException("WerknemerManager - VoegWerknemerToe - werknemer mag niet leeg zijn");
+            if (_werknemerRepository.BestaatWerknemer(werknemer)) throw new WerknemerManagerException("WerknemerManager - VoegWerknemerToe - werknemer bestaat al");
+            try
+			{
+				return _werknemerRepository.VoegWerknemerToe(werknemer);
+			}
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
 
-		public void VerwijderWerknemer(uint id) {
-			_werknemerRepository.VerwijderWerknemer(id);
+		public void VerwijderWerknemer(Werknemer werknemer) {
+            if (werknemer == null) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemer - werknemer mag niet leeg zijn");
+            if (!_werknemerRepository.BestaatWerknemer(werknemer)) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemer - werknemer bestaat niet");
+            try
+			{
+				_werknemerRepository.VerwijderWerknemer(werknemer.Id);
+			}
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
 		}
+        
+		public void WijzigWerknemer(Werknemer werknemer) {
+            if (werknemer == null) throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer mag niet leeg zijn");
+            if (!_werknemerRepository.BestaatWerknemer(werknemer)) throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer bestaat niet");
+            if (_werknemerRepository.GeefWerknemer(werknemer.Id).WerknemerIsGelijk(werknemer)) throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer bestaat niet");
+            try
+			{
+				_werknemerRepository.WijzigWerknemer(werknemer);
+			}
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
 
 		public Werknemer GeefWerknemer(uint id) {
-			// TODO: Geef werknemer op ID
-			throw new NotImplementedException();
-		}
+            if (!_werknemerRepository.BestaatWerknemer(id)) throw new WerknemerManagerException("WerknemerManager - GeefWerknemer - werknemer bestaat niet");
+            try
+			{
+				return _werknemerRepository.GeefWerknemer(id);
+			}
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
 
-		public void WijzigWerknemer(Werknemer werknemer) {
-			if (werknemer == null) throw new WerknemerManagerException("Werknemer mag niet leeg zijn");
-			_werknemerRepository.WijzigWerknemer(werknemer.Id, werknemer);
-		}
-
-		//We need to solve this.... possibly idk... send help
-		//public IReadOnlyList<Werknemer> GeefAanwezigeWerknemers()
-		//{
-		//    return _werknemerRepository.GeefAanwezigeWerknemers();
-		//}
-
-		public Werknemer GeefWerknemerOpNaam(string naam) {
-			if (string.IsNullOrWhiteSpace(naam)) throw new WerknemerManagerException("Naam mag niet leeg zijn");
-			return _werknemerRepository.GeefWerknemerOpNaam(naam);
-		}
+		public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam) {
+            if (string.IsNullOrWhiteSpace(voornaam) || string.IsNullOrWhiteSpace(achternaam)) throw new WerknemerManagerException("WerknemerManager - GeefWerknemerOpNaam - naam mag niet leeg zijn");
+            try
+			{
+				return _werknemerRepository.GeefWerknemersOpNaam(voornaam, achternaam);
+			}
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
 
 		public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(Bedrijf bedrijf) {
-			if (bedrijf == null) throw new WerknemerManagerException("Bedrijf mag niet leeg zijn");
-			return _werknemerRepository.GeefWerknemersPerBedrijf(bedrijf.Id);
-		}
-
-		public IReadOnlyList<Werknemer> GeefWerknemersPerFunctie(string functie) {
-			//Wildcard
-			if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerManagerException("Functie mag niet leeg zijn");
-			return _werknemerRepository.GeefWerknemersPerFunctie(functie);
-		}
+            if (bedrijf == null) throw new WerknemerManagerException("WerknemerManager - GeefWerknemersPerBedrijf - bedrijf mag niet leeg zijn");
+			try
+			{
+				return _werknemerRepository.GeefWerknemersPerBedrijf(bedrijf.Id);
+			}
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
 	}
 }
