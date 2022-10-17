@@ -10,24 +10,77 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemDL {
+    //ELKE QUERY MOET NOG GETEST WORDEN
+    //CONTROLES OP STATUS OP BEPAALDE ZAKEN?
+    /// <summary>
+	/// ADO van afspraak
+	/// </summary>
     public class AfspraakRepoADO : IAfspraakRepository {
         private string _connectieString;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="connectieString"></param>
         public AfspraakRepoADO(string connectieString) {
             _connectieString = connectieString;
         }
+
+        /// <summary>
+		/// Maakt connectie met databank
+		/// </summary>
         private SqlConnection GetConnection() {
             return new SqlConnection(_connectieString);
         }
-        //ELKE QUERY MOET NOG GETEST WORDEN
-        //CONTROLES OP STATUS OP BEPAALDE ZAKEN?
-        public void BeeindigAfspraakBezoeker(uint id) {
-            throw new NotImplementedException();
+
+        /// <summary>
+		/// Beindig afspraak
+		/// </summary>
+		/// <param name="afspraakId"></param>
+		/// <exception cref="AfspraakADOException"></exception>
+        public void BeeindigAfspraakBezoeker(uint afspraakId) {
+            try {
+                BeeindigAfspraak(afspraakId, 3);
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraakBezoeker {ex.Message}", ex);
+                exx.Data.Add("afspraakId", afspraakId);
+                throw exx;
+            }
+        }
+        /// <summary>
+		/// Beindig afspraak
+		/// </summary>
+		/// <param name="afspraakId"></param>
+		/// <exception cref="AfspraakADOException"></exception>
+        public void BeeindigAfspraakSysteem(uint afspraakId) {
+            try {
+                BeeindigAfspraak(afspraakId, 4);
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraakSysteem {ex.Message}", ex);
+                exx.Data.Add("afspraakId", afspraakId);
+                throw exx;
+            }
         }
 
-        public void BeeindigAfspraakSysteem(uint id) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// verwijder afspraak
+        /// </summary>
+        /// <param name="afspraakId"></param>
+        /// <exception cref="AfspraakADOException"></exception>
+        public void VerwijderAfspraak(uint afspraakId) {
+            try {
+                BeeindigAfspraak(afspraakId, 2);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"AfspraakRepoADO: VerwijderAfspraak {ex.Message}", ex);
+            }
         }
+
+        /// <summary>
+		/// Beindig afspraak
+		/// </summary>
+		/// <param name="afspraakId"></param>
+		/// <param name="statusId"></param>
+		/// <exception cref="AfspraakADOException"></exception>
         private void BeeindigAfspraak(uint afspraakId, int statusId) {
             SqlConnection con = GetConnection();
             //TEMP prob gonna get split, set this private and change 2 to @status
@@ -52,13 +105,12 @@ namespace BezoekersRegistratieSysteemDL {
                 con.Close();
             }
         }
-        public void VerwijderAfspraak(uint afspraakId) {
-            try {
-                BeeindigAfspraak(afspraakId, 2);
-            } catch (Exception ex) {
-                throw new AfspraakADOException($"AfspraakRepoADO: VerwijderAfspraak {ex.Message}", ex);
-            }
-        }
+
+        /// <summary>
+		/// bewerk afspraak
+		/// </summary>
+		/// <param name="afspraak"></param>
+		/// <exception cref="AfspraakADOException"></exception>
         public void BewerkAfspraak(Afspraak afspraak) {
             SqlConnection con = GetConnection();
             string query = "UPDATE Afspraak " +
