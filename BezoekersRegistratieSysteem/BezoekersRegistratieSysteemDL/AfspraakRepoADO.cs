@@ -216,8 +216,9 @@ namespace BezoekersRegistratieSysteemDL {
                         string werknemerMail = (string)reader["WerknemerMail"];
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
-
-                        //afspraak = new Afspraak();
+                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam, werknemerMail);
+                        werknemer.VoegBedrijfEnFunctieToe(new Bedrijf(bedrijfId,bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr,bedrijfMail, bedrijfAdres),functieNaam);
+                        afspraak = new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId,bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
                     }
                     return afspraak;
                 }
@@ -242,14 +243,90 @@ namespace BezoekersRegistratieSysteemDL {
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+		/// Geeft lijst van huidige Afspraken
+		/// </summary>
+		/// <exception cref="AfspraakADOException"></exception>
         public IReadOnlyList<Afspraak> GeefHuidigeAfspraken() {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            /* INFO SELECT
+             * Afspraak
+             * Bezoeker
+             * Bedrijf
+             * Werknemer
+             * Functie Medewerker
+             */
+            string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
+                           "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
+                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
+                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, w.Email as WerknemerMail, " +
+                           "f.FunctieNaam " +
+                           "FROM Afspraak a " +
+                           "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
+                           "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
+                           "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
+                           "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
+                           "JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "WHERE a.AfspraakStatusId = 1";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+                    IDataReader reader = cmd.ExecuteReader();
+                    List<Afspraak> afspraken = new List<Afspraak>();
+                    while (reader.Read()) {
+                        //Afspraak portie
+                        DateTime start = (DateTime)reader["StartTijd"];
+                        DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
+                        //bezoeker portie
+                        uint bezoekerId = (uint)reader["BezoekerId"];
+                        string bezoekerAnaam = (string)reader["BezoekerANaam"];
+                        string bezoekerVnaam = (string)reader["BezoekerVNaam"];
+                        string bezoekerMail = (string)reader["BezoekerMail"];
+                        string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
+                        //bedrijf portie
+                        uint bedrijfId = (uint)reader["BedrijfId"];
+                        string bedrijfNaam = (string)reader["BedrijfNaam"];
+                        string bedrijfBTWNr = (string)reader["BTWNr"];
+                        string bedrijfTeleNr = (string)reader["TeleNr"];
+                        string bedrijfMail = (string)reader["BedrijfEmail"];
+                        string bedrijfAdres = (string)reader["BedrijfAdres"];
+                        //werknemer portie
+                        uint werknemerId = (uint)reader["WerknemerId"];
+                        string werknemerANaam = (string)reader["WerknemerANaam"];
+                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                        string werknemerMail = (string)reader["WerknemerMail"];
+                        //functie portie
+                        string functieNaam = (string)reader["FuntieNaam"];
+
+                        //afspraak = new Afspraak();
+                    }
+                    return afspraken;
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfspraken {ex.Message}", ex);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
+        /// <summary>
+		/// Geeft lijst van huidige Afspraken per bedrijf
+		/// </summary>
+		/// <param name="afspraak"></param>
+		/// <exception cref="AfspraakADOException"></exception>
         public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint bedrijfId) {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+		/// Geeft lijst van huidige Afspraken per werknemer
+		/// </summary>
+		/// <param name="afspraak"></param>
+		/// <exception cref="AfspraakADOException"></exception>
         public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId) {
             throw new NotImplementedException();
         }
