@@ -83,11 +83,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpPost]
 		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] Werknemer werknemer) {
 			if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
-			if (werknemer.Bedrijf == null) return BadRequest($"{nameof(werknemer.Bedrijf)} is null");
 
 			try {
 				// Bedrijf is mogelijks null, maar VoegWerknemerToe heeft een bedrijf nodig, kan dit aangepast worden?
-				_werknemerManager.VoegWerknemerToe(werknemer.Voornaam, werknemer.Achternaam, werknemer.Email, werknemer.Bedrijf, werknemer.Functie);
+				_werknemerManager.VoegWerknemerToe(werknemer);
 				return werknemer;
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);

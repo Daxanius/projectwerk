@@ -4,11 +4,15 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 namespace BezoekersRegistratieSysteemREST.Repo {
 	// TIJDELIJK
 	public class AfspraakRepo : IAfspraakRepository {
-		public void BeeindigAfspraak(uint id) {
+		public void BeeindigAfspraakBezoeker(uint id) {
 			throw new NotImplementedException();
 		}
 
-		public void BewerkAfspraak(uint id) {
+		public void BeeindigAfspraakSysteem(uint id) {
+			throw new NotImplementedException();
+		}
+
+		public void BestaatAfspraak(Afspraak afspraak) {
 			throw new NotImplementedException();
 		}
 
@@ -16,7 +20,7 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			throw new NotImplementedException();
 		}
 
-		public Afspraak GeefAfspraakOpId(uint afspraakid) {
+		public Afspraak GeefAfspraak(uint afspraakid) {
 			throw new NotImplementedException();
 		}
 
@@ -28,11 +32,7 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			throw new NotImplementedException();
 		}
 
-		public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDatum(uint id, DateTime datum) {
-			throw new NotImplementedException();
-		}
-
-		public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(uint id) {
+		public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(uint werknemerId) {
 			throw new NotImplementedException();
 		}
 
@@ -40,15 +40,15 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			throw new NotImplementedException();
 		}
 
-		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint id) {
+		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint bedrijfId) {
 			throw new NotImplementedException();
 		}
 
-		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint id) {
+		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId) {
 			throw new NotImplementedException();
 		}
 
-		public void VerwijderAfspraak(uint id) {
+		public void VerwijderAfspraak(uint afspraakId) {
 			throw new NotImplementedException();
 		}
 

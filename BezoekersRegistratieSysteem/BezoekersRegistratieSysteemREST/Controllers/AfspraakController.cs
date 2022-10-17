@@ -88,7 +88,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 					dan is de starttijd ingesteld op de lokale tijd van de server, en niet op de tijd
 					van de client.
 				*/
-				_afspraakManager.MaakAfspraak(DateTime.Now, bezoeker, werknemer);
+				Afspraak afspraak = new(0, DateTime.Now, null, bezoeker, werknemer);
+				_afspraakManager.VoegAfspraakToe(afspraak);
 				return Ok();
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
@@ -106,7 +107,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			if (afspraak == null) return BadRequest($"{nameof(afspraak)} is null");
 
 			try {
-				_afspraakManager.BeeindigAfspraak(afspraak);
+				_afspraakManager.BeeindigAfspraakBezoeker(afspraak);
 				return Ok();
 			} catch (Exception ex) {
 				return NotFound(ex.Message);

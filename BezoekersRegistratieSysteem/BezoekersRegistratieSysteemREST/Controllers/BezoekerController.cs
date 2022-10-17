@@ -84,7 +84,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			if (bezoeker == null) return BadRequest($"{nameof(bezoeker)} is null");
 
 			try {
-				_bezoekerManager.VoegBezoekerToe(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
+				_bezoekerManager.VoegBezoekerToe(bezoeker);
 				return bezoeker;
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);

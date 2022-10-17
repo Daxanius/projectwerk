@@ -6,9 +6,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
 	public class BedrijfController : ControllerBase {
-		private readonly BedrijfsManager _bedrijfManager;
+		private readonly BedrijfManager _bedrijfManager;
 
-		public BedrijfController(BedrijfsManager afspraakManager) {
+		public BedrijfController(BedrijfManager afspraakManager) {
 			_bedrijfManager = afspraakManager;
 		}
 
@@ -76,7 +76,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			if (bedrijf == null) return BadRequest($"{nameof(bedrijf)} is null");
 
 			try {
-				_bedrijfManager.VoegBedrijfToe(bedrijf.Naam, bedrijf.BTW, bedrijf.Adres, bedrijf.Email, bedrijf.TelefoonNummer);
+				_bedrijfManager.VoegBedrijfToe(bedrijf);
 				return bedrijf;
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);

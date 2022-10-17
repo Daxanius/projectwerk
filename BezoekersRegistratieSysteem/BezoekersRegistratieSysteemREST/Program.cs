@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 // Alle managers als singleton toevoegen
 // dit omdat de API interract met de managers
 // WAARCHUWING: DE REPOS ZIJN TIJDELIJK, MOETEN VERVANGEN WORDEN DOOR DB
-builder.Services.AddSingleton(new BedrijfsManager(new BedrijfRepo()));
+builder.Services.AddSingleton(new BedrijfManager(new BedrijfRepo()));
 builder.Services.AddSingleton(new AfspraakManager(new AfspraakRepo()));
 builder.Services.AddSingleton(new BezoekerManager(new BezoekerRepo()));
 builder.Services.AddSingleton(new WerknemerManager(new WerknemerRepo()));

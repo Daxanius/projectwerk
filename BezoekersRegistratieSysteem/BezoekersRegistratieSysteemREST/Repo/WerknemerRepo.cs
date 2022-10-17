@@ -4,15 +4,19 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 namespace BezoekersRegistratieSysteemREST.Repo {
 	// TIJDELIJK
 	public class WerknemerRepo : IWerknemerRepository {
-		public Werknemer GeefWerknemerOpNaam(string naam) {
+		public void BestaatWerknemer(Werknemer werknemer) {
+			throw new NotImplementedException();
+		}
+
+		public Werknemer GeefWerknemer(uint id) {
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string naam) {
 			throw new NotImplementedException();
 		}
 
 		public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(uint id) {
-			throw new NotImplementedException();
-		}
-
-		public IReadOnlyList<Werknemer> GeefWerknemersPerFunctie(string functie) {
 			throw new NotImplementedException();
 		}
 

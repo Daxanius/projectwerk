@@ -4,7 +4,15 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 namespace BezoekersRegistratieSysteemREST.Repo {
 	// TIJDELIJK
 	public class BezoekerRepo : IBezoekerRepository {
+		public void BestaatBezoeker(Bezoeker bezoeker) {
+			throw new NotImplementedException();
+		}
+
 		public IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers() {
+			throw new NotImplementedException();
+		}
+
+		public Bezoeker GeefBezoeker(uint id) {
 			throw new NotImplementedException();
 		}
 
