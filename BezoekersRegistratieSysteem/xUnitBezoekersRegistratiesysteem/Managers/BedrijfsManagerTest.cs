@@ -1,53 +1,89 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
-using BezoekersRegistratieSysteemBL.Interfaces;
+﻿//using BezoekersRegistratieSysteemBL.Domeinen;
+//using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
+//using BezoekersRegistratieSysteemBL.Interfaces;
+//using xUnitBezoekersRegistratiesysteem.DummyData.Repos;
 
-namespace BezoekersRegistratieSysteemBL.Managers {
-    public class BedrijfsManagerTest {
-        private readonly Dictionary<uint, Bedrijf> _bedrijven = new();
+//namespace BezoekersRegistratieSysteemBL.Managers
+//{
+//	public class BedrijfsManagerTest
+//	{
+//		private readonly IBedrijfRepository _bedrijfRepository;
 
-        private readonly IBedrijfRepository _bedrijfRepository;
+//		private readonly Bezoeker validBezoeker;
+//		private readonly DateTime validStarttijd;
+//		private readonly DateTime validEindtijd;
+//		private readonly Afspraak validAfspraak;
+//		private readonly Werknemer validWerknemer;
+//		private readonly Bedrijf validBedrijf;
 
-        public BedrijfsManagerTest(IBedrijfRepository bedrijfRepository) {
-            this._bedrijfRepository = bedrijfRepository;
-        }
+//		public BedrijfsManagerTest(IBedrijfRepository bedrijfRepository)
+//		{
+//			this._bedrijfRepository = bedrijfRepository;
 
-        public void VoegBedrijfToe(string naam, string btw, string adres, string email, string telefoonnummer) {
-            Bedrijf bedrijf = new(naam, btw, adres, email, telefoonnummer);
-            if (_bedrijven.ContainsKey(bedrijf.Id)) throw new BedrijfManagerException("Bedrijf bestaat al");
-            _bedrijven.Add(bedrijf.Id, bedrijf);
-            _bedrijfRepository.VoegBedrijfToe(bedrijf);
-        }
+//			validBezoeker = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: "Artevelde");
+//			validStarttijd = DateTime.Now;
+//			validEindtijd = DateTime.Now.AddHours(8);
+//			validBedrijf = new(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
+//			validWerknemer = new(voornaam: "wout", achternaam: "balding", email: "wout@gmail.com", bedrijf: validBedrijf, functie: "CEO");
+//			validAfspraak = new Afspraak(starttijd: validStarttijd, bezoeker: validBezoeker, werknemer: validWerknemer);
 
-        public void VerwijderBedrijf(uint id) {
-            if (!_bedrijven.ContainsKey(id)) throw new BedrijfManagerException("Bedrijf bestaat niet");
-            _bedrijven.Remove(id);
-            _bedrijfRepository.VerwijderBedrijf(id);
-        }
+//			_bedrijfRepository = new DummyBedrijfsRepository();
+//		}
 
-        public Bedrijf GeefBedrijf(uint id) {
-            if (!_bedrijven.ContainsKey(id)) throw new BedrijfManagerException("Bedrijf bestaat niet");
-            return _bedrijven[id];
-        }
+//		public void VoegBedrijfToe()
+//		{
+//			List<Bedrijf> bedrijven = _bedrijfRepository.GeefBedrijven().ToList();
 
-        public void BewerkBedrijf(Bedrijf bedrijf) {
-            if (bedrijf == null) throw new BedrijfManagerException("Bedrijf mag niet leeg zijn");
-            if (!_bedrijven.ContainsKey(bedrijf.Id)) throw new BedrijfManagerException("Bedrijf bestaat niet");
-            _bedrijven.Remove(bedrijf.Id);
-            _bedrijven.Add(bedrijf.Id, bedrijf);
-            _bedrijfRepository.WijzigBedrijf(bedrijf.Id, bedrijf);
-        }
+//			Assert.DoesNotContain(validBedrijf, bedrijven);
 
-        public IEnumerable<Bedrijf> Geefbedrijven() {
-            return _bedrijven.Values;
-        }
+//			_bedrijfRepository.VoegBedrijfToe(validBedrijf);
 
-        public Bedrijf GeefBedrijf(string bedrijfsnaam) {
-            if (string.IsNullOrWhiteSpace(bedrijfsnaam)) throw new BedrijfManagerException("Bedrijfsnaam mag niet leeg zijn");
-            foreach (Bedrijf bedrijf in _bedrijven.Values) {
-                if (bedrijf.Naam.Equals(bedrijfsnaam)) return bedrijf;
-            }
-            throw new BedrijfManagerException("Bedrijf bestaat niet");
-        }
-    }
-}
+//			bedrijven = _bedrijfRepository.GeefBedrijven().ToList();
+
+//			Assert.Contains(validBedrijf, bedrijven);
+//		}
+
+//		public void VerwijderBedrijfById()
+//		{
+//			_bedrijfRepository.VoegBedrijfToe(validBedrijf);
+
+//			List<Bedrijf> bedrijven = _bedrijfRepository.GeefBedrijven().ToList();
+
+//			Assert.Contains(validBedrijf, bedrijven);
+
+//			_bedrijfRepository.VerwijderBedrijf(validBedrijf.Id);
+
+//			bedrijven = _bedrijfRepository.GeefBedrijven().ToList();
+
+//			Assert.DoesNotContain(validBedrijf, bedrijven);
+//		}
+
+//		public void GeefBedrijfById()
+//		{
+//			_bedrijfRepository.VoegBedrijfToe(validBedrijf);
+
+//			List<Bedrijf> bedrijven = _bedrijfRepository.GeefBedrijven().ToList();
+
+//			Assert.Contains(validBedrijf, bedrijven);
+
+//			Bedrijf insertedBedrijf = _bedrijfRepository.GeefBedrijfById(validBedrijf.Id);
+
+//			Assert.Equal(validBedrijf, insertedBedrijf);
+//		}
+
+//		public void WijzigBedrijf()
+//		{
+			
+//		}
+
+//		public IEnumerable<Bedrijf> Geefbedrijven()
+//		{
+
+//		}
+
+//		public Bedrijf GeefBedrijfOpNaam()
+//		{
+
+//		}
+//	}
+//}
