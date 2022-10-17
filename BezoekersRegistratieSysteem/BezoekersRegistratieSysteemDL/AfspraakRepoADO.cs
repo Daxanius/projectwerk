@@ -85,21 +85,22 @@ namespace BezoekersRegistratieSysteemDL {
             SqlConnection con = GetConnection();
             //TEMP prob gonna get split, set this private and change 2 to @status
             string query = "UPDATE Afspraak " +
-                           "SET AfspraakStatusId = 2 " +
+                           "SET AfspraakStatusId = @statusId " +
                            "WHERE Id = @afspraakid";
             try {
                 con.Open();
                 using (SqlCommand cmd = con.CreateCommand()) {
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
-                    cmd.Parameters.Add(new SqlParameter("@statusid", SqlDbType.Int));
+                    cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
                     cmd.Parameters["@afspraakid"].Value = afspraakId;
-                    cmd.Parameters["@statusid"].Value = statusId;
+                    cmd.Parameters["@statusId"].Value = statusId;
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraak {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
+                exx.Data.Add("statusId", statusId);
                 throw exx;
             } finally {
                 con.Close();
