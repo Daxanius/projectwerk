@@ -39,15 +39,15 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="functie"></param>
         /// <exception cref="WerknemerException"></exception>
         public void VoegBedrijfEnFunctieToeAanWerknemer(Bedrijf bedrijf, string functie) {
-            if (bedrijf == null) throw new WerknemerException("Werknemer - ZetBedrijf - bedrijf mag niet leeg zijn");
-            if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Werknemer - ZetBedrijf - functie mag niet leeg zijn");
+            if (bedrijf == null) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - bedrijf mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - functie mag niet leeg zijn");
             if (_functiePerBedrijf.ContainsKey(bedrijf))
             {
                 if (!_functiePerBedrijf[bedrijf].Contains(functie))
                 {
                     _functiePerBedrijf[bedrijf].Add(functie);
                 }
-                else throw new WerknemerException("Werknemer - ZetBedrijf - werknemer is in dit bedrijf al werkzaam onder deze functie");
+                else throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - werknemer is in dit bedrijf al werkzaam onder deze functie");
             }
             else
             {
@@ -65,8 +65,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="bedrijf"></param>
         /// <exception cref="WerknemerException"></exception>
         public void VerwijderBedrijfVanWerknemer(Bedrijf bedrijf) {
-            if (bedrijf == null) throw new WerknemerException("Werknemer - VerwijderBedrijf - bedrijf mag niet leeg zijn");
-            if (!_functiePerBedrijf.Keys.Contains(bedrijf)) throw new WerknemerException("Werknemer - VerwijderBedrijf - bedrijf bevat deze werknemer niet");
+            if (bedrijf == null) throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf mag niet leeg zijn");
+            if (!_functiePerBedrijf.Keys.Contains(bedrijf)) throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf bevat deze werknemer niet");
             // Dit word gebruikt als we een werknemer uit bedrijf halen
             // hierdoor is Bedrijf nullable.
             if (bedrijf.GeefWerknemers().Contains(this)) bedrijf.VerwijderWerknemerUitBedrijf(this);

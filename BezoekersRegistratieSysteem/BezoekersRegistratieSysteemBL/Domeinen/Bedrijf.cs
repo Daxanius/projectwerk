@@ -131,8 +131,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="functie"></param>
         /// <exception cref="BedrijfException"></exception>
         public void VoegWerknemerToeInBedrijf(Werknemer werknemer, string functie) {
-            if (werknemer == null) throw new BedrijfException("Bedrijf - VoegWerknemerToe - werknemer mag niet leeg zijn");
-            if (string.IsNullOrWhiteSpace(functie)) throw new BedrijfException("Bedrijf - VoegWerknemerToe - functie mag niet leeg zijn");
+            if (werknemer == null) throw new BedrijfException("Bedrijf - VoegWerknemerToeInBedrijf - werknemer mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(functie)) throw new BedrijfException("Bedrijf - VoegWerknemerToeInBedrijf - functie mag niet leeg zijn");
 
 			// VoegBedrijfEnFunctieToe voert al de nodige controles uit om het
 			if (werknemer.GeefBedrijfEnFunctiesPerWerknemer().ToDictionary(x => x.Key, x => x.Value).ContainsKey(this))
@@ -148,8 +148,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="werknemer"></param>
 		/// <exception cref="BedrijfException"></exception>
 		public void VerwijderWerknemerUitBedrijf(Werknemer werknemer) {
-            if (werknemer == null) throw new BedrijfException("Bedrijf - VerwijderWerknemer - werknemer mag niet leeg zijn");
-            if (!_werknemers.Contains(werknemer)) throw new BedrijfException("Bedrijf - VerwijderWerknemer - werknemer bestaat niet");
+            if (werknemer == null) throw new BedrijfException("Bedrijf - VerwijderWerknemerUitBedrijf - werknemer mag niet leeg zijn");
+            if (!_werknemers.Contains(werknemer)) throw new BedrijfException("Bedrijf - VerwijderWerknemerUitBedrijf - werknemer bestaat niet");
 			_werknemers.Remove(werknemer);
             werknemer.VerwijderBedrijfVanWerknemer(this);
         }
