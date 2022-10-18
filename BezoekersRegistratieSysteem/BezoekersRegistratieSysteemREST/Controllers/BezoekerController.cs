@@ -33,7 +33,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpGet("{naam}/{achternaam}")]
-		public ActionResult<IReadOnlyList<Bezoeker>> GeefOpNaam(string naam, string achternaam) {
+		public ActionResult<IEnumerable<Bezoeker>> GeefOpNaam(string naam, string achternaam) {
 			// De naam mag niet leeg zijn
 			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is null");
 			if (string.IsNullOrEmpty(achternaam)) return BadRequest($"{nameof(achternaam)} is null");
