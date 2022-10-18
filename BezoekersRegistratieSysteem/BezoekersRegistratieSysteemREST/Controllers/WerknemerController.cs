@@ -8,9 +8,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 	[ApiController]
 	public class WerknemerController : ControllerBase {
 		private readonly WerknemerManager _werknemerManager;
+		private readonly BedrijfManager _bedrijfManager;
 
-		public WerknemerController(WerknemerManager werknemerManager) {
+		public WerknemerController(WerknemerManager werknemerManager, BedrijfManager bedrijfManager) {
 			_werknemerManager = werknemerManager;
+			_bedrijfManager = bedrijfManager;
 		}
 
 		/// <summary>
@@ -33,7 +35,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="naam"></param>
 		/// <returns></returns>
 		[HttpGet("{naam}/{achternaam}")]
-		public ActionResult<IEnumerable<Werknemer>> GeefWerknemer(string naam, string achternaam) {
+		public ActionResult<IEnumerable<Werknemer>> GeefWerknemersOpNaam(string naam, string achternaam) {
 			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is null");
 
 			try {
@@ -44,20 +46,18 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Geef werknemers, op bedrijf OF op functie
+		/// Geef werknemers per bedrijf
 		/// </summary>
-		/// <param name="bedrijf"></param>
-		/// <param name="functie"></param>
+		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
-		[HttpGet]
-		public ActionResult<IEnumerable<Werknemer>> GeefWerknemers([FromQuery] Bedrijf? bedrijf) {
-			// Zou bedrijf niet beter een ID zijn?
-			if (bedrijf != null) {
+		[HttpGet("{bedrijfId}")]
+		public ActionResult<IEnumerable<Werknemer>> GeefWerknemersPerBedrijf(uint bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				return Ok(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf));
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
 			}
-
-			// Kan niet alle werknemers opvragen
-			return BadRequest();
 		}
 
 		/// <summary>
