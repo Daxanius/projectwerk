@@ -143,8 +143,10 @@ namespace BezoekersRegistratieSysteemDL {
                     cmd.Parameters["@start"].Value = afspraak.Starttijd;
                     cmd.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
                     //FUNCTIE GETBEDRIJF
-                    //cmd.Parameters["@bedrijfId"].Value = afspraak.Werknemer.Bedrijf.Id;
-                    //cmd.Parameters["@functienaam"].Value = afspraak.Werknemer.Bedrijf.Naam;
+                    var bedrijf = afspraak.Werknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First();
+                    var functie = afspraak.Werknemer.GeefBedrijfEnFunctiesPerWerknemer().Values.First().First();
+                    cmd.Parameters["@bedrijfId"].Value = bedrijf.Id;
+                    cmd.Parameters["@functienaam"].Value = functie;
                     cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
                     cmd.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
                     cmd.ExecuteNonQuery();
@@ -217,7 +219,7 @@ namespace BezoekersRegistratieSysteemDL {
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
                         Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam, werknemerMail);
-                        werknemer.VoegBedrijfEnFunctieToe(new Bedrijf(bedrijfId,bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr,bedrijfMail, bedrijfAdres),functieNaam);
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId,bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr,bedrijfMail, bedrijfAdres),functieNaam);
                         afspraak = new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId,bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
                     }
                     return afspraak;
@@ -340,7 +342,7 @@ namespace BezoekersRegistratieSysteemDL {
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
                         Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam, werknemerMail);
-                        werknemer.VoegBedrijfEnFunctieToe(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), functieNaam);
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), functieNaam);
                         afspraken.Add(new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
                     }
                     return afspraken.AsReadOnly();
@@ -461,7 +463,7 @@ namespace BezoekersRegistratieSysteemDL {
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
                         Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam, werknemerMail);
-                        werknemer.VoegBedrijfEnFunctieToe(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), functieNaam);
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), functieNaam);
                         afspraken.Add(new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
                     }
                     return afspraken.AsReadOnly();
@@ -482,7 +484,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// </summary>
 		/// <param name="afspraak"></param>
 		/// <exception cref="AfspraakADOException"></exception>
-        public void VoegAfspraakToe(Afspraak afspraak) {
+        public Afspraak VoegAfspraakToe(Afspraak afspraak) {
             SqlConnection con = GetConnection();
             string query = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, BezoekerId) " +
                            "output INSERTED.ID " +
@@ -501,7 +503,7 @@ namespace BezoekersRegistratieSysteemDL {
                     cmd.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
                     uint i = (uint)cmd.ExecuteScalar();
                     afspraak.ZetId(i);
-                    //return afspraak;
+                    return afspraak;
                 }
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: VoegAfspraakToe {ex.Message}", ex);
@@ -512,7 +514,12 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
-        public void BestaatAfspraak(Afspraak afspraak) {
+        /// <summary>
+		/// Kijkt of afspraak bestaat op basis van afspraak object
+		/// </summary>
+		/// <param name="afspraak"></param>
+		/// <exception cref="AfspraakADOException"></exception>
+        public bool BestaatAfspraak(Afspraak afspraak) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM Afspraak a ";
@@ -536,6 +543,36 @@ namespace BezoekersRegistratieSysteemDL {
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BestaatAfspraak {ex.Message}", ex);
                 exx.Data.Add("afspraak", afspraak);
+                return false;
+            } finally {
+                con.Close();
+            }
+        }
+
+        /// <summary>
+		/// Kijkt of afspraak bestaat op basis van afspraak id
+		/// </summary>
+		/// <param name="afspraak"></param>
+		/// <exception cref="AfspraakADOException"></exception>
+        public bool BestaatAfspraak(uint afspraakid) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+                           "FROM Afspraak a " +
+                           "WHERE a.Id = @id";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    query += "WHERE a.Id = @id";
+                    cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                    cmd.Parameters["@id"].Value = afspraakid;
+                    cmd.CommandText = query;
+                    int i = (int)cmd.ExecuteScalar();
+                    return (i > 0);
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BestaatAfspraak {ex.Message}", ex);
+                exx.Data.Add("afspraakid", afspraakid);
+                return false;
             } finally {
                 con.Close();
             }
