@@ -38,9 +38,13 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
             Bedrijf2.ZetId(2);
             Bedrijf3.ZetId(3);
 
-            Werknemer1 = new("dVoorNaam", "dAchterNaam", "d@gmail.com", Bedrijf1, "dFuntie");
-            Werknemer2 = new("eVoorNaam", "eAchterNaam", "e@gmail.com", Bedrijf2, "eFuntie");
-            Werknemer3 = new("fVoorNaam", "fAchterNaam", "f@gmail.com", Bedrijf3, "fFuntie");
+            Werknemer1 = new("dVoorNaam", "dAchterNaam", "d@gmail.com");
+            Werknemer2 = new("eVoorNaam", "eAchterNaam", "e@gmail.com");
+            Werknemer3 = new("fVoorNaam", "fAchterNaam", "f@gmail.com");
+
+            Werknemer1.VoegBedrijfEnFunctieToeAanWerknemer(Bedrijf1, "dFuntie");
+            Werknemer2.VoegBedrijfEnFunctieToeAanWerknemer(Bedrijf2, "eFuntie");
+            Werknemer3.VoegBedrijfEnFunctieToeAanWerknemer(Bedrijf3, "fFuntie");
 
 			Werknemer1.ZetId(1);
 			Werknemer2.ZetId(2);
@@ -110,5 +114,45 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
 
 			_bedrijven[id] = bedrijf;
 		}
+
+        Bedrijf IBedrijfRepository.VoegBedrijfToe(Bedrijf bedrijf)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BewerkBedrijf(Bedrijf bedrijf)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool BestaatBedrijf(Bedrijf bedrijf)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool BestaatBedrijf(uint bedrijf)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool BestaatBedrijf(string bedrijfsnaam)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Bedrijf GeefBedrijf(uint id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Bedrijf> Geefbedrijven()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Bedrijf GeefBedrijf(string bedrijfsnaam)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -21,7 +21,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			validStarttijd = DateTime.Now;
 			validEindtijd = DateTime.Now.AddHours(8);
 			validBedrijf = new(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
-			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: validBedrijf, functie: "CEO");
+			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com");
+			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf, "CEO");
 		}
 
 		#region InValid

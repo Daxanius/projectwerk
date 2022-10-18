@@ -20,7 +20,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		{
 			validBedrijf = new(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
 			validBedrijf2 = new(naam: "Odicee", btw: "BE0475730461", telefoonNummer: "04766872462", email: "mail@odice.be", adres: "Kerkstraat snorkelland 9000 104");
-			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: validBedrijf, functie: "CEO");
+			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com");
+			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf, "CEO");
 		}
 
 		#region InValid
@@ -88,25 +89,25 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		{
 			Bedrijf inValidBedrijf = validBedrijf;
 
-			Assert.Throws<BedrijfException>(() => inValidBedrijf.VoegWerknemerToe(null));
+			Assert.Throws<BedrijfException>(() => inValidBedrijf.VoegWerknemerToeInBedrijf(null, "CEO"));
 		}
 
 		[Fact]
 		public void VoegWerknemerToe_ContainsWernemer_Exception()
 		{
-			Assert.Throws<BedrijfException>(() => validBedrijf.VoegWerknemerToe(validWerknemer));
+			Assert.Throws<BedrijfException>(() => validBedrijf.VoegWerknemerToeInBedrijf(validWerknemer, "CEO"));
 		}
 
 		[Fact]
 		public void VerwijderWerknemer_Null_Exception()
 		{
-			Assert.Throws<BedrijfException>(() => validBedrijf.VerwijderWerknemer(null));
+			Assert.Throws<BedrijfException>(() => validBedrijf.VoegWerknemerToeInBedrijf(null, "CEO"));
 		}
 
 		[Fact]
 		public void VerwijderWerknemer_ContainsWernemer_Exception()
 		{
-			Assert.Throws<BedrijfException>(() => validBedrijf2.VerwijderWerknemer(validWerknemer));
+			Assert.Throws<BedrijfException>(() => validBedrijf2.VoegWerknemerToeInBedrijf(validWerknemer, "CEO"));
 		}
 
 		[Fact]
@@ -153,7 +154,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		public void VoegWerknemerToe()
 		{
 			Bedrijf bedrijf = validBedrijf;
-			Persoon werknemer = new Werknemer("stan", "persoons", "stan@mailpersoons.be", bedrijf, "CEO");
+			Persoon werknemer = new Werknemer("stan", "persoons", "stan@mailpersoons.be");
 
 			Assert.Contains<Werknemer>(werknemer as Werknemer, bedrijf.GeefWerknemers());
 		}
@@ -162,9 +163,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		public void VerwijderWerknemer()
 		{
 			Bedrijf bedrijf = validBedrijf;
-			Persoon werknemer2 = new Werknemer("stape", "persoon", "stan2@mailpersoons.be", bedrijf, "CEA");
+			Persoon werknemer2 = new Werknemer("stape", "persoon", "stan2@mailpersoons.be");
 
-			bedrijf.VerwijderWerknemer(werknemer2 as Werknemer);
+			bedrijf.VerwijderWerknemerUitBedrijf(werknemer2 as Werknemer);
 
 			Assert.DoesNotContain<Werknemer>(werknemer2 as Werknemer, bedrijf.GeefWerknemers());
 			Assert.Equal(1, bedrijf.GeefWerknemers().Count);

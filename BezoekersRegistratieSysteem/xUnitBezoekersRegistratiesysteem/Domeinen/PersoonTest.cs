@@ -15,7 +15,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		{
 			validBezoeker = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: "Artevelde");
 			validBedrijf = new(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
-			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: validBedrijf, functie: "CEO");
+			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com");
+			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf, "CEO");
 			validPersoon1 = validBezoeker;
 			validPersoon2 = validBezoeker;
 		}

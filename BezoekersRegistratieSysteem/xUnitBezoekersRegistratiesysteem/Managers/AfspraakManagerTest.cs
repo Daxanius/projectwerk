@@ -24,7 +24,8 @@ namespace BezoekersRegistratieSysteemBL.Managers
 			validStarttijd = DateTime.Now;
 			validEindtijd = DateTime.Now.AddHours(8);
 			validBedrijf = new(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
-			validWerknemer = new(voornaam: "wout", achternaam: "balding", email: "wout@gmail.com", bedrijf: validBedrijf, functie: "CEO");
+			validWerknemer = new(voornaam: "wout", achternaam: "balding", email: "wout@gmail.com");
+			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf, "Manager 1");
 			validAfspraak = new Afspraak(starttijd: validStarttijd, bezoeker: validBezoeker, werknemer: validWerknemer);
 
 			_afspraakRepository = new DummyAfspraakRepository();
@@ -38,7 +39,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 
 			_afspraakRepository.VoegAfspraakToe(afspraak);
 
-			Afspraak insertedAfspraak = _afspraakRepository.GeefAfspraakOpId(10);
+			Afspraak insertedAfspraak = _afspraakRepository.GeefAfspraak(10);
 
 			Assert.Equal(afspraak.Starttijd, insertedAfspraak.Starttijd);
 			Assert.Equal(afspraak.Id, insertedAfspraak.Id);
@@ -55,7 +56,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 
 			_afspraakRepository.VoegAfspraakToe(afspraak);
 
-			Afspraak insertedAfspraak = _afspraakRepository.GeefAfspraakOpId(10);
+			Afspraak insertedAfspraak = _afspraakRepository.GeefAfspraak(10);
 
 			Assert.Equal(afspraak.Starttijd, insertedAfspraak.Starttijd);
 			Assert.Equal(afspraak.Id, insertedAfspraak.Id);
@@ -65,7 +66,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 
 			_afspraakRepository.VerwijderAfspraak(afspraak.Id);
 
-			Assert.Throws<AfspraakException>(() => _afspraakRepository.GeefAfspraakOpId(10));
+			Assert.Throws<AfspraakException>(() => _afspraakRepository.GeefAfspraak(10));
 		}
 
 		[Fact]
@@ -73,7 +74,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 		{
 			Afspraak validAfspraakRepo = ((DummyAfspraakRepository)_afspraakRepository).Afspraak1;
 
-			Afspraak afspraak = _afspraakRepository.GeefAfspraakOpId(validAfspraakRepo.Id);
+			Afspraak afspraak = _afspraakRepository.GeefAfspraak(validAfspraakRepo.Id);
 
 			Assert.Equal(afspraak.Starttijd, validAfspraakRepo.Starttijd);
 			Assert.Equal(afspraak.Id, validAfspraakRepo.Id);
@@ -94,7 +95,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 
 			_afspraakRepository.BewerkAfspraak(afspraak);
 
-			Afspraak afspraakFromRepo = _afspraakRepository.GeefAfspraakOpId(validAfspraakRepo.Id);
+			Afspraak afspraakFromRepo = _afspraakRepository.GeefAfspraak(validAfspraakRepo.Id);
 
 			Assert.Equal(afspraak.Starttijd, afspraakFromRepo.Starttijd);
 			Assert.Equal(afspraak.Id, afspraakFromRepo.Id);
@@ -111,7 +112,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 
 			Assert.Contains(validAfspraakRepo, afspraken);
 
-			_afspraakRepository.BeeindigAfspraak(validAfspraakRepo.Id);
+			_afspraakRepository.BeeindigAfspraakBezoeker(validAfspraakRepo.Id);
 			afspraken = _afspraakRepository.GeefHuidigeAfspraken().ToList();
 
 			Assert.DoesNotContain(validAfspraakRepo, afspraken);

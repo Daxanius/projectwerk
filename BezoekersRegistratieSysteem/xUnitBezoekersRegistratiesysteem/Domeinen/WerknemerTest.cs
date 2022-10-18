@@ -13,21 +13,27 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		{
 			validBedrijf1 = new(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
 			validBedrijf2 = new(naam: "Artevelde", btw: "BE0475730464", telefoonNummer: "0476687244", email: "mail.me@artevelde.be", adres: "Kerkstraat snorkelland 9006 101");
-			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan1@gmail.com", bedrijf: validBedrijf1, functie: "CEO");
+			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan1@gmail.com");
+			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf1, "CEO");
 		}
 
 		#region InValid
 		[Fact]
 		public void ZetBedrijf_NullAndEquals_Exception()
 		{
-			Assert.Throws<WerknemerException>(() => validWerknemer.ZetBedrijf(null));
+			Assert.Throws<WerknemerException>(() => validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(null, "Manager"));
 		}
 
 		[Fact]
 		public void VerwijderBedrijf_Null_Exception()
 		{
-			validWerknemer.VerwijderBedrijf();
-			Assert.Null(validWerknemer.Bedrijf);
+			validWerknemer.VerwijderBedrijfVanWerknemer(validBedrijf1);
+			
+			Assert.Equal(validBedrijf1.Naam, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First().Naam);
+			Assert.Equal(validBedrijf1.TelefoonNummer, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First().TelefoonNummer);
+			Assert.Equal(validBedrijf1.Adres, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First().Adres);
+			Assert.Equal(validBedrijf1.BTW, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First().BTW);
+			Assert.Equal(validBedrijf1.Email, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First().Email);
 		}
 
 		[Theory]
@@ -40,7 +46,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		[InlineData("\v")]
 		public void ZetFunctie_NullAndWhiteSpace_Exception(string functie)
 		{
-			Assert.Throws<WerknemerException>(() => validWerknemer.ZetFunctie(functie));
+			Bedrijf bedrijf = new();
+			Assert.Throws<WerknemerException>(() => validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, functie));
 		}
 		#endregion
 
@@ -48,27 +55,25 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		[Fact]
 		public void ZetBedrijf()
 		{
-			validWerknemer.ZetBedrijf(validBedrijf2);
+			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf2, "CEO");
 
-			Assert.Equal(validBedrijf2.Naam, validWerknemer.Bedrijf.Naam);
+			Assert.Equal(validBedrijf2.Naam, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First().Naam);
+			Assert.Equal(validBedrijf2.TelefoonNummer, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First().TelefoonNummer);
+			Assert.Equal(validBedrijf2.Adres, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First().Adres);
+			Assert.Equal(validBedrijf2.BTW, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First().BTW);
+			Assert.Equal(validBedrijf2.Email, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First().Email);
 		}
 
 		[Fact]
 		public void VerwijderBedrijf()
 		{
-			validWerknemer.VerwijderBedrijf();
+			KeyValuePair<Bedrijf, List<string>> bedrijfEnFunctie = validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().First();
+			validWerknemer.VerwijderBedrijfVanWerknemer(bedrijfEnFunctie.Key);
 
-			Assert.Null(validWerknemer.Bedrijf);
-		}
+			IReadOnlyDictionary<Bedrijf, List<string>> lijstMetBedrijven = validWerknemer.GeefBedrijfEnFunctiesPerWerknemer();
 
-		[Fact]
-		public void ZetFunctie()
-		{
-			string functie = "CIA";
-
-			validWerknemer.ZetFunctie(functie);
-
-			Assert.Equal(functie, validWerknemer.Functie);
+			Assert.Contains(bedrijfEnFunctie.Key, lijstMetBedrijven.Keys);
+			Assert.Contains(bedrijfEnFunctie.Value, lijstMetBedrijven.Values);
 		}
 		#endregion
 	}

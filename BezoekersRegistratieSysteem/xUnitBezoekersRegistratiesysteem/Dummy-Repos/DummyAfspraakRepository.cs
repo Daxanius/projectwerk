@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 using BezoekersRegistratieSysteemBL.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
 {
@@ -38,9 +39,13 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
             Bedrijf2.ZetId(2);
             Bedrijf3.ZetId(3);
 
-            Werknemer1 = new("dVoorNaam", "dAchterNaam", "d@gmail.com", Bedrijf1, "dFuntie");
-            Werknemer2 = new("eVoorNaam", "eAchterNaam", "e@gmail.com", Bedrijf2, "eFuntie");
-            Werknemer3 = new("fVoorNaam", "fAchterNaam", "f@gmail.com", Bedrijf3, "fFuntie");
+			Werknemer1 = new("dVoorNaam", "dAchterNaam", "d@gmail.com");
+			Werknemer2 = new("eVoorNaam", "eAchterNaam", "e@gmail.com");
+			Werknemer3 = new("fVoorNaam", "fAchterNaam", "f@gmail.com");
+
+			Werknemer1.VoegBedrijfEnFunctieToeAanWerknemer(Bedrijf1, "dFuntie");
+			Werknemer2.VoegBedrijfEnFunctieToeAanWerknemer(Bedrijf2, "eFuntie");
+            Werknemer3.VoegBedrijfEnFunctieToeAanWerknemer(Bedrijf3, "fFuntie");
 
 			Werknemer1.ZetId(1);
 			Werknemer2.ZetId(2);
@@ -115,8 +120,26 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
 
         public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint bedrijfId)
         {
-            return _afspraken.Where(a => a.Value.Werknemer.Bedrijf != null && a.Value.Werknemer.Bedrijf.Id == bedrijfId && a.Value.Eindtijd == null && a.Value.Starttijd < DateTime.Now).Select(a => a.Value).ToList();
-        }
+            List<Afspraak> huidigeAfspraken = _afspraken.Where(a => a.Value.Eindtijd != null).Select(x => x.Value).ToList();
+
+            var listMetAfspraken = new List<Afspraak>();
+
+            foreach (var item in huidigeAfspraken)
+            {
+                var bedrijfenPerWerknemer = item.Werknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.ToList();
+
+                for (int i = 0; i < bedrijfenPerWerknemer.Count(); i++)
+                {
+					if (bedrijfenPerWerknemer[i].Id == bedrijfId)
+					{
+                        listMetAfspraken.Add(item);
+					}
+				}
+            }
+
+            return listMetAfspraken;
+			throw new AfspraakException("Dit is niet juist geimplementeerd denk ik");
+		}
 
         public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId)
         {
@@ -137,6 +160,36 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
             if (_afspraken.ContainsKey(afspraak.Id))
                 throw new AfspraakException("id bestaat al");
             _afspraken.Add(afspraak.Id, afspraak);
+        }
+
+        Afspraak IAfspraakRepository.VoegAfspraakToe(Afspraak afspraak)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BeeindigAfspraakBezoeker(uint id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BeeindigAfspraakSysteem(uint id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Afspraak GeefAfspraak(uint afspraakid)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool BestaatAfspraak(Afspraak afspraak)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool BestaatAfspraak(uint afspraakid)
+        {
+            throw new NotImplementedException();
         }
     }
 }
