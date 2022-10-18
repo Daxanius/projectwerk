@@ -182,7 +182,7 @@ namespace BezoekersRegistratieSysteemDL {
         /// <exception cref="BedrijfADOException"></exception>
         private Bedrijf GeefBedrijf(uint? _bedrijfId, string? _bedrijfnaam) {
             SqlConnection con = GetConnection();
-            string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres " +
+            string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
                            "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
