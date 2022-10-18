@@ -551,7 +551,7 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
 		/// Kijkt of afspraak bestaat op basis van afspraak id
 		/// </summary>
-		/// <param name="afspraak"></param>
+		/// <param name="afspraakid"></param>
 		/// <exception cref="AfspraakADOException"></exception>
         public bool BestaatAfspraak(uint afspraakid) {
             SqlConnection con = GetConnection();
