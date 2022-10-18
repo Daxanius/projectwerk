@@ -3,7 +3,7 @@
 namespace BezoekersRegistratieSysteemBL.Domeinen {
 	public static class Nutsvoorziening {
 		/// <summary>
-		/// Controleert of een BTW nummer bestaat
+		/// Controleert de geldigheid van het btwnummer.
 		/// </summary>
 		/// <param name="btwNummer"></param>
 		public static void ControleerBTWNummer(string btwNummer) {
@@ -12,8 +12,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		}
 
 		/// <summary>
-		/// Controleert of een email een geldige
-		/// notatie heeft
+		/// Controleert het formaat van het emailadres.
 		/// </summary>
 		/// <param name="email"></param>
 		/// <returns></returns>
