@@ -13,12 +13,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         public Werknemer Werknemer { get; private set; }
 
         /// <summary>
-        /// Constructor
+        /// Constructor REST
         /// </summary>
         public Afspraak() { }
-        
+
         /// <summary>
-        /// Constructor
+        /// Constructor voor het aanmaken van een afspraak in de BusinessLaag.
         /// </summary>
         /// <param name="starttijd"></param>
         /// <param name="bezoeker"></param>
@@ -30,7 +30,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         }
 
         /// <summary>
-        /// Constructor
+        /// Constructor voor het aanmaken van een afspraak in de DataLaag.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="starttijd"></param>
@@ -47,7 +47,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         }
 
         /// <summary>
-        /// Past de ID aan
+        /// Zet id.
         /// </summary>
         /// <param name="id"></param>
         public void ZetId(uint id) {
@@ -55,7 +55,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         }
 
         /// <summary>
-        /// Past de starttijd aan
+        /// Zet starttijd.
         /// </summary>
         /// <param name="starttijd"></param>
         /// <exception cref="AfspraakException"></exception>
@@ -65,7 +65,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         }
 
         /// <summary>
-        /// Past de eindtijd aan
+        /// Controleert & zet eindtijd.
         /// </summary>
         /// <param name="eindtijd"></param>
         /// <exception cref="AfspraakException"></exception>
@@ -75,7 +75,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         }
 
         /// <summary>
-        /// Past de bezoeker aan
+        /// Zet bezoeker.
         /// </summary>
         /// <param name="bezoeker"></param>
         /// <exception cref="AfspraakException"></exception>
@@ -84,7 +84,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         }
 
         /// <summary>
-        /// Past de werknemer aan
+        /// Zet bezoeker.
         /// </summary>
         /// <param name="werknemer"></param>
         /// <exception cref="AfspraakException"></exception>
@@ -92,6 +92,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             Werknemer = werknemer ?? throw new AfspraakException("Afspraak - ZetWerknemer - Werknemer mag niet leeg zijn");
         }
 
+        /// <summary>
+        /// Vergelijkt afspraken op inhoud.
+        /// </summary>
+        /// <exception cref="BedrijfException"></exception>
         public bool AfspraakIsGelijk(Afspraak afspraak)
         {
             if (afspraak is null) return false;
