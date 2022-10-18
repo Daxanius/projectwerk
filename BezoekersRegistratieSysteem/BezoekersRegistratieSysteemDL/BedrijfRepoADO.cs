@@ -234,7 +234,48 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
         public IReadOnlyList<Bedrijf> Geefbedrijven() {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
+                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
+                           "f.FunctieNaam " +
+                           "FROM Bedrijf b " +
+                           "JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) " +
+                           "JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
+                           "JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "WHERE wb.status = 1 " +
+                           "ORDER BY b.Id";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    List<Bedrijf> bedrijven = new List<Bedrijf>();
+                    Bedrijf bedrijf = null;
+                    while (reader.Read()) {
+                        if (bedrijf is null || bedrijf.Id != (uint)reader["BedrijfId"]) {
+                            uint bedrijfId = (uint)reader["BedrijfId"];
+                            string bedrijfNaam = (string)reader["BedrijfNaam"];
+                            string bedrijfBTW = (string)reader["BedrijfBTW"];
+                            string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
+                            string bedrijfMail = (string)reader["BedrijfMail"];
+                            string bedrijfAdres = (string)reader["BedrijfAdres"];
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bedrijven.Add(bedrijf);
+                        }
+                        uint werknemerId = (uint)reader["WerknemerId"];
+                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                        string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                        string werknemerMail = (string)reader["WerknemerMail"];
+                        string functieNaam = (string)reader["FunctieNaam"];
+                        bedrijf.VoegWerknemerToeInBedrijf(new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam, werknemerMail), functieNaam);
+                    }
+                    return bedrijven;
+                }
+            } catch (Exception ex) {
+                throw new BedrijfADOException($"BedrijfRepoADO: Geefbedrijven {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
 
         public void VerwijderBedrijf(uint id) {
