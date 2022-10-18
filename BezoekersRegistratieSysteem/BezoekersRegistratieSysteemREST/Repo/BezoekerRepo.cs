@@ -45,5 +45,9 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			if (!_bezoekers.ContainsKey(bezoeker.Id)) throw new Exception("Bezoeker bestaat niet");
 			_bezoekers[bezoeker.Id] = bezoeker;
 		}
+
+		Bezoeker IBezoekerRepository.VoegBezoekerToe(Bezoeker bezoeker) {
+			throw new NotImplementedException();
+		}
 	}
 }

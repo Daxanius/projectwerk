@@ -43,6 +43,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpGet]
 		public ActionResult<IEnumerable<Afspraak>> GeefAfspraken([FromQuery] DateTime? dag, [FromQuery] uint? werknemerId, [FromQuery] uint? bedrijfId, [FromQuery] bool openstaand = false) {
 			try {
+				// Ophalen via ID
 				Werknemer? werknemer = null;
 				Bedrijf? bedrijf = null;
 

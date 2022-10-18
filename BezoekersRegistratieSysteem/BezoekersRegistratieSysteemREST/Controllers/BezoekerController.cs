@@ -87,8 +87,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 
 			try {
 				Bezoeker bezoeker = new(bezoekerData.Voornaam, bezoekerData.Achternaam, bezoekerData.Email, bezoekerData.Bedrijf);
-				_bezoekerManager.VoegBezoekerToe(bezoeker);
-				return bezoeker;
+				return _bezoekerManager.VoegBezoekerToe(bezoeker);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
