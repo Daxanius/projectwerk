@@ -10,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemDL {
-    //ELKE QUERY MOET NOG GETEST WORDEN
     //CONTROLES OP STATUS OP BEPAALDE ZAKEN?
     /// <summary>
 	/// ADO van afspraak
