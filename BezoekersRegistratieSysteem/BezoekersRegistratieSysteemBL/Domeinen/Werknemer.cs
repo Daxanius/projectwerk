@@ -51,9 +51,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             }
             else
             {
-				// Als dit bedrijf deze werknemer nog niet bevat, voeg deze dan toe aan het bedrijf
-				if (!bedrijf.GeefWerknemers().Contains(this)) bedrijf.VoegWerknemerToeInBedrijf(this, functie);
-                _functiePerBedrijf.Add(bedrijf, new List<string> { functie });
+                // Als dit bedrijf deze werknemer nog niet bevat, voeg deze dan toe aan het bedrijf
+                if (!bedrijf.GeefWerknemers().Contains(this))
+                {
+                    _functiePerBedrijf.Add(bedrijf, new List<string> { functie });
+                    bedrijf.VoegWerknemerToeInBedrijf(this, functie);
+                }
             }
         }
 
@@ -107,6 +110,20 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             }
             else throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
         }
+        
+        public IReadOnlyDictionary<Bedrijf, List<string>> GeefBedrijfEnFunctiesPerWerknemer()
+        {
+            return _functiePerBedrijf;
+        }
+
+        public Bedrijf HaalBedrijfOp(uint id)
+        {
+            foreach (var bedrijf in _functiePerBedrijf.Keys)
+            {
+                if (bedrijf.Id == id) return bedrijf;
+            }
+            return null;
+        }
 
         public bool WerknemerIsGelijk(Werknemer werknemer)
         {
@@ -125,9 +142,5 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             return true;
         }
 
-        public IReadOnlyDictionary<Bedrijf, List<string>> GeefBedrijfEnFunctiesPerWerknemer()
-        {
-            return _functiePerBedrijf;
-        }
     }
 }

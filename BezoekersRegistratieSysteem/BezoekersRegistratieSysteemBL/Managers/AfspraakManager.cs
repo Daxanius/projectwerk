@@ -12,6 +12,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 		public Afspraak VoegAfspraakToe(Afspraak afspraak) {
             if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - VoegAfspraakToe - afspraak mag niet leeg zijn");
+            if (afspraak.Werknemer == null) throw new AfspraakManagerException("AfspraakManager - VoegAfspraakToe - werknemer mag niet leeg zijn");
+            if (afspraak.Bezoeker == null) throw new AfspraakManagerException("AfspraakManager - VoegAfspraakToe - bezoeker mag niet leeg zijn");
             if (_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - VoegAfspraakToe - afspraak bestaat al");
             try
 			{
@@ -38,6 +40,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         
 		public void BewerkAfspraak(Afspraak afspraak) {
             if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BewerkAfspraak - Afspraak mag niet leeg zijn");
+            if (afspraak.Werknemer == null) throw new AfspraakManagerException("AfspraakManager - BewerkAfspraak - werknemer mag niet leeg zijn");
+            if (afspraak.Bezoeker == null) throw new AfspraakManagerException("AfspraakManager - BewerkAfspraak - bezoeker mag niet leeg zijn");
             if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - BewerkAfspraak - Afspraak bestaat niet");
             if (_afspraakRepository.GeefAfspraak(afspraak.Id).AfspraakIsGelijk(afspraak)) throw new AfspraakManagerException("AfspraakManager - BewerkAfspraak - Afspraak is niet gewijzigd");
             try
@@ -113,6 +117,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
                 throw new AfspraakManagerException(ex.Message);
             }
         }
+        
 		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(Werknemer werknemer) {
             if (werknemer == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerWerknemer - Werknemer mag niet leeg zijn");
 			try
