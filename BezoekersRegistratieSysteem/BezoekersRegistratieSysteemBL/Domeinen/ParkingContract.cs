@@ -7,12 +7,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public int AantalPlaatsen { get; private set; }
 
         /// <summary>
-        /// Constructor
+        /// Constructor REST
         /// </summary>
         public ParkingContract() { }
 
         /// <summary>
-        /// Constructor
+        /// Constructor voor het aanmaken van een contract in de BusinessLaag.
         /// </summary>
         /// <param name="starttijd"></param>
         /// <param name="aantalPlaatsen"></param>
@@ -22,7 +22,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		}
 
         /// <summary>
-		/// Constructor
+		/// Constructor voor het aanmaken van een contract in de DataLaag.
 		/// </summary>
 		/// <param name="starttijd"></param>
 		/// <param name="eindtijd"></param>
@@ -35,7 +35,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         }
 
         /// <summary>
-        /// Past starttijd aan
+        /// Zet starttijd.
         /// </summary>
         /// <param name="starttijd"></param>
         /// <exception cref="ParkingContractException"></exception>
@@ -44,22 +44,22 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             Starttijd = starttijd;
 		}
 
-		/// <summary>
-		/// Past eindtijd aan
-		/// </summary>
-		/// <param name="eindtijd"></param>
-		/// <exception cref="ParkingContractException"></exception>
-		public void ZetEindtijd(DateTime? eindtijd) {
+        /// <summary>
+        /// Controleert & zet eindtijd.
+        /// </summary>
+        /// <param name="eindtijd"></param>
+        /// <exception cref="ParkingContractException"></exception>
+        public void ZetEindtijd(DateTime? eindtijd) {
             if (eindtijd < Starttijd) throw new ParkingContractException("ParkingContract - ZetEindtijd - Eindtijd moet na starttijd liggen");
             Eindtijd = eindtijd;
 		}
 
-		/// <summary>
-		/// Past de plaatsen aan
-		/// </summary>
-		/// <param name="aantalPlaatsen"></param>
-		/// <exception cref="ParkingContractException"></exception>
-		public void ZetAantalPlaatsen(int aantalPlaatsen) {
+        /// <summary>
+        /// Zet aantal plaatsen.
+        /// </summary>
+        /// <param name="aantalPlaatsen"></param>
+        /// <exception cref="ParkingContractException"></exception>
+        public void ZetAantalPlaatsen(int aantalPlaatsen) {
             if (aantalPlaatsen < 0) throw new ParkingContractException("ParkingContract - ZetAantalPlaatsen - Aantal plaatsen moet groter dan 0 zijn");
             AantalPlaatsen = aantalPlaatsen;
 		}
