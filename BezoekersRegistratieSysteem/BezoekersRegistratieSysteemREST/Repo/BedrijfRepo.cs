@@ -7,19 +7,33 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 		private readonly Dictionary<uint, Bedrijf> _bedrijven = new();
 		private uint _lastId = 0;
 
-		public void BestaatBedrijf(Bedrijf bedrijf) {
+		public bool BestaatBedrijf(Bedrijf bedrijf) {
 			// Returnt void klopt niet
 			throw new NotImplementedException();
 		}
 
-		public void BewerkBedrijf(uint id, Bedrijf bedrijf) {
+		public bool BestaatBedrijf(string bedrijf) {
+			// Returnt void klopt niet
+			throw new NotImplementedException();
+		}
+
+		public bool BestaatBedrijf(uint bedrijf) {
+			// Returnt void klopt niet
+			throw new NotImplementedException();
+		}
+
+		public void BewerkBedrijf(Bedrijf bedrijf) {
 			// Waarom heeft bewerk bedrijf ID nog appart nodig?
 
-			if (!_bedrijven.ContainsKey(id)) throw new Exception("Bedrijf bestaat niet");
-			_bedrijven[id] = bedrijf;
+			if (!_bedrijven.ContainsKey(bedrijf.Id)) throw new Exception("Bedrijf bestaat niet");
+			_bedrijven[bedrijf.Id] = bedrijf;
 		}
 
 		public Bedrijf GeefBedrijf(string bedrijfsnaam) {
+			throw new NotImplementedException();
+		}
+
+		public Bedrijf GeefBedrijf(uint bedrijf) {
 			throw new NotImplementedException();
 		}
 
@@ -39,8 +53,9 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			_bedrijven.Remove(id);
 		}
 
-		public void VoegBedrijfToe(Bedrijf bedrijf) {
-			_bedrijven.Add(_lastId++, bedrijf);
+		public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
+			_bedrijven.Add(_lastId, bedrijf);
+			return _bedrijven[_lastId++];
 		}
 	}
 }

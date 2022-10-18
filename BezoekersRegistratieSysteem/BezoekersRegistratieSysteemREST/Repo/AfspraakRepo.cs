@@ -21,7 +21,13 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			_afspraken[id].ZetEindtijd(DateTime.Now);
 		}
 
-		public void BestaatAfspraak(Afspraak afspraak) {
+
+		public bool BestaatAfspraak(Afspraak afspraak) {
+			// Bruh
+			throw new NotImplementedException();
+		}
+
+		public bool BestaatAfspraak(uint afspraak) {
 			// Bruh
 			throw new NotImplementedException();
 		}
@@ -67,8 +73,9 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 		}
 
 		// Voegt een afspraak toe en increment de last ID
-		public void VoegAfspraakToe(Afspraak afspraak) {
-			_afspraken.Add(_lastId++, afspraak);
+		public Afspraak VoegAfspraakToe(Afspraak afspraak) {
+			_afspraken.Add(_lastId, afspraak);
+			return _afspraken[_lastId++];
 		}
 	}
 }

@@ -32,12 +32,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="naam"></param>
 		/// <returns></returns>
-		[HttpGet("{naam}")]
-		public ActionResult<IEnumerable<Werknemer>> GeefWerknemer(string naam) {
+		[HttpGet("{naam}/{achternaam}")]
+		public ActionResult<IEnumerable<Werknemer>> GeefWerknemer(string naam, string achternaam) {
 			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is null");
 
 			try {
-				return Ok(_werknemerManager.GeefWerknemersOpNaam(naam).AsEnumerable());
+				return Ok(_werknemerManager.GeefWerknemersOpNaam(naam, achternaam).AsEnumerable());
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -65,10 +65,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpDelete("{id}")]
-		public IActionResult VerwijderWerknemer(uint id) {
+		[HttpDelete]
+		public IActionResult VerwijderWerknemer([FromBody] Werknemer werknemer) {
 			try {
-				_werknemerManager.VerwijderWerknemer(id);
+				_werknemerManager.VerwijderWerknemer(werknemer);
 				return Ok();
 			} catch (Exception ex) {
 				// Welke IActionResults zijn er??

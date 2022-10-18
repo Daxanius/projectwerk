@@ -7,7 +7,11 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 		private readonly Dictionary<uint, Bezoeker> _bezoekers = new();
 		private uint _lastId = 0;
 
-		public void BestaatBezoeker(Bezoeker bezoeker) {
+		public bool BestaatBezoeker(Bezoeker bezoeker) {
+			throw new NotImplementedException();
+		}
+
+		public bool BestaatBezoeker(uint bezoeker) {
 			throw new NotImplementedException();
 		}
 
@@ -20,7 +24,7 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			return _bezoekers[id];
 		}
 
-		public Bezoeker GeefBezoekerOpNaam(string naam) {
+		public IReadOnlyList<Bezoeker> GeefBezoekerOpNaam(string naam, string achternaam) {
 			throw new NotImplementedException();
 		}
 
@@ -37,9 +41,9 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			_bezoekers.Add(_lastId++, bezoeker);
 		}
 
-		public void WijzigBezoeker(uint id, Bezoeker bezoeker) {
-			if (!_bezoekers.ContainsKey(id)) throw new Exception("Bezoeker bestaat niet");
-			_bezoekers[id] = bezoeker;
+		public void WijzigBezoeker(Bezoeker bezoeker) {
+			if (!_bezoekers.ContainsKey(bezoeker.Id)) throw new Exception("Bezoeker bestaat niet");
+			_bezoekers[bezoeker.Id] = bezoeker;
 		}
 	}
 }

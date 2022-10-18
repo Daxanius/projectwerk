@@ -7,7 +7,11 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 		private readonly Dictionary<uint, Werknemer> _werknemers = new();
 		private uint _lastId = 0;
 
-		public void BestaatWerknemer(Werknemer werknemer) {
+		public bool BestaatWerknemer(Werknemer werknemer) {
+			throw new NotImplementedException();
+		}
+
+		public bool BestaatWerknemer(uint werknemer) {
 			throw new NotImplementedException();
 		}
 
@@ -17,7 +21,7 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			return _werknemers[id];
 		}
 
-		public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string naam) {
+		public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string naam, string achternaam) {
 			throw new NotImplementedException();
 		}
 
@@ -31,14 +35,15 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			_werknemers.Remove(id);
 		}
 
-		public void VoegWerknemerToe(Werknemer werknemer) {
-			_werknemers.Add(_lastId++, werknemer);
+		public Werknemer VoegWerknemerToe(Werknemer werknemer) {
+			_werknemers.Add(_lastId, werknemer);
+			return _werknemers[_lastId++];
 		}
 
-		public void WijzigWerknemer(uint id, Werknemer werknemer) {
-			if (!_werknemers.ContainsKey(id)) throw new Exception("Werknemer bestaat niet");
+		public void WijzigWerknemer(Werknemer werknemer) {
+			if (!_werknemers.ContainsKey(werknemer.Id)) throw new Exception("Werknemer bestaat niet");
 
-			_werknemers[id] = werknemer;
+			_werknemers[werknemer.Id] = werknemer;
 		}
 	}
 }

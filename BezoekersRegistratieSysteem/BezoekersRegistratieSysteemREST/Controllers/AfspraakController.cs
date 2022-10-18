@@ -1,7 +1,6 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
 	[Route("api/[controller]")]
@@ -65,10 +64,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpDelete("{id}")]
-		public IActionResult VerwijderAfspraak(uint id) {
+		[HttpDelete]
+		public IActionResult VerwijderAfspraak([FromBody] Afspraak afspraak) {
 			try {
-				_afspraakManager.VerwijderAfspraak(id);
+				_afspraakManager.VerwijderAfspraak(afspraak);
 				return Ok();
 			} catch (Exception ex) {
 				return NotFound(ex.Message);

@@ -32,13 +32,14 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpGet("{naam}")]
-		public ActionResult<Bezoeker> GeefOpNaam(string naam) {
+		[HttpGet("{naam}/{achternaam}")]
+		public ActionResult<IReadOnlyList<Bezoeker>> GeefOpNaam(string naam, string achternaam) {
 			// De naam mag niet leeg zijn
 			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is null");
+			if (string.IsNullOrEmpty(achternaam)) return BadRequest($"{nameof(achternaam)} is null");
 
 			try {
-				return _bezoekerManager.GeefBezoekerOpNaam(naam);
+				return Ok(_bezoekerManager.GeefBezoekerOpNaam(naam, achternaam));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -64,10 +65,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpDelete("{id}")]
-		public IActionResult VerwijderBezoeker(uint id) {
+		[HttpDelete]
+		public IActionResult VerwijderBezoeker([FromBody] Bezoeker bezoeker) {
 			try {
-				_bezoekerManager.VerwijderBezoeker(id);
+				_bezoekerManager.VerwijderBezoeker(bezoeker);
 				return Ok();
 			} catch (Exception ex) {
 				// Welke IActionResults zijn er??

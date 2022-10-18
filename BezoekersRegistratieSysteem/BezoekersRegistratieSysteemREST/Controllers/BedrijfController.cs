@@ -57,9 +57,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpDelete]
-		public IActionResult VerwijderBedrijf([FromBody] uint id) {
+		public IActionResult VerwijderBedrijf([FromBody] Bedrijf bedrijf) {
 			try {
-				_bedrijfManager.VerwijderBedrijf(id);
+				_bedrijfManager.VerwijderBedrijf(bedrijf);
 				return Ok();
 			} catch (Exception ex) {
 				// Welke IActionResults zijn er??
