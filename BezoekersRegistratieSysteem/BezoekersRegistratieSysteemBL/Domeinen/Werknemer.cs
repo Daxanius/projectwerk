@@ -124,5 +124,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             }
             return true;
         }
+
+        public IReadOnlyDictionary<Bedrijf, List<string>> GeefBedrijfEnFunctiesPerWerknemer()
+        {
+            return _functiePerBedrijf;
+        }
     }
 }

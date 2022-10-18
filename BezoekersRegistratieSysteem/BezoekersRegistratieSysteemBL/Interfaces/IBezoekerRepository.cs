@@ -5,7 +5,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 	/// Bezoeker storage hook
 	/// </summary>
 	public interface IBezoekerRepository {
-		void VoegBezoekerToe(Bezoeker bezoeker);
+		Bezoeker VoegBezoekerToe(Bezoeker bezoeker);
         void VerwijderBezoeker(uint id);
 		void WijzigBezoeker(Bezoeker bezoeker);
 
