@@ -135,8 +135,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpPost("{id}")]
-		[Route("end")]
+		[HttpPost("end/{id}")]
 		public IActionResult End(uint id) {
 			try {
 				Afspraak afspraak = _afspraakManager.GeefAfspraak(id);
