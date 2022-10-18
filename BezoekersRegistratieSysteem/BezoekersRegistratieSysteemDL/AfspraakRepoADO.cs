@@ -81,8 +81,6 @@ namespace BezoekersRegistratieSysteemDL {
 		/// <param name="statusId"></param>
 		/// <exception cref="AfspraakADOException"></exception>
         private void VeranderStatusAfspraak(uint afspraakId, int statusId) {
-            SqlConnection con = GetConnection();
-            //TEMP prob gonna get split, set this private and change 2 to @status
             string query = "UPDATE Afspraak " +
                            "SET AfspraakStatusId = @statusId " +
                            "WHERE Id = @afspraakid";
@@ -97,7 +95,7 @@ namespace BezoekersRegistratieSysteemDL {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraak {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: VeranderStatusAfspraak {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
                 exx.Data.Add("statusId", statusId);
                 throw exx;
