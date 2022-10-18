@@ -10,11 +10,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			this._bezoekerRepository = bezoekerRepository;
 		}
 
-		public void VoegBezoekerToe(Bezoeker bezoeker) {
+		public Bezoeker VoegBezoekerToe(Bezoeker bezoeker) {
             if (_bezoekerRepository.BestaatBezoeker(bezoeker)) throw new BezoekerManagerException("BezoekerManager - VoegBezoekerToe - bezoeker bestaat al");
             try
 			{
-				_bezoekerRepository.VoegBezoekerToe(bezoeker);
+				return _bezoekerRepository.VoegBezoekerToe(bezoeker);
 			}
             catch (Exception ex)
             {
