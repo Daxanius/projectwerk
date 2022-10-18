@@ -9,11 +9,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		private readonly AfspraakManager _afspraakManager;
 		private readonly BezoekerManager _bezoekerManager;
 		private readonly WerknemerManager _werknemerManager;
+		private readonly BedrijfManager _bedrijfManager;
 
-		public AfspraakController(AfspraakManager afspraakManager, BezoekerManager bezoekerManager, WerknemerManager werknemerManager) {
+		public AfspraakController(AfspraakManager afspraakManager, BezoekerManager bezoekerManager, WerknemerManager werknemerManager, BedrijfManager bedrijfManager) {
 			_afspraakManager = afspraakManager;
 			_bezoekerManager = bezoekerManager;
 			_werknemerManager = werknemerManager;
+			_bedrijfManager = bedrijfManager;
 		}
 
 		/// <summary>
@@ -31,32 +33,57 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Geef alle afspraken die overeenkomen met de
-		/// gegeven query
+		/// Geef alle afspraken die overeenkomen met de query
 		/// </summary>
-		/// <param name="dag"></param>
-		/// <param name="werknemer"></param>
+		/// <param name="dag">Geef afspraken van dag</param>
+		/// <param name="werknemerId">Geef afspraken van werknemer</param>
+		/// <param name="bedrijfId">Geef afspraken van bedrijf</param>
+		/// <param name="openstaand">Als openstaand true is, geef huidige afspraken, werkt alleen voor werknemer</param>
 		/// <returns></returns>
 		[HttpGet]
-		public IEnumerable<Afspraak> GeefAfspraken([FromQuery] DateTime? dag, [FromQuery] Werknemer? werknemer) {
-			// Als beide de dag EN de werknemer zijn meegegeven
-			if (werknemer != null && dag != null) {
-				return _afspraakManager.GeefAfsprakenPerWerknemerOpDag(werknemer, dag ?? DateTime.Now);
-			}
+		public ActionResult<IEnumerable<Afspraak>> GeefAfspraken([FromQuery] DateTime? dag, [FromQuery] uint? werknemerId, [FromQuery] uint? bedrijfId, [FromQuery] bool openstaand = false) {
+			try {
+				Werknemer? werknemer = null;
+				Bedrijf? bedrijf = null;
 
-			// Als alleen de dag is meegegeven
-			if (dag != null) {
-				return _afspraakManager.GeefAfsprakenPerDag(dag ?? DateTime.Now);
-			}
+				if (werknemerId != null) {
+					werknemer = _werknemerManager.GeefWerknemer(werknemerId ?? 0);
+				}
 
-			// Als alleen de werknemer is meegegeven
-			if (werknemer != null) {
-				// Zou dit niet ook beter een ID zijn?
-				return _afspraakManager.GeefAlleAfsprakenPerWerknemer(werknemer);
-			}
+				if (bedrijfId != null) {
+					bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId ?? 0);
+				}
 
-			// Als niets is meegegeven
-			return _afspraakManager.GeefHuidigeAfspraken();
+				// Als beide de dag EN de werknemer zijn meegegeven
+				if (werknemer != null && dag != null) {
+					return Ok(_afspraakManager.GeefAfsprakenPerWerknemerOpDag(werknemer, dag ?? DateTime.Now));
+				}
+
+				// Als alleen de dag is meegegeven
+				if (dag != null) {
+					return Ok(_afspraakManager.GeefAfsprakenPerDag(dag ?? DateTime.Now));
+				}
+
+				// Als alleen de werknemer is meegegeven
+				if (werknemer != null) {
+					if (openstaand) {
+						return Ok(_afspraakManager.GeefHuidigeAfsprakenPerWerknemer(werknemer));
+					}
+
+					// Zou dit niet ook beter een ID zijn?
+					return Ok(_afspraakManager.GeefAlleAfsprakenPerWerknemer(werknemer));
+				}
+
+				// Geef alle openstaande afspraken per bedrijf
+				if (bedrijf != null) {
+					return Ok(_afspraakManager.GeefHuidigeAfsprakenPerBedrijf(bedrijf));
+				}
+
+				// Als niets is meegegeven
+				return Ok(_afspraakManager.GeefHuidigeAfspraken());
+			} catch (Exception ex) {
+				return BadRequest(ex);
+			}
 		}
 
 		/// <summary>
