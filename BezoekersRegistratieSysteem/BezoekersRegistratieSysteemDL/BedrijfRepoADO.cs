@@ -31,60 +31,54 @@ namespace BezoekersRegistratieSysteemDL {
         /// <returns>bool</returns>
         /// <exception cref="BedrijfADOException"></exception>
         public bool BestaatBedrijf(Bedrijf bedrijf) {
-            SqlConnection con = GetConnection();
-            string query = "SELECT COUNT(*) " +
-                           "FROM bedrijf " +
-                           "WHERE 1=1";
-            try {              
-                using (SqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    if (bedrijf.Id != 0) {
-                        query += " AND bedrijfid = @bedrijfid";
-                        cmd.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
-                        cmd.Parameters["@bedrijfid"].Value = bedrijf.Id;
-                    } else {
-                        query += " AND BTWNr = @BTWNr";
-                        cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
-                        cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
-                    }
-                    cmd.CommandText = query;
-                    int i = (int)cmd.ExecuteScalar();
-                    return (i > 0);
-                }
+            try {
+                return BestaatBedrijf(bedrijf, null, null);
             } catch (Exception ex) {
-                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf object {ex.Message}", ex);
-                exx.Data.Add("bedrijf", bedrijf);
-                throw exx;
-            } finally {
-                con.Close();
+                throw new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf {ex.Message}", ex);
             }
         }
 
         public bool BestaatBedrijf(uint bedrijfId) {
+            try {
+                return BestaatBedrijf(null, bedrijfId, null);
+            } catch (Exception ex) {
+                throw new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf {ex.Message}", ex);
+            }
+        }
+
+        public bool BestaatBedrijf(string bedrijfsnaam) {
+            try {
+                return BestaatBedrijf(null, null, bedrijfsnaam);
+            } catch (Exception ex) {
+                throw new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf {ex.Message}", ex);
+            }
+        }
+
+        private bool BestaatBedrijf(Bedrijf? bedrijf, uint? bedrijfId, string? bedrijfsnaam) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM bedrijf " +
-                           "WHERE bedrijfid = @bedrijfid";
+                           "WHERE 1=1";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
-                    cmd.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
-                    cmd.Parameters["@bedrijfid"].Value = bedrijfId;
+                    var sqltype = (bedrijf is not null && bedrijf.Id != 0) ? SqlDbType.BigInt : (bedrijfId.HasValue) ? SqlDbType.BigInt : SqlDbType.VarChar;
+                    query += " AND bedrijfid = @querylookup";
+                    cmd.Parameters.Add(new SqlParameter("@querylookup", sqltype));
+                    cmd.Parameters["@querylookup"].Value = (bedrijf is not null && bedrijf.Id != 0) ? bedrijf.Id : (bedrijfId.HasValue) ? bedrijfId : bedrijfsnaam;
                     cmd.CommandText = query;
                     int i = (int)cmd.ExecuteScalar();
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf id {ex.Message}", ex);
+                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf {ex.Message}", ex);
+                exx.Data.Add("bedrijf", bedrijf);
                 exx.Data.Add("bedrijfId", bedrijfId);
+                exx.Data.Add("bedrijfsnaam", bedrijfsnaam);
                 throw exx;
             } finally {
                 con.Close();
             }
-        }
-
-        public bool BestaatBedrijf(string bedrijfsnaam) {
-            throw new NotImplementedException();
         }
 
         public void BewerkBedrijf(Bedrijf bedrijf) {
