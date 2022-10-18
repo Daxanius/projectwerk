@@ -30,7 +30,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Geef een bezoeker op naam
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="naam"></param>
+		/// <param name="achternaam"></param>
 		/// <returns></returns>
 		[HttpGet("{naam}/{achternaam}")]
 		public ActionResult<IEnumerable<Bezoeker>> GeefOpNaam(string naam, string achternaam) {
@@ -77,9 +78,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Voeg een bezoeker toe
+		/// Voegt een bezoeker toe
 		/// </summary>
-		/// <param name="afspraak"></param>
+		/// <param name="bezoekerData"></param>
 		/// <returns></returns>
 		[HttpPost]
 		public ActionResult<Bezoeker> VoegBezoekerTOe([FromBody] DTOBezoeker bezoekerData) {

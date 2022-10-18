@@ -44,6 +44,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			}
 		}
 
+		/// <summary>
+		/// Geeft alle bedrijven
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		public IEnumerable<Bedrijf> GeefAlleBedrijven() {
 			// Kan dit fout gaan?
@@ -95,8 +99,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			if (bedrijf == null) return BadRequest($"{nameof(bedrijf)} is null");
 
 			try {
-				// Waarom vraagt bewerk nu opeens een instantie van Bedrijf ipv primitives gelijk
-				// bij VoegBedrijfToe?
 				_bedrijfManager.BewerkBedrijf(bedrijf);
 				return bedrijf;
 			} catch (Exception ex) {

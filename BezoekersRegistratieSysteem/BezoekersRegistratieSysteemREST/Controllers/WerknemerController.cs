@@ -33,6 +33,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// Geef een werknemer op naam
 		/// </summary>
 		/// <param name="naam"></param>
+		/// <param name="achternaam"></param>
 		/// <returns></returns>
 		[HttpGet("{naam}/{achternaam}")]
 		public ActionResult<IEnumerable<Werknemer>> GeefWerknemersOpNaam(string naam, string achternaam) {
@@ -80,7 +81,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Voeg een werknemer toe
 		/// </summary>
-		/// <param name="afspraak"></param>
+		/// <param name="werknemerData"></param>
 		/// <returns></returns>
 		[HttpPost]
 		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] DTOWerknemer werknemerData) {
@@ -97,7 +98,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Bewerk een werknemer
 		/// </summary>
-		/// <param name="afspraak"></param>
+		/// <param name="werknemer"></param>
 		/// <returns></returns>
 		[HttpPut]
 		public ActionResult<Werknemer> BewerkWerknemer([FromBody] Werknemer werknemer) {

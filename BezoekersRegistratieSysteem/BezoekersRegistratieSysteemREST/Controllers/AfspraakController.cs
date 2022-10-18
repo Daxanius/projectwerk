@@ -104,23 +104,15 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Maakt een afspraak op de ingestelde tijd voor bezoeker en werknemer
+		/// Maakt een afspraak tussen een bezoeker en een werknemer op dit moment van de dag
 		/// </summary>
-		/// <param name="bezoeker"></param>
-		/// <param name="werknemer"></param>
+		/// <param name="bezoekerId"></param>
+		/// <param name="werknemerId"></param>
 		/// <returns></returns>
 		[HttpPost]
 		public ActionResult<Afspraak> MaakAfspraak([FromQuery] uint bezoekerId, [FromQuery] uint werknemerId) {
 			try {
-				/*
-					Kunnen werknemer en bezoeker ids zijn? Zou dit niet ook beter de afspraak returnen?
-					Ik gebruik hier nu DateTime.Now, om op dit moment een afspraak te maken, maar dit 
-					laat mij even denken. Hoe regelen wij tijdzones? Als we DateTime.Now gebruiken
-					dan is de starttijd ingesteld op de lokale tijd van de server, en niet op de tijd
-					van de client.
-				*/
-
-				// De bezoeker en de werknemer ophalen
+				// De bezoeker en de werknemer ophalen van de ids
 				Bezoeker bezoeker = _bezoekerManager.GeefBezoeker(bezoekerId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
@@ -132,7 +124,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Beeindig een afspraak
+		/// Beeindig een afspraak op ID
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
