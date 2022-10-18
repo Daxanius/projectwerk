@@ -327,8 +327,43 @@ namespace BezoekersRegistratieSysteemDL {
                 con.Close();
             }
         }
+
+        /// <summary>
+        /// Voegt bedrijf toe aan db
+        /// </summary>
+        /// <param name="bedrijf"></param>
+        /// <returns>Bedrijf object</returns>
+        /// <exception cref="BedrijfADOException"></exception>
         public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres) " +
+                           "output INSERTED.ID " +
+                           "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres)";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@naam", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@btwNr", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@TeleNr", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@Adres", SqlDbType.VarChar));
+                    cmd.Parameters["@naam"].Value = bedrijf.Naam;
+                    cmd.Parameters["@btwNr"].Value = bedrijf.BTW;
+                    cmd.Parameters["@TeleNr"].Value = bedrijf.TelefoonNummer;
+                    cmd.Parameters["@Email"].Value = bedrijf.Email;
+                    cmd.Parameters["@Adres"].Value = bedrijf.Adres;
+                    uint i = (uint)cmd.ExecuteScalar();
+                    bedrijf.ZetId(i);
+                    return bedrijf;
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"BedrijfRepoADO: VoegBedrijfToe {ex.Message}", ex);
+                exx.Data.Add("bedrijf", bedrijf);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
     }
 }
