@@ -46,13 +46,15 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             Bedrijf = bedrijf;
 		}
 
-		//public bool BezoekerIsGelijk(Bezoeker bezoeker)
-		//{
-		//	if (bezoeker.Voornaam != Voornaam) return false;
-		//  if (bezoeker.Achternaam != Achternaam) return false;
-		//  if (bezoeker.Email != Email) return false;
-		//  if (bezoeker.Bedrijf != Bedrijf) return false;
-		//	return true;
-		//}
+		public bool BezoekerIsGelijk(Bezoeker bezoeker)
+		{
+            if (bezoeker == null) return false;
+            if (bezoeker.Id != Id) return false;
+            if (bezoeker.Voornaam != Voornaam) return false;
+			if (bezoeker.Achternaam != Achternaam) return false;
+			if (bezoeker.Email != Email) return false;
+			if (bezoeker.Bedrijf != Bedrijf) return false;
+			return true;
+		}
 	}
 }

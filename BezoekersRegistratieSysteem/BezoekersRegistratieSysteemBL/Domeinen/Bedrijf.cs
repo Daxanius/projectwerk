@@ -130,13 +130,13 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="werknemer"></param>
         /// <param name="functie"></param>
         /// <exception cref="BedrijfException"></exception>
-        public void VoegWerknemerToe(Werknemer werknemer, string functie) {
+        public void VoegWerknemerToeInBedrijf(Werknemer werknemer, string functie) {
             if (werknemer == null) throw new BedrijfException("Bedrijf - VoegWerknemerToe - werknemer mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(functie)) throw new BedrijfException("Bedrijf - VoegWerknemerToe - functie mag niet leeg zijn");
 
             // VoegBedrijfEnFunctieToe voert al de nodige controles uit om het
             _werknemers.Add(werknemer);
-			werknemer.VoegBedrijfEnFunctieToe(this, functie);
+			werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, functie);
 		}
 
 		/// <summary>
@@ -144,13 +144,28 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="werknemer"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void VerwijderWerknemer(Werknemer werknemer) {
+		public void VerwijderWerknemerUitBedrijf(Werknemer werknemer) {
             if (werknemer == null) throw new BedrijfException("Bedrijf - VerwijderWerknemer - werknemer mag niet leeg zijn");
             if (!_werknemers.Contains(werknemer)) throw new BedrijfException("Bedrijf - VerwijderWerknemer - werknemer bestaat niet");
 			_werknemers.Remove(werknemer);
-            
-			// TODO Werknemer non-actief zetten
-		}
+            werknemer.VerwijderBedrijfVanWerknemer(this);
+        }
+
+        public bool BedrijfIsGelijk(Bedrijf bedrijf)
+		{
+            if (bedrijf == null) return false;
+            if (Id != bedrijf.Id) return false;
+            if (Naam != bedrijf.Naam) return false;
+            if (BTW != bedrijf.BTW) return false;
+            if (TelefoonNummer != bedrijf.TelefoonNummer) return false;
+            if (Email != bedrijf.Email) return false;
+            if (Adres != bedrijf.Adres) return false;
+			foreach (Werknemer werknemer in _werknemers)
+			{
+                if (!bedrijf._werknemers.Contains(werknemer)) return false;
+            }
+            return true;
+        }
 
 		public IReadOnlyList<Werknemer> GeefWerknemers() {
 			return _werknemers.AsReadOnly();
