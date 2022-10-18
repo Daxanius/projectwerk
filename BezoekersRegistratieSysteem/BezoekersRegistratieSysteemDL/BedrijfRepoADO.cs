@@ -1,8 +1,10 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
+using BezoekersRegistratieSysteemDL.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +16,49 @@ namespace BezoekersRegistratieSysteemDL {
         public BedrijfRepoADO(string connectieString) {
             _connectieString = connectieString;
         }
+
+        /// <summary>
+        /// Maakt connectie met DB
+        /// </summary>
+        /// <returns>SqlConnection</returns>
         private SqlConnection GetConnection() {
             return new SqlConnection(_connectieString);
         }
-
+        /// <summary>
+        /// Methode die kijkt of bedrijf in DB bestaat adh bedrijf object
+        /// </summary>
+        /// <param name="bedrijf"></param>
+        /// <returns>bool</returns>
+        /// <exception cref="BedrijfADOException"></exception>
         public bool BestaatBedrijf(Bedrijf bedrijf) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+                           "FROM bedrijf " +
+                           "WHERE 1=1";
+            try {              
+                con.Open();
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    if (bedrijf.Id != 0) {
+                        query += " AND bedrijfid = @bedrijfid";
+                        cmd.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
+                        cmd.Parameters["@bedrijfid"].Value = bedrijf.Id;
+                    } else {
+                        query += " AND BTWNr = @BTWNr";
+                        cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
+                        cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
+                    }
+                    cmd.CommandText = query;
+                    int i = (int)cmd.ExecuteScalar();
+                    return (i > 0);
+                }
+            } catch (Exception ex) {
+                BedrijfADOException exx = new BedrijfADOException("BedrijfRepoADO: BestaatBedrijf", ex);
+                exx.Data.Add("bedrijf", bedrijf);
+                return false;
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
         public bool BestaatBedrijf(uint bedrijf) {
