@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// <exception cref="AfspraakADOException"></exception>
         public void BeeindigAfspraakBezoeker(uint afspraakId) {
             try {
-                BeeindigAfspraak(afspraakId, 3);
+                VeranderStatusAfspraak(afspraakId, 3);
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraakBezoeker {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
@@ -53,7 +53,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// <exception cref="AfspraakADOException"></exception>
         public void BeeindigAfspraakSysteem(uint afspraakId) {
             try {
-                BeeindigAfspraak(afspraakId, 4);
+                VeranderStatusAfspraak(afspraakId, 4);
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraakSysteem {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
@@ -68,7 +68,7 @@ namespace BezoekersRegistratieSysteemDL {
         /// <exception cref="AfspraakADOException"></exception>
         public void VerwijderAfspraak(uint afspraakId) {
             try {
-                BeeindigAfspraak(afspraakId, 2);
+                VeranderStatusAfspraak(afspraakId, 2);
             } catch (Exception ex) {
                 throw new AfspraakADOException($"AfspraakRepoADO: VerwijderAfspraak {ex.Message}", ex);
             }
@@ -80,7 +80,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// <param name="afspraakId"></param>
 		/// <param name="statusId"></param>
 		/// <exception cref="AfspraakADOException"></exception>
-        private void BeeindigAfspraak(uint afspraakId, int statusId) {
+        private void VeranderStatusAfspraak(uint afspraakId, int statusId) {
             SqlConnection con = GetConnection();
             //TEMP prob gonna get split, set this private and change 2 to @status
             string query = "UPDATE Afspraak " +
