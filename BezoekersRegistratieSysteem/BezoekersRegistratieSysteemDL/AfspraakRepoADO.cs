@@ -553,7 +553,7 @@ namespace BezoekersRegistratieSysteemDL {
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BestaatAfspraak object {ex.Message}", ex);
                 exx.Data.Add("afspraak", afspraak);
-                return false;
+                throw exx;
             } finally {
                 con.Close();
             }
@@ -583,7 +583,7 @@ namespace BezoekersRegistratieSysteemDL {
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BestaatAfspraak id {ex.Message}", ex);
                 exx.Data.Add("afspraakid", afspraakid);
-                return false;
+                throw exx;
             } finally {
                 con.Close();
             }

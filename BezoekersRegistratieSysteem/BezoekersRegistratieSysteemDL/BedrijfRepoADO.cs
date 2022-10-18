@@ -54,7 +54,6 @@ namespace BezoekersRegistratieSysteemDL {
             } catch (Exception ex) {
                 BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf object {ex.Message}", ex);
                 exx.Data.Add("bedrijf", bedrijf);
-                return false;
                 throw exx;
             } finally {
                 con.Close();
@@ -78,7 +77,6 @@ namespace BezoekersRegistratieSysteemDL {
             } catch (Exception ex) {
                 BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf id {ex.Message}", ex);
                 exx.Data.Add("bedrijfId", bedrijfId);
-                return false;
                 throw exx;
             } finally {
                 con.Close();
