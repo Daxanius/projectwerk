@@ -19,6 +19,14 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf, "CEO");
 			validPersoon1 = validBezoeker;
 			validPersoon2 = validBezoeker;
+
+			validBedrijf.ZetId(1);
+			validPersoon1.ZetId(1);
+			validPersoon1.ZetId(2);
+
+			validWerknemer.ZetId(1);
+
+			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf, "CEO");
 		}
 
 		#region InValid

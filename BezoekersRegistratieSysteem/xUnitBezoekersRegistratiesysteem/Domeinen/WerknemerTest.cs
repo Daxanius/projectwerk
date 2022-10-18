@@ -14,12 +14,13 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			validBedrijf1 = new(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
 			validBedrijf2 = new(naam: "Artevelde", btw: "BE0475730464", telefoonNummer: "0476687244", email: "mail.me@artevelde.be", adres: "Kerkstraat snorkelland 9006 101");
 			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan1@gmail.com");
-			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf1, "CEO");
-
-			validWerknemer.ZetId(1);
 
 			validBedrijf1.ZetId(1);
 			validBedrijf2.ZetId(2);
+
+			validWerknemer.ZetId(1);
+
+			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf1, "CEO");
 		}
 
 		#region InValid
@@ -32,7 +33,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		[Fact]
 		public void VerwijderBedrijf_Null_Exception()
 		{
-			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf1, "CEO");
+			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf1, "Manager");
 			
 			validWerknemer.VerwijderBedrijfVanWerknemer(validBedrijf1);
 			Assert.Empty(validWerknemer.GeefBedrijfEnFunctiesPerWerknemer());
@@ -66,8 +67,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		public void ZetBedrijf()
 		{
 			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf2, "Technisch Medewerker");
-
-			var listMetData = validWerknemer.GeefBedrijfEnFunctiesPerWerknemer();
 
 			Assert.Equal(validBedrijf2.Naam, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.ToList()[1].Naam);
 			Assert.Equal(validBedrijf2.TelefoonNummer, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.ToList()[1].TelefoonNummer);

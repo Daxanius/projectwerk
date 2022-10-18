@@ -11,6 +11,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		public BezoekerTest()
 		{
 			validBezoeker = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: "Artevelde");
+
+			validBezoeker.ZetId(1);
 		}
 
 		#region InValid
