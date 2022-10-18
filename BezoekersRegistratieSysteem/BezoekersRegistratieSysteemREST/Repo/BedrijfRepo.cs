@@ -55,6 +55,7 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 
 		public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
 			_bedrijven.Add(_lastId, bedrijf);
+			_bedrijven[_lastId].ZetId(_lastId);
 			return _bedrijven[_lastId++];
 		}
 	}

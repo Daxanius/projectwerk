@@ -68,13 +68,13 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 
 		public void VerwijderAfspraak(uint afspraakId) {
 			if (!_afspraken.ContainsKey(afspraakId)) throw new Exception("Afspraak bestaat niet");
-
 			_afspraken.Remove(afspraakId);
 		}
 
 		// Voegt een afspraak toe en increment de last ID
 		public Afspraak VoegAfspraakToe(Afspraak afspraak) {
 			_afspraken.Add(_lastId, afspraak);
+			_afspraken[_lastId].ZetId(_lastId);
 			return _afspraken[_lastId++];
 		}
 	}

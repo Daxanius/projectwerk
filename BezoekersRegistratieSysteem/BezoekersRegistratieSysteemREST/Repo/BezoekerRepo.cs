@@ -43,6 +43,7 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 
 		public void WijzigBezoeker(Bezoeker bezoeker) {
 			if (!_bezoekers.ContainsKey(bezoeker.Id)) throw new Exception("Bezoeker bestaat niet");
+			_bezoekers[_lastId].ZetId(_lastId);
 			_bezoekers[bezoeker.Id] = bezoeker;
 		}
 

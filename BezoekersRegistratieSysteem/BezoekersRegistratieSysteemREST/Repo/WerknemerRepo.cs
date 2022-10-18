@@ -37,12 +37,12 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 
 		public Werknemer VoegWerknemerToe(Werknemer werknemer) {
 			_werknemers.Add(_lastId, werknemer);
+			_werknemers[_lastId].ZetId(_lastId);
 			return _werknemers[_lastId++];
 		}
 
 		public void WijzigWerknemer(Werknemer werknemer) {
 			if (!_werknemers.ContainsKey(werknemer.Id)) throw new Exception("Werknemer bestaat niet");
-
 			_werknemers[werknemer.Id] = werknemer;
 		}
 	}
