@@ -63,9 +63,10 @@ namespace BezoekersRegistratieSysteemDL {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     var sqltype = (bedrijf is not null && bedrijf.Id != 0) ? SqlDbType.BigInt : (bedrijfId.HasValue) ? SqlDbType.BigInt : SqlDbType.VarChar;
-                    query += " AND bedrijfid = @querylookup";
                     cmd.Parameters.Add(new SqlParameter("@querylookup", sqltype));
-                    cmd.Parameters["@querylookup"].Value = (bedrijf is not null && bedrijf.Id != 0) ? bedrijf.Id : (bedrijfId.HasValue) ? bedrijfId : bedrijfsnaam;
+                    string databaseWhere = (bedrijf is not null) ? (bedrijf.Id != 0) ? "id" : "BTWNr" : (bedrijfId.HasValue) ? "id" : "Naam";
+                    query += $" AND {databaseWhere} = @querylookup";
+                    cmd.Parameters["@querylookup"].Value = (bedrijf is not null) ? (bedrijf.Id != 0) ? bedrijf.Id : bedrijf.BTW : (bedrijfId.HasValue) ? bedrijfId : bedrijfsnaam;
                     cmd.CommandText = query;
                     int i = (int)cmd.ExecuteScalar();
                     return (i > 0);
