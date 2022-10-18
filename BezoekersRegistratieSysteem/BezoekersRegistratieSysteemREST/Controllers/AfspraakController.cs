@@ -96,8 +96,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
 				Afspraak afspraak = new(0, DateTime.Now, null, bezoeker, werknemer);
-				_afspraakManager.VoegAfspraakToe(afspraak);
-				return afspraak;
+				return _afspraakManager.VoegAfspraakToe(afspraak);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}

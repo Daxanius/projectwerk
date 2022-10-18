@@ -78,8 +78,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 
 			try {
 				Bedrijf bedrijf = new(bedrijfData.Naam, bedrijfData.BTW, bedrijfData.TelefoonNummer, bedrijfData.Email, bedrijfData.Adres);
-				_bedrijfManager.VoegBedrijfToe(bedrijf);
-				return bedrijf;
+				return _bedrijfManager.VoegBedrijfToe(bedrijf);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}

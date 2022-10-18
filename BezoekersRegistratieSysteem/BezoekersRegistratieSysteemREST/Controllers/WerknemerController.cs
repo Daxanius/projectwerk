@@ -87,8 +87,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 
 			try {
 				Werknemer werknemer = new(werknemerData.Voornaam, werknemerData.Achternaam, werknemerData.Email);
-				_werknemerManager.VoegWerknemerToe(werknemer);
-				return werknemer;
+				return _werknemerManager.VoegWerknemerToe(werknemer);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
