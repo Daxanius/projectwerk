@@ -36,8 +36,8 @@ namespace BezoekersRegistratieSysteemDL {
                            "FROM bedrijf " +
                            "WHERE 1=1";
             try {              
-                con.Open();
                 using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
                     if (bedrijf.Id != 0) {
                         query += " AND bedrijfid = @bedrijfid";
                         cmd.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
@@ -66,8 +66,8 @@ namespace BezoekersRegistratieSysteemDL {
                            "FROM bedrijf " +
                            "WHERE bedrijfid = @bedrijfid";
             try {
-                con.Open();
                 using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
                     cmd.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
                     cmd.Parameters["@bedrijfid"].Value = bedrijfId;
                     cmd.CommandText = query;

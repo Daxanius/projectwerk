@@ -87,8 +87,8 @@ namespace BezoekersRegistratieSysteemDL {
                            "SET AfspraakStatusId = @statusId " +
                            "WHERE Id = @afspraakid";
             try {
-                con.Open();
                 using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
                     cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
@@ -128,8 +128,8 @@ namespace BezoekersRegistratieSysteemDL {
                            "BezoekerId = @bezoekerId " +
                            "WHERE Id = @afspraakid";
             try {
-                con.Open();
                 using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
                     cmd.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
@@ -499,8 +499,8 @@ namespace BezoekersRegistratieSysteemDL {
                            "output INSERTED.ID " +
                            "VALUES(@start,@eind,@werknemerId,@bezoekerId)";
             try {
-                con.Open();
                 using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
                     cmd.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
