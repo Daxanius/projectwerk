@@ -65,9 +65,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpDelete]
-		public IActionResult VerwijderWerknemer([FromBody] Werknemer werknemer) {
+		[HttpDelete("{id}")]
+		public IActionResult VerwijderWerknemer(uint id) {
 			try {
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(id);
 				_werknemerManager.VerwijderWerknemer(werknemer);
 				return Ok();
 			} catch (Exception ex) {

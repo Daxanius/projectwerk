@@ -56,9 +56,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpDelete]
-		public IActionResult VerwijderBedrijf([FromBody] Bedrijf bedrijf) {
+		[HttpDelete("{id}")]
+		public IActionResult VerwijderBedrijf(uint id) {
 			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(id);
 				_bedrijfManager.VerwijderBedrijf(bedrijf);
 				return Ok();
 			} catch (Exception ex) {

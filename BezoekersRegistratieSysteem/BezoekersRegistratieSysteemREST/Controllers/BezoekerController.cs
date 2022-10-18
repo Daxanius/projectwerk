@@ -65,13 +65,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpDelete]
-		public IActionResult VerwijderBezoeker([FromBody] Bezoeker bezoeker) {
+		[HttpDelete("{id}")]
+		public IActionResult VerwijderBezoeker(uint id) {
 			try {
+				Bezoeker bezoeker = _bezoekerManager.GeefBezoeker(id);
 				_bezoekerManager.VerwijderBezoeker(bezoeker);
 				return Ok();
 			} catch (Exception ex) {
-				// Welke IActionResults zijn er??
 				return NotFound(ex.Message);
 			}
 		}
