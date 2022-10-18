@@ -93,21 +93,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		}
 
 		[Fact]
-		public void VoegWerknemerToe_ContainsWernemer_Exception()
-		{
-			Assert.Throws<BedrijfException>(() => validBedrijf.VoegWerknemerToeInBedrijf(validWerknemer, "CEO"));
-		}
-
-		[Fact]
 		public void VerwijderWerknemer_Null_Exception()
 		{
 			Assert.Throws<BedrijfException>(() => validBedrijf.VoegWerknemerToeInBedrijf(null, "CEO"));
-		}
-
-		[Fact]
-		public void VerwijderWerknemer_ContainsWernemer_Exception()
-		{
-			Assert.Throws<BedrijfException>(() => validBedrijf2.VoegWerknemerToeInBedrijf(validWerknemer, "CEO"));
 		}
 
 		[Fact]
@@ -156,6 +144,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			Bedrijf bedrijf = validBedrijf;
 			Persoon werknemer = new Werknemer("stan", "persoons", "stan@mailpersoons.be");
 
+			bedrijf.VoegWerknemerToeInBedrijf(werknemer as Werknemer, "CEO");
+
 			Assert.Contains<Werknemer>(werknemer as Werknemer, bedrijf.GeefWerknemers());
 		}
 
@@ -164,6 +154,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		{
 			Bedrijf bedrijf = validBedrijf;
 			Persoon werknemer2 = new Werknemer("stape", "persoon", "stan2@mailpersoons.be");
+
+			bedrijf.VoegWerknemerToeInBedrijf(werknemer2 as Werknemer, "CEO");
 
 			bedrijf.VerwijderWerknemerUitBedrijf(werknemer2 as Werknemer);
 

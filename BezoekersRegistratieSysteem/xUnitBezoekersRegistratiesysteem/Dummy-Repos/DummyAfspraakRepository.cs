@@ -120,7 +120,7 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
 
         public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint bedrijfId)
         {
-            List<Afspraak> huidigeAfspraken = _afspraken.Where(a => a.Value.Eindtijd != null).Select(x => x.Value).ToList();
+            List<Afspraak> huidigeAfspraken = _afspraken.Where(a => a.Value.Eindtijd == null).Select(x => x.Value).ToList();
 
             var listMetAfspraken = new List<Afspraak>();
 
@@ -128,7 +128,7 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
             {
                 var bedrijfenPerWerknemer = item.Werknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.ToList();
 
-                for (int i = 0; i < bedrijfenPerWerknemer.Count(); i++)
+                for (int i = 0; i < bedrijfenPerWerknemer.Count; i++)
                 {
 					if (bedrijfenPerWerknemer[i].Id == bedrijfId)
 					{
@@ -138,7 +138,6 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
             }
 
             return listMetAfspraken;
-			throw new AfspraakException("Dit is niet juist geimplementeerd denk ik");
 		}
 
         public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId)
@@ -153,43 +152,42 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
             _afspraken.Remove(werknemerId);
         }
 
-        public void VoegAfspraakToe(Afspraak afspraak)
-        {
-            if (afspraak == null)
-                throw new AfspraakException("afspraak is null");
-            if (_afspraken.ContainsKey(afspraak.Id))
-                throw new AfspraakException("id bestaat al");
+		public Afspraak VoegAfspraakToe(Afspraak afspraak)
+		{
+			if (afspraak == null)
+				throw new AfspraakException("afspraak is null");
+			if (_afspraken.ContainsKey(afspraak.Id))
+				throw new AfspraakException("id bestaat al");
             _afspraken.Add(afspraak.Id, afspraak);
-        }
 
-        Afspraak IAfspraakRepository.VoegAfspraakToe(Afspraak afspraak)
-        {
-            throw new NotImplementedException();
-        }
+			return _afspraken[afspraak.Id];
+		}
 
-        public void BeeindigAfspraakBezoeker(uint id)
+		public void BeeindigAfspraakBezoeker(uint id)
         {
-            throw new NotImplementedException();
-        }
+            _afspraken.Where(a => a.Value.Bezoeker.Id == id).Select(a => a.Value).ToList().ForEach(a => a.ZetEindtijd(DateTime.Now));
+		}
 
         public void BeeindigAfspraakSysteem(uint id)
         {
-            throw new NotImplementedException();
-        }
+            _afspraken.Where(a => a.Value.Bezoeker.Id == id).Select(a => a.Value).ToList().ForEach(a => a.ZetEindtijd(DateTime.Now));
+		}
 
         public Afspraak GeefAfspraak(uint afspraakid)
         {
-            throw new NotImplementedException();
-        }
+			if (!_afspraken.ContainsKey(afspraakid))
+				throw new AfspraakException("id bestaat niet");
+			return _afspraken[afspraakid];
+		}
 
         public bool BestaatAfspraak(Afspraak afspraak)
         {
-            throw new NotImplementedException();
-        }
+            return BestaatAfspraak(afspraak.Id);
+		}
 
         public bool BestaatAfspraak(uint afspraakid)
         {
-            throw new NotImplementedException();
-        }
+			return _afspraken.ContainsKey(afspraakid);
+		}
     }
 }
