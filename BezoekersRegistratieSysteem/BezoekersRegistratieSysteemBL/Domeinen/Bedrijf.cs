@@ -136,9 +136,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
             if (werknemer == null) throw new BedrijfException("Bedrijf - VoegWerknemerToe - werknemer mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(functie)) throw new BedrijfException("Bedrijf - VoegWerknemerToe - functie mag niet leeg zijn");
 
-            // VoegBedrijfEnFunctieToe voert al de nodige controles uit om het
-            _werknemers.Add(werknemer);
-			werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, functie);
+			// VoegBedrijfEnFunctieToe voert al de nodige controles uit om het
+			if (werknemer.GeefBedrijfEnFunctiesPerWerknemer().ToDictionary(x => x.Key, x => x.Value).ContainsKey(this))
+			{
+				_werknemers.Add(werknemer);
+				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, functie);
+			}
 		}
 
 		/// <summary>
@@ -152,6 +155,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			_werknemers.Remove(werknemer);
             werknemer.VerwijderBedrijfVanWerknemer(this);
         }
+        
+		public IReadOnlyList<Werknemer> GeefWerknemers() {
+			return _werknemers.AsReadOnly();
+		}
 
         public bool BedrijfIsGelijk(Bedrijf bedrijf)
 		{
@@ -169,13 +176,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
             return true;
         }
 
-		public IReadOnlyList<Werknemer> GeefWerknemers()
-		{
-			return _werknemers.AsReadOnly();
-		}
-
-		public override bool Equals(object? obj)
-		{
+		public override bool Equals(object? obj) {
 			return Equals(obj as Bedrijf);
 		}
 
