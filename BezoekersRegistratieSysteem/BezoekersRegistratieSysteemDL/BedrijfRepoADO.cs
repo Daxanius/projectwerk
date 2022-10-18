@@ -233,6 +233,12 @@ namespace BezoekersRegistratieSysteemDL {
                 con.Close();
             }
         }
+
+        /// <summary>
+        /// geeft lijst van bedrijf objecten
+        /// </summary>
+        /// <returns>Lijst Bedrijf object</returns>
+        /// <exception cref="BedrijfADOException"></exception>
         public IReadOnlyList<Bedrijf> Geefbedrijven() {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
@@ -278,11 +284,48 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
-        public void VerwijderBedrijf(uint id) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Veranderd status van bedrijf naar verwijderd
+        /// </summary>
+        /// <param name="bedrijfId"></param>
+        /// <exception cref="BedrijfADOException"></exception>
+        public void VerwijderBedrijf(uint bedrijfId) {
+            try {
+                VeranderStatusBedrijf(bedrijfId, 2);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"BedrijfRepoADO: VerwijderBedrijf {ex.Message}", ex);
+            }
         }
-        private void VeranderStatusBedrijf(uint bedrijfId, int statusId) { 
-            
+
+        /// <summary>
+        /// Veranderd status van bedrijf
+        /// </summary>
+        /// <param name="bedrijfId"></param>
+        /// <param name="statusId"></param>
+        /// <exception cref="BedrijfADOException"></exception>
+        private void VeranderStatusBedrijf(uint bedrijfId, int statusId) {
+            SqlConnection con = GetConnection();
+            string query = "UPDATE bedrijf " +
+                           "SET AfspraakStatusId = @statusId " +
+                           "WHERE Id = @bedrijfid";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+                    cmd.Parameters["@bedrijfid"].Value = bedrijfId;
+                    cmd.Parameters["@statusId"].Value = statusId;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: VeranderStatusBedrijf {ex.Message}", ex);
+                exx.Data.Add("bedrijfId", bedrijfId);
+                exx.Data.Add("statusId", statusId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
         public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
             throw new NotImplementedException();
