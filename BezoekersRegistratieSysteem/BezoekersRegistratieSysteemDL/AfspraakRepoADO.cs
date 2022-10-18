@@ -81,6 +81,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// <param name="statusId"></param>
 		/// <exception cref="AfspraakADOException"></exception>
         private void VeranderStatusAfspraak(uint afspraakId, int statusId) {
+            SqlConnection con = GetConnection();
             string query = "UPDATE Afspraak " +
                            "SET AfspraakStatusId = @statusId " +
                            "WHERE Id = @afspraakid";
