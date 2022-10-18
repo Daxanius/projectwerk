@@ -163,6 +163,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// Geef afspraak
 		/// </summary>
 		/// <param name="afspraakId"></param>
+        /// <returns>Afspraak object</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         public Afspraak GeefAfspraak(uint afspraakId) {
             SqlConnection con = GetConnection();
@@ -236,6 +237,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// Geef alle afspraken op datum
 		/// </summary>
 		/// <param name="datum"></param>
+        /// <returns>ReadOnlyList Afspraak</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
             try {
@@ -249,6 +251,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// Geef alle afspraken op werknemer
 		/// </summary>
 		/// <param name="werknemerId"></param>
+        /// <returns>ReadOnlyList Afspraak</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(uint werknemerId) {
             try {
@@ -263,6 +266,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// </summary>
 		/// <param name="werknemerId"></param>
 		/// <param name="datum"></param>
+        /// <returns>ReadOnlyList Afspraak</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(uint werknemerId, DateTime datum) {
             try {
@@ -277,6 +281,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// </summary>
 		/// <param name="_werknemerId"></param>
 		/// <param name="_datum"></param>
+        /// <returns>ReadOnlyList Afspraak</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         private IReadOnlyList<Afspraak> GeefAlleAfspraken(uint? _werknemerId, DateTime? _datum) {
             SqlConnection con = GetConnection();
@@ -359,6 +364,7 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
 		/// Geeft lijst van huidige Afspraken
 		/// </summary>
+        /// <returns>ReadOnlyList Afspraak</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         public IReadOnlyList<Afspraak> GeefHuidigeAfspraken() {
             try {
@@ -371,7 +377,8 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
 		/// Geeft lijst van huidige Afspraken per bedrijf
 		/// </summary>
-		/// <param name="afspraak"></param>
+		/// <param name="bedrijfId"></param>
+        /// <returns>ReadOnlyList Afspraak</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint bedrijfId) {
             try {
@@ -384,7 +391,8 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
 		/// Geeft lijst van huidige Afspraken per werknemer
 		/// </summary>
-		/// <param name="afspraak"></param>
+		/// <param name="werknemerId"></param>
+        /// <returns>ReadOnlyList Afspraak</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId) {
             try {
@@ -399,6 +407,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// </summary>
 		/// <param name="_bedrijfId"></param>
 		/// <param name="_werknemerId"></param>
+        /// <returns>ReadOnlyList Afspraak</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         private IReadOnlyList<Afspraak> GeefHuidigeAfspraken(uint? _bedrijfId, uint? _werknemerId) {
             SqlConnection con = GetConnection();
@@ -482,6 +491,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// Maakt afspraak aan in DB
 		/// </summary>
 		/// <param name="afspraak"></param>
+        /// <returns>Afspraak object</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         public Afspraak VoegAfspraakToe(Afspraak afspraak) {
             SqlConnection con = GetConnection();
@@ -517,6 +527,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// Kijkt of afspraak bestaat op basis van afspraak object
 		/// </summary>
 		/// <param name="afspraak"></param>
+        /// <returns>bool</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         public bool BestaatAfspraak(Afspraak afspraak) {
             SqlConnection con = GetConnection();
@@ -552,6 +563,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// Kijkt of afspraak bestaat op basis van afspraak id
 		/// </summary>
 		/// <param name="afspraakid"></param>
+        /// <returns>bool</returns>
 		/// <exception cref="AfspraakADOException"></exception>
         public bool BestaatAfspraak(uint afspraakid) {
             SqlConnection con = GetConnection();
