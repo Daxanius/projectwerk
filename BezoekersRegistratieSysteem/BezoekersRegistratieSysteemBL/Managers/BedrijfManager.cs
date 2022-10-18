@@ -36,6 +36,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
                 throw new BedrijfManagerException(ex.Message);
             }
         }
+        
         public void BewerkBedrijf(Bedrijf bedrijf) {
             if (bedrijf == null) throw new BedrijfManagerException("BedrijfManager - UpdateBedrijf - bedrijf mag niet leeg zijn");
             if (!_bedrijfRepository.BestaatBedrijf(bedrijf)) throw new BedrijfManagerException("BedrijfManager - UpdateBedrijf - bedrijf bestaat niet");
