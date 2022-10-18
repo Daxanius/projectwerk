@@ -52,7 +52,7 @@ namespace BezoekersRegistratieSysteemDL {
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                BedrijfADOException exx = new BedrijfADOException("BedrijfRepoADO: BestaatBedrijf", ex);
+                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf object {ex.Message}", ex);
                 exx.Data.Add("bedrijf", bedrijf);
                 return false;
                 throw exx;
@@ -61,8 +61,28 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
-        public bool BestaatBedrijf(uint bedrijf) {
-            throw new NotImplementedException();
+        public bool BestaatBedrijf(uint bedrijfId) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+                           "FROM bedrijf " +
+                           "WHERE bedrijfid = @bedrijfid";
+            try {
+                con.Open();
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    cmd.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
+                    cmd.Parameters["@bedrijfid"].Value = bedrijfId;
+                    cmd.CommandText = query;
+                    int i = (int)cmd.ExecuteScalar();
+                    return (i > 0);
+                }
+            } catch (Exception ex) {
+                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf id {ex.Message}", ex);
+                exx.Data.Add("bedrijfId", bedrijfId);
+                return false;
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
         public bool BestaatBedrijf(string bedrijfsnaam) {
