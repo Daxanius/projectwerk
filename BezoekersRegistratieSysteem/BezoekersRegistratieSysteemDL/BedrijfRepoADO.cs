@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace BezoekersRegistratieSysteemDL {
     public class BedrijfRepoADO : IBedrijfRepository {
@@ -145,13 +146,74 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         public Bedrijf GeefBedrijf(uint id) {
-            throw new NotImplementedException();
+            try {
+                return GeefBedrijf(id, null);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"BedrijfRepoADO: GeefBedrijf {ex.Message}", ex);
+            }
         }
 
         public Bedrijf GeefBedrijf(string bedrijfsnaam) {
-            throw new NotImplementedException();
+            try {
+                return GeefBedrijf(null, bedrijfsnaam);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"BedrijfRepoADO: GeefBedrijf {ex.Message}", ex);
+            }
         }
 
+        private Bedrijf GeefBedrijf(uint? _bedrijfId, string? _bedrijfnaam) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres " +
+                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
+                           "f.FunctieNaam " +
+                           "FROM Bedrijf b " +
+                           "JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId)" +
+                           "JOIN Werknemer wn ON(wn.id = wb.WerknemerBedrijf)" +
+                           "JOIN Functie f ON(wn.FunctieId = f.Id)" +
+                           "WHERE wb.status = 1";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    if (_bedrijfId.HasValue) {
+                        query += " b.Id = @id";
+                        cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                        cmd.Parameters["@id"].Value = _bedrijfId;
+                    } else {                      
+                        query += " b.Naam = @Naam";
+                        cmd.Parameters.Add(new SqlParameter("@Naam", SqlDbType.VarChar));
+                        cmd.Parameters["@Naam"].Value = _bedrijfnaam;
+                    }
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    Bedrijf bedrijf = null;
+                    while (reader.Read()) {
+                        if (bedrijf is null) {
+                            uint bedrijfId = (uint)reader["BedrijfId"];
+                            string bedrijfNaam = (string)reader["BedrijfNaam"];
+                            string bedrijfBTW = (string)reader["BedrijfBTW"];
+                            string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
+                            string bedrijfMail = (string)reader["BedrijfMail"];
+                            string bedrijfAdres = (string)reader["BedrijfAdres"];
+                            bedrijf = new Bedrijf(bedrijfId,bedrijfNaam,bedrijfBTW,bedrijfTeleNr,bedrijfMail,bedrijfAdres);
+                        }
+                        uint werknemerId = (uint)reader["WerknemerId"];
+                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                        string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                        string werknemerMail = (string)reader["WerknemerMail"];
+                        string functieNaam = (string)reader["FunctieNaam"];
+                        bedrijf.VoegWerknemerToeInBedrijf(new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam, werknemerMail), functieNaam);
+                    }
+                    return bedrijf;
+                }
+            } catch (Exception ex) {
+                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: GetBedrijf {ex.Message}", ex);
+                exx.Data.Add("bedrijfid", _bedrijfId);
+                exx.Data.Add("bedrijfnaam", _bedrijfnaam);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
         public IReadOnlyList<Bedrijf> Geefbedrijven() {
             throw new NotImplementedException();
         }
