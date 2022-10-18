@@ -2,12 +2,22 @@
 using BezoekersRegistratieSysteemBL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemDL {
     public class BedrijfRepoADO : IBedrijfRepository {
+        private string _connectieString;
+
+        public BedrijfRepoADO(string connectieString) {
+            _connectieString = connectieString;
+        }
+        private SqlConnection GetConnection() {
+            return new SqlConnection(_connectieString);
+        }
+
         public bool BestaatBedrijf(Bedrijf bedrijf) {
             throw new NotImplementedException();
         }
