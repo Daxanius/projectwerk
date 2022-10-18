@@ -11,12 +11,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public string Email { get; private set; }
 
         /// <summary>
-        /// Constructor
+        /// Constructor REST
         /// </summary>
         public Persoon() { }
 
         /// <summary>
-        /// Constructor
+        /// Constructor voor het aanmaken van een persoon in de BusinessLaag.
         /// </summary>
         /// <param name="voornaam"></param>
         /// <param name="achternaam"></param>
@@ -28,7 +28,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		}
 
         /// <summary>
-        /// Constructor
+        /// Constructor voor het aanmaken van een persoon in de DataLaag.
         /// </summary>
 		/// <param name="id"></param>
         /// <param name="voornaam"></param>
@@ -43,40 +43,39 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         }
 
         /// <summary>
-        /// Past de ID aan
+        /// Zet id.
         /// </summary>
         /// <param name="id"></param>
         public void ZetId(uint id) {
 			Id = id;
 		}
 
-		/// <summary>
-		/// Past de voornaam aan
-		/// </summary>
-		/// <param name="voornaam"></param>
-		/// <exception cref="PersoonException"></exception>
-		public void ZetVoornaam(string voornaam) {
+        /// <summary>
+        /// Zet voornaam.
+        /// </summary>
+        /// <param name="voornaam"></param>
+        /// <exception cref="PersoonException"></exception>
+        public void ZetVoornaam(string voornaam) {
             if (string.IsNullOrWhiteSpace(voornaam)) throw new PersoonException("Persoon - ZetVoornaam - voornaam mag niet leeg zijn");
             Voornaam = voornaam;
 		}
 
-		/// <summary>
-		/// Past de achternaam aan
-		/// </summary>
-		/// <param name="achternaam"></param>
-		/// <exception cref="PersoonException"></exception>
-		public void ZetAchternaam(string achternaam) {
+        /// <summary>
+        /// Zet achternaam.
+        /// </summary>
+        /// <param name="achternaam"></param>
+        /// <exception cref="PersoonException"></exception>
+        public void ZetAchternaam(string achternaam) {
             if (string.IsNullOrWhiteSpace(achternaam)) throw new PersoonException("Persoon - ZetAchternaam - achternaam mag niet leeg zijn");
             Achternaam = achternaam;
 		}
 
-		/// <summary>
-		/// Past het email-adres aan, controleert op
-		/// notatie
-		/// </summary>
-		/// <param name="email"></param>
-		/// <exception cref="PersoonException"></exception>
-		public void ZetEmail(string email) {
+        /// <summary>
+        /// Roept email controle op uit Nutsvoorziening & zet email.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <exception cref="PersoonException"></exception>
+        public void ZetEmail(string email) {
             if (string.IsNullOrWhiteSpace(email)) throw new PersoonException("Persoon - ZetEmail - email mag niet leeg zijn");
             //Checkt of email geldig is
             if (Nutsvoorziening.IsEmailGeldig(email)) Email = email.Trim();
