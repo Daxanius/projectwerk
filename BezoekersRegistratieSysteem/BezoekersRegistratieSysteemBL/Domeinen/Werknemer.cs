@@ -54,7 +54,6 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
                 // Als dit bedrijf deze werknemer nog niet bevat, voeg deze dan toe aan het bedrijf
                 if (!bedrijf.GeefWerknemers().Contains(this))
                 {
-                    _functiePerBedrijf.Add(bedrijf, new List<string> { functie });
                     bedrijf.VoegWerknemerToeInBedrijf(this, functie);
                 }
             }
