@@ -145,6 +145,12 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
+        /// <summary>
+        /// geeft bedrijf object op basis van id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Bedrijf object</returns>
+        /// <exception cref="BedrijfADOException"></exception>
         public Bedrijf GeefBedrijf(uint id) {
             try {
                 return GeefBedrijf(id, null);
@@ -153,6 +159,12 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
+        /// <summary>
+        /// geeft bedrijf object op basis van naam
+        /// </summary>
+        /// <param name="bedrijfsnaam"></param>
+        /// <returns>Bedrijf object</returns>
+        /// <exception cref="BedrijfADOException"></exception>
         public Bedrijf GeefBedrijf(string bedrijfsnaam) {
             try {
                 return GeefBedrijf(null, bedrijfsnaam);
@@ -161,6 +173,13 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
+        /// <summary>
+        /// private geeft bedrijf object op basis van id of naam
+        /// </summary>
+        /// <param name="_bedrijfId"></param>
+        /// <param name="_bedrijfnaam"></param>
+        /// <returns>Bedrijf object</returns>
+        /// <exception cref="BedrijfADOException"></exception>
         private Bedrijf GeefBedrijf(uint? _bedrijfId, string? _bedrijfnaam) {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres " +
