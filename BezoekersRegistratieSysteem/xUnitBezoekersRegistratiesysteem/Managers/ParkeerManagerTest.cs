@@ -8,48 +8,23 @@
 // 		#region Valid
 // 		
 // 		[Fact]
-// 		public void ParkeerManagerTest_VoegNummerplaatToe_Valid() {
+// 		public void ParkeerManagerTest_VoegNummerplaatToe() {
 // 			
 // 		}
 //
 // 		[Fact]
-// 		public void ParkeerManagerTest_VerwijderNummerplaat_Valid() {
+// 		public void ParkeerManagerTest_VerwijderNummerplaat() {
 // 			
 // 		}
 //
 // 		[Fact]
-// 		public IReadOnlyList<string> ParkeerManagerTest_GeefNummerplatenPerBedrijf_Valid() {
+// 		public IReadOnlyList<string> ParkeerManagerTest_GeefNummerplatenPerBedrijf() {
 // 			
 // 		}
 //
 // 		[Theory]
 // 		[InlineData()]
-// 		public Bedrijf? ParkeerManagerTest_GeefBedrijfPerNummerplaat_Valid(string nummerplaat) {
-// 			
-// 		}
-//
-// 		#endregion
-// 		
-// 		#region InValid
-// 		
-// 		[Fact]
-// 		public void ParkeerManagerTest_VoegNummerplaatToe_InValid() {
-// 			
-// 		}
-//
-// 		[Fact]
-// 		public void ParkeerManagerTest_VerwijderNummerplaat_InValid() {
-// 			
-// 		}
-//
-// 		[Fact]
-// 		public IReadOnlyList<string> ParkeerManagerTest_GeefNummerplatenPerBedrijf_InValid() {
-// 			
-// 		}
-//
-// 		[Theory]
-// 		[InlineData()]
-// 		public Bedrijf? ParkeerManagerTest_GeefBedrijfPerNummerplaat_InValid(string nummerplaat) {
+// 		public Bedrijf? ParkeerManagerTest_GeefBedrijfPerNummerplaat(string nummerplaat) {
 // 			
 // 		}
 //

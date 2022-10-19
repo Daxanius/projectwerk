@@ -18,8 +18,6 @@ namespace BezoekersRegistratieSysteemBL.Managers
 
 		public BedrijfsManagerTest()
 		{
-			this._bedrijfRepository = new DummyBedrijfsRepository();
-
 			validBezoeker = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: "Artevelde");
 			validStarttijd = DateTime.Now;
 			validEindtijd = DateTime.Now.AddHours(8);

@@ -8,7 +8,6 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
 	{
 		private readonly Dictionary<uint, Werknemer> _werknemers = new();
 		private readonly DummyBedrijfsRepository _bedrijfsRepo = new();
-		private uint _lastId = 0;
 
 		public bool BestaatWerknemer(Werknemer werknemer)
 		{
@@ -45,22 +44,21 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
 		public void VerwijderWerknemer(uint id)
 		{
 			if (!_werknemers.ContainsKey(id))
-				throw new Exception("Werknemer bestaat niet");
+				throw new WerknemerException("Werknemer bestaat niet");
 
 			_werknemers.Remove(id);
 		}
 
 		public Werknemer VoegWerknemerToe(Werknemer werknemer)
 		{
-			_werknemers.Add(_lastId, werknemer);
-			_werknemers[_lastId].ZetId(_lastId);
-			return _werknemers[_lastId++];
+			_werknemers.Add(werknemer.Id, werknemer);
+			return _werknemers[werknemer.Id];
 		}
 
 		public void WijzigWerknemer(Werknemer werknemer)
 		{
 			if (!_werknemers.ContainsKey(werknemer.Id))
-				throw new Exception("Werknemer bestaat niet");
+				throw new WerknemerException("Werknemer bestaat niet");
 			_werknemers[werknemer.Id] = werknemer;
 		}
 	}

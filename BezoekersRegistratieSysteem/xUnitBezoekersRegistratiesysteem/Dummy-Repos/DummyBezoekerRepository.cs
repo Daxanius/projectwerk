@@ -8,7 +8,6 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
 	{
 		private readonly Dictionary<uint, Bezoeker> _bezoekers = new();
 		private readonly DummyAfspraakRepository _afspraakRepository = new();
-		private uint _lastId = 0;
 
 		public bool BestaatBezoeker(Bezoeker bezoeker)
 		{
@@ -49,6 +48,11 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
 		{
 			if (!_bezoekers.ContainsKey(id))
 				throw new Exception("Bezoeker bestaat niet");
+			List<uint> afspraaken = _afspraakRepository.GeefHuidigeAfspraken().Where(a => a.Bezoeker.Id == id).Select(a => a.Id).ToList();
+			foreach (var afspraak in afspraaken)
+			{
+				_afspraakRepository.VerwijderAfspraak(afspraak);
+			}
 			_bezoekers.Remove(id);
 		}
 
@@ -56,7 +60,7 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
 		{
 			if (bezoeker == null)
 				throw new BezoekerException("bezoeker is null");
-			_bezoekers.Add(_lastId++, bezoeker);
+			_bezoekers.Add(bezoeker.Id, bezoeker);
 		}
 
 		public void WijzigBezoeker(Bezoeker bezoeker)
@@ -70,8 +74,8 @@ namespace xUnitBezoekersRegistratiesysteem.DummyData.Repos
 		{
 			if (bezoeker == null)
 				throw new BezoekerException("bezoeker is null");
-			_bezoekers.Add(_lastId++, bezoeker);
-			return _bezoekers[_lastId];
+			_bezoekers.Add(bezoeker.Id, bezoeker);
+			return _bezoekers[bezoeker.Id];
 		}
 	}
 }

@@ -1,128 +1,112 @@
-//using BezoekersRegistratieSysteemBL.Domeinen;
-//using BezoekersRegistratieSysteemBL.Interfaces;
+using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
+using BezoekersRegistratieSysteemBL.Interfaces;
+using Moq;
+using xUnitBezoekersRegistratiesysteem.DummyData.Repos;
 
-//namespace BezoekersRegistratieSysteemBL.Managers
-//{
-//	public class BezoekerManagerTest
-//	{
-//		private readonly IBezoekerRepository _bezoekerRepository;
-//		private readonly Bezoeker _validBezoeker;
-//		private readonly DateTime _validStarttijd;
-//		private readonly DateTime _validEindtijd;
-//		private readonly Afspraak _validAfspraak;
-//		private readonly Werknemer _validWerknemer;
-//		private readonly Bedrijf _validBedrijf;
+namespace BezoekersRegistratieSysteemBL.Managers
+{
+	public class BezoekerManagerTest
+	{
+		private readonly IBezoekerRepository _bezoekerRepository;
+		private readonly BezoekerManager _bezoekerManager;
+		private readonly IAfspraakRepository _afspraakRepository;
+		private readonly AfspraakManager _afspraakManager;
+		private readonly Bezoeker Bezoeker;
+		private readonly DateTime Starttijd;
+		private readonly DateTime Eindtijd;
+		private readonly Afspraak Afspraak;
+		private readonly Werknemer Werknemer;
+		private readonly Bedrijf Bedrijf;
 
-//		public BezoekerManagerTest(IBezoekerRepository bezoekerRepository)
-//		{
-//			this._bezoekerRepository = bezoekerRepository;
+		public BezoekerManagerTest()
+		{
+			_bezoekerRepository = new DummyBezoekerRepository();
+			_bezoekerManager = new(_bezoekerRepository);
+			_afspraakRepository = new DummyAfspraakRepository();
+			_afspraakManager = new(_afspraakRepository);
+			Bezoeker = new Bezoeker(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: "Artevelde");
+			Starttijd = DateTime.Now;
+			Eindtijd = DateTime.Now.AddHours(8);
+			Bedrijf = new Bedrijf(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
+			Werknemer = new Werknemer(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com");
+			Afspraak = new Afspraak(starttijd: Starttijd, bezoeker: Bezoeker, werknemer: Werknemer);
 
-//			_validBezoeker = new Bezoeker(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: "Artevelde");
-//			_validStarttijd = DateTime.Now;
-//			_validEindtijd = DateTime.Now.AddHours(8);
-//			_validBedrijf = new Bedrijf(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
-//			_validWerknemer = new Werknemer(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com");
-//			_validAfspraak = new Afspraak(starttijd: _validStarttijd, bezoeker: _validBezoeker, werknemer: _validWerknemer);
-//		}
+			Afspraak.ZetId(1);
+			Bedrijf.ZetId(2);
+			Bezoeker.ZetId(3);
+			Werknemer.ZetId(4);
+		}
 
-//		#region Valid
+		[Theory]
+		[InlineData("aVoornaam", "aAchternaam", "aEmail@gmail.com", "aBedrijf")]
+		[InlineData("stan", "persoons", "stan.persoons@student.hogent.com", "Hogent")]
+		public void BezoekerManagerTest_VoegBezoekerToe(string voornaam, string achternaam, string email, string bedrijf)
+		{
+			Bezoeker bezoeker = new Bezoeker(voornaam, achternaam, email, bedrijf);
+			bezoeker.ZetId(1);
 
-//		[Theory]
-//		[InlineData()]
-//		public void BezoekerManagerTest_VoegBezoekerToe_Valid(string voornaam, string achternaam, string email, string bedrijf)
-//		{
+			Bezoeker result = _bezoekerManager.VoegBezoekerToe(bezoeker);
 
-//		}
+			Assert.Equal(bezoeker, result);
+		}
 
-//		[Theory]
-//		[InlineData()]
-//		public void BezoekerManagerTest_VerwijderBezoeker_Valid(uint id)
-//		{
+		[Theory]
+		[InlineData(10)]
+		[InlineData(0)]
+		public void BezoekerManagerTest_GeefBezoeker(uint id)
+		{
+			Bezoeker bezoeker = Bezoeker;
+			bezoeker.ZetId(id);
+			_bezoekerManager.VoegBezoekerToe(bezoeker);
 
-//		}
+			Assert.Equal(bezoeker, _bezoekerManager.GeefBezoeker(id));
+		}
 
-//		[Theory]
-//		[InlineData()]
-//		public Bezoeker BezoekerManagerTest_GeefBezoeker_Valid(uint id)
-//		{
+		[Fact]
+		public void BezoekerManagerTest_WijzigBezoeker()
+		{
+			Bezoeker bezoeker = new();
+			bezoeker.ZetVoornaam("a");
+			bezoeker.ZetAchternaam("b");
+			bezoeker.ZetBedrijf("c");
+			bezoeker.ZetId(2);
+			bezoeker.ZetEmail("d@gmail.com");
 
-//		}
+			_bezoekerManager.VoegBezoekerToe(bezoeker);
 
-//		[Fact]
-//		public void BezoekerManagerTest_WijzigBezoeker_Valid()
-//		{
+			Bezoeker bezoeker1 = new();
+			bezoeker1.ZetVoornaam("a");
+			bezoeker1.ZetAchternaam("b");
+			bezoeker1.ZetBedrijf("c");
+			bezoeker1.ZetId(2);
+			bezoeker1.ZetEmail("a@gmail.com");
 
-//		}
+			_bezoekerManager.WijzigBezoeker(bezoeker1);
 
-//		[Fact]
-//		public IReadOnlyList<Bezoeker> BezoekerManagerTest_GeefAanwezigeBezoekers_Valid()
-//		{
+			Assert.Equal(bezoeker1.Voornaam, _bezoekerManager.GeefBezoeker(bezoeker.Id).Voornaam);
+			Assert.Equal(bezoeker1.Achternaam, _bezoekerManager.GeefBezoeker(bezoeker.Id).Achternaam);
+			Assert.Equal(bezoeker1.Bedrijf, _bezoekerManager.GeefBezoeker(bezoeker.Id).Bedrijf);
+			Assert.Equal(bezoeker1.Email, _bezoekerManager.GeefBezoeker(bezoeker.Id).Email);
+		}
 
-//		}
+		//[Fact]
+		//public void BezoekerManagerTest_GeefAanwezigeBezoekers()
+		//{
+			
+		//}
 
-//		[Fact]
-//		public IReadOnlyList<Bezoeker> BezoekerManagerTest_GeefBezoekersOpDatum_Valid()
-//		{
+		//[Fact]
+		//public void BezoekerManagerTest_GeefBezoekersOpDatum()
+		//{
 
-//		}
+		//}
 
-//		[Theory]
-//		[InlineData()]
-//		public Bezoeker BezoekerManagerTest_GeefBezoekerOpNaam_Valid(string naam)
-//		{
+		//[Theory]
+		//[InlineData()]
+		//public Bezoeker BezoekerManagerTest_GeefBezoekerOpNaam(string naam)
+		//{
 
-//		}
-
-//		#endregion
-
-//		#region InValid
-
-//		[Theory]
-//		[InlineData()]
-//		public void BezoekerManagerTest_VoegBezoekerToe_InValid(string voornaam, string achternaam, string email, string bedrijf)
-//		{
-
-//		}
-
-//		[Theory]
-//		[InlineData()]
-//		public void BezoekerManagerTest_VerwijderBezoeker_InValid(uint id)
-//		{
-
-//		}
-
-//		[Theory]
-//		[InlineData()]
-//		public Bezoeker BezoekerManagerTest_GeefBezoeker_InValid(uint id)
-//		{
-
-//		}
-
-//		[Fact]
-//		public void BezoekerManagerTest_WijzigBezoeker_InValid()
-//		{
-
-//		}
-
-//		[Fact]
-//		public IReadOnlyList<Bezoeker> BezoekerManagerTest_GeefAanwezigeBezoekers_InValid()
-//		{
-
-//		}
-
-//		[Fact]
-//		public IReadOnlyList<Bezoeker> BezoekerManagerTest_GeefBezoekersOpDatum_InValid()
-//		{
-
-//		}
-
-//		[Theory]
-//		[InlineData()]
-//		public Bezoeker BezoekerManagerTest_GeefBezoekerOpNaam_InValid(string naam)
-//		{
-
-//		}
-
-//		#endregion
-//	}
-//}
+		//}
+	}
+}
