@@ -112,42 +112,57 @@ namespace BezoekersRegistratieSysteemDL {
 		/// <exception cref="AfspraakADOException"></exception>
         public void BewerkAfspraak(Afspraak afspraak) {
             SqlConnection con = GetConnection();
-            string query = "UPDATE Afspraak " +
-                           "SET StartTijd = @start, " +
-                           "EindTijd = @eind, " +
-                           "WerknemerBedrijfId = (SELECT wb.Id " +
-                                                 "FROM WerknemerBedrijf wb " +
-                                                 "WHERE wb.BedrijfId = @bedrijfId AND " +
-                                                 "wb.WerknemerId = @werknemerId AND " +
-                                                 "wb.FunctieId = (SELECT f.Id " +
-                                                                 "FROM Functie f " +
-                                                                 "WHERE f.FunctieNaam = @functienaam " +
-                                                                 ") " +
-                                                 "), " +
-                           "BezoekerId = @bezoekerId " +
-                           "WHERE Id = @afspraakid";
+            //SELECT WORD GEBRUIKT OM EEN ACCURATE STATUSID IN TE STELLEN
+            string querySelect = "SELECT COUNT(*) " +
+                                 "FROM Afspraak " +
+                                 "WHERE Id = @afspraakid AND AfspraakStatusId = 1";
+
+            string queryUpdate = "UPDATE Afspraak " +
+                                  "SET StartTijd = @start, " +
+                                  "EindTijd = @eind, " +
+                                  "WerknemerBedrijfId = (SELECT wb.Id " +
+                                                        "FROM WerknemerBedrijf wb " +
+                                                        "WHERE wb.BedrijfId = @bedrijfId AND " +
+                                                        "wb.WerknemerId = @werknemerId AND " +
+                                                        "wb.FunctieId = (SELECT f.Id " +
+                                                                        "FROM Functie f " +
+                                                                        "WHERE f.FunctieNaam = @functienaam " +
+                                                                        ") " +
+                                                        "), " +
+                                  "BezoekerId = @bezoekerId, " +
+                                  "AfspraakstatusId = @afspraakstatusId  " +
+                                  "WHERE Id = @afspraakid";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (SqlCommand cmdSelect = con.CreateCommand())
+                using (SqlCommand cmdUpdate = con.CreateCommand()) {
                     con.Open();
-                    cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
-                    cmd.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
-                    cmd.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
-                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-                    cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-                    cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-                    cmd.Parameters.Add(new SqlParameter("@functienaam", SqlDbType.VarChar));
-                    cmd.Parameters["@afspraakid"].Value = afspraak.Id;
-                    cmd.Parameters["@start"].Value = afspraak.Starttijd;
-                    cmd.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+                    //Geeft de statusID van de afspraak die gevraagd werd
+                    cmdSelect.CommandText = querySelect;
+                    cmdSelect.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+                    cmdSelect.Parameters["@afspraakid"].Value = afspraak.Id;
+                    int currentAfspraakStatusId = (int)cmdSelect.ExecuteScalar();
+                    //Bewerkt de gevraagde afspraak
+                    cmdUpdate.CommandText = queryUpdate;
+                    cmdUpdate.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+                    cmdUpdate.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
+                    cmdUpdate.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
+                    cmdUpdate.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmdUpdate.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+                    cmdUpdate.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+                    cmdUpdate.Parameters.Add(new SqlParameter("@afspraakstatusId", SqlDbType.Int));
+                    cmdUpdate.Parameters.Add(new SqlParameter("@functienaam", SqlDbType.VarChar));
+                    cmdUpdate.Parameters["@afspraakid"].Value = afspraak.Id;
+                    cmdUpdate.Parameters["@start"].Value = afspraak.Starttijd;
+                    cmdUpdate.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+                    cmdUpdate.Parameters["@afspraakstatusId"].Value = afspraak.Eindtijd is not null && currentAfspraakStatusId == 1 ? 5 : afspraak.Eindtijd is not null && currentAfspraakStatusId != 1 ? currentAfspraakStatusId : 1;
                     //FUNCTIE GETBEDRIJF
                     var bedrijf = afspraak.Werknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First();
                     var functie = afspraak.Werknemer.GeefBedrijfEnFunctiesPerWerknemer().Values.First().First();
-                    cmd.Parameters["@bedrijfId"].Value = bedrijf.Id;
-                    cmd.Parameters["@functienaam"].Value = functie;
-                    cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
-                    cmd.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
-                    cmd.ExecuteNonQuery();
+                    cmdUpdate.Parameters["@bedrijfId"].Value = bedrijf.Id;
+                    cmdUpdate.Parameters["@functienaam"].Value = functie;
+                    cmdUpdate.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+                    cmdUpdate.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
+                    cmdUpdate.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BewerkAfspraak {ex.Message}", ex);
