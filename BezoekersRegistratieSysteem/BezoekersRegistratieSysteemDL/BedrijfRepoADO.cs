@@ -304,21 +304,39 @@ namespace BezoekersRegistratieSysteemDL {
         /// <param name="statusId"></param>
         /// <exception cref="BedrijfADOException"></exception>
         private void VeranderStatusBedrijf(uint bedrijfId, int statusId) {
+            //Wanneer bedrijf word verwijderd (status 2), medewerkers zijn dan ontslagen (status 2)
             SqlConnection con = GetConnection();
-            string query = "UPDATE bedrijf " +
-                           "SET AfspraakStatusId = @statusId " +
-                           "WHERE Id = @bedrijfid";
+            string queryBedrijf = "UPDATE bedrijf " +
+                                  "SET Status = @statusId " +
+                                  "WHERE Id = @bedrijfid";
+            SqlTransaction trans = con.BeginTransaction();
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (SqlCommand cmdMedewerker = con.CreateCommand())
+                using (SqlCommand cmdBedrijf = con.CreateCommand()) {
                     con.Open();
-                    cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
-                    cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
-                    cmd.Parameters["@bedrijfid"].Value = bedrijfId;
-                    cmd.Parameters["@statusId"].Value = statusId;
-                    cmd.ExecuteNonQuery();
+                    //Medewerker sectie
+                    if (statusId == 2) {
+                        string queryMedewerker = "UPDATE WerknemerBedrijf " +
+                                                 "SET Status = @statusId " +
+                                                 "WHERE BedrijfId = @bedrijfid";
+                        cmdMedewerker.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
+                        cmdMedewerker.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+                        cmdMedewerker.Parameters["@bedrijfid"].Value = bedrijfId;
+                        cmdMedewerker.Parameters["@statusId"].Value = statusId;
+                        cmdMedewerker.CommandText = queryMedewerker;
+                        cmdMedewerker.ExecuteNonQuery();
+                    }
+                    //Bedrijf Sectie
+                    cmdBedrijf.CommandText = queryBedrijf;
+                    cmdBedrijf.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
+                    cmdBedrijf.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+                    cmdBedrijf.Parameters["@bedrijfid"].Value = bedrijfId;
+                    cmdBedrijf.Parameters["@statusId"].Value = statusId;
+                    cmdBedrijf.ExecuteNonQuery();
+                    trans.Commit();
                 }
             } catch (Exception ex) {
+                trans.Rollback();
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: VeranderStatusBedrijf {ex.Message}", ex);
                 exx.Data.Add("bedrijfId", bedrijfId);
                 exx.Data.Add("statusId", statusId);
