@@ -1,11 +1,13 @@
 ﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
-namespace BezoekersRegistratieSysteemBL.Domeinen {
+namespace BezoekersRegistratieSysteemBL.Domeinen
+{
 	/// <summary>
 	/// Een klasse die alle essentiele informatie van bedrijven bijhoudt,
 	/// implementeerd IEquatable
 	/// </summary>
-	public class Bedrijf : IEquatable<Bedrijf?> {
+	public class Bedrijf : IEquatable<Bedrijf?>
+	{
 		public uint Id { get; private set; }
 		public string Naam { get; private set; }
 		public string BTW { get; private set; }
@@ -186,20 +188,24 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			return Equals(obj as Bedrijf);
 		}
 
-		public bool Equals(Bedrijf? other) {
+		public bool Equals(Bedrijf? other)
+		{
 			return other is not null &&
 				   Id == other.Id;
 		}
 
-		public override int GetHashCode() {
+		public override int GetHashCode()
+		{
 			return HashCode.Combine(Id);
 		}
 
-		public static bool operator ==(Bedrijf? left, Bedrijf? right) {
+		public static bool operator ==(Bedrijf? left, Bedrijf? right)
+		{
 			return EqualityComparer<Bedrijf>.Default.Equals(left, right);
 		}
 
-		public static bool operator !=(Bedrijf? left, Bedrijf? right) {
+		public static bool operator !=(Bedrijf? left, Bedrijf? right)
+		{
 			return !(left == right);
 		}
 	}

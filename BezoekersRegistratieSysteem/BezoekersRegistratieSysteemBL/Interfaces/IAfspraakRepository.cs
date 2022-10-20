@@ -11,7 +11,6 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void BeeindigAfspraakBezoeker(uint id);
 		void BeeindigAfspraakSysteem(uint id);
 		Afspraak GeefAfspraak(uint afspraakid);
-
 		bool BestaatAfspraak(Afspraak afspraak);
         bool BestaatAfspraak(uint afspraakid);
 
