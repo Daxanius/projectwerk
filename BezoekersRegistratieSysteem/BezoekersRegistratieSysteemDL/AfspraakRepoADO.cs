@@ -509,28 +509,51 @@ namespace BezoekersRegistratieSysteemDL {
 		/// <exception cref="AfspraakADOException"></exception>
         public Afspraak VoegAfspraakToe(Afspraak afspraak) {
             SqlConnection con = GetConnection();
-            string query = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, BezoekerId) " +
-                           "output INSERTED.ID " +
-                           "VALUES(@start,@eind,@werknemerId,@bezoekerId)";
+            string queryBezoeker = "INSERT INTO Bezoeker(ANaam, VNaam, EMail, EigenBedrijf) " +
+                                   "output INSERTED.ID " +
+                                   "VALUES(@ANaam,@VNaam,@EMail,@EigenBedrijf)";
+
+            string queryAfspraak = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, BezoekerId) " +
+                                   "output INSERTED.ID " +
+                                   "VALUES(@start,@eind,@werknemerId,@bezoekerId)";
+            SqlTransaction trans = con.BeginTransaction();
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (SqlCommand cmdBezoeker = con.CreateCommand())
+                using (SqlCommand cmdAfspraak = con.CreateCommand()) {
                     con.Open();
-                    cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
-                    cmd.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
-                    cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-                    cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-                    cmd.Parameters["@start"].Value = afspraak.Starttijd;
-                    cmd.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
-                    cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
-                    cmd.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
-                    uint i = (uint)cmd.ExecuteScalar();
+                    //Bezoeker portie
+                    cmdBezoeker.Transaction = trans;
+                    cmdBezoeker.CommandText = queryBezoeker;
+                    cmdBezoeker.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+                    cmdBezoeker.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+                    cmdBezoeker.Parameters.Add(new SqlParameter("@EMail", SqlDbType.VarChar));
+                    cmdBezoeker.Parameters.Add(new SqlParameter("@EigenBedrijf", SqlDbType.VarChar));
+                    cmdBezoeker.Parameters["@ANaam"].Value = afspraak.Bezoeker.Achternaam;
+                    cmdBezoeker.Parameters["@VNaam"].Value = afspraak.Bezoeker.Voornaam;
+                    cmdBezoeker.Parameters["@EMail"].Value = afspraak.Bezoeker.Email;
+                    cmdBezoeker.Parameters["@EigenBedrijf"].Value = afspraak.Bezoeker.Bedrijf;
+                    uint afspraakId = (uint)cmdBezoeker.ExecuteScalar();
+                    //Afspraak portie
+                    cmdAfspraak.Transaction = trans;
+                    cmdAfspraak.CommandText = queryAfspraak;
+                    cmdAfspraak.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
+                    cmdAfspraak.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
+                    cmdAfspraak.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+                    cmdAfspraak.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+                    cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
+                    cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+                    cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+                    cmdAfspraak.Parameters["@bezoekerId"].Value = afspraakId;
+                    uint i = (uint)cmdAfspraak.ExecuteScalar();
                     afspraak.ZetId(i);
+                    afspraak.Bezoeker.ZetId(afspraakId);
+                    trans.Commit();
                     return afspraak;
                 }
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: VoegAfspraakToe {ex.Message}", ex);
                 exx.Data.Add("afspraak", afspraak);
+                trans.Rollback();
                 throw exx;
             } finally {
                 con.Close();
