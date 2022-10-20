@@ -555,10 +555,10 @@ namespace BezoekersRegistratieSysteemDL {
                         cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
                         cmd.Parameters["@id"].Value = afspraak.Id;
                     } else {
-                        query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
-                                 "WHERE bz.Email = @mail AND a.eindTijd is null";
-                        cmd.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
-                        cmd.Parameters["@mail"].Value = afspraak.Bezoeker.Email;
+                        //Maybe check with statusID rather than eindTijd
+                        query += "WHERE a.BezoekerId = @bezoekerId AND a.eindTijd is null";
+                        cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+                        cmd.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
                     }
                     cmd.CommandText = query;
                     int i = (int)cmd.ExecuteScalar();
