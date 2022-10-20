@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
+using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -55,6 +56,27 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		public void ZetBTW_NullAndWhiteSpace_Exception(string btw)
 		{
 			Assert.Throws<BedrijfException>(() => validBedrijf.ZetBTW(btw));
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData("	")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\f")]
+		[InlineData("\v")]
+		public async Task ZetBTWControle_NullAndWhiteSpace_Exception(string btw)
+		{
+			await Assert.ThrowsAsync<BedrijfException>(() => validBedrijf.ZetBTWControle(btw));
+		}
+
+		[Theory]
+		[InlineData("BE")]
+		[InlineData("BE2314123512312323261242525")]
+		public async Task ZetBTWControle_Fout_BtwControle_Exception(string btw)
+		{
+			await Assert.ThrowsAsync<BtwControleException>(() => validBedrijf.ZetBTWControle(btw));
 		}
 
 		[Theory]
@@ -124,8 +146,17 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		public void ZetBTW()
 		{
 			string btw = "BE0475730461";
-			validBedrijf.ZetNaam(btw);
+			validBedrijf.ZetBTW(btw);
 			Assert.Equal(btw, validBedrijf.BTW);
+		}
+
+		[Fact]
+		public async Task ZetBTWControle()
+		{
+			string btw = "BE0475730461";
+			Bedrijf bedrijf = new();
+			await bedrijf.ZetBTWControle(btw);
+			Assert.True(bedrijf.BtwIsGeldig);
 		}
 
 		[Fact]
