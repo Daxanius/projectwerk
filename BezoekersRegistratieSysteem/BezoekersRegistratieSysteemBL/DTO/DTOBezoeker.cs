@@ -1,9 +1,9 @@
 ﻿namespace BezoekersRegistratieSysteemBL.DTO {
 	public class DTOBezoeker : DTOPersoon {
-		public DTOBezoeker(string voornaam, string achternaam, string email, uint bedrijfId) : base(voornaam, achternaam, email) {
-			BedrijfId = bedrijfId;
+		public DTOBezoeker(string voornaam, string achternaam, string email, string bedrijf) : base(voornaam, achternaam, email) {
+			Bedrijf = bedrijf;
 		}
 
-		public uint BedrijfId { get; set; }
+		public string Bedrijf { get; set; }
 	}
 }

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteem.UI", "BezoekersRegistratieSysteemUI\BezoekersRegistratieSysteem.UI.csproj", "{16051A03-172C-4C60-BFAF-1DE9722EB286}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BezoekersRegistratieSysteemREST", "BezoekersRegistratieSysteemREST\BezoekersRegistratieSysteemREST.csproj", "{87692288-14FA-470C-8063-81308A29B034}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitBezoekersRegistratiesysteem", "xUnitBezoekersRegistratiesysteem\xUnitBezoekersRegistratiesysteem.csproj", "{B18B5320-93A6-44B9-A97F-2FEA0014B573}"
 EndProject
 Global
@@ -29,6 +31,10 @@ Global
 		{16051A03-172C-4C60-BFAF-1DE9722EB286}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16051A03-172C-4C60-BFAF-1DE9722EB286}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16051A03-172C-4C60-BFAF-1DE9722EB286}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87692288-14FA-470C-8063-81308A29B034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87692288-14FA-470C-8063-81308A29B034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87692288-14FA-470C-8063-81308A29B034}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87692288-14FA-470C-8063-81308A29B034}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B18B5320-93A6-44B9-A97F-2FEA0014B573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B18B5320-93A6-44B9-A97F-2FEA0014B573}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B18B5320-93A6-44B9-A97F-2FEA0014B573}.Release|Any CPU.ActiveCfg = Release|Any CPU
