@@ -319,6 +319,7 @@ namespace BezoekersRegistratieSysteemDL {
                         string queryMedewerker = "UPDATE WerknemerBedrijf " +
                                                  "SET Status = @statusId " +
                                                  "WHERE BedrijfId = @bedrijfid";
+                        cmdMedewerker.Transaction = trans;
                         cmdMedewerker.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
                         cmdMedewerker.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
                         cmdMedewerker.Parameters["@bedrijfid"].Value = bedrijfId;
@@ -328,6 +329,7 @@ namespace BezoekersRegistratieSysteemDL {
                     }
                     //Bedrijf Sectie
                     cmdBedrijf.CommandText = queryBedrijf;
+                    cmdBedrijf.Transaction = trans;
                     cmdBedrijf.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
                     cmdBedrijf.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
                     cmdBedrijf.Parameters["@bedrijfid"].Value = bedrijfId;
