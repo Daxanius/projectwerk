@@ -579,7 +579,8 @@ namespace BezoekersRegistratieSysteemDL {
                         cmd.Parameters["@id"].Value = afspraak.Id;
                     } else {
                         //Maybe check with statusID rather than eindTijd
-                        query += "WHERE a.BezoekerId = @bezoekerId AND a.eindTijd is null";
+                        query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
+                                 "WHERE bz.Email = @mail AND a.eindTijd is null";
                         cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
                         cmd.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
                     }
