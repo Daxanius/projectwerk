@@ -128,7 +128,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpPost("end/{id}")]
+		[HttpPut("end/{id}")]
 		public IActionResult End(uint id) {
 			try {
 				Afspraak afspraak = _afspraakManager.GeefAfspraak(id);
