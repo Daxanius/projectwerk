@@ -16,35 +16,35 @@ using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteem.UI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+	/// <summary>
+	/// Interaction logic for MainWindow.xaml
+	/// </summary>
+	public partial class MainWindow : Window
+	{
+		public MainWindow()
+		{
+			InitializeComponent();
+		}
 
-        private void ParkeerButton_Click(object sender, RoutedEventArgs e)
-        {
-            ParkeerWindow parkeerWindow = new ParkeerWindow();
-            this.Close();
-            parkeerWindow.ShowDialog();
-        }
+		private void ParkeerButton_Click(object sender, RoutedEventArgs e)
+		{
+			ParkeerWindow parkeerWindow = new ParkeerWindow();
+			this.Close();
+			parkeerWindow.ShowDialog();
+		}
 
-        private void AanmeldButton_Click(object sender, RoutedEventArgs e)
-        {
-            AanmeldWindow aanmeldWindow = new AanmeldWindow();
-            this.Close();
-            aanmeldWindow.ShowDialog();
-        }
+		private void AanmeldButton_Click(object sender, RoutedEventArgs e)
+		{
+			AanmeldingsWindow aanmeldWindow = new AanmeldingsWindow();
+			this.Close();
+			aanmeldWindow.ShowDialog();
+		}
 
-        private void AdminButton_Click(object sender, RoutedEventArgs e)
-        {
-            ParkeerWindow parkeerWindow = new ParkeerWindow();
-            this.Close();
-            parkeerWindow.ShowDialog();
-        }
-    }
+		private void AdminButton_Click(object sender, RoutedEventArgs e)
+		{
+			ParkeerWindow parkeerWindow = new ParkeerWindow();
+			this.Close();
+			parkeerWindow.ShowDialog();
+		}
+	}
 }

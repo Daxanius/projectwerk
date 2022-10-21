@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="BezoekersRegistratieSysteem.UI.Aanmelden.User_Control.KiesBedrijfControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteem.UI.Aanmelden.User_Control"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="5870.344"
+    mc:Ignorable="d">
+    <StackPanel VerticalAlignment="Center">
+        <TextBlock
+            Padding="0,0,0,150"
+            HorizontalAlignment="Center"
+            FontSize="65"
+            FontWeight="Bold"
+            Foreground="WhiteSmoke"
+            Text="Kies een bedrijf waar je een afspraak hebt."
+            TextDecorations="Underline" />
+        <StackPanel>
+            <ListView
+                Name="bedrijfLijst"
+                Padding="25"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                FontSize="75"
+                FontWeight="Bold"
+                Foreground="White"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                SelectionMode="Single">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="SelecteerBedrijfHandler" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListBoxItem Padding="100,0,100,0">Bubblemix</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Pixoboo</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Kimia</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Topiczoom</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Aivee</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Skinder</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Pixonyx</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Gigazoom</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Minyx</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Centizu</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Midel</ListBoxItem>
+                <ListBoxItem Padding="100,0,100,0">Innojam</ListBoxItem>
+            </ListView>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

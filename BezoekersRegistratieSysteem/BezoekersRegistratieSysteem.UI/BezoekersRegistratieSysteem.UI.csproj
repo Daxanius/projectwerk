@@ -9,7 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="BRS.ico" />
+    <Content Include="BRS.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Aanmelden\Style\" />
   </ItemGroup>
 
 </Project>

@@ -10,18 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteem.UI
+namespace BezoekersRegistratieSysteem.UI.Aanmelden.User_Control
 {
-    /// <summary>
-    /// Interaction logic for AanmeldWindow.xaml
-    /// </summary>
-    public partial class AanmeldWindow : Window
-    {
-        public AanmeldWindow()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for InputControl.xaml
+	/// </summary>
+	public partial class GegevensControl : UserControl
+	{
+		public GegevensControl()
+		{
+			InitializeComponent();
+		}
+	}
 }
