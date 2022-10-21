@@ -35,9 +35,9 @@ namespace BezoekersRegistratieSysteem.UI
 
         private void AanmeldButton_Click(object sender, RoutedEventArgs e)
         {
-            ParkeerWindow parkeerWindow = new ParkeerWindow();
+            AanmeldWindow aanmeldWindow = new AanmeldWindow();
             this.Close();
-            parkeerWindow.ShowDialog();
+            aanmeldWindow.ShowDialog();
         }
 
         private void AdminButton_Click(object sender, RoutedEventArgs e)
