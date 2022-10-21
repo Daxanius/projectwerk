@@ -35,34 +35,33 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Margin="0,0,50,0" Click="ParkeerButton_Click" Height="330" Width="523">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"></Setter>
-                        </Style>
-                    </Button.Resources>
-                    <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FF827BFF" Offset="0.5"/>
-                            <GradientStop Color="#FFD9B5FF" Offset="1.5"/>
-                        </LinearGradientBrush>
-                    </Button.Background>
-                    <StackPanel Orientation="Horizontal" Height="330">
-                        <Ellipse Width="500" Height="500" Margin="175,-225,0,0">
-                            <Ellipse.Fill>
-                                <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                                    <GradientStop Color="#B298FD" Offset="0"/>
-                                    <GradientStop Color="#E4BBFF" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <Label FontFamily="Segoe Fluent Icons" Content="&#xf163;" Foreground="White" FontSize="120" Margin="-305,0,0,0"/>
-                        <Label Content="PARKEER APP" Foreground="White" FontSize="60" Margin="-665,235,0,0" FontFamily="Segoe UI Variable Text Semibold"/>
-                    </StackPanel>
-                </Button>
+                    <Button Grid.Column="0" Margin="0,0,50,0" Click="ParkeerButton_Click" Height="330" Width="523">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"></Setter>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF827BFF" Offset="0.5"/>
+                                <GradientStop Color="#FFD9B5FF" Offset="1.5"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <StackPanel Orientation="Horizontal" Height="330">
+                            <Ellipse Width="500" Height="500" Margin="175,-225,0,0">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
+                                        <GradientStop Color="#B298FD" Offset="0"/>
+                                        <GradientStop Color="#E4BBFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Label FontFamily="Segoe Fluent Icons" Content="&#xf163;" Foreground="White" FontSize="120" Margin="-305,0,0,0"/>
+                            <Label Content="PARKEER APP" Foreground="White" FontSize="60" Margin="-665,235,0,0" FontFamily="Segoe UI Variable Text Semibold"/>
+                        </StackPanel>
+                    </Button>
 
-
-                <Button Grid.Column="1" Margin="25,0,25,0" Click="AanmeldButton_Click" Height="330" Width="523">
+                    <Button Grid.Column="1" Margin="25,0,25,0" Click="AanmeldButton_Click" Height="330" Width="523">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"></Setter>
