@@ -28,15 +28,30 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             if (!_werknemerRepository.BestaatWerknemer(werknemer)) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemer - werknemer bestaat niet");
             try
 			{
-				_werknemerRepository.VerwijderWerknemer(werknemer.Id);
+				_werknemerRepository.VerwijderWerknemer(werknemer);
 			}
             catch (Exception ex)
             {
                 throw new WerknemerManagerException(ex.Message);
             }
 		}
-        
-		public void WijzigWerknemer(Werknemer werknemer) {
+
+        public void VerwijderWerknemerFunctie(Werknemer werknemer, string functie)
+        {
+            if (werknemer == null) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - functie mag niet leeg zijn");
+            if (!_werknemerRepository.BestaatWerknemer(werknemer)) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer bestaat niet");
+            try
+            {
+                _werknemerRepository.VerwijderWerknemerFunctie(werknemer, functie);
+            }
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
+
+        public void WijzigWerknemer(Werknemer werknemer) {
             if (werknemer == null) throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer mag niet leeg zijn");
             if (!_werknemerRepository.BestaatWerknemer(werknemer)) throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer bestaat niet");
             if (_werknemerRepository.GeefWerknemer(werknemer.Id).WerknemerIsGelijk(werknemer)) throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer bestaat niet");
