@@ -189,7 +189,7 @@ namespace BezoekersRegistratieSysteemDL {
         private Bedrijf GeefBedrijf(uint? _bedrijfId, string? _bedrijfnaam) {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
-                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.Email as WerknemerMail, " +
+                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
                            "JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId)" +
@@ -248,7 +248,7 @@ namespace BezoekersRegistratieSysteemDL {
         public IReadOnlyList<Bedrijf> Geefbedrijven() {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
-                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.Email as WerknemerMail, " +
+                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
                            "JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) " +
