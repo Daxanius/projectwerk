@@ -214,8 +214,64 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
-        public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(uint bedrijfId) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Geeft lijst van werknemers op basis van bedrijf id
+        /// </summary>
+        /// <param name="_bedrijfId"></param>
+        /// <returns>Lijst Werknemer objecten</returns>
+        /// <exception cref="WerknemerADOException"></exception>
+        public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(uint _bedrijfId) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
+                           "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
+                           "f.Functienaam " +
+                           "FROM Werknemer wn " +
+                           "JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) " +
+                           "JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+                           "JOIN Functie f ON(f.id = wb.FunctieId) " +
+                           "WHERE AND b.id = @bedrijfId " +
+                           "ORDER BY wn.id, b.id";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
+                    List<Werknemer> werknemers = new List<Werknemer>();
+                    Werknemer werknemer = null;
+                    Bedrijf bedrijf = null;
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read()) {
+                        if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
+                            if (werknemer is null || werknemer.Id != (uint)reader["WerknemerId"]) {
+                                uint werknemerId = (uint)reader["WerknemerId"];
+                                string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                                string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                                string werknemerMail = (string)reader["WerknemerMail"];
+                                werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam, werknemerMail);
+                            }
+                            if (bedrijf is null || bedrijf.Id != (uint)reader["BedrijfId"]) {
+                                uint bedrijfId = (uint)reader["BedrijfId"];
+                                string bedrijfNaam = (string)reader["BedrijfNaam"];
+                                string bedrijfBTW = (string)reader["BedrijfBTW"];
+                                string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
+                                string bedrijfMail = (string)reader["BedrijfMail"];
+                                string bedrijfAdres = (string)reader["BedrijfAdres"];
+                                bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            }
+                            string functieNaam = (string)reader["FunctieNaam"];
+                            werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, functieNaam);
+                        }
+                    }
+                    return werknemers;
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: GeefWerknemersPerBedrijf {ex.Message}", ex);
+                exx.Data.Add("bedrijfId", _bedrijfId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
         /// <summary>
