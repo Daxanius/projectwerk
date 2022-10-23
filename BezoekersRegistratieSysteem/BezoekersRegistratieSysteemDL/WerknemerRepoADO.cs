@@ -347,7 +347,7 @@ namespace BezoekersRegistratieSysteemDL {
                     uint i = (uint)cmd.ExecuteScalar();
                     werknemer.ZetId(i);
                     //Dit voegt de bedrijven/functie toe aan uw werknemer in de DB
-                    VoegFunctieToeAanWerkNemer(werknemer);
+                    VoegFunctieToeAanWerknemer(werknemer);
                     return werknemer;
                 }
             } catch (Exception ex) {
@@ -359,7 +359,7 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
-        private void VoegFunctieToeAanWerkNemer(Werknemer werknemer) {
+        private void VoegFunctieToeAanWerknemer(Werknemer werknemer) {
             SqlConnection con = GetConnection();
             string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, FunctieId) " +
                                  "VALUES(@bedrijfId,@werknemerId,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
@@ -368,28 +368,30 @@ namespace BezoekersRegistratieSysteemDL {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     foreach (var kvpBedrijf in werknemer.GeefBedrijfEnFunctiesPerWerknemer()) {
-                        string queryDoesJobExist = "SELECT COUNT(*) " +
-                                                   "FROM WerknemerBedrijf " +
-                                                   "WHERE WerknemerId = @werknemerId " +
-                                                   "AND bedrijfId = @bedrijfId " +
-                                                   "AND FunctieId = (SELECT Id FROM Functie WHERE FunctieNaam = @functieNaam)";
-                        cmdCheck.CommandText = queryDoesJobExist;
-                        cmdCheck.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-                        cmdCheck.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-                        cmdCheck.Parameters.Add(new SqlParameter("@functieNaam", SqlDbType.VarChar));
-                        cmdCheck.Parameters["@werknemerId"].Value = werknemer.Id;
-                        cmdCheck.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
-                        cmdCheck.Parameters["@functieNaam"].Value = kvpBedrijf.Value;
-                        int i = (int)cmdCheck.ExecuteScalar();
-                        if (i == 0) {
-                            cmd.CommandText = queryInsert;
-                            cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-                            cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-                            cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
-                            cmd.Parameters["@werknemerId"].Value = werknemer.Id;
-                            cmd.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
-                            cmd.Parameters["@FunctieNaam"].Value = kvpBedrijf.Value;
-                            cmd.ExecuteNonQuery();
+                        foreach (var functieNaam in kvpBedrijf.Value) {
+                            string queryDoesJobExist = "SELECT COUNT(*) " +
+                                                       "FROM WerknemerBedrijf " +
+                                                       "WHERE WerknemerId = @werknemerId " +
+                                                       "AND bedrijfId = @bedrijfId " +
+                                                       "AND FunctieId = (SELECT Id FROM Functie WHERE FunctieNaam = @functieNaam)";
+                            cmdCheck.CommandText = queryDoesJobExist;
+                            cmdCheck.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+                            cmdCheck.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                            cmdCheck.Parameters.Add(new SqlParameter("@functieNaam", SqlDbType.VarChar));
+                            cmdCheck.Parameters["@werknemerId"].Value = werknemer.Id;
+                            cmdCheck.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;                        
+                            cmdCheck.Parameters["@functieNaam"].Value = functieNaam;
+                            int i = (int)cmdCheck.ExecuteScalar();
+                            if (i == 0) {
+                                cmd.CommandText = queryInsert;
+                                cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+                                cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                                cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
+                                cmd.Parameters["@werknemerId"].Value = werknemer.Id;
+                                cmd.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
+                                cmd.Parameters["@FunctieNaam"].Value = functieNaam;
+                                cmd.ExecuteNonQuery();
+                            }
                         }
                     }
                 }
