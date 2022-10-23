@@ -161,7 +161,7 @@ namespace BezoekersRegistratieSysteemDL {
             try {
                 return GeefBedrijf(id, null);
             } catch (Exception ex) {
-                throw new AfspraakADOException($"BedrijfRepoADO: GeefBedrijf {ex.Message}", ex);
+                throw new BedrijfADOException($"BedrijfRepoADO: GeefBedrijf {ex.Message}", ex);
             }
         }
 
@@ -175,7 +175,7 @@ namespace BezoekersRegistratieSysteemDL {
             try {
                 return GeefBedrijf(null, bedrijfsnaam);
             } catch (Exception ex) {
-                throw new AfspraakADOException($"BedrijfRepoADO: GeefBedrijf {ex.Message}", ex);
+                throw new BedrijfADOException($"BedrijfRepoADO: GeefBedrijf {ex.Message}", ex);
             }
         }
 
@@ -189,7 +189,7 @@ namespace BezoekersRegistratieSysteemDL {
         private Bedrijf GeefBedrijf(uint? _bedrijfId, string? _bedrijfnaam) {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
-                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
+                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.Email as WerknemerMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
                            "JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId)" +
@@ -248,7 +248,7 @@ namespace BezoekersRegistratieSysteemDL {
         public IReadOnlyList<Bedrijf> Geefbedrijven() {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
-                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
+                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.Email as WerknemerMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
                            "JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) " +
@@ -299,7 +299,7 @@ namespace BezoekersRegistratieSysteemDL {
             try {
                 VeranderStatusBedrijf(bedrijfId, 2);
             } catch (Exception ex) {
-                throw new AfspraakADOException($"BedrijfRepoADO: VerwijderBedrijf {ex.Message}", ex);
+                throw new BedrijfADOException($"BedrijfRepoADO: VerwijderBedrijf {ex.Message}", ex);
             }
         }
 
@@ -345,7 +345,7 @@ namespace BezoekersRegistratieSysteemDL {
                 }
             } catch (Exception ex) {
                 trans.Rollback();
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: VeranderStatusBedrijf {ex.Message}", ex);
+                BedrijfADOException exx = new BedrijfADOException($"AfspraakRepoADO: VeranderStatusBedrijf {ex.Message}", ex);
                 exx.Data.Add("bedrijfId", bedrijfId);
                 exx.Data.Add("statusId", statusId);
                 throw exx;
@@ -384,7 +384,7 @@ namespace BezoekersRegistratieSysteemDL {
                     return bedrijf;
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"BedrijfRepoADO: VoegBedrijfToe {ex.Message}", ex);
+                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: VoegBedrijfToe {ex.Message}", ex);
                 exx.Data.Add("bedrijf", bedrijf);
                 throw exx;
             } finally {
