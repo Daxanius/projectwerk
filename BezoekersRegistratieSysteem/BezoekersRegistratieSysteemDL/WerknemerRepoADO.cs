@@ -149,21 +149,58 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
+        /// <summary>
+        /// Geeft lijst van werknemers op basis van voor en achternaam
+        /// </summary>
+        /// <param name="voornaam"></param>
+        /// <param name="achternaam"></param>
+        /// <returns>Lijst Werknemer objecten</returns>
+        /// <exception cref="WerknemerADOException"></exception>
         public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam) {
             SqlConnection con = GetConnection();
-            string query = "";
+            string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
+                           "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
+                           "f.Functienaam " +
+                           "FROM Werknemer wn " +
+                           "JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) " +
+                           "JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+                           "JOIN Functie f ON(f.id = wb.FunctieId) " +
+                           "WHERE wn.ANaam LIKE @ANaam " +
+                           "AND wn.VNaam LIKE @VNaam " +
+                           "ORDER BY wn.id, b.id";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
                     cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
-                    cmd.Parameters["@VNaam"].Value = voornaam;
-                    cmd.Parameters["@ANaam"].Value = achternaam;
+                    cmd.Parameters["@VNaam"].Value = $"%{voornaam}%";
+                    cmd.Parameters["@ANaam"].Value = $"%{achternaam}%";
                     List<Werknemer> werknemers = new List<Werknemer>();
+                    Werknemer werknemer = null;
+                    Bedrijf bedrijf = null;
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read()) {
-
+                        if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
+                            if (werknemer is null || werknemer.Id != (uint)reader["WerknemerId"]) {
+                                uint werknemerId = (uint)reader["WerknemerId"];
+                                string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                                string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                                string werknemerMail = (string)reader["WerknemerMail"];
+                                werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam, werknemerMail);                            
+                            }
+                            if (bedrijf is null || bedrijf.Id != (uint)reader["BedrijfId"]) {
+                                uint bedrijfId = (uint)reader["BedrijfId"];
+                                string bedrijfNaam = (string)reader["BedrijfNaam"];
+                                string bedrijfBTW = (string)reader["BedrijfBTW"];
+                                string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
+                                string bedrijfMail = (string)reader["BedrijfMail"];
+                                string bedrijfAdres = (string)reader["BedrijfAdres"];
+                                bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            }
+                            string functieNaam = (string)reader["FunctieNaam"];
+                            werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf,functieNaam);
+                        }
                     }
                     return werknemers;
                 }
