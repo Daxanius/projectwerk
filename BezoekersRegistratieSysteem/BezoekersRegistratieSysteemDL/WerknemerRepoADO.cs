@@ -208,7 +208,27 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
         public Werknemer VoegWerknemerToe(Werknemer werknemer) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "INSERT INTO Werknemer (VNaam, ANaam)";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+                    cmd.Parameters["@VNaam"].Value = werknemer.Voornaam;
+                    cmd.Parameters["@ANaam"].Value = werknemer.Achternaam;
+                    uint i = (uint)cmd.ExecuteScalar();
+                    werknemer.ZetId(i);
+                    return werknemer;
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: VoegWerknemerToe {ex.Message}", ex);
+                exx.Data.Add("werknemer", werknemer);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
         public void WijzigWerknemer(Werknemer werknemer) {
