@@ -28,7 +28,7 @@ INSERT INTO Bezoeker
 		  ('Lars', 'Mars', 'ISh1dd3dMyPant@Outlook.com', 'Dominos')
 
 INSERT INTO Werknemer
-	(VNaam, ANaam)
+	(VNaam, ANaam, Email)
 	VALUES('Jan', 'Cornelis', 'JanCornelis@outlook.com'),
 		  ('Piet', 'Comelis', 'PietComelis@outlook.com'),
 		  ('Joris', 'Conelis', 'JanConelis@outlook.com')
@@ -40,7 +40,7 @@ INSERT INTO Bedrijf
 
 
 INSERT INTO WerknemerBedrijf
-	(BedrijfId, WerknemerId, FunctieId, Email)
+	(BedrijfId, WerknemerId, FunctieId)
 	VALUES(1,1,1),
 		  (1,2,2),
 		  (2,3,1)

@@ -60,7 +60,7 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Private methode die kijkt of werknemer in DB bestaat adh werknemer object, id
+        /// Private methode die kijkt of werknemer in DB bestaat (Table Werknemer) adh werknemer object, id
         /// </summary>
         /// <param name="werknemer"></param>
         /// <param name="werknemerId"></param>
@@ -150,7 +150,31 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+                    cmd.Parameters["@VNaam"].Value = voornaam;
+                    cmd.Parameters["@ANaam"].Value = achternaam;
+                    List<Werknemer> werknemers = new List<Werknemer>();
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read()) {
+
+                    }
+                    return werknemers;
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: GeefWerknemersOpNaam {ex.Message}", ex);
+                exx.Data.Add("voornaam", voornaam);
+                exx.Data.Add("achternaam", achternaam);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
         public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(uint bedrijfId) {
