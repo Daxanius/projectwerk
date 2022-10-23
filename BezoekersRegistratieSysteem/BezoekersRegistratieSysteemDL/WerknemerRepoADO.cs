@@ -176,18 +176,24 @@ namespace BezoekersRegistratieSysteemDL {
         /// <param name="statusId"></param>
         /// <exception cref="WerknemerADOException"></exception>
         private void VeranderStatusWerknemer(uint werknemerId, int statusId) {
+            //TODO PROB THROW IT IN VERWIJDERWERKNEMER AND ADD THE NEC ITEMS LIKE BEDRIJF ID AND FUNCTION NAME
             SqlConnection con = GetConnection();
             string query = "UPDATE Werknemerbedrijf " +
                            "SET Status = @statusId " +
-                           "WHERE BedrijfId = (SELECT Id FROM bedrijf WHERE Id = @bedrijfId) AND WerknemerId = @werknemerId AND Status = 1";
+                           "WHERE BedrijfId = @bedrijfId " +
+                           "AND FunctieId = (SELECT Id FROM FUNCTIE WHERE FunctieNaam = @FunctieNaam) " +
+                           "AND WerknemerId = @werknemerId " +
+                           "AND Status = 1";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
                     cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
                     cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
-                    cmd.Parameters["@bedrijfId"].Value = werknemer.Bedrijf.id;
+                    cmd.Parameters["@bedrijfId"].Value = null; // werknemer.Bedrijf.id;
+                    cmd.Parameters["@FunctieNaam"].Value = null; //Functienaam
                     cmd.Parameters["@werknemerId"].Value = werknemerId;
                     cmd.Parameters["@statusId"].Value = statusId;
                     cmd.ExecuteNonQuery();
