@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 namespace BezoekersRegistratieSysteemDL {
     //CONTROLES OP STATUS OP BEPAALDE ZAKEN?
     /// <summary>
-	/// ADO van afspraak
+	/// Repo ADO van afspraken
 	/// </summary>
     public class AfspraakRepoADO : IAfspraakRepository {
         private string _connectieString;
 
         /// <summary>
-        /// Constructor
+        /// Constructor, initialiseerd een AfspraakRepoADO klasse die een connectiestring met de DB accepteerd
         /// </summary>
-        /// <param name="connectieString"></param>
+        /// <param name="connectieString">Connectiestring met de DB</param>
         public AfspraakRepoADO(string connectieString) {
             _connectieString = connectieString;
         }
@@ -33,10 +33,10 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// Beindig afspraak
+		/// Beindigd afspraak via de bezoeker zijn kant
 		/// </summary>
-		/// <param name="afspraakId"></param>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="afspraakId">Id van afspraak die beeindigd moet worden</param>
+		/// <exception cref="AfspraakADOException">Faalt om afspraak te beeindigen</exception>
         public void BeeindigAfspraakBezoeker(uint afspraakId) {
             try {
                 VeranderStatusAfspraak(afspraakId, 3);
@@ -46,11 +46,12 @@ namespace BezoekersRegistratieSysteemDL {
                 throw exx;
             }
         }
+
         /// <summary>
-		/// Beindig afspraak
+		/// Beindigd afspraak via het systeem zijn kant
 		/// </summary>
-		/// <param name="afspraakId"></param>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="afspraakId">Id van afspraak die beeindigd moet worden</param>
+		/// <exception cref="AfspraakADOException">Faalt om afspraak te beeindigen</exception>
         public void BeeindigAfspraakSysteem(uint afspraakId) {
             try {
                 VeranderStatusAfspraak(afspraakId, 4);
@@ -62,10 +63,10 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// verwijder afspraak
+        /// verwijderd afspraak
         /// </summary>
-        /// <param name="afspraakId"></param>
-        /// <exception cref="AfspraakADOException"></exception>
+        /// <param name="afspraakId">Id van afspraak die verwijderd moet worden</param>
+        /// <exception cref="AfspraakADOException">Faalt om afspraak te verwijderen</exception>
         public void VerwijderAfspraak(uint afspraakId) {
             try {
                 VeranderStatusAfspraak(afspraakId, 2);
@@ -75,11 +76,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// verander status afspraak
+		/// Prive methode die de status van een afspraak wijzigd
 		/// </summary>
-		/// <param name="afspraakId"></param>
-		/// <param name="statusId"></param>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="afspraakId">Id van afspraak die gewijzigd moet worden</param>
+		/// <param name="statusId">Id van status die toegekend moet worden</param>
+		/// <exception cref="AfspraakADOException">Faalt om status van een afspraak te wijzigen</exception>
         private void VeranderStatusAfspraak(uint afspraakId, int statusId) {
             SqlConnection con = GetConnection();
             string query = "UPDATE Afspraak " +
@@ -106,10 +107,10 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// bewerk afspraak
+		/// bewerkt de gegevens van een afspraak
 		/// </summary>
-		/// <param name="afspraak"></param>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="afspraak">Afspraak object die moet gewijzigd worden in de DB</param>
+		/// <exception cref="AfspraakADOException">Faalt om afspraak te wijzigen</exception>
         public void BewerkAfspraak(Afspraak afspraak) {
             SqlConnection con = GetConnection();
             //SELECT WORD GEBRUIKT OM EEN ACCURATE STATUSID IN TE STELLEN
@@ -174,11 +175,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// Geef afspraak
+		/// Geeft een afspraak op basis van een id
 		/// </summary>
-		/// <param name="afspraakId"></param>
-        /// <returns>Afspraak object</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="afspraakId">Id van het gewenste afspraak</param>
+        /// <returns>Gewenste afspraak object</returns>
+		/// <exception cref="AfspraakADOException">Faalt om een afspraak object weer te geven</exception>
         public Afspraak GeefAfspraak(uint afspraakId) {
             SqlConnection con = GetConnection();
             /* INFO SELECT
@@ -248,11 +249,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// Geef alle afspraken op datum
+		/// Geeft een lijst van afspraken op een specifieke datum
 		/// </summary>
-		/// <param name="datum"></param>
-        /// <returns>ReadOnlyList Afspraak</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="datum">Gewenste datum</param>
+        /// <returns>Lijst van afspraken op gewenste datum</returns>
+		/// <exception cref="AfspraakADOException">Faalt om een lijst van afspraken op datum op te roepen</exception>
         public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
             try {
                 return GeefAlleAfspraken(null, datum);
@@ -262,11 +263,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// Geef alle afspraken op werknemer
+		/// Geeft alle afspraken per werknemer
 		/// </summary>
-		/// <param name="werknemerId"></param>
-        /// <returns>ReadOnlyList Afspraak</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="werknemerId">Id van werknemer</param>
+        /// <returns>Lijst van afspraken op gewenste werknemer</returns>
+		/// <exception cref="AfspraakADOException">Faalt om een lijst van afspraken op werknemer op te roepen</exception>
         public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(uint werknemerId) {
             try {
                 return GeefAlleAfspraken(werknemerId, null);
@@ -276,12 +277,12 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// Geef alle afspraken op datum en werknemer
+		/// Geeft alle afspraken op datum en werknemer
 		/// </summary>
-		/// <param name="werknemerId"></param>
-		/// <param name="datum"></param>
-        /// <returns>ReadOnlyList Afspraak</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="werknemerId">Id van werknemer</param>
+		/// <param name="datum">Datum</param>
+        /// <returns>Lijst van afspraken op combinatie van datum en werknemer</returns>
+		/// <exception cref="AfspraakADOException">Faalt om een lijst van afspraken op werknemer en datum op te roepen</exception>
         public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(uint werknemerId, DateTime datum) {
             try {
                 return GeefAlleAfspraken(werknemerId, datum);
@@ -291,12 +292,12 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// Geef alle afspraken op combinatie datum of/en werknemer
-		/// </summary>
-		/// <param name="_werknemerId"></param>
-		/// <param name="_datum"></param>
-        /// <returns>ReadOnlyList Afspraak</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+        /// Prive methode die alle afspraken op combinatie datum of/en werknemer
+        /// </summary>
+        /// <param name="_werknemerId">Optioneel id van werknemer</param>
+        /// <param name="_datum">Optioneel datum</param>
+        /// <returns>Lijst van afspraken op combinatie van datum en/of werknemer</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een lijst van afspraken op werknemer en/of datum op te roepen</exception>
         private IReadOnlyList<Afspraak> GeefAlleAfspraken(uint? _werknemerId, DateTime? _datum) {
             SqlConnection con = GetConnection();
             /* INFO SELECT
@@ -376,10 +377,10 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// Geeft lijst van huidige Afspraken
+		/// Geeft een lijst van afspraken die nog bezig zijn (AfspraakStatus = 1)
 		/// </summary>
-        /// <returns>ReadOnlyList Afspraak</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1)</returns>
+		/// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken</exception>
         public IReadOnlyList<Afspraak> GeefHuidigeAfspraken() {
             try {
                 return GeefHuidigeAfspraken(null, null);
@@ -389,11 +390,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// Geeft lijst van huidige Afspraken per bedrijf
+		/// Geeft een lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf
 		/// </summary>
-		/// <param name="bedrijfId"></param>
-        /// <returns>ReadOnlyList Afspraak</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="bedrijfId">Id van gewenste bedrijf</param>
+        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf</returns>
+		/// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken per bedrijf</exception>
         public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint bedrijfId) {
             try {
                 return GeefHuidigeAfspraken(bedrijfId, null);
@@ -403,11 +404,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// Geeft lijst van huidige Afspraken per werknemer
+		/// Geeft een lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per werknemer
 		/// </summary>
-		/// <param name="werknemerId"></param>
-        /// <returns>ReadOnlyList Afspraak</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="werknemerId">Id van gewenste werknemer</param>
+        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per werknemer</returns>
+		/// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken per werknemer</exception>
         public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId) {
             try {
                 return GeefHuidigeAfspraken(null, werknemerId);
@@ -417,12 +418,12 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// PRIVATE: Geeft lijst van huidige Afspraken
+		/// Prive methode die een lijst van huidige afspraken geeft
 		/// </summary>
-		/// <param name="_bedrijfId"></param>
-		/// <param name="_werknemerId"></param>
-        /// <returns>ReadOnlyList Afspraak</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="_bedrijfId">Optioneel id van bedrijf</param>
+		/// <param name="_werknemerId">Optioneel id van werknemer</param>
+        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf en/of werknemer</returns>
+		/// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken per bedrijf en/of werknemer</exception>
         private IReadOnlyList<Afspraak> GeefHuidigeAfspraken(uint? _bedrijfId, uint? _werknemerId) {
             SqlConnection con = GetConnection();
             /* INFO SELECT
@@ -502,11 +503,11 @@ namespace BezoekersRegistratieSysteemDL {
 
 
         /// <summary>
-		/// Maakt afspraak aan in DB
+		/// Maakt afspraak aan via een afspraak object
 		/// </summary>
-		/// <param name="afspraak"></param>
-        /// <returns>Afspraak object</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="afspraak">Afspraak object die toegevoegd moet worden</param>
+        /// <returns>Afspraak object met id</returns>
+		/// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
         public Afspraak VoegAfspraakToe(Afspraak afspraak) {
             SqlConnection con = GetConnection();
             string queryBezoeker = "INSERT INTO Bezoeker(ANaam, VNaam, EMail, EigenBedrijf) " +
@@ -563,9 +564,9 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
 		/// Kijkt of afspraak bestaat op basis van afspraak object
 		/// </summary>
-		/// <param name="afspraak"></param>
-        /// <returns>bool</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="afspraak">Afspraak object die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+		/// <exception cref="AfspraakADOException">Faalt om te kijken of een afspraak bestaat op basis van afspraak object</exception>
         public bool BestaatAfspraak(Afspraak afspraak) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
@@ -600,9 +601,9 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
 		/// Kijkt of afspraak bestaat op basis van afspraak id
 		/// </summary>
-		/// <param name="afspraakid"></param>
-        /// <returns>bool</returns>
-		/// <exception cref="AfspraakADOException"></exception>
+		/// <param name="afspraakid">Afspraak id die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+		/// <exception cref="AfspraakADOException">Faalt om te kijken of een afspraak bestaat op basis van afspraak object</exception>
         public bool BestaatAfspraak(uint afspraakid) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
