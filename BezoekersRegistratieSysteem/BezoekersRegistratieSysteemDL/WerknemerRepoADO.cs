@@ -333,7 +333,7 @@ namespace BezoekersRegistratieSysteemDL {
         /// <exception cref="WerknemerADOException"></exception>
         public Werknemer VoegWerknemerToe(Werknemer werknemer) {
             SqlConnection con = GetConnection();
-            string query = "INSERT INTO Werknemer (VNaam, ANaam, Email)";
+            string query = "INSERT INTO Werknemer (VNaam, ANaam, Email) VALUES(@VNaam, @ANaam, @Email)";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
