@@ -11,9 +11,15 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 
 namespace BezoekersRegistratieSysteemDL {
+    /// <summary>
+	/// ADO van bedrijf
+	/// </summary>
     public class BedrijfRepoADO : IBedrijfRepository {
         private string _connectieString;
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="connectieString"></param>
         public BedrijfRepoADO(string connectieString) {
             _connectieString = connectieString;
         }
