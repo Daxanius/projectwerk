@@ -67,9 +67,10 @@ namespace BezoekersRegistratieSysteemDL {
         /// <returns>bool</returns>
         /// <exception cref="WerknemerADOException"></exception>
         private bool BestaatWerknemer(Werknemer? werknemer, uint? werknemerId) {
+            //TODO eh oh
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
-                           "FROM bedrijf " +
+                           "FROM Werknemer " +
                            "WHERE 1=1";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
@@ -207,17 +208,25 @@ namespace BezoekersRegistratieSysteemDL {
                 con.Close();
             }
         }
+
+        /// <summary>
+        /// voegt werknemer toe
+        /// </summary>
+        /// <param name="werknemer"></param>
+        /// <exception cref="WerknemerADOException"></exception>
         public Werknemer VoegWerknemerToe(Werknemer werknemer) {
             SqlConnection con = GetConnection();
-            string query = "INSERT INTO Werknemer (VNaam, ANaam)";
+            string query = "INSERT INTO Werknemer (VNaam, ANaam, Email)";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
                     cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar));
                     cmd.Parameters["@VNaam"].Value = werknemer.Voornaam;
                     cmd.Parameters["@ANaam"].Value = werknemer.Achternaam;
+                    cmd.Parameters["@Email"].Value = werknemer.Email;
                     uint i = (uint)cmd.ExecuteScalar();
                     werknemer.ZetId(i);
                     return werknemer;
@@ -231,8 +240,39 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
+        /// <summary>
+        /// wijzigd werknemer
+        /// </summary>
+        /// <param name="werknemer"></param>
+        /// <exception cref="WerknemerADOException"></exception>
         public void WijzigWerknemer(Werknemer werknemer) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "UPDATE Werknemer " +
+                           "SET VNaam = @Vnaam, " +
+                           "ANaam = @ANaam, " +
+                           "EMail = @Email " +
+                           "WHERE Id = @Id";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar));
+                    cmd.Parameters["@Id"].Value = werknemer.Id;
+                    cmd.Parameters["@VNaam"].Value = werknemer.Voornaam;
+                    cmd.Parameters["@ANaam"].Value = werknemer.Achternaam;
+                    cmd.Parameters["@Email"].Value = werknemer.Email;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: WijzigWerknemer {ex.Message}", ex);
+                exx.Data.Add("werknemer", werknemer);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
     }
 }
