@@ -294,8 +294,8 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
         /// Prive methode die alle afspraken op combinatie datum of/en werknemer
         /// </summary>
-        /// <param name="_werknemerId">Optioneel id van werknemer</param>
-        /// <param name="_datum">Optioneel datum</param>
+        /// <param name="_werknemerId">Optioneel: id van werknemer</param>
+        /// <param name="_datum">Optioneel: gewenste datum</param>
         /// <returns>Lijst van afspraken op combinatie van datum en/of werknemer</returns>
         /// <exception cref="AfspraakADOException">Faalt om een lijst van afspraken op werknemer en/of datum op te roepen</exception>
         private IReadOnlyList<Afspraak> GeefAlleAfspraken(uint? _werknemerId, DateTime? _datum) {
@@ -420,8 +420,8 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
 		/// Prive methode die een lijst van huidige afspraken geeft
 		/// </summary>
-		/// <param name="_bedrijfId">Optioneel id van bedrijf</param>
-		/// <param name="_werknemerId">Optioneel id van werknemer</param>
+		/// <param name="_bedrijfId">Optioneel: id van bedrijf</param>
+		/// <param name="_werknemerId">Optioneel: id van werknemer</param>
         /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf en/of werknemer</returns>
 		/// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken per bedrijf en/of werknemer</exception>
         private IReadOnlyList<Afspraak> GeefHuidigeAfspraken(uint? _bedrijfId, uint? _werknemerId) {

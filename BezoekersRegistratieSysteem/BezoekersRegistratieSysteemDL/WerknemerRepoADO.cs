@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemDL {
     /// <summary>
-	/// ADO van werknemer
+	/// Repo ADO van werknemers
 	/// </summary>
     public class WerknemerRepoADO : IWerknemerRepository {
         private string _connectieString;
         /// <summary>
-        /// Constructor
+        /// Constructor, initialiseerd een WerknemerRepoADO klasse die een connectiestring met de DB accepteerd
         /// </summary>
-        /// <param name="connectieString"></param>
+        /// <param name="connectieString">Connectiestring met de DB</param>
         public WerknemerRepoADO(string connectieString) {
             _connectieString = connectieString;
         }
@@ -32,11 +32,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Private methode die kijkt of werknemer in DB bestaat adh werknemer object
+        /// Kijkt of werknemer in DB bestaat adh werknemer object
         /// </summary>
-        /// <param name="werknemer"></param>
-        /// <returns>bool</returns>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <param name="werknemer">Werknemer object die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+        /// <exception cref="WerknemerADOException">Faalt om te kijken of werknemer bestaat</exception>
         public bool BestaatWerknemer(Werknemer werknemer) {
             try {
                 return BestaatWerknemer(werknemer, null);
@@ -46,11 +46,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Private methode die kijkt of werknemer in DB bestaat adh werknemer id
+        /// Kijkt of werknemer in DB bestaat adh werknemer id
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns>bool</returns>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <param name="id">Id van werknemer die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+        /// <exception cref="WerknemerADOException">Faalt om te kijken of werknemer bestaat</exception>
         public bool BestaatWerknemer(uint id) {
             try {
                 return BestaatWerknemer(null, id);
@@ -60,12 +60,12 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Private methode die kijkt of werknemer in DB bestaat (Table Werknemer) adh werknemer object, id
+        /// Prive methode die kijkt of werknemer in DB bestaat (Table Werknemer) adh werknemer object, id
         /// </summary>
-        /// <param name="werknemer"></param>
-        /// <param name="werknemerId"></param>
+        /// <param name="werknemer">Optioneel: Werknemer object die gecontroleerd moet worden</param>
+        /// <param name="werknemerId">Optioneel: Werknemer id die gecontroleerd moet worden</param>
         /// <returns>bool</returns>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <exception cref="WerknemerADOException">Faalt om te kijken of werknemer bestaat</exception>
         private bool BestaatWerknemer(Werknemer? werknemer, uint? werknemerId) {
             //TODO eh oh
             SqlConnection con = GetConnection();
@@ -97,9 +97,9 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
         /// Geeft werknemer object op basis van werknemer id
         /// </summary>
-        /// <param name="_werknemerId"></param>
+        /// <param name="_werknemerId">Id van gewenste werknemer</param>
         /// <returns>Werknemer object</returns>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <exception cref="WerknemerADOException">Faalt om een werknemer object weer te geven</exception>
         public Werknemer GeefWerknemer(uint _werknemerId) {
             SqlConnection con = GetConnection();
             string query = "SELECT wn.id as WerknemerId, wn.Vnaam as WerknemerVnaam, wn.Anaam as WerknemerAnaam, wb.Email as WerknemerMail, " +
@@ -150,12 +150,12 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Geeft lijst van werknemers op basis van voor en achternaam
+        /// Geeft lijst van werknemers op basis van voor- en/of achternaam
         /// </summary>
-        /// <param name="voornaam"></param>
-        /// <param name="achternaam"></param>
-        /// <returns>Lijst Werknemer objecten</returns>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <param name="voornaam">voornaam van gewenste medewerker</param>
+        /// <param name="achternaam">achternaam van gewenste medewerker</param>
+        /// <returns>Lijst Werknemer objecten op basis van voor- en/of achternaam</returns>
+        /// <exception cref="WerknemerADOException">Faalt om een lijst van werknemers op te roepen</exception>
         public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam) {
             SqlConnection con = GetConnection();
             string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
@@ -217,9 +217,9 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
         /// Geeft lijst van werknemers op basis van bedrijf id
         /// </summary>
-        /// <param name="_bedrijfId"></param>
+        /// <param name="_bedrijfId">Id van bedrijf</param>
         /// <returns>Lijst Werknemer objecten</returns>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <exception cref="WerknemerADOException">Faalt om een lijst van werknemers op te roepen</exception>
         public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(uint _bedrijfId) {
             SqlConnection con = GetConnection();
             string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
@@ -275,10 +275,10 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// verwijder werknemer
+        /// verwijder werknemer op basis van id
         /// </summary>
-        /// <param name="werknemerId"></param>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <param name="werknemerId">Id van gewenste werknemer</param>
+        /// <exception cref="WerknemerADOException">Faalt om een werknemer status naar verwijderd te veranderen</exception>
         public void VerwijderWerknemer(uint werknemerId) {
             try {
                 VeranderStatusWerknemer(werknemerId, 2);
@@ -288,11 +288,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// verander status werknemer
+        /// prive methode die status van werknemer veranderd
         /// </summary>
-        /// <param name="werknemerId"></param>
-        /// <param name="statusId"></param>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <param name="werknemerId">Id van gewesnte werknemer</param>
+        /// <param name="statusId">Id van gewesnte status</param>
+        /// <exception cref="WerknemerADOException">Faalt om een werknemer status te veranderen</exception>
         private void VeranderStatusWerknemer(uint werknemerId, int statusId) {
             //TODO PROB THROW IT IN VERWIJDERWERKNEMER AND ADD THE NEC ITEMS LIKE BEDRIJF ID AND FUNCTION NAME
             SqlConnection con = GetConnection();
@@ -329,8 +329,8 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
         /// voegt werknemer toe
         /// </summary>
-        /// <param name="werknemer"></param>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <param name="werknemer">Werknemer object die toegevoegd moet worden</param>
+        /// <exception cref="WerknemerADOException">Faalt om een werknemer toe te voegen</exception>
         public Werknemer VoegWerknemerToe(Werknemer werknemer) {
             SqlConnection con = GetConnection();
             string query = "INSERT INTO Werknemer (VNaam, ANaam, Email) VALUES(@VNaam, @ANaam, @Email)";
@@ -360,10 +360,10 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// voegt functies van werknemer toe
+        /// voegt bedrijf en functie aan werknemer toe
         /// </summary>
-        /// <param name="werknemer"></param>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <param name="werknemer">Bedrijf en functie die aan werknemer word toegevoegd</param>
+        /// <exception cref="WerknemerADOException">Faalt om bedrijf en functie aan werknemer toe te voegen</exception>
         private void VoegFunctieToeAanWerknemer(Werknemer werknemer) {
             SqlConnection con = GetConnection();
             string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, FunctieId) " +
@@ -410,10 +410,10 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// wijzigd werknemer
+        /// wijzigd werknemer op basis van werknemer object
         /// </summary>
-        /// <param name="werknemer"></param>
-        /// <exception cref="WerknemerADOException"></exception>
+        /// <param name="werknemer">Werknemer object die gewijzigd moet worden</param>
+        /// <exception cref="WerknemerADOException">Faalt om werknemer te wijzigen</exception>
         public void WijzigWerknemer(Werknemer werknemer) {
             SqlConnection con = GetConnection();
             string query = "UPDATE Werknemer " +

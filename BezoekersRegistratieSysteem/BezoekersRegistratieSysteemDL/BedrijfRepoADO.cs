@@ -12,14 +12,14 @@ using System.Runtime.CompilerServices;
 
 namespace BezoekersRegistratieSysteemDL {
     /// <summary>
-	/// ADO van bedrijf
+	/// Repo ADO van bedrijven
 	/// </summary>
     public class BedrijfRepoADO : IBedrijfRepository {
         private string _connectieString;
         /// <summary>
-        /// Constructor
+        /// Constructor, initialiseerd een BedrijfRepoADO klasse die een connectiestring met de DB accepteerd
         /// </summary>
-        /// <param name="connectieString"></param>
+        /// <param name="connectieString">Connectiestring met de DB</param>
         public BedrijfRepoADO(string connectieString) {
             _connectieString = connectieString;
         }
@@ -33,11 +33,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Methode die kijkt of bedrijf in DB bestaat adh bedrijf object
+        /// Kijkt of bedrijf bestaat op basis van bedrijf object
         /// </summary>
-        /// <param name="bedrijf"></param>
-        /// <returns>bool</returns>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <param name="bedrijf">Bedrijf object die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+        /// <exception cref="BedrijfADOException">Faalt om te kijken of bedrijf bestaat</exception>
         public bool BestaatBedrijf(Bedrijf bedrijf) {
             try {
                 return BestaatBedrijf(bedrijf, null, null);
@@ -47,11 +47,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Methode die kijkt of bedrijf in DB bestaat adh bedrijf id
+        /// Kijkt of bedrijf bestaat op basis van bedrijf id
         /// </summary>
-        /// <param name="bedrijfId"></param>
-        /// <returns>bool</returns>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <param name="bedrijfId">Id van bedrijf die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+        /// <exception cref="BedrijfADOException">Faalt om te kijken of bedrijf bestaat</exception>
         public bool BestaatBedrijf(uint bedrijfId) {
             try {
                 return BestaatBedrijf(null, bedrijfId, null);
@@ -61,11 +61,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Methode die kijkt of bedrijf in DB bestaat adh bedrijf naam
+        /// Kijkt of bedrijf bestaat op basis van bedrijf naam
         /// </summary>
-        /// <param name="bedrijfsnaam"></param>
-        /// <returns>bool</returns>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <param name="bedrijfsnaam">Naam van bedrijf die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+        /// <exception cref="BedrijfADOException">Faalt om te kijken of bedrijf bestaat</exception>
         public bool BestaatBedrijf(string bedrijfsnaam) {
             try {
                 return BestaatBedrijf(null, null, bedrijfsnaam);
@@ -75,13 +75,13 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Private methode die kijkt of bedrijf in DB bestaat adh bedrijf object, id, naam
+        /// Prive methode die kijkt of bedrijf in DB bestaat adh bedrijf object, id, naam
         /// </summary>
-        /// <param name="bedrijf"></param>
-        /// <param name="bedrijfId"></param>
-        /// <param name="bedrijfsnaam"></param>
-        /// <returns>bool</returns>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <param name="bedrijf">Optioneel: bedrijf object die gecontroleerd moet worden</param>
+        /// <param name="bedrijfId">Optioneel: Id van bedrijf die gecontroleerd moet worden</param>
+        /// <param name="bedrijfsnaam">Optioneel: Naam van bedrijf die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+        /// <exception cref="BedrijfADOException">Faalt om te kijken of bedrijf bestaat op basis van bedrijf object, id of naam</exception>
         private bool BestaatBedrijf(Bedrijf? bedrijf, uint? bedrijfId, string? bedrijfsnaam) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
@@ -111,10 +111,10 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Bewerkt informatie van een bedrijf
+        /// Bewerkt de gegevens van een bedrijf
         /// </summary>
-        /// <param name="bedrijf"></param>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <param name="bedrijf">Bedrijf object die moet gewijzigd worden in de DB</param>
+        /// <exception cref="BedrijfADOException">Faalt om bedrijf te bewerken</exception>
         public void BewerkBedrijf(Bedrijf bedrijf) {
             SqlConnection con = GetConnection();
             string query = "UPDATE bedrijf " +
@@ -154,9 +154,9 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
         /// geeft bedrijf object op basis van id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Id van gewenste bedrijf</param>
         /// <returns>Bedrijf object</returns>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <exception cref="BedrijfADOException">Faalt om een bedrijf object weer te geven op basis van id</exception>
         public Bedrijf GeefBedrijf(uint id) {
             try {
                 return GeefBedrijf(id, null);
@@ -168,9 +168,9 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
         /// geeft bedrijf object op basis van naam
         /// </summary>
-        /// <param name="bedrijfsnaam"></param>
+        /// <param name="bedrijfsnaam">Naam van gewenste bedrijf</param>
         /// <returns>Bedrijf object</returns>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <exception cref="BedrijfADOException">Faalt om een bedrijf object weer te geven op basis van naam</exception>
         public Bedrijf GeefBedrijf(string bedrijfsnaam) {
             try {
                 return GeefBedrijf(null, bedrijfsnaam);
@@ -180,12 +180,12 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// private geeft bedrijf object op basis van id of naam
+        /// prive methode die een bedrijf object op basis van id of naam geeft
         /// </summary>
-        /// <param name="_bedrijfId"></param>
-        /// <param name="_bedrijfnaam"></param>
+        /// <param name="_bedrijfId">Optioneel: Gewenste id van bedrijf</param>
+        /// <param name="_bedrijfnaam">Optioneel: Gewenste naam van bedrijf</param>
         /// <returns>Bedrijf object</returns>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <exception cref="BedrijfADOException">Faalt om een bedrijf object weer te geven op basis van id of naam</exception>
         private Bedrijf GeefBedrijf(uint? _bedrijfId, string? _bedrijfnaam) {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
@@ -243,8 +243,8 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
         /// geeft lijst van bedrijf objecten
         /// </summary>
-        /// <returns>Lijst Bedrijf object</returns>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <returns>Lijst van bedrijf object</returns>
+        /// <exception cref="BedrijfADOException">Faalt om een lijst van bedrijven op te roepen</exception>
         public IReadOnlyList<Bedrijf> Geefbedrijven() {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
@@ -297,8 +297,8 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
         /// Veranderd status van bedrijf naar verwijderd
         /// </summary>
-        /// <param name="bedrijfId"></param>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <param name="bedrijfId">Id van bedrijf dat verwijderd moet worden</param>
+        /// <exception cref="BedrijfADOException">Faalt om status van bedrijf naar verwijderd te zetten</exception>
         public void VerwijderBedrijf(uint bedrijfId) {
             try {
                 VeranderStatusBedrijf(bedrijfId, 2);
@@ -308,11 +308,11 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Veranderd status van bedrijf
+        /// Prive methode die status van bedrijf veranderd
         /// </summary>
-        /// <param name="bedrijfId"></param>
-        /// <param name="statusId"></param>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <param name="bedrijfId">Id van gewenste bedrijf</param>
+        /// <param name="statusId">Id van status die toegekend moet worden</param>
+        /// <exception cref="BedrijfADOException">Faalt om status van bedrijf te veranderen</exception>
         private void VeranderStatusBedrijf(uint bedrijfId, int statusId) {
             //Wanneer bedrijf word verwijderd (status 2), medewerkers zijn dan ontslagen (status 2)
             SqlConnection con = GetConnection();
@@ -361,9 +361,9 @@ namespace BezoekersRegistratieSysteemDL {
         /// <summary>
         /// Voegt bedrijf toe aan db
         /// </summary>
-        /// <param name="bedrijf"></param>
-        /// <returns>Bedrijf object</returns>
-        /// <exception cref="BedrijfADOException"></exception>
+        /// <param name="bedrijf">Bedrijf object die toegevoegd moet worden</param>
+        /// <returns>Bedrijf object met id</returns>
+        /// <exception cref="BedrijfADOException">Faalt om een bedrijf toe te voegen</exception>
         public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
             SqlConnection con = GetConnection();
             string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres) " +
