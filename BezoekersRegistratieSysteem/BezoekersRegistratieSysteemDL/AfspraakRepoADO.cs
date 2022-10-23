@@ -75,7 +75,7 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-		/// Beindig afspraak
+		/// verander status afspraak
 		/// </summary>
 		/// <param name="afspraakId"></param>
 		/// <param name="statusId"></param>
