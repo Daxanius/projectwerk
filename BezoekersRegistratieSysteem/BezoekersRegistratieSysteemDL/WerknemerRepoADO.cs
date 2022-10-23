@@ -92,22 +92,115 @@ namespace BezoekersRegistratieSysteemDL {
                 con.Close();
             }
         }
-        public Werknemer GeefWerknemer(uint id) {
-            throw new NotImplementedException();
+
+        /// <summary>
+        /// Geeft werknemer object op basis van werknemer id
+        /// </summary>
+        /// <param name="_werknemerId"></param>
+        /// <returns>Werknemer object</returns>
+        /// <exception cref="WerknemerADOException"></exception>
+        public Werknemer GeefWerknemer(uint _werknemerId) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT wn.id as WerknemerId, wn.Vnaam as WerknemerVnaam, wn.Anaam as WerknemerAnaam, wb.Email as WerknemerMail, " +
+                           "b.id as BedrijfId, b.naam as BedrijfNaam, b.btwnr as bedrijfBTW, b.telenr as bedrijfTele, b.email as BedrijfMail, b.adres as BedrijfAdres, " +
+                           "f.functienaam " +
+                           "FROM Werknemer wn " +
+                           "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) " +
+                           "JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+                           "JOIN functie f ON(f.id = wb.functieid) " +
+                           "WHERE wn.id = @werknemerId";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@werknemerId",SqlDbType.BigInt));
+                    cmd.Parameters["@werknemerId"].Value = _werknemerId;
+                    IDataReader reader = cmd.ExecuteReader();
+                    Werknemer werknemer = null;
+                    Bedrijf bedrijf = null;
+                    while (reader.Read()) {
+                        if (werknemer is null) {
+                            string werknemerVnaam = (string)reader["WerknemerVnaam"];
+                            string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                            string werknemerMail = (string)reader["WerknemerMail"];
+                            werknemer = new Werknemer(_werknemerId, werknemerVnaam, werknemerAnaam, werknemerMail);
+                        }
+                        if (bedrijf is null || bedrijf.Id != (uint)reader["BedrijfId"]) {
+                            uint bedrijfId = (uint)reader["BedrijfId"];
+                            string bedrijfNaam = (string)reader["BedrijfNaam"];
+                            string bedrijfBTW = (string)reader["bedrijfBTW"];
+                            string bedrijfTele = (string)reader["bedrijfTele"];
+                            string bedrijfMail = (string)reader["BedrijfMail"];
+                            string bedrijfAdres = (string)reader["BedrijfAdres"];
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTele, bedrijfMail, bedrijfAdres);
+                        }
+                        string functieNaam = (string)reader["functienaam"];
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf,functieNaam);
+                    }
+                    return werknemer;
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: GeefWerknemer {ex.Message}", ex);
+                exx.Data.Add("werknemerId", _werknemerId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
         public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam) {
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(uint id) {
+        public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(uint bedrijfId) {
             throw new NotImplementedException();
         }
 
-        public void VerwijderWerknemer(uint id) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// verwijder werknemer
+        /// </summary>
+        /// <param name="werknemerId"></param>
+        /// <exception cref="WerknemerADOException"></exception>
+        public void VerwijderWerknemer(uint werknemerId) {
+            try {
+                VeranderStatusWerknemer(werknemerId, 2);
+            } catch (Exception ex) {
+                throw new WerknemerADOException($"WerknemerRepoADO: VerwijderWerknemer {ex.Message}", ex);
+            }
         }
 
+        /// <summary>
+        /// verander status werknemer
+        /// </summary>
+        /// <param name="werknemerId"></param>
+        /// <param name="statusId"></param>
+        /// <exception cref="WerknemerADOException"></exception>
+        private void VeranderStatusWerknemer(uint werknemerId, int statusId) {
+            SqlConnection con = GetConnection();
+            string query = "UPDATE Werknemerbedrijf " +
+                           "SET Status = @statusId " +
+                           "WHERE BedrijfId = (SELECT Id FROM bedrijf WHERE Id = @bedrijfId) AND WerknemerId = @werknemerId AND Status = 1";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+                    cmd.Parameters["@bedrijfId"].Value = werknemer.Bedrijf.id;
+                    cmd.Parameters["@werknemerId"].Value = werknemerId;
+                    cmd.Parameters["@statusId"].Value = statusId;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: VeranderStatusWerknemer {ex.Message}", ex);
+                exx.Data.Add("werknemerId", werknemerId);
+                exx.Data.Add("statusId", statusId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
         public Werknemer VoegWerknemerToe(Werknemer werknemer) {
             throw new NotImplementedException();
         }
