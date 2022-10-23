@@ -263,6 +263,7 @@ namespace BezoekersRegistratieSysteemDL {
                     IDataReader reader = cmd.ExecuteReader();
                     List<Bedrijf> bedrijven = new List<Bedrijf>();
                     Bedrijf bedrijf = null;
+                    Werknemer werknemer = null;
                     while (reader.Read()) {
                         if (bedrijf is null || bedrijf.Id != (uint)reader["BedrijfId"]) {
                             uint bedrijfId = (uint)reader["BedrijfId"];
@@ -274,12 +275,15 @@ namespace BezoekersRegistratieSysteemDL {
                             bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
                             bedrijven.Add(bedrijf);
                         }
-                        uint werknemerId = (uint)reader["WerknemerId"];
-                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
-                        string werknemerAnaam = (string)reader["WerknemerAnaam"];
-                        string werknemerMail = (string)reader["WerknemerMail"];
+                        if (werknemer is null || werknemer.Id != (uint)reader["WerknemerId"]) {
+
+                            uint werknemerId = (uint)reader["WerknemerId"];
+                            string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                            string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                            string werknemerMail = (string)reader["WerknemerMail"];
+                        }
                         string functieNaam = (string)reader["FunctieNaam"];
-                        bedrijf.VoegWerknemerToeInBedrijf(new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam, werknemerMail), functieNaam);
+                        bedrijf.VoegWerknemerToeInBedrijf(werknemer, functieNaam);
                     }
                     return bedrijven;
                 }
