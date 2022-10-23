@@ -24,9 +24,23 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <DockPanel>
-            <user_control:GegevensControl x:Name="gegevensControl" Visibility="Collapsed" />
-            <user_control:KiesBedrijfControl x:Name="kiesBedrijfControl" Visibility="Visible" />
-        </DockPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <user_control:GegevensControl
+                x:Name="gegevensControl"
+                Grid.Row="0"
+                Grid.Column="0"
+                Visibility="Collapsed" />
+            <user_control:KiesBedrijfControl
+                x:Name="kiesBedrijfControl"
+                Grid.Row="0"
+                Grid.Column="0"
+                Visibility="Visible" />
+        </Grid>
     </Grid>
 </Window>

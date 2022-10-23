@@ -29,6 +29,7 @@
                 FontSize="75"
                 FontWeight="Bold"
                 Foreground="White"
+                ScrollViewer.CanContentScroll="False"
                 ScrollViewer.HorizontalScrollBarVisibility="Visible"
                 SelectionMode="Single">
                 <ListView.ItemContainerStyle>
@@ -41,18 +42,23 @@
                         <StackPanel Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
-                <ListBoxItem Padding="100,0,100,0">Bubblemix</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Pixoboo</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Kimia</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Topiczoom</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Aivee</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Skinder</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Pixonyx</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Gigazoom</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Minyx</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Centizu</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Midel</ListBoxItem>
-                <ListBoxItem Padding="100,0,100,0">Innojam</ListBoxItem>
+                <ListViewItem
+                    Padding="500,0,100,0"
+                    IsEnabled="False"
+                    IsHitTestVisible="False"
+                    Style="{StaticResource GeenHoverEffect}" />
+                <ListViewItem Padding="100,0,100,0">Bubblemix</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Pixoboo</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Kimia</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Topiczoom</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Aivee</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Skinder</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Pixonyx</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Gigazoom</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Minyx</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Centizu</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Midel</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Innojam</ListViewItem>
             </ListView>
         </StackPanel>
     </StackPanel>

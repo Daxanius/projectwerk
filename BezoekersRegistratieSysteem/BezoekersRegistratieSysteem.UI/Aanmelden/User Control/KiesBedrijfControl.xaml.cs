@@ -36,6 +36,9 @@ namespace BezoekersRegistratieSysteem.UI.Aanmelden.User_Control
 				//Krijg naam van bedrijf uit aangeklikt ListViewItem
 				string bedrijfsNaam = (string)((ListBoxItem)bedrijfLijst.SelectedValue).Content;
 
+				if (string.IsNullOrWhiteSpace(bedrijfsNaam))
+					return;
+
 				AanmeldingsWindow.BedrijfsNaam = bedrijfsNaam;
 			}
 		}

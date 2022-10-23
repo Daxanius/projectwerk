@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteem.UI.Aanmelden.User_Control;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,8 +40,11 @@ namespace BezoekersRegistratieSysteem.UI
 
 		private void GaNaarGegevensControl()
 		{
-			kiesBedrijfControl.Visibility = Visibility.Collapsed;
+			GegevensControl? gegevensControlContext = gegevensControl.DataContext as GegevensControl;
+			gegevensControlContext?.ZetGeselecteerdBedrijf(_bedrijfsNaam);
+
 			gegevensControl.Visibility = Visibility.Visible;
+			kiesBedrijfControl.Visibility = Visibility.Collapsed;
 		}
 	}
 }
