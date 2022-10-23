@@ -359,6 +359,11 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
+        /// <summary>
+        /// voegt functies van werknemer toe
+        /// </summary>
+        /// <param name="werknemer"></param>
+        /// <exception cref="WerknemerADOException"></exception>
         private void VoegFunctieToeAanWerknemer(Werknemer werknemer) {
             SqlConnection con = GetConnection();
             string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, FunctieId) " +
