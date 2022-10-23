@@ -61,6 +61,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <exception cref="AfspraakException"></exception>
         public void ZetStarttijd(DateTime starttijd) {
             if (Eindtijd is not null) throw new AfspraakException("Afspraak - ZetStarttijd - Afspraak is al afgelopen");
+            if (starttijd.Date == new DateTime()) throw new AfspraakException("Afspraak - ZetStarttijd - Starttijd is niet ingevuld");
             Starttijd = starttijd;
         }
 

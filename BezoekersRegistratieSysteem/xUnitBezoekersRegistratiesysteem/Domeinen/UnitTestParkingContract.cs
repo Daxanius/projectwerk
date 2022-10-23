@@ -4,7 +4,7 @@ using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace xUnitBezoekersRegistratiesysteem.Domein
 {
-	public class ParkingContractTest
+	public class UnitTestParkingContract
 	{
 		private readonly Bezoeker validBezoeker;
 		private readonly DateTime validStarttijd;
@@ -15,12 +15,12 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 		private const int inValidAantalPlaatsen = -1;
 		private const int validAantalPlaatsen = 1;
 
-		public ParkingContractTest()
+		public UnitTestParkingContract()
 		{
 			validBezoeker = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com", bedrijf: "Artevelde");
 			validStarttijd = DateTime.Now;
 			validEindtijd = DateTime.Now.AddHours(8);
-			validBedrijf = new(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
+			validBedrijf = new(naam: "HoGent", btw: "BE0475730461", telefoonnummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
 			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan@gmail.com");
 
 			validBedrijf.ZetId(1);

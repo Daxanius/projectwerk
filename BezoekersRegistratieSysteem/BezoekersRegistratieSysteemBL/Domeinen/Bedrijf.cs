@@ -11,7 +11,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		public uint Id { get; private set; }
 		public string Naam { get; private set; }
 		public string BTW { get; private set; }
-		public string TelefoonNummer { get; private set; }
+		public string Telefoonnummer { get; private set; }
 		public string Email { get; private set; }
 		public string Adres { get; private set; }
 
@@ -27,13 +27,13 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         /// </summary>
         /// <param name="naam"></param>
         /// <param name="btw"></param>
-        /// <param name="telefoonNummer"></param>
+        /// <param name="telefoonnummer"></param>
         /// <param name="email"></param>
         /// <param name="adres"></param>
-        public Bedrijf(string naam, string btw, string telefoonNummer, string email, string adres) {
+        public Bedrijf(string naam, string btw, string telefoonnummer, string email, string adres) {
 			ZetNaam(naam);
 			ZetBTW(btw);
-			ZetTelefoonNummer(telefoonNummer);
+			ZetTelefoonnummer(telefoonnummer);
 			ZetEmail(email);
 			ZetAdres(adres);
 		}
@@ -44,15 +44,15 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="id"></param>
 		/// <param name="naam"></param>
 		/// <param name="btw"></param>
-		/// <param name="telefoonNummer"></param>
+		/// <param name="telefoonnummer"></param>
 		/// <param name="email"></param>
 		/// <param name="adres"></param>
-		public Bedrijf(uint id, string naam, string btw, string telefoonNummer, string email, string adres)
+		public Bedrijf(uint id, string naam, string btw, string telefoonnummer, string email, string adres)
         {
 			ZetId(id);
             ZetNaam(naam);
             ZetBTW(btw);
-            ZetTelefoonNummer(telefoonNummer);
+            ZetTelefoonnummer(telefoonnummer);
             ZetEmail(email);
             ZetAdres(adres);
         }
@@ -72,7 +72,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <exception cref="BedrijfException"></exception>
 		public void ZetNaam(string naam) {
             if (string.IsNullOrWhiteSpace(naam)) throw new BedrijfException("Bedrijf - Zetnaam - naam mag niet leeg zijn");
-            Naam = naam;
+            Naam = naam.Trim();
 		}
 
         /// <summary>
@@ -82,21 +82,21 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         /// <exception cref="BedrijfException"></exception>
         public void ZetBTW(string btw) {
             if (string.IsNullOrWhiteSpace(btw)) throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
-            BTW = btw;
+            BTW = btw.Trim();
 		}
 
         /// <summary>
         /// Controleert & zet telefoonnummer.
         /// </summary>
-        /// <param name="telefoonNummer"></param>
+        /// <param name="telefoonnummer"></param>
         /// <exception cref="BedrijfException"></exception>
-        public void ZetTelefoonNummer(string telefoonNummer) {
-            if (string.IsNullOrWhiteSpace(telefoonNummer)) throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet leeg zijn");
+        public void ZetTelefoonnummer(string telefoonnummer) {
+            if (string.IsNullOrWhiteSpace(telefoonnummer)) throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet leeg zijn");
             //Een telefoonnummer kan maximaal 15 cijfers bevatten. Het eerste deel van het telefoonnummer is de landcode (een tot drie cijfers),
 			//Het tweede deel is de nationale bestemmingscode (NDC),
 			//Het laatste deel is het abonneenummer (SN).
-            if (telefoonNummer.Length > 15) throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet langer zijn dan 15 karakters");
-            TelefoonNummer = telefoonNummer;
+            if (telefoonnummer.Length > 15) throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet langer zijn dan 15 karakters");
+            Telefoonnummer = telefoonnummer.Trim();
 		}
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         /// <exception cref="BedrijfException"></exception>
         public void ZetAdres(string adres) {
             if (string.IsNullOrWhiteSpace(adres)) throw new BedrijfException("Bedrijf - ZetAdres - adres mag niet leeg zijn");
-            Adres = adres;
+            Adres = adres.Trim();
 		}
 
         /// <summary>
@@ -135,9 +135,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			if (!werknemer.GeefBedrijfEnFunctiesPerWerknemer().ContainsKey(this))
 			{
 				_werknemers.Add(werknemer);
-				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, functie);
 			}
-		}
+			werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, functie);
+        }
 
         /// <summary>
         /// Verwijdert een werknemer uit het bedrijf.
@@ -170,7 +170,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
             if (Id != bedrijf.Id) return false;
             if (Naam != bedrijf.Naam) return false;
             if (BTW != bedrijf.BTW) return false;
-            if (TelefoonNummer != bedrijf.TelefoonNummer) return false;
+            if (Telefoonnummer != bedrijf.Telefoonnummer) return false;
             if (Email != bedrijf.Email) return false;
             if (Adres != bedrijf.Adres) return false;
 			foreach (Werknemer werknemer in _werknemers)

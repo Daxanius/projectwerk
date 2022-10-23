@@ -4,15 +4,15 @@ using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace xUnitBezoekersRegistratiesysteem.Domein
 {
-	public class WerknemerTest
+	public class UnitTestWerknemer
 	{
 		private readonly Werknemer validWerknemer;
 		private readonly Bedrijf validBedrijf1;
 		private readonly Bedrijf validBedrijf2;
-		public WerknemerTest()
+		public UnitTestWerknemer()
 		{
-			validBedrijf1 = new(naam: "HoGent", btw: "BE0475730461", telefoonNummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
-			validBedrijf2 = new(naam: "Artevelde", btw: "BE0475730464", telefoonNummer: "0476687244", email: "mail.me@artevelde.be", adres: "Kerkstraat snorkelland 9006 101");
+			validBedrijf1 = new(naam: "HoGent", btw: "BE0475730461", telefoonnummer: "0476687242", email: "mail@hogent.be", adres: "Kerkstraat snorkelland 9000 101");
+			validBedrijf2 = new(naam: "Artevelde", btw: "BE0475730464", telefoonnummer: "0476687244", email: "mail.me@artevelde.be", adres: "Kerkstraat snorkelland 9006 101");
 			validWerknemer = new(voornaam: "stan", achternaam: "persoons", email: "stan1@gmail.com");
 
 			validBedrijf1.ZetId(1);
@@ -69,7 +69,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 			validWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(validBedrijf2, "Technisch Medewerker");
 
 			Assert.Equal(validBedrijf2.Naam, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.ToList()[1].Naam);
-			Assert.Equal(validBedrijf2.TelefoonNummer, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.ToList()[1].TelefoonNummer);
+			Assert.Equal(validBedrijf2.Telefoonnummer, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.ToList()[1].Telefoonnummer);
 			Assert.Equal(validBedrijf2.Adres, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.ToList()[1].Adres);
 			Assert.Equal(validBedrijf2.BTW, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.ToList()[1].BTW);
 			Assert.Equal(validBedrijf2.Email, validWerknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.ToList()[1].Email);

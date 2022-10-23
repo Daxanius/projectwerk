@@ -36,14 +36,14 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             }
 		}
 
-        public void VerwijderWerknemerFunctie(Werknemer werknemer, string functie)
+        public void VerwijderWerknemerFunctie(Werknemer werknemer, Bedrijf bedrijf, string functie)
         {
             if (werknemer == null) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - functie mag niet leeg zijn");
             if (!_werknemerRepository.BestaatWerknemer(werknemer)) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer bestaat niet");
             try
             {
-                _werknemerRepository.VerwijderWerknemerFunctie(werknemer, functie);
+                _werknemerRepository.VerwijderWerknemerFunctie(werknemer, bedrijf, functie);
             }
             catch (Exception ex)
             {
