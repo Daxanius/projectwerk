@@ -78,7 +78,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         public void ZetEmail(string email) {
             if (string.IsNullOrWhiteSpace(email)) throw new PersoonException("Persoon - ZetEmail - email mag niet leeg zijn");
             //Checkt of email geldig is
-            if (Nutsvoorziening.IsEmailGeldig(email)) Email = email.Trim();
+            if (Nutsvoorziening.IsEmailGeldig(email.Trim())) Email = email.Trim();
             else throw new PersoonException("Persoon - ZetEmail - email is niet geldig");
         }
 	}

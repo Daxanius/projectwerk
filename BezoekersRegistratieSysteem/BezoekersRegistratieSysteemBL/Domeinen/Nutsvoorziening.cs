@@ -53,7 +53,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 			//
 
-			if (regex.IsMatch(email.Trim())) {
+			if (regex.IsMatch(email)) {
 				//Email is geldig
 				return true;
 			} else {

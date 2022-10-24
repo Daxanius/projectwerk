@@ -34,8 +34,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		public Bedrijf(string naam, string btw, string telefoonNummer, string email, string adres)
 		{
 			ZetNaam(naam);
-			ZetBTWControle(btw);
-			ZetTelefoonNummer(telefoonNummer);
+            ZetBTWControle(btw);
+            ZetTelefoonNummer(telefoonNummer);
 			ZetEmail(email);
 			ZetAdres(adres);
 		}
@@ -77,7 +77,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (string.IsNullOrWhiteSpace(naam))
 				throw new BedrijfException("Bedrijf - Zetnaam - naam mag niet leeg zijn");
-			Naam = naam;
+			Naam = naam.Trim();
 		}
 
 		/// <summary>
@@ -89,7 +89,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (string.IsNullOrWhiteSpace(btw))
 				throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
-			BTW = btw;
+			BTW = btw.Trim();
 		}
 
 		/// <summary>
@@ -102,7 +102,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (string.IsNullOrWhiteSpace(btw))
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw mag niet leeg zijn");
-			(bool validNummer, BtwInfo? info) = await Nutsvoorziening.ControleerBTWNummer(btw);
+			(bool validNummer, BtwInfo? info) = await Nutsvoorziening.ControleerBTWNummer(btw.Trim());
 			if (!validNummer)
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw is niet geldig");
 			BtwIsGeldig = true;
@@ -123,7 +123,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			//Het laatste deel is het abonneenummer (SN).
 			if (telefoonNummer.Length > 15)
 				throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet langer zijn dan 15 karakters");
-			TelefoonNummer = telefoonNummer;
+			TelefoonNummer = telefoonNummer.Trim();
 		}
 
 		/// <summary>
@@ -136,7 +136,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			if (string.IsNullOrWhiteSpace(email))
 				throw new BedrijfException("Bedrijf - ZetEmail - email mag niet leeg zijn");
 			//Checkt of email geldig is
-			if (Nutsvoorziening.IsEmailGeldig(email))
+			if (Nutsvoorziening.IsEmailGeldig(email.Trim()))
 				Email = email.Trim();
 			else
 				throw new BedrijfException("Bedrijf - ZetEmail - email is niet geldig");
@@ -151,7 +151,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (string.IsNullOrWhiteSpace(adres))
 				throw new BedrijfException("Bedrijf - ZetAdres - adres mag niet leeg zijn");
-			Adres = adres;
+			Adres = adres.Trim();
 		}
 
 		/// <summary>
@@ -171,8 +171,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			if (!werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(this))
 			{
 				_werknemers.Add(werknemer);
-				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, functie);
 			}
+			werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, functie);
 		}
 
 		/// <summary>
