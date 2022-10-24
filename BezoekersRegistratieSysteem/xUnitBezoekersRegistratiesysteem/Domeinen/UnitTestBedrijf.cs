@@ -81,8 +81,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         public void ZetTelefoonnummer_Valid(string telefoonnummerIn, string telefoonnummerUit)
         {
             Bedrijf _b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            _b.ZetTelefoonnummer(telefoonnummerIn);
-            Assert.Equal(telefoonnummerUit, _b.Telefoonnummer);
+            _b.ZetTelefoonNummer(telefoonnummerIn);
+            Assert.Equal(telefoonnummerUit, _b.TelefoonNummer);
         }
 
         [Theory]
@@ -97,7 +97,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         public void ZetTelefoonnummer_Invalid(string telefoonnummer)
         {
             Bedrijf _b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            Assert.Throws<BedrijfException>(() => _b.ZetTelefoonnummer(telefoonnummer));
+            Assert.Throws<BedrijfException>(() => _b.ZetTelefoonNummer(telefoonnummer));
         }
         #endregion
 
@@ -273,7 +273,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
             Assert.Equal(idUit, b.Id);
             Assert.Equal(naamUit, b.Naam);
             Assert.Equal(btwNummerUit, b.BTW);
-            Assert.Equal(telefoonNummerUit, b.Telefoonnummer);
+            Assert.Equal(telefoonNummerUit, b.TelefoonNummer);
             Assert.Equal(adresUit, b.Adres);
         }
 

@@ -39,6 +39,10 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			throw new NotImplementedException();
 		}
 
+		public void VoegWerknemerFunctieToe(Werknemer werknemer, Bedrijf bedrijf, string functie) {
+			throw new NotImplementedException();
+		}
+
 		public Werknemer VoegWerknemerToe(Werknemer werknemer) {
 			_werknemers.Add(_lastId, werknemer);
 			_werknemers[_lastId].ZetId(_lastId);
