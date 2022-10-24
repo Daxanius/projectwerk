@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// <exception cref="AfspraakADOException">Faalt om afspraak te beeindigen</exception>
         public void BeeindigAfspraakBezoeker(uint afspraakId) {
             try {
-                VeranderStatusAfspraak(afspraakId, 3);
+                BeeindigAfspraak(afspraakId, 3);
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraakBezoeker {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
@@ -54,11 +54,45 @@ namespace BezoekersRegistratieSysteemDL {
 		/// <exception cref="AfspraakADOException">Faalt om afspraak te beeindigen</exception>
         public void BeeindigAfspraakSysteem(uint afspraakId) {
             try {
-                VeranderStatusAfspraak(afspraakId, 4);
+                BeeindigAfspraak(afspraakId, 4);
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraakSysteem {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
                 throw exx;
+            }
+        }
+
+        /// <summary>
+        /// Prive methode die de status van een afspraak wijzigd naar beeindigd en eindtijd insteld
+        /// </summary>
+        /// <param name="afspraakId">Id van afspraak die gewijzigd moet worden</param>
+        /// <param name="statusId">Id van status die toegekend moet worden</param>
+        /// <exception cref="AfspraakADOException">Faalt om status van een afspraak te wijzigen</exception>
+        private void BeeindigAfspraak(uint afspraakId, int statusId) {
+            SqlConnection con = GetConnection();
+            string query = "UPDATE Afspraak " +
+                           "SET AfspraakStatusId = @statusId, " +
+                           "EindTijd = @Eindtijd " +
+                           "WHERE Id = @afspraakid";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+                    cmd.Parameters.Add(new SqlParameter("@Eindtijd", SqlDbType.DateTime));
+                    cmd.Parameters["@afspraakid"].Value = afspraakId;
+                    cmd.Parameters["@statusId"].Value = statusId;
+                    cmd.Parameters["@Eindtijd"].Value = DateTime.Now;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraak {ex.Message}", ex);
+                exx.Data.Add("afspraakId", afspraakId);
+                exx.Data.Add("statusId", statusId);
+                throw exx;
+            } finally {
+                con.Close();
             }
         }
 
