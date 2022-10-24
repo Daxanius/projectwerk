@@ -85,17 +85,102 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         public void VerwijderBedrijfVanWerknemer_Invalid()
         {
             Werknemer w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
-            //Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(null, _nf));
-            //Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b, null));
-            //Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b, ""));
-            //Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b, " "));
-            //Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b, "\n"));
-            //Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b, "\r"));
-            //Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b, "\t"));
-            //Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b, "\v"));
-            ////CHECK duplicates
-            //w.VoegBedrijfEnFunctieToeAanWerknemer(_b, _nf);
-            //Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b, _nf));
+            Assert.Throws<WerknemerException>(() => w.VerwijderBedrijfVanWerknemer(null));
+            Assert.Throws<WerknemerException>(() => w.VerwijderBedrijfVanWerknemer(_b1));
+        }
+        #endregion
+
+        #region UnitTest Wijzig Functie
+        [Fact]
+        public void WijzigFunctie_Valid()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _of);
+            w.WijzigFunctie(_b1, _of, _nf);
+            IReadOnlyDictionary<Bedrijf, List<string>> actual = w.GeefBedrijvenEnFunctiesPerWerknemer();
+            Assert.Collection(actual,
+                expected =>
+                {
+                    Assert.Equal(_b1, expected.Key);
+                    Assert.Collection(expected.Value,
+                        functie => Assert.Equal(_nf, functie));
+                });
+        }
+
+        [Fact]
+        public void WijzigFunctie_Invalid()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(null, _of, _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, null, _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, " ", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\n", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\r", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\t", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\v", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, null));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, ""));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, " "));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\n"));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\r"));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\t"));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\v"));
+            //"Werknemer - WijzigFunctie - bedrijf bevat deze werknemer niet"
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
+            //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie"
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _nf);
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
+            //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie"
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b2, _of);
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b2, _of, _of));
+        }
+        #endregion
+
+        #region UnitTest Verwijder Functie
+        [Fact]
+        public void VerwijderFunctie_Valid()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _of);
+            w.WijzigFunctie(_b1, _of, _nf);
+            IReadOnlyDictionary<Bedrijf, List<string>> actual = w.GeefBedrijvenEnFunctiesPerWerknemer();
+            Assert.Collection(actual,
+                expected =>
+                {
+                    Assert.Equal(_b1, expected.Key);
+                    Assert.Collection(expected.Value,
+                        functie => Assert.Equal(_nf, functie));
+                });
+        }
+
+        [Fact]
+        public void VerwijderFunctie_Invalid()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(null, _of, _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, null, _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, " ", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\n", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\r", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\t", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\v", _nf));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, null));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, ""));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, " "));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\n"));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\r"));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\t"));
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\v"));
+            //"Werknemer - WijzigFunctie - bedrijf bevat deze werknemer niet"
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
+            //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie"
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _nf);
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
+            //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie"
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b2, _of);
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b2, _of, _of));
         }
         #endregion
 
