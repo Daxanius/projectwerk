@@ -567,7 +567,7 @@ namespace BezoekersRegistratieSysteemDL {
                     cmdBezoeker.Parameters["@VNaam"].Value = afspraak.Bezoeker.Voornaam;
                     cmdBezoeker.Parameters["@EMail"].Value = afspraak.Bezoeker.Email;
                     cmdBezoeker.Parameters["@EigenBedrijf"].Value = afspraak.Bezoeker.Bedrijf;
-                    uint afspraakId = (uint)cmdBezoeker.ExecuteScalar();
+                    uint bezoekerId = (uint)cmdBezoeker.ExecuteScalar();
                     //Afspraak portie
                     cmdAfspraak.Transaction = trans;
                     cmdAfspraak.CommandText = queryAfspraak;
@@ -575,13 +575,14 @@ namespace BezoekersRegistratieSysteemDL {
                     cmdAfspraak.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
                     cmdAfspraak.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
                     cmdAfspraak.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+                    //TODO: Is dit nu al meegegeven of doe ik hier DateTime.Now, ik gok gewoon value want Starttijd kan niet null zijn
                     cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
                     cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
                     cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
-                    cmdAfspraak.Parameters["@bezoekerId"].Value = afspraakId;
+                    cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
                     uint i = (uint)cmdAfspraak.ExecuteScalar();
                     afspraak.ZetId(i);
-                    afspraak.Bezoeker.ZetId(afspraakId);
+                    afspraak.Bezoeker.ZetId(bezoekerId);
                     trans.Commit();
                     return afspraak;
                 }
@@ -615,9 +616,9 @@ namespace BezoekersRegistratieSysteemDL {
                     } else {
                         //Maybe check with statusID rather than eindTijd
                         query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
-                                 "WHERE bz.Email = @mail AND a.eindTijd is null";
-                        cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-                        cmd.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
+                                 "WHERE bz.Email = @bmail AND a.eindTijd is null";
+                        cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));
+                        cmd.Parameters["@bmail"].Value = afspraak.Bezoeker.Email;
                     }
                     cmd.CommandText = query;
                     int i = (int)cmd.ExecuteScalar();
@@ -646,7 +647,6 @@ namespace BezoekersRegistratieSysteemDL {
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
-                    query += "WHERE a.Id = @id";
                     cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
                     cmd.Parameters["@id"].Value = afspraakid;
                     cmd.CommandText = query;
