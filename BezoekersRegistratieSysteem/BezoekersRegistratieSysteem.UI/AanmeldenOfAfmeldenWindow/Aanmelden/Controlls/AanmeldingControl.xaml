@@ -1,19 +1,12 @@
-﻿<Window
-    x:Class="BezoekersRegistratieSysteem.UI.AanmeldingsWindow"
+﻿<UserControl
+    x:Class="BezoekersRegistratieSysteem.UI.Controlls.AanmeldingControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controlls="clr-namespace:BezoekersRegistratieSysteem.UI.Controlls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:BezoekersRegistratieSysteem.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:user_control="clr-namespace:BezoekersRegistratieSysteem.UI.Aanmelden.User_Control"
-    Title="Kies een bedrijf om verder te gaan"
     HorizontalAlignment="Center"
     VerticalAlignment="Center"
-    Icon="/BRS.ico"
-    ResizeMode="NoResize"
-    WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
-    WindowStyle="None"
     mc:Ignorable="d">
     <Grid>
         <Border>
@@ -31,16 +24,19 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <user_control:GegevensControl
-                x:Name="gegevensControl"
-                Grid.Row="0"
-                Grid.Column="0"
-                Visibility="Collapsed" />
-            <user_control:KiesBedrijfControl
-                x:Name="kiesBedrijfControl"
-                Grid.Row="0"
-                Grid.Column="0"
-                Visibility="Visible" />
+
+            <StackPanel x:Name="AanmeldPanel">
+                <controlls:GegevensControl
+                    x:Name="gegevensControl"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Visibility="Collapsed" />
+                <controlls:KiesBedrijfControl
+                    x:Name="kiesBedrijfControl"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Visibility="Visible" />
+            </StackPanel>
         </Grid>
     </Grid>
-</Window>
+</UserControl>

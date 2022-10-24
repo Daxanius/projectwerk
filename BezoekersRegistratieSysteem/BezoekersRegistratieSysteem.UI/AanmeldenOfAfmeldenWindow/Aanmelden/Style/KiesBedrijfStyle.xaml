@@ -25,16 +25,90 @@
         <Setter Property="FontSize" Value="45" />
         <Setter Property="Foreground" Value="WhiteSmoke" />
         <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect
+                    BlurRadius="4"
+                    Direction="315"
+                    Opacity=".2"
+                    ShadowDepth="4"
+                    Color="Black" />
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style x:Key="DefaultTextBoxStyle" TargetType="TextBox">
         <Setter Property="FontSize" Value="45" />
         <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Background" Value="WhiteSmoke" />
+        <Setter Property="Padding" Value="12,0,0,5" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect
+                    BlurRadius="4"
+                    Direction="315"
+                    Opacity=".5"
+                    ShadowDepth="4"
+                    Color="Black" />
+            </Setter.Value>
+        </Setter>
+
+        <Style.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="CornerRadius" Value="5" />
+            </Style>
+        </Style.Resources>
+    </Style>
+    <Style x:Key="DefaultButtonTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="46" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Background" Value="WhiteSmoke" />
+        <Setter Property="Padding" Value="50" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect
+                    BlurRadius="4"
+                    Direction="315"
+                    Opacity=".5"
+                    ShadowDepth="4"
+                    Color="Black" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="WerknemerListBoxStyle" TargetType="ListBox">
+        <Setter Property="FontSize" Value="45" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect
+                    BlurRadius="4"
+                    Direction="315"
+                    Opacity=".5"
+                    ShadowDepth="4"
+                    Color="Black" />
+            </Setter.Value>
+        </Setter>
+
+        <Style.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="CornerRadius" Value="5" />
+            </Style>
+        </Style.Resources>
     </Style>
     <Style x:Key="ActieButtonStyle" TargetType="Button">
         <Setter Property="FontSize" Value="45" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="WhiteSmoke" />
         <Setter Property="Background" Value="{StaticResource ButtonGroen}" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect
+                    BlurRadius="4"
+                    Direction="315"
+                    Opacity=".5"
+                    ShadowDepth="4"
+                    Color="Black" />
+            </Setter.Value>
+        </Setter>
 
         <Setter Property="Template">
             <Setter.Value>

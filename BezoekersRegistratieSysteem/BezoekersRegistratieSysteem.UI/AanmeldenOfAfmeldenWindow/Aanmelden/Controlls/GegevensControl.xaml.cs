@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteem.UI.Aanmelden.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -17,13 +18,71 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteem.UI.Aanmelden.User_Control
+namespace BezoekersRegistratieSysteem.UI.Controlls
 {
 	/// <summary>
 	/// Interaction logic for InputControl.xaml
 	/// </summary>
 	public partial class GegevensControl : UserControl, INotifyPropertyChanged
 	{
+
+		private string _voornaam;
+		public string Voornaam {
+			get {
+				return _voornaam;
+			}
+			set {
+				_voornaam = value;
+				UpdatePropperty();
+			}
+		}
+
+		private string _achternaam;
+		public string Achternaam {
+			get {
+				return _achternaam;
+			}
+			set {
+				_achternaam = value;
+				UpdatePropperty();
+			}
+		}
+
+		private string _email;
+		public string Email {
+			get {
+				return _email;
+			}
+			set {
+				_email = value;
+				UpdatePropperty();
+			}
+		}
+
+		private string _bedrijf;
+		public string Bedrijf {
+			get {
+				return _bedrijf;
+			}
+			set {
+				_bedrijf = value;
+				UpdatePropperty();
+			}
+		}
+
+		private string _werknemer;
+		public string Werknemer {
+			get {
+				return _werknemer;
+			}
+			set {
+				_werknemer = value;
+				UpdatePropperty();
+			}
+		}
+
+		public bool CanSubmit { get; set; }
+
 		private string _bedrijfsNaam = "";
 		public string BedrijfsNaam {
 			get {
@@ -52,6 +111,7 @@ namespace BezoekersRegistratieSysteem.UI.Aanmelden.User_Control
 			InitializeComponent();
 		}
 
+		//Zet bedrijf belijk aan prop Bedrijf
 		public void ZetGeselecteerdBedrijf(string bedrijfsNaam)
 		{
 			if (string.IsNullOrWhiteSpace(bedrijfsNaam))
@@ -73,8 +133,18 @@ namespace BezoekersRegistratieSysteem.UI.Aanmelden.User_Control
 
 		#endregion
 
+		//Klik op Ga verder knop
 		private void GaVerderButtonClickEvent(object sender, RoutedEventArgs e)
 		{
+			try
+			{
+				GegevensInfoDTO gegevensInfo = new(Voornaam, Achternaam, Email, Bedrijf, Werknemer);
+			} catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
 			gegevensControl.Opacity = .25;
 			gegevensControl.IsHitTestVisible = false;
 			popup.IsOpen = true;
@@ -87,10 +157,18 @@ namespace BezoekersRegistratieSysteem.UI.Aanmelden.User_Control
 					popup.IsOpen = false;
 					gegevensControl.Opacity = 1;
 					gegevensControl.IsHitTestVisible = true;
+
+					Window window = Window.GetWindow(this);
+					AanOfUitMeldenScherm aanOfUitMeldenScherm = window.DataContext as AanOfUitMeldenScherm;
+					aanOfUitMeldenScherm.ResetSchermNaarStart();
 				});
 			});
 
-			//Ga terug naar start, als je langs start gaat krijg je 200 euro.
+			Voornaam = string.Empty;
+			Achternaam = string.Empty;
+			Email = string.Empty;
+			Bedrijf = string.Empty;
+			Werknemer = string.Empty;
 		}
 	}
 }

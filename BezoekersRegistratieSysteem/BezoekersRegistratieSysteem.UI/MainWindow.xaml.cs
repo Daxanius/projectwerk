@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteem.UI.Controlls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -35,7 +36,7 @@ namespace BezoekersRegistratieSysteem.UI
 
 		private void AanmeldButton_Click(object sender, RoutedEventArgs e)
 		{
-			AanmeldingsWindow aanmeldWindow = new AanmeldingsWindow();
+			AanOfUitMeldenScherm aanmeldWindow = new AanOfUitMeldenScherm();
 			this.Close();
 			aanmeldWindow.ShowDialog();
 		}

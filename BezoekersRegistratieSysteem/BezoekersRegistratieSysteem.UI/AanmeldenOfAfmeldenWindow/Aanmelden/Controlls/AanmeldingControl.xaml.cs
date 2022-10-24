@@ -1,5 +1,4 @@
-﻿using BezoekersRegistratieSysteem.UI.Aanmelden.User_Control;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteem.UI
+namespace BezoekersRegistratieSysteem.UI.Controlls
 {
 	/// <summary>
 	/// Interaction logic for AanmeldWindow.xaml
 	/// </summary>
-	public partial class AanmeldingsWindow : Window
+	public partial class AanmeldingControl : UserControl
 	{
 		public delegate void StartGegevensFlowEvent();
 		public static event StartGegevensFlowEvent? StartGegevensFlow;
@@ -32,7 +31,7 @@ namespace BezoekersRegistratieSysteem.UI
 			}
 		}
 
-		public AanmeldingsWindow()
+		public AanmeldingControl()
 		{
 			StartGegevensFlow += GaNaarGegevensControl;
 			InitializeComponent();

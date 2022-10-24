@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteem.UI.Aanmelden.User_Control
+namespace BezoekersRegistratieSysteem.UI.Controlls
 {
 	/// <summary>
 	/// Interaction logic for KiesBedrijfControl.xaml
@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteem.UI.Aanmelden.User_Control
 				if (string.IsNullOrWhiteSpace(bedrijfsNaam))
 					return;
 
-				AanmeldingsWindow.BedrijfsNaam = bedrijfsNaam;
+				AanmeldingControl.BedrijfsNaam = bedrijfsNaam;
 			}
 		}
 	}
