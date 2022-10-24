@@ -192,9 +192,9 @@ namespace BezoekersRegistratieSysteemDL {
                            "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
-                           "JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId)" +
-                           "JOIN Werknemer wn ON(wn.id = wb.WerknemerBedrijf)" +
-                           "JOIN Functie f ON(wn.FunctieId = f.Id)" +
+                           "JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId) " +
+                           "JOIN Werknemer wn ON(wn.id = wb.WerknemerBedrijf) " +
+                           "JOIN Functie f ON(wn.FunctieId = f.Id) " +
                            "WHERE wb.status = 1";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
