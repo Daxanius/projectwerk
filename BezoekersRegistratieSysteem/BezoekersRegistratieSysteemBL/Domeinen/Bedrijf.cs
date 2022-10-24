@@ -168,7 +168,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 				throw new BedrijfException("Bedrijf - VoegWerknemerToeInBedrijf - functie mag niet leeg zijn");
 
 			// VoegBedrijfEnFunctieToe voert al de nodige controles uit om het
-			if (!werknemer.GeefBedrijfEnFunctiesPerWerknemer().ContainsKey(this))
+			if (!werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(this))
 			{
 				_werknemers.Add(werknemer);
 				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, functie);
