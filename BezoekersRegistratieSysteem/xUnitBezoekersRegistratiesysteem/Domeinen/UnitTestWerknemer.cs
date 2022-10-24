@@ -39,18 +39,19 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
                 });
         }
         
-        [Fact]
-        public void VoegBedrijvenEnFunctieToeAanWerknemer_Invalid()
+        [Theory]
+        [InlineData("nieuwefunctie")]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n")]
+        [InlineData("\r")]
+        [InlineData("\t")]
+        [InlineData("\v")]
+        public void VoegBedrijvenEnFunctieToeAanWerknemer_Invalid(string functie)
         {
             Werknemer w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
-            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(null, _nf));
-            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, null));
-            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, ""));
-            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, " "));
-            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, "\n"));
-            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, "\r"));
-            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, "\t"));
-            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, "\v"));
+            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(null, functie));
             //CHECK duplicates
             w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _nf);
             Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _nf));
@@ -106,29 +107,29 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
                         functie => Assert.Equal(_nf, functie));
                 });
         }
-
-        [Fact]
-        public void WijzigFunctie_Invalid()
+        
+        [Theory]
+        [InlineData(null, "nieuwefunctie")]
+        [InlineData("", "nieuwefunctie")]
+        [InlineData(" ", "nieuwefunctie")]
+        [InlineData("\n", "nieuwefunctie")]
+        [InlineData("\r", "nieuwefunctie")]
+        [InlineData("\t", "nieuwefunctie")]
+        [InlineData("\v", "nieuwefunctie")]
+        [InlineData("oudefunctie", null)]
+        [InlineData("oudefunctie", "")]
+        [InlineData("oudefunctie", " ")]
+        [InlineData("oudefunctie", "\n")]
+        [InlineData("oudefunctie", "\r")]
+        [InlineData("oudefunctie", "\t")]
+        [InlineData("oudefunctie", "\v")]
+        [InlineData("oudefunctie", "nieuwefunctie")]
+        public void WijzigFunctie_Invalid(string oudefunctie, string nieuwefunctie)
         {
             Werknemer w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
             Assert.Throws<WerknemerException>(() => w.WijzigFunctie(null, _of, _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, null, _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, " ", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\n", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\r", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\t", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\v", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, null));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, ""));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, " "));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\n"));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\r"));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\t"));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\v"));
-            //"Werknemer - WijzigFunctie - bedrijf bevat deze werknemer niet"
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
-            //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie"
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, oudefunctie, nieuwefunctie));
+
             w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _nf);
             Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
             //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie"
@@ -143,7 +144,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         {
             Werknemer w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
             w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _of);
-            w.WijzigFunctie(_b1, _of, _nf);
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _nf);
+            w.VerwijderFunctie(_b1, _of);
             IReadOnlyDictionary<Bedrijf, List<string>> actual = w.GeefBedrijvenEnFunctiesPerWerknemer();
             Assert.Collection(actual,
                 expected =>
@@ -154,110 +156,51 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
                 });
         }
 
-        [Fact]
-        public void VerwijderFunctie_Invalid()
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n")]
+        [InlineData("\r")]
+        [InlineData("\t")]
+        [InlineData("\v")]
+        [InlineData("oudefunctie")]
+        public void VerwijderFunctie_Invalid(string functie)
         {
             Werknemer w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(null, _of, _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, null, _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, " ", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\n", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\r", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\t", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, "\v", _nf));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, null));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, ""));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, " "));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\n"));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\r"));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\t"));
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, "\v"));
-            //"Werknemer - WijzigFunctie - bedrijf bevat deze werknemer niet"
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
-            //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie"
-            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _nf);
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
-            //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie"
-            w.VoegBedrijfEnFunctieToeAanWerknemer(_b2, _of);
-            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b2, _of, _of));
+            Assert.Throws<WerknemerException>(() => w.VerwijderFunctie(null, _of));
+            Assert.Throws<WerknemerException>(() => w.VerwijderFunctie(_b1, functie));
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _of);
+            Assert.Throws<WerknemerException>(() => w.VerwijderFunctie(_b1, _nf));
         }
         #endregion
 
-        #region UnitTest Bedrijf Constructor
-        [Theory]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
-        [InlineData(10, "     bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker     ", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
-        [InlineData(10, "bezoeker", "     bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen     ", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
-        [InlineData(10, "bezoeker", "bezoekersen", "     bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com     ", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "     bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf     ", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        public void ctor_Valid(uint idIn, string voornaamIn, string achternaamIn, string emailIn, string bedrijfIn, uint idUit, string voornaamUit, string achternaamUit, string emailUit, string bedrijfUit)
+        #region UnitTest Geef bedrijven en functies
+        [Fact]
+        public void GeefBedrijvenEnFunctiesPerWerknemer_Valid()
         {
-            Bezoeker b = new(idIn, voornaamIn, achternaamIn, emailIn, bedrijfIn);
-            Assert.Equal(idUit, b.Id);
-            Assert.Equal(voornaamUit, b.Voornaam);
-            Assert.Equal(achternaamUit, b.Achternaam);
-            Assert.Equal(emailUit, b.Email);
-            Assert.Equal(bedrijfUit, b.Bedrijf);
-        }
+            Werknemer w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _nf);
+            IReadOnlyDictionary<Bedrijf, List<string>> actual = w.GeefBedrijvenEnFunctiesPerWerknemer();
+            Assert.Collection(actual,
+                expected =>
+                {
+                    Assert.Equal(_b1, expected.Key);
+                    Assert.Collection(expected.Value,
+                        functie => Assert.Equal(_nf, functie));
+                });
 
-        [Theory]
-        [InlineData(10, null, "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, " ", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "\n", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "\r", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "\t", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "\v", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
-        [InlineData(10, "bezoeker", null, "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", " ", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "\n", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "\r", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "\t", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "\v", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
-        [InlineData(10, "bezoeker", "bezoekersen", null, "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", " ", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "\n", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "\r", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "\t", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "\v", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "@email.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@.com", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@.", "bezoekerbedrijf")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen.com", "bezoekerbedrijf")]
-        public void ctor_Invalid_PersoonException(uint id, string voornaam, string achternaam, string email, string bedrijf)
-        {
-            Assert.Throws<PersoonException>(() => new Bezoeker(id, voornaam, achternaam, email, bedrijf));
-        }
-
-        [Theory]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", null)]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", " ")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\n")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\r")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\t")]
-        [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\v")]
-
-        public void ctor_Invalid_BezoekerException(uint id, string voornaam, string achternaam, string email, string bedrijf)
-        {
-            Assert.Throws<BezoekerException>(() => new Bezoeker(id, voornaam, achternaam, email, bedrijf));
+            //meerdere functies check
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _of);
+            actual = w.GeefBedrijvenEnFunctiesPerWerknemer();
+            Assert.Collection(actual,
+                expected =>
+                {
+                    Assert.Equal(_b1, expected.Key);
+                    Assert.Collection(expected.Value,
+                        functie => Assert.Equal(_nf, functie),
+                        functie => Assert.Equal(_of, functie));
+                });
         }
         #endregion
     }
