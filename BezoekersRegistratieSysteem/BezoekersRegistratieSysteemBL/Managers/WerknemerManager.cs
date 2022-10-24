@@ -36,14 +36,31 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             }
 		}
 
+        public void VoegWerknemerFunctieToe(Werknemer werknemer, Bedrijf bedrijf, string functie)
+        {
+            if (werknemer == null) throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer mag niet leeg zijn");
+            if (bedrijf == null) throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - bedrijf mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - functie mag niet leeg zijn");
+            if (!_werknemerRepository.BestaatWerknemer(werknemer)) throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer bestaat niet");
+            try
+            {
+                _werknemerRepository.VoegWerknemerFunctieToe(werknemer, bedrijf, functie);
+            }
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
+
         public void VerwijderWerknemerFunctie(Werknemer werknemer, Bedrijf bedrijf, string functie)
         {
             if (werknemer == null) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer mag niet leeg zijn");
+            if (bedrijf == null) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - bedrijf mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - functie mag niet leeg zijn");
             if (!_werknemerRepository.BestaatWerknemer(werknemer)) throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer bestaat niet");
             try
             {
-                _werknemerRepository.VerwijderWerknemerFunctie(werknemer, bedrijf, functie);
+                _werknemerRepository.VoegWerknemerFunctieToe(werknemer, bedrijf, functie);
             }
             catch (Exception ex)
             {
