@@ -31,8 +31,7 @@ CREATE TABLE [dbo].[Bedrijf](
 CREATE TABLE [dbo].[Werknemer](
 	[Id] BIGINT NOT NULL IDENTITY PRIMARY KEY,
 	[ANaam] VARCHAR(255) NOT NULL,
-	[VNaam] VARCHAR(255) NOT NULL,
-	[Email] VARCHAR(255) NOT NULL
+	[VNaam] VARCHAR(255) NOT NULL	
 )
 
 CREATE TABLE [dbo].[Werknemerbedrijf](
@@ -40,6 +39,7 @@ CREATE TABLE [dbo].[Werknemerbedrijf](
 	[BedrijfId] BIGINT NOT NULL,
 	[WerknemerId] BIGINT NOT NULL,
 	[FunctieId] INT NOT NULL,
+	[WerknemerEmail] VARCHAR(255) NOT NULL,
 	[Status] INT NOT NULL DEFAULT 1,
 	CONSTRAINT [FK_WerknemerBedrijf_Bedrijf_Id] FOREIGN KEY ([BedrijfId]) REFERENCES [dbo].[Bedrijf](Id),
 	CONSTRAINT [FK_WerknemerBedrijf_Werknemer_Id] FOREIGN KEY ([WerknemerId]) REFERENCES [dbo].[Werknemer](Id),
