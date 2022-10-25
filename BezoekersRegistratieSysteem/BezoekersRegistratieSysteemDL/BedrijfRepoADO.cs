@@ -248,7 +248,7 @@ namespace BezoekersRegistratieSysteemDL {
         public IReadOnlyList<Bedrijf> Geefbedrijven() {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
-                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
+                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
                            "JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) " +
@@ -280,7 +280,7 @@ namespace BezoekersRegistratieSysteemDL {
                             uint werknemerId = (uint)reader["WerknemerId"];
                             string werknemerVNaam = (string)reader["WerknemerVNaam"];
                             string werknemerAnaam = (string)reader["WerknemerAnaam"];
-                            string werknemerMail = (string)reader["WerknemerMail"];
+                            string werknemerMail = (string)reader["WerknemerEMail"];
                         }
                         string functieNaam = (string)reader["FunctieNaam"];
                         bedrijf.VoegWerknemerToeInBedrijf(werknemer, functieNaam);

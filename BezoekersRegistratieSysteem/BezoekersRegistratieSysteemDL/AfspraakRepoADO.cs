@@ -191,8 +191,9 @@ namespace BezoekersRegistratieSysteemDL {
                     cmdUpdate.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
                     cmdUpdate.Parameters["@afspraakstatusId"].Value = afspraak.Eindtijd is not null && currentAfspraakStatusId == 1 ? 5 : afspraak.Eindtijd is not null && currentAfspraakStatusId != 1 ? currentAfspraakStatusId : 1;
                     //FUNCTIE GETBEDRIJF
-                    var bedrijf = afspraak.Werknemer.GeefBedrijfEnFunctiesPerWerknemer().Keys.First();
-                    var functie = afspraak.Werknemer.GeefBedrijfEnFunctiesPerWerknemer().Values.First().First();
+                    //TODO: prob gets replaced by werknemerInfo
+                    var bedrijf = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Keys.First();
+                    var functie = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values.First().First();
                     cmdUpdate.Parameters["@bedrijfId"].Value = bedrijf.Id;
                     cmdUpdate.Parameters["@functienaam"].Value = functie;
                     cmdUpdate.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
@@ -226,7 +227,7 @@ namespace BezoekersRegistratieSysteemDL {
             string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
                            "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
                            "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
-                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, w.Email as WerknemerMail, " +
+                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
                            "f.FunctieNaam " +
                            "FROM Afspraak a " +
                            "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
@@ -264,7 +265,7 @@ namespace BezoekersRegistratieSysteemDL {
                         uint werknemerId = (uint)reader["WerknemerId"];
                         string werknemerANaam = (string)reader["WerknemerANaam"];
                         string werknemerVNaam = (string)reader["WerknemerVNaam"];
-                        string werknemerMail = (string)reader["WerknemerMail"];
+                        string werknemerMail = (string)reader["WerknemerEmail"];
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
                         Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam, werknemerMail);
@@ -344,7 +345,7 @@ namespace BezoekersRegistratieSysteemDL {
             string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
                            "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
                            "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
-                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, w.Email as WerknemerMail, " +
+                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
                            "f.FunctieNaam " +
                            "FROM Afspraak a " +
                            "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
@@ -391,7 +392,7 @@ namespace BezoekersRegistratieSysteemDL {
                         uint werknemerId = (uint)reader["WerknemerId"];
                         string werknemerANaam = (string)reader["WerknemerANaam"];
                         string werknemerVNaam = (string)reader["WerknemerVNaam"];
-                        string werknemerMail = (string)reader["WerknemerMail"];
+                        string werknemerMail = (string)reader["WerknemerEmail"];
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
                         Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam, werknemerMail);
@@ -470,7 +471,7 @@ namespace BezoekersRegistratieSysteemDL {
             string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
                            "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
                            "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
-                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, w.Email as WerknemerMail, " +
+                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
                            "f.FunctieNaam " +
                            "FROM Afspraak a " +
                            "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
@@ -516,7 +517,7 @@ namespace BezoekersRegistratieSysteemDL {
                         uint werknemerId = (uint)reader["WerknemerId"];
                         string werknemerANaam = (string)reader["WerknemerANaam"];
                         string werknemerVNaam = (string)reader["WerknemerVNaam"];
-                        string werknemerMail = (string)reader["WerknemerMail"];
+                        string werknemerMail = (string)reader["WerknemerEmail"];
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
                         Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam, werknemerMail);
