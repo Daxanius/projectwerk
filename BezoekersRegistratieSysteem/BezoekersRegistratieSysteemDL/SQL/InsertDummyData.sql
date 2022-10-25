@@ -27,11 +27,6 @@ INSERT INTO Bezoeker
 		  ('Bart', 'Niet De Pauw', 'NietDiddler@Outlook.com', 'NietDiddler NV'),
 		  ('Lars', 'Mars', 'ISh1dd3dMyPant@Outlook.com', 'Dominos')
 
-INSERT INTO Werknemer
-	(VNaam, ANaam, Email)
-	VALUES('Jan', 'Cornelis', 'JanCornelis@outlook.com'),
-		  ('Piet', 'Comelis', 'PietComelis@outlook.com'),
-		  ('Joris', 'Conelis', 'JanConelis@outlook.com')
 
 INSERT INTO Bedrijf
 	(Naam, BTWNr, TeleNr, Email, Adres)
@@ -40,10 +35,10 @@ INSERT INTO Bedrijf
 
 
 INSERT INTO WerknemerBedrijf
-	(BedrijfId, WerknemerId, FunctieId)
-	VALUES(1,1,1),
-		  (1,2,2),
-		  (2,3,1)
+	(BedrijfId, FunctieId,WerknemerVNaam, WerknemerANaam, WerknemerEmail)
+	VALUES(1,1,'Jan', 'Cornelis', 'JanCornelis@outlook.com'),
+		  (1,2,'Piet', 'Comelis', 'PietComelis@outlook.com'),
+		  (2,1,'Joris', 'Conelis', 'JanConelis@outlook.com')
 
 INSERT INTO Afspraak
 	(StartTijd, WerknemerBedrijfId, BezoekerId)
