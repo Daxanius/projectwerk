@@ -136,10 +136,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			if (string.IsNullOrWhiteSpace(email))
 				throw new BedrijfException("Bedrijf - ZetEmail - email mag niet leeg zijn");
 			//Checkt of email geldig is
-			if (Nutsvoorziening.IsEmailGeldig(email.Trim()))
-				Email = email.Trim();
-			else
-				throw new BedrijfException("Bedrijf - ZetEmail - email is niet geldig");
+			if (Nutsvoorziening.IsEmailGeldig(email.Trim())) Email = email.Trim();
+			else throw new BedrijfException("Bedrijf - ZetEmail - email is niet geldig");
 		}
 
 		/// <summary>
