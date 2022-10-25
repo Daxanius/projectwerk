@@ -26,7 +26,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData("bedrijf     ", "bedrijf")]
         public void ZetNaam_Valid(string naamIn, string naamUit)
         {
-            Bedrijf b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             b.ZetNaam(naamIn);
             Assert.Equal(naamUit, b.Naam);
         }
@@ -41,7 +41,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData("\v")]
         public void ZetNaam_Invalid(string naam)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             Assert.Throws<BedrijfException>(() => _b.ZetNaam(naam));
         }
         #endregion
@@ -108,7 +108,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData("012345678     ", "012345678")]
         public void ZetTelefoonnummer_Valid(string telefoonnummerIn, string telefoonnummerUit)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             _b.ZetTelefoonNummer(telefoonnummerIn);
             Assert.Equal(telefoonnummerUit, _b.TelefoonNummer);
         }
@@ -124,7 +124,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData("0123456789101112")]
         public void ZetTelefoonnummer_Invalid(string telefoonnummer)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             Assert.Throws<BedrijfException>(() => _b.ZetTelefoonNummer(telefoonnummer));
         }
         #endregion
@@ -136,7 +136,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData("bedrijf@email.com     ", "bedrijf@email.com")]
         public void ZetEmail_Valid(string emailIn, string emailUit)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             _b.ZetEmail(emailIn);
             Assert.Equal(emailUit, _b.Email);
         }
@@ -159,7 +159,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData("bedrijf.com")]
         public void ZetEmail_Invalid(string email)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             Assert.Throws<BedrijfException>(() => _b.ZetEmail(email));
         }
         #endregion
@@ -171,7 +171,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData("bedrijfstraat 10     ", "bedrijfstraat 10")]
         public void ZetAdres_Valid(string adresIn, string adresUit)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             _b.ZetAdres(adresIn);
             Assert.Equal(adresUit, _b.Adres);
         }
@@ -186,7 +186,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData("\v")]
         public void ZetAdres_Invalid(string adres)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             Assert.Throws<BedrijfException>(() => _b.ZetAdres(adres));
 
         }
@@ -196,7 +196,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [Fact]
         public void VoegWerknemerToeInBedrijf_Valid()
         {
-            Bedrijf b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             b.VoegWerknemerToeInBedrijf(_w, _f1);
             Assert.Equal(1, b.GeefWerknemers().Count);
             //Check: Meerdere functies per werknemer bij 1 bedrijf
@@ -207,7 +207,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [Fact]
         public void VoegWerknemerToeInBedrijf_Invalid()
         {
-            Bedrijf b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 
             Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, _f1));
             Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, null));
@@ -228,7 +228,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [Fact]
         public void VerwijderWerknemerUitBedrijf_Valid()
         {
-            Bedrijf b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             b.VoegWerknemerToeInBedrijf(_w, _f1);
             b.VerwijderWerknemerUitBedrijf(_w);
             Assert.Equal(0, b.GeefWerknemers().Count);
@@ -237,7 +237,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [Fact]
         public void VerwijderWerknemerUitBedrijf_Invalid()
         {
-            Bedrijf b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 
             Assert.Throws<BedrijfException>(() => b.VerwijderWerknemerUitBedrijf(null));
             Assert.Throws<BedrijfException>(() => b.VerwijderWerknemerUitBedrijf(_w));
@@ -248,7 +248,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [Fact]
         public void GeefWerknemers_Valid()
         {
-            Bedrijf b = new(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             b.VoegWerknemerToeInBedrijf(_w, _f1);
             Assert.Contains(_w, b.GeefWerknemers());
         }
