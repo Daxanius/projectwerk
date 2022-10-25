@@ -303,6 +303,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
             Assert.Equal(idUit, b.Id);
             Assert.Equal(naamUit, b.Naam);
             Assert.Equal(btwNummerUit, b.BTW);
+            Assert.Equal(emailUit, b.Email);
             Assert.Equal(telefoonNummerUit, b.TelefoonNummer);
             Assert.Equal(adresUit, b.Adres);
         }
