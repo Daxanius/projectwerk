@@ -191,7 +191,7 @@ namespace BezoekersRegistratieSysteemDL {
                     cmdUpdate.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
                     cmdUpdate.Parameters["@afspraakstatusId"].Value = afspraak.Eindtijd is not null && currentAfspraakStatusId == 1 ? 5 : afspraak.Eindtijd is not null && currentAfspraakStatusId != 1 ? currentAfspraakStatusId : 1;
                     //FUNCTIE GETBEDRIJF
-                    //TODO: prob gets replaced by werknemerInfo
+                    //TODO: GWILOM prob gets replaced by werknemerInfo
                     var bedrijf = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Keys.First();
                     var functie = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values.First().First();
                     cmdUpdate.Parameters["@bedrijfId"].Value = bedrijf.Id;
@@ -576,7 +576,7 @@ namespace BezoekersRegistratieSysteemDL {
                     cmdAfspraak.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
                     cmdAfspraak.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
                     cmdAfspraak.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-                    //TODO: Is dit nu al meegegeven of doe ik hier DateTime.Now, ik gok gewoon value want Starttijd kan niet null zijn
+                    //TODO: GWILOM Is dit nu al meegegeven of doe ik hier DateTime.Now, ik gok gewoon value want Starttijd kan niet null zijn
                     cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
                     cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
                     cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;

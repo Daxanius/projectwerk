@@ -67,7 +67,7 @@ namespace BezoekersRegistratieSysteemDL {
         /// <returns>bool</returns>
         /// <exception cref="WerknemerADOException">Faalt om te kijken of werknemer bestaat</exception>
         private bool BestaatWerknemer(Werknemer? werknemer, uint? werknemerId) {
-            //TODO eh oh
+            //TODO GWILOM waiting for werknemerInfo
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM Werknemer wn ";
@@ -83,7 +83,7 @@ namespace BezoekersRegistratieSysteemDL {
                             query += "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId) " +
                                      "WHERE wb.werknemerEmail = @mail";
                             cmd.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
-                            cmd.Parameters["@mail"].Value = werknemer.Email;
+                            cmd.Parameters["@mail"].Value = null;
                         }
                     }
                     if (werknemerId.HasValue) {
@@ -315,7 +315,7 @@ namespace BezoekersRegistratieSysteemDL {
         /// <param name="statusId">Id van gewesnte status</param>
         /// <exception cref="WerknemerADOException">Faalt om een werknemer status te veranderen</exception>
         private void VeranderStatusWerknemer(uint werknemerId, int statusId) {
-            //TODO PROB THROW IT IN VERWIJDERWERKNEMER AND ADD THE NEC ITEMS LIKE BEDRIJF ID AND FUNCTION NAME
+            //TODO Gwilom PROB THROW IT IN VERWIJDERWERKNEMER AND ADD THE NEC ITEMS LIKE BEDRIJF ID AND FUNCTION NAME
             SqlConnection con = GetConnection();
             string query = "UPDATE Werknemerbedrijf " +
                            "SET Status = @statusId " +
@@ -391,7 +391,7 @@ namespace BezoekersRegistratieSysteemDL {
                 using (SqlCommand cmdCheck = con.CreateCommand())
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
-                    //TODO: This gets replaced with werknemerInfo
+                    //TODO: Gwilom This gets replaced with werknemerInfo
                     foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
                         foreach (var functieNaam in kvpBedrijf.Value) {
                             string queryDoesJobExist = "SELECT COUNT(*) " +
@@ -415,7 +415,7 @@ namespace BezoekersRegistratieSysteemDL {
                                 cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
                                 cmd.Parameters["@werknemerId"].Value = werknemer.Id;
                                 cmd.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
-                                cmd.Parameters["@email"].Value = null; //TODO:email
+                                cmd.Parameters["@email"].Value = null; //TODO: Gwilom email werknemerInfo
                                 cmd.Parameters["@FunctieNaam"].Value = functieNaam;
                                 cmd.ExecuteNonQuery();
                             }
@@ -431,10 +431,15 @@ namespace BezoekersRegistratieSysteemDL {
             }
         }
 
+        /// <summary>
+        /// voegt bedrijf en functie aan werknemer toe
+        /// </summary>
+        /// <param name="werknemer">Bedrijf en functie die aan werknemer word toegevoegd</param>
+        /// <exception cref="WerknemerADOException">Faalt om bedrijf en functie aan werknemer toe te voegen</exception>
         public void VoegWerknemerFunctieToe(Werknemer werknemer, Bedrijf bedrijf, string functie) {
             SqlConnection con = GetConnection();
-            string query = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, FunctieId) " +
-                           "VALUES(@bedrijfId,@werknemerId,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
+            string query = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, FunctieId, WerknemerEmail) " +
+                           "VALUES(@bedrijfId,@werknemerId,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam), @werknemerMail)";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
@@ -442,9 +447,11 @@ namespace BezoekersRegistratieSysteemDL {
                     cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
                     cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
                     cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@werknemerMail", SqlDbType.VarChar));
                     cmd.Parameters["@werknemerId"].Value = werknemer.Id;
                     cmd.Parameters["@bedrijfId"].Value = bedrijf.Id;
                     cmd.Parameters["@FunctieNaam"].Value = functie;
+                    cmd.Parameters["@werknemerMail"].Value = null; //TODO: werknemerMail voor bedrijf
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
@@ -463,7 +470,7 @@ namespace BezoekersRegistratieSysteemDL {
         /// <param name="werknemer">Werknemer object die gewijzigd moet worden</param>
         /// <exception cref="WerknemerADOException">Faalt om werknemer te wijzigen</exception>
         public void WijzigWerknemer(Werknemer werknemer) {
-            //TODO: moet email per bedrijf ook veranderd worden?
+            //TODO gwilom moet email per bedrijf van werknemer ook veranderd worden?
             SqlConnection con = GetConnection();
             string query = "UPDATE Werknemer " +
                            "SET VNaam = @Vnaam, " +
