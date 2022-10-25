@@ -7,7 +7,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 	{
         #region Valid Info
         private Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-        private Werknemer _w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
+        private Werknemer _w = new(10, "werknemer", "werknemersen");
         private static  DateTime _st = DateTime.Now;
         private static DateTime _et = _st.AddHours(2);
         #endregion

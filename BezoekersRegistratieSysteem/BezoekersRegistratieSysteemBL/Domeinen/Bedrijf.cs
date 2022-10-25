@@ -158,7 +158,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="werknemer"></param>
 		/// <param name="functie"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void VoegWerknemerToeInBedrijf(Werknemer werknemer, string functie)
+		public void VoegWerknemerToeInBedrijf(Werknemer werknemer, string email, string functie)
 		{
 			if (werknemer == null)
 				throw new BedrijfException("Bedrijf - VoegWerknemerToeInBedrijf - werknemer mag niet leeg zijn");
@@ -170,7 +170,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			{
 				_werknemers.Add(werknemer);
 			}
-			werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, functie);
+			werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, email, functie);
 		}
 
 		/// <summary>

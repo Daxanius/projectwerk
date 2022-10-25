@@ -66,17 +66,17 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpDelete("{id}")]
-		public IActionResult VerwijderWerknemer(uint id) {
-			try {
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(id);
-				_werknemerManager.VerwijderWerknemer(werknemer);
-				return Ok();
-			} catch (Exception ex) {
-				// Welke IActionResults zijn er??
-				return NotFound(ex.Message);
-			}
-		}
+		//[HttpDelete("{id}")]
+		//public IActionResult VerwijderWerknemer(uint id) {
+		//	try {
+		//		Werknemer werknemer = _werknemerManager.GeefWerknemer(id);
+		//		_werknemerManager.VerwijderWerknemer(werknemer, bedrijf);
+		//		return Ok();
+		//	} catch (Exception ex) {
+		//		// Welke IActionResults zijn er??
+		//		return NotFound(ex.Message);
+		//	}
+		//}
 
 		/// <summary>
 		/// Voeg een werknemer toe
@@ -88,7 +88,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			if (werknemerData == null) return BadRequest($"{nameof(werknemerData)} is null");
 
 			try {
-				Werknemer werknemer = new(werknemerData.Voornaam, werknemerData.Achternaam, werknemerData.Email);
+				Werknemer werknemer = new(werknemerData.Voornaam, werknemerData.Achternaam);
 				return _werknemerManager.VoegWerknemerToe(werknemer);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
@@ -100,16 +100,16 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="werknemer"></param>
 		/// <returns></returns>
-		[HttpPut]
-		public ActionResult<Werknemer> BewerkWerknemer([FromBody] Werknemer werknemer) {
-			if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
+		//[HttpPut]
+		//public ActionResult<Werknemer> BewerkWerknemer([FromBody] Werknemer werknemer) {
+		//	if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
 
-			try {
-				_werknemerManager.WijzigWerknemer(werknemer);
-				return werknemer;
-			} catch (Exception ex) {
-				return BadRequest(ex.Message);
-			}
-		}
+		//	try {
+		//		_werknemerManager.WijzigWerknemer(werknemer);
+		//		return werknemer;
+		//	} catch (Exception ex) {
+		//		return BadRequest(ex.Message);
+		//	}
+		//}
 	}
 }

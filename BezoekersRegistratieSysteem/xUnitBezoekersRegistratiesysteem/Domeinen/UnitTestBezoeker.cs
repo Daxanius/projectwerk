@@ -113,12 +113,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen", "bezoekerbedrijf")]
         [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@.", "bezoekerbedrijf")]
         [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen.com", "bezoekerbedrijf")]
-        public void ctor_Invalid_PersoonException(uint id, string voornaam, string achternaam, string email, string bedrijf)
-        {
-            Assert.Throws<PersoonException>(() => new Bezoeker(id, voornaam, achternaam, email, bedrijf));
-        }
 
-        [Theory]
         [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", null)]
         [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "")]
         [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", " ")]
@@ -126,8 +121,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\r")]
         [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\t")]
         [InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\v")]
-
-        public void ctor_Invalid_BezoekerException(uint id, string voornaam, string achternaam, string email, string bedrijf)
+        public void ctor_Invalid_PersoonException(uint id, string voornaam, string achternaam, string email, string bedrijf)
         {
             Assert.Throws<BezoekerException>(() => new Bezoeker(id, voornaam, achternaam, email, bedrijf));
         }

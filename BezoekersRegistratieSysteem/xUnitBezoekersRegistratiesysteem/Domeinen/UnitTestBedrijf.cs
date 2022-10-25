@@ -14,9 +14,10 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
     public class UnitTestBedrijf
     {
         #region Valid Info
-        private Werknemer _w = new(10, "werknemer1", "werknemersen1", "werknemer.werknemersen@email.com");
+        private Werknemer _w = new(10, "werknemer", "werknemersen");
         private string _f1 = "functie1";
         private string _f2 = "functie2";
+        private string _e = "werknemer.werknemersen@email.com";
         #endregion
 
         #region UnitTest Naam
@@ -197,30 +198,47 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         public void VoegWerknemerToeInBedrijf_Valid()
         {
             Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            b.VoegWerknemerToeInBedrijf(_w, _f1);
+            b.VoegWerknemerToeInBedrijf(_w, _e, _f1);
             Assert.Equal(1, b.GeefWerknemers().Count);
             //Check: Meerdere functies per werknemer bij 1 bedrijf
-            b.VoegWerknemerToeInBedrijf(_w, _f2);
+            b.VoegWerknemerToeInBedrijf(_w, _e, _f2);
             Assert.Equal(1, b.GeefWerknemers().Count);
         }
 
-        [Fact]
-        public void VoegWerknemerToeInBedrijf_Invalid()
+        [Theory]
+        [InlineData("@email.com", "functie")]
+        [InlineData("werknemer.werknemersen@email.", "functie")]
+        [InlineData("werknemer.werknemersen@.com", "functie")]
+        [InlineData("werknemer.werknemersen@email", "functie")]
+        [InlineData("werknemer.werknemersen@", "functie")]
+        [InlineData("werknemer.werknemersen", "functie")]
+        [InlineData("werknemer.werknemersen@.", "functie")]
+        [InlineData("werknemer.werknemersen.com", "functie")]
+        [InlineData("werknemer.werknemersen@email.com", "functie")]
+        [InlineData("werknemer.werknemersen@email.com", null)]
+        [InlineData("werknemer.werknemersen@email.com", "")]
+        [InlineData("werknemer.werknemersen@email.com", " ")]
+        [InlineData("werknemer.werknemersen@email.com", "\n")]
+        [InlineData("werknemer.werknemersen@email.com", "\r")]
+        [InlineData("werknemer.werknemersen@email.com", "\t")]
+        [InlineData("werknemer.werknemersen@email.com", "\v")]
+        [InlineData(null, "functie")]
+        [InlineData("", "functie")]
+        [InlineData(" ", "functie")]
+        [InlineData("\n", "functie")]
+        [InlineData("\r", "functie")]
+        [InlineData("\t", "functie")]
+        [InlineData("\v", "functie")]
+        public void VoegWerknemerToeInBedrijf_Invalid(string email, string functie)
         {
             Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 
-            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, _f1));
-            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, null));
-            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, null));
-            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, ""));
-            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, " "));
-            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, "\n"));
-            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, "\r"));
-            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, "\t"));
-            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, "\v"));
+            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, _e, _f1));
+            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, null, null));
+            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
             //"Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - werknemer is in dit bedrijf al werkzaam onder deze functie"
-            b.VoegWerknemerToeInBedrijf(_w, _f1);
-            Assert.Throws<WerknemerException>(() => b.VoegWerknemerToeInBedrijf(_w, _f1));
+            b.VoegWerknemerToeInBedrijf(_w, _e, _f1);
+            Assert.Throws<WerknemerException>(() => b.VoegWerknemerToeInBedrijf(_w, _e, _f1));
         }
         #endregion
 
@@ -229,7 +247,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         public void VerwijderWerknemerUitBedrijf_Valid()
         {
             Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            b.VoegWerknemerToeInBedrijf(_w, _f1);
+            b.VoegWerknemerToeInBedrijf(_w, _e, _f1);
             b.VerwijderWerknemerUitBedrijf(_w);
             Assert.Equal(0, b.GeefWerknemers().Count);
         }
@@ -249,7 +267,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         public void GeefWerknemers_Valid()
         {
             Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            b.VoegWerknemerToeInBedrijf(_w, _f1);
+            b.VoegWerknemerToeInBedrijf(_w, _e,_f1);
             Assert.Contains(_w, b.GeefWerknemers());
         }
         #endregion
