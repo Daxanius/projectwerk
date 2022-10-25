@@ -1,10 +1,11 @@
 ﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
-namespace BezoekersRegistratieSysteemBL.Domeinen {
-	/// <summary>
-	/// Algemene informatie over personen
-	/// </summary>
-	public abstract class Persoon {
+namespace BezoekersRegistratieSysteemBL.Domeinen
+{
+    /// <summary>
+    /// Algemene informatie over personen
+    /// </summary>
+    public abstract class Persoon {
 		public uint Id { get; private set; }
 		public string Voornaam { get; private set; }
 		public string Achternaam { get; private set; }
