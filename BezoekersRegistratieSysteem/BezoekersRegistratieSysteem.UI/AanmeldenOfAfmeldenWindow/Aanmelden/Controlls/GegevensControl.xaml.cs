@@ -145,30 +145,62 @@ namespace BezoekersRegistratieSysteem.UI.Controlls
 				return;
 			}
 
-			gegevensControl.Opacity = .25;
+			gegevensControl.Opacity = .15;
 			gegevensControl.IsHitTestVisible = false;
-			popup.IsOpen = true;
+			popupConform.IsOpen = true;
+		}
 
-			Task.Run(() =>
-			{
-				Thread.Sleep(TimeSpan.FromSeconds(3));
-				Dispatcher.Invoke(() =>
-				{
-					popup.IsOpen = false;
-					gegevensControl.Opacity = 1;
-					gegevensControl.IsHitTestVisible = true;
+		private async void ConformeerPopup(object sender, RoutedEventArgs e)
+		{
+			popupConform.IsOpen = false;
+			popupAangemeld.IsOpen = true;
 
-					Window window = Window.GetWindow(this);
-					AanOfUitMeldenScherm aanOfUitMeldenScherm = window.DataContext as AanOfUitMeldenScherm;
-					aanOfUitMeldenScherm.ResetSchermNaarStart();
-				});
-			});
+			await Task.Delay(1500);
+
+			popupAangemeld.IsOpen = false;
+			gegevensControl.Opacity = 1;
+			gegevensControl.IsHitTestVisible = true;
+
+			Window window = Window.GetWindow(this);
+			AanOfUitMeldenScherm aanOfUitMeldenScherm = window.DataContext as AanOfUitMeldenScherm;
+			aanOfUitMeldenScherm.ResetSchermNaarStart();
 
 			Voornaam = string.Empty;
 			Achternaam = string.Empty;
 			Email = string.Empty;
 			Bedrijf = string.Empty;
 			Werknemer = string.Empty;
+		}
+
+		private void WijzigPopup(object sender, RoutedEventArgs e)
+		{
+			gegevensControl.Opacity = 1;
+			gegevensControl.IsHitTestVisible = true;
+			popupConform.IsOpen = false;
+		}
+
+		private void PlaceholdersListBox_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+		{
+			ListBoxItem? item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
+			if (item is not null)
+			{
+				string selectedItem = item.Content.ToString();
+				Werknemer = selectedItem;
+			}
+		}
+
+		private void GaTerug(object sender, MouseButtonEventArgs e)
+		{
+			Voornaam = string.Empty;
+			Achternaam = string.Empty;
+			Email = string.Empty;
+			Bedrijf = string.Empty;
+			Werknemer = string.Empty;
+
+			Window window = Window.GetWindow(this);
+			AanOfUitMeldenScherm aanOfUitMeldenScherm = window.DataContext as AanOfUitMeldenScherm;
+			aanOfUitMeldenScherm.gegevensControl.Visibility = Visibility.Collapsed;
+			aanOfUitMeldenScherm.kiesBedrijfControl.Visibility = Visibility.Visible;
 		}
 	}
 }

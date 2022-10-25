@@ -7,7 +7,21 @@
     d:DesignHeight="450"
     d:DesignWidth="5870.344"
     mc:Ignorable="d">
-    <StackPanel VerticalAlignment="Center">
+    <StackPanel
+        Name="kiesBedrijfControl"
+        Margin="150,0,150,0"
+        VerticalAlignment="Center">
+        <StackPanel HorizontalAlignment="Right">
+            <Border Style="{StaticResource TerugBorderStyle}">
+                <Label
+                    HorizontalContentAlignment="Center"
+                    Content="Ga terug"
+                    FontSize="21"
+                    FontWeight="Medium"
+                    Foreground="WhiteSmoke"
+                    MouseLeftButtonDown="GaTerug" />
+            </Border>
+        </StackPanel>
         <TextBlock
             Padding="0,0,0,150"
             HorizontalAlignment="Center"
@@ -42,7 +56,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListViewItem
-                    Padding="500,0,100,0"
+                    Padding="380,0,100,0"
                     IsEnabled="False"
                     IsHitTestVisible="False"
                     Style="{StaticResource GeenHoverEffect}" />
@@ -60,5 +74,39 @@
                 <ListViewItem Padding="100,0,100,0">Innojam</ListViewItem>
             </ListView>
         </StackPanel>
+        <Popup
+            x:Name="popup"
+            Panel.ZIndex="1"
+            AllowsTransparency="True"
+            IsOpen="False"
+            Placement="Center"
+            PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+            PopupAnimation="Slide"
+            StaysOpen="True">
+            <StackPanel>
+                <Border Background="{StaticResource ButtonGroen}" CornerRadius="25">
+                    <TextBlock
+                        Padding="50"
+                        FontSize="65"
+                        FontWeight="Bold"
+                        Foreground="WhiteSmoke"
+                        Text="Bent u het zeker?"
+                        TextAlignment="Center" />
+                </Border>
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Margin="0,25,25,0"
+                        Click="ConformeerPopup"
+                        Content="Ja"
+                        Style="{StaticResource ConformButtonStyle}" />
+                    <Button
+                        Margin="50,25,0,0"
+                        Background="Orange"
+                        Click="WijzigPopup"
+                        Content="Wijzig bedrijf"
+                        Style="{StaticResource WijzigButtonStyle}" />
+                </StackPanel>
+            </StackPanel>
+        </Popup>
     </StackPanel>
 </UserControl>

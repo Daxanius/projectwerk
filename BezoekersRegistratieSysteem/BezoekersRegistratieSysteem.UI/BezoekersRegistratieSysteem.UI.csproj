@@ -14,4 +14,21 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AanmeldenOfAfmeldenWindow\Afmelden\Style\AfmeldStyle.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

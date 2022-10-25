@@ -124,9 +124,41 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        <controlls:AanmeldingControl
-            x:Name="aanmeldingControl"
+        <Grid
+            x:Name="aanmeldingPanel"
             HorizontalAlignment="Stretch"
-            Visibility="Collapsed" />
+            VerticalAlignment="Center"
+            Visibility="Collapsed">
+            <Border>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
+                        <GradientStop Offset="0" Color="#41518F" />
+                        <GradientStop Offset="1" Color="#2C386C" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel x:Name="AanmeldPanel">
+                    <controlls:GegevensControl
+                        x:Name="gegevensControl"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Visibility="Collapsed" />
+                    <controlls:KiesBedrijfControl
+                        x:Name="kiesBedrijfControl"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Visibility="Visible" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <controlls:AfmeldControl x:Name="afmeldenControl" Visibility="Collapsed" />
     </Grid>
 </Window>

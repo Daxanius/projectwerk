@@ -27,30 +27,39 @@ namespace BezoekersRegistratieSysteem.UI.Controlls
 
 		private void NavigeerNaarAfmeldScherm(object sender, RoutedEventArgs e)
 		{
-			ToggleSelectieScherm();
+			afmeldenControl.Visibility = Visibility.Visible;
+			aanmeldingPanel.Visibility = Visibility.Collapsed;
+			kiesBedrijfControl.Visibility = Visibility.Collapsed;
+			gegevensControl.Visibility = Visibility.Collapsed;
+			selectAanOfUitmelden.Visibility = Visibility.Collapsed;
 		}
 
 		private void NavigeerNaarAanmeldScherm(object sender, RoutedEventArgs e)
 		{
-			ToggleSelectieScherm();
-			aanmeldingControl.Visibility = Visibility.Visible;
-		}
-
-		private void ToggleSelectieScherm()
-		{
-			if (selectAanOfUitmelden.Visibility == Visibility.Visible)
-			{
-				selectAanOfUitmelden.Visibility = Visibility.Collapsed;
-			} else
-			{
-				selectAanOfUitmelden.Visibility = Visibility.Visible;
-			}
+			aanmeldingPanel.Visibility = Visibility.Visible;
+			kiesBedrijfControl.Visibility = Visibility.Visible;
+			gegevensControl.Visibility = Visibility.Collapsed;
+			selectAanOfUitmelden.Visibility = Visibility.Collapsed;
 		}
 
 		public void ResetSchermNaarStart()
 		{
 			selectAanOfUitmelden.Visibility = Visibility.Visible;
-			aanmeldingControl.Visibility = Visibility.Collapsed;
+			aanmeldingPanel.Visibility = Visibility.Collapsed;
+
+			gegevensControl.Visibility = Visibility.Collapsed;
+			kiesBedrijfControl.Visibility = Visibility.Collapsed;
+			afmeldenControl.Visibility = Visibility.Collapsed;
+		}
+
+		public void SwitchNaarGegevensControl(string bedrijf)
+		{
+			aanmeldingPanel.Visibility = Visibility.Visible;
+			gegevensControl.Visibility = Visibility.Visible;
+			selectAanOfUitmelden.Visibility = Visibility.Collapsed;
+			kiesBedrijfControl.Visibility = Visibility.Collapsed;
+			GegevensControl? gegevenscontrol = gegevensControl.DataContext as GegevensControl;
+			gegevenscontrol.ZetGeselecteerdBedrijf(bedrijf);
 		}
 	}
 }
