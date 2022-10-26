@@ -37,6 +37,7 @@ namespace xUnitBezoekersRegistratiesysteem
 
 		#region ControleerBTWNummer
 		[Theory]
+		[InlineData(null)]
 		[InlineData("")]
 		[InlineData(" ")]
 		[InlineData("\n")]
@@ -107,6 +108,32 @@ namespace xUnitBezoekersRegistratiesysteem
 
 			Assert.False(valid);
 			Assert.Null(info);
+		}
+		#endregion
+
+		#region IsEmailGeldig
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
+		[InlineData("B E")]
+		[InlineData("mens......")]
+		[InlineData("kind@")]
+		[InlineData(".com")]
+		public void IsEmailGeldig_Invalid(string email) {
+			Assert.False(Nutsvoorziening.IsEmailGeldig(email));
+		}
+
+		[Theory]
+		[InlineData("mens.guysen@student.hogent.be")]
+		[InlineData("joost.boost@gmail.com    ")]
+		[InlineData("joss.veeee@hotmail.be")]
+		public void IsEmailGeldig_Valid(string email) {
+			Assert.True(Nutsvoorziening.IsEmailGeldig(email));
 		}
 		#endregion
 	}
