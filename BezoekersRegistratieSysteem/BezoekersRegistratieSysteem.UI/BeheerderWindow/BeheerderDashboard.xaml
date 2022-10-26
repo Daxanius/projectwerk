@@ -1,0 +1,59 @@
+﻿<Window
+    x:Class="BezoekersRegistratieSysteem.UI.Beheerder.BeheerderDashboard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controlls="clr-namespace:BezoekersRegistratieSysteem.UI.BeheerderWindow.Controlls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Beheerder"
+    Icon="/BRS.ico"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ScaleTransform x:Key="windowScaleTransform" ScaleX="{Binding ScaleX}" ScaleY="{Binding ScaleY}" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid LayoutTransform="{StaticResource windowScaleTransform}">
+        <Border>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
+                    <GradientStop Offset="0" Color="#41518F" />
+                    <GradientStop Offset="1" Color="#2C386C" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <DockPanel>
+            <StackPanel
+                Name="sidebar"
+                Background="{StaticResource HeelLichtGrijs}"
+                DockPanel.Dock="Left">
+                <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+                    <Label
+                        Padding="50"
+                        HorizontalContentAlignment="Center"
+                        Content="Beheerder Paneel"
+                        FontSize="25"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource DonkerGrijs}" />
+                    <TextBlock
+                        Style="{StaticResource SideBarTextBlockStyle}"
+                        Tag="Selected"
+                        Text="Afspraken" />
+                    <TextBlock Style="{StaticResource SideBarTextBlockStyle}" Text="Bezoekers" />
+                    <TextBlock Style="{StaticResource SideBarTextBlockStyle}" Text="Werknemers" />
+                </StackPanel>
+                <Border
+                    Margin="25,50,25,0"
+                    Background="{StaticResource LichtGroen}"
+                    CornerRadius="10">
+                    <TextBlock Style="{StaticResource SideBarButtonStyle}" Text="Voeg Afspraak Toe" />
+                </Border>
+            </StackPanel>
+            <controlls:AfsprakenControl />
+        </DockPanel>
+    </Grid>
+</Window>

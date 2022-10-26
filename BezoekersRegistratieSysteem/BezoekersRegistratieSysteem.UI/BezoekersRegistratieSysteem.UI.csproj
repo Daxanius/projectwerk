@@ -15,12 +15,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="BeheerderWindow\BeheerderDashboard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="BeheerderWindow\BeheerderDashboard.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
