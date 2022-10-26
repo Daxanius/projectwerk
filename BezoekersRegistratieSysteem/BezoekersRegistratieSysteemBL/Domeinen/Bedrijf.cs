@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
+﻿using BezoekersRegistratieSysteemBL.DTO;
+using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
@@ -88,8 +89,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <exception cref="BedrijfException"></exception>
 		public void ZetBTW(string btw)
 		{
-			if (string.IsNullOrWhiteSpace(btw))
-				throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
+			if (string.IsNullOrWhiteSpace(btw)) throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
 			BTW = btw.Trim();
 		}
 
@@ -99,11 +99,11 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="btw"></param>
 		/// <returns></returns>
 		/// <exception cref="BedrijfException"></exception>
-		public async Task ZetBTWControle(string btw)
+		public void ZetBTWControle(string btw)
 		{
 			if (string.IsNullOrWhiteSpace(btw))
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw mag niet leeg zijn");
-			(bool validNummer, BtwInfo? info) = await Nutsvoorziening.ControleerBTWNummer(btw.Trim());
+			(bool validNummer, BtwInfoDTO? info) = Nutsvoorziening.ControleerBTWNummer(btw.Trim());
 			if (!validNummer)
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw is niet geldig");
 			BtwIsGeldig = true;
