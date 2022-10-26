@@ -24,9 +24,9 @@ namespace xUnitBezoekersRegistratiesysteem
 		[InlineData("B E")]
 		[InlineData("B  E")]
 		[InlineData("BE06767475219282727191928292920292")]
-		public void ControleerBTWNummer_Invalid(string btw)
+		public void GeefBTWInfo_Invalid(string btw)
         {
-            Assert.Throws<BtwControleException>(() => Nutsvoorziening.ControleerBTWNummer(btw));
+            Assert.Throws<BtwControleException>(() => Nutsvoorziening.GeefBTWInfo(btw));
         }
 
         [Theory]
@@ -38,9 +38,9 @@ namespace xUnitBezoekersRegistratiesysteem
         [InlineData("\tBE0676747521\t")]
         [InlineData("   BE0676747521    ")]
 		[InlineData("BE    0676747521")]
-		public void ControleerBTWNummer_Valid(string btw)
+		public void GeefBTWInfo_Valid(string btw)
         {
-            Nutsvoorziening.ControleerBTWNummer(btw);
+            Nutsvoorziening.GeefBTWInfo(btw);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace BezoekersRegistratieSysteemBL
         /// </summary>
         /// <param name="btwNummer"></param>
         /// <returns></returns>
-		public static bool ControleerBTWNotatie(string btwNummer) {
+		public static bool ControleerBTWNummer(string btwNummer) {
 			if (string.IsNullOrWhiteSpace(btwNummer)) {
                 return false;
 			}
@@ -36,19 +36,20 @@ namespace BezoekersRegistratieSysteemBL
 
         /// <summary>
         /// Controleert of een BTW nummer bestaat, als de service plat ligt
-        /// controleert of het nummer een geldige notatie heeft
+        /// controleert of het nummer een geldige notatie heeft, geeft informatie
+        /// over het nummer terug
         /// </summary>
         /// <param name="btwNummer"></param>
         /// <returns>notatie valid bool, btwinfo resultaat</returns>
         /// <exception cref="BtwControleException"></exception>
-        public static (bool, BtwInfoDTO?) ControleerBTWNummer(string btwNummer)
+        public static (bool, BtwInfoDTO?) GeefBTWInfo(string btwNummer)
         {
 			if (string.IsNullOrWhiteSpace(btwNummer)) {
 				throw new BtwControleException("ControleerBTWNummer - btw is leeg");
 			}
 
 			btwNummer = VerwijderWhitespace(btwNummer);
-			if (!ControleerBTWNotatie(btwNummer)) {
+			if (!ControleerBTWNummer(btwNummer)) {
 				throw new BtwControleException("ControleerBTWNummer - notatie is niet geldig");
 			}
 
