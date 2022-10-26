@@ -193,7 +193,7 @@ namespace BezoekersRegistratieSysteemDL {
                     //FUNCTIE GETBEDRIJF
                     //TODO: GWILOM prob gets replaced by werknemerInfo
                     var bedrijf = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Keys.First();
-                    var functie = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values.First().First();
+                    var functie = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values.First().Functies.First();
                     cmdUpdate.Parameters["@bedrijfId"].Value = bedrijf.Id;
                     cmdUpdate.Parameters["@functienaam"].Value = functie;
                     cmdUpdate.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
@@ -268,8 +268,8 @@ namespace BezoekersRegistratieSysteemDL {
                         string werknemerMail = (string)reader["WerknemerEmail"];
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
-                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam, werknemerMail);
-                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId,bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr,bedrijfMail, bedrijfAdres),functieNaam);
+                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId,bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr,bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
                         afspraak = new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId,bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
                     }
                     return afspraak;
@@ -395,8 +395,8 @@ namespace BezoekersRegistratieSysteemDL {
                         string werknemerMail = (string)reader["WerknemerEmail"];
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
-                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam, werknemerMail);
-                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), functieNaam);
+                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres),werknemerMail, functieNaam);
                         afspraken.Add(new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
                     }
                     return afspraken.AsReadOnly();
@@ -520,8 +520,8 @@ namespace BezoekersRegistratieSysteemDL {
                         string werknemerMail = (string)reader["WerknemerEmail"];
                         //functie portie
                         string functieNaam = (string)reader["FuntieNaam"];
-                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam, werknemerMail);
-                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), functieNaam);
+                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
                         afspraken.Add(new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
                     }
                     return afspraken.AsReadOnly();
