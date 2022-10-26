@@ -5,6 +5,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 {
     public class UnitTestWerknemerInfo
     {
+        // AF
+        
         #region Valid Info
         private Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
         private string _e = "werknemer.werknemersen@email.com";
@@ -56,6 +58,28 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         {
             WerknemerInfo wi = new(_b, "werknemer.werknemersen@email.com");
             Assert.Throws<WerknemerInfoException>(() => wi.ZetEmail(email));
+        }
+        #endregion
+
+        #region UnitTest WerknemerInfo is gelijk
+        [Fact]
+        public void WerknemerInfoIsGelijk_Valid()
+        {
+            WerknemerInfo wi = new(_b, _e);
+            Assert.True(wi.WerknemerInfoIsGelijk(wi));
+        }
+
+        [Fact]
+        public void WerknemerInfoIsGelijk_Invalid()
+        {
+            Bedrijf bb = _b;
+            bb.ZetId(1);
+
+            WerknemerInfo wi1 = new(_b, _e);
+            WerknemerInfo wi2 = new(bb, "bedrijf@email.com");
+            Assert.False(wi1.WerknemerInfoIsGelijk(wi2));
+            wi2 = new(_b, "anderbedrijf@email.com");
+            Assert.False(wi1.WerknemerInfoIsGelijk(wi2));
         }
         #endregion
 

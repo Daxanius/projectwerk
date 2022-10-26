@@ -5,6 +5,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 {
 	public class UnitTestAfspraak
 	{
+        //AF
+
         #region Valid Info
         private Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
         private Werknemer _w = new(10, "werknemer", "werknemersen");
@@ -114,27 +116,16 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         public void AfspraakIsGelijk_Valid()
         {
             Afspraak a = new(10, _st, null, _b, _w);
-            Assert.Equal((uint)10, a.Id);
-            Assert.Equal(_st, a.Starttijd);
-            Assert.Equal(null, a.Eindtijd);
-            Assert.Equal(_b, a.Bezoeker);
-            Assert.Equal(_w, a.Werknemer);
-            
-            Assert.Equal(a.AfspraakIsGelijk(a), true);
+            Assert.True(a.AfspraakIsGelijk(a));
         }
 
         [Fact]
         public void AfspraakIsGelijk_Invalid()
         {
-            Afspraak a = new(10, _st, null, _b, _w);
-            Afspraak aa = new(1, _st.AddHours(1), _et, new(1, "anderebezoeker", "anderebezoekersen", "anderebezoeker.bezoekersen@email.com", "anderbezoekerbedrijf"), new(1, "anderewerknemer", "andere werknemersen"));
-            Assert.NotEqual(aa.Id, a.Id);
-            Assert.NotEqual(aa.Starttijd, a.Starttijd);
-            Assert.NotEqual(aa.Eindtijd, a.Eindtijd);
-            Assert.NotEqual(aa.Bezoeker, a.Bezoeker);
-            Assert.NotEqual(aa.Werknemer, a.Werknemer);
+            Afspraak a1 = new(10, _st, null, _b, _w);
+            Afspraak a2 = new(1, _st.AddHours(1), _et, new(1, "anderebezoeker", "anderebezoekersen", "anderebezoeker.bezoekersen@email.com", "anderbezoekerbedrijf"), new(1, "anderewerknemer", "andere werknemersen"));
             
-            Assert.NotEqual(a.AfspraakIsGelijk(aa), true);
+            Assert.False(a1.AfspraakIsGelijk(a2));
         }
         #endregion
 

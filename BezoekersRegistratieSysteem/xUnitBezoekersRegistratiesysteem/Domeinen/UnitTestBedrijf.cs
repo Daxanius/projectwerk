@@ -13,11 +13,30 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 {
     public class UnitTestBedrijf
     {
+        //AF
+        
         #region Valid Info
         private Werknemer _w = new(10, "werknemer", "werknemersen");
         private string _f1 = "functie1";
         private string _f2 = "functie2";
         private string _e = "werknemer.werknemersen@email.com";
+        #endregion
+
+        #region UnitTest Id
+        [Fact]
+        public void ZetId_Valid()
+        {
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            b.ZetId(10);
+            Assert.Equal((uint) 10, b.Id);
+        }
+        
+        [Fact]
+        public void ZetId_Invalid()
+        {
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Assert.Throws<BedrijfException>(() => b.ZetId(0));
+        }
         #endregion
 
         #region UnitTest Naam
@@ -42,8 +61,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("\v")]
         public void ZetNaam_Invalid(string naam)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            Assert.Throws<BedrijfException>(() => _b.ZetNaam(naam));
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Assert.Throws<BedrijfException>(() => b.ZetNaam(naam));
         }
         #endregion
 
@@ -54,9 +73,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("BE0676747521     ", "BE0676747521")]
         public void ZetBTW_Valid(string btwIn, string btwUit)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            _b.ZetBTW(btwIn);
-            Assert.Equal(btwUit, _b.BTW);
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            b.ZetBTW(btwIn);
+            Assert.Equal(btwUit, b.BTW);
         }
 
         [Theory]
@@ -109,9 +128,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("012345678     ", "012345678")]
         public void ZetTelefoonnummer_Valid(string telefoonnummerIn, string telefoonnummerUit)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            _b.ZetTelefoonNummer(telefoonnummerIn);
-            Assert.Equal(telefoonnummerUit, _b.TelefoonNummer);
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            b.ZetTelefoonNummer(telefoonnummerIn);
+            Assert.Equal(telefoonnummerUit, b.TelefoonNummer);
         }
 
         [Theory]
@@ -125,8 +144,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("0123456789101112")]
         public void ZetTelefoonnummer_Invalid(string telefoonnummer)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            Assert.Throws<BedrijfException>(() => _b.ZetTelefoonNummer(telefoonnummer));
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Assert.Throws<BedrijfException>(() => b.ZetTelefoonNummer(telefoonnummer));
         }
         #endregion
 
@@ -137,9 +156,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("bedrijf@email.com     ", "bedrijf@email.com")]
         public void ZetEmail_Valid(string emailIn, string emailUit)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            _b.ZetEmail(emailIn);
-            Assert.Equal(emailUit, _b.Email);
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            b.ZetEmail(emailIn);
+            Assert.Equal(emailUit, b.Email);
         }
 
         [Theory]
@@ -160,8 +179,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("bedrijf.com")]
         public void ZetEmail_Invalid(string email)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            Assert.Throws<BedrijfException>(() => _b.ZetEmail(email));
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Assert.Throws<BedrijfException>(() => b.ZetEmail(email));
         }
         #endregion
 
@@ -172,9 +191,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("bedrijfstraat 10     ", "bedrijfstraat 10")]
         public void ZetAdres_Valid(string adresIn, string adresUit)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            _b.ZetAdres(adresIn);
-            Assert.Equal(adresUit, _b.Adres);
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            b.ZetAdres(adresIn);
+            Assert.Equal(adresUit, b.Adres);
         }
 
         [Theory]
@@ -187,8 +206,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("\v")]
         public void ZetAdres_Invalid(string adres)
         {
-            Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            Assert.Throws<BedrijfException>(() => _b.ZetAdres(adres));
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Assert.Throws<BedrijfException>(() => b.ZetAdres(adres));
 
         }
         #endregion
@@ -291,8 +310,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         public void BedrijfIsGelijk_Invalid(uint id, string naam, string btwNummer, string telefoonNummer, string email, string adres)
         {
             Bedrijf b1 = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            Bedrijf b2 = new(id, naam, "BE0676747521", telefoonNummer, email, adres);
-            b2.ZetBTWControle(btwNummer);
+            Bedrijf b2 = new(id, naam, btwNummer, telefoonNummer, email, adres);
             Assert.False(b1.BedrijfIsGelijk(b2));
         }
         #endregion

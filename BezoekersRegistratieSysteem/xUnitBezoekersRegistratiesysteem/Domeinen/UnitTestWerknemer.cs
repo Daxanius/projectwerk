@@ -6,11 +6,15 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 {
 	public class UnitTestWerknemer
 	{
-		private Bedrijf _b1 = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+        //AF
+        
+        #region Valid Info
+        private Bedrijf _b1 = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
         private Bedrijf _b2 = new(1, "anderbedrijf", "BE0724540609", "876543210", "anderbedrijf@email.com", "anderebedrijfstraat 10");
         private string _of = "oudefunctie";
         private string _nf = "nieuwefunctie";
         private string _e = "werknemer.werknemersen@email.com";
+        #endregion
 
         #region UnitTest Id
         [Fact]
@@ -290,6 +294,67 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
                         functie => Assert.Equal(_nf, functie),
                         functie => Assert.Equal(_of, functie));
                 });
+        }
+        #endregion
+
+        #region UnitTest Werknemer is gelijk
+        [Fact]
+        public void WerknemerIsGelijk_Valid()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            Assert.True(w.WerknemerIsGelijk(w));
+        }
+
+        [Theory]
+        [InlineData(1, "werknemer", "werknemersen")]
+        [InlineData(10, "remenkrew", "werknemersen")]
+        [InlineData(10, "werknemer", "nresnemkrew")]
+        public void WerknemerIsGelijk_Invalid(uint id, string voornaam, string achternaam)
+        {
+            Werknemer w1 = new(10, "werknemer", "werknemersen");
+            Werknemer w2 = new(id, voornaam, achternaam);
+            Assert.False(w1.WerknemerIsGelijk(w2));
+        }
+        #endregion
+
+        #region UnitTest Werknemer ctor
+        [Theory]
+        [InlineData(10, "werknemer", "werknemersen", 10, "werknemer", "werknemersen")]
+
+        [InlineData(10, "     werknemer", "werknemersen", 10, "werknemer", "werknemersen")]
+        [InlineData(10, "werknemer     ", "werknemersen", 10, "werknemer", "werknemersen")]
+
+        [InlineData(10, "werknemer", "     werknemersen", 10, "werknemer", "werknemersen")]
+        [InlineData(10, "werknemer", "werknemersen     ", 10, "werknemer", "werknemersen")]
+        public void ctor_Valid(uint idIn, string voornaamIn, string achternaamIn, uint idUit, string voornaamUit, string achternaamUit)
+        {
+            Werknemer w = new(idIn, voornaamIn, achternaamIn);
+            Assert.Equal(idUit, w.Id);
+            Assert.Equal(voornaamUit, w.Voornaam);
+            Assert.Equal(achternaamUit, w.Achternaam);
+        }
+
+        [Theory]
+        [InlineData(0, "werknemer", "werknemersen")]
+
+        [InlineData(10, null, "werknemersen")]
+        [InlineData(10, "", "werknemersen")]
+        [InlineData(10, " ", "werknemersen")]
+        [InlineData(10, "\n", "werknemersen")]
+        [InlineData(10, "\r", "werknemersen")]
+        [InlineData(10, "\t", "werknemersen")]
+        [InlineData(10, "\v", "werknemersen")]
+
+        [InlineData(10, "werknemer", null)]
+        [InlineData(10, "werknemer", "")]
+        [InlineData(10, "werknemer", " ")]
+        [InlineData(10, "werknemer", "\n")]
+        [InlineData(10, "werknemer", "\r")]
+        [InlineData(10, "werknemer", "\t")]
+        [InlineData(10, "werknemer", "\v")]
+        public void ctor_Invalid(uint id, string voornaam, string achternaam)
+        {
+            Assert.Throws<WerknemerException>(() => new Werknemer(id, voornaam, achternaam));
         }
         #endregion
     }
