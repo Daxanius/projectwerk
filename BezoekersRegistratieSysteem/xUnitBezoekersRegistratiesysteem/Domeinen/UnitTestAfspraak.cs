@@ -1,13 +1,15 @@
 using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
-namespace xUnitBezoekersRegistratiesysteem.Domein
+namespace xUnitBezoekersRegistratiesysteem.Domeinen
 {
 	public class UnitTestAfspraak
 	{
+        //AF
+
         #region Valid Info
         private Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-        private Werknemer _w = new(10, "werknemer", "werknemersen", "werknemer.werknemersen@email.com");
+        private Werknemer _w = new(10, "werknemer", "werknemersen");
         private static  DateTime _st = DateTime.Now;
         private static DateTime _et = _st.AddHours(2);
         #endregion
@@ -19,6 +21,13 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
             Afspraak a = new(10, _st, null, _b, _w);
             a.ZetId(10);
             Assert.Equal((uint)10, a.Id);
+        }
+
+        [Fact]
+        public void ZetId_Invalid()
+        {
+            Afspraak a = new(10, _st, null, _b, _w);
+            Assert.Throws<AfspraakException>(() => a.ZetId(0));
         }
         #endregion
 
@@ -102,6 +111,24 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         }
         #endregion
 
+        #region UnitTest Afspraak Gelijk
+        [Fact]
+        public void AfspraakIsGelijk_Valid()
+        {
+            Afspraak a = new(10, _st, null, _b, _w);
+            Assert.True(a.AfspraakIsGelijk(a));
+        }
+
+        [Fact]
+        public void AfspraakIsGelijk_Invalid()
+        {
+            Afspraak a1 = new(10, _st, null, _b, _w);
+            Afspraak a2 = new(1, _st.AddHours(1), _et, new(1, "anderebezoeker", "anderebezoekersen", "anderebezoeker.bezoekersen@email.com", "anderbezoekerbedrijf"), new(1, "anderewerknemer", "andere werknemersen"));
+            
+            Assert.False(a1.AfspraakIsGelijk(a2));
+        }
+        #endregion
+
         #region UnitTest Afspraak ctor
         [Fact]
         public void ctor_Valid()
@@ -125,6 +152,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [Fact]
         public void ctor_Invalid()
         {
+            //Id 0
+            Assert.Throws<AfspraakException>(() => new Afspraak(0, _st, null, _b, _w));
             //Null/Default check Starttijd
             Assert.Throws<AfspraakException>(() => new Afspraak(10, new DateTime(), null, _b, _w));
             //Eindtijd voor Starttijd
