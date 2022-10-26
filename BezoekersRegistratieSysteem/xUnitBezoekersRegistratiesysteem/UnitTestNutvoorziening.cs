@@ -15,6 +15,22 @@ namespace xUnitBezoekersRegistratiesysteem
 {
     public class UnitTestNutvoorziening
     {
+		#region ControleerBTWNummer
+		[Theory]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
+		[InlineData("B E")]
+		[InlineData("B  E")]
+		[InlineData("BE06767475219282727191928292920292")]
+		public void ControleerBTWNummer_Invalid(string btw) {
+			Assert.False(Nutsvoorziening.ControleerBTWNummer(btw));
+		}
+		#endregion
+
 		#region BTWInfo
 		[Theory]
         [InlineData("")]
