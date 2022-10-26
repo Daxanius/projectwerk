@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 
-namespace xUnitBezoekersRegistratiesysteem.Domein
+namespace xUnitBezoekersRegistratiesysteem.Domeinen
 {
 	public class UnitTestNutvoorziening
 	{

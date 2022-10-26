@@ -2,7 +2,7 @@ using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
-namespace xUnitBezoekersRegistratiesysteem.Domein
+namespace xUnitBezoekersRegistratiesysteem.Domeinen
 {
 	public class UnitTestWerknemer
 	{
@@ -11,6 +11,72 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         private string _of = "oudefunctie";
         private string _nf = "nieuwefunctie";
         private string _e = "werknemer.werknemersen@email.com";
+
+        #region UnitTest Id
+        [Fact]
+        public void ZetId_Valid()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            w.ZetId(10);
+            Assert.Equal((uint)10, w.Id);
+        }
+
+        [Fact]
+        public void ZetId_Invalid()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            //"Werknemer - ZetId - Id moet groter zijn dan 0"
+            Assert.Throws<WerknemerException>(() => w.ZetId(0));
+        }
+        #endregion
+
+        #region UnitTest Voornaam
+        [Fact]
+        public void ZetVoornaam_Valid()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            w.ZetVoornaam("werknemer");
+            Assert.Equal("werknemer", w.Voornaam);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n")]
+        [InlineData("\r")]
+        [InlineData("\t")]
+        [InlineData("\v")]
+        public void ZetVoornaam_Invalid(string voornaam)
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            Assert.Throws<WerknemerException>(() => w.ZetVoornaam(voornaam));
+        }
+        #endregion
+
+        #region UnitTest Achternaam
+        [Fact]
+        public void ZetAchternaam_Valid()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            w.ZetAchternaam("werknemersen");
+            Assert.Equal("werknemersen", w.Achternaam);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n")]
+        [InlineData("\r")]
+        [InlineData("\t")]
+        [InlineData("\v")]
+        public void ZetAchternaam_Invalid(string achternaam)
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            Assert.Throws<WerknemerException>(() => w.ZetAchternaam(achternaam));
+        }
+        #endregion
 
         #region UnitTest Voeg Bedrijf & Functie Toe Aan Werknemer
         [Fact]
@@ -24,8 +90,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
                 {
                     Assert.Equal(_b1, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Contains(_nf, expected.Value.Functies);
-                    
+                    Assert.Collection(expected.Value.Functies,
+                        item => Assert.Equal(_nf, item));
                 });
 
             //meerdere functies check
@@ -36,7 +102,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
                 {
                     Assert.Equal(_b1, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Contains(_nf, expected.Value.Functies);
+                    Assert.Collection(expected.Value.Functies,
+                        item => Assert.Equal(_nf, item),
+                        item => Assert.Equal(_of, item));
                 });
         }
         
@@ -94,7 +162,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
                 {
                     Assert.Equal(_b2, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Contains(_nf, expected.Value.Functies);
+                    Assert.Collection(expected.Value.Functies,
+                        item => Assert.Equal(_nf, item));
                 });
         }
 
@@ -120,7 +189,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
                 {
                     Assert.Equal(_b1, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Contains(_nf, expected.Value.Functies);
+                    Assert.Collection(expected.Value.Functies,
+                        item => Assert.Equal(_nf, item));
                 });
         }
         
@@ -146,6 +216,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
             Assert.Throws<WerknemerException>(() => w.WijzigFunctie(null, _of, _nf));
             Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, oudefunctie, nieuwefunctie));
 
+            //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie"
             w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _nf);
             Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
             //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie"
@@ -168,7 +239,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
                 {
                     Assert.Equal(_b1, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Contains(_nf, expected.Value.Functies);
+                    Assert.Collection(expected.Value.Functies,
+                        item => Assert.Equal(_nf, item));
                 });
         }
 

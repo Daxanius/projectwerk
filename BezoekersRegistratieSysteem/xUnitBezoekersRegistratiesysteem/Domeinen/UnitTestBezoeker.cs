@@ -3,7 +3,7 @@ using BezoekersRegistratieSysteemBL.Exceptions;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 using System.Security;
 
-namespace xUnitBezoekersRegistratiesysteem.Domein
+namespace xUnitBezoekersRegistratiesysteem.Domeinen
 {
 	public class UnitTestBezoeker
 	{
@@ -43,7 +43,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         }
 
         [Theory]
-        [InlineData(0, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+        [InlineData(1, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
         [InlineData(10, "anderebezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
         [InlineData(10, "bezoeker", "anderebezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
         [InlineData(10, "bezoeker", "bezoekersen", "anderebezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
@@ -82,6 +82,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         }
 
         [Theory]
+        [InlineData(0, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+
         [InlineData(10, null, "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
         [InlineData(10, "", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
         [InlineData(10, " ", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]

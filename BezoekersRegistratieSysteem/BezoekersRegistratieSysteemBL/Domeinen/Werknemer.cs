@@ -7,7 +7,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         public uint Id { get; private set; }
         public string Voornaam { get; private set; }
         public string Achternaam { get; private set; }
-        public Dictionary <Bedrijf, WerknemerInfo> werknemerInfo { get; private set; }
+        
+        public Dictionary<Bedrijf, WerknemerInfo> werknemerInfo = new();
 
         /// <summary>
         /// Constructor REST
@@ -46,6 +47,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <exception cref="WerknemerException"></exception>
         public void ZetId(uint id)
         {
+            if (id == 0) throw new WerknemerException("Werknemer - ZetId - Id mag niet 0 zijn.");
             Id = id;
         }
         
@@ -80,6 +82,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <exception cref="WerknemerException"></exception>
         public void VoegBedrijfEnFunctieToeAanWerknemer(Bedrijf bedrijf, string email, string functie) {
             if (bedrijf == null) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - bedrijf mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(email)) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - email mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - functie mag niet leeg zijn");
             if (werknemerInfo.ContainsKey(bedrijf))
             {

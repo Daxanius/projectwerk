@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 
-namespace xUnitBezoekersRegistratiesysteem.Domein
+namespace xUnitBezoekersRegistratiesysteem.Domeinen
 {
     public class UnitTestBedrijf
     {
@@ -281,7 +281,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         }
 
         [Theory]
-        [InlineData(0, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(1, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
         [InlineData(10, "fjirdeb", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
         [InlineData(10, "bedrijf", "BE0724540609", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
         [InlineData(10, "bedrijf", "BE0676747521", "876543210", "bedrijf@email.com", "bedrijfstraat 10")]
@@ -314,10 +314,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
 
         [InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "     bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
         [InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10     ", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-        public async void ctor_Valid(uint idIn, string naamIn, string btwNummerIn, string telefoonNummerIn, string emailIn, string adresIn, uint idUit, string naamUit, string btwNummerUit, string telefoonNummerUit, string emailUit, string adresUit)
+        public void ctor_Valid(uint idIn, string naamIn, string btwNummerIn, string telefoonNummerIn, string emailIn, string adresIn, uint idUit, string naamUit, string btwNummerUit, string telefoonNummerUit, string emailUit, string adresUit)
         {
-            Bedrijf b = new(idIn, naamIn, "BE0676747521", telefoonNummerIn, emailIn, adresIn);
-            await b.ZetBTWControle(btwNummerIn);
+            Bedrijf b = new(idIn, naamIn, btwNummerIn, telefoonNummerIn, emailIn, adresIn);
             Assert.Equal(idUit, b.Id);
             Assert.Equal(naamUit, b.Naam);
             Assert.Equal(btwNummerUit, b.BTW);
@@ -327,6 +326,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         }
 
         [Theory]
+        [InlineData(0, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+
         [InlineData(10, null, "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
         [InlineData(10, "", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
         [InlineData(10, " ", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
@@ -335,14 +336,14 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData(10, "\t", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
         [InlineData(10, "\v", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 
-        //[InlineData(10, "bedrijf", null, "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-        //[InlineData(10, "bedrijf", "", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-        //[InlineData(10, "bedrijf", " ", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-        //[InlineData(10, "bedrijf", "\n", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-        //[InlineData(10, "bedrijf", "\r", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-        //[InlineData(10, "bedrijf", "\t", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-        //[InlineData(10, "bedrijf", "\v", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-        //[InlineData(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(10, "bedrijf", null, "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(10, "bedrijf", "", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(10, "bedrijf", " ", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(10, "bedrijf", "\n", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(10, "bedrijf", "\r", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(10, "bedrijf", "\t", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(10, "bedrijf", "\v", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 
         [InlineData(10, "bedrijf", "BE0676747521", null, "bedrijf@email.com", "bedrijfstraat 10")]
         [InlineData(10, "bedrijf", "BE0676747521", "", "bedrijf@email.com", "bedrijfstraat 10")]
@@ -380,8 +381,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domein
         [InlineData(10, null, null, null, null, null)]
         public async void ctor_Invalid(uint id, string naam, string btwNummer, string telefoonNummer, string email, string adres)
         {
-            //Bedrijf b = new(id, naam, "BE0676747521", telefoonNummer, email, adres);
-            //await b.ZetBTWControle(btwNummer);
             Assert.Throws<BedrijfException>(() => new Bedrijf(id, naam, btwNummer, telefoonNummer, email, adres));
         }
         #endregion
