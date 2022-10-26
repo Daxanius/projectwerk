@@ -1,14 +1,12 @@
 ﻿using BezoekersRegistratieSysteemBL.DTO;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
-namespace BezoekersRegistratieSysteemBL.Domeinen
-{
+namespace BezoekersRegistratieSysteemBL.Domeinen {
 	/// <summary>
 	/// Een klasse die alle essentiele informatie van bedrijven bijhoudt,
 	/// implementeerd IEquatable
 	/// </summary>
-	public class Bedrijf : IEquatable<Bedrijf?>
-	{
+	public class Bedrijf : IEquatable<Bedrijf?> {
 		public uint Id { get; private set; }
 		public string Naam { get; private set; }
 		public string BTW { get; private set; }
@@ -32,11 +30,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="telefoonNummer"></param>
 		/// <param name="email"></param>
 		/// <param name="adres"></param>
-		public Bedrijf(string naam, string btw, string telefoonNummer, string email, string adres)
-		{
+		public Bedrijf(string naam, string btw, string telefoonNummer, string email, string adres) {
 			ZetNaam(naam);
-            ZetBTWControle(btw);
-            ZetTelefoonNummer(telefoonNummer);
+			ZetBTWControle(btw);
+			ZetTelefoonNummer(telefoonNummer);
 			ZetEmail(email);
 			ZetAdres(adres);
 		}
@@ -50,8 +47,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="telefoonNummer"></param>
 		/// <param name="email"></param>
 		/// <param name="adres"></param>
-		public Bedrijf(uint id, string naam, string btw, string telefoonNummer, string email, string adres)
-		{
+		public Bedrijf(uint id, string naam, string btw, string telefoonNummer, string email, string adres) {
 			ZetId(id);
 			ZetNaam(naam);
 			ZetBTWControle(btw);
@@ -64,10 +60,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// Zet id.
 		/// </summary>
 		/// <param name="id"></param>
-		public void ZetId(uint id)
-		{
-            if (id == 0) throw new BedrijfException("Bedrijf - ZetId - Id mag niet 0 zijn.");
-            Id = id;
+		public void ZetId(uint id) {
+			if (id == 0) throw new BedrijfException("Bedrijf - ZetId - Id mag niet 0 zijn.");
+			Id = id;
 		}
 
 		/// <summary>
@@ -75,8 +70,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="naam"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetNaam(string naam)
-		{
+		public void ZetNaam(string naam) {
 			if (string.IsNullOrWhiteSpace(naam))
 				throw new BedrijfException("Bedrijf - Zetnaam - naam mag niet leeg zijn");
 			Naam = naam.Trim();
@@ -87,8 +81,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="btw"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetBTW(string btw)
-		{
+		public void ZetBTW(string btw) {
 			if (string.IsNullOrWhiteSpace(btw)) throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
 			BTW = btw.Trim();
 		}
@@ -99,8 +92,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="btw"></param>
 		/// <returns></returns>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetBTWControle(string btw)
-		{
+		public void ZetBTWControle(string btw) {
 			if (string.IsNullOrWhiteSpace(btw))
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw mag niet leeg zijn");
 			(bool validNummer, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo(btw.Trim());
@@ -118,8 +110,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="telefoonNummer"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetTelefoonNummer(string telefoonNummer)
-		{
+		public void ZetTelefoonNummer(string telefoonNummer) {
 			if (string.IsNullOrWhiteSpace(telefoonNummer))
 				throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet leeg zijn");
 			//Een telefoonnummer kan maximaal 15 cijfers bevatten. Het eerste deel van het telefoonnummer is de landcode (een tot drie cijfers),
@@ -135,8 +126,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="email"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetEmail(string email)
-		{
+		public void ZetEmail(string email) {
 			if (string.IsNullOrWhiteSpace(email))
 				throw new BedrijfException("Bedrijf - ZetEmail - email mag niet leeg zijn");
 			//Checkt of email geldig is
@@ -149,8 +139,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="adres"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetAdres(string adres)
-		{
+		public void ZetAdres(string adres) {
 			if (string.IsNullOrWhiteSpace(adres))
 				throw new BedrijfException("Bedrijf - ZetAdres - adres mag niet leeg zijn");
 			Adres = adres.Trim();
@@ -162,16 +151,14 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="werknemer"></param>
 		/// <param name="functie"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void VoegWerknemerToeInBedrijf(Werknemer werknemer, string email, string functie)
-		{
+		public void VoegWerknemerToeInBedrijf(Werknemer werknemer, string email, string functie) {
 			if (werknemer == null)
 				throw new BedrijfException("Bedrijf - VoegWerknemerToeInBedrijf - werknemer mag niet leeg zijn");
 			if (string.IsNullOrWhiteSpace(functie))
 				throw new BedrijfException("Bedrijf - VoegWerknemerToeInBedrijf - functie mag niet leeg zijn");
 
 			// VoegBedrijfEnFunctieToe voert al de nodige controles uit om het
-			if (!werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(this))
-			{
+			if (!werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(this)) {
 				_werknemers.Add(werknemer);
 			}
 			werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, email, functie);
@@ -182,8 +169,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="werknemer"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void VerwijderWerknemerUitBedrijf(Werknemer werknemer)
-		{
+		public void VerwijderWerknemerUitBedrijf(Werknemer werknemer) {
 			if (werknemer == null)
 				throw new BedrijfException("Bedrijf - VerwijderWerknemerUitBedrijf - werknemer mag niet leeg zijn");
 			if (!_werknemers.Contains(werknemer))
@@ -197,8 +183,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// Geeft een lijst van werknemers terug voor het bedrijf.
 		/// </summary>
 		/// <exception cref="BedrijfException"></exception>
-		public IReadOnlyList<Werknemer> GeefWerknemers()
-		{
+		public IReadOnlyList<Werknemer> GeefWerknemers() {
 			return _werknemers.AsReadOnly();
 		}
 
@@ -206,8 +191,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// Vergelijkt bedrijven op inhoud.
 		/// </summary>
 		/// <exception cref="BedrijfException"></exception>
-		public bool BedrijfIsGelijk(Bedrijf bedrijf)
-		{
+		public bool BedrijfIsGelijk(Bedrijf bedrijf) {
 			if (bedrijf == null)
 				return false;
 			if (Id != bedrijf.Id)
@@ -222,8 +206,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 				return false;
 			if (Adres != bedrijf.Adres)
 				return false;
-			foreach (Werknemer werknemer in _werknemers)
-			{
+			foreach (Werknemer werknemer in _werknemers) {
 				if (!bedrijf._werknemers.Contains(werknemer))
 					return false;
 			}
@@ -234,29 +217,24 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// Equals & Hashset override.
 		/// </summary>
 		/// <exception cref="BedrijfException"></exception>
-		public override bool Equals(object? obj)
-		{
+		public override bool Equals(object? obj) {
 			return Equals(obj as Bedrijf);
 		}
 
-		public bool Equals(Bedrijf? other)
-		{
+		public bool Equals(Bedrijf? other) {
 			return other is not null &&
 				   Id == other.Id;
 		}
 
-		public override int GetHashCode()
-		{
+		public override int GetHashCode() {
 			return HashCode.Combine(Id);
 		}
 
-		public static bool operator ==(Bedrijf? left, Bedrijf? right)
-		{
+		public static bool operator ==(Bedrijf? left, Bedrijf? right) {
 			return EqualityComparer<Bedrijf>.Default.Equals(left, right);
 		}
 
-		public static bool operator !=(Bedrijf? left, Bedrijf? right)
-		{
+		public static bool operator !=(Bedrijf? left, Bedrijf? right) {
 			return !(left == right);
 		}
 	}

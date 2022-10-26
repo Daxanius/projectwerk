@@ -2,10 +2,8 @@
 using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.DTO;
 
-namespace xUnitBezoekersRegistratiesysteem
-{
-    public class UnitTestNutvoorziening
-    {
+namespace xUnitBezoekersRegistratiesysteem {
+	public class UnitTestNutvoorziening {
 		#region VerwijderWhitespace
 
 		[Theory]
@@ -68,38 +66,36 @@ namespace xUnitBezoekersRegistratiesysteem
 
 		#region BTWInfo
 		[Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        [InlineData("\r")]
-        [InlineData("\t")]
-        [InlineData("\v")]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
 		[InlineData("B E")]
 		[InlineData("B  E")]
 		[InlineData("BE06767475219282727191928292920292")]
-		public void GeefBTWInfo_Invalid(string btw)
-        {
-            Assert.Throws<BtwControleException>(() => Nutsvoorziening.GeefBTWInfo(btw));
-        }
+		public void GeefBTWInfo_Invalid(string btw) {
+			Assert.Throws<BtwControleException>(() => Nutsvoorziening.GeefBTWInfo(btw));
+		}
 
 		[Theory]
-        [InlineData("BE0676747521")]
-        [InlineData("BE0676747521    ")]
-        [InlineData("   BE0676747521")]
-        [InlineData("\tBE0676747521")]
-        [InlineData("BE0676747521\t")]
-        [InlineData("\tBE0676747521\t")]
-        [InlineData("   BE0676747521    ")]
+		[InlineData("BE0676747521")]
+		[InlineData("BE0676747521    ")]
+		[InlineData("   BE0676747521")]
+		[InlineData("\tBE0676747521")]
+		[InlineData("BE0676747521\t")]
+		[InlineData("\tBE0676747521\t")]
+		[InlineData("   BE0676747521    ")]
 		[InlineData("BE    0676747521")]
-		public void GeefBTWInfo_Valid(string btw)
-        {
-            (bool valid, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo(btw);
+		public void GeefBTWInfo_Valid(string btw) {
+			(bool valid, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo(btw);
 
-            Assert.True(valid);
+			Assert.True(valid);
 
-            // ALs dit faalt, dan gaan we ervan uit dat de BTW service plat ligt
-            Assert.NotNull(info);
-        }
+			// ALs dit faalt, dan gaan we ervan uit dat de BTW service plat ligt
+			Assert.NotNull(info);
+		}
 
 		[Fact]
 		public void GeefBTWInfo_NotExist() {
