@@ -139,6 +139,7 @@
     </Style>
     <Style x:Key="TerugBorderStyle" TargetType="Border">
         <Setter Property="Width" Value="115" />
+        <Setter Property="Height" Value="80" />
         <Setter Property="Padding" Value="0,0,0,2" />
         <Setter Property="Background" Value="LightCoral" />
         <Setter Property="CornerRadius" Value="15" />

@@ -28,7 +28,7 @@ namespace BezoekersRegistratieSysteem.UI.Controlls
 	public partial class AfmeldControl : UserControl, INotifyPropertyChanged
 	{
 
-		private string _email;
+		private string _email = "";
 		public string Email {
 			get {
 				return _email;
@@ -59,9 +59,9 @@ namespace BezoekersRegistratieSysteem.UI.Controlls
 		//Klik op Ga verder knop
 		private void GaVerderButtonClickEvent(object sender, RoutedEventArgs e)
 		{
-			Email = Email.Trim();
 			try
 			{
+				Email = Email.Trim();
 				new MailAddress(Email);
 			} catch (Exception)
 			{

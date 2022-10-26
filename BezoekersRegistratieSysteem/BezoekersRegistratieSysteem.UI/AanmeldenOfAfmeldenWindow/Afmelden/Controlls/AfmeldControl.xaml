@@ -16,17 +16,6 @@
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel HorizontalAlignment="Right">
-                <Border Style="{StaticResource TerugBorderStyle}">
-                    <Label
-                        HorizontalContentAlignment="Center"
-                        Content="Ga terug"
-                        FontSize="21"
-                        FontWeight="Medium"
-                        Foreground="WhiteSmoke"
-                        MouseLeftButtonDown="GaTerug" />
-                </Border>
-            </StackPanel>
             <StackPanel
                 Grid.Row="1"
                 Margin="25,0,0,25"
@@ -34,7 +23,25 @@
                 <Label Content="Email" Style="{StaticResource LabelTextBoxStyle}" />
                 <TextBox Style="{StaticResource DefaultTextBoxStyle}" Text="{Binding Email}" />
             </StackPanel>
-            <StackPanel Grid.Row="3" Margin="0,25,0,0">
+            <StackPanel
+                Grid.Row="3"
+                Margin="0,25,0,0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Border
+                    Margin="0,0,65,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TerugBorderStyle}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="55"
+                        FontWeight="Medium"
+                        Foreground="WhiteSmoke"
+                        MouseLeftButtonDown="GaTerug"
+                        Text="🡸"
+                        TextAlignment="Center" />
+                </Border>
                 <Button
                     x:Name="gaVerderKnop"
                     Click="GaVerderButtonClickEvent"
@@ -89,7 +96,7 @@
                             Margin="50,25,0,0"
                             Background="Orange"
                             Click="WijzigPopup"
-                            Content="Wijzig bedrijf"
+                            Content="Wijzig E-mail"
                             Style="{StaticResource WijzigButtonStyle}" />
                     </StackPanel>
                 </StackPanel>

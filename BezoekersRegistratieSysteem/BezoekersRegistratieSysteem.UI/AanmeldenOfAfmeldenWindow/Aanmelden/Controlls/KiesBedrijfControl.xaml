@@ -11,17 +11,6 @@
         Name="kiesBedrijfControl"
         Margin="150,0,150,0"
         VerticalAlignment="Center">
-        <StackPanel HorizontalAlignment="Right">
-            <Border Style="{StaticResource TerugBorderStyle}">
-                <Label
-                    HorizontalContentAlignment="Center"
-                    Content="Ga terug"
-                    FontSize="21"
-                    FontWeight="Medium"
-                    Foreground="WhiteSmoke"
-                    MouseLeftButtonDown="GaTerug" />
-            </Border>
-        </StackPanel>
         <TextBlock
             Padding="0,0,0,150"
             HorizontalAlignment="Center"
@@ -73,6 +62,20 @@
                 <ListViewItem Padding="100,0,100,0">Midel</ListViewItem>
                 <ListViewItem Padding="100,0,100,0">Innojam</ListViewItem>
             </ListView>
+            <Border
+                Margin="0,200,65,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource TerugBorderStyle}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="55"
+                    FontWeight="Medium"
+                    Foreground="WhiteSmoke"
+                    MouseLeftButtonDown="GaTerug"
+                    Text="🡸"
+                    TextAlignment="Center" />
+            </Border>
         </StackPanel>
         <Popup
             x:Name="popup"
@@ -103,7 +106,7 @@
                         Margin="50,25,0,0"
                         Background="Orange"
                         Click="WijzigPopup"
-                        Content="Wijzig bedrijf"
+                        Content="Terug"
                         Style="{StaticResource WijzigButtonStyle}" />
                 </StackPanel>
             </StackPanel>

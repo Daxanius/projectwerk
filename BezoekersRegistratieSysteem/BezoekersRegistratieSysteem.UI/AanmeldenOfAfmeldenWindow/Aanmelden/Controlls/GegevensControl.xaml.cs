@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteem.UI.Aanmelden.DTO;
+using BezoekersRegistratieSysteem.UI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -94,8 +95,8 @@ namespace BezoekersRegistratieSysteem.UI.Controlls
 			}
 		}
 
-		private List<string> _werkNemersLijst = new() { "Weude", "Balding", "Balder", "Weude", "Balding", "Balder", "Weude", "Balding", "Balder", "Weude", "Balding", "Balder", "Weude", "Balding", "Balder", "Weude", "Balding", "Balder", "Weude", "Balding", "Balder", "Weude", "Balding", "Balder", "Weude", "Balding", "Balder", "Weude", "Balding", "Balder", "Weude", "Balding", "Balder" };
-		public List<string> WerknemersLijst {
+		private List<WerknemerMetFunctieDTO> _werkNemersLijst = new() { new("Weude", "CEO"), new("Bjorn", "CEO2"), new("Balder", "CEO3") };
+		public List<WerknemerMetFunctieDTO> WerknemersLijst {
 			get {
 				return _werkNemersLijst;
 			}
