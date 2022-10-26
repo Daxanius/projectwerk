@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemBL;
 using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.DTO;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,12 @@ namespace xUnitBezoekersRegistratiesysteem
 		[InlineData("BE    0676747521")]
 		public void GeefBTWInfo_Valid(string btw)
         {
-            Nutsvoorziening.GeefBTWInfo(btw);
+            (bool valid, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo(btw);
+            Assert.True(valid);
+
+            // ALs dit faalt, dan gaan we ervan uit dat de BTW service plat ligt
+            // of dat dit bedrijf niet meer bestaat...
+            Assert.NotNull(info);
         }
     }
 }
