@@ -103,9 +103,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (string.IsNullOrWhiteSpace(btw))
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw mag niet leeg zijn");
-			(bool validNummer, BtwInfoDTO? info) = Nutsvoorziening.ControleerBTWNummer(btw.Trim());
+			(bool validNummer, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo(btw.Trim());
 			if (!validNummer)
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw is niet geldig");
+			if (info is null)
+				// TODO: zorg ervoor dat wij een platte BTW service kunnen afhandelen
+				throw new BedrijfException("Bedrijf - ZetBTWControle - BTWInfo is null (ligt de service plat?)");
 			BtwIsGeldig = true;
 			ZetBTW(info.LandCode + info.BtwNumber);
 		}
