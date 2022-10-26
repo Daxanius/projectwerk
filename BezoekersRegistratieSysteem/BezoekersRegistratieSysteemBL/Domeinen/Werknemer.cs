@@ -8,7 +8,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         public string Voornaam { get; private set; }
         public string Achternaam { get; private set; }
         
-        public Dictionary<Bedrijf, WerknemerInfo> werknemerInfo = new();
+        private Dictionary<Bedrijf, WerknemerInfo> werknemerInfo = new();
 
         /// <summary>
         /// Constructor REST
@@ -86,9 +86,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - functie mag niet leeg zijn");
             if (werknemerInfo.ContainsKey(bedrijf))
             {
-                if (!werknemerInfo[bedrijf].Functies.Contains(functie))
+                if (!werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie))
                 {
-                    werknemerInfo[bedrijf].Functies.Add(functie);
+                    werknemerInfo[bedrijf].VoegWerknemerFunctieToe(functie);
                 }
                 else throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - werknemer is in dit bedrijf al werkzaam onder deze functie");
             }
@@ -101,7 +101,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
                 else
                 {
                     werknemerInfo.Add(bedrijf, new WerknemerInfo(bedrijf, email));
-                    werknemerInfo[bedrijf].Functies.Add(functie);
+                    werknemerInfo[bedrijf].VoegWerknemerFunctieToe(functie);
                 }
             }
         }
@@ -133,10 +133,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             if (string.IsNullOrWhiteSpace(oudeFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - oude functie mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(nieuweFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - nieuw functie mag niet leeg zijn");
             if (!werknemerInfo.ContainsKey(bedrijf)) throw new WerknemerException("Werknemer - WijzigFunctie - bedrijf bevat deze werknemer niet");
-            if (!werknemerInfo[bedrijf].Functies.Contains(oudeFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
-            if (werknemerInfo[bedrijf].Functies.Contains(nieuweFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie");
-            werknemerInfo[bedrijf].Functies.Remove(oudeFunctie);
-            werknemerInfo[bedrijf].Functies.Add(nieuweFunctie);
+            if (!werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(oudeFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
+            if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(nieuweFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie");
+            werknemerInfo[bedrijf].WijzigWerknemerFunctie(oudeFunctie, nieuweFunctie);
         }
 
         /// <summary>
@@ -150,10 +149,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             if (bedrijf == null) throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Werknemer - VerwijderFunctie - functie mag niet leeg zijn");
             if (!werknemerInfo.ContainsKey(bedrijf)) throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf bevat deze werknemer niet");
-            if (werknemerInfo[bedrijf].Functies.Count() == 1) throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf werkzaam onder deze functie en kan niet verwijderd worden");
-            if (werknemerInfo[bedrijf].Functies.Contains(functie))
+            if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Count() == 1) throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf werkzaam onder deze functie en kan niet verwijderd worden");
+            if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie))
             {
-                werknemerInfo[bedrijf].Functies.Remove(functie);
+                werknemerInfo[bedrijf].VerwijderWerknemerFunctie(functie);
             }
             else throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
         }
@@ -193,10 +192,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             foreach (Bedrijf bedrijf in werknemerInfo.Keys)
             {
                 if (!werknemer.werknemerInfo.ContainsKey(bedrijf)) return false;
-                if (werknemerInfo[bedrijf].Functies.Count() != werknemer.werknemerInfo[bedrijf].Functies.Count()) return false;
-                foreach (string functie in werknemerInfo[bedrijf].Functies)
+                if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Count() != werknemer.werknemerInfo[bedrijf].GeefWerknemerFuncties().Count()) return false;
+                foreach (string functie in werknemerInfo[bedrijf].GeefWerknemerFuncties())
                 {
-                    if (!werknemer.werknemerInfo[bedrijf].Functies.Contains(functie)) return false;
+                    if (!werknemer.werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie)) return false;
                 }
             }
             return true;

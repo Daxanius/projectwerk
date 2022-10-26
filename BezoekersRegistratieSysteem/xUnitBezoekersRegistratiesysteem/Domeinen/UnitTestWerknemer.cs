@@ -94,7 +94,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
                 {
                     Assert.Equal(_b1, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Collection(expected.Value.Functies,
+                    Assert.Collection(expected.Value.GeefWerknemerFuncties(),
                         item => Assert.Equal(_nf, item));
                 });
 
@@ -106,7 +106,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
                 {
                     Assert.Equal(_b1, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Collection(expected.Value.Functies,
+                    Assert.Collection(expected.Value.GeefWerknemerFuncties(),
                         item => Assert.Equal(_nf, item),
                         item => Assert.Equal(_of, item));
                 });
@@ -166,7 +166,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
                 {
                     Assert.Equal(_b2, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Collection(expected.Value.Functies,
+                    Assert.Collection(expected.Value.GeefWerknemerFuncties(),
                         item => Assert.Equal(_nf, item));
                 });
         }
@@ -193,7 +193,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
                 {
                     Assert.Equal(_b1, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Collection(expected.Value.Functies,
+                    Assert.Collection(expected.Value.GeefWerknemerFuncties(),
                         item => Assert.Equal(_nf, item));
                 });
         }
@@ -243,7 +243,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
                 {
                     Assert.Equal(_b1, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Collection(expected.Value.Functies,
+                    Assert.Collection(expected.Value.GeefWerknemerFuncties(),
                         item => Assert.Equal(_nf, item));
                 });
         }
@@ -279,7 +279,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
                 {
                     Assert.Equal(_b1, expected.Key);
                     Assert.Equal(_e, expected.Value.Email);
-                    Assert.Collection(expected.Value.Functies,
+                    Assert.Collection(expected.Value.GeefWerknemerFuncties(),
                         functie => Assert.Equal(_nf, functie));
                 });
 
@@ -290,7 +290,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
                 expected =>
                 {
                     Assert.Equal(_b1, expected.Key);
-                    Assert.Collection(expected.Value.Functies,
+                    Assert.Collection(expected.Value.GeefWerknemerFuncties(),
                         functie => Assert.Equal(_nf, functie),
                         functie => Assert.Equal(_of, functie));
                 });
