@@ -189,12 +189,12 @@ namespace BezoekersRegistratieSysteemDL {
         private Bedrijf GeefBedrijf(uint? _bedrijfId, string? _bedrijfnaam) {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
-                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wn.Email as WerknemerMail, " +
+                           "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
                            "JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId) " +
-                           "JOIN Werknemer wn ON(wn.id = wb.WerknemerBedrijf) " +
-                           "JOIN Functie f ON(wn.FunctieId = f.Id) " +
+                           "JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
+                           "JOIN Functie f ON(wb.FunctieId = f.Id) " +
                            "WHERE wb.status = 1";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
@@ -224,9 +224,9 @@ namespace BezoekersRegistratieSysteemDL {
                         uint werknemerId = (uint)reader["WerknemerId"];
                         string werknemerVNaam = (string)reader["WerknemerVNaam"];
                         string werknemerAnaam = (string)reader["WerknemerAnaam"];
-                        string werknemerMail = (string)reader["WerknemerMail"];
+                        string werknemerMail = (string)reader["WerknemerEMail"];
                         string functieNaam = (string)reader["FunctieNaam"];
-                        bedrijf.VoegWerknemerToeInBedrijf(new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam, werknemerMail), functieNaam);
+                        bedrijf.VoegWerknemerToeInBedrijf(new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam), werknemerMail, functieNaam);
                     }
                     return bedrijf;
                 }
@@ -251,10 +251,9 @@ namespace BezoekersRegistratieSysteemDL {
                            "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
-                           "JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) " +
-                           "JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
-                           "JOIN Functie f ON(wb.FunctieId = f.Id) " +
-                           "WHERE wb.status = 1 " +
+                           "LEFT JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) AND wb.Status=1 " +
+                           "LEFT JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
+                           "LEFT JOIN Functie f ON(wb.FunctieId = f.Id) " +
                            "ORDER BY b.Id";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
@@ -275,15 +274,16 @@ namespace BezoekersRegistratieSysteemDL {
                             bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
                             bedrijven.Add(bedrijf);
                         }
-                        if (werknemer is null || werknemer.Id != (uint)reader["WerknemerId"]) {
-
-                            uint werknemerId = (uint)reader["WerknemerId"];
-                            string werknemerVNaam = (string)reader["WerknemerVNaam"];
-                            string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                        if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
+                            if (werknemer is null || werknemer.Id != (uint)reader["WerknemerId"]) {
+                                uint werknemerId = (uint)reader["WerknemerId"];
+                                string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                                string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                            }
                             string werknemerMail = (string)reader["WerknemerEMail"];
-                        }
-                        string functieNaam = (string)reader["FunctieNaam"];
-                        bedrijf.VoegWerknemerToeInBedrijf(werknemer, functieNaam);
+                            string functieNaam = (string)reader["FunctieNaam"];
+                            bedrijf.VoegWerknemerToeInBedrijf(werknemer, werknemerMail, functieNaam);
+                        }                        
                     }
                     return bedrijven;
                 }

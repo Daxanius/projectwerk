@@ -35,8 +35,8 @@ INSERT INTO Werknemer
 
 INSERT INTO Bedrijf
 	(Naam, BTWNr, TeleNr, Email, Adres)
-	VALUES('Alternate','0893031290', '03 871 11 11', 'info@alternate.be', 'Oeyvaersbosch 16-18 , 2630 Aartselaar'),
-		  ('Bol.com bv', '0824148721', '032 027 885 999', 'info@bol.be', 'Papendorpseweg 100 , 3528BJ Utrecht')
+	VALUES('Alternate','0893031290', '03 871 11 11', 'info@alternate.be', 'Oeyvaersbosch 16-18 , 2630 Aartselaar, Belgie'),
+		  ('Bol.com bv', '0824148721', '032 027 885 999', 'info@bol.be', 'Papendorpseweg 100 , 3528BJ Utrecht, Belgie')
 
 
 INSERT INTO WerknemerBedrijf
