@@ -116,8 +116,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("BE123456789")] //nep BTWnummer
         public void ZetBTWControle_Invalid(string btw)
         {
-            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            Assert.Throws<BedrijfException>(() => b.ZetBTWControle(btw));
+            Assert.Throws<BedrijfException>(() => new Bedrijf(10, "bedrijf", btw, "012345678", "bedrijf@email.com", "bedrijfstraat 10"));
         }
         #endregion
 
@@ -218,10 +217,10 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         {
             Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             b.VoegWerknemerToeInBedrijf(_w, _e, _f1);
-            Assert.Equal(1, b.GeefWerknemers().Count);
+            Assert.Contains(_w, b.GeefWerknemers());
             //Check: Meerdere functies per werknemer bij 1 bedrijf
             b.VoegWerknemerToeInBedrijf(_w, _e, _f2);
-            Assert.Equal(1, b.GeefWerknemers().Count);
+            Assert.Contains(_w, b.GeefWerknemers());
         }
 
         [Theory]
@@ -269,7 +268,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
             Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             b.VoegWerknemerToeInBedrijf(_w, _e, _f1);
             b.VerwijderWerknemerUitBedrijf(_w);
-            Assert.Equal(0, b.GeefWerknemers().Count);
+            Assert.DoesNotContain(_w, b.GeefWerknemers());
         }
 
         [Fact]
@@ -288,7 +287,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         {
             Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             b.VoegWerknemerToeInBedrijf(_w, _e,_f1);
-            Assert.Contains(_w, b.GeefWerknemers());
+            Assert.Equal(_w, b.GeefWerknemers()[0]);
         }
         #endregion
 

@@ -12,7 +12,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         public Bedrijf Bedrijf { get; private set; }
         public string Email { get; private set; }
         
-        public List<string> Functies = new();
+        private List<string> Functies = new();
 
         public WerknemerInfo() {}
 
@@ -45,6 +45,36 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
             //Checkt of email geldig is
             if (Nutsvoorziening.IsEmailGeldig(email.Trim())) Email = email.Trim();
             else throw new WerknemerInfoException("WerknemerInfo - ZetEmail - email is niet geldig");
+        }
+
+        public IReadOnlyList<string> GeefWerknemerFuncties()
+        {
+            return Functies.AsReadOnly();
+        }
+
+        public void VoegWerknemerFunctieToe(string functie)
+        {
+            if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerInfoException("WerknemerInfo - VoegWerknemerFunctieToe - functie mag niet leeg zijn");
+            if (Functies.Contains(functie)) throw new WerknemerInfoException("WerknemerInfo - VoegWerknemerFunctieToe - werknemer heeft deze functie al");
+            Functies.Add(functie);
+        }
+
+        public void WijzigWerknemerFunctie(string oudefunctie, string nieuwefunctie)
+        {
+            if (string.IsNullOrWhiteSpace(oudefunctie)) throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - functie mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(nieuwefunctie)) throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - functie mag niet leeg zijn");
+            if (!Functies.Contains(oudefunctie)) throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - werknemer heeft deze functie niet");
+            if (Functies.Contains(nieuwefunctie)) throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - werknemer heeft deze functie al");
+            Functies.Remove(oudefunctie);
+            Functies.Add(nieuwefunctie);
+        }
+
+        public void VerwijderWerknemerFunctie(string functie)
+        {
+            if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - functie mag niet leeg zijn");
+            if (!Functies.Contains(functie)) throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - werknemer heeft deze functie niet");
+            if (Functies.Count == 1) throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben");
+            Functies.Remove(functie);
         }
 
         public bool WerknemerInfoIsGelijk(WerknemerInfo werknemerinfo)
