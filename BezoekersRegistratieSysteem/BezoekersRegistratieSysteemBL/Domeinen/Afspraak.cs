@@ -51,6 +51,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// </summary>
         /// <param name="id"></param>
         public void ZetId(uint id) {
+            if (id == 0) throw new AfspraakException("Afspraak - ZetId - Id mag niet 0 zijn.");
             Id = id;
         }
 
@@ -61,6 +62,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <exception cref="AfspraakException"></exception>
         public void ZetStarttijd(DateTime starttijd) {
             if (Eindtijd is not null) throw new AfspraakException("Afspraak - ZetStarttijd - Afspraak is al afgelopen");
+            if (starttijd.Date == new DateTime()) throw new AfspraakException("Afspraak - ZetStarttijd - Starttijd is niet ingevuld");
             Starttijd = starttijd;
         }
 
