@@ -1,6 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.DTO;
-using BezoekersRegistratieSysteemBL.Exceptions;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;

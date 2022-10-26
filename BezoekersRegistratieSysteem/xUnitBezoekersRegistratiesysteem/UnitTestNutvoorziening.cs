@@ -15,7 +15,8 @@ namespace xUnitBezoekersRegistratiesysteem
 {
     public class UnitTestNutvoorziening
     {
-        [Theory]
+		#region BTWInfo
+		[Theory]
         [InlineData("")]
         [InlineData(" ")]
         [InlineData("\n")]
@@ -30,7 +31,7 @@ namespace xUnitBezoekersRegistratiesysteem
             Assert.Throws<BtwControleException>(() => Nutsvoorziening.GeefBTWInfo(btw));
         }
 
-        [Theory]
+		[Theory]
         [InlineData("BE0676747521")]
         [InlineData("BE0676747521    ")]
         [InlineData("   BE0676747521")]
@@ -42,11 +43,21 @@ namespace xUnitBezoekersRegistratiesysteem
 		public void GeefBTWInfo_Valid(string btw)
         {
             (bool valid, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo(btw);
+
             Assert.True(valid);
 
             // ALs dit faalt, dan gaan we ervan uit dat de BTW service plat ligt
-            // of dat dit bedrijf niet meer bestaat...
             Assert.NotNull(info);
         }
-    }
+
+		[Fact]
+		public void GeefBTWInfo_NotExist() {
+			// Tijdens het opmaken van deze test, bestaat dit bedrijf nog niet
+			(bool valid, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo("BE1234567891");
+
+			Assert.False(valid);
+			Assert.Null(info);
+		}
+		#endregion
+	}
 }
