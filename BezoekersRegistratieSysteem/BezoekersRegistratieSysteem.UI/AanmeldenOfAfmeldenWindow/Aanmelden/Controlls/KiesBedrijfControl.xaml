@@ -1,0 +1,115 @@
+﻿<UserControl
+    x:Class="BezoekersRegistratieSysteem.UI.Controlls.KiesBedrijfControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="5870.344"
+    mc:Ignorable="d">
+    <StackPanel
+        Name="kiesBedrijfControl"
+        Margin="150,0,150,0"
+        VerticalAlignment="Center">
+        <TextBlock
+            Padding="0,0,0,150"
+            HorizontalAlignment="Center"
+            FontSize="65"
+            FontWeight="Bold"
+            Foreground="WhiteSmoke"
+            Text="Kies een bedrijf waar je een afspraak hebt."
+            TextDecorations="Underline" />
+        <StackPanel>
+            <ListView
+                Name="bedrijfLijst"
+                Padding="25"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                FontSize="75"
+                FontWeight="Bold"
+                Foreground="White"
+                ScrollViewer.CanContentScroll="False"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                SelectionMode="Single">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="SelecteerBedrijfHandler" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListViewItem
+                    Padding="380,0,100,0"
+                    IsEnabled="False"
+                    IsHitTestVisible="False"
+                    Style="{StaticResource GeenHoverEffect}" />
+                <ListViewItem Padding="100,0,100,0">Bubblemix</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Pixoboo</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Kimia</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Topiczoom</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Aivee</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Skinder</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Pixonyx</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Gigazoom</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Minyx</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Centizu</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Midel</ListViewItem>
+                <ListViewItem Padding="100,0,100,0">Innojam</ListViewItem>
+            </ListView>
+            <Border
+                Margin="0,200,65,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource TerugBorderStyle}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="55"
+                    FontWeight="Medium"
+                    Foreground="WhiteSmoke"
+                    MouseLeftButtonDown="GaTerug"
+                    Text="🡸"
+                    TextAlignment="Center" />
+            </Border>
+        </StackPanel>
+        <Popup
+            x:Name="popup"
+            Panel.ZIndex="1"
+            AllowsTransparency="True"
+            IsOpen="False"
+            Placement="Center"
+            PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+            PopupAnimation="Slide"
+            StaysOpen="True">
+            <StackPanel>
+                <Border Background="{StaticResource ButtonGroen}" CornerRadius="25">
+                    <TextBlock
+                        Padding="50"
+                        FontSize="65"
+                        FontWeight="Bold"
+                        Foreground="WhiteSmoke"
+                        Text="Bent u het zeker?"
+                        TextAlignment="Center" />
+                </Border>
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Margin="0,25,25,0"
+                        Click="ConformeerPopup"
+                        Content="Ja"
+                        Style="{StaticResource ConformButtonStyle}" />
+                    <Button
+                        Margin="50,25,0,0"
+                        Background="Orange"
+                        Click="WijzigPopup"
+                        Content="Terug"
+                        Style="{StaticResource WijzigButtonStyle}" />
+                </StackPanel>
+            </StackPanel>
+        </Popup>
+    </StackPanel>
+</UserControl>
