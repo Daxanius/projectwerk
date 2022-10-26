@@ -110,7 +110,7 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Geeft werknemer object op basis van werknemer id
+        /// Geeft werknemer object op basis van werknemer id, geeft ENKEL jobs waar hem actief is
         /// </summary>
         /// <param name="_werknemerId">Id van gewenste werknemer</param>
         /// <returns>Werknemer object</returns>
@@ -121,9 +121,9 @@ namespace BezoekersRegistratieSysteemDL {
                            "b.id as BedrijfId, b.naam as BedrijfNaam, b.btwnr as bedrijfBTW, b.telenr as bedrijfTele, b.email as BedrijfMail, b.adres as BedrijfAdres, " +
                            "f.functienaam " +
                            "FROM Werknemer wn " +
-                           "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) " +
-                           "JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
-                           "JOIN functie f ON(f.id = wb.functieid) " +
+                           "LEFT JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) AND wb.Status = 1 " +
+                           "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+                           "LEFT JOIN functie f ON(f.id = wb.functieid) " +
                            "WHERE wn.id = @werknemerId";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
@@ -140,18 +140,20 @@ namespace BezoekersRegistratieSysteemDL {
                             string werknemerAnaam = (string)reader["WerknemerAnaam"];
                             werknemer = new Werknemer(_werknemerId, werknemerVnaam, werknemerAnaam);
                         }
-                        if (bedrijf is null || bedrijf.Id != (uint)reader["BedrijfId"]) {
-                            uint bedrijfId = (uint)reader["BedrijfId"];
-                            string bedrijfNaam = (string)reader["BedrijfNaam"];
-                            string bedrijfBTW = (string)reader["bedrijfBTW"];
-                            string bedrijfTele = (string)reader["bedrijfTele"];
-                            string bedrijfMail = (string)reader["BedrijfMail"];
-                            string bedrijfAdres = (string)reader["BedrijfAdres"];
-                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTele, bedrijfMail, bedrijfAdres);
-                        }
-                        string werknemerMail = (string)reader["WerknemerEmail"];
-                        string functieNaam = (string)reader["functienaam"];
-                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                        if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail"))) {
+                            if (bedrijf is null || bedrijf.Id != (uint)reader["BedrijfId"]) {
+                                uint bedrijfId = (uint)reader["BedrijfId"];
+                                string bedrijfNaam = (string)reader["BedrijfNaam"];
+                                string bedrijfBTW = (string)reader["bedrijfBTW"];
+                                string bedrijfTele = (string)reader["bedrijfTele"];
+                                string bedrijfMail = (string)reader["BedrijfMail"];
+                                string bedrijfAdres = (string)reader["BedrijfAdres"];
+                                bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTele, bedrijfMail, bedrijfAdres);
+                            }
+                            string werknemerMail = (string)reader["WerknemerEmail"];
+                            string functieNaam = (string)reader["functienaam"];
+                            werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                        }                       
                     }
                     return werknemer;
                 }
@@ -165,7 +167,7 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Geeft lijst van werknemers op basis van voor- en/of achternaam
+        /// Geeft lijst van werknemers op basis van voor- en/of achternaam, geeft ENKEL jobs waar hem actief is
         /// </summary>
         /// <param name="voornaam">voornaam van gewenste medewerker</param>
         /// <param name="achternaam">achternaam van gewenste medewerker</param>
@@ -177,9 +179,9 @@ namespace BezoekersRegistratieSysteemDL {
                            "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
                            "f.Functienaam " +
                            "FROM Werknemer wn " +
-                           "JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) " +
-                           "JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
-                           "JOIN Functie f ON(f.id = wb.FunctieId) " +
+                           "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) AND wb.Status = 1 " +
+                           "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+                           "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
                            "WHERE wn.ANaam LIKE @ANaam " +
                            "AND wn.VNaam LIKE @VNaam " +
                            "ORDER BY wn.id, b.id";
@@ -203,18 +205,20 @@ namespace BezoekersRegistratieSysteemDL {
                                 string werknemerAnaam = (string)reader["WerknemerAnaam"];                              
                                 werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
                             }
-                            if (bedrijf is null || bedrijf.Id != (uint)reader["BedrijfId"]) {
-                                uint bedrijfId = (uint)reader["BedrijfId"];
-                                string bedrijfNaam = (string)reader["BedrijfNaam"];
-                                string bedrijfBTW = (string)reader["BedrijfBTW"];
-                                string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
-                                string bedrijfMail = (string)reader["BedrijfMail"];
-                                string bedrijfAdres = (string)reader["BedrijfAdres"];
-                                bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail"))) {
+                                if (bedrijf is null || bedrijf.Id != (uint)reader["BedrijfId"]) {
+                                    uint bedrijfId = (uint)reader["BedrijfId"];
+                                    string bedrijfNaam = (string)reader["BedrijfNaam"];
+                                    string bedrijfBTW = (string)reader["bedrijfBTW"];
+                                    string bedrijfTele = (string)reader["bedrijfTele"];
+                                    string bedrijfMail = (string)reader["BedrijfMail"];
+                                    string bedrijfAdres = (string)reader["BedrijfAdres"];
+                                    bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTele, bedrijfMail, bedrijfAdres);
+                                }
+                                string werknemerMail = (string)reader["WerknemerEmail"];
+                                string functieNaam = (string)reader["functienaam"];
+                                werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
                             }
-                            string werknemerMail = (string)reader["WerknemerEmail"];
-                            string functieNaam = (string)reader["FunctieNaam"];
-                            werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
                         }
                     }
                     return werknemers;
@@ -230,7 +234,7 @@ namespace BezoekersRegistratieSysteemDL {
         }
 
         /// <summary>
-        /// Geeft lijst van werknemers op basis van bedrijf id
+        /// Geeft lijst van werknemers op basis van bedrijf id, geeft ENKEL jobs waar hem actief is
         /// </summary>
         /// <param name="_bedrijfId">Id van bedrijf</param>
         /// <returns>Lijst Werknemer objecten</returns>
@@ -241,9 +245,9 @@ namespace BezoekersRegistratieSysteemDL {
                            "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
                            "f.Functienaam " +
                            "FROM Werknemer wn " +
-                           "JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) " +
-                           "JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
-                           "JOIN Functie f ON(f.id = wb.FunctieId) " +
+                           "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) AND wb.Status = 1 " +
+                           "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+                           "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
                            "WHERE b.id = @bedrijfId " +
                            "ORDER BY wn.id, b.id";
             try {
@@ -438,7 +442,7 @@ namespace BezoekersRegistratieSysteemDL {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
-                        foreach (var functieNaam in kvpBedrijf.Value.Functies) { //TODO: Moet vervangen worden door GeefFuncties()
+                        foreach (var functieNaam in kvpBedrijf.Value.GeefWerknemerFuncties()) {
                             string queryDoesJobExist = "SELECT COUNT(*) " +
                                                        "FROM WerknemerBedrijf " +
                                                        "WHERE WerknemerId = @werknemerId " +
@@ -516,9 +520,9 @@ namespace BezoekersRegistratieSysteemDL {
                     trans.Commit();
                 }
             } catch (Exception ex) {
+                trans.Rollback();
                 WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: WijzigWerknemer {ex.Message}", ex);
                 exx.Data.Add("werknemer", werknemer);
-                trans.Rollback();
                 throw exx;
             } finally {
                 con.Close();

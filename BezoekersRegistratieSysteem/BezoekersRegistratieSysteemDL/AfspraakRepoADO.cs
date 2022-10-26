@@ -193,7 +193,7 @@ namespace BezoekersRegistratieSysteemDL {
                     //FUNCTIE GETBEDRIJF
                     //TODO: GWILOM prob gets replaced by werknemerInfo
                     var bedrijf = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Keys.First();
-                    var functie = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values.First().Functies.First();
+                    var functie = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values.First().GeefWerknemerFuncties().First();
                     cmdUpdate.Parameters["@bedrijfId"].Value = bedrijf.Id;
                     cmdUpdate.Parameters["@functienaam"].Value = functie;
                     cmdUpdate.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
@@ -614,7 +614,7 @@ namespace BezoekersRegistratieSysteemDL {
                         cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
                         cmd.Parameters["@id"].Value = afspraak.Id;
                     } else {
-                        //Maybe check with statusID rather than eindTijd
+                        //TODO: Maybe check with statusID rather than eindTijd
                         query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
                                  "WHERE bz.Email = @bmail AND a.eindTijd is null";
                         cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));

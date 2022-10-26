@@ -192,19 +192,19 @@ namespace BezoekersRegistratieSysteemDL {
                            "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
-                           "JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId) " +
-                           "JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
-                           "JOIN Functie f ON(wb.FunctieId = f.Id) " +
-                           "WHERE wb.status = 1";
+                           "LEFT JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId) AND wb.Status = 1 " +
+                           "LEFT JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
+                           "LEFT JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "WHERE 1=1";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     if (_bedrijfId.HasValue) {
-                        query += " b.Id = @id";
+                        query += " AND b.Id = @id";
                         cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
                         cmd.Parameters["@id"].Value = _bedrijfId;
                     } else {                      
-                        query += " b.Naam = @Naam";
+                        query += " AND b.Naam = @Naam";
                         cmd.Parameters.Add(new SqlParameter("@Naam", SqlDbType.VarChar));
                         cmd.Parameters["@Naam"].Value = _bedrijfnaam;
                     }
@@ -221,12 +221,14 @@ namespace BezoekersRegistratieSysteemDL {
                             string bedrijfAdres = (string)reader["BedrijfAdres"];
                             bedrijf = new Bedrijf(bedrijfId,bedrijfNaam,bedrijfBTW,bedrijfTeleNr,bedrijfMail,bedrijfAdres);
                         }
-                        uint werknemerId = (uint)reader["WerknemerId"];
-                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
-                        string werknemerAnaam = (string)reader["WerknemerAnaam"];
-                        string werknemerMail = (string)reader["WerknemerEMail"];
-                        string functieNaam = (string)reader["FunctieNaam"];
-                        bedrijf.VoegWerknemerToeInBedrijf(new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam), werknemerMail, functieNaam);
+                        if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
+                            uint werknemerId = (uint)reader["WerknemerId"];
+                            string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                            string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                            string werknemerMail = (string)reader["WerknemerEMail"];
+                            string functieNaam = (string)reader["FunctieNaam"];
+                            bedrijf.VoegWerknemerToeInBedrijf(new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam), werknemerMail, functieNaam);
+                        }                        
                     }
                     return bedrijf;
                 }
@@ -251,7 +253,7 @@ namespace BezoekersRegistratieSysteemDL {
                            "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
-                           "LEFT JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) AND wb.Status=1 " +
+                           "LEFT JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) AND wb.Status = 1 " +
                            "LEFT JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
                            "LEFT JOIN Functie f ON(wb.FunctieId = f.Id) " +
                            "ORDER BY b.Id";
