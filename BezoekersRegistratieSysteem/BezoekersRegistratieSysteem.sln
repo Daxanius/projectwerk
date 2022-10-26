@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteemBL", "BezoekersRegistratieSysteemBL\BezoekersRegistratieSysteemBL.csproj", "{C99B2388-58B3-4DED-A2FB-0C40CDC87ED0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteemDL", "BezoekersRegistratieSysteemDL\BezoekersRegistratieSysteemDL.csproj", "{3E7D8C57-F637-4902-95F1-129FD0A2FA82}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteemREST", "BezoekersRegistratieSysteemREST\BezoekersRegistratieSysteemREST.csproj", "{87692288-14FA-470C-8063-81308A29B034}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitBezoekersRegistratiesysteem", "xUnitBezoekersRegistratiesysteem\xUnitBezoekersRegistratiesysteem.csproj", "{B18B5320-93A6-44B9-A97F-2FEA0014B573}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BezoekersRegistratieSysteem.UI", "BezoekersRegistratieSysteem.UI\BezoekersRegistratieSysteem.UI.csproj", "{1ED373CB-7E22-4F68-A3E9-BE75C07A52DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C99B2388-58B3-4DED-A2FB-0C40CDC87ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C99B2388-58B3-4DED-A2FB-0C40CDC87ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C99B2388-58B3-4DED-A2FB-0C40CDC87ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C99B2388-58B3-4DED-A2FB-0C40CDC87ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E7D8C57-F637-4902-95F1-129FD0A2FA82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E7D8C57-F637-4902-95F1-129FD0A2FA82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E7D8C57-F637-4902-95F1-129FD0A2FA82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E7D8C57-F637-4902-95F1-129FD0A2FA82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87692288-14FA-470C-8063-81308A29B034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87692288-14FA-470C-8063-81308A29B034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87692288-14FA-470C-8063-81308A29B034}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87692288-14FA-470C-8063-81308A29B034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B18B5320-93A6-44B9-A97F-2FEA0014B573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B18B5320-93A6-44B9-A97F-2FEA0014B573}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B18B5320-93A6-44B9-A97F-2FEA0014B573}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B18B5320-93A6-44B9-A97F-2FEA0014B573}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ED373CB-7E22-4F68-A3E9-BE75C07A52DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ED373CB-7E22-4F68-A3E9-BE75C07A52DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ED373CB-7E22-4F68-A3E9-BE75C07A52DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ED373CB-7E22-4F68-A3E9-BE75C07A52DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {806B5AC7-EFA6-4D74-BD6A-3F0C6544B3C5}
+	EndGlobalSection
+EndGlobal
