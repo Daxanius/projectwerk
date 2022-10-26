@@ -43,7 +43,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <exception cref="BezoekerException"></exception>
         public void ZetBedrijf(string bedrijf) {
             if (string.IsNullOrWhiteSpace(bedrijf)) throw new BezoekerException("Bezoeker - ZetBedrijf - bedrijf mag niet leeg zijn");
-            Bedrijf = bedrijf;
+            Bedrijf = bedrijf.Trim();
 		}
 
         /// <summary>

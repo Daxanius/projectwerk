@@ -4,7 +4,7 @@ using System.Linq;
 namespace BezoekersRegistratieSysteemBL.Domeinen {
 	public class Werknemer : Persoon {
 
-        private Dictionary<Bedrijf, List<string>> _functiePerBedrijf = new Dictionary<Bedrijf, List<string>>();
+        private Dictionary<Bedrijf, List<string>> _functiesPerBedrijf = new Dictionary<Bedrijf, List<string>>();
 
         /// <summary>
         /// Constructor REST
@@ -41,11 +41,11 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         public void VoegBedrijfEnFunctieToeAanWerknemer(Bedrijf bedrijf, string functie) {
             if (bedrijf == null) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - bedrijf mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - functie mag niet leeg zijn");
-            if (_functiePerBedrijf.ContainsKey(bedrijf))
+            if (_functiesPerBedrijf.ContainsKey(bedrijf))
             {
-                if (!_functiePerBedrijf[bedrijf].Contains(functie))
+                if (!_functiesPerBedrijf[bedrijf].Contains(functie))
                 {
-                    _functiePerBedrijf[bedrijf].Add(functie);
+                    _functiesPerBedrijf[bedrijf].Add(functie);
                 }
                 else throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - werknemer is in dit bedrijf al werkzaam onder deze functie");
             }
@@ -57,7 +57,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
                 }
                 else
                 {
-                    _functiePerBedrijf.Add(bedrijf, new List<string> { functie });
+                    _functiesPerBedrijf.Add(bedrijf, new List<string> { functie });
                 }
             }
         }
@@ -69,11 +69,11 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <exception cref="WerknemerException"></exception>
         public void VerwijderBedrijfVanWerknemer(Bedrijf bedrijf) {
             if (bedrijf == null) throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf mag niet leeg zijn");
-            if (!_functiePerBedrijf.Keys.Contains(bedrijf)) throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf bevat deze werknemer niet");
+            if (!_functiesPerBedrijf.Keys.Contains(bedrijf)) throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf bevat deze werknemer niet");
             // Dit word gebruikt als we een werknemer uit bedrijf halen
             // hierdoor is Bedrijf nullable.
             if (bedrijf.GeefWerknemers().Contains(this)) bedrijf.VerwijderWerknemerUitBedrijf(this);
-            _functiePerBedrijf.Remove(bedrijf);
+            _functiesPerBedrijf.Remove(bedrijf);
 		}
 
         /// <summary>
@@ -88,11 +88,11 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             if (bedrijf == null) throw new WerknemerException("Werknemer - WijzigFunctie - bedrijf mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(oudeFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - oude functie mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(nieuweFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - nieuw functie mag niet leeg zijn");
-            if (!_functiePerBedrijf.ContainsKey(bedrijf)) throw new WerknemerException("Werknemer - WijzigFunctie - bedrijf bevat deze werknemer niet");
-            if (!_functiePerBedrijf[bedrijf].Contains(oudeFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
-            if (_functiePerBedrijf[bedrijf].Contains(nieuweFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie");
-            _functiePerBedrijf[bedrijf].Remove(oudeFunctie);
-            _functiePerBedrijf[bedrijf].Add(nieuweFunctie);
+            if (!_functiesPerBedrijf.ContainsKey(bedrijf)) throw new WerknemerException("Werknemer - WijzigFunctie - bedrijf bevat deze werknemer niet");
+            if (!_functiesPerBedrijf[bedrijf].Contains(oudeFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
+            if (_functiesPerBedrijf[bedrijf].Contains(nieuweFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie");
+            _functiesPerBedrijf[bedrijf].Remove(oudeFunctie);
+            _functiesPerBedrijf[bedrijf].Add(nieuweFunctie);
         }
 
         /// <summary>
@@ -105,10 +105,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         {
             if (bedrijf == null) throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Werknemer - VerwijderFunctie - functie mag niet leeg zijn");
-            if (!_functiePerBedrijf.ContainsKey(bedrijf)) throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf bevat deze werknemer niet");
-            if (_functiePerBedrijf[bedrijf].Contains(functie))
+            if (!_functiesPerBedrijf.ContainsKey(bedrijf)) throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf bevat deze werknemer niet");
+            if (_functiesPerBedrijf[bedrijf].Contains(functie))
             {
-                _functiePerBedrijf[bedrijf].Remove(functie);
+                _functiesPerBedrijf[bedrijf].Remove(functie);
             }
             else throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
         }
@@ -117,9 +117,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// Geeft bedrijf en functies voor een werknemer terug.
         /// </summary>
         /// <exception cref="WerknemerException"></exception>
-        public IReadOnlyDictionary<Bedrijf, List<string>> GeefBedrijfEnFunctiesPerWerknemer()
+        public IReadOnlyDictionary<Bedrijf, List<string>> GeefBedrijvenEnFunctiesPerWerknemer()
         {
-            return _functiePerBedrijf;
+            return _functiesPerBedrijf;
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <exception cref="WerknemerException"></exception>
         public Bedrijf HaalBedrijfOp(uint id)
         {
-            foreach (var bedrijf in _functiePerBedrijf.Keys)
+            foreach (var bedrijf in _functiesPerBedrijf.Keys)
             {
                 if (bedrijf.Id == id) return bedrijf;
             }
@@ -145,12 +145,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
             if (werknemer.Id != Id) return false;
             if (werknemer.Voornaam != Voornaam) return false;
             if (werknemer.Achternaam != Achternaam) return false;
-            foreach (Bedrijf bedrijf in _functiePerBedrijf.Keys)
+            foreach (Bedrijf bedrijf in _functiesPerBedrijf.Keys)
             {
-                if (!werknemer._functiePerBedrijf.ContainsKey(bedrijf)) return false;
-                foreach (var functie in _functiePerBedrijf[bedrijf])
+                if (!werknemer._functiesPerBedrijf.ContainsKey(bedrijf)) return false;
+                foreach (var functie in _functiesPerBedrijf[bedrijf])
                 {
-                    if (!werknemer._functiePerBedrijf[bedrijf].Contains(functie)) return false;
+                    if (!werknemer._functiesPerBedrijf[bedrijf].Contains(functie)) return false;
                 }
             }
             return true;
