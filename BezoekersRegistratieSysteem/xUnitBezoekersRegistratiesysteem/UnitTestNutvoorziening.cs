@@ -15,6 +15,35 @@ namespace xUnitBezoekersRegistratiesysteem
 {
     public class UnitTestNutvoorziening
     {
+		#region VerwijderWhitespace
+
+		[Theory]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\t\t\t\t")]
+		[InlineData("\v")]
+		[InlineData("\v\t\r\n")]
+		public void VerwijderWhitespace_Leeg(string whitespace) {
+			Assert.Equal(string.Empty, Nutsvoorziening.VerwijderWhitespace(whitespace));
+		}
+
+		[Theory]
+		[InlineData("ABC")]
+		[InlineData("   ABC")]
+		[InlineData("ABC   ")]
+		[InlineData("   ABC   ")]
+		[InlineData("\tABC")]
+		[InlineData("A   BC")]
+		[InlineData("AB    C   ")]
+		public void VerwijderWhitespace_Tekst(string whitespace) {
+			Assert.Equal("ABC", Nutsvoorziening.VerwijderWhitespace(whitespace));
+		}
+
+		#endregion
+
 		#region ControleerBTWNummer
 		[Theory]
 		[InlineData("")]
@@ -28,6 +57,20 @@ namespace xUnitBezoekersRegistratiesysteem
 		[InlineData("BE06767475219282727191928292920292")]
 		public void ControleerBTWNummer_Invalid(string btw) {
 			Assert.False(Nutsvoorziening.ControleerBTWNummer(btw));
+		}
+
+		[Theory]
+		[InlineData("BE0676747521")]
+		[InlineData("BE0676747521    ")]
+		[InlineData("   BE0676747521")]
+		[InlineData("\tBE0676747521")]
+		[InlineData("BE0676747521\t")]
+		[InlineData("\tBE0676747521\t")]
+		[InlineData("   BE0676747521    ")]
+		[InlineData("BE    0676747521")]
+		public void ControleerBTWNummer_Valid(string btw) {
+			(bool valid, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo(btw);
+			Assert.True(Nutsvoorziening.ControleerBTWNummer(btw));
 		}
 		#endregion
 
