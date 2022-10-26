@@ -36,7 +36,7 @@ namespace BezoekersRegistratieSysteem.UI
 			double defaultResWidth = 1920.0;
 
 			ScaleX = (schermResolutieWidth / defaultResWidth);
-			ScaleY = (schermResolutieHeight / defaultResHeight) * 0.8;
+			ScaleY = (schermResolutieHeight / defaultResHeight);
 
 			this.DataContext = this;
 			InitializeComponent();
