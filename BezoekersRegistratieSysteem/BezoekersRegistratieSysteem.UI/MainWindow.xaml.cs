@@ -22,8 +22,23 @@ namespace BezoekersRegistratieSysteem.UI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		public double ScaleX { get; set; }
+
+		public double ScaleY { get; set; }
+
 		public MainWindow()
 		{
+
+			double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
+			double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
+
+			double defaultResHeight = 1080.0;
+			double defaultResWidth = 1920.0;
+
+			ScaleX = (schermResolutieWidth / defaultResWidth);
+			ScaleY = (schermResolutieHeight / defaultResHeight) * 0.8;
+
+			this.DataContext = this;
 			InitializeComponent();
 		}
 

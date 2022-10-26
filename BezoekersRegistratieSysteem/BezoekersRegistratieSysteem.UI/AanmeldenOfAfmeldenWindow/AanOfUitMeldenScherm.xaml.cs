@@ -19,8 +19,20 @@ namespace BezoekersRegistratieSysteem.UI.Controlls
 	/// </summary>
 	public partial class AanOfUitMeldenScherm : Window
 	{
+		public double ScaleX { get; set; }
+		public double ScaleY { get; set; }
+
 		public AanOfUitMeldenScherm()
 		{
+			double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
+			double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
+
+			double defaultResHeight = 1080.0;
+			double defaultResWidth = 1920.0;
+
+			ScaleX = (schermResolutieWidth / defaultResWidth);
+			ScaleY = (schermResolutieHeight / defaultResHeight) * 0.8;
+
 			this.DataContext = this;
 			InitializeComponent();
 		}

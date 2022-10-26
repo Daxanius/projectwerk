@@ -13,7 +13,12 @@
     WindowState="Maximized"
     WindowStyle="None"
     mc:Ignorable="d">
-    <Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ScaleTransform x:Key="windowScaleTransform" ScaleX="{Binding ScaleX}" ScaleY="{Binding ScaleY}" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid LayoutTransform="{StaticResource windowScaleTransform}">
         <Border CornerRadius="10 10 10 10">
             <Border.Background>
                 <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
@@ -84,7 +89,6 @@
                                 Foreground="White" />
                         </StackPanel>
                     </Button>
-
                     <Button
                         Grid.Column="1"
                         Width="523"
@@ -133,8 +137,6 @@
                                 Foreground="White" />
                         </StackPanel>
                     </Button>
-
-
                     <Button
                         Grid.Column="2"
                         Width="523"

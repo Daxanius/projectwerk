@@ -12,7 +12,12 @@
     WindowState="Maximized"
     WindowStyle="None"
     mc:Ignorable="d">
-    <Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ScaleTransform x:Key="windowScaleTransform" ScaleX="{Binding ScaleX}" ScaleY="{Binding ScaleY}" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid LayoutTransform="{StaticResource windowScaleTransform}">
         <Border>
             <Border.Background>
                 <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
