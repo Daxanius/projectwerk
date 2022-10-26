@@ -66,7 +66,6 @@ namespace BezoekersRegistratieSysteemDL {
         /// <returns>bool</returns>
         /// <exception cref="WerknemerADOException">Faalt om te kijken of werknemer bestaat</exception>
         private bool BestaatWerknemer(Werknemer? werknemer, uint? werknemerId) {
-            //TODO GWILOM waiting for werknemerInfo
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM Werknemer wn ";
@@ -80,9 +79,15 @@ namespace BezoekersRegistratieSysteemDL {
                             cmd.Parameters["@id"].Value = werknemer.Id;
                         } else {
                             query += "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId) " +
-                                     "WHERE wb.werknemerEmail = @mail";
-                            cmd.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
-                            cmd.Parameters["@mail"].Value = null;
+                                     "WHERE wb.werknemerEmail IN(";
+                            int mailCount = 0;
+                            foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
+                                query += $"@mail{mailCount}";
+                                cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                                cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
+                                mailCount++;
+                            }
+                            query += ")";
                         }
                     }
                     if (werknemerId.HasValue) {
@@ -320,13 +325,12 @@ namespace BezoekersRegistratieSysteemDL {
         /// <param name="bedrijf">in welk bedrijf dat hij/zij verwijderd moet worden</param>
         /// <exception cref="WerknemerADOException">Faalt om een werknemer status naar verwijderd te veranderen</exception>
         public void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf, string? functie) {
-            //TODO Gwilom PROB THROW IT IN VERWIJDERWERKNEMER AND ADD THE NEC ITEMS LIKE BEDRIJF ID AND FUNCTION NAME
             SqlConnection con = GetConnection();
             string query = "UPDATE Werknemerbedrijf " +
                            "SET Status = 2 " +
                            "WHERE BedrijfId = @bedrijfId " +
-                           "AND WerknemerId = @werknemerId";
-            //"AND Status = 1";
+                           "AND WerknemerId = @werknemerId " +
+                           "AND Status = 1";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
@@ -433,9 +437,8 @@ namespace BezoekersRegistratieSysteemDL {
                 using (SqlCommand cmdCheck = con.CreateCommand())
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
-                    //TODO: Gwilom This gets replaced with werknemerInfo
                     foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
-                        foreach (var functieNaam in kvpBedrijf.Value.Functies) { //Moet vervangen worden door GeefFuncties()
+                        foreach (var functieNaam in kvpBedrijf.Value.Functies) { //TODO: Moet vervangen worden door GeefFuncties()
                             string queryDoesJobExist = "SELECT COUNT(*) " +
                                                        "FROM WerknemerBedrijf " +
                                                        "WHERE WerknemerId = @werknemerId " +
@@ -479,7 +482,6 @@ namespace BezoekersRegistratieSysteemDL {
         /// <param name="werknemer">Werknemer object die gewijzigd moet worden</param>
         /// <exception cref="WerknemerADOException">Faalt om werknemer te wijzigen</exception>
         public void WijzigWerknemer(Werknemer werknemer, Bedrijf bedrijf) {
-            //TODO gwilom moet email per bedrijf van werknemer ook veranderd worden?
             SqlConnection con = GetConnection();
             string queryWerknemer = "UPDATE Werknemer " +
                                     "SET VNaam = @Vnaam, " +

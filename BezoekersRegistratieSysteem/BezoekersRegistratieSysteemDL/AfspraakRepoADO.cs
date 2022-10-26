@@ -576,7 +576,6 @@ namespace BezoekersRegistratieSysteemDL {
                     cmdAfspraak.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
                     cmdAfspraak.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
                     cmdAfspraak.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-                    //TODO: GWILOM Is dit nu al meegegeven of doe ik hier DateTime.Now, ik gok gewoon value want Starttijd kan niet null zijn
                     cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
                     cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
                     cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
