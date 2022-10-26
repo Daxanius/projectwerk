@@ -29,12 +29,11 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			throw new NotImplementedException();
 		}
 
-		public void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf)
-		{
-            if (!_werknemers.ContainsKey(werknemer.Id)) throw new Exception("Werknemer bestaat niet");
+		public void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf) {
+			if (!_werknemers.ContainsKey(werknemer.Id)) throw new Exception("Werknemer bestaat niet");
 
-            _werknemers.Remove(werknemer.Id);
-        }
+			_werknemers.Remove(werknemer.Id);
+		}
 
 		public void VerwijderWerknemerFunctie(Werknemer werknemer, Bedrijf bedrijf, string functie) {
 			throw new NotImplementedException();
@@ -55,8 +54,7 @@ namespace BezoekersRegistratieSysteemREST.Repo {
 			_werknemers[werknemer.Id] = werknemer;
 		}
 
-		public void WijzigWerknemer(Werknemer werknemer, Bedrijf bedrijf)
-		{
+		public void WijzigWerknemer(Werknemer werknemer, Bedrijf bedrijf) {
 			throw new NotImplementedException();
 		}
 	}
