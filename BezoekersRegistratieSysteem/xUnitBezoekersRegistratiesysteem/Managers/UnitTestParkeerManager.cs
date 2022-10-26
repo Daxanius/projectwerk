@@ -1,10 +1,5 @@
-using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
+namespace BezoekersRegistratieSysteemBL.Managers {
+	public class ParkeerManagerTest {
 
-namespace BezoekersRegistratieSysteemBL.Managers
-{
-    public class ParkeerManagerTest
-    {
-       
-    }
+	}
 }
