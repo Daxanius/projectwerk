@@ -9,24 +9,51 @@ namespace BezoekersRegistratieSysteemBL
 {
     public static class Nutsvoorziening
     {
+		public static readonly Regex RegexWhitespace = new(@"\s+");
+        public static readonly Regex RegexBtw = new("^[A-Za-z]{2,4}(?=.{2,12}$)[-_\\s0-9]*(?:[a-zA-Z][-_\\s0-9]*){0,2}$");
+
         /// <summary>
-        /// Controleert de geldigheid van het btwnummer.
+        /// Verwijdert alle whitespace van een string
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+		public static string VerwijderWhitespace(string input) {
+			return RegexWhitespace.Replace(input, string.Empty);
+		}
+
+        /// <summary>
+        /// Controleert een BTW nummer op notatie
         /// </summary>
         /// <param name="btwNummer"></param>
+        /// <returns></returns>
+		public static bool ControleerBTWNotatie(string btwNummer) {
+			if (string.IsNullOrWhiteSpace(btwNummer)) {
+                return false;
+			}
+
+            return RegexBtw.Match(VerwijderWhitespace(btwNummer)).Success;
+		}
+
+        /// <summary>
+        /// Controleert of een BTW nummer bestaat, als de service plat ligt
+        /// controleert of het nummer een geldige notatie heeft
+        /// </summary>
+        /// <param name="btwNummer"></param>
+        /// <returns>notatie valid bool, btwinfo resultaat</returns>
+        /// <exception cref="BtwControleException"></exception>
         public static (bool, BtwInfoDTO?) ControleerBTWNummer(string btwNummer)
         {
-            try
+			if (string.IsNullOrWhiteSpace(btwNummer)) {
+				throw new BtwControleException("ControleerBTWNummer - btw is leeg");
+			}
+
+			btwNummer = VerwijderWhitespace(btwNummer);
+			if (!ControleerBTWNotatie(btwNummer)) {
+				throw new BtwControleException("ControleerBTWNummer - notatie is niet geldig");
+			}
+
+			try
             {
-                if (string.IsNullOrWhiteSpace(btwNummer))
-                {
-                    throw new BtwControleException("Btwnummer is leeg");
-                }
-
-                if (btwNummer.Length <= 2 || btwNummer.Length > 20)
-                {
-                    throw new BtwControleException("Europees btwnummer moet minstens 3 karakters lang en niet groter dan 20 characters lang zijn");
-                }
-
                 string apiUrl = $"https://controleerbtwnummer.eu/api/validate/{btwNummer}.json";
 
                 using HttpClient client = new();
@@ -35,30 +62,25 @@ namespace BezoekersRegistratieSysteemBL
                 HttpResponseMessage response = client.GetAsync(apiUrl).Result;
 
                 // Als we geen geldige response hebben gekregen, AKA, de API ligt plat
-                if (!response.IsSuccessStatusCode)
-                {
-                    // TODO: aanpassen deze handel
-                    throw new BtwControleException("ControleerBTWNummer - Response: " + response.StatusCode);
+                if (!response.IsSuccessStatusCode) {
+                    return (true, null);
                 }
 
                 string responseBody = response.Content.ReadAsStringAsync().Result;
 
                 BtwInfoDTO? btwInfo = JsonConvert.DeserializeObject<BtwInfoDTO>(responseBody);
 
-                if (btwInfo is null)
-                {
-                    throw new BtwControleException("ControleerBTWNummer - btw is null");
+                if (btwInfo is null) {
+                    throw new BtwControleException("ControleerBTWNummer - kon btwInfo niet deserialiseren");
                 }
 
                 if (!btwInfo.Valid)
                     return (false, null);
-                return (true, btwInfo);
+				return (true, btwInfo);
             }
             catch (Exception ex)
             {
-                if (ex is BtwControleException)
-                    throw (BtwControleException)ex;
-                return (false, null);
+                throw new BtwControleException(ex.Message);
             }
         }
 

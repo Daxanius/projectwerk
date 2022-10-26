@@ -116,8 +116,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("BE123456789")] //nep BTWnummer
         public void ZetBTWControle_Invalid(string btw)
         {
-            Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-            Assert.Throws<BedrijfException>(() => b.ZetBTWControle(btw));
+            Assert.Throws<BedrijfException>(() => new Bedrijf(10, "bedrijf", btw, "012345678", "bedrijf@email.com", "bedrijfstraat 10"));
         }
         #endregion
 

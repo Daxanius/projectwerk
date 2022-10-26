@@ -106,6 +106,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			(bool validNummer, BtwInfoDTO? info) = Nutsvoorziening.ControleerBTWNummer(btw.Trim());
 			if (!validNummer)
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw is niet geldig");
+			if (info is null)
+				// TODO: zorg ervoor dat wij een platte BTW service kunnen afhandelen
+				throw new BedrijfException("Bedrijf - ZetBTWControle - BTWInfo is null (ligt de service plat?)");
 			BtwIsGeldig = true;
 			ZetBTW(info.LandCode + info.BtwNumber);
 		}
