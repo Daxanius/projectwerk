@@ -2,12 +2,12 @@
 
 namespace BezoekersRegistratieSysteemBL.Exceptions.DomeinException {
 	public class BedrijfException : Exception {
-		public BedrijfException() { }
+		public BedrijfException() {}
 
-		public BedrijfException(string? message) : base(message) { }
+		public BedrijfException(string? message) : base(message) {}
 
-		public BedrijfException(string? message, Exception? innerException) : base(message, innerException) { }
+		public BedrijfException(string? message, Exception? innerException) : base(message, innerException) {}
 
-		protected BedrijfException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+		protected BedrijfException(SerializationInfo info, StreamingContext context) : base(info, context) {}
 	}
 }

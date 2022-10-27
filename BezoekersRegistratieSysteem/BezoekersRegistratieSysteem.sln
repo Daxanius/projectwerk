@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteemREST", "BezoekersRegistratieSysteemREST\BezoekersRegistratieSysteemREST.csproj", "{87692288-14FA-470C-8063-81308A29B034}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitBezoekersRegistratieSysteem", "xUnitBezoekersRegistratieSysteem\xUnitBezoekersRegistratieSysteem.csproj", "{B18B5320-93A6-44B9-A97F-2FEA0014B573}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitBezoekersRegistratiesysteem", "xUnitBezoekersRegistratiesysteem\xUnitBezoekersRegistratiesysteem.csproj", "{B18B5320-93A6-44B9-A97F-2FEA0014B573}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BezoekersRegistratieSysteemUI", "BezoekersRegistratieSysteemUI\BezoekersRegistratieSysteemUI.csproj", "{1ED373CB-7E22-4F68-A3E9-BE75C07A52DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BezoekersRegistratieSysteem.UI", "BezoekersRegistratieSysteem.UI\BezoekersRegistratieSysteem.UI.csproj", "{1ED373CB-7E22-4F68-A3E9-BE75C07A52DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,20 +1,23 @@
 ﻿using Newtonsoft.Json;
+using System.Net;
 
-namespace BezoekersRegistratieSysteemBL.DTO {
-	public class BtwInfoDTO {
-		[JsonProperty("valid")]
-		public bool Valid { get; set; }
+namespace BezoekersRegistratieSysteemBL.DTO
+{
+    public class BtwInfoDTO
+    {
+        [JsonProperty("valid")]
+        public bool Valid { get; set; }
 
-		[JsonProperty("countryCode")]
-		public string LandCode { get; set; }
+        [JsonProperty("countryCode")]
+        public string LandCode { get; set; }
 
-		[JsonProperty("vatNumber")]
-		public string BtwNumber { get; set; }
+        [JsonProperty("vatNumber")]
+        public string BtwNumber { get; set; }
 
-		[JsonProperty("name")]
-		public string Name { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
-		[JsonProperty("strAddress")]
-		public string Address { get; set; }
-	}
+        [JsonProperty("strAddress")]
+        public string Address { get; set; }
+    }
 }
