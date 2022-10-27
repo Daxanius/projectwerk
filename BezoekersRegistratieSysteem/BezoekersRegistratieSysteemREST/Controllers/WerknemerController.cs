@@ -1,6 +1,8 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.DTO;
 using BezoekersRegistratieSysteemBL.Managers;
+using BezoekersRegistratieSysteemREST.Model;
+using BezoekersRegistratieSysteemREST.Model.Input;
+using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -18,12 +20,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Geef een werknemer op ID
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="werknemerId"></param>
 		/// <returns></returns>
-		[HttpGet("{id}")]
-		public ActionResult<Werknemer> GeefWerknemer(uint id) {
+		[HttpGet("{werknemerId}")]
+		public ActionResult<WerknemerOutputDTO> GeefWerknemer(uint werknemerId) {
 			try {
-				return _werknemerManager.GeefWerknemer(id);
+				return WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemer(werknemerId));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -36,11 +38,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="achternaam"></param>
 		/// <returns></returns>
 		[HttpGet("{naam}/{achternaam}")]
-		public ActionResult<IEnumerable<Werknemer>> GeefWerknemersOpNaam(string naam, string achternaam) {
-			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is null");
-
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersOpNaam(string naam, string achternaam) {
 			try {
-				return Ok(_werknemerManager.GeefWerknemersOpNaam(naam, achternaam).AsEnumerable());
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersOpNaam(naam, achternaam).AsEnumerable()));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -52,31 +52,33 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
 		[HttpGet("{bedrijfId}")]
-		public ActionResult<IEnumerable<Werknemer>> GeefWerknemersPerBedrijf(uint bedrijfId) {
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersPerBedrijf(uint bedrijfId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				return Ok(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf));
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf)));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
 		}
 
 		/// <summary>
-		/// Verwijder een werknemer op ID
+		/// Verwijder een werknemer van een bedrijf
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="bedrijfId"></param>
+		/// <param name="werknemerId"></param>
 		/// <returns></returns>
-		//[HttpDelete("{id}")]
-		//public IActionResult VerwijderWerknemer(uint id) {
-		//	try {
-		//		Werknemer werknemer = _werknemerManager.GeefWerknemer(id);
-		//		_werknemerManager.VerwijderWerknemer(werknemer, bedrijf);
-		//		return Ok();
-		//	} catch (Exception ex) {
-		//		// Welke IActionResults zijn er??
-		//		return NotFound(ex.Message);
-		//	}
-		//}
+		[HttpDelete("{beddrijfId}/{werknemerId}")]
+		public IActionResult VerwijderWerknemer(uint bedrijfId, uint werknemerId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				_werknemerManager.VerwijderWerknemer(werknemer, bedrijf);
+				return Ok();
+			} catch (Exception ex) {
+				// Welke IActionResults zijn er??
+				return NotFound(ex.Message);
+			}
+		}
 
 		/// <summary>
 		/// Voeg een werknemer toe
@@ -84,32 +86,134 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemerData"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] DTOWerknemer werknemerData) {
-			if (werknemerData == null) return BadRequest($"{nameof(werknemerData)} is null");
-
+		public ActionResult<WerknemerOutputDTO> VoegWerknemerToe([FromBody] WerknemerInputDTO werknemerData) {
 			try {
-				Werknemer werknemer = new(werknemerData.Voornaam, werknemerData.Achternaam);
-				return _werknemerManager.VoegWerknemerToe(werknemer);
+				return WerknemerOutputDTO.NaarDTO(_werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness()));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
 		}
 
 		/// <summary>
-		/// Bewerk een werknemer
+		/// Wijzig werknemerinfo van een bedrijf
 		/// </summary>
-		/// <param name="werknemer"></param>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfId"></param>
+		/// <param name="werknemerInput"></param>
 		/// <returns></returns>
-		//[HttpPut]
-		//public ActionResult<Werknemer> BewerkWerknemer([FromBody] Werknemer werknemer) {
-		//	if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
+		[HttpPut("{werknemerId}/{bedrijfId}")]
+		public ActionResult<WerknemerOutputDTO> BewerkWerknemer(uint werknemerId, uint bedrijfId, [FromBody] WerknemerInputDTO werknemerInput) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = werknemerInput.NaarBusiness();
+				werknemer.ZetId(werknemerId);
 
-		//	try {
-		//		_werknemerManager.WijzigWerknemer(werknemer);
-		//		return werknemer;
-		//	} catch (Exception ex) {
-		//		return BadRequest(ex.Message);
-		//	}
-		//}
+				// Waarom heeft dit een bedrijf nodig om werknemer te weizigen?
+				_werknemerManager.WijzigWerknemer(werknemer, bedrijf);
+				return WerknemerOutputDTO.NaarDTO(werknemer);
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Geef een lijst met bedrijven en informatie over een werknemer
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <returns></returns>
+		[HttpGet("info/{werknemerId}")]
+		public ActionResult<Dictionary<uint, WerknemerInfoOutputDTO>> GeefBedrijvenEnFunctiesPerWerknemer(uint werknemerId) {
+			try {
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				var bedrijven = werknemer.GeefBedrijvenEnFunctiesPerWerknemer();
+
+				// Een conversie naar de DTO
+				Dictionary<uint, WerknemerInfoOutputDTO> output = new();
+				foreach (Bedrijf b in bedrijven.Keys) {
+					output.Add(b.Id, WerknemerInfoOutputDTO.NaarDTO(bedrijven[b]));
+				}
+
+				return Ok(output);
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Voeg info toe aan werknemer
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfId"></param>
+		/// <param name="info"></param>
+		/// <returns></returns>
+		[HttpPost("info/{werknemerId}")]
+		public ActionResult<WerknemerOutputDTO> VoegInfoToe(uint werknemerId, [FromBody] WerknemerInfoInputDTO info) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(info.BedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				
+				// Dit is nogal een vreemde manier om functies toe te voegen, wat heeft Email hiermee te maken?
+				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, info.Email, info.Functies.First());
+				return WerknemerOutputDTO.NaarDTO(werknemer);
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Bewerk een functie van een werknemer
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfId"></param>
+		/// <param name="oudeFunctie"></param>
+		/// <returns></returns>
+		[HttpPut("info/{werknemerId}/{bedrijfId}/{oudeFunctie}/")]
+		public ActionResult<WerknemerOutputDTO> BewerkFunctie(uint werknemerId, uint bedrijfId, string oudeFunctie, [FromQuery] string nieuweFunctie) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				werknemer.WijzigFunctie(bedrijf, oudeFunctie, nieuweFunctie);
+				return WerknemerOutputDTO.NaarDTO(werknemer);
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Verwijder een functie van werknemer
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfId"></param>
+		/// <param name="functie"></param>
+		/// <returns></returns>
+		[HttpDelete("info/{werknemerId}/{bedrijfId}/{functie}/")]
+		public ActionResult<WerknemerOutputDTO> VerwijderFunctie(uint werknemerId, uint bedrijfId, string functie) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				werknemer.VerwijderFunctie(bedrijf, functie);
+				return WerknemerOutputDTO.NaarDTO(werknemer);
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Verwijder een bedrijf van werknemer
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfId"></param>
+		/// <returns></returns>
+		[HttpDelete("info/{werknemerId}/{bedrijfId}")]
+		public ActionResult<WerknemerOutputDTO> VerwijderBedrijf(uint werknemerId, uint bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				werknemer.VerwijderBedrijfVanWerknemer(bedrijf);
+				return WerknemerOutputDTO.NaarDTO(werknemer);
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
 	}
 }

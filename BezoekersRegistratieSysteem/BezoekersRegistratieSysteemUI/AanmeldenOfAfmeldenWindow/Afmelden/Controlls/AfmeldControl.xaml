@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="BezoekersRegistratieSysteem.UI.Controlls.AfmeldControl"
+    x:Class="BezoekersRegistratieSysteemUI.Controlls.AfmeldControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -69,7 +69,7 @@
                     </Border>
                 </StackPanel>
             </Popup>
-            <Popup
+            <!--<Popup
                 x:Name="popupConform"
                 Panel.ZIndex="1"
                 AllowsTransparency="True"
@@ -100,7 +100,7 @@
                             Style="{StaticResource WijzigButtonStyle}" />
                     </StackPanel>
                 </StackPanel>
-            </Popup>
+            </Popup>-->
         </StackPanel>
     </Grid>
 </UserControl>
