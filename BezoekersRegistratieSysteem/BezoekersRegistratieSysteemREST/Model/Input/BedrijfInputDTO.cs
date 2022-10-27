@@ -1,12 +1,12 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model {
-	public class DTOBedrijfInput {
+	public class BedrijfInputDTO {
 		public Bedrijf NaarBusiness() {
 			return new(Naam, BTW, TelefoonNummer, Email, Adres);
 		}
 
-		public DTOBedrijfInput(string naam, string bTW, string telefoonNummer, string email, string adres) {
+		public BedrijfInputDTO(string naam, string bTW, string telefoonNummer, string email, string adres) {
 			Naam = naam;
 			BTW = bTW;
 			TelefoonNummer = telefoonNummer;

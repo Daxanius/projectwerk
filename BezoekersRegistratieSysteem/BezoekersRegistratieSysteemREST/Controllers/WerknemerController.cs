@@ -86,7 +86,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemerData"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<DTOWerknemerOutput> VoegWerknemerToe([FromBody] DTOWerknemerInput werknemerData) {
+		public ActionResult<DTOWerknemerOutput> VoegWerknemerToe([FromBody] WerknemerInputDTO werknemerData) {
 			try {
 				return DTOWerknemerOutput.NaarDTO(_werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness()));
 			} catch (Exception ex) {
@@ -102,7 +102,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemerInput"></param>
 		/// <returns></returns>
 		[HttpPut("{werknemerId}/{bedrijfId}")]
-		public ActionResult<DTOWerknemerOutput> BewerkWerknemer(uint werknemerId, uint bedrijfId, [FromBody] DTOWerknemerInput werknemerInput) {
+		public ActionResult<DTOWerknemerOutput> BewerkWerknemer(uint werknemerId, uint bedrijfId, [FromBody] WerknemerInputDTO werknemerInput) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = werknemerInput.NaarBusiness();

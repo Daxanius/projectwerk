@@ -80,7 +80,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfData"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<DTOBedrijfOutput> VoegBedrijfToe([FromBody] DTOBedrijfInput bedrijfData) {
+		public ActionResult<DTOBedrijfOutput> VoegBedrijfToe([FromBody] BedrijfInputDTO bedrijfData) {
 			try {
 				return DTOBedrijfOutput.NaarDTO(_bedrijfManager.VoegBedrijfToe(bedrijfData.NaarBusiness()));
 			} catch (Exception ex) {
@@ -95,7 +95,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfInput"></param>
 		/// <returns></returns>
 		[HttpPut("{bedrijfId}")]
-		public ActionResult<DTOBedrijfOutput> BewerkBedrijf(uint bedrijfId, [FromBody] DTOBedrijfInput bedrijfInput) {
+		public ActionResult<DTOBedrijfOutput> BewerkBedrijf(uint bedrijfId, [FromBody] BedrijfInputDTO bedrijfInput) {
 			try {
 				Bedrijf bedrijf = bedrijfInput.NaarBusiness();
 				bedrijf.ZetId(bedrijfId);
