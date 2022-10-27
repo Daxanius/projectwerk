@@ -16,12 +16,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Verkrijgt een bedrijf op ID
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
-		public ActionResult<Bedrijf> GeefBedrijf(uint id) {
+		public ActionResult<Bedrijf> GeefBedrijf(uint bedrijfId) {
 			try {
-				return _bedrijfManager.GeefBedrijf(id);
+				return _bedrijfManager.GeefBedrijf(bedrijfId);
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}

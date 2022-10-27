@@ -22,12 +22,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Geeft een afspraak op ID
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="afspraakId"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
-		public ActionResult<Afspraak> GeefAfspraak(uint id) {
+		public ActionResult<Afspraak> GeefAfspraak(uint afspraakId) {
 			try {
-				return _afspraakManager.GeefAfspraak(id);
+				return _afspraakManager.GeefAfspraak(afspraakId);
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -124,12 +124,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Beeindig een afspraak op ID
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="afspraakId"></param>
 		/// <returns></returns>
 		[HttpPut("end/{id}")]
-		public IActionResult End(uint id) {
+		public IActionResult End(uint afspraakId) {
 			try {
-				Afspraak afspraak = _afspraakManager.GeefAfspraak(id);
+				Afspraak afspraak = _afspraakManager.GeefAfspraak(afspraakId);
 				_afspraakManager.BeeindigAfspraakBezoeker(afspraak);
 				return Ok();
 			} catch (Exception ex) {

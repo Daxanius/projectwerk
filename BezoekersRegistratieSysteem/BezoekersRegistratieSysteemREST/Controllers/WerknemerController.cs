@@ -19,12 +19,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Geef een werknemer op ID
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="werknemerId"></param>
 		/// <returns></returns>
-		[HttpGet("{id}")]
-		public ActionResult<Werknemer> GeefWerknemer(uint id) {
+		[HttpGet("{werknemerId}")]
+		public ActionResult<Werknemer> GeefWerknemer(uint werknemerId) {
 			try {
-				return _werknemerManager.GeefWerknemer(id);
+				return _werknemerManager.GeefWerknemer(werknemerId);
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
