@@ -1,20 +1,20 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
-	public class DTOBezoekerOutput {
-		public static DTOBezoekerOutput NaarDTO(Bezoeker bezoeker) {
+	public class BezoekerOutputDTO {
+		public static BezoekerOutputDTO NaarDTO(Bezoeker bezoeker) {
 			return new(bezoeker.Id, bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
 		}
 
-		public static IEnumerable<DTOBezoekerOutput> NaarDTO(IEnumerable<Bezoeker> bezoekers) {
-			List<DTOBezoekerOutput> output = new();
+		public static IEnumerable<BezoekerOutputDTO> NaarDTO(IEnumerable<Bezoeker> bezoekers) {
+			List<BezoekerOutputDTO> output = new();
 			foreach (Bezoeker bezoeker in bezoekers) {
-				output.Add(DTOBezoekerOutput.NaarDTO(bezoeker));
+				output.Add(BezoekerOutputDTO.NaarDTO(bezoeker));
 			}
 			return output;
 		}
 
-		public DTOBezoekerOutput(uint id, string voornaam, string achternaam, string email, string bedrijf) {
+		public BezoekerOutputDTO(uint id, string voornaam, string achternaam, string email, string bedrijf) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;

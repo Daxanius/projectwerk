@@ -1,12 +1,12 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
-	public class DTOWerknemerInfoOutput {
-		public static DTOWerknemerInfoOutput NaarDTO(WerknemerInfo info) {
+	public class WerknemerInfoOutputDTO {
+		public static WerknemerInfoOutputDTO NaarDTO(WerknemerInfo info) {
 			return new(info.Bedrijf.Id, info.Email, info.GeefWerknemerFuncties().ToList());
 		}
 
-		public DTOWerknemerInfoOutput(uint bedrijfId, string email, List<string> functies) {
+		public WerknemerInfoOutputDTO(uint bedrijfId, string email, List<string> functies) {
 			BedrijfId = bedrijfId;
 			Email = email;
 			Functies = functies;

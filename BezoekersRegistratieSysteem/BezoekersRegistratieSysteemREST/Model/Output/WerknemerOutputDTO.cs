@@ -1,8 +1,8 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
-	public class DTOWerknemerOutput {
-		public static DTOWerknemerOutput NaarDTO(Werknemer werknemer) {
+	public class WerknemerOutputDTO {
+		public static WerknemerOutputDTO NaarDTO(Werknemer werknemer) {
 			var functies = werknemer.GeefBedrijvenEnFunctiesPerWerknemer();
 			Dictionary<uint, string> info = new();
 			foreach(Bedrijf b in functies.Keys) {
@@ -12,15 +12,15 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 			return new(werknemer.Id, werknemer.Voornaam, werknemer.Achternaam, info);
 		}
 
-		public static IEnumerable<DTOWerknemerOutput> NaarDTO(IEnumerable<Werknemer> werknemers) {
-			List<DTOWerknemerOutput> output = new();
+		public static IEnumerable<WerknemerOutputDTO> NaarDTO(IEnumerable<Werknemer> werknemers) {
+			List<WerknemerOutputDTO> output = new();
 			foreach (Werknemer werknemer in werknemers) {
-				output.Add(DTOWerknemerOutput.NaarDTO(werknemer));
+				output.Add(WerknemerOutputDTO.NaarDTO(werknemer));
 			}
 			return output;
 		}
 
-		public DTOWerknemerOutput(uint id, string voornaam, string achternaam, Dictionary<uint, string> werknemerInfo) {
+		public WerknemerOutputDTO(uint id, string voornaam, string achternaam, Dictionary<uint, string> werknemerInfo) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;

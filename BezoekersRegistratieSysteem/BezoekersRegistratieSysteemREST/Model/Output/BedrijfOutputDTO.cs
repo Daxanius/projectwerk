@@ -1,8 +1,8 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
-	public class DTOBedrijfOutput {
-		public static DTOBedrijfOutput NaarDTO(Bedrijf bedrijf) {
+	public class BedrijfOutputDTO {
+		public static BedrijfOutputDTO NaarDTO(Bedrijf bedrijf) {
 			List<uint> werknemers = new();
 			foreach(Werknemer w in bedrijf.GeefWerknemers()) {
 				werknemers.Add(w.Id);
@@ -11,10 +11,10 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 			return new(bedrijf.Id, bedrijf.Naam, bedrijf.BTW, bedrijf.IsGecontroleert, bedrijf.TelefoonNummer, bedrijf.Email, bedrijf.Adres, werknemers);
 		}
 
-		public static IEnumerable<DTOBedrijfOutput> NaarDTO(IEnumerable<Bedrijf> bedrijven) {
-			List<DTOBedrijfOutput> output = new();
+		public static IEnumerable<BedrijfOutputDTO> NaarDTO(IEnumerable<Bedrijf> bedrijven) {
+			List<BedrijfOutputDTO> output = new();
 			foreach (Bedrijf bedrijf in bedrijven) {
-				output.Add(DTOBedrijfOutput.NaarDTO(bedrijf));
+				output.Add(BedrijfOutputDTO.NaarDTO(bedrijf));
 			}
 			return output;
 		}
@@ -29,7 +29,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 
 		public List<uint> Werknemers { get; set; } = new();
 
-		public DTOBedrijfOutput(uint id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, List<uint> werknemers) {
+		public BedrijfOutputDTO(uint id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, List<uint> werknemers) {
 			Id = id;
 			Naam = naam;
 			BTW = bTW;

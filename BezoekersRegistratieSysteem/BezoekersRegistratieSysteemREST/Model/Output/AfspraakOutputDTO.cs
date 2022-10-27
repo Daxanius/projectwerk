@@ -1,20 +1,20 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
-	public class DTOAfspraakOutput {
-		public static DTOAfspraakOutput NaarDTO(Afspraak afspraak) {
+	public class AfsrpaakOutputDTO {
+		public static AfsrpaakOutputDTO NaarDTO(Afspraak afspraak) {
 			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, afspraak.Bezoeker.Id, afspraak.Werknemer.Id);
 		}
 
-		public static IEnumerable<DTOAfspraakOutput> NaarDTO(IEnumerable<Afspraak> afspraken) {
-			List<DTOAfspraakOutput> output = new();
+		public static IEnumerable<AfsrpaakOutputDTO> NaarDTO(IEnumerable<Afspraak> afspraken) {
+			List<AfsrpaakOutputDTO> output = new();
 			foreach (Afspraak afspraak in afspraken) {
-				output.Add(DTOAfspraakOutput.NaarDTO(afspraak));
+				output.Add(AfsrpaakOutputDTO.NaarDTO(afspraak));
 			}
 			return output;
 		}
 
-		public DTOAfspraakOutput(uint id, DateTime starttijd, DateTime? eindtijd, uint bezoekerId, uint werknemerId) {
+		public AfsrpaakOutputDTO(uint id, DateTime starttijd, DateTime? eindtijd, uint bezoekerId, uint werknemerId) {
 			Id = id;
 			Starttijd = starttijd;
 			Eindtijd = eindtijd;

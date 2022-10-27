@@ -20,9 +20,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
-		public ActionResult<DTOBedrijfOutput> GeefBedrijf(uint bedrijfId) {
+		public ActionResult<BedrijfOutputDTO> GeefBedrijf(uint bedrijfId) {
 			try {
-				return DTOBedrijfOutput.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfId));
+				return BedrijfOutputDTO.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfId));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -34,9 +34,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfNaam"></param>
 		/// <returns></returns>
 		[HttpGet("{naam}")]
-		public ActionResult<DTOBedrijfOutput> GeefBedrijf(string bedrijfNaam) {
+		public ActionResult<BedrijfOutputDTO> GeefBedrijf(string bedrijfNaam) {
 			try {
-				return DTOBedrijfOutput.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfNaam));
+				return BedrijfOutputDTO.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfNaam));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -47,10 +47,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		public ActionResult<IEnumerable<DTOBedrijfOutput>> GeefAlleBedrijven() {
+		public ActionResult<IEnumerable<BedrijfOutputDTO>> GeefAlleBedrijven() {
 			try {
 				// Kan dit fout gaan?
-				return Ok(DTOBedrijfOutput.NaarDTO(_bedrijfManager.Geefbedrijven()));
+				return Ok(BedrijfOutputDTO.NaarDTO(_bedrijfManager.Geefbedrijven()));
 			} catch (Exception ex) {
 				return BadRequest(ex);
 			}
@@ -80,9 +80,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfData"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<DTOBedrijfOutput> VoegBedrijfToe([FromBody] BedrijfInputDTO bedrijfData) {
+		public ActionResult<BedrijfOutputDTO> VoegBedrijfToe([FromBody] BedrijfInputDTO bedrijfData) {
 			try {
-				return DTOBedrijfOutput.NaarDTO(_bedrijfManager.VoegBedrijfToe(bedrijfData.NaarBusiness()));
+				return BedrijfOutputDTO.NaarDTO(_bedrijfManager.VoegBedrijfToe(bedrijfData.NaarBusiness()));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
@@ -95,13 +95,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfInput"></param>
 		/// <returns></returns>
 		[HttpPut("{bedrijfId}")]
-		public ActionResult<DTOBedrijfOutput> BewerkBedrijf(uint bedrijfId, [FromBody] BedrijfInputDTO bedrijfInput) {
+		public ActionResult<BedrijfOutputDTO> BewerkBedrijf(uint bedrijfId, [FromBody] BedrijfInputDTO bedrijfInput) {
 			try {
 				Bedrijf bedrijf = bedrijfInput.NaarBusiness();
 				bedrijf.ZetId(bedrijfId);
 
 				_bedrijfManager.BewerkBedrijf(bedrijf);
-				return DTOBedrijfOutput.NaarDTO(bedrijf);
+				return BedrijfOutputDTO.NaarDTO(bedrijf);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
