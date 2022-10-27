@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Model;
+using BezoekersRegistratieSysteemREST.Model.Input;
 using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
@@ -10,9 +11,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 	[ApiController]
 	public class BedrijfController : ControllerBase {
 		private readonly BedrijfManager _bedrijfManager;
+		private readonly WerknemerManager _werknemerManager;
 
-		public BedrijfController(BedrijfManager afspraakManager) {
+		public BedrijfController(BedrijfManager afspraakManager, WerknemerManager werknemerManager) {
 			_bedrijfManager = afspraakManager;
+			_werknemerManager = werknemerManager;
 		}
 
 		/// <summary>
@@ -114,11 +117,50 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
 		[HttpGet("werknemer/{bedrijfId}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> BewerkBedrijf(uint bedrijfId) {
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GetWerknemers(uint bedrijfId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 
 				return Ok(WerknemerOutputDTO.NaarDTO(bedrijf.GeefWerknemers()));
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Verwijder een werkneemr uit een bedrijf
+		/// </summary>
+		/// <param name="bedrijfId"></param>
+		/// <param name="werknemerId"></param>
+		/// <returns></returns>
+		[HttpDelete("werknemer/{bedrijfId}/{werknemerId}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> VerwijderWerknemerUitBedrijf(uint bedrijfId, uint werknemerId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				bedrijf.VerwijderWerknemerUitBedrijf(werknemer);
+				return Ok();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Voeg een werknemer toe aan een bedrijf
+		/// </summary>
+		/// <param name="bedrijfId"></param>
+		/// <param name="werknemerId"></param>
+		/// <param name="werknemerInfo"></param>
+		/// <returns></returns>
+		[HttpPost("werknemer/{bedrijfId}/{werknemerId}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegwegnemerToeAanBedrijf(uint bedrijfId, uint werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+
+				// Deze implementatie in de BL is questionable
+				bedrijf.VoegWerknemerToeInBedrijf(werknemer, werknemerInfo.Email, werknemerInfo.Functies.First());
+				return Ok();
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
