@@ -3,6 +3,7 @@ using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Model;
 using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
 	[Route("api/[controller]")]
@@ -99,9 +100,25 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				Bedrijf bedrijf = bedrijfInput.NaarBusiness();
 				bedrijf.ZetId(bedrijfId);
-
+				
 				_bedrijfManager.BewerkBedrijf(bedrijf);
 				return BedrijfOutputDTO.NaarDTO(bedrijf);
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Geef de werknemers van dit bedrijf
+		/// </summary>
+		/// <param name="bedrijfId"></param>
+		/// <returns></returns>
+		[HttpGet("werknemer/{bedrijfId}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> BewerkBedrijf(uint bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+
+				return Ok(WerknemerOutputDTO.NaarDTO(bedrijf.GeefWerknemers()));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}

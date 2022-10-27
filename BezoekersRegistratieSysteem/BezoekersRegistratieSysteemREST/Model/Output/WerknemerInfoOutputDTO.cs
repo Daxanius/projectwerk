@@ -6,6 +6,14 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 			return new(info.Bedrijf.Id, info.Email, info.GeefWerknemerFuncties().ToList());
 		}
 
+		public static IEnumerable<WerknemerInfoOutputDTO> NaarDTO(IEnumerable<WerknemerInfo> werknemers) {
+			List<WerknemerInfoOutputDTO> output = new();
+			foreach (WerknemerInfo info in werknemers) {
+				output.Add(WerknemerInfoOutputDTO.NaarDTO(info));
+			}
+			return output;
+		}
+
 		public WerknemerInfoOutputDTO(uint bedrijfId, string email, List<string> functies) {
 			BedrijfId = bedrijfId;
 			Email = email;

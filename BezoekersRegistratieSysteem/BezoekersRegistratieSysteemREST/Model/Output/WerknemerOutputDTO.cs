@@ -4,9 +4,9 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 	public class WerknemerOutputDTO {
 		public static WerknemerOutputDTO NaarDTO(Werknemer werknemer) {
 			var functies = werknemer.GeefBedrijvenEnFunctiesPerWerknemer();
-			Dictionary<uint, string> info = new();
+			Dictionary<uint, WerknemerInfoOutputDTO> info = new();
 			foreach(Bedrijf b in functies.Keys) {
-				info.Add(b.Id, functies[b].Email);
+				info.Add(b.Id, WerknemerInfoOutputDTO.NaarDTO(functies[b]));
 			}
 
 			return new(werknemer.Id, werknemer.Voornaam, werknemer.Achternaam, info);
@@ -20,7 +20,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 			return output;
 		}
 
-		public WerknemerOutputDTO(uint id, string voornaam, string achternaam, Dictionary<uint, string> werknemerInfo) {
+		public WerknemerOutputDTO(uint id, string voornaam, string achternaam, Dictionary<uint, WerknemerInfoOutputDTO> werknemerInfo) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
@@ -30,6 +30,6 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		public uint Id { get; private set; }
 		public string Voornaam { get; private set; }
 		public string Achternaam { get; private set; }
-		public Dictionary<uint, string> WerknemerInfo { get; set; } = new();
+		public Dictionary<uint, WerknemerInfoOutputDTO> WerknemerInfo { get; set; } = new();
 	}
 }
