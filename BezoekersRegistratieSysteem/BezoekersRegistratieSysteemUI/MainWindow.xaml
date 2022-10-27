@@ -1,9 +1,9 @@
 ﻿<Window
-    x:Class="BezoekersRegistratieSysteem.UI.MainWindow"
+    x:Class="BezoekersRegistratieSysteemUI.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:BezoekersRegistratieSysteem.UI"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="mainWindow"
     Title="MainWindow"
