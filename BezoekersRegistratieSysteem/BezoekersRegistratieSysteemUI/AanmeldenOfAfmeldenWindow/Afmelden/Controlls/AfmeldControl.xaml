@@ -69,7 +69,7 @@
                     </Border>
                 </StackPanel>
             </Popup>
-            <Popup
+            <!--<Popup
                 x:Name="popupConform"
                 Panel.ZIndex="1"
                 AllowsTransparency="True"
@@ -100,7 +100,7 @@
                             Style="{StaticResource WijzigButtonStyle}" />
                     </StackPanel>
                 </StackPanel>
-            </Popup>
+            </Popup>-->
         </StackPanel>
     </Grid>
 </UserControl>

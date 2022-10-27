@@ -63,22 +63,19 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			{
 				Email = Email.Trim();
 				new MailAddress(Email);
+				ToonPopupBezoekerAfgemeld();
 			} catch (Exception)
 			{
 				MessageBox.Show("Email is niet in een juist formaat", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
-
-			afmeldControl.Opacity = .15;
-			afmeldControl.IsHitTestVisible = false;
-			popupConform.IsOpen = true;
 		}
 
-		private async void ConformeerPopup(object sender, RoutedEventArgs e)
+		private async void ToonPopupBezoekerAfgemeld()
 		{
-
-			popupConform.IsOpen = false;
 			popupAfgemeld.IsOpen = true;
+			afmeldControl.Opacity = .2;
+			afmeldControl.IsHitTestVisible = false;
 
 			await Task.Delay(1500);
 
@@ -88,13 +85,6 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			afmeldControl.IsHitTestVisible = true;
 
 			GaTerug(null, null);
-		}
-
-		private void WijzigPopup(object sender, RoutedEventArgs e)
-		{
-			afmeldControl.Opacity = 1;
-			afmeldControl.IsHitTestVisible = true;
-			popupConform.IsOpen = false;
 		}
 
 		private void GaTerug(object sender, MouseButtonEventArgs e)

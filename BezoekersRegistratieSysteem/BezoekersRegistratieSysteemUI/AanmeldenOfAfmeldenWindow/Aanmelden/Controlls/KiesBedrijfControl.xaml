@@ -77,39 +77,5 @@
                     TextAlignment="Center" />
             </Border>
         </StackPanel>
-        <Popup
-            x:Name="popup"
-            Panel.ZIndex="1"
-            AllowsTransparency="True"
-            IsOpen="False"
-            Placement="Center"
-            PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-            PopupAnimation="Slide"
-            StaysOpen="True">
-            <StackPanel>
-                <Border Background="{StaticResource ButtonGroen}" CornerRadius="25">
-                    <TextBlock
-                        Padding="50"
-                        FontSize="65"
-                        FontWeight="Bold"
-                        Foreground="WhiteSmoke"
-                        Text="Bent u het zeker?"
-                        TextAlignment="Center" />
-                </Border>
-                <StackPanel Orientation="Horizontal">
-                    <Button
-                        Margin="0,25,25,0"
-                        Click="ConformeerPopup"
-                        Content="Ja"
-                        Style="{StaticResource ConformButtonStyle}" />
-                    <Button
-                        Margin="50,25,0,0"
-                        Background="Orange"
-                        Click="WijzigPopup"
-                        Content="Terug"
-                        Style="{StaticResource WijzigButtonStyle}" />
-                </StackPanel>
-            </StackPanel>
-        </Popup>
     </StackPanel>
 </UserControl>
