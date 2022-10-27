@@ -1,4 +1,5 @@
 using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using Moq;
 
@@ -12,66 +13,62 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		#region Valid Info
 		private static DateTime _st = DateTime.Now;
 		private static DateTime _et = _st.AddHours(2);
-		private Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-		private Werknemer _w = new(10, "werknemer", "werknemersen");
-		#endregion
+		private static Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
+		private static Werknemer _w = new(10, "werknemer", "werknemersen");
 
-		#region UnitTest Afspraak toevoegen
+        private Afspraak _ia = new(_st, _b, _w);
+        private Afspraak _oa = new (10, _st, _et, _b, _w);
+        #endregion
+
+        #region UnitTest Afspraak toevoegen
 		[Fact]
-		public void VoegAfspraakToe_Valid() {
+		public void VoegAfspraakToe_Invalid()
+		{
 			_mockRepo = new Mock<IAfspraakRepository>();
 			_afspraakManager = new AfspraakManager(_mockRepo.Object);
-			Afspraak a = new(_st, _b, _w);
 
-			_afspraakManager.VoegAfspraakToe(a);
+			//"AfspraakManager - VoegAfspraakToe - afspraak mag niet leeg zijn"
+			Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(null));
 
-			_mockRepo.Verify(x => x.VoegAfspraakToe(a), Times.Once);
-		}
-
-		//[Fact]
-		//public void VoegAfspraakToe_Invalid()
-		//{
-		//    _mockRepo = new Mock<IAfspraakRepository>();
-		//    _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-		//    //"AfspraakManager - VoegAfspraakToe - afspraak mag niet leeg zijn"
-		//    Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(null));
-		//    //"AfspraakManager - VoegAfspraakToe - Eindtijd mag nog niet ingevuld zijn"
-		//    Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(new Afspraak(_st, _b, _w)));
-
-		//    Assert.Throws<AfspraakException>(() => _afspraakManager.VoegAfspraakToe(new Afspraak(_st, _b, null)));
-		//    Assert.Throws<AfspraakException>(() => _afspraakManager.VoegAfspraakToe(new Afspraak(_st, null, _w)));
-
-		//    //"AfspraakManager - VoegAfspraakToe - afspraak bestaat al"
-		//    _afspraakManager.VoegAfspraakToe(new Afspraak(_st, _b, _w));
-		//    Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(new Afspraak(_st, _b, _w)));
-
-		//}
+            //"AfspraakManager - VoegAfspraakToe - afspraak bestaat al"
+            _mockRepo.Setup(x => x.BestaatAfspraak(_ia)).Returns(true);
+            var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(_ia));
+            Assert.Equal("AfspraakManager - VoegAfspraakToe - afspraak bestaat al", ex.Message);
+        }
 		#endregion
 
 		#region UnitTest Afspraak verwijderen
-		//[Fact]
-		//public void VerwijderAfspraak_Valid()
-		//{
-		//    _mockRepo = new Mock<IAfspraakRepository>();
-		//    _afspraakManager = new AfspraakManager(_mockRepo.Object);
-		//    Afspraak a = new(10, _st, _et, _b, _w);
+		[Fact]
+		public void VerwijderAfspraak_Invalid()
+		{
+			_mockRepo = new Mock<IAfspraakRepository>();
+			_afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-		//    _afspraakManager.VerwijderAfspraak(a);
+            //"AfspraakManager - VerwijderAfspraak - afspraak mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VerwijderAfspraak(null));
 
-		//    _mockRepo.Verify(x => x.VerwijderAfspraak(a.Id), Times.Once);
-		//}
+            //"AfspraakManager - VerwijderAfspraak - afspraak bestaat al"
+            _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
+            var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VerwijderAfspraak(_oa));
+            Assert.Equal("AfspraakManager - VerwijderAfspraak - afspraak bestaat niet", ex.Message);
+        }
+        #endregion
 
-		//[Fact]
-		//public void VerwijderAfspraak_Invalid()
-		//{
-		//    _mockRepo = new Mock<IAfspraakRepository>();
-		//    _afspraakManager = new AfspraakManager(_mockRepo.Object);
+        #region UnitTest Afspraak bewerken
+        [Fact]
+        public void BewerkAfspraak_Invalid()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-		//    //"AfspraakManager - VoegAfspraakToe - afspraak mag niet leeg zijn"
-		//    Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VerwijderAfspraak(null));
+            //"AfspraakManager - BewerkAfspraak - afspraak mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(null));
 
-		//}
-		#endregion
-	}
+            //"AfspraakManager - BewerkAfspraak - afspraak bestaat al"
+            _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
+            var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
+            Assert.Equal("AfspraakManager - BewerkAfspraak - afspraak bestaat niet", ex.Message);
+        }
+        #endregion
+    }
 }
