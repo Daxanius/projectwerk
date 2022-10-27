@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    Background="WhiteSmoke"
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -81,12 +82,20 @@
                     FontWeight="Medium" />
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1">
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
             <Button
                 Click="WijzigBezoeker"
                 CommandParameter="{Binding}"
                 Style="{StaticResource WijzigButtonStyle}">
-                <Border Background="{StaticResource LichtOranje}" CornerRadius="10">
+                <Border
+                    Margin="0,10"
+                    VerticalAlignment="Center"
+                    Background="{StaticResource LichtOranje}"
+                    CornerRadius="10">
                     <TextBlock Style="{StaticResource ListViewWijzigTextBlockStyle}" Text="Wijzig Bezoeker" />
                 </Border>
             </Button>
@@ -94,7 +103,10 @@
                 Click="WijzigWerknemer"
                 CommandParameter="{Binding}"
                 Style="{StaticResource WijzigButtonStyle}">
-                <Border Background="{StaticResource LichtOranje}" CornerRadius="10">
+                <Border
+                    Margin="0,10"
+                    Background="{StaticResource LichtOranje}"
+                    CornerRadius="10">
                     <TextBlock Style="{StaticResource ListViewWijzigTextBlockStyle}" Text="Wijzig Werknemer" />
                 </Border>
             </Button>
@@ -102,7 +114,10 @@
                 Click="WijzigTijdstip"
                 CommandParameter="{Binding}"
                 Style="{StaticResource WijzigButtonStyle}">
-                <Border Background="{StaticResource LichtOranje}" CornerRadius="10">
+                <Border
+                    Margin="0,10"
+                    Background="{StaticResource LichtOranje}"
+                    CornerRadius="10">
                     <TextBlock Style="{StaticResource ListViewWijzigTextBlockStyle}" Text="Wijzig Tijdstip" />
                 </Border>
             </Button>
@@ -110,7 +125,10 @@
                 Click="VerwijderAfspraak"
                 CommandParameter="{Binding}"
                 Style="{StaticResource WijzigButtonStyle}">
-                <Border Background="{StaticResource LichtRood}" CornerRadius="10">
+                <Border
+                    Margin="0,10"
+                    Background="{StaticResource LichtRood}"
+                    CornerRadius="10">
                     <TextBlock Style="{StaticResource ListViewWijzigTextBlockStyle}" Text="Verwijder Afspraak" />
                 </Border>
             </Button>

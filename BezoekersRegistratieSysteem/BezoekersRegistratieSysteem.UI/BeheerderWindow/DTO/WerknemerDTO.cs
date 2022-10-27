@@ -12,7 +12,7 @@ namespace BezoekersRegistratieSysteem.UI.BeheerderWindow.DTO
 		public string Voornaam { get; private set; }
 		public string Achternaam { get; private set; }
 
-		public Dictionary<BedrijfDTO, WerknemerInfoDTO> WerknemerInfo = new();
+		public Dictionary<string, WerknemerInfoDTO> WerknemerInfo = new();
 
 		public WerknemerDTO(string voornaam, string achternaam)
 		{
@@ -20,6 +20,6 @@ namespace BezoekersRegistratieSysteem.UI.BeheerderWindow.DTO
 			Achternaam = achternaam;
 		}
 
-		public void VoegBedrijfEnFunctieToe(BedrijfDTO bedrijf, WerknemerInfoDTO werknemerInfo) => WerknemerInfo.Add(bedrijf, werknemerInfo);
+		public void VoegBedrijfEnFunctieToe(string bedrijfsNaam, WerknemerInfoDTO werknemerInfo) => WerknemerInfo.Add(bedrijfsNaam, werknemerInfo);
 	}
 }

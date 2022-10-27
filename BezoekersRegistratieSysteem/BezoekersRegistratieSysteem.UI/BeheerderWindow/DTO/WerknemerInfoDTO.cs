@@ -5,16 +5,20 @@ namespace BezoekersRegistratieSysteem.UI.BeheerderWindow.DTO
 	public class WerknemerInfoDTO
 	{
 
-		public BedrijfDTO Bedrijf { get; private set; }
+		public string BedrijfsNaam { get; private set; }
 		public string Email { get; private set; }
 
 		private List<string> Functies = new();
 
-		public WerknemerInfoDTO(BedrijfDTO bedrijf, string email, List<string> functies)
+		public WerknemerInfoDTO(string bedrijfsNaam, string email)
 		{
-			Bedrijf = bedrijf;
+			BedrijfsNaam = bedrijfsNaam;
 			Email = email;
-			Functies = functies;
+		}
+
+		public void AddFunctie(string functie)
+		{
+			Functies.Add(functie);
 		}
 	}
 }
