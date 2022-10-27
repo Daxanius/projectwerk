@@ -1,11 +1,11 @@
 ﻿namespace BezoekersRegistratieSysteemREST.Model {
-	public class DTOWerknemerInput : DTOPersoonInput {
-		public DTOWerknemerInput(string voornaam, string achternaam, string email, uint bedrijfId, string functie) : base(voornaam, achternaam, email) {
-			BedrijfId = bedrijfId;
-			Functie = functie;
+	public class DTOWerknemerInput {
+		public DTOWerknemerInput(string voornaam, string achternaam) {
+			Voornaam = voornaam;
+			Achternaam = achternaam;
 		}
 
-		public uint BedrijfId { get; set; }
-		public string Functie { get; set; }
+		public string Voornaam { get; set; }
+		public string Achternaam { get; set; }
 	}
 }
