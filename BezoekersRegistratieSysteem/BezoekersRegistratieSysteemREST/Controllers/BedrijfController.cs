@@ -47,9 +47,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		public IEnumerable<Bedrijf> GeefAlleBedrijven() {
-			// Kan dit fout gaan?
-			return _bedrijfManager.Geefbedrijven();
+		public ActionResult<IEnumerable<DTOBedrijfOutput>> GeefAlleBedrijven() {
+			try {
+				// Kan dit fout gaan?
+				return Ok(DTOBedrijfOutput.NaarDTO(_bedrijfManager.Geefbedrijven()));
+			} catch (Exception ex) {
+				return BadRequest(ex);
+			}
 		}
 
 		/// <summary>

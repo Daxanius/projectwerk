@@ -43,7 +43,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="openstaand">Als openstaand true is, geef huidige afspraken, werkt alleen voor werknemer</param>
 		/// <returns></returns>
 		[HttpGet]
-		public ActionResult<IEnumerable<Afspraak>> GeefAfspraken([FromQuery] DateTime? dag, [FromQuery] uint? werknemerId, [FromQuery] uint? bedrijfId, [FromQuery] bool openstaand = false) {
+		public ActionResult<IEnumerable<DTOAfspraakOutput>> GeefAfspraken([FromQuery] DateTime? dag, [FromQuery] uint? werknemerId, [FromQuery] uint? bedrijfId, [FromQuery] bool openstaand = false) {
 			try {
 				// Ophalen via ID
 				Werknemer? werknemer = null;
@@ -59,31 +59,31 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 
 				// Als beide de dag EN de werknemer zijn meegegeven
 				if (werknemer != null && dag != null) {
-					return Ok(_afspraakManager.GeefAfsprakenPerWerknemerOpDag(werknemer, dag ?? DateTime.Now));
+					return Ok(DTOAfspraakOutput.NaarDTO(_afspraakManager.GeefAfsprakenPerWerknemerOpDag(werknemer, dag ?? DateTime.Now)));
 				}
 
 				// Als alleen de dag is meegegeven
 				if (dag != null) {
-					return Ok(_afspraakManager.GeefAfsprakenPerDag(dag ?? DateTime.Now));
+					return Ok(DTOAfspraakOutput.NaarDTO(_afspraakManager.GeefAfsprakenPerDag(dag ?? DateTime.Now)));
 				}
 
 				// Als alleen de werknemer is meegegeven
 				if (werknemer != null) {
 					if (openstaand) {
-						return Ok(_afspraakManager.GeefHuidigeAfsprakenPerWerknemer(werknemer));
+						return Ok(DTOAfspraakOutput.NaarDTO(_afspraakManager.GeefHuidigeAfsprakenPerWerknemer(werknemer)));
 					}
 
 					// Zou dit niet ook beter een ID zijn?
-					return Ok(_afspraakManager.GeefAlleAfsprakenPerWerknemer(werknemer));
+					return Ok(DTOAfspraakOutput.NaarDTO(_afspraakManager.GeefAlleAfsprakenPerWerknemer(werknemer)));
 				}
 
 				// Geef alle openstaande afspraken per bedrijf
 				if (bedrijf != null) {
-					return Ok(_afspraakManager.GeefHuidigeAfsprakenPerBedrijf(bedrijf));
+					return Ok(DTOAfspraakOutput.NaarDTO(_afspraakManager.GeefHuidigeAfsprakenPerBedrijf(bedrijf)));
 				}
 
 				// Als niets is meegegeven
-				return Ok(_afspraakManager.GeefHuidigeAfspraken());
+				return Ok(DTOAfspraakOutput.NaarDTO(_afspraakManager.GeefHuidigeAfspraken()));
 			} catch (Exception ex) {
 				return BadRequest(ex);
 			}

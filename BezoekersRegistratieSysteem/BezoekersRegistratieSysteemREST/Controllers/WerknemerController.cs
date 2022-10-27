@@ -38,9 +38,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="achternaam"></param>
 		/// <returns></returns>
 		[HttpGet("{naam}/{achternaam}")]
-		public ActionResult<IEnumerable<Werknemer>> GeefWerknemersOpNaam(string naam, string achternaam) {
+		public ActionResult<IEnumerable<DTOWerknemerOutput>> GeefWerknemersOpNaam(string naam, string achternaam) {
 			try {
-				return Ok(_werknemerManager.GeefWerknemersOpNaam(naam, achternaam).AsEnumerable());
+				return Ok(DTOWerknemerOutput.NaarDTO(_werknemerManager.GeefWerknemersOpNaam(naam, achternaam).AsEnumerable()));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -52,10 +52,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
 		[HttpGet("{bedrijfId}")]
-		public ActionResult<IEnumerable<Werknemer>> GeefWerknemersPerBedrijf(uint bedrijfId) {
+		public ActionResult<IEnumerable<DTOWerknemerOutput>> GeefWerknemersPerBedrijf(uint bedrijfId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				return Ok(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf));
+				return Ok(DTOWerknemerOutput.NaarDTO(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf)));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
