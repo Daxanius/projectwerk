@@ -34,9 +34,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpGet("{naam}")]
 		public ActionResult<Bedrijf> GeefBedrijf(string naam) {
-			// Je kunt nooit genoeg controles hebben
-			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is niet geldig");
-
 			try {
 				return _bedrijfManager.GeefBedrijf(naam);
 			} catch (Exception ex) {
@@ -96,8 +93,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPut]
 		public ActionResult<Bedrijf> BewerkBedrijf([FromBody] Bedrijf bedrijf) {
-			if (bedrijf == null) return BadRequest($"{nameof(bedrijf)} is null");
-
 			try {
 				_bedrijfManager.BewerkBedrijf(bedrijf);
 				return bedrijf;

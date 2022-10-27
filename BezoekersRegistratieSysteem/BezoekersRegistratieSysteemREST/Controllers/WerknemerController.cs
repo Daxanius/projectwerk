@@ -38,8 +38,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpGet("{naam}/{achternaam}")]
 		public ActionResult<IEnumerable<Werknemer>> GeefWerknemersOpNaam(string naam, string achternaam) {
-			if (string.IsNullOrEmpty(naam)) return BadRequest($"{nameof(naam)} is null");
-
 			try {
 				return Ok(_werknemerManager.GeefWerknemersOpNaam(naam, achternaam).AsEnumerable());
 			} catch (Exception ex) {
@@ -88,8 +86,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPost]
 		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] DTOWerknemerInput werknemerData) {
-			if (werknemerData == null) return BadRequest($"{nameof(werknemerData)} is null");
-
 			try {
 				Werknemer werknemer = new(werknemerData.Voornaam, werknemerData.Achternaam);
 				return _werknemerManager.VoegWerknemerToe(werknemer);
@@ -106,8 +102,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPut("{bedrijfId}")]
 		public ActionResult<Werknemer> BewerkWerknemer(uint bedrijfId, [FromBody] Werknemer werknemer) {
-			if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
-
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				_werknemerManager.WijzigWerknemer(werknemer, bedrijf);

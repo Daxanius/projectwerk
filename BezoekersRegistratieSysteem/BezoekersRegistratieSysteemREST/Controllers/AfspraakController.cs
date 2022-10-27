@@ -146,8 +146,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPut]
 		public ActionResult<Afspraak> BewerkAfspraak([FromBody] Afspraak afspraak) {
-			if (afspraak == null) return BadRequest($"{nameof(afspraak)} is null");
-
 			try {
 				_afspraakManager.BewerkAfspraak(afspraak);
 				return afspraak;
