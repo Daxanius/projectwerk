@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Model;
+using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -19,23 +20,23 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
-		public ActionResult<Bedrijf> GeefBedrijf(uint bedrijfId) {
+		public ActionResult<DTOBedrijfOutput> GeefBedrijf(uint bedrijfId) {
 			try {
-				return _bedrijfManager.GeefBedrijf(bedrijfId);
+				return DTOBedrijfOutput.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfId));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
 		}
 
 		/// <summary>
-		/// Verkrijgt een bedrijf op naam
+		/// Verkrijg een bedrijf op naam
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="bedrijfNaam"></param>
 		/// <returns></returns>
 		[HttpGet("{naam}")]
-		public ActionResult<Bedrijf> GeefBedrijf(string naam) {
+		public ActionResult<DTOBedrijfOutput> GeefBedrijf(string bedrijfNaam) {
 			try {
-				return _bedrijfManager.GeefBedrijf(naam);
+				return DTOBedrijfOutput.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfNaam));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -55,12 +56,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// Verwijdert een bedrijf, vraagt momenteel
 		/// het ID als parameter
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
-		[HttpDelete("{id}")]
-		public IActionResult VerwijderBedrijf(uint id) {
+		[HttpDelete("{bedrijfId}")]
+		public IActionResult VerwijderBedrijf(uint bedrijfId) {
 			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(id);
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				_bedrijfManager.VerwijderBedrijf(bedrijf);
 				return Ok();
 			} catch (Exception ex) {
@@ -75,9 +76,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfData"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<Bedrijf> VoegBedrijfToe([FromBody] DTOBedrijfInput bedrijfData) {
+		public ActionResult<DTOBedrijfOutput> VoegBedrijfToe([FromBody] DTOBedrijfInput bedrijfData) {
 			try {
-				return _bedrijfManager.VoegBedrijfToe(bedrijfData.NaarBusiness());
+				return DTOBedrijfOutput.NaarDTO(_bedrijfManager.VoegBedrijfToe(bedrijfData.NaarBusiness()));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
@@ -89,10 +90,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijf"></param>
 		/// <returns></returns>
 		[HttpPut]
-		public ActionResult<Bedrijf> BewerkBedrijf([FromBody] Bedrijf bedrijf) {
+		public ActionResult<DTOBedrijfOutput> BewerkBedrijf([FromBody] Bedrijf bedrijf) {
 			try {
 				_bedrijfManager.BewerkBedrijf(bedrijf);
-				return bedrijf;
+				return DTOBedrijfOutput.NaarDTO(bedrijf);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}

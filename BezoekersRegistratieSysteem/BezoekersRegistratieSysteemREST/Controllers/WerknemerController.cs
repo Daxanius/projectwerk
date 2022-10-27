@@ -2,6 +2,7 @@
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Model;
 using BezoekersRegistratieSysteemREST.Model.Input;
+using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -22,9 +23,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemerId"></param>
 		/// <returns></returns>
 		[HttpGet("{werknemerId}")]
-		public ActionResult<Werknemer> GeefWerknemer(uint werknemerId) {
+		public ActionResult<DTOWerknemerOutput> GeefWerknemer(uint werknemerId) {
 			try {
-				return _werknemerManager.GeefWerknemer(werknemerId);
+				return DTOWerknemerOutput.NaarDTO(_werknemerManager.GeefWerknemer(werknemerId));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -85,9 +86,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemerData"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] DTOWerknemerInput werknemerData) {
+		public ActionResult<DTOWerknemerOutput> VoegWerknemerToe([FromBody] DTOWerknemerInput werknemerData) {
 			try {
-				return _werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness());
+				return DTOWerknemerOutput.NaarDTO(_werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness()));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
@@ -100,11 +101,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemer"></param>
 		/// <returns></returns>
 		[HttpPut("{bedrijfId}")]
-		public ActionResult<Werknemer> BewerkWerknemer(uint bedrijfId, [FromBody] Werknemer werknemer) {
+		public ActionResult<DTOWerknemerOutput> BewerkWerknemer(uint bedrijfId, [FromBody] Werknemer werknemer) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				_werknemerManager.WijzigWerknemer(werknemer, bedrijf);
-				return werknemer;
+				return DTOWerknemerOutput.NaarDTO(werknemer);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}

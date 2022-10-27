@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Model;
+using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -25,9 +26,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afspraakId"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
-		public ActionResult<Afspraak> GeefAfspraak(uint afspraakId) {
+		public ActionResult<DTOAfspraakOutput> GeefAfspraak(uint afspraakId) {
 			try {
-				return _afspraakManager.GeefAfspraak(afspraakId);
+				return DTOAfspraakOutput.NaarDTO(_afspraakManager.GeefAfspraak(afspraakId));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -110,12 +111,14 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afrspraak"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<Afspraak> MaakAfspraak([FromBody] DTOAfpsraakInput afrspraak) {
+		public ActionResult<DTOAfspraakOutput> MaakAfspraak([FromBody] DTOAfpsraakInput afrspraak) {
 			try {
 				// De bezoeker en de werknemer ophalen van de ids
 				Bezoeker bezoeker = DTOBezoekerInput.NaarBusiness(afrspraak.Bezoeker);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(afrspraak.WerknemerId);
-				return _afspraakManager.VoegAfspraakToe(new(DateTime.Now, bezoeker, werknemer));
+				return DTOAfspraakOutput.NaarDTO(
+					_afspraakManager.VoegAfspraakToe(new(DateTime.Now, bezoeker, werknemer))
+				);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
@@ -143,10 +146,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afspraak"></param>
 		/// <returns></returns>
 		[HttpPut]
-		public ActionResult<Afspraak> BewerkAfspraak([FromBody] Afspraak afspraak) {
+		public ActionResult<DTOAfspraakOutput> BewerkAfspraak([FromBody] Afspraak afspraak) {
 			try {
 				_afspraakManager.BewerkAfspraak(afspraak);
-				return afspraak;
+				return DTOAfspraakOutput.NaarDTO(afspraak);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
