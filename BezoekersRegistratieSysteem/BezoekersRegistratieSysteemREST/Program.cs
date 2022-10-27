@@ -1,6 +1,5 @@
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemDL;
-using BezoekersRegistratieSysteemREST.Repo;
 
 const string ENV_SQL_CONNECTION = "SQL_CONNECTION_STRING";
 
