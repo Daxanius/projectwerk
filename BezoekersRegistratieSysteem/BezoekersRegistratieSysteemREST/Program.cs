@@ -10,7 +10,7 @@ builder.Host.ConfigureAppConfiguration((hostingContext, configuration) => {
 	// Zorg dat je deze user secret instelt voordat je de applicatie start
 	// zie https://dotnetcoretutorials.com/2022/04/28/using-user-secrets-configuration-in-net/ voor
 	// meer informatie
-	configuration.AddUserSecrets("SQL_CONNECTIONSTRING");
+	configuration.AddUserSecrets(ENV_SQL_CONNECTION);
 });
 
 // Add services to the container.
