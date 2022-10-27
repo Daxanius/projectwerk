@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 
-namespace BezoekersRegistratieSysteemDL {
+namespace BezoekersRegistratieSysteemDL.ADO {
     /// <summary>
 	/// Repo ADO van bedrijven
 	/// </summary>

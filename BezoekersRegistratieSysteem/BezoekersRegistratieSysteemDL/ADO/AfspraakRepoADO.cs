@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BezoekersRegistratieSysteemDL {
+namespace BezoekersRegistratieSysteemDL.ADO {
     //CONTROLES OP STATUS OP BEPAALDE ZAKEN?
     /// <summary>
 	/// Repo ADO van afspraken
