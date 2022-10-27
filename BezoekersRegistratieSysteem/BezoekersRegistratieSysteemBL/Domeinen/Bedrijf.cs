@@ -95,7 +95,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public void ZetBTWControle(string btw) {
 			if (string.IsNullOrWhiteSpace(btw))
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw mag niet leeg zijn");
-			(bool validNummer, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo(btw.Trim());
+			(bool validNummer, DTOBtwInfo? info) = Nutsvoorziening.GeefBTWInfo(btw.Trim());
 			if (!validNummer)
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw is niet geldig");
 			if (info is null)
