@@ -6,6 +6,14 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, afspraak.Bezoeker.Id, afspraak.Werknemer.Id);
 		}
 
+		public static IEnumerable<DTOAfspraakOutput> NaarDTO(IEnumerable<Afspraak> afspraken) {
+			List<DTOAfspraakOutput> output = new();
+			foreach (Afspraak afspraak in afspraken) {
+				output.Add(DTOAfspraakOutput.NaarDTO(afspraak));
+			}
+			return output;
+		}
+
 		public DTOAfspraakOutput(uint id, DateTime starttijd, DateTime? eindtijd, uint bezoekerId, uint werknemerId) {
 			Id = id;
 			Starttijd = starttijd;

@@ -11,6 +11,14 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 			return new(bedrijf.Id, bedrijf.Naam, bedrijf.BTW, bedrijf.IsGecontroleert, bedrijf.TelefoonNummer, bedrijf.Email, bedrijf.Adres, werknemers);
 		}
 
+		public static IEnumerable<DTOBedrijfOutput> NaarDTO(IEnumerable<Bedrijf> bedrijven) {
+			List<DTOBedrijfOutput> output = new();
+			foreach (Bedrijf bedrijf in bedrijven) {
+				output.Add(DTOBedrijfOutput.NaarDTO(bedrijf));
+			}
+			return output;
+		}
+
 		public uint Id { get; set; }
 		public string Naam { get; set; }
 		public string BTW { get; set; }

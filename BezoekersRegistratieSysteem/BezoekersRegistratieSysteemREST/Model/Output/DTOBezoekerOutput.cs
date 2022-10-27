@@ -6,6 +6,14 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 			return new(bezoeker.Id, bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
 		}
 
+		public static IEnumerable<DTOBezoekerOutput> NaarDTO(IEnumerable<Bezoeker> bezoekers) {
+			List<DTOBezoekerOutput> output = new();
+			foreach (Bezoeker bezoeker in bezoekers) {
+				output.Add(DTOBezoekerOutput.NaarDTO(bezoeker));
+			}
+			return output;
+		}
+
 		public DTOBezoekerOutput(uint id, string voornaam, string achternaam, string email, string bedrijf) {
 			Id = id;
 			Voornaam = voornaam;
