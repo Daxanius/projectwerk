@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Exceptions;
+﻿using BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO;
+using BezoekersRegistratieSysteemUI.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,9 @@ namespace BezoekersRegistratieSysteemUI.Aanmelden.DTO
 		internal string Achternaam { get; set; }
 		internal string Email { get; set; }
 		internal string Bedrijf { get; set; }
-		internal string Werknemer { get; set; }
+		internal WerknemerMetFunctieDTO Werknemer { get; set; }
 
-		public GegevensInfoDTO(string voornaam, string achternaam, string email, string bedrijf, string werknemer)
+		public GegevensInfoDTO(string voornaam, string achternaam, string email, string bedrijf, WerknemerMetFunctieDTO werknemer)
 		{
 			ZetVoornaam(voornaam);
 			ZetAchternaam(achternaam);
@@ -56,15 +57,15 @@ namespace BezoekersRegistratieSysteemUI.Aanmelden.DTO
 			Bedrijf = bedrijf;
 		}
 
-		internal void ZetWerknemer(string werknemer)
+		internal void ZetWerknemer(WerknemerMetFunctieDTO werknemer)
 		{
 			ControlleerInput(werknemer, "Werknemer is niet geldig");
 			Werknemer = werknemer;
 		}
 
-		private void ControlleerInput(string input, string errorMessage)
+		private void ControlleerInput(object input, string errorMessage)
 		{
-			if (string.IsNullOrWhiteSpace(input))
+			if (string.IsNullOrWhiteSpace(input?.ToString()))
 			{
 				throw new(errorMessage);
 			}
