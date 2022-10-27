@@ -4,10 +4,6 @@ using BezoekersRegistratieSysteemREST.Model.Output;
 
 namespace BezoekersRegistratieSysteemREST.Model {
 	public class DTOWerknemerInput {
-		public static DTOWerknemerInput NaarDTO(Werknemer werknemer) {
-			return new(werknemer.Voornaam, werknemer.Achternaam);
-		}
-
 		public Werknemer NaarBusiness() {
 			return new(Voornaam, Achternaam);
 		}

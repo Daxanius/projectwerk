@@ -2,10 +2,6 @@
 
 namespace BezoekersRegistratieSysteemREST.Model {
 	public class DTOBedrijfInput {
-		public static DTOBedrijfInput NaarDTO(Bedrijf bedrijf) {
-			return new(bedrijf.Naam, bedrijf.BTW, bedrijf.TelefoonNummer, bedrijf.Email, bedrijf.Adres);
-		}
-
 		public Bedrijf NaarBusiness() {
 			return new(Naam, BTW, TelefoonNummer, Email, Adres);
 		}

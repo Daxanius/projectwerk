@@ -2,10 +2,6 @@
 
 namespace BezoekersRegistratieSysteemREST.Model {
 	public class DTOBezoekerInput {
-		public static DTOBezoekerInput NaarDTO(Bezoeker bezoeker) {
-			return new(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
-		}
-
 		public static Bezoeker NaarBusiness(DTOBezoekerInput bezoeker) {
 			return new(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
 		}
