@@ -9,13 +9,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 	[ApiController]
 	public class AfspraakController : ControllerBase {
 		private readonly AfspraakManager _afspraakManager;
-		private readonly BezoekerManager _bezoekerManager;
 		private readonly WerknemerManager _werknemerManager;
 		private readonly BedrijfManager _bedrijfManager;
 
-		public AfspraakController(AfspraakManager afspraakManager, BezoekerManager bezoekerManager, WerknemerManager werknemerManager, BedrijfManager bedrijfManager) {
+		public AfspraakController(AfspraakManager afspraakManager, WerknemerManager werknemerManager, BedrijfManager bedrijfManager) {
 			_afspraakManager = afspraakManager;
-			_bezoekerManager = bezoekerManager;
 			_werknemerManager = werknemerManager;
 			_bedrijfManager = bedrijfManager;
 		}
@@ -130,9 +128,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afspraakId"></param>
 		/// <returns></returns>
 		[HttpPut("end/{id}")]
-		public IActionResult End(uint afspraakId) {
+		public IActionResult End(uint afspraakId, BezoekerInputDTO bezoekerInput) {
 			try {
 				Afspraak afspraak = _afspraakManager.GeefAfspraak(afspraakId);
+				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
+				afspraak.ZetBezoeker(bezoeker);
+
 				_afspraakManager.BeeindigAfspraakBezoeker(afspraak);
 				return Ok();
 			} catch (Exception ex) {
