@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
+using BezoekersRegistratieSysteemREST.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -92,29 +93,28 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpDelete("{id}")]
-		public IActionResult VerwijderAfspraak(uint id) {
-			try {
-				Afspraak afspraak = _afspraakManager.GeefAfspraak(id);
-				_afspraakManager.VerwijderAfspraak(afspraak);
-				return Ok();
-			} catch (Exception ex) {
-				return NotFound(ex.Message);
-			}
-		}
+		//[HttpDelete("{id}")]
+		//public IActionResult VerwijderAfspraak(uint id) {
+		//	try {
+		//		Afspraak afspraak = _afspraakManager.GeefAfspraak(id);
+		//		_afspraakManager.VerwijderAfspraak(afspraak);
+		//		return Ok();
+		//	} catch (Exception ex) {
+		//		return NotFound(ex.Message);
+		//	}
+		//}
 
 		/// <summary>
-		/// Maakt een afspraak tussen een bezoeker en een werknemer op dit moment van de dag
+		/// Maak een afspraak
 		/// </summary>
-		/// <param name="bezoekerId"></param>
-		/// <param name="werknemerId"></param>
+		/// <param name="afrspraak"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<Afspraak> MaakAfspraak([FromQuery] uint bezoekerId, [FromQuery] uint werknemerId) {
+		public ActionResult<Afspraak> MaakAfspraak([FromBody] DTOAfpsraakInput afrspraak) {
 			try {
 				// De bezoeker en de werknemer ophalen van de ids
-				Bezoeker bezoeker = _bezoekerManager.GeefBezoeker(bezoekerId);
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				Bezoeker bezoeker = new Bezoeker(afrspraak.Bezoeker.Voornaam, afrspraak.Bezoeker.Achternaam, afrspraak.Bezoeker.Email, afrspraak.Bezoeker.Bedrijf);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(afrspraak.WerknemerId);
 
 				Afspraak afspraak = new(0, DateTime.Now, null, bezoeker, werknemer);
 				return _afspraakManager.VoegAfspraakToe(afspraak);
