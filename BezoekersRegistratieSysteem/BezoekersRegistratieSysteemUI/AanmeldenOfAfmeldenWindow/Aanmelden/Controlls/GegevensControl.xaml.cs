@@ -1,19 +1,31 @@
-﻿using BezoekersRegistratieSysteem.UI.Aanmelden.DTO;
-using BezoekersRegistratieSysteem.UI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO;
+﻿using BezoekersRegistratieSysteemUI.Aanmelden.DTO;
+using BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteem.UI.Controlls {
+namespace BezoekersRegistratieSysteemUI.Controlls
+{
 	/// <summary>
 	/// Interaction logic for InputControl.xaml
 	/// </summary>
-	public partial class GegevensControl : UserControl, INotifyPropertyChanged {
+	public partial class GegevensControl : UserControl, INotifyPropertyChanged
+	{
 
 		private string _voornaam;
 		public string Voornaam {
@@ -94,14 +106,17 @@ namespace BezoekersRegistratieSysteem.UI.Controlls {
 			}
 		}
 
-		public GegevensControl() {
+		public GegevensControl()
+		{
 			this.DataContext = this;
 			InitializeComponent();
 		}
 
 		//Zet bedrijf belijk aan prop Bedrijf
-		public void ZetGeselecteerdBedrijf(string bedrijfsNaam) {
-			if (string.IsNullOrWhiteSpace(bedrijfsNaam)) {
+		public void ZetGeselecteerdBedrijf(string bedrijfsNaam)
+		{
+			if (string.IsNullOrWhiteSpace(bedrijfsNaam))
+			{
 				MessageBox.Show("Bedrijf is leeg", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
@@ -112,17 +127,21 @@ namespace BezoekersRegistratieSysteem.UI.Controlls {
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public void UpdatePropperty([CallerMemberName] string propertyName = "") {
+		public void UpdatePropperty([CallerMemberName] string propertyName = "")
+		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		#endregion
 
 		//Klik op Ga verder knop
-		private void GaVerderButtonClickEvent(object sender, RoutedEventArgs e) {
-			try {
+		private void GaVerderButtonClickEvent(object sender, RoutedEventArgs e)
+		{
+			try
+			{
 				GegevensInfoDTO gegevensInfo = new(Voornaam, Achternaam, Email, Bedrijf, Werknemer);
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
@@ -132,7 +151,8 @@ namespace BezoekersRegistratieSysteem.UI.Controlls {
 			popupConform.IsOpen = true;
 		}
 
-		private async void ConformeerPopup(object sender, RoutedEventArgs e) {
+		private async void ConformeerPopup(object sender, RoutedEventArgs e)
+		{
 			popupConform.IsOpen = false;
 			popupAangemeld.IsOpen = true;
 
@@ -153,21 +173,25 @@ namespace BezoekersRegistratieSysteem.UI.Controlls {
 			Werknemer = string.Empty;
 		}
 
-		private void WijzigPopup(object sender, RoutedEventArgs e) {
+		private void WijzigPopup(object sender, RoutedEventArgs e)
+		{
 			gegevensControl.Opacity = 1;
 			gegevensControl.IsHitTestVisible = true;
 			popupConform.IsOpen = false;
 		}
 
-		private void PlaceholdersListBox_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
+		private void PlaceholdersListBox_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+		{
 			ListBoxItem? item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
-			if (item is not null) {
+			if (item is not null)
+			{
 				string selectedItem = item.Content.ToString();
 				Werknemer = selectedItem;
 			}
 		}
 
-		private void GaTerug(object sender, MouseButtonEventArgs e) {
+		private void GaTerug(object sender, MouseButtonEventArgs e)
+		{
 			Voornaam = string.Empty;
 			Achternaam = string.Empty;
 			Email = string.Empty;

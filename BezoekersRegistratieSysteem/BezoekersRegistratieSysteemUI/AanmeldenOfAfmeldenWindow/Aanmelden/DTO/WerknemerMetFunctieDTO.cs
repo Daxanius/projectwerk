@@ -1,6 +1,11 @@
-﻿namespace BezoekersRegistratieSysteem.UI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO {
-	public class WerknemerMetFunctieDTO {
-		public WerknemerMetFunctieDTO(string naam, string functie) {
+﻿using System;
+
+namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO
+{
+	public class WerknemerMetFunctieDTO
+	{
+		public WerknemerMetFunctieDTO(string naam, string functie)
+		{
 			Naam = naam;
 			Functie = functie;
 		}
