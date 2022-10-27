@@ -167,7 +167,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId"></param>
 		/// <param name="oudeFunctie"></param>
 		/// <returns></returns>
-		[HttpDelete("info/{werknemerId}/{bedrijfId}/{oudeFunctie}/")]
+		[HttpPut("info/{werknemerId}/{bedrijfId}/{oudeFunctie}/")]
 		public ActionResult<WerknemerOutputDTO> BewerkFunctie(uint werknemerId, uint bedrijfId, string oudeFunctie, [FromQuery] string nieuweFunctie) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
