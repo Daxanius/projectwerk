@@ -2,18 +2,22 @@
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
 	public class DTOAfspraakOutput {
-		public DTOAfspraakOutput(uint id, DateTime starttijd, DateTime? eindtijd, string bezoeker, string werknemer) {
+		public static DTOAfspraakOutput NaarDTO(Afspraak afspraak) {
+			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, afspraak.Bezoeker.Id, afspraak.Werknemer.Id);
+		}
+
+		public DTOAfspraakOutput(uint id, DateTime starttijd, DateTime? eindtijd, uint bezoekerId, uint werknemerId) {
 			Id = id;
 			Starttijd = starttijd;
 			Eindtijd = eindtijd;
-			Bezoeker = bezoeker;
-			Werknemer = werknemer;
+			BezoekerId = bezoekerId;
+			WerknemerId = werknemerId;
 		}
 
 		public uint Id { get; set; }
 		public DateTime Starttijd { get; set; }
 		public DateTime? Eindtijd { get; set; }
-		public string Bezoeker { get; set; }
-		public string Werknemer { get; set; }
+		public uint BezoekerId { get; set; }
+		public uint WerknemerId { get; set; }
 	}
 }
