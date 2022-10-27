@@ -95,6 +95,28 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
+		/// Wijzig werknemerinfo van een bedrijf
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfId"></param>
+		/// <param name="werknemerInput"></param>
+		/// <returns></returns>
+		[HttpPut("{werknemerId}/{bedrijfId}")]
+		public ActionResult<WerknemerOutputDTO> BewerkWerknemer(uint werknemerId, uint bedrijfId, [FromBody] WerknemerInputDTO werknemerInput) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = werknemerInput.NaarBusiness();
+				werknemer.ZetId(werknemerId);
+
+				// Waarom heeft dit een bedrijf nodig om werknemer te weizigen?
+				_werknemerManager.WijzigWerknemer(werknemer, bedrijf);
+				return WerknemerOutputDTO.NaarDTO(werknemer);
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
 		/// Geef een lijst met bedrijven en informatie over een werknemer
 		/// </summary>
 		/// <param name="werknemerId"></param>
@@ -139,21 +161,20 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Wijzig werknemerinfo van een bedrijf
+		/// Bewerk info van een werknemer
 		/// </summary>
 		/// <param name="werknemerId"></param>
 		/// <param name="bedrijfId"></param>
-		/// <param name="werknemerInput"></param>
+		/// <param name="info"></param>
 		/// <returns></returns>
-		[HttpPut("{werknemerId}/{bedrijfId}")]
-		public ActionResult<WerknemerOutputDTO> BewerkWerknemer(uint werknemerId, uint bedrijfId, [FromBody] WerknemerInputDTO werknemerInput) {
+		[HttpPost("info/{werknemerId}")]
+		public ActionResult<WerknemerOutputDTO> BewerkInfo(uint werknemerId, [FromBody] WerknemerInfoInputDTO info) {
 			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				Werknemer werknemer = werknemerInput.NaarBusiness();
-				werknemer.ZetId(werknemerId);
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(info.BedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
-				// Waarom heeft dit een bedrijf nodig om werknemer te weizigen?
-				_werknemerManager.WijzigWerknemer(werknemer, bedrijf);
+				// Dit is nogal een vreemde manier om functies toe te voegen, wat heeft Email hiermee te maken?
+				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, info.Email, info.Functies.First());
 				return WerknemerOutputDTO.NaarDTO(werknemer);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
