@@ -2,7 +2,7 @@
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
 	public class DTOBedrijfOutput {
-		public DTOBedrijfOutput NaarDTO(Bedrijf bedrijf) {
+		public static DTOBedrijfOutput NaarDTO(Bedrijf bedrijf) {
 			List<uint> werknemers = new();
 			foreach(Werknemer w in bedrijf.GeefWerknemers()) {
 				werknemers.Add(w.Id);
