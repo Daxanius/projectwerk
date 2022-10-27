@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Model;
+using BezoekersRegistratieSysteemREST.Model.Input;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -62,21 +63,23 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Verwijder een werknemer op ID
+		/// Verwijder een werknemer van een bedrijf
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="bedrijfId"></param>
+		/// <param name="werknemerId"></param>
 		/// <returns></returns>
-		//[HttpDelete("{id}")]
-		//public IActionResult VerwijderWerknemer(uint id) {
-		//	try {
-		//		Werknemer werknemer = _werknemerManager.GeefWerknemer(id);
-		//		_werknemerManager.VerwijderWerknemer(werknemer, bedrijf);
-		//		return Ok();
-		//	} catch (Exception ex) {
-		//		// Welke IActionResults zijn er??
-		//		return NotFound(ex.Message);
-		//	}
-		//}
+		[HttpDelete("{beddrijfId}/{werknemerId}")]
+		public IActionResult VerwijderWerknemer(uint bedrijfId, uint werknemerId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				_werknemerManager.VerwijderWerknemer(werknemer, bedrijf);
+				return Ok();
+			} catch (Exception ex) {
+				// Welke IActionResults zijn er??
+				return NotFound(ex.Message);
+			}
+		}
 
 		/// <summary>
 		/// Voeg een werknemer toe
@@ -96,20 +99,22 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Bewerk een werknemer
+		/// Wijzig werknemerinfo van een bedrijf
 		/// </summary>
+		/// <param name="bedrijfId"></param>
 		/// <param name="werknemer"></param>
 		/// <returns></returns>
-		//[HttpPut]
-		//public ActionResult<Werknemer> BewerkWerknemer([FromBody] Werknemer werknemer) {
-		//	if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
+		[HttpPut("{bedrijfId}")]
+		public ActionResult<Werknemer> BewerkWerknemer(uint bedrijfId, [FromBody] Werknemer werknemer) {
+			if (werknemer == null) return BadRequest($"{nameof(werknemer)} is null");
 
-		//	try {
-		//		_werknemerManager.WijzigWerknemer(werknemer);
-		//		return werknemer;
-		//	} catch (Exception ex) {
-		//		return BadRequest(ex.Message);
-		//	}
-		//}
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				_werknemerManager.WijzigWerknemer(werknemer, bedrijf);
+				return werknemer;
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
 	}
 }
