@@ -8,6 +8,6 @@
 
 		public uint Bedrijf { get; set; }
 		public string Email { get; set; }
-		public List<String> Functies { get; set; } = new();
+		public List<string> Functies { get; set; } = new();
 	}
 }
