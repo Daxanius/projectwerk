@@ -10,7 +10,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public uint Id { get; private set; }
 		public string Naam { get; private set; }
 		public string BTW { get; private set; }
-		public bool BtwIsGeldig { get; private set; }
+		public bool IsGecontroleert { get; private set; }
 		public string TelefoonNummer { get; private set; }
 		public string Email { get; private set; }
 		public string Adres { get; private set; }
@@ -83,7 +83,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <exception cref="BedrijfException"></exception>
 		public void ZetBTW(string btw) {
 			if (string.IsNullOrWhiteSpace(btw)) throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
-			BTW = btw.Trim();
+			BTW = Nutsvoorziening.VerwijderWhitespace(btw);
 		}
 
 		/// <summary>
@@ -99,9 +99,11 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			if (!validNummer)
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw is niet geldig");
 			if (info is null)
-				// TODO: zorg ervoor dat wij een platte BTW service kunnen afhandelen
-				throw new BedrijfException("Bedrijf - ZetBTWControle - BTWInfo is null (ligt de service plat?)");
-			BtwIsGeldig = true;
+				// Als de BTW controle service plat ligt dan is BTW niet gecontoleerd 
+				// Maar wel geldig
+				IsGecontroleert = false;
+				ZetBTW(btw);
+			IsGecontroleert = true;
 			ZetBTW(info.LandCode + info.BtwNumber);
 		}
 
