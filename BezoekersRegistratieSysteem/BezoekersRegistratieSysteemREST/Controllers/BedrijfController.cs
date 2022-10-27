@@ -148,14 +148,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Voeg een werknemer toe aan een bedrijf
 		/// </summary>
-		/// <param name="bedrijfId"></param>
 		/// <param name="werknemerId"></param>
 		/// <param name="werknemerInfo"></param>
 		/// <returns></returns>
-		[HttpPost("werknemer/{bedrijfId}/{werknemerId}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegwegnemerToeAanBedrijf(uint bedrijfId, uint werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo) {
+		[HttpPost("werknemer/{werknemerId}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegwegnemerToeAanBedrijf(uint werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo) {
 			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(werknemerInfo.BedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
 				// Deze implementatie in de BL is questionable
