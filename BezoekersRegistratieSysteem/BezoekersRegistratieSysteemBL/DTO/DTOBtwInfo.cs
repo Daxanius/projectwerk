@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 namespace BezoekersRegistratieSysteemBL.DTO {
-	public class BtwInfoDTO {
+	public class DTOBtwInfo {
 		[JsonProperty("valid")]
 		public bool Valid { get; set; }
 
