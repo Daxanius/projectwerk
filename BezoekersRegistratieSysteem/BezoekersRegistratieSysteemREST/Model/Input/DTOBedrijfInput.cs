@@ -1,6 +1,6 @@
-﻿namespace BezoekersRegistratieSysteemBL.DTO {
-	public class DTOBedrijf {
-		public DTOBedrijf(string naam, string bTW, string telefoonNummer, string email, string adres) {
+﻿namespace BezoekersRegistratieSysteemREST.Model {
+	public class DTOBedrijfInput {
+		public DTOBedrijfInput(string naam, string bTW, string telefoonNummer, string email, string adres) {
 			Naam = naam;
 			BTW = bTW;
 			TelefoonNummer = telefoonNummer;

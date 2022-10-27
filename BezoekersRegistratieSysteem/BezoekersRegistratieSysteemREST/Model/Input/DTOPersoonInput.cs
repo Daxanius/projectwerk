@@ -1,6 +1,6 @@
-﻿namespace BezoekersRegistratieSysteemBL.DTO {
-	public class DTOPersoon {
-		public DTOPersoon(string voornaam, string achternaam, string email) {
+﻿namespace BezoekersRegistratieSysteemREST.Model {
+	public class DTOPersoonInput {
+		public DTOPersoonInput(string voornaam, string achternaam, string email) {
 			Voornaam = voornaam;
 			Achternaam = achternaam;
 			Email = email;

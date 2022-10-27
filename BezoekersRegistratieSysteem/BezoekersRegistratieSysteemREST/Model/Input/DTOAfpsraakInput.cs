@@ -1,6 +1,6 @@
-﻿namespace BezoekersRegistratieSysteemBL.DTO {
-	public class DTOAfpsraak {
-		public DTOAfpsraak(DateTime starttijd, DateTime? eindtijd, uint werknemerId, uint bezoekerId) {
+﻿namespace BezoekersRegistratieSysteemREST.Model {
+	public class DTOAfpsraakInput {
+		public DTOAfpsraakInput(DateTime starttijd, DateTime? eindtijd, uint werknemerId, uint bezoekerId) {
 			Starttijd = starttijd;
 			Eindtijd = eindtijd;
 			WerknemerId = werknemerId;

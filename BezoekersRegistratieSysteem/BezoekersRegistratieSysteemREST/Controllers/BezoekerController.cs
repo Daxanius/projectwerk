@@ -1,6 +1,6 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.DTO;
 using BezoekersRegistratieSysteemBL.Managers;
+using BezoekersRegistratieSysteemREST.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -83,7 +83,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bezoekerData"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<Bezoeker> VoegBezoekerTOe([FromBody] DTOBezoeker bezoekerData) {
+		public ActionResult<Bezoeker> VoegBezoekerTOe([FromBody] DTOBezoekerInput bezoekerData) {
 			if (bezoekerData == null) return BadRequest($"{nameof(bezoekerData)} is null");
 
 			try {

@@ -1,6 +1,6 @@
-﻿namespace BezoekersRegistratieSysteemBL.DTO {
-	public class DTOParkingContract {
-		public DTOParkingContract(DateTime starttijd, DateTime? eindtijd, int aantalPlaatsen) {
+﻿namespace BezoekersRegistratieSysteemREST.Model {
+	public class DTOParkingContractInput {
+		public DTOParkingContractInput(DateTime starttijd, DateTime? eindtijd, int aantalPlaatsen) {
 			Starttijd = starttijd;
 			Eindtijd = eindtijd;
 			AantalPlaatsen = aantalPlaatsen;
