@@ -1,5 +1,11 @@
-﻿namespace BezoekersRegistratieSysteemREST.Model.Output {
+﻿using BezoekersRegistratieSysteemBL.Domeinen;
+
+namespace BezoekersRegistratieSysteemREST.Model.Output {
 	public class DTOBezoekerOutput {
+		public static DTOBezoekerOutput NaarDTO(Bezoeker bezoeker) {
+			return new(bezoeker.Id, bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
+		}
+
 		public DTOBezoekerOutput(uint id, string voornaam, string achternaam, string email, string bedrijf) {
 			Id = id;
 			Voornaam = voornaam;
