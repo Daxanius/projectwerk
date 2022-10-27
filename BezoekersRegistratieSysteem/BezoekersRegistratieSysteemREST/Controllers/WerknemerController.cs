@@ -127,7 +127,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpPost("info/{werknemerId}")]
 		public ActionResult<WerknemerOutputDTO> VoegInfoToe(uint werknemerId, [FromBody] WerknemerInfoInputDTO info) {
 			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(info.Bedrijf);
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(info.BedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 				
 				// Dit is nogal een vreemde manier om functies toe te voegen, wat heeft Email hiermee te maken?
