@@ -59,7 +59,7 @@ namespace xUnitBezoekersRegistratiesysteem {
 		[InlineData("   BE0676747521    ")]
 		[InlineData("BE    0676747521")]
 		public void ControleerBTWNummer_Valid(string btw) {
-			(bool valid, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo(btw);
+			(bool valid, DTOBtwInfo? info) = Nutsvoorziening.GeefBTWInfo(btw);
 			Assert.True(Nutsvoorziening.ControleerBTWNummer(btw));
 		}
 		#endregion
@@ -89,7 +89,7 @@ namespace xUnitBezoekersRegistratiesysteem {
 		[InlineData("   BE0676747521    ")]
 		[InlineData("BE    0676747521")]
 		public void GeefBTWInfo_Valid(string btw) {
-			(bool valid, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo(btw);
+			(bool valid, DTOBtwInfo? info) = Nutsvoorziening.GeefBTWInfo(btw);
 
 			Assert.True(valid);
 
@@ -100,7 +100,7 @@ namespace xUnitBezoekersRegistratiesysteem {
 		[Fact]
 		public void GeefBTWInfo_NotExist() {
 			// Tijdens het opmaken van deze test, bestaat dit bedrijf nog niet
-			(bool valid, BtwInfoDTO? info) = Nutsvoorziening.GeefBTWInfo("BE1234567891");
+			(bool valid, DTOBtwInfo? info) = Nutsvoorziening.GeefBTWInfo("BE1234567891");
 
 			Assert.False(valid);
 			Assert.Null(info);

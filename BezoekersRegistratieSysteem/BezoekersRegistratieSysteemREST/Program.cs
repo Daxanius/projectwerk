@@ -1,5 +1,7 @@
 using BezoekersRegistratieSysteemBL.Managers;
-using BezoekersRegistratieSysteemREST.Repo;
+using BezoekersRegistratieSysteemDL;
+
+const string KEY_SQL_CONNECTION = "SQL:ConnectionString";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,18 +12,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+string? connectionstring = builder.Configuration[KEY_SQL_CONNECTION];
+
+if (connectionstring is null) {
+	Console.WriteLine($"{KEY_SQL_CONNECTION} is niet ingesteld");
+	return;
+}
+
 // Alle managers als singleton toevoegen
 // dit omdat de API interract met de managers
 // WAARCHUWING: DE REPOS ZIJN TIJDELIJK, MOETEN VERVANGEN WORDEN DOOR DB
-var manager = new BedrijfRepo();
+var manager = new BedrijfRepoADO(connectionstring);
 BedrijfManager bedrijfManager = new(manager);
-AfspraakManager afspraakManager = new(new AfspraakRepo());
-BezoekerManager bezoekerManager = new(new BezoekerRepo());
-WerknemerManager werknemerManager = new(new WerknemerRepo(), manager);
+AfspraakManager afspraakManager = new(new AfspraakRepoADO(connectionstring));
+WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring), manager);
 
 builder.Services.AddSingleton(bedrijfManager);
 builder.Services.AddSingleton(afspraakManager);
-builder.Services.AddSingleton(bezoekerManager);
 builder.Services.AddSingleton(werknemerManager);
 
 // Wij hebben liever lowercase URLs voor onze Aapie
