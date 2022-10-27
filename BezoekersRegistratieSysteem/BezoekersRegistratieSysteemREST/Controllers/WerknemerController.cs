@@ -161,20 +161,55 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Bewerk info van een werknemer
+		/// Bewerk een functie van een werknemer
 		/// </summary>
 		/// <param name="werknemerId"></param>
 		/// <param name="bedrijfId"></param>
-		/// <param name="info"></param>
+		/// <param name="oudeFunctie"></param>
 		/// <returns></returns>
-		[HttpPost("info/{werknemerId}")]
-		public ActionResult<WerknemerOutputDTO> BewerkInfo(uint werknemerId, [FromBody] WerknemerInfoInputDTO info) {
+		[HttpDelete("info/{werknemerId}/{bedrijfId}/{oudeFunctie}/")]
+		public ActionResult<WerknemerOutputDTO> BewerkFunctie(uint werknemerId, uint bedrijfId, string oudeFunctie, [FromQuery] string nieuweFunctie) {
 			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(info.BedrijfId);
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				werknemer.WijzigFunctie(bedrijf, oudeFunctie, nieuweFunctie);
+				return WerknemerOutputDTO.NaarDTO(werknemer);
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
 
-				// Dit is nogal een vreemde manier om functies toe te voegen, wat heeft Email hiermee te maken?
-				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, info.Email, info.Functies.First());
+		/// <summary>
+		/// Verwijder een functie van werknemer
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfId"></param>
+		/// <param name="functie"></param>
+		/// <returns></returns>
+		[HttpDelete("info/{werknemerId}/{bedrijfId}/{functie}/")]
+		public ActionResult<WerknemerOutputDTO> VerwijderFunctie(uint werknemerId, uint bedrijfId, string functie) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				werknemer.VerwijderFunctie(bedrijf, functie);
+				return WerknemerOutputDTO.NaarDTO(werknemer);
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Verwijder een bedrijf van werknemer
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfId"></param>
+		/// <returns></returns>
+		[HttpDelete("info/{werknemerId}/{bedrijfId}")]
+		public ActionResult<WerknemerOutputDTO> VerwijderBedrijf(uint werknemerId, uint bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				werknemer.VerwijderBedrijfVanWerknemer(bedrijf);
 				return WerknemerOutputDTO.NaarDTO(werknemer);
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
