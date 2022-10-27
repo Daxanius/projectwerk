@@ -20,7 +20,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 			TelefoonNummer = telefoonNummer;
 			Email = email;
 			Adres = adres;
-			this.werknemers = werknemers;
+			this.Werknemers = werknemers;
 		}
 	}
 }

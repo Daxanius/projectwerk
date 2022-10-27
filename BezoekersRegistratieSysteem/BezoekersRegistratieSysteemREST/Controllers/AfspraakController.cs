@@ -113,11 +113,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<Afspraak> MaakAfspraak([FromBody] DTOAfpsraakInput afrspraak) {
 			try {
 				// De bezoeker en de werknemer ophalen van de ids
-				Bezoeker bezoeker = new Bezoeker(afrspraak.Bezoeker.Voornaam, afrspraak.Bezoeker.Achternaam, afrspraak.Bezoeker.Email, afrspraak.Bezoeker.Bedrijf);
+				Bezoeker bezoeker = DTOBezoekerInput.NaarBusiness(afrspraak.Bezoeker);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(afrspraak.WerknemerId);
-
-				Afspraak afspraak = new(0, DateTime.Now, null, bezoeker, werknemer);
-				return _afspraakManager.VoegAfspraakToe(afspraak);
+				return _afspraakManager.VoegAfspraakToe(new(DateTime.Now, bezoeker, werknemer));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}

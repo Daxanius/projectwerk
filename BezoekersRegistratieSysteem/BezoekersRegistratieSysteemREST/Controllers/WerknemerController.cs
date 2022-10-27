@@ -87,8 +87,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpPost]
 		public ActionResult<Werknemer> VoegWerknemerToe([FromBody] DTOWerknemerInput werknemerData) {
 			try {
-				Werknemer werknemer = new(werknemerData.Voornaam, werknemerData.Achternaam);
-				return _werknemerManager.VoegWerknemerToe(werknemer);
+				return _werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness());
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}

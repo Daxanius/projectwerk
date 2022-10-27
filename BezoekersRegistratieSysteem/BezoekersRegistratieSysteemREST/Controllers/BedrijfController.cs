@@ -76,11 +76,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <returns></returns>
 		[HttpPost]
 		public ActionResult<Bedrijf> VoegBedrijfToe([FromBody] DTOBedrijfInput bedrijfData) {
-			if (bedrijfData == null) return BadRequest($"{nameof(bedrijfData)} is null");
-
 			try {
-				Bedrijf bedrijf = new(bedrijfData.Naam, bedrijfData.BTW, bedrijfData.TelefoonNummer, bedrijfData.Email, bedrijfData.Adres);
-				return _bedrijfManager.VoegBedrijfToe(bedrijf);
+				return _bedrijfManager.VoegBedrijfToe(bedrijfData.NaarBusiness());
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
