@@ -16,12 +16,10 @@ builder.Services.AddSwaggerGen();
 var manager = new BedrijfRepo();
 BedrijfManager bedrijfManager = new(manager);
 AfspraakManager afspraakManager = new(new AfspraakRepo());
-BezoekerManager bezoekerManager = new(new BezoekerRepo());
 WerknemerManager werknemerManager = new(new WerknemerRepo(), manager);
 
 builder.Services.AddSingleton(bedrijfManager);
 builder.Services.AddSingleton(afspraakManager);
-builder.Services.AddSingleton(bezoekerManager);
 builder.Services.AddSingleton(werknemerManager);
 
 // Wij hebben liever lowercase URLs voor onze Aapie
