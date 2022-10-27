@@ -92,16 +92,16 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		//[HttpDelete("{id}")]
-		//public IActionResult VerwijderAfspraak(uint id) {
-		//	try {
-		//		Afspraak afspraak = _afspraakManager.GeefAfspraak(id);
-		//		_afspraakManager.VerwijderAfspraak(afspraak);
-		//		return Ok();
-		//	} catch (Exception ex) {
-		//		return NotFound(ex.Message);
-		//	}
-		//}
+		[HttpDelete("{id}")]
+		public IActionResult VerwijderAfspraak(uint id) {
+			try {
+				Afspraak afspraak = _afspraakManager.GeefAfspraak(id);
+				_afspraakManager.VerwijderAfspraak(afspraak);
+				return Ok();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
 
 		/// <summary>
 		/// Maak een afspraak
