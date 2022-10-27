@@ -1,17 +1,9 @@
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemDL;
 
-const string ENV_SQL_CONNECTION = "SQL_CONNECTION_STRING";
+const string KEY_SQL_CONNECTION = "SQL:ConnectionString";
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Het instellen van omgevingsvariabelen voor de connection string
-builder.Host.ConfigureAppConfiguration((hostingContext, configuration) => {
-	// Zorg dat je deze user secret instelt voordat je de applicatie start
-	// zie https://dotnetcoretutorials.com/2022/04/28/using-user-secrets-configuration-in-net/ voor
-	// meer informatie
-	configuration.AddUserSecrets(ENV_SQL_CONNECTION);
-});
 
 // Add services to the container.
 
@@ -20,10 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string? connectionstring = Environment.GetEnvironmentVariable(ENV_SQL_CONNECTION);
+string? connectionstring = builder.Configuration[KEY_SQL_CONNECTION];
 
 if (connectionstring is null) {
-	Console.WriteLine($"Omgevingsvariabele {ENV_SQL_CONNECTION} is niet ingesteld");
+	Console.WriteLine($"{KEY_SQL_CONNECTION} is niet ingesteld");
 	return;
 }
 
