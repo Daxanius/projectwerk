@@ -114,7 +114,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<DTOAfspraakOutput> MaakAfspraak([FromBody] DTOAfpsraakInput afrspraak) {
 			try {
 				// De bezoeker en de werknemer ophalen van de ids
-				Bezoeker bezoeker = DTOBezoekerInput.NaarBusiness(afrspraak.Bezoeker);
+				Bezoeker bezoeker = afrspraak.Bezoeker.NaarBusiness();
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(afrspraak.WerknemerId);
 				return DTOAfspraakOutput.NaarDTO(
 					_afspraakManager.VoegAfspraakToe(new(DateTime.Now, bezoeker, werknemer))
@@ -143,11 +143,14 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Bewerk een afspraak
 		/// </summary>
-		/// <param name="afspraak"></param>
+		/// <param name="afspraakId"></param>
+		/// <param name="afspraakInput"></param>
 		/// <returns></returns>
-		[HttpPut]
-		public ActionResult<DTOAfspraakOutput> BewerkAfspraak([FromBody] Afspraak afspraak) {
+		[HttpPut("{afspraakId}")]
+		public ActionResult<DTOAfspraakOutput> BewerkAfspraak(uint afspraakId, [FromBody] DTOAfpsraakInput afspraakInput) {
 			try {
+				Afspraak afspraak = afspraakInput.NaarBusiness(_werknemerManager);
+				afspraak.ZetId(afspraakId);
 				_afspraakManager.BewerkAfspraak(afspraak);
 				return DTOAfspraakOutput.NaarDTO(afspraak);
 			} catch (Exception ex) {

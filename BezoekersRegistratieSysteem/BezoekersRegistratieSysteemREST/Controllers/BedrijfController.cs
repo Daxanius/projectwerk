@@ -91,11 +91,15 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Bewerk een bedrijf
 		/// </summary>
-		/// <param name="bedrijf"></param>
+		/// <param name="bedrijfId"></param>
+		/// <param name="bedrijfInput"></param>
 		/// <returns></returns>
-		[HttpPut]
-		public ActionResult<DTOBedrijfOutput> BewerkBedrijf([FromBody] Bedrijf bedrijf) {
+		[HttpPut("{bedrijfId}")]
+		public ActionResult<DTOBedrijfOutput> BewerkBedrijf(uint bedrijfId, [FromBody] DTOBedrijfInput bedrijfInput) {
 			try {
+				Bedrijf bedrijf = bedrijfInput.NaarBusiness();
+				bedrijf.ZetId(bedrijfId);
+
 				_bedrijfManager.BewerkBedrijf(bedrijf);
 				return DTOBedrijfOutput.NaarDTO(bedrijf);
 			} catch (Exception ex) {

@@ -97,13 +97,17 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// Wijzig werknemerinfo van een bedrijf
 		/// </summary>
+		/// <param name="werknemerId"></param>
 		/// <param name="bedrijfId"></param>
-		/// <param name="werknemer"></param>
+		/// <param name="werknemerInput"></param>
 		/// <returns></returns>
-		[HttpPut("{bedrijfId}")]
-		public ActionResult<DTOWerknemerOutput> BewerkWerknemer(uint bedrijfId, [FromBody] Werknemer werknemer) {
+		[HttpPut("{werknemerId}/{bedrijfId}")]
+		public ActionResult<DTOWerknemerOutput> BewerkWerknemer(uint werknemerId, uint bedrijfId, [FromBody] DTOWerknemerInput werknemerInput) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				Werknemer werknemer = werknemerInput.NaarBusiness();
+				werknemer.ZetId(werknemerId);
+
 				_werknemerManager.WijzigWerknemer(werknemer, bedrijf);
 				return DTOWerknemerOutput.NaarDTO(werknemer);
 			} catch (Exception ex) {
