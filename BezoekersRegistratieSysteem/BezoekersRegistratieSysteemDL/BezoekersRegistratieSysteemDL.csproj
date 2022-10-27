@@ -7,4 +7,12 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BezoekersRegistratieSysteemBL\BezoekersRegistratieSysteemBL.csproj" />
+  </ItemGroup>
+
 </Project>
