@@ -123,9 +123,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Beeindig een afspraak op ID
+		/// Beeindig een afspraak
 		/// </summary>
 		/// <param name="afspraakId"></param>
+		/// <param name="bezoekerInput"></param>
 		/// <returns></returns>
 		[HttpPut("end/{id}")]
 		public IActionResult End(uint afspraakId, BezoekerInputDTO bezoekerInput) {
@@ -133,7 +134,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				Afspraak afspraak = _afspraakManager.GeefAfspraak(afspraakId);
 				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
 				afspraak.ZetBezoeker(bezoeker);
-
 				_afspraakManager.BeeindigAfspraakBezoeker(afspraak);
 				return Ok();
 			} catch (Exception ex) {
