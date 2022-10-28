@@ -71,8 +71,8 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			}
 		}
 
-		private string _werknemer;
-		public string Werknemer {
+		private WerknemerMetFunctieDTO _werknemer;
+		public WerknemerMetFunctieDTO Werknemer {
 			get {
 				return _werknemer;
 			}
@@ -95,7 +95,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			}
 		}
 
-		private List<WerknemerMetFunctieDTO> _werkNemersLijst = new() { new("Weude", "CEO"), new("Bjorn", "CEO2"), new("Balder", "CEO3") };
+		private List<WerknemerMetFunctieDTO> _werkNemersLijst = new() { new("Weude", "Van Dirk", "CEO"), new("Bjorn", "Not Balding", "CEO2"), new("Balder", "Rust", "CEO3") };
 		public List<WerknemerMetFunctieDTO> WerknemersLijst {
 			get {
 				return _werkNemersLijst;
@@ -170,7 +170,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			Achternaam = string.Empty;
 			Email = string.Empty;
 			Bedrijf = string.Empty;
-			Werknemer = string.Empty;
+			Werknemer = null;
 		}
 
 		private void WijzigPopup(object sender, RoutedEventArgs e)
@@ -185,7 +185,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			ListBoxItem? item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
 			if (item is not null)
 			{
-				string selectedItem = item.Content.ToString();
+				WerknemerMetFunctieDTO selectedItem = item.Content as WerknemerMetFunctieDTO;
 				Werknemer = selectedItem;
 			}
 		}
@@ -196,7 +196,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			Achternaam = string.Empty;
 			Email = string.Empty;
 			Bedrijf = string.Empty;
-			Werknemer = string.Empty;
+			Werknemer = null;
 
 			Window window = Window.GetWindow(this);
 			AanOfUitMeldenScherm aanOfUitMeldenScherm = window.DataContext as AanOfUitMeldenScherm;

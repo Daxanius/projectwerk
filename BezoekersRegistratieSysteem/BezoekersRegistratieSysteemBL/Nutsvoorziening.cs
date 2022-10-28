@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemBL {
 		/// <param name="btwNummer"></param>
 		/// <returns>notatie valid bool, btwinfo resultaat</returns>
 		/// <exception cref="BtwControleException"></exception>
-		public static (bool, BtwInfoDTO?) GeefBTWInfo(string btwNummer) {
+		public static (bool, DTOBtwInfo?) GeefBTWInfo(string btwNummer) {
 			if (string.IsNullOrWhiteSpace(btwNummer)) {
 				throw new BtwControleException("ControleerBTWNummer - btw is leeg");
 			}
@@ -64,7 +64,7 @@ namespace BezoekersRegistratieSysteemBL {
 
 				string responseBody = response.Content.ReadAsStringAsync().Result;
 
-				BtwInfoDTO? btwInfo = JsonConvert.DeserializeObject<BtwInfoDTO>(responseBody);
+				DTOBtwInfo? btwInfo = JsonConvert.DeserializeObject<DTOBtwInfo>(responseBody);
 
 				if (btwInfo is null) {
 					throw new BtwControleException("ControleerBTWNummer - kon btwInfo niet deserialiseren");
