@@ -1,24 +1,26 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemBL.Interfaces {
+namespace BezoekersRegistratieSysteemBL.Interfaces
+{
 	/// <summary>
 	/// Afspraak storage hook
 	/// </summary>
-	public interface IAfspraakRepository {
+	public interface IAfspraakRepository
+	{
 		Afspraak VoegAfspraakToe(Afspraak afspraak);
-		void VerwijderAfspraak(uint afspraakId);
+		void VerwijderAfspraak(long afspraakId);
 		void BewerkAfspraak(Afspraak afspraak);
-		void BeeindigAfspraakBezoeker(uint id);
-		void BeeindigAfspraakSysteem(uint id);
-		Afspraak GeefAfspraak(uint afspraakid);
+		void BeeindigAfspraakBezoeker(long id);
+		void BeeindigAfspraakSysteem(long id);
+		Afspraak GeefAfspraak(long afspraakid);
 		bool BestaatAfspraak(Afspraak afspraak);
-		bool BestaatAfspraak(uint afspraakid);
+		bool BestaatAfspraak(long afspraakid);
 
 		IReadOnlyList<Afspraak> GeefHuidigeAfspraken();
-		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint bedrijfId);
-		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId);
-		IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(uint werknemerId);
-		IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(uint werknemerId, DateTime datum);
+		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(long bedrijfId);
+		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(long werknemerId);
+		IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(long werknemerId);
+		IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(long werknemerId, DateTime datum);
 		IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum);
 	}
 }

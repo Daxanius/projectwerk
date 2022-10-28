@@ -1,12 +1,14 @@
 ﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
-namespace BezoekersRegistratieSysteemBL.Domeinen {
+namespace BezoekersRegistratieSysteemBL.Domeinen
+{
 	/// <summary>
 	/// Informatie over bezoekers
 	/// </summary>
-	public class Bezoeker {
+	public class Bezoeker
+	{
 
-		public uint Id { get; private set; }
+		public long Id { get; private set; }
 		public string Voornaam { get; private set; }
 		public string Achternaam { get; private set; }
 		public string Email { get; private set; }
@@ -24,7 +26,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="achternaam"></param>
 		/// <param name="email"></param>
 		/// <param name="bedrijf"></param>
-		public Bezoeker(string voornaam, string achternaam, string email, string bedrijf) {
+		public Bezoeker(string voornaam, string achternaam, string email, string bedrijf)
+		{
 			ZetVoornaam(voornaam);
 			ZetAchternaam(achternaam);
 			ZetEmail(email);
@@ -39,7 +42,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="achternaam"></param>
 		/// <param name="email"></param>
 		/// <param name="bedrijf"></param>
-		public Bezoeker(uint id, string voornaam, string achternaam, string email, string bedrijf) {
+		public Bezoeker(long id, string voornaam, string achternaam, string email, string bedrijf)
+		{
 			ZetId(id);
 			ZetVoornaam(voornaam);
 			ZetAchternaam(achternaam);
@@ -52,8 +56,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <exception cref="BezoekerException"></exception>
-		public void ZetId(uint id) {
-			if (id == 0) throw new BezoekerException("Bezoeker - ZetId - Id mag niet 0 zijn");
+		public void ZetId(long id)
+		{
+			if (id == 0)
+				throw new BezoekerException("Bezoeker - ZetId - Id mag niet 0 zijn");
 			Id = id;
 		}
 
@@ -62,8 +68,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="voornaam"></param>
 		/// <exception cref="BezoekerException"></exception>
-		public void ZetVoornaam(string voornaam) {
-			if (string.IsNullOrWhiteSpace(voornaam)) throw new BezoekerException("Bezoeker - ZetVoornaam - voornaam mag niet leeg zijn");
+		public void ZetVoornaam(string voornaam)
+		{
+			if (string.IsNullOrWhiteSpace(voornaam))
+				throw new BezoekerException("Bezoeker - ZetVoornaam - voornaam mag niet leeg zijn");
 			Voornaam = voornaam.Trim();
 		}
 
@@ -72,8 +80,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="achternaam"></param>
 		/// <exception cref="BezoekerException"></exception>
-		public void ZetAchternaam(string achternaam) {
-			if (string.IsNullOrWhiteSpace(achternaam)) throw new BezoekerException("Bezoeker - ZetAchternaam - achternaam mag niet leeg zijn");
+		public void ZetAchternaam(string achternaam)
+		{
+			if (string.IsNullOrWhiteSpace(achternaam))
+				throw new BezoekerException("Bezoeker - ZetAchternaam - achternaam mag niet leeg zijn");
 			Achternaam = achternaam.Trim();
 		}
 
@@ -82,12 +92,15 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="email"></param>
 		/// <exception cref="BezoekerException"></exception>
-		public void ZetEmail(string email) {
+		public void ZetEmail(string email)
+		{
 			if (string.IsNullOrWhiteSpace(email))
 				throw new BezoekerException("Bezoeker - ZetEmail - email mag niet leeg zijn");
 			//Checkt of email geldig is
-			if (Nutsvoorziening.IsEmailGeldig(email.Trim())) Email = email.Trim();
-			else throw new BezoekerException("Bezoeker - ZetEmail - email is niet geldig");
+			if (Nutsvoorziening.IsEmailGeldig(email.Trim()))
+				Email = email.Trim();
+			else
+				throw new BezoekerException("Bezoeker - ZetEmail - email is niet geldig");
 		}
 
 		/// <summary>
@@ -95,8 +108,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="bedrijf"></param>
 		/// <exception cref="BezoekerException"></exception>
-		public void ZetBedrijf(string bedrijf) {
-			if (string.IsNullOrWhiteSpace(bedrijf)) throw new BezoekerException("Bezoeker - ZetBedrijf - bedrijf mag niet leeg zijn");
+		public void ZetBedrijf(string bedrijf)
+		{
+			if (string.IsNullOrWhiteSpace(bedrijf))
+				throw new BezoekerException("Bezoeker - ZetBedrijf - bedrijf mag niet leeg zijn");
 			Bedrijf = bedrijf.Trim();
 		}
 
@@ -104,13 +119,20 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// Vergelijkt bezoekers op inhoud.
 		/// </summary>
 		/// <exception cref="BedrijfException"></exception>
-		public bool BezoekerIsGelijk(Bezoeker bezoeker) {
-			if (bezoeker == null) return false;
-			if (bezoeker.Id != Id) return false;
-			if (bezoeker.Voornaam != Voornaam) return false;
-			if (bezoeker.Achternaam != Achternaam) return false;
-			if (bezoeker.Email != Email) return false;
-			if (bezoeker.Bedrijf != Bedrijf) return false;
+		public bool BezoekerIsGelijk(Bezoeker bezoeker)
+		{
+			if (bezoeker == null)
+				return false;
+			if (bezoeker.Id != Id)
+				return false;
+			if (bezoeker.Voornaam != Voornaam)
+				return false;
+			if (bezoeker.Achternaam != Achternaam)
+				return false;
+			if (bezoeker.Email != Email)
+				return false;
+			if (bezoeker.Bedrijf != Bedrijf)
+				return false;
 			return true;
 		}
 	}

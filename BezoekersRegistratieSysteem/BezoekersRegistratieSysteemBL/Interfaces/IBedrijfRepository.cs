@@ -1,19 +1,21 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemBL.Interfaces {
+namespace BezoekersRegistratieSysteemBL.Interfaces
+{
 	/// <summary>
 	/// Bedrijf storage hook
 	/// </summary>
-	public interface IBedrijfRepository {
+	public interface IBedrijfRepository
+	{
 		Bedrijf VoegBedrijfToe(Bedrijf bedrijf);
-		void VerwijderBedrijf(uint id);
+		void VerwijderBedrijf(long id);
 		void BewerkBedrijf(Bedrijf bedrijf);
 
 		bool BestaatBedrijf(Bedrijf bedrijf);
-		bool BestaatBedrijf(uint bedrijf);
+		bool BestaatBedrijf(long bedrijf);
 		bool BestaatBedrijf(string bedrijfsnaam);
 
-		Bedrijf GeefBedrijf(uint id);
+		Bedrijf GeefBedrijf(long id);
 		IReadOnlyList<Bedrijf> Geefbedrijven();
 		Bedrijf GeefBedrijf(string bedrijfsnaam);
 	}
