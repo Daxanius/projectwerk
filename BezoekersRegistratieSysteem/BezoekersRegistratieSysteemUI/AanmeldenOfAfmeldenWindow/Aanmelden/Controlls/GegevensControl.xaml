@@ -64,7 +64,7 @@
                 MaxHeight="300"
                 FontSize="40"
                 ItemsSource="{Binding WerknemersLijst}"
-                PreviewMouseDown="PlaceholdersListBox_OnPreviewMouseDown"
+                PreviewMouseDown="KiesWerknemerUitListViewBox"
                 ScrollViewer.CanContentScroll="False"
                 SelectedItem="{Binding Werknemer}"
                 Style="{StaticResource WerknemerListBoxStyle}">
