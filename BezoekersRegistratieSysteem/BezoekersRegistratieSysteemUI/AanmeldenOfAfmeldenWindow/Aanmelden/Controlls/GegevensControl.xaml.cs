@@ -1,23 +1,13 @@
-﻿using BezoekersRegistratieSysteemUI.Aanmelden.DTO;
-using BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO;
+﻿using BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.Controlls
 {
@@ -27,7 +17,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 	public partial class GegevensControl : UserControl, INotifyPropertyChanged
 	{
 
-		private string _voornaam;
+		private string _voornaam = "Test VOORNAAM";
 		public string Voornaam {
 			get {
 				return _voornaam;
@@ -38,7 +28,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			}
 		}
 
-		private string _achternaam;
+		private string _achternaam = "Test ACHTERNAAM";
 		public string Achternaam {
 			get {
 				return _achternaam;
@@ -49,7 +39,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			}
 		}
 
-		private string _email;
+		private string _email = "Test EMAIL";
 		public string Email {
 			get {
 				return _email;
@@ -60,7 +50,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			}
 		}
 
-		private string _bedrijf;
+		private string _bedrijf = "Test BEDRIJF";
 		public string Bedrijf {
 			get {
 				return _bedrijf;
@@ -95,7 +85,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			}
 		}
 
-		private List<WerknemerMetFunctieDTO> _werkNemersLijst = new() { new("Weude", "Van Dirk", "CEO"), new("Bjorn", "Not Balding", "CEO2"), new("Balder", "Rust", "CEO3") };
+		private List<WerknemerMetFunctieDTO> _werkNemersLijst = new() { new(1, "Weude", "Van Dirk", "CEO"), new(2, "Bjorn", "Not Balding", "CEO2"), new(3, "Balder", "Rust", "CEO3") };
 		public List<WerknemerMetFunctieDTO> WerknemersLijst {
 			get {
 				return _werkNemersLijst;
@@ -119,8 +109,16 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			{
 				MessageBox.Show("Bedrijf is leeg", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
-
+			KrijgWerknemersVanBedrijf(bedrijfsNaam);
 			BedrijfsNaam = bedrijfsNaam;
+		}
+
+		private IEnumerable<WerknemerMetFunctieDTO> KrijgWerknemersVanBedrijf(string bedrijfsNaam)
+		{
+			//Int bedrijfId = [GET] /api/bedrijf/{ bedrijfsNaam} => Krijg bedrijfId van bedrijfsNaam.
+			//List<WerknemersDTO> werknemers = [GET] /api/werknemer/{ bedrijfId} => Krijg alle werknemers, van een bepaald bedrijf.
+
+			return null;
 		}
 
 		#region ProppertyChanged
@@ -139,7 +137,18 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		{
 			try
 			{
-				GegevensInfoDTO gegevensInfo = new(Voornaam, Achternaam, Email, Bedrijf, Werknemer);
+				if (Werknemer == null)
+				{
+					MessageBox.Show("Gelieve een werknemer te kiezen", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+
+				BezoekerDTO nieuweBezoekerData = new(Voornaam, Achternaam, Email, Bedrijf);
+
+				if (Werknemer.Id.HasValue)
+				{
+					MaakNieuweAfspraak(Werknemer.Id.Value, nieuweBezoekerData);
+				}
 			} catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -149,6 +158,21 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			gegevensControl.Opacity = .15;
 			gegevensControl.IsHitTestVisible = false;
 			popupConform.IsOpen = true;
+		}
+
+		private void MaakNieuweAfspraak(int werknemerId, BezoekerDTO bezoeker)
+		{
+			//var body = {
+			//	"bezoeker": {
+			//		"voornaam": "string",
+			//		"achternaam": "string",
+			//		"email": "string",
+			//		"bedrijf": "string"
+			//	},
+			//	"werknemerId": 0
+			//}
+
+			//AfspraakDTO insertedAfspraak = [POST] /api/afspraak = Maak een afspraak en return ze dan met id en starttijd.
 		}
 
 		private async void ConformeerPopup(object sender, RoutedEventArgs e)

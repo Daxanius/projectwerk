@@ -63,12 +63,21 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			{
 				Email = Email.Trim();
 				new MailAddress(Email);
+				MeldBezoekerAf(Email);
 				ToonPopupBezoekerAfgemeld();
 			} catch (Exception)
 			{
 				MessageBox.Show("Email is niet in een juist formaat", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
+		}
+
+		private void MeldBezoekerAf(string email)
+		{
+			//Var body = {
+			//	“email”: “”,
+			//}
+			//[POST] /api/afspraak/end
 		}
 
 		private async void ToonPopupBezoekerAfgemeld()

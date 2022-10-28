@@ -2,11 +2,9 @@
     x:Class="BezoekersRegistratieSysteemUI.Controlls.GegevensControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controlls="clr-namespace:BezoekersRegistratieSysteemUI.Controlls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Name="gegevensControl"
-    d:DataContext="{d:DesignInstance Type=controlls:GegevensControl}"
+    x:Name="gegevensControl"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -153,122 +151,124 @@
                 PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                 PopupAnimation="Slide"
                 StaysOpen="True">
-                <StackPanel>
-                    <StackPanel.Style>
-                        <Style TargetType="StackPanel">
-                            <Setter Property="Background">
-                                <Setter.Value>
-                                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                                        <GradientStop Offset="0" Color="#41518F" />
-                                    </LinearGradientBrush>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </StackPanel.Style>
+                <Border CornerRadius="10">
                     <StackPanel>
                         <StackPanel.Style>
                             <Style TargetType="StackPanel">
-                                <Setter Property="Margin" Value="75,25" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#3b3b3b" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
                             </Style>
                         </StackPanel.Style>
-                        <Label
-                            Margin="0,25"
-                            Padding="0,15,0,15"
-                            HorizontalContentAlignment="Center"
-                            BorderBrush="{StaticResource LichtWit}"
-                            BorderThickness="0,0,0,1"
-                            Content="Klopt Deze Info"
-                            FontSize="45"
-                            FontWeight="Bold"
-                            Foreground="{StaticResource LichtWit}"
-                            Style="{StaticResource LabelTextBoxStyle}" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Orientation="Vertical">
+                        <StackPanel>
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Margin" Value="75,25" />
+                                </Style>
+                            </StackPanel.Style>
+                            <Label
+                                Margin="0,25"
+                                Padding="0,15,0,15"
+                                HorizontalContentAlignment="Center"
+                                BorderBrush="{StaticResource LichtWit}"
+                                BorderThickness="0,0,0,1"
+                                Content="Controle Informatie"
+                                FontSize="45"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource LichtWit}"
+                                Style="{StaticResource LabelTextBoxStyle}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Orientation="Vertical">
+                                    <Label
+                                        Content="Voornaam"
+                                        FontSize="35"
+                                        Style="{StaticResource LabelTextBoxStyle}" />
+                                    <TextBox
+                                        Margin="0,0,25,0"
+                                        Padding="15,5,15,5"
+                                        FontSize="35"
+                                        Foreground="DarkSlateGray"
+                                        IsEnabled="False"
+                                        Style="{StaticResource DefaultTextBoxStyle}"
+                                        Text="{Binding Voornaam}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Column="1"
+                                    Margin="25,0,0,25"
+                                    Orientation="Vertical">
+                                    <Label
+                                        Content="Naam"
+                                        FontSize="35"
+                                        Style="{StaticResource LabelTextBoxStyle}" />
+                                    <TextBox
+                                        Padding="15,5,15,5"
+                                        FontSize="35"
+                                        Foreground="DarkSlateGray"
+                                        IsEnabled="False"
+                                        Style="{StaticResource DefaultTextBoxStyle}"
+                                        Text="{Binding Achternaam}" />
+                                </StackPanel>
+                            </Grid>
+                            <StackPanel Margin="0,0,0,25">
                                 <Label
-                                    Content="Voornaam"
+                                    Content="E-Mail"
                                     FontSize="35"
                                     Style="{StaticResource LabelTextBoxStyle}" />
                                 <TextBox
-                                    Margin="0,0,25,0"
-                                    Padding="15,5,15,5"
                                     FontSize="35"
                                     Foreground="DarkSlateGray"
                                     IsEnabled="False"
                                     Style="{StaticResource DefaultTextBoxStyle}"
-                                    Text="{Binding Voornaam}" />
+                                    Text="{Binding Email}" />
                             </StackPanel>
-                            <StackPanel
-                                Grid.Column="1"
-                                Margin="25,0,0,25"
-                                Orientation="Vertical">
+                            <StackPanel Margin="0,0,0,25">
                                 <Label
-                                    Content="Naam"
+                                    Content="Bedrijf"
                                     FontSize="35"
                                     Style="{StaticResource LabelTextBoxStyle}" />
                                 <TextBox
-                                    Padding="15,5,15,5"
                                     FontSize="35"
                                     Foreground="DarkSlateGray"
                                     IsEnabled="False"
                                     Style="{StaticResource DefaultTextBoxStyle}"
-                                    Text="{Binding Achternaam}" />
+                                    Text="{Binding Bedrijf}" />
                             </StackPanel>
-                        </Grid>
-                        <StackPanel Margin="0,0,0,25">
-                            <Label
-                                Content="E-Mail"
-                                FontSize="35"
-                                Style="{StaticResource LabelTextBoxStyle}" />
-                            <TextBox
-                                FontSize="35"
-                                Foreground="DarkSlateGray"
-                                IsEnabled="False"
-                                Style="{StaticResource DefaultTextBoxStyle}"
-                                Text="{Binding Email}" />
+                            <StackPanel Margin="0,0,0,25">
+                                <Label
+                                    Content="Afspraak Bij"
+                                    FontSize="35"
+                                    Style="{StaticResource LabelTextBoxStyle}" />
+                                <TextBox
+                                    FontSize="35"
+                                    Foreground="DarkSlateGray"
+                                    IsEnabled="False"
+                                    Style="{StaticResource DefaultTextBoxStyle}"
+                                    Text="{Binding Werknemer.NaamEnFunctie, Mode=OneWay}" />
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Margin="0,0,0,25">
-                            <Label
-                                Content="Bedrijf"
-                                FontSize="35"
-                                Style="{StaticResource LabelTextBoxStyle}" />
-                            <TextBox
-                                FontSize="35"
-                                Foreground="DarkSlateGray"
-                                IsEnabled="False"
-                                Style="{StaticResource DefaultTextBoxStyle}"
-                                Text="{Binding Bedrijf}" />
-                        </StackPanel>
-                        <StackPanel Margin="0,0,0,25">
-                            <Label
-                                Content="Afspraak Bij"
-                                FontSize="35"
-                                Style="{StaticResource LabelTextBoxStyle}" />
-                            <TextBox
-                                FontSize="35"
-                                Foreground="DarkSlateGray"
-                                IsEnabled="False"
-                                Style="{StaticResource DefaultTextBoxStyle}"
-                                Text="{Binding Werknemer.NaamEnFunctie, Mode=OneWay}" />
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Button
+                                Margin="25"
+                                Background="Orange"
+                                Click="WijzigPopup"
+                                Content="Wijzig"
+                                Style="{StaticResource ConformButtonStyle}" />
+                            <Button
+                                Margin="25"
+                                Click="ConformeerPopup"
+                                Content="Bevestigen"
+                                Style="{StaticResource ConformButtonStyle}" />
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Button
-                            Margin="25"
-                            Click="ConformeerPopup"
-                            Content="Ja"
-                            Style="{StaticResource ConformButtonStyle}" />
-                        <Button
-                            Margin="25"
-                            Background="Orange"
-                            Click="WijzigPopup"
-                            Content="Wijzig"
-                            Style="{StaticResource ConformButtonStyle}" />
-                    </StackPanel>
-                </StackPanel>
+                </Border>
             </Popup>
             <Popup
                 x:Name="popupAangemeld"
