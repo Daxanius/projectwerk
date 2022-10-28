@@ -4,17 +4,13 @@ using Newtonsoft.Json;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace BezoekersRegistratieSysteemCLI
-{
-	public class DataLaagCUI
-	{
+namespace BezoekersRegistratieSysteemCLI {
+	public class DataLaagCUI {
 		private const string sqlServerHost = "";
 		private const string database = "";
 		private const string connectionString = $"Data Source={sqlServerHost};Initial Catalog={database};Integrated Security=True";
-		static void Main()
-		{
-			if (sqlServerHost == "" || database == "")
-			{
+		static void Main() {
+			if (sqlServerHost == "" || database == "") {
 				Console.WriteLine("sqlServerHost en database moeten ingevult zijn.");
 				return;
 			}
@@ -97,13 +93,39 @@ namespace BezoekersRegistratieSysteemCLI
 			#endregion
 
 			#region BestaatAfspraak(long afspraakid)
-			//try
-			//{
+			//try {
 			//	long afspraakId = 1;
 			//	result = afspraakRepo.BestaatAfspraak(afspraakId);
 			//	Print($"BestaatAfspraak: {result}", "BestaatAfspraak(long afspraakid)");
-			//} catch (Exception ex)
-			//{
+			//} catch (Exception ex) {
+			//	Console.WriteLine($"{ex.Message}");
+			//	Console.ReadKey(false);
+			//	return;
+			//}
+			#endregion
+
+			#region BeeindigAfspraakBezoeker(long afspraakId)
+			//try {
+			//	long afspraakId = 1;
+			//	Print(afspraakRepo.GeefHuidigeAfspraken(), "afspraakRepo.GeefHuidigeAfspraken()");
+			//	afspraakRepo.BeeindigAfspraakBezoeker(afspraakId);
+			//	Print("Afspraak met id 1 verwijderd", "BeeindigAfspraakBezoeker(long afspraakid)");
+			//	Print(afspraakRepo.GeefHuidigeAfspraken(), "afspraakRepo.GeefHuidigeAfspraken()");
+			//} catch (Exception ex) {
+			//	Console.WriteLine($"{ex.Message}");
+			//	Console.ReadKey(false);
+			//	return;
+			//}
+			#endregion
+
+			#region BeeindigAfspraakSysteem(long afspraakId)
+			//try {
+			//	long afspraakId = 1;
+			//	Print(afspraakRepo.GeefHuidigeAfspraken(), "afspraakRepo.GeefHuidigeAfspraken()");
+			//	afspraakRepo.BeeindigAfspraakBezoeker(afspraakId);
+			//	Print("Afspraak met id 1 verwijderd", "BeeindigAfspraakSysteem(long afspraakid)");
+			//	Print(afspraakRepo.GeefHuidigeAfspraken(), "afspraakRepo.GeefHuidigeAfspraken()");
+			//} catch (Exception ex) {
 			//	Console.WriteLine($"{ex.Message}");
 			//	Console.ReadKey(false);
 			//	return;
@@ -124,8 +146,7 @@ namespace BezoekersRegistratieSysteemCLI
 
 			#endregion
 
-			void Print(object input, string functie)
-			{
+			void Print(object input, string functie) {
 				string json = JsonConvert.SerializeObject(input, Formatting.Indented);
 				Console.ForegroundColor = ConsoleColor.DarkCyan;
 				Console.BackgroundColor = ConsoleColor.Black;
@@ -141,16 +162,6 @@ namespace BezoekersRegistratieSysteemCLI
 				Console.ResetColor();
 			}
 		}
-
-		//public static void BeeindigAfspraakBezoeker(long afspraakId)
-		//{
-
-		//}
-
-		//public static void BeeindigAfspraakSysteem(long afspraakId)
-		//{
-
-		//}
 
 		//public static void VerwijderAfspraak(long afspraakId)
 		//{
