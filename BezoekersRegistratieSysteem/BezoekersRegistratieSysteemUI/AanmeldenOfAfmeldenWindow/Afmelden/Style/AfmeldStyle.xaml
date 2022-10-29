@@ -32,9 +32,9 @@
                 <DropShadowEffect
                     BlurRadius="4"
                     Direction="315"
-                    Opacity=".2"
-                    ShadowDepth="4"
-                    Color="Black" />
+                    Opacity=".1"
+                    ShadowDepth="2"
+                    Color="Gray" />
             </Setter.Value>
         </Setter>
     </Style>
@@ -48,9 +48,9 @@
                 <DropShadowEffect
                     BlurRadius="4"
                     Direction="315"
-                    Opacity=".5"
-                    ShadowDepth="4"
-                    Color="Black" />
+                    Opacity=".1"
+                    ShadowDepth="2"
+                    Color="Gray" />
             </Setter.Value>
         </Setter>
 
@@ -70,9 +70,9 @@
                 <DropShadowEffect
                     BlurRadius="4"
                     Direction="315"
-                    Opacity=".5"
-                    ShadowDepth="4"
-                    Color="Black" />
+                    Opacity=".1"
+                    ShadowDepth="2"
+                    Color="Gray" />
             </Setter.Value>
         </Setter>
     </Style>
@@ -84,9 +84,9 @@
                 <DropShadowEffect
                     BlurRadius="4"
                     Direction="315"
-                    Opacity=".5"
-                    ShadowDepth="4"
-                    Color="Black" />
+                    Opacity=".1"
+                    ShadowDepth="2"
+                    Color="Gray" />
             </Setter.Value>
         </Setter>
 
@@ -106,9 +106,9 @@
                 <DropShadowEffect
                     BlurRadius="4"
                     Direction="315"
-                    Opacity=".5"
-                    ShadowDepth="4"
-                    Color="Black" />
+                    Opacity=".1"
+                    ShadowDepth="2"
+                    Color="Gray" />
             </Setter.Value>
         </Setter>
 
@@ -160,9 +160,9 @@
                 <DropShadowEffect
                     BlurRadius="4"
                     Direction="315"
-                    Opacity=".5"
-                    ShadowDepth="4"
-                    Color="Black" />
+                    Opacity=".1"
+                    ShadowDepth="2"
+                    Color="Gray" />
             </Setter.Value>
         </Setter>
 
@@ -201,9 +201,9 @@
                 <DropShadowEffect
                     BlurRadius="4"
                     Direction="315"
-                    Opacity=".5"
-                    ShadowDepth="4"
-                    Color="Black" />
+                    Opacity=".1"
+                    ShadowDepth="2"
+                    Color="Gray" />
             </Setter.Value>
         </Setter>
 
@@ -242,9 +242,9 @@
                 <DropShadowEffect
                     BlurRadius="4"
                     Direction="315"
-                    Opacity=".5"
-                    ShadowDepth="4"
-                    Color="Black" />
+                    Opacity=".1"
+                    ShadowDepth="2"
+                    Color="Gray" />
             </Setter.Value>
         </Setter>
 
