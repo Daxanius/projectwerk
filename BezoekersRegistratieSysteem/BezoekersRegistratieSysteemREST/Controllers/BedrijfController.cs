@@ -4,16 +4,19 @@ using BezoekersRegistratieSysteemREST.Model;
 using BezoekersRegistratieSysteemREST.Model.Input;
 using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
-namespace BezoekersRegistratieSysteemREST.Controllers {
-
+namespace BezoekersRegistratieSysteemREST.Controllers
+{
 	[Route("api/[controller]")]
 	[ApiController]
-	public class BedrijfController : ControllerBase {
+	public class BedrijfController : ControllerBase
+	{
 		private readonly BedrijfManager _bedrijfManager;
 		private readonly WerknemerManager _werknemerManager;
 
-		public BedrijfController(BedrijfManager afspraakManager, WerknemerManager werknemerManager) {
+		public BedrijfController(BedrijfManager afspraakManager, WerknemerManager werknemerManager)
+		{
 			_bedrijfManager = afspraakManager;
 			_werknemerManager = werknemerManager;
 		}
@@ -24,10 +27,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
-		public ActionResult<BedrijfOutputDTO> GeefBedrijf(uint bedrijfId) {
-			try {
+		public ActionResult<BedrijfOutputDTO> GeefBedrijf(long bedrijfId)
+		{
+			try
+			{
 				return BedrijfOutputDTO.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfId));
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return NotFound(ex.Message);
 			}
 		}
@@ -38,10 +44,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfNaam"></param>
 		/// <returns></returns>
 		[HttpGet("{naam}")]
-		public ActionResult<BedrijfOutputDTO> GeefBedrijf(string bedrijfNaam) {
-			try {
+		public ActionResult<BedrijfOutputDTO> GeefBedrijf(string bedrijfNaam)
+		{
+			try
+			{
 				return BedrijfOutputDTO.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfNaam));
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return NotFound(ex.Message);
 			}
 		}
@@ -51,11 +60,14 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		public ActionResult<IEnumerable<BedrijfOutputDTO>> GeefAlleBedrijven() {
-			try {
+		public ActionResult<IEnumerable<BedrijfOutputDTO>> GeefAlleBedrijven()
+		{
+			try
+			{
 				// Kan dit fout gaan?
 				return Ok(BedrijfOutputDTO.NaarDTO(_bedrijfManager.Geefbedrijven()));
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return BadRequest(ex);
 			}
 		}
@@ -67,12 +79,15 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
 		[HttpDelete("{bedrijfId}")]
-		public IActionResult VerwijderBedrijf(uint bedrijfId) {
-			try {
+		public IActionResult VerwijderBedrijf(long bedrijfId)
+		{
+			try
+			{
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				_bedrijfManager.VerwijderBedrijf(bedrijf);
 				return Ok();
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				// Welke IActionResults zijn er??
 				return NotFound(ex.Message);
 			}
@@ -84,10 +99,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfData"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<BedrijfOutputDTO> VoegBedrijfToe([FromBody] BedrijfInputDTO bedrijfData) {
-			try {
+		public ActionResult<BedrijfOutputDTO> VoegBedrijfToe([FromBody] BedrijfInputDTO bedrijfData)
+		{
+			try
+			{
 				return BedrijfOutputDTO.NaarDTO(_bedrijfManager.VoegBedrijfToe(bedrijfData.NaarBusiness()));
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return BadRequest(ex.Message);
 			}
 		}
@@ -99,14 +117,17 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfInput"></param>
 		/// <returns></returns>
 		[HttpPut("{bedrijfId}")]
-		public ActionResult<BedrijfOutputDTO> BewerkBedrijf(uint bedrijfId, [FromBody] BedrijfInputDTO bedrijfInput) {
-			try {
+		public ActionResult<BedrijfOutputDTO> BewerkBedrijf(long bedrijfId, [FromBody] BedrijfInputDTO bedrijfInput)
+		{
+			try
+			{
 				Bedrijf bedrijf = bedrijfInput.NaarBusiness();
 				bedrijf.ZetId(bedrijfId);
 
 				_bedrijfManager.BewerkBedrijf(bedrijf);
 				return BedrijfOutputDTO.NaarDTO(bedrijf);
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return BadRequest(ex.Message);
 			}
 		}
@@ -117,12 +138,15 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
 		[HttpGet("werknemer/{bedrijfId}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> GetWerknemers(uint bedrijfId) {
-			try {
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GetWerknemers(long bedrijfId)
+		{
+			try
+			{
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 
 				return Ok(WerknemerOutputDTO.NaarDTO(bedrijf.GeefWerknemers()));
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return BadRequest(ex.Message);
 			}
 		}
@@ -134,13 +158,16 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemerId"></param>
 		/// <returns></returns>
 		[HttpDelete("werknemer/{bedrijfId}/{werknemerId}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> VerwijderWerknemerUitBedrijf(uint bedrijfId, uint werknemerId) {
-			try {
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> VerwijderWerknemerUitBedrijf(long bedrijfId, long werknemerId)
+		{
+			try
+			{
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 				bedrijf.VerwijderWerknemerUitBedrijf(werknemer);
 				return Ok();
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return BadRequest(ex.Message);
 			}
 		}
@@ -152,15 +179,18 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemerInfo"></param>
 		/// <returns></returns>
 		[HttpPost("werknemer/{werknemerId}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegwegnemerToeAanBedrijf(uint werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo) {
-			try {
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegwegnemerToeAanBedrijf(long werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo)
+		{
+			try
+			{
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(werknemerInfo.BedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
 				// Deze implementatie in de BL is questionable
 				bedrijf.VoegWerknemerToeInBedrijf(werknemer, werknemerInfo.Email, werknemerInfo.Functies.First());
 				return Ok();
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return BadRequest(ex.Message);
 			}
 		}

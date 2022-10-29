@@ -18,13 +18,10 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void WijzigWerknemer(Werknemer werknemer, Bedrijf bedrijf);
 
 		bool BestaatWerknemer(Werknemer werknemer);
+		bool BestaatWerknemer(long id);
 
-		bool BestaatWerknemer(uint id);
-
-		Werknemer GeefWerknemer(uint id);
-
+		Werknemer GeefWerknemer(long id);
 		IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam);
-
-		IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(uint id);
+		IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(long id);
 	}
 }

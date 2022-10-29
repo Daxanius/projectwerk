@@ -6,8 +6,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 	/// Een klasse die de aanwezigheid van bezoekers
 	/// bijhoudt
 	/// </summary>
-	public class Afspraak {
-		public uint Id { get; private set; }
+	public class Afspraak
+	{
+		public long Id { get; private set; }
 		public DateTime Starttijd { get; private set; }
 		public DateTime? Eindtijd { get; private set; }
 		public Bezoeker Bezoeker { get; private set; }
@@ -24,7 +25,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="starttijd"></param>
 		/// <param name="bezoeker"></param>
 		/// <param name="werknemer"></param>
-		public Afspraak(DateTime starttijd, Bezoeker bezoeker, Werknemer werknemer) {
+		public Afspraak(DateTime starttijd, Bezoeker bezoeker, Werknemer werknemer)
+		{
 			ZetStarttijd(starttijd);
 			ZetBezoeker(bezoeker);
 			ZetWerknemer(werknemer);
@@ -38,7 +40,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="eindtijd"></param>
 		/// <param name="bezoeker"></param>
 		/// <param name="werknemer"></param>
-		public Afspraak(uint id, DateTime starttijd, DateTime? eindtijd, Bezoeker bezoeker, Werknemer werknemer) {
+		public Afspraak(long id, DateTime starttijd, DateTime? eindtijd, Bezoeker bezoeker, Werknemer werknemer)
+		{
 			ZetId(id);
 			ZetStarttijd(starttijd);
 			ZetEindtijd(eindtijd);
@@ -85,7 +88,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="bezoeker"></param>
 		/// <exception cref="AfspraakException"></exception>
-		public void ZetBezoeker(Bezoeker bezoeker) {
+		public void ZetBezoeker(Bezoeker bezoeker)
+		{
 			Bezoeker = bezoeker ?? throw new AfspraakException("Afspraak - ZetBezoeker - Bezoeker mag niet leeg zijn");
 		}
 
@@ -94,7 +98,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="werknemer"></param>
 		/// <exception cref="AfspraakException"></exception>
-		public void ZetWerknemer(Werknemer werknemer) {
+		public void ZetWerknemer(Werknemer werknemer)
+		{
 			Werknemer = werknemer ?? throw new AfspraakException("Afspraak - ZetWerknemer - Werknemer mag niet leeg zijn");
 		}
 

@@ -1,9 +1,11 @@
 ﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
-namespace BezoekersRegistratieSysteemBL.Domeinen {
+namespace BezoekersRegistratieSysteemBL.Domeinen
+{
+	public class Werknemer
+	{
 
-	public class Werknemer {
-		public uint Id { get; private set; }
+		public long Id { get; private set; }
 		public string Voornaam { get; private set; }
 		public string Achternaam { get; private set; }
 
@@ -20,7 +22,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="voornaam"></param>
 		/// <param name="achternaam"></param>
 		/// <param name="email"></param>
-		public Werknemer(string voornaam, string achternaam) {
+		public Werknemer(string voornaam, string achternaam)
+		{
 			ZetVoornaam(voornaam);
 			ZetAchternaam(achternaam);
 		}
@@ -31,7 +34,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="id"></param>
 		/// <param name="voornaam"></param>
 		/// <param name="achternaam"></param>
-		public Werknemer(uint id, string voornaam, string achternaam) {
+		public Werknemer(long id, string voornaam, string achternaam)
+		{
 			ZetId(id);
 			ZetVoornaam(voornaam);
 			ZetAchternaam(achternaam);
@@ -92,7 +96,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			} else {
 				if (!bedrijf.GeefWerknemers().Contains(this)) {
 					bedrijf.VoegWerknemerToeInBedrijf(this, email, functie);
-				} else {
+				} else
+				{
 					werknemerInfo.Add(bedrijf, new WerknemerInfo(bedrijf, email));
 					werknemerInfo[bedrijf].VoegWerknemerFunctieToe(functie);
 				}
@@ -164,7 +169,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// Geeft bedrijf en functies voor een werknemer terug.
 		/// </summary>
 		/// <exception cref="WerknemerException"></exception>
-		public IReadOnlyDictionary<Bedrijf, WerknemerInfo> GeefBedrijvenEnFunctiesPerWerknemer() {
+		public IReadOnlyDictionary<Bedrijf, WerknemerInfo> GeefBedrijvenEnFunctiesPerWerknemer()
+		{
 			return werknemerInfo;
 		}
 

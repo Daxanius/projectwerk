@@ -51,6 +51,18 @@ namespace BezoekersRegistratieSysteemBL {
 			}
 
 			try {
+				//TODO: DIT MOET WEG !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+				throw new Exception();
+
+
+
+
+				//TODO: DIT MOET WEG !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 				string apiUrl = $"https://controleerbtwnummer.eu/api/validate/{btwNummer}.json";
 
 				using HttpClient client = new();
@@ -75,6 +87,22 @@ namespace BezoekersRegistratieSysteemBL {
 					return (false, null);
 				return (true, btwInfo);
 			} catch (Exception ex) {
+
+				//TODO: DIT MOET WEG !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+				DTOBtwInfo? btwInfo = new DTOBtwInfo();
+				btwInfo.BtwNumber = "0676747521";
+				btwInfo.LandCode = "BE";
+				return (true, btwInfo);
+
+
+
+				//TODO: DIT MOET WEG !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
 				throw new BtwControleException(ex.Message);
 			}
 		}
