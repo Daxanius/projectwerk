@@ -1,37 +1,24 @@
-﻿using BezoekersRegistratieSysteemUI.Aanmelden.DTO;
-using BezoekersRegistratieSysteemUI.Exceptions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Net.Mail;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.Controlls
-{
+namespace BezoekersRegistratieSysteemUI.Controlls {
+
 	/// <summary>
 	/// Interaction logic for InputControl.xaml
 	/// </summary>
-	public partial class AfmeldControl : UserControl, INotifyPropertyChanged
-	{
+	public partial class AfmeldControl : UserControl, INotifyPropertyChanged {
 
 		/// <summary>
 		/// Email van bezoeker
 		/// </summary>
 		private string _email = "TestEMAIL@GMAIL.BE";
+
 		public string Email {
 			get {
 				return _email;
@@ -45,8 +32,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// <summary>
 		/// Dit weten jullie wel he :-)
 		/// </summary>
-		public AfmeldControl()
-		{
+		public AfmeldControl() {
 			//Om data met de xaml te kunnen binden
 			this.DataContext = this;
 			InitializeComponent();
@@ -56,28 +42,24 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public void UpdatePropperty([CallerMemberName] string propertyName = "")
-		{
+		public void UpdatePropperty([CallerMemberName] string propertyName = "") {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		#endregion
+		#endregion ProppertyChanged
 
 		/// <summary>
 		/// De bezoeker klikt op afmelden
 		/// </summary>
 		/// <param name="sender">Button info</param>
 		/// <param name="e">Click info</param>
-		private void GaVerderButtonClickEvent(object sender, RoutedEventArgs e)
-		{
-			try
-			{
+		private void GaVerderButtonClickEvent(object sender, RoutedEventArgs e) {
+			try {
 				Email = Email.Trim();
 				new MailAddress(Email);
 				MeldBezoekerAf(Email);
 				ToonPopupBezoekerAfgemeld();
-			} catch (Exception)
-			{
+			} catch (Exception) {
 				MessageBox.Show("Email is niet in een juist formaat", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
@@ -87,8 +69,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// HTTP POST request om een bezoeker al te melden
 		/// </summary>
 		/// <param name="email">Email van bezoeker</param>
-		private void MeldBezoekerAf(string email)
-		{
+		private void MeldBezoekerAf(string email) {
 			//Var body = {
 			//	“email”: “”,
 			//}
@@ -98,8 +79,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// <summary>
 		/// De bezoeker is afgemeld en er wordt een popup getoont aan de bezoeker
 		/// </summary>
-		private async void ToonPopupBezoekerAfgemeld()
-		{
+		private async void ToonPopupBezoekerAfgemeld() {
 			popupAfgemeld.IsOpen = true;
 			afmeldControl.Opacity = .2;
 			afmeldControl.IsHitTestVisible = false;
@@ -119,8 +99,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// </summary>
 		/// <param name="sender">Button info</param>
 		/// <param name="e">Click info</param>
-		private void GaTerug(object sender, MouseButtonEventArgs e)
-		{
+		private void GaTerug(object sender, MouseButtonEventArgs e) {
 			Email = string.Empty;
 
 			Window window = Window.GetWindow(this);

@@ -5,6 +5,7 @@ using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
+
 	[Route("api/[controller]")]
 	[ApiController]
 	public class AfspraakController : ControllerBase {

@@ -1,5 +1,5 @@
 namespace BezoekersRegistratieSysteemBL.Managers {
-	public class UnitTestWerknemerManager {
 
+	public class UnitTestWerknemerManager {
 	}
 }

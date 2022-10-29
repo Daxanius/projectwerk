@@ -1,9 +1,7 @@
-﻿using System;
+﻿namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO {
 
-namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO
-{
-	public class WerknemerMetFunctieDTO
-	{
+	public class WerknemerMetFunctieDTO {
+
 		/// <summary>
 		/// Nieuw WerknemerMetFunctieDTO wordt gemaakt
 		/// </summary>
@@ -11,8 +9,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO
 		/// <param name="voornaam">Voornaam van Werknemer</param>
 		/// <param name="achternaam">Achternaam van Werknemer</param>
 		/// <param name="functie">Functie van Werknemer</param>
-		public WerknemerMetFunctieDTO(int id, string voornaam, string achternaam, string functie)
-		{
+		public WerknemerMetFunctieDTO(int id, string voornaam, string achternaam, string functie) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
@@ -25,8 +22,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO
 		/// <param name="voornaam">Voornaam van Werknemer</param>
 		/// <param name="achternaam">Achternaam van Werknemer</param>
 		/// <param name="functie">Functie van Werknemer</param>
-		public WerknemerMetFunctieDTO(string voornaam, string achternaam, string functie)
-		{
+		public WerknemerMetFunctieDTO(string voornaam, string achternaam, string functie) {
 			Voornaam = voornaam;
 			Achternaam = achternaam;
 			Functie = functie;
@@ -36,18 +32,22 @@ namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO
 		/// Id van werknemer
 		/// </summary>
 		public int? Id { get; set; }
+
 		/// <summary>
 		/// Voornaam van werknemer
 		/// </summary>
 		public string Voornaam { get; set; }
+
 		/// <summary>
 		/// Achternaam van werknemer
 		/// </summary>
 		public string Achternaam { get; set; }
+
 		/// <summary>
 		/// Functie van werknemer
 		/// </summary>
 		public string Functie { get; set; }
+
 		/// <summary>
 		/// Funtie en naam om te tonen in list
 		/// </summary>
@@ -57,8 +57,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO
 		/// Ovveride van base om NaamenFunctie te returen
 		/// </summary>
 		/// <returns></returns>
-		public override string ToString()
-		{
+		public override string ToString() {
 			return NaamEnFunctie;
 		}
 	}

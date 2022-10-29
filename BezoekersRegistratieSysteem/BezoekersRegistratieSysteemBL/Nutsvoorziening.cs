@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
 namespace BezoekersRegistratieSysteemBL {
+
 	public static class Nutsvoorziening {
 		public static readonly Regex RegexWhitespace = new(@"\s+");
 		public static readonly Regex RegexBtw = new("^[A-Za-z]{2,4}(?=.{2,12}$)[-_\\s0-9]*(?:[a-zA-Z][-_\\s0-9]*){0,2}$");

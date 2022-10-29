@@ -1,11 +1,13 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
+
 	public class WerknemerOutputDTO {
+
 		public static WerknemerOutputDTO NaarDTO(Werknemer werknemer) {
 			var functies = werknemer.GeefBedrijvenEnFunctiesPerWerknemer();
 			Dictionary<uint, WerknemerInfoOutputDTO> info = new();
-			foreach(Bedrijf b in functies.Keys) {
+			foreach (Bedrijf b in functies.Keys) {
 				info.Add(b.Id, WerknemerInfoOutputDTO.NaarDTO(functies[b]));
 			}
 

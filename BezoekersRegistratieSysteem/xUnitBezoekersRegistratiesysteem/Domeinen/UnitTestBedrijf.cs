@@ -2,17 +2,21 @@
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace xUnitBezoekersRegistratiesysteem.Domeinen {
+
 	public class UnitTestBedrijf {
 		//AF
 
 		#region Valid Info
+
 		private Werknemer _w = new(10, "werknemer", "werknemersen");
 		private string _f1 = "functie1";
 		private string _f2 = "functie2";
 		private string _e = "werknemer.werknemersen@email.com";
-		#endregion
+
+		#endregion Valid Info
 
 		#region UnitTest Id
+
 		[Fact]
 		public void ZetId_Valid() {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
@@ -25,9 +29,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			Assert.Throws<BedrijfException>(() => b.ZetId(0));
 		}
-		#endregion
+
+		#endregion UnitTest Id
 
 		#region UnitTest Naam
+
 		[Theory]
 		[InlineData("bedrijf", "bedrijf")]
 		[InlineData("     bedrijf", "bedrijf")]
@@ -50,9 +56,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			Assert.Throws<BedrijfException>(() => b.ZetNaam(naam));
 		}
-		#endregion
+
+		#endregion UnitTest Naam
 
 		#region UnitTest BTW
+
 		[Theory]
 		[InlineData("BE0676747521", "BE0676747521")]
 		[InlineData("     BE0676747521", "BE0676747521")]
@@ -75,9 +83,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			Assert.Throws<BedrijfException>(() => b.ZetBTW(btw));
 		}
-		#endregion
+
+		#endregion UnitTest BTW
 
 		#region UnitTest BTWControle
+
 		[Theory]
 		[InlineData("BE0676747521", "BE0676747521")]
 		[InlineData("     BE0676747521", "BE0676747521")]
@@ -100,9 +110,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		public void ZetBTWControle_Invalid(string btw) {
 			Assert.Throws<BedrijfException>(() => new Bedrijf(10, "bedrijf", btw, "012345678", "bedrijf@email.com", "bedrijfstraat 10"));
 		}
-		#endregion
+
+		#endregion UnitTest BTWControle
 
 		#region UnitTest Telefoonnummer
+
 		[Theory]
 		[InlineData("012345678", "012345678")]
 		[InlineData("     012345678", "012345678")]
@@ -126,9 +138,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			Assert.Throws<BedrijfException>(() => b.ZetTelefoonNummer(telefoonnummer));
 		}
-		#endregion
+
+		#endregion UnitTest Telefoonnummer
 
 		#region UnitTest Email
+
 		[Theory]
 		[InlineData("bedrijf@email.com", "bedrijf@email.com")]
 		[InlineData("     bedrijf@email.com", "bedrijf@email.com")]
@@ -159,9 +173,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			Assert.Throws<BedrijfException>(() => b.ZetEmail(email));
 		}
-		#endregion
+
+		#endregion UnitTest Email
 
 		#region UnitTest Adres
+
 		[Theory]
 		[InlineData("bedrijfstraat 10", "bedrijfstraat 10")]
 		[InlineData("     bedrijfstraat 10", "bedrijfstraat 10")]
@@ -183,11 +199,12 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		public void ZetAdres_Invalid(string adres) {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			Assert.Throws<BedrijfException>(() => b.ZetAdres(adres));
-
 		}
-		#endregion
+
+		#endregion UnitTest Adres
 
 		#region UnitTest Voeg Werknemer Toe
+
 		[Fact]
 		public void VoegWerknemerToeInBedrijf_Valid() {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
@@ -226,16 +243,21 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 
 			Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, _e, _f1));
 			Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, null, null));
-			if (string.IsNullOrWhiteSpace(functie)) Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
-			else if (string.IsNullOrWhiteSpace(email)) Assert.Throws<WerknemerException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
-			else Assert.Throws<WerknemerInfoException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
+			if (string.IsNullOrWhiteSpace(functie))
+				Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
+			else if (string.IsNullOrWhiteSpace(email))
+				Assert.Throws<WerknemerException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
+			else
+				Assert.Throws<WerknemerInfoException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
 			//"Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - werknemer is in dit bedrijf al werkzaam onder deze functie"
 			b.VoegWerknemerToeInBedrijf(_w, _e, _f1);
 			Assert.Throws<WerknemerException>(() => b.VoegWerknemerToeInBedrijf(_w, _e, _f1));
 		}
-		#endregion
+
+		#endregion UnitTest Voeg Werknemer Toe
 
 		#region UnitTest Verwijder Werknemer
+
 		[Fact]
 		public void VerwijderWerknemerUitBedrijf_Valid() {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
@@ -251,18 +273,22 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Assert.Throws<BedrijfException>(() => b.VerwijderWerknemerUitBedrijf(null));
 			Assert.Throws<BedrijfException>(() => b.VerwijderWerknemerUitBedrijf(_w));
 		}
-		#endregion
+
+		#endregion UnitTest Verwijder Werknemer
 
 		#region UnitTest Geef Werknemers
+
 		[Fact]
 		public void GeefWerknemers_Valid() {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			b.VoegWerknemerToeInBedrijf(_w, _e, _f1);
 			Assert.Equal(_w, b.GeefWerknemers()[0]);
 		}
-		#endregion
+
+		#endregion UnitTest Geef Werknemers
 
 		#region UnitTest Bedrijf is gelijk
+
 		[Fact]
 		public void BedrijfIsGelijk_Valid() {
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
@@ -281,24 +307,21 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bedrijf b2 = new(id, naam, btwNummer, telefoonNummer, email, adres);
 			Assert.False(b1.BedrijfIsGelijk(b2));
 		}
-		#endregion
+
+		#endregion UnitTest Bedrijf is gelijk
 
 		#region UnitTest Bedrijf Constructor
+
 		[Theory]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-
 		[InlineData(10, "     bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf     ", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-
 		[InlineData(10, "bedrijf", "     BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521     ", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-
 		[InlineData(10, "bedrijf", "BE0676747521", "     012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678     ", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "     bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com     ", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "     bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10     ", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		public void ctor_Valid(uint idIn, string naamIn, string btwNummerIn, string telefoonNummerIn, string emailIn, string adresIn, uint idUit, string naamUit, string btwNummerUit, string telefoonNummerUit, string emailUit, string adresUit) {
@@ -313,7 +336,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 
 		[Theory]
 		[InlineData(0, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-
 		[InlineData(10, null, "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, " ", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
@@ -321,7 +343,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "\r", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "\t", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "\v", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-
 		[InlineData(10, "bedrijf", null, "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", " ", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
@@ -330,7 +351,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "bedrijf", "\t", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "\v", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE123456789", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-
 		[InlineData(10, "bedrijf", "BE0676747521", null, "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", " ", "bedrijf@email.com", "bedrijfstraat 10")]
@@ -339,7 +359,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "bedrijf", "BE0676747521", "\t", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "\v", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "0123456789101112", "bedrijf@email.com", "bedrijfstraat 10")]
-
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", null, "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", " ", "bedrijfstraat 10")]
@@ -355,7 +374,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@.", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf.com", "bedrijfstraat 10")]
-
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", null)]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", " ")]
@@ -363,11 +381,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "\r")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "\t")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "\v")]
-
 		[InlineData(10, null, null, null, null, null)]
 		public void ctor_Invalid(uint id, string naam, string btwNummer, string telefoonNummer, string email, string adres) {
 			Assert.Throws<BedrijfException>(() => new Bedrijf(id, naam, btwNummer, telefoonNummer, email, adres));
 		}
-		#endregion
+
+		#endregion UnitTest Bedrijf Constructor
 	}
 }

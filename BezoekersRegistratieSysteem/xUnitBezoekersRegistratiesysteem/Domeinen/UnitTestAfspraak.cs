@@ -2,17 +2,21 @@ using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace xUnitBezoekersRegistratiesysteem.Domeinen {
+
 	public class UnitTestAfspraak {
 		//AF
 
 		#region Valid Info
+
 		private Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 		private Werknemer _w = new(10, "werknemer", "werknemersen");
 		private static DateTime _st = DateTime.Now;
 		private static DateTime _et = _st.AddHours(2);
-		#endregion
+
+		#endregion Valid Info
 
 		#region UnitTest Id
+
 		[Fact]
 		public void ZetId_Valid() {
 			Afspraak a = new(10, _st, null, _b, _w);
@@ -25,9 +29,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Afspraak a = new(10, _st, null, _b, _w);
 			Assert.Throws<AfspraakException>(() => a.ZetId(0));
 		}
-		#endregion
+
+		#endregion UnitTest Id
 
 		#region UnitTest Starttijd
+
 		[Fact]
 		public void ZetStarttijd_Valid() {
 			Afspraak a = new(10, _st, null, _b, _w);
@@ -41,11 +47,12 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			//"Afspraak - ZetStarttijd - Afspraak is al afgelopen"
 			Assert.Throws<AfspraakException>(() => a.ZetStarttijd(_st));
 			Assert.Throws<AfspraakException>(() => a.ZetStarttijd(new DateTime()));
-
 		}
-		#endregion
+
+		#endregion UnitTest Starttijd
 
 		#region UnitTest Eindtijd
+
 		[Fact]
 		public void ZetEindtijd_Valid() {
 			Afspraak a = new(10, _st, null, _b, _w);
@@ -63,9 +70,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			//"Afspraak - ZetEindtijd - Eindtijd moet na starttijd liggen"
 			Assert.Throws<AfspraakException>(() => a.ZetEindtijd(_st));
 		}
-		#endregion
+
+		#endregion UnitTest Eindtijd
 
 		#region UnitTest Bezoeker
+
 		[Fact]
 		public void ZetBezoeker_Valid() {
 			Afspraak a = new(10, _st, _et, _b, _w);
@@ -80,9 +89,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			//"Afspraak - ZetBezoeker - Bezoeker mag niet leeg zijn"
 			Assert.Throws<AfspraakException>(() => a.ZetBezoeker(null));
 		}
-		#endregion
+
+		#endregion UnitTest Bezoeker
 
 		#region UnitTest Werknemer
+
 		[Fact]
 		public void ZetWerknemer_Valid() {
 			Afspraak a = new(10, _st, _et, _b, _w);
@@ -97,9 +108,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			//"Afspraak - ZetWerknemer - Werknemer mag niet leeg zijn"
 			Assert.Throws<AfspraakException>(() => a.ZetWerknemer(null));
 		}
-		#endregion
+
+		#endregion UnitTest Werknemer
 
 		#region UnitTest Afspraak Gelijk
+
 		[Fact]
 		public void AfspraakIsGelijk_Valid() {
 			Afspraak a = new(10, _st, null, _b, _w);
@@ -113,9 +126,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 
 			Assert.False(a1.AfspraakIsGelijk(a2));
 		}
-		#endregion
+
+		#endregion UnitTest Afspraak Gelijk
 
 		#region UnitTest Afspraak ctor
+
 		[Fact]
 		public void ctor_Valid() {
 			Afspraak a = new(10, _st, null, _b, _w);
@@ -149,6 +164,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			//Constructor leeg
 			Assert.Throws<AfspraakException>(() => new Afspraak(10, new DateTime(), null, null, null));
 		}
-		#endregion
+
+		#endregion UnitTest Afspraak ctor
 	}
 }

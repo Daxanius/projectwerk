@@ -1,10 +1,12 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
+
 	public class BedrijfOutputDTO {
+
 		public static BedrijfOutputDTO NaarDTO(Bedrijf bedrijf) {
 			List<uint> werknemers = new();
-			foreach(Werknemer w in bedrijf.GeefWerknemers()) {
+			foreach (Werknemer w in bedrijf.GeefWerknemers()) {
 				werknemers.Add(w.Id);
 			}
 

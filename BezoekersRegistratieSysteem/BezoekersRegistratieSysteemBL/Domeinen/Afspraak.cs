@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen {
+
 	/// <summary>
 	/// Een klasse die de aanwezigheid van bezoekers
 	/// bijhoudt
@@ -50,7 +51,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="id"></param>
 		public void ZetId(uint id) {
-			if (id == 0) throw new AfspraakException("Afspraak - ZetId - Id mag niet 0 zijn.");
+			if (id == 0)
+				throw new AfspraakException("Afspraak - ZetId - Id mag niet 0 zijn.");
 			Id = id;
 		}
 
@@ -60,8 +62,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="starttijd"></param>
 		/// <exception cref="AfspraakException"></exception>
 		public void ZetStarttijd(DateTime starttijd) {
-			if (Eindtijd is not null) throw new AfspraakException("Afspraak - ZetStarttijd - Afspraak is al afgelopen");
-			if (starttijd.Date == new DateTime()) throw new AfspraakException("Afspraak - ZetStarttijd - Starttijd is niet ingevuld");
+			if (Eindtijd is not null)
+				throw new AfspraakException("Afspraak - ZetStarttijd - Afspraak is al afgelopen");
+			if (starttijd.Date == new DateTime())
+				throw new AfspraakException("Afspraak - ZetStarttijd - Starttijd is niet ingevuld");
 			Starttijd = starttijd;
 		}
 
@@ -71,7 +75,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="eindtijd"></param>
 		/// <exception cref="AfspraakException"></exception>
 		public void ZetEindtijd(DateTime? eindtijd) {
-			if (eindtijd.HasValue && eindtijd <= Starttijd) throw new AfspraakException("Afspraak - ZetEindtijd - Eindtijd moet na starttijd liggen");
+			if (eindtijd.HasValue && eindtijd <= Starttijd)
+				throw new AfspraakException("Afspraak - ZetEindtijd - Eindtijd moet na starttijd liggen");
 			Eindtijd = eindtijd;
 		}
 
@@ -98,12 +103,18 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <exception cref="BedrijfException"></exception>
 		public bool AfspraakIsGelijk(Afspraak afspraak) {
-			if (afspraak is null) return false;
-			if (afspraak.Id != Id) return false;
-			if (afspraak.Starttijd != Starttijd) return false;
-			if (afspraak.Eindtijd != Eindtijd) return false;
-			if (afspraak.Bezoeker != Bezoeker) return false;
-			if (afspraak.Werknemer != Werknemer) return false;
+			if (afspraak is null)
+				return false;
+			if (afspraak.Id != Id)
+				return false;
+			if (afspraak.Starttijd != Starttijd)
+				return false;
+			if (afspraak.Eindtijd != Eindtijd)
+				return false;
+			if (afspraak.Bezoeker != Bezoeker)
+				return false;
+			if (afspraak.Werknemer != Werknemer)
+				return false;
 			return true;
 		}
 	}

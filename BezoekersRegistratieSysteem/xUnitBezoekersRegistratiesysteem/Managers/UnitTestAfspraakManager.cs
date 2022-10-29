@@ -3,20 +3,27 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 using Moq;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
+
 	public class AfspraakManagerTest {
+
 		#region MOQ
+
 		private AfspraakManager _afspraakManager;
 		private Mock<IAfspraakRepository> _mockRepo;
-		#endregion
+
+		#endregion MOQ
 
 		#region Valid Info
+
 		private static DateTime _st = DateTime.Now;
 		private static DateTime _et = _st.AddHours(2);
 		private Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 		private Werknemer _w = new(10, "werknemer", "werknemersen");
-		#endregion
+
+		#endregion Valid Info
 
 		#region UnitTest Afspraak toevoegen
+
 		[Fact]
 		public void VoegAfspraakToe_Valid() {
 			_mockRepo = new Mock<IAfspraakRepository>();
@@ -47,9 +54,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		//    Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(new Afspraak(_st, _b, _w)));
 
 		//}
-		#endregion
+
+		#endregion UnitTest Afspraak toevoegen
 
 		#region UnitTest Afspraak verwijderen
+
 		//[Fact]
 		//public void VerwijderAfspraak_Valid()
 		//{
@@ -72,6 +81,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		//    Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VerwijderAfspraak(null));
 
 		//}
-		#endregion
+
+		#endregion UnitTest Afspraak verwijderen
 	}
 }

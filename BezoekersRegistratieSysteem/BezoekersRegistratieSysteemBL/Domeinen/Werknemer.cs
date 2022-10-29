@@ -1,8 +1,8 @@
 ﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen {
-	public class Werknemer {
 
+	public class Werknemer {
 		public uint Id { get; private set; }
 		public string Voornaam { get; private set; }
 		public string Achternaam { get; private set; }
@@ -43,7 +43,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="id"></param>
 		/// <exception cref="WerknemerException"></exception>
 		public void ZetId(uint id) {
-			if (id == 0) throw new WerknemerException("Werknemer - ZetId - Id mag niet 0 zijn.");
+			if (id == 0)
+				throw new WerknemerException("Werknemer - ZetId - Id mag niet 0 zijn.");
 			Id = id;
 		}
 
@@ -53,7 +54,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="voornaam"></param>
 		/// <exception cref="WerknemerException"></exception>
 		public void ZetVoornaam(string voornaam) {
-			if (string.IsNullOrWhiteSpace(voornaam)) throw new WerknemerException("Werknemer - ZetVoornaam - voornaam mag niet leeg zijn");
+			if (string.IsNullOrWhiteSpace(voornaam))
+				throw new WerknemerException("Werknemer - ZetVoornaam - voornaam mag niet leeg zijn");
 			Voornaam = voornaam.Trim();
 		}
 
@@ -63,7 +65,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="achternaam"></param>
 		/// <exception cref="WerknemerException"></exception>
 		public void ZetAchternaam(string achternaam) {
-			if (string.IsNullOrWhiteSpace(achternaam)) throw new WerknemerException("Werknemer - ZetAchternaam - achternaam mag niet leeg zijn");
+			if (string.IsNullOrWhiteSpace(achternaam))
+				throw new WerknemerException("Werknemer - ZetAchternaam - achternaam mag niet leeg zijn");
 			Achternaam = achternaam.Trim();
 		}
 
@@ -75,13 +78,17 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="functie"></param>
 		/// <exception cref="WerknemerException"></exception>
 		public void VoegBedrijfEnFunctieToeAanWerknemer(Bedrijf bedrijf, string email, string functie) {
-			if (bedrijf == null) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - bedrijf mag niet leeg zijn");
-			if (string.IsNullOrWhiteSpace(email)) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - email mag niet leeg zijn");
-			if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - functie mag niet leeg zijn");
+			if (bedrijf == null)
+				throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - bedrijf mag niet leeg zijn");
+			if (string.IsNullOrWhiteSpace(email))
+				throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - email mag niet leeg zijn");
+			if (string.IsNullOrWhiteSpace(functie))
+				throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - functie mag niet leeg zijn");
 			if (werknemerInfo.ContainsKey(bedrijf)) {
 				if (!werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie)) {
 					werknemerInfo[bedrijf].VoegWerknemerFunctieToe(functie);
-				} else throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - werknemer is in dit bedrijf al werkzaam onder deze functie");
+				} else
+					throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - werknemer is in dit bedrijf al werkzaam onder deze functie");
 			} else {
 				if (!bedrijf.GeefWerknemers().Contains(this)) {
 					bedrijf.VoegWerknemerToeInBedrijf(this, email, functie);
@@ -98,11 +105,14 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="bedrijf"></param>
 		/// <exception cref="WerknemerException"></exception>
 		public void VerwijderBedrijfVanWerknemer(Bedrijf bedrijf) {
-			if (bedrijf == null) throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf mag niet leeg zijn");
-			if (!werknemerInfo.Keys.Contains(bedrijf)) throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf bevat deze werknemer niet");
+			if (bedrijf == null)
+				throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf mag niet leeg zijn");
+			if (!werknemerInfo.Keys.Contains(bedrijf))
+				throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf bevat deze werknemer niet");
 			// Dit word gebruikt als we een werknemer uit bedrijf halen
 			// hierdoor is Bedrijf nullable.
-			if (bedrijf.GeefWerknemers().Contains(this)) bedrijf.VerwijderWerknemerUitBedrijf(this);
+			if (bedrijf.GeefWerknemers().Contains(this))
+				bedrijf.VerwijderWerknemerUitBedrijf(this);
 			werknemerInfo.Remove(bedrijf);
 		}
 
@@ -114,12 +124,18 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="nieuweFunctie"></param>
 		/// <exception cref="WerknemerException"></exception>
 		public void WijzigFunctie(Bedrijf bedrijf, string oudeFunctie, string nieuweFunctie) {
-			if (bedrijf == null) throw new WerknemerException("Werknemer - WijzigFunctie - bedrijf mag niet leeg zijn");
-			if (string.IsNullOrWhiteSpace(oudeFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - oude functie mag niet leeg zijn");
-			if (string.IsNullOrWhiteSpace(nieuweFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - nieuw functie mag niet leeg zijn");
-			if (!werknemerInfo.ContainsKey(bedrijf)) throw new WerknemerException("Werknemer - WijzigFunctie - bedrijf bevat deze werknemer niet");
-			if (!werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(oudeFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
-			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(nieuweFunctie)) throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie");
+			if (bedrijf == null)
+				throw new WerknemerException("Werknemer - WijzigFunctie - bedrijf mag niet leeg zijn");
+			if (string.IsNullOrWhiteSpace(oudeFunctie))
+				throw new WerknemerException("Werknemer - WijzigFunctie - oude functie mag niet leeg zijn");
+			if (string.IsNullOrWhiteSpace(nieuweFunctie))
+				throw new WerknemerException("Werknemer - WijzigFunctie - nieuw functie mag niet leeg zijn");
+			if (!werknemerInfo.ContainsKey(bedrijf))
+				throw new WerknemerException("Werknemer - WijzigFunctie - bedrijf bevat deze werknemer niet");
+			if (!werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(oudeFunctie))
+				throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
+			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(nieuweFunctie))
+				throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie");
 			werknemerInfo[bedrijf].WijzigWerknemerFunctie(oudeFunctie, nieuweFunctie);
 		}
 
@@ -130,13 +146,18 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="functie"></param>
 		/// <exception cref="WerknemerException"></exception>
 		public void VerwijderFunctie(Bedrijf bedrijf, string functie) {
-			if (bedrijf == null) throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf mag niet leeg zijn");
-			if (string.IsNullOrWhiteSpace(functie)) throw new WerknemerException("Werknemer - VerwijderFunctie - functie mag niet leeg zijn");
-			if (!werknemerInfo.ContainsKey(bedrijf)) throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf bevat deze werknemer niet");
-			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Count() == 1) throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf werkzaam onder deze functie en kan niet verwijderd worden");
+			if (bedrijf == null)
+				throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf mag niet leeg zijn");
+			if (string.IsNullOrWhiteSpace(functie))
+				throw new WerknemerException("Werknemer - VerwijderFunctie - functie mag niet leeg zijn");
+			if (!werknemerInfo.ContainsKey(bedrijf))
+				throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf bevat deze werknemer niet");
+			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Count() == 1)
+				throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf werkzaam onder deze functie en kan niet verwijderd worden");
 			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie)) {
 				werknemerInfo[bedrijf].VerwijderWerknemerFunctie(functie);
-			} else throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
+			} else
+				throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
 		}
 
 		/// <summary>
@@ -153,7 +174,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <exception cref="WerknemerException"></exception>
 		public Bedrijf HaalBedrijfOp(uint id) {
 			foreach (var bedrijf in werknemerInfo.Keys) {
-				if (bedrijf.Id == id) return bedrijf;
+				if (bedrijf.Id == id)
+					return bedrijf;
 			}
 			return null;
 		}
@@ -163,19 +185,25 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <exception cref="BedrijfException"></exception>
 		public bool WerknemerIsGelijk(Werknemer werknemer) {
-			if (werknemer == null) return false;
-			if (werknemer.Id != Id) return false;
-			if (werknemer.Voornaam != Voornaam) return false;
-			if (werknemer.Achternaam != Achternaam) return false;
+			if (werknemer == null)
+				return false;
+			if (werknemer.Id != Id)
+				return false;
+			if (werknemer.Voornaam != Voornaam)
+				return false;
+			if (werknemer.Achternaam != Achternaam)
+				return false;
 			foreach (Bedrijf bedrijf in werknemerInfo.Keys) {
-				if (!werknemer.werknemerInfo.ContainsKey(bedrijf)) return false;
-				if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Count() != werknemer.werknemerInfo[bedrijf].GeefWerknemerFuncties().Count()) return false;
+				if (!werknemer.werknemerInfo.ContainsKey(bedrijf))
+					return false;
+				if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Count() != werknemer.werknemerInfo[bedrijf].GeefWerknemerFuncties().Count())
+					return false;
 				foreach (string functie in werknemerInfo[bedrijf].GeefWerknemerFuncties()) {
-					if (!werknemer.werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie)) return false;
+					if (!werknemer.werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie))
+						return false;
 				}
 			}
 			return true;
 		}
-
 	}
 }

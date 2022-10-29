@@ -1,7 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
+
 	public class AfsrpaakOutputDTO {
+
 		public static AfsrpaakOutputDTO NaarDTO(Afspraak afspraak) {
 			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, afspraak.Bezoeker.Id, afspraak.Werknemer.Id);
 		}

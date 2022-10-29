@@ -6,6 +6,7 @@ using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
+
 	[Route("api/[controller]")]
 	[ApiController]
 	public class WerknemerController : ControllerBase {
@@ -151,7 +152,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(info.BedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
-				
+
 				// Dit is nogal een vreemde manier om functies toe te voegen, wat heeft Email hiermee te maken?
 				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, info.Email, info.Functies.First());
 				return WerknemerOutputDTO.NaarDTO(werknemer);

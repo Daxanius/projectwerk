@@ -2,6 +2,7 @@
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen {
+
 	/// <summary>
 	/// Een klasse die alle essentiele informatie van bedrijven bijhoudt,
 	/// implementeerd IEquatable
@@ -61,7 +62,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="id"></param>
 		public void ZetId(uint id) {
-			if (id == 0) throw new BedrijfException("Bedrijf - ZetId - Id mag niet 0 zijn.");
+			if (id == 0)
+				throw new BedrijfException("Bedrijf - ZetId - Id mag niet 0 zijn.");
 			Id = id;
 		}
 
@@ -82,7 +84,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="btw"></param>
 		/// <exception cref="BedrijfException"></exception>
 		public void ZetBTW(string btw) {
-			if (string.IsNullOrWhiteSpace(btw)) throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
+			if (string.IsNullOrWhiteSpace(btw))
+				throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
 			BTW = Nutsvoorziening.VerwijderWhitespace(btw);
 		}
 
@@ -99,10 +102,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			if (!validNummer)
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw is niet geldig");
 			if (info is null)
-				// Als de BTW controle service plat ligt dan is BTW niet gecontoleerd 
+				// Als de BTW controle service plat ligt dan is BTW niet gecontoleerd
 				// Maar wel geldig
 				IsGecontroleert = false;
-				ZetBTW(btw);
+			ZetBTW(btw);
 			IsGecontroleert = true;
 			ZetBTW(info.LandCode + info.BtwNumber);
 		}
@@ -132,8 +135,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			if (string.IsNullOrWhiteSpace(email))
 				throw new BedrijfException("Bedrijf - ZetEmail - email mag niet leeg zijn");
 			//Checkt of email geldig is
-			if (Nutsvoorziening.IsEmailGeldig(email.Trim())) Email = email.Trim();
-			else throw new BedrijfException("Bedrijf - ZetEmail - email is niet geldig");
+			if (Nutsvoorziening.IsEmailGeldig(email.Trim()))
+				Email = email.Trim();
+			else
+				throw new BedrijfException("Bedrijf - ZetEmail - email is niet geldig");
 		}
 
 		/// <summary>
@@ -179,7 +184,6 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			_werknemers.Remove(werknemer);
 			werknemer.VerwijderBedrijfVanWerknemer(this);
 		}
-
 
 		/// <summary>
 		/// Geeft een lijst van werknemers terug voor het bedrijf.

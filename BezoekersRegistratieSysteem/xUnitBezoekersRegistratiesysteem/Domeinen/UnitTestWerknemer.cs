@@ -2,18 +2,22 @@ using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace xUnitBezoekersRegistratiesysteem.Domeinen {
+
 	public class UnitTestWerknemer {
 		//AF
 
 		#region Valid Info
+
 		private Bedrijf _b1 = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 		private Bedrijf _b2 = new(1, "anderbedrijf", "BE0724540609", "876543210", "anderbedrijf@email.com", "anderebedrijfstraat 10");
 		private string _of = "oudefunctie";
 		private string _nf = "nieuwefunctie";
 		private string _e = "werknemer.werknemersen@email.com";
-		#endregion
+
+		#endregion Valid Info
 
 		#region UnitTest Id
+
 		[Fact]
 		public void ZetId_Valid() {
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -27,9 +31,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			//"Werknemer - ZetId - Id moet groter zijn dan 0"
 			Assert.Throws<WerknemerException>(() => w.ZetId(0));
 		}
-		#endregion
+
+		#endregion UnitTest Id
 
 		#region UnitTest Voornaam
+
 		[Fact]
 		public void ZetVoornaam_Valid() {
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -49,9 +55,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Werknemer w = new(10, "werknemer", "werknemersen");
 			Assert.Throws<WerknemerException>(() => w.ZetVoornaam(voornaam));
 		}
-		#endregion
+
+		#endregion UnitTest Voornaam
 
 		#region UnitTest Achternaam
+
 		[Fact]
 		public void ZetAchternaam_Valid() {
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -71,9 +79,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Werknemer w = new(10, "werknemer", "werknemersen");
 			Assert.Throws<WerknemerException>(() => w.ZetAchternaam(achternaam));
 		}
-		#endregion
+
+		#endregion UnitTest Achternaam
 
 		#region UnitTest Voeg Bedrijf & Functie Toe Aan Werknemer
+
 		[Fact]
 		public void VoegBedrijvenEnFunctieToeAanWerknemer_Valid() {
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -131,9 +141,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _nf);
 			Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _nf));
 		}
-		#endregion
+
+		#endregion UnitTest Voeg Bedrijf & Functie Toe Aan Werknemer
 
 		#region UnitTest Verwijder Bedrijf
+
 		[Fact]
 		public void VerwijderBedrijfVanWerknemer_Valid() {
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -162,9 +174,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Assert.Throws<WerknemerException>(() => w.VerwijderBedrijfVanWerknemer(null));
 			Assert.Throws<WerknemerException>(() => w.VerwijderBedrijfVanWerknemer(_b1));
 		}
-		#endregion
+
+		#endregion UnitTest Verwijder Bedrijf
 
 		#region UnitTest Wijzig Functie
+
 		[Fact]
 		public void WijzigFunctie_Valid() {
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -208,9 +222,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			w.VoegBedrijfEnFunctieToeAanWerknemer(_b2, _e, _of);
 			Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b2, _of, _of));
 		}
-		#endregion
+
+		#endregion UnitTest Wijzig Functie
 
 		#region UnitTest Verwijder Functie
+
 		[Fact]
 		public void VerwijderFunctie_Valid() {
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -243,9 +259,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _of);
 			Assert.Throws<WerknemerException>(() => w.VerwijderFunctie(_b1, _nf));
 		}
-		#endregion
+
+		#endregion UnitTest Verwijder Functie
 
 		#region UnitTest Geef bedrijven en functies
+
 		[Fact]
 		public void GeefBedrijvenEnFunctiesPerWerknemer_Valid() {
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -270,9 +288,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 						functie => Assert.Equal(_of, functie));
 				});
 		}
-		#endregion
+
+		#endregion UnitTest Geef bedrijven en functies
 
 		#region UnitTest Werknemer is gelijk
+
 		[Fact]
 		public void WerknemerIsGelijk_Valid() {
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -288,15 +308,15 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Werknemer w2 = new(id, voornaam, achternaam);
 			Assert.False(w1.WerknemerIsGelijk(w2));
 		}
-		#endregion
+
+		#endregion UnitTest Werknemer is gelijk
 
 		#region UnitTest Werknemer ctor
+
 		[Theory]
 		[InlineData(10, "werknemer", "werknemersen", 10, "werknemer", "werknemersen")]
-
 		[InlineData(10, "     werknemer", "werknemersen", 10, "werknemer", "werknemersen")]
 		[InlineData(10, "werknemer     ", "werknemersen", 10, "werknemer", "werknemersen")]
-
 		[InlineData(10, "werknemer", "     werknemersen", 10, "werknemer", "werknemersen")]
 		[InlineData(10, "werknemer", "werknemersen     ", 10, "werknemer", "werknemersen")]
 		public void ctor_Valid(uint idIn, string voornaamIn, string achternaamIn, uint idUit, string voornaamUit, string achternaamUit) {
@@ -308,7 +328,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 
 		[Theory]
 		[InlineData(0, "werknemer", "werknemersen")]
-
 		[InlineData(10, null, "werknemersen")]
 		[InlineData(10, "", "werknemersen")]
 		[InlineData(10, " ", "werknemersen")]
@@ -316,7 +335,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "\r", "werknemersen")]
 		[InlineData(10, "\t", "werknemersen")]
 		[InlineData(10, "\v", "werknemersen")]
-
 		[InlineData(10, "werknemer", null)]
 		[InlineData(10, "werknemer", "")]
 		[InlineData(10, "werknemer", " ")]
@@ -327,6 +345,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		public void ctor_Invalid(uint id, string voornaam, string achternaam) {
 			Assert.Throws<WerknemerException>(() => new Werknemer(id, voornaam, achternaam));
 		}
-		#endregion
+
+		#endregion UnitTest Werknemer ctor
 	}
 }

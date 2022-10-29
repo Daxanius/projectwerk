@@ -2,10 +2,12 @@ using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace xUnitBezoekersRegistratiesysteem.Domeinen {
+
 	public class UnitTestBezoeker {
 		//AF
 
 		#region UnitTest Id
+
 		[Fact]
 		public void ZetId_Valid() {
 			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
@@ -19,9 +21,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			//"Werknemer - ZetId - Id moet groter zijn dan 0"
 			Assert.Throws<BezoekerException>(() => b.ZetId(0));
 		}
-		#endregion
+
+		#endregion UnitTest Id
 
 		#region UnitTest Voornaam
+
 		[Fact]
 		public void ZetVoornaam_Valid() {
 			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
@@ -41,9 +45,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 			Assert.Throws<BezoekerException>(() => b.ZetVoornaam(voornaam));
 		}
-		#endregion
+
+		#endregion UnitTest Voornaam
 
 		#region UnitTest Achternaam
+
 		[Fact]
 		public void ZetAchternaam_Valid() {
 			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
@@ -63,9 +69,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 			Assert.Throws<BezoekerException>(() => b.ZetAchternaam(achternaam));
 		}
-		#endregion
+
+		#endregion UnitTest Achternaam
 
 		#region UnitTest Email
+
 		[Fact]
 		public void ZetEmail_Valid() {
 			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
@@ -93,9 +101,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 			Assert.Throws<BezoekerException>(() => b.ZetEmail(email));
 		}
-		#endregion
+
+		#endregion UnitTest Email
 
 		#region UnitTest Bedrijf
+
 		[Theory]
 		[InlineData("bezoekerbedrijf", "bezoekerbedrijf")]
 		[InlineData("     bezoekerbedrijf", "bezoekerbedrijf")]
@@ -118,9 +128,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 			Assert.Throws<BezoekerException>(() => b.ZetBedrijf(bedrijf));
 		}
-		#endregion
+
+		#endregion UnitTest Bedrijf
 
 		#region UnitTest Bezoeker is gelijk
+
 		[Fact]
 		public void BezoekerIsGelijk_Valid() {
 			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
@@ -138,21 +150,19 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Bezoeker b2 = new(id, voornaam, achternaam, email, bedrijf);
 			Assert.False(b1.BezoekerIsGelijk(b2));
 		}
-		#endregion
+
+		#endregion UnitTest Bezoeker is gelijk
 
 		#region UnitTest Bezoeker Constructor
+
 		[Theory]
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
 		[InlineData(10, "     bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker     ", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
 		[InlineData(10, "bezoeker", "     bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "bezoekersen     ", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
 		[InlineData(10, "bezoeker", "bezoekersen", "     bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com     ", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "     bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf     ", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		public void ctor_Valid(uint idIn, string voornaamIn, string achternaamIn, string emailIn, string bedrijfIn, uint idUit, string voornaamUit, string achternaamUit, string emailUit, string bedrijfUit) {
@@ -166,7 +176,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 
 		[Theory]
 		[InlineData(0, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
 		[InlineData(10, null, "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, " ", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
@@ -174,7 +183,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "\r", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "\t", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "\v", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
 		[InlineData(10, "bezoeker", null, "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", " ", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
@@ -182,7 +190,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "bezoeker", "\r", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "\t", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "\v", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-
 		[InlineData(10, "bezoeker", "bezoekersen", null, "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "bezoekersen", "", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "bezoekersen", " ", "bezoekerbedrijf")]
@@ -198,7 +205,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@.", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen.com", "bezoekerbedrijf")]
-
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", null)]
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "")]
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", " ")]
@@ -209,6 +215,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		public void ctor_Invalid(uint id, string voornaam, string achternaam, string email, string bedrijf) {
 			Assert.Throws<BezoekerException>(() => new Bezoeker(id, voornaam, achternaam, email, bedrijf));
 		}
-		#endregion
+
+		#endregion UnitTest Bezoeker Constructor
 	}
 }

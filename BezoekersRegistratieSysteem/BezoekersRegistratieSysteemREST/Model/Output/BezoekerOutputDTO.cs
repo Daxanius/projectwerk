@@ -1,7 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model.Output {
+
 	public class BezoekerOutputDTO {
+
 		public static BezoekerOutputDTO NaarDTO(Bezoeker bezoeker) {
 			return new(bezoeker.Id, bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);
 		}

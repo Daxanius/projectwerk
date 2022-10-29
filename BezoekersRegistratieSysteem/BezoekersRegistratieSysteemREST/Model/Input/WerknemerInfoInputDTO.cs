@@ -1,7 +1,7 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
+﻿namespace BezoekersRegistratieSysteemREST.Model.Input {
 
-namespace BezoekersRegistratieSysteemREST.Model.Input {
 	public class WerknemerInfoInputDTO {
+
 		public WerknemerInfoInputDTO(uint bedrijfId, string email, List<string> functies) {
 			BedrijfId = bedrijfId;
 			Email = email;

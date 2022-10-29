@@ -1,32 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindow.Controlls.DetailControls;
+using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
+using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using BezoekersRegistratieSysteemUI.BeheerderWindow.Controlls.DetailControls;
-using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Controlls
-{
+namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Controlls {
+
 	/// <summary>
 	/// Interaction logic for AfsprakenControl.xaml
 	/// </summary>
-	public partial class AfsprakenControl : UserControl
-	{
+	public partial class AfsprakenControl : UserControl {
 		public ObservableCollection<AfspraakDTO> Afspraken { get; set; }
 
-		public AfsprakenControl()
-		{
+		public AfsprakenControl() {
 			Afspraken = new() {
 				new AfspraakDTO(1, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), new WerknemerDTO("Weude", "VanDirk"), DateTime.Now, DateTime.Now.AddHours(8)),
 				new AfspraakDTO(2, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), new WerknemerDTO("Weude", "VanDirk"), DateTime.Now.AddHours(1), DateTime.Now.AddHours(6)),
@@ -55,27 +44,23 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Controlls
 			InitializeComponent();
 		}
 
-		private void klikOpActionButtonOpRow(object sender, RoutedEventArgs e)
-		{
+		private void klikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
 			Button? b = sender as Button;
 			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
 
 			OpenAfspraakDetail(afspraak);
 		}
 
-		private void OpenAfspraakDetail(AfspraakDTO afspraak)
-		{
+		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
 			AfspraakDetailWindow afspraakDetailWindow = new AfspraakDetailWindow(afspraak);
 			afspraakDetailWindow.Show();
 		}
 
 		private StackPanel _selecteditem;
-		private void KlikOpRow(object sender, MouseButtonEventArgs e)
-		{
-			//Er is 2 keer geklikt
-			if (e.ClickCount == 2)
-			{
 
+		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
+			//Er is 2 keer geklikt
+			if (e.ClickCount == 2) {
 				return;
 			}
 

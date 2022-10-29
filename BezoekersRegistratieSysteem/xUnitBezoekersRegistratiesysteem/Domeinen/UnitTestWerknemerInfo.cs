@@ -2,15 +2,19 @@
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace xUnitBezoekersRegistratiesysteem.Domeinen {
+
 	public class UnitTestWerknemerInfo {
 		// AF
 
 		#region Valid Info
+
 		private Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 		private string _e = "werknemer.werknemersen@email.com";
-		#endregion
+
+		#endregion Valid Info
 
 		#region UnitTest Bedrijf
+
 		[Fact]
 		public void ZetBedrijf_Valid() {
 			WerknemerInfo wi = new(_b, "werknemer.werknemersen@email.com");
@@ -23,9 +27,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			WerknemerInfo wi = new(_b, "werknemer.werknemersen@email.com");
 			Assert.Throws<WerknemerInfoException>(() => wi.ZetBedrijf(null));
 		}
-		#endregion
+
+		#endregion UnitTest Bedrijf
 
 		#region UnitTest Email
+
 		[Fact]
 		public void ZetEmail_Valid() {
 			WerknemerInfo wi = new(_b, "werknemer.werknemersen@email.com");
@@ -53,9 +59,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			WerknemerInfo wi = new(_b, "werknemer.werknemersen@email.com");
 			Assert.Throws<WerknemerInfoException>(() => wi.ZetEmail(email));
 		}
-		#endregion
+
+		#endregion UnitTest Email
 
 		#region UnitTest Geef Functies
+
 		[Fact]
 		public void GeefWerknemerFuncties_Valid() {
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -70,9 +78,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 				Assert.Equal("functie2", item.Value.GeefWerknemerFuncties()[1]);
 			});
 		}
-		#endregion
+
+		#endregion UnitTest Geef Functies
 
 		#region UnitTest Voeg Functies Toe
+
 		[Fact]
 		public void VoegWerknemerFunctieToe_Valid() {
 			WerknemerInfo wi = new(_b, _e);
@@ -97,9 +107,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			WerknemerInfo wi = new(_b, _e);
 			Assert.Throws<WerknemerInfoException>(() => wi.VoegWerknemerFunctieToe(functie));
 		}
-		#endregion
+
+		#endregion UnitTest Voeg Functies Toe
 
 		#region UnitTest Wijzig Functies
+
 		[Fact]
 		public void WijzigWerknemerFunctie_Valid() {
 			WerknemerInfo wi = new(_b, _e);
@@ -131,9 +143,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			wi.VoegWerknemerFunctieToe("functie5");
 			Assert.Throws<WerknemerInfoException>(() => wi.WijzigWerknemerFunctie(oudefunctie, nieuwefunctie));
 		}
-		#endregion
+
+		#endregion UnitTest Wijzig Functies
 
 		#region UnitTest Verwijder Functies
+
 		[Fact]
 		public void VerwijderWerknemerFunctie_Valid() {
 			WerknemerInfo wi = new(_b, _e);
@@ -161,9 +175,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			wi.VerwijderWerknemerFunctie("functie5");
 			Assert.Throws<WerknemerInfoException>(() => wi.VerwijderWerknemerFunctie("functie1"));
 		}
-		#endregion
+
+		#endregion UnitTest Verwijder Functies
 
 		#region UnitTest WerknemerInfo is gelijk
+
 		[Fact]
 		public void WerknemerInfoIsGelijk_Valid() {
 			WerknemerInfo wi = new(_b, _e);
@@ -181,20 +197,24 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			wi2 = new(_b, "anderbedrijf@email.com");
 			Assert.False(wi1.WerknemerInfoIsGelijk(wi2));
 		}
-		#endregion
+
+		#endregion UnitTest WerknemerInfo is gelijk
 
 		#region UnitTest WerknemerInfo ctor
+
 		[Fact]
 		public void ctor_Valid() {
 			WerknemerInfo wi = new(_b, _e);
 			Assert.Equal(_b, wi.Bedrijf);
 			Assert.Equal(_e, wi.Email);
 		}
+
 		[Fact]
 		public void ctor_Invalid() {
 			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(null, _e));
 			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(_b, null));
 		}
-		#endregion
+
+		#endregion UnitTest WerknemerInfo ctor
 	}
 }

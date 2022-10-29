@@ -1,5 +1,5 @@
 namespace xUnitBezoekersRegistratiesysteem.Domeinen {
-	public class UnitTestParkingContract {
 
+	public class UnitTestParkingContract {
 	}
 }

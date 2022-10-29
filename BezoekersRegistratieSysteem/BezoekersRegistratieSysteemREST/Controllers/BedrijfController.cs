@@ -4,9 +4,9 @@ using BezoekersRegistratieSysteemREST.Model;
 using BezoekersRegistratieSysteemREST.Model.Input;
 using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
+
 	[Route("api/[controller]")]
 	[ApiController]
 	public class BedrijfController : ControllerBase {
@@ -103,7 +103,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				Bedrijf bedrijf = bedrijfInput.NaarBusiness();
 				bedrijf.ZetId(bedrijfId);
-				
+
 				_bedrijfManager.BewerkBedrijf(bedrijf);
 				return BedrijfOutputDTO.NaarDTO(bedrijf);
 			} catch (Exception ex) {
