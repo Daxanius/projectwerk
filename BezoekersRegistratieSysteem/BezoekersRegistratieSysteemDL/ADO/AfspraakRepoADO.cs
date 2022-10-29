@@ -553,12 +553,11 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             string queryAfspraak = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, BezoekerId) " +
                                    "output INSERTED.ID " +
                                    "VALUES(@start,@eind,@werknemerId,@bezoekerId)";
-            SqlTransaction? trans = null;
+            con.Open();
+            SqlTransaction trans = con.BeginTransaction();
             try {
                 using (SqlCommand cmdBezoeker = con.CreateCommand())
                 using (SqlCommand cmdAfspraak = con.CreateCommand()) {
-                    con.Open();
-                    trans = con.BeginTransaction();
                     //Bezoeker portie
                     cmdBezoeker.Transaction = trans;
                     cmdBezoeker.CommandText = queryBezoeker;
@@ -591,7 +590,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("afspraak", afspraak);
-                trans?.Rollback();
+                trans.Rollback();
                 throw exx;
             } finally {
                 con.Close();

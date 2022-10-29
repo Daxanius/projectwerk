@@ -324,12 +324,11 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             string queryBedrijf = "UPDATE bedrijf " +
                                   "SET Status = @statusId " +
                                   "WHERE Id = @bedrijfid";
-            SqlTransaction? trans = null;
+            con.Open();
+            SqlTransaction trans = con.BeginTransaction();
             try {
                 using (SqlCommand cmdMedewerker = con.CreateCommand())
                 using (SqlCommand cmdBedrijf = con.CreateCommand()) {
-                    con.Open();
-                    trans = con.BeginTransaction();
                     //Medewerker sectie
                     if (statusId == 2) {
                         string queryMedewerker = "UPDATE WerknemerBedrijf " +
@@ -354,7 +353,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     trans.Commit();
                 }
             } catch (Exception ex) {
-                trans?.Rollback();
+                trans.Rollback();
                 BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("bedrijfId", bedrijfId);
                 exx.Data.Add("statusId", statusId);

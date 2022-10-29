@@ -509,12 +509,12 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                                     "SET VNaam = @Vnaam, " +
                                     "ANaam = @ANaam " +
                                     "WHERE Id = @Id";
-            SqlTransaction? trans = null;
+            con.Open();
+            SqlTransaction trans = con.BeginTransaction();
             try {
                 using (SqlCommand cmdWerknemerBedrijf = con.CreateCommand())
                 using (SqlCommand cmdWerknemer = con.CreateCommand()) {
-                    con.Open();
-                    trans = con.BeginTransaction();
+                    
                     cmdWerknemer.Transaction = trans;
                     cmdWerknemerBedrijf.Transaction = trans;
                     //Portie werknemer
@@ -539,7 +539,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     trans.Commit();
                 }
             } catch (Exception ex) {
-                trans?.Rollback();
+                trans.Rollback();
                 WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("werknemer", werknemer);
                 throw exx;
