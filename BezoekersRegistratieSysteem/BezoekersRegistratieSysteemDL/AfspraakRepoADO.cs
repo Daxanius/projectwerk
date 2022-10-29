@@ -300,7 +300,7 @@ namespace BezoekersRegistratieSysteemDL
 						string werknemerVNaam = (string)reader["WerknemerVNaam"];
 						string werknemerMail = (string)reader["WerknemerEmail"];
 						//functie portie
-						string functieNaam = (string)reader["FuntieNaam"];
+						string functieNaam = (string)reader["FunctieNaam"];
 						Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
 						afspraak = new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
@@ -444,7 +444,7 @@ namespace BezoekersRegistratieSysteemDL
 						string werknemerVNaam = (string)reader["WerknemerVNaam"];
 						string werknemerMail = (string)reader["WerknemerEmail"];
 						//functie portie
-						string functieNaam = (string)reader["FuntieNaam"];
+						string functieNaam = (string)reader["FunctieNaam"];
 						Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
 						afspraken.Add(new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));

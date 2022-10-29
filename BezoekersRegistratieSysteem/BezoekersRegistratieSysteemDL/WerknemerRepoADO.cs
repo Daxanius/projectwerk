@@ -239,6 +239,7 @@ namespace BezoekersRegistratieSysteemDL
 								string werknemerVNaam = (string)reader["WerknemerVNaam"];
 								string werknemerAnaam = (string)reader["WerknemerAnaam"];
 								werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
+								werknemers.Add(werknemer);
 							}
 							if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail")))
 							{
@@ -247,7 +248,7 @@ namespace BezoekersRegistratieSysteemDL
 									long bedrijfId = (long)reader["BedrijfId"];
 									string bedrijfNaam = (string)reader["BedrijfNaam"];
 									string bedrijfBTW = (string)reader["bedrijfBTW"];
-									string bedrijfTele = (string)reader["bedrijfTele"];
+									string bedrijfTele = (string)reader["BedrijfTeleNr"];
 									string bedrijfMail = (string)reader["BedrijfMail"];
 									string bedrijfAdres = (string)reader["BedrijfAdres"];
 									bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTele, bedrijfMail, bedrijfAdres);
@@ -313,6 +314,7 @@ namespace BezoekersRegistratieSysteemDL
 								string werknemerAnaam = (string)reader["WerknemerAnaam"];
 
 								werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
+								werknemers.Add(werknemer);
 							}
 							if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"])
 							{
@@ -382,7 +384,7 @@ namespace BezoekersRegistratieSysteemDL
 		/// <param name="werknemer">gewenste werknemer</param>
 		/// <param name="bedrijf">in welk bedrijf dat hij/zij verwijderd moet worden</param>
 		/// <exception cref="WerknemerADOException">Faalt om een werknemer status naar verwijderd te veranderen</exception>
-		public void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf, string? functie)
+		private void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf, string? functie)
 		{
 			SqlConnection con = GetConnection();
 			string query = "UPDATE Werknemerbedrijf " +
@@ -470,7 +472,7 @@ namespace BezoekersRegistratieSysteemDL
 		public Werknemer VoegWerknemerToe(Werknemer werknemer)
 		{
 			SqlConnection con = GetConnection();
-			string query = "INSERT INTO Werknemer (VNaam, ANaam) VALUES(@VNaam, @ANaam)";
+			string query = "INSERT INTO Werknemer (VNaam, ANaam) OUTPUT INSERTED.Id VALUES (@VNaam, @ANaam)";
 			try
 			{
 				using (SqlCommand cmd = con.CreateCommand())
@@ -505,6 +507,9 @@ namespace BezoekersRegistratieSysteemDL
 		/// <exception cref="WerknemerADOException">Faalt om bedrijf en functie aan werknemer toe te voegen</exception>
 		private void VoegFunctieToeAanWerknemer(Werknemer werknemer)
 		{
+
+			bool bestaatJob = false;
+
 			SqlConnection con = GetConnection();
 			string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, WerknemerEmail, FunctieId) " +
 								 "VALUES(@bedrijfId,@werknemerId, @email,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
@@ -522,22 +527,35 @@ namespace BezoekersRegistratieSysteemDL
 													   "FROM WerknemerBedrijf " +
 													   "WHERE WerknemerId = @werknemerId " +
 													   "AND bedrijfId = @bedrijfId " +
-													   "AND FunctieId = (SELECT Id FROM Functie WHERE FunctieNaam = @functieNaam)";
+													   "AND FunctieId = (SELECT Id FROM Functie WHERE FunctieNaam = @functieNaam) " +
+													   "AND Status = 1";
+							
 							cmdCheck.CommandText = queryDoesJobExist;
-							cmdCheck.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-							cmdCheck.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-							cmdCheck.Parameters.Add(new SqlParameter("@functieNaam", SqlDbType.VarChar));
+
+							if (!bestaatJob) {
+								cmdCheck.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+								cmdCheck.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+								cmdCheck.Parameters.Add(new SqlParameter("@functieNaam", SqlDbType.VarChar));
+							}
+							
 							cmdCheck.Parameters["@werknemerId"].Value = werknemer.Id;
 							cmdCheck.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
 							cmdCheck.Parameters["@functieNaam"].Value = functieNaam;
+							
 							int i = (int)cmdCheck.ExecuteScalar();
 							if (i == 0)
 							{
 								cmd.CommandText = queryInsert;
-								cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-								cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-								cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
-								cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
+								
+								if (!bestaatJob) {
+									cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+									cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+									cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
+									cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
+
+									bestaatJob = true;
+								}
+								
 								cmd.Parameters["@werknemerId"].Value = werknemer.Id;
 								cmd.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
 								cmd.Parameters["@email"].Value = kvpBedrijf.Value.Email;
@@ -568,7 +586,7 @@ namespace BezoekersRegistratieSysteemDL
 			SqlConnection con = GetConnection();
 			string queryWerknemer = "UPDATE Werknemer " +
 									"SET VNaam = @Vnaam, " +
-									"ANaam = @ANaam, " +
+									"ANaam = @ANaam " +
 									"WHERE Id = @Id";
 			SqlTransaction? trans = null;
 			try

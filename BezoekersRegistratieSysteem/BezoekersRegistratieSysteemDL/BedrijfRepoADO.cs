@@ -327,9 +327,12 @@ namespace BezoekersRegistratieSysteemDL
 								long werknemerId = (long)reader["WerknemerId"];
 								string werknemerVNaam = (string)reader["WerknemerVNaam"];
 								string werknemerAnaam = (string)reader["WerknemerAnaam"];
+
+								werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
 							}
 							string werknemerMail = (string)reader["WerknemerEMail"];
 							string functieNaam = (string)reader["FunctieNaam"];
+							
 							bedrijf.VoegWerknemerToeInBedrijf(werknemer, werknemerMail, functieNaam);
 						}
 					}
