@@ -53,9 +53,9 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		}
 
 		public void BeeindigAfspraakSysteem(Afspraak afspraak) {
-			if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraak - Afspraak mag niet leeg zijn");
-			if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraak - Afspraak is al beeindigd");
-			if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraak - Afspraak bestaat niet");
+			if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraak - afspraak mag niet leeg zijn");
+			if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraak - afspraak is al beeindigd");
+			if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraak - afspraak bestaat niet");
 			try {
 				_afspraakRepository.BeeindigAfspraakSysteem(afspraak.Id);
 			} catch (Exception ex) {

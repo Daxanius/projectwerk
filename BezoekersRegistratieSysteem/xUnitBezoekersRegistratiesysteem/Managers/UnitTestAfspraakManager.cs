@@ -21,31 +21,45 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         #endregion
 
         #region UnitTest Afspraak toevoegen
-		[Fact]
-		public void VoegAfspraakToe_Invalid()
+        [Fact]
+        public void VoegAfspraakToe_Invalid_AfspraakLeeg()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - VoegAfspraakToe - afspraak mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(null));
+        }
+
+        [Fact]
+		public void VoegAfspraakToe_Invalid_AfspraakBestaatAl()
 		{
 			_mockRepo = new Mock<IAfspraakRepository>();
 			_afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-			//"AfspraakManager - VoegAfspraakToe - afspraak mag niet leeg zijn"
-			Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(null));
 
             //"AfspraakManager - VoegAfspraakToe - afspraak bestaat al"
             _mockRepo.Setup(x => x.BestaatAfspraak(_ia)).Returns(true);
             var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(_ia));
             Assert.Equal("AfspraakManager - VoegAfspraakToe - afspraak bestaat al", ex.Message);
         }
-		#endregion
+        #endregion
 
-		#region UnitTest Afspraak verwijderen
-		[Fact]
-		public void VerwijderAfspraak_Invalid()
-		{
-			_mockRepo = new Mock<IAfspraakRepository>();
-			_afspraakManager = new AfspraakManager(_mockRepo.Object);
+        #region UnitTest Afspraak verwijderen
+        [Fact]
+        public void VerwijderAfspraak_Invalid_AfspraakLeeg()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - VerwijderAfspraak - afspraak mag niet leeg zijn"
             Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VerwijderAfspraak(null));
+        }
+        
+        [Fact]
+		public void VerwijderAfspraak_Invalid_AfspraakBestaatNiet()
+		{
+			_mockRepo = new Mock<IAfspraakRepository>();
+			_afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - VerwijderAfspraak - afspraak bestaat al"
             _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
@@ -56,19 +70,88 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
         #region UnitTest Afspraak bewerken
         [Fact]
-        public void BewerkAfspraak_Invalid()
+        public void BewerkAfspraak_Invalid_AfspraakLeeg()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - BewerkAfspraak - afspraak mag niet leeg zijn"
             Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(null));
+        }
+        
+        [Fact]
+        public void BewerkAfspraak_Invalid_AfspraakBestaatNiet()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - BewerkAfspraak - afspraak bestaat al"
             _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
             var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
             Assert.Equal("AfspraakManager - BewerkAfspraak - afspraak bestaat niet", ex.Message);
         }
+        #endregion
+
+        #region UnitTest Afspraak beeindigen Bezoeker
+        [Fact]
+        public void BeeindigAfspraakBezoeker_Invalid_AfspraakLeeg()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - BewerkAfspraak - afspraak mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakBezoeker(null));
+        }
+
+        [Fact]
+        public void BeeindigAfspraakBezoeker_Invalid_AfspraakBestaatNiet()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - BewerkAfspraak - afspraak bestaat al"
+            _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
+            var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakBezoeker(_oa));
+            Assert.Equal("AfspraakManager - BeeindigAfspraak - afspraak is al beeindigd", ex.Message);
+        }
+        #endregion
+
+        #region UnitTest Afspraak beeindigen Systeem
+        [Fact]
+        public void BeeindigAfspraakSysteem_Invalid_AfspraakLeeg()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - BewerkAfspraak - afspraak mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakSysteem(null));
+        }
+
+        [Fact]
+        public void BeeindigAfspraakSysteem_Invalid_AfspraakReedsBeeindigd()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - BewerkAfspraak - afspraak bestaat al"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakSysteem(_ia));
+        }
+
+        [Fact]
+        public void BeeindigAfspraakSysteem_Invalid_AfspraakBestaatNiet()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - BewerkAfspraak - afspraak bestaat al"
+            _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
+            var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakSysteem(_oa));
+            Assert.Equal("AfspraakManager - BeeindigAfspraak - afspraak is al beeindigd", ex.Message);
+        }
+        #endregion
+
+        #region UnitTest Afspraak opvragen
+        
         #endregion
     }
 }
