@@ -8,7 +8,7 @@
     d:DesignWidth="5870.344"
     mc:Ignorable="d">
     <StackPanel
-        Name="kiesBedrijfControl"
+        x:Name="kiesBedrijfControl"
         Margin="150,0,150,0"
         VerticalAlignment="Center">
         <TextBlock
@@ -21,7 +21,7 @@
             TextDecorations="Underline" />
         <StackPanel>
             <ListView
-                Name="bedrijfLijst"
+                x:Name="bedrijfLijst"
                 Padding="25"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

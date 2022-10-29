@@ -28,7 +28,10 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 	public partial class AfmeldControl : UserControl, INotifyPropertyChanged
 	{
 
-		private string _email = "";
+		/// <summary>
+		/// Email van bezoeker
+		/// </summary>
+		private string _email = "TestEMAIL@GMAIL.BE";
 		public string Email {
 			get {
 				return _email;
@@ -39,8 +42,12 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			}
 		}
 
+		/// <summary>
+		/// Dit weten jullie wel he :-)
+		/// </summary>
 		public AfmeldControl()
 		{
+			//Om data met de xaml te kunnen binden
 			this.DataContext = this;
 			InitializeComponent();
 		}
@@ -56,13 +63,18 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 
 		#endregion
 
-		//Klik op Ga verder knop
+		/// <summary>
+		/// De bezoeker klikt op afmelden
+		/// </summary>
+		/// <param name="sender">Button info</param>
+		/// <param name="e">Click info</param>
 		private void GaVerderButtonClickEvent(object sender, RoutedEventArgs e)
 		{
 			try
 			{
 				Email = Email.Trim();
 				new MailAddress(Email);
+				MeldBezoekerAf(Email);
 				ToonPopupBezoekerAfgemeld();
 			} catch (Exception)
 			{
@@ -71,6 +83,21 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			}
 		}
 
+		/// <summary>
+		/// HTTP POST request om een bezoeker al te melden
+		/// </summary>
+		/// <param name="email">Email van bezoeker</param>
+		private void MeldBezoekerAf(string email)
+		{
+			//Var body = {
+			//	“email”: “”,
+			//}
+			//[POST] /api/afspraak/end
+		}
+
+		/// <summary>
+		/// De bezoeker is afgemeld en er wordt een popup getoont aan de bezoeker
+		/// </summary>
 		private async void ToonPopupBezoekerAfgemeld()
 		{
 			popupAfgemeld.IsOpen = true;
@@ -87,6 +114,11 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			GaTerug(null, null);
 		}
 
+		/// <summary>
+		/// De bezoeker wil een terug naar het vorige scherm
+		/// </summary>
+		/// <param name="sender">Button info</param>
+		/// <param name="e">Click info</param>
 		private void GaTerug(object sender, MouseButtonEventArgs e)
 		{
 			Email = string.Empty;
