@@ -10,15 +10,22 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void BewerkAfspraak(Afspraak afspraak);
 		void BeeindigAfspraakBezoeker(uint id);
 		void BeeindigAfspraakSysteem(uint id);
+		void BeeindigAfspraakOpEmail(uint id, string email);
 		Afspraak GeefAfspraak(uint afspraakid);
 		bool BestaatAfspraak(Afspraak afspraak);
 		bool BestaatAfspraak(uint afspraakid);
 
-		IReadOnlyList<Afspraak> GeefHuidigeAfspraken();
+		bool BestaatLopendeAfspraak(Afspraak afspraak);
+
+        IReadOnlyList<Afspraak> GeefHuidigeAfspraken();
 		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(uint bedrijfId);
-		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId);
+		Afspraak GeefHuidigeAfspraakPerWerknemer(uint werknemerId);
 		IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(uint werknemerId);
 		IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(uint werknemerId, DateTime datum);
 		IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum);
+        IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(uint id, DateTime datum);
+        IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaam(string voornaam, string achternaam);
+        IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpEmail(string email);
+		Afspraak GeefHuidigeAfspraakBezoeker(uint id);
 	}
 }

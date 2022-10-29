@@ -444,7 +444,7 @@ namespace BezoekersRegistratieSysteemDL {
 		/// <param name="werknemerId">Id van gewenste werknemer</param>
         /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per werknemer</returns>
 		/// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken per werknemer</exception>
-        public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(uint werknemerId) {
+        public IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemer(uint werknemerId) {
             try {
                 return GeefHuidigeAfspraken(null, werknemerId);
             } catch (Exception ex) {
