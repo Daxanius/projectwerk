@@ -56,7 +56,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="id"></param>
 		/// <exception cref="BezoekerException"></exception>
-		public void ZetId(uint id) {
+		public void ZetId(long id) {
 			if (id == 0)
 				throw new BezoekerException("Bezoeker - ZetId - Id mag niet 0 zijn");
 			Id = id;

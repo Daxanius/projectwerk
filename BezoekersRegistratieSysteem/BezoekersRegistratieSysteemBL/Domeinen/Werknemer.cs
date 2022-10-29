@@ -46,7 +46,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="id"></param>
 		/// <exception cref="WerknemerException"></exception>
-		public void ZetId(uint id) {
+		public void ZetId(long id) {
 			if (id == 0)
 				throw new WerknemerException("Werknemer - ZetId - Id mag niet 0 zijn.");
 			Id = id;
@@ -178,7 +178,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// Geeft bedrijf voor een werknemer terug.
 		/// </summary>
 		/// <exception cref="WerknemerException"></exception>
-		public Bedrijf HaalBedrijfOp(uint id) {
+		public Bedrijf HaalBedrijfOp(long id) {
 			foreach (var bedrijf in werknemerInfo.Keys) {
 				if (bedrijf.Id == id)
 					return bedrijf;

@@ -53,7 +53,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// Zet id.
 		/// </summary>
 		/// <param name="id"></param>
-		public void ZetId(uint id) {
+		public void ZetId(long id) {
 			if (id == 0)
 				throw new AfspraakException("Afspraak - ZetId - Id mag niet 0 zijn.");
 			Id = id;
