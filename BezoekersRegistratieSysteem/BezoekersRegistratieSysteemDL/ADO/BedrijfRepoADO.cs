@@ -42,7 +42,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return BestaatBedrijf(bedrijf, null, null);
             } catch (Exception ex) {
-                throw new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf {ex.Message}", ex);
+                throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -56,7 +56,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return BestaatBedrijf(null, bedrijfId, null);
             } catch (Exception ex) {
-                throw new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf {ex.Message}", ex);
+                throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -70,7 +70,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return BestaatBedrijf(null, null, bedrijfsnaam);
             } catch (Exception ex) {
-                throw new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf {ex.Message}", ex);
+                throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -100,7 +100,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: BestaatBedrijf {ex.Message}", ex);
+                BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("bedrijf", bedrijf);
                 exx.Data.Add("bedrijfId", bedrijfId);
                 exx.Data.Add("bedrijfsnaam", bedrijfsnaam);
@@ -143,7 +143,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: BewerkBedrijf {ex.Message}", ex);
+                BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("bedrijf", bedrijf);
                 throw exx;
             } finally {
@@ -161,7 +161,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return GeefBedrijf(id, null);
             } catch (Exception ex) {
-                throw new BedrijfADOException($"BedrijfRepoADO: GeefBedrijf {ex.Message}", ex);
+                throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -175,7 +175,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return GeefBedrijf(null, bedrijfsnaam);
             } catch (Exception ex) {
-                throw new BedrijfADOException($"BedrijfRepoADO: GeefBedrijf {ex.Message}", ex);
+                throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -233,7 +233,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return bedrijf;
                 }
             } catch (Exception ex) {
-                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: GetBedrijf {ex.Message}", ex);
+                BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("bedrijfid", _bedrijfId);
                 exx.Data.Add("bedrijfnaam", _bedrijfnaam);
                 throw exx;
@@ -293,7 +293,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return bedrijven;
                 }
             } catch (Exception ex) {
-                throw new BedrijfADOException($"BedrijfRepoADO: Geefbedrijven {ex.Message}", ex);
+                throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -308,7 +308,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 VeranderStatusBedrijf(bedrijfId, 2);
             } catch (Exception ex) {
-                throw new BedrijfADOException($"BedrijfRepoADO: VerwijderBedrijf {ex.Message}", ex);
+                throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -355,7 +355,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 }
             } catch (Exception ex) {
                 trans?.Rollback();
-                BedrijfADOException exx = new BedrijfADOException($"AfspraakRepoADO: VeranderStatusBedrijf {ex.Message}", ex);
+                BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("bedrijfId", bedrijfId);
                 exx.Data.Add("statusId", statusId);
                 throw exx;
@@ -394,7 +394,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return bedrijf;
                 }
             } catch (Exception ex) {
-                BedrijfADOException exx = new BedrijfADOException($"BedrijfRepoADO: VoegBedrijfToe {ex.Message}", ex);
+                BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("bedrijf", bedrijf);
                 throw exx;
             } finally {

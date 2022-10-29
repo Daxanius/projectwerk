@@ -42,7 +42,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 BeeindigAfspraak(afspraakId, 3);
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraakBezoeker {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
                 throw exx;
             }
@@ -57,7 +57,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 BeeindigAfspraak(afspraakId, 4);
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraakSysteem {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
                 throw exx;
             }
@@ -88,7 +88,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BeeindigAfspraak {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
                 exx.Data.Add("statusId", statusId);
                 throw exx;
@@ -106,7 +106,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 VeranderStatusAfspraak(afspraakId, 2);
             } catch (Exception ex) {
-                throw new AfspraakADOException($"AfspraakRepoADO: VerwijderAfspraak {ex.Message}", ex);
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -132,7 +132,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: VeranderStatusAfspraak {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
                 exx.Data.Add("statusId", statusId);
                 throw exx;
@@ -202,7 +202,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmdUpdate.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BewerkAfspraak {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("afspraak", afspraak);
                 throw exx;
             } finally {
@@ -276,7 +276,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return afspraak;
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: GeefAfspraak {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
                 throw exx;
             } finally {
@@ -294,7 +294,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return GeefAlleAfspraken(null, datum);
             } catch (Exception ex) {
-                throw new AfspraakADOException($"AfspraakRepoADO: GeefAfsprakenPerDag {ex.Message}", ex);
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -308,7 +308,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return GeefAlleAfspraken(werknemerId, null);
             } catch (Exception ex) {
-                throw new AfspraakADOException($"AfspraakRepoADO: GeefAlleAfsprakenPerWerknemer {ex.Message}", ex);
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -323,7 +323,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return GeefAlleAfspraken(werknemerId, datum);
             } catch (Exception ex) {
-                throw new AfspraakADOException($"AfspraakRepoADO: GeefAfsprakenPerWerknemerOpDag {ex.Message}", ex);
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -403,7 +403,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return afspraken.AsReadOnly();
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: GeefAlleAfspraken {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("datum", _datum);
                 exx.Data.Add("werknemerId", _werknemerId);
                 throw exx;
@@ -421,7 +421,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return GeefHuidigeAfspraken(null, null);
             } catch (Exception ex) {
-                throw new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfspraken {ex.Message}", ex);
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -435,7 +435,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return GeefHuidigeAfspraken(bedrijfId, null);
             } catch (Exception ex) {
-                throw new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfsprakenPerBedrijf {ex.Message}", ex);
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -449,7 +449,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return GeefHuidigeAfspraken(null, werknemerId);
             } catch (Exception ex) {
-                throw new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfsprakenPerWerknemer {ex.Message}", ex);
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -528,7 +528,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return afspraken.AsReadOnly();
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: GeefHuidigeAfspraken {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("bedrijfId", _bedrijfId);
                 exx.Data.Add("werknemerId", _werknemerId);
                 throw exx;
@@ -589,7 +589,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return afspraak;
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: VoegAfspraakToe {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("afspraak", afspraak);
                 trans?.Rollback();
                 throw exx;
@@ -627,7 +627,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BestaatAfspraak object {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
                 exx.Data.Add("afspraak", afspraak);
                 throw exx;
             } finally {
@@ -656,7 +656,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"AfspraakRepoADO: BestaatAfspraak id {ex.Message}", ex);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} id {ex.Message}", ex);
                 exx.Data.Add("afspraakid", afspraakid);
                 throw exx;
             } finally {

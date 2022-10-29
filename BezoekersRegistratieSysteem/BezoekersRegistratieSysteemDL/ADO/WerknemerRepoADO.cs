@@ -40,7 +40,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return BestaatWerknemer(werknemer, null);
             } catch (Exception ex) {
-                throw new WerknemerADOException($"WerknemerRepoADO: BestaatWerknemer {ex.Message}", ex);
+                throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -54,7 +54,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 return BestaatWerknemer(null, id);
             } catch (Exception ex) {
-                throw new WerknemerADOException($"WerknemerRepoADO: BestaatWerknemer {ex.Message}", ex);
+                throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -100,7 +100,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: BestaatWerknemer {ex.Message}", ex);
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("werknemer", werknemer);
                 exx.Data.Add("werknemerId", werknemerId);
                 throw exx;
@@ -158,7 +158,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return werknemer;
                 }
             } catch (Exception ex) {
-                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: GeefWerknemer {ex.Message}", ex);
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("werknemerId", _werknemerId);
                 throw exx;
             } finally {
@@ -225,7 +225,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return werknemers;
                 }
             } catch (Exception ex) {
-                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: GeefWerknemersOpNaam {ex.Message}", ex);
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("voornaam", voornaam);
                 exx.Data.Add("achternaam", achternaam);
                 throw exx;
@@ -288,7 +288,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return werknemers;
                 }
             } catch (Exception ex) {
-                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: GeefWerknemersPerBedrijf {ex.Message}", ex);
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("bedrijfId", _bedrijfId);
                 throw exx;
             } finally {
@@ -306,7 +306,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 VerwijderWerknemer(werknemer, bedrijf, null);
             } catch (Exception ex) {
-                throw new WerknemerADOException($"WerknemerRepoADO: VerwijderWerknemer {ex.Message}", ex);
+                throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -320,7 +320,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 VerwijderWerknemer(werknemer, bedrijf, functie);
             } catch (Exception ex) {
-                throw new WerknemerADOException($"WerknemerRepoADO: VerwijderWerknemerFunctie {ex.Message}", ex);
+                throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -353,7 +353,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: VerwijderWerknemer {ex.Message}", ex);
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("werknemer", werknemer);
                 exx.Data.Add("bedrijf", bedrijf);
                 exx.Data.Add("functie", functie);
@@ -389,7 +389,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: VoegFunctieToeAanWerkNemer {ex.Message}", ex);
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("werknemer", werknemer);
                 exx.Data.Add("bedrijf", bedrijf);
                 exx.Data.Add("functie", functie);
@@ -422,7 +422,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     return werknemer;
                 }
             } catch (Exception ex) {
-                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: VoegWerknemerToe {ex.Message}", ex);
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("werknemer", werknemer);
                 throw exx;
             } finally {
@@ -490,7 +490,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     }
                 }
             } catch (Exception ex) {
-                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: VoegFunctieToeAanWerkNemer {ex.Message}", ex);
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("werknemer", werknemer);
                 throw exx;
             } finally {
@@ -540,7 +540,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 }
             } catch (Exception ex) {
                 trans?.Rollback();
-                WerknemerADOException exx = new WerknemerADOException($"WerknemerRepoADO: WijzigWerknemer {ex.Message}", ex);
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("werknemer", werknemer);
                 throw exx;
             } finally {
