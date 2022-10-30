@@ -12,7 +12,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		public long Id { get; private set; }
 		public string Naam { get; private set; }
 		public string BTW { get; private set; }
-		public bool IsGecontroleert { get; private set; }
+		public bool BtwGeverifieerd { get; private set; }
 		public string TelefoonNummer { get; private set; }
 		public string Email { get; private set; }
 		public string Adres { get; private set; }
@@ -50,11 +50,11 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="telefoonNummer"></param>
 		/// <param name="email"></param>
 		/// <param name="adres"></param>
-		public Bedrijf(long id, string naam, string btw, string telefoonNummer, string email, string adres)
+		public Bedrijf(long id, string naam, string btw, bool btwGeverifieerd, string telefoonNummer, string email, string adres)
 		{
 			ZetId(id);
 			ZetNaam(naam);
-			ZetBTWControle(btw);
+			ZetBTW(btw, btwGeverifieerd);
 			ZetTelefoonNummer(telefoonNummer);
 			ZetEmail(email);
 			ZetAdres(adres);
@@ -88,11 +88,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="btw"></param>
 		/// <exception cref="BedrijfException"></exception>
-		public void ZetBTW(string btw)
+		public void ZetBTW(string btw, bool geverifieerd)
 		{
 			if (string.IsNullOrWhiteSpace(btw))
 				throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
 			BTW = Nutsvoorziening.VerwijderWhitespace(btw);
+			BtwGeverifieerd = geverifieerd;
 		}
 
 		/// <summary>
@@ -103,18 +104,17 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <exception cref="BedrijfException"></exception>
 		public void ZetBTWControle(string btw)
 		{
+			btw = Nutsvoorziening.VerwijderWhitespace(btw);
 			if (string.IsNullOrWhiteSpace(btw))
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw mag niet leeg zijn");
-			(bool validNummer, DTOBtwInfo? info) = Nutsvoorziening.GeefBTWInfo(btw.Trim());
+			(bool validNummer, DTOBtwInfo? info) = Nutsvoorziening.GeefBTWInfo(btw);
 			if (!validNummer)
 				throw new BedrijfException("Bedrijf - ZetBTWControle - Btw is niet geldig");
 			if (info is null)
 				// Als de BTW controle service plat ligt dan is BTW niet gecontoleerd 
 				// Maar wel geldig
-				IsGecontroleert = false;
-			ZetBTW(btw);
-			IsGecontroleert = true;
-			ZetBTW(info.LandCode + info.BtwNumber);
+				ZetBTW(btw, false);
+			ZetBTW(btw, true);
 		}
 
 		/// <summary>

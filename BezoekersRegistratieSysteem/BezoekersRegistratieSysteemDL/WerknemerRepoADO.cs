@@ -175,7 +175,9 @@ namespace BezoekersRegistratieSysteemDL
 								string bedrijfTele = (string)reader["bedrijfTele"];
 								string bedrijfMail = (string)reader["BedrijfMail"];
 								string bedrijfAdres = (string)reader["BedrijfAdres"];
-								bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTele, bedrijfMail, bedrijfAdres);
+
+								// TODO VOOR GEKKE BJORN: vervang true door statuscode
+								bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTele, bedrijfMail, bedrijfAdres);
 							}
 							string werknemerMail = (string)reader["WerknemerEmail"];
 							string functieNaam = (string)reader["functienaam"];
@@ -251,7 +253,9 @@ namespace BezoekersRegistratieSysteemDL
 									string bedrijfTele = (string)reader["BedrijfTeleNr"];
 									string bedrijfMail = (string)reader["BedrijfMail"];
 									string bedrijfAdres = (string)reader["BedrijfAdres"];
-									bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTele, bedrijfMail, bedrijfAdres);
+
+									// TODO VOOR GEKKE BJORN: vervang true door statuscode
+									bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTele, bedrijfMail, bedrijfAdres);
 								}
 								string werknemerMail = (string)reader["WerknemerEmail"];
 								string functieNaam = (string)reader["functienaam"];
@@ -324,7 +328,9 @@ namespace BezoekersRegistratieSysteemDL
 								string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
 								string bedrijfMail = (string)reader["BedrijfMail"];
 								string bedrijfAdres = (string)reader["BedrijfAdres"];
-								bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+
+								// TODO VOOR GEKKE BJORN: vervang true door statuscode
+								bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 							}
 							string werknemerMail = (string)reader["WerknemerEmail"];
 							string functieNaam = (string)reader["FunctieNaam"];
