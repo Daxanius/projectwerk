@@ -5,6 +5,7 @@ using Moq;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
 	public class AfspraakManagerTest {
+        
 		#region MOQ
 		private AfspraakManager _afspraakManager;
 		private Mock<IAfspraakRepository> _mockRepo;

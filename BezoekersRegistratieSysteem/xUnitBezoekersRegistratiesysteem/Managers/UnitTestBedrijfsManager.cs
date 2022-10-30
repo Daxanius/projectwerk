@@ -5,6 +5,7 @@ using Moq;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
 	public class UnitTestBedrijfsManagerTest {
+        
         #region MOQ
         private BedrijfManager _bedrijfManager;
         private Mock<IBedrijfRepository> _mockRepo;

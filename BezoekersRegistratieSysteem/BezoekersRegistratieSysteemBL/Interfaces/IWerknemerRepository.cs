@@ -11,7 +11,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces
 		void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf);
 		void VoegWerknemerFunctieToe(Werknemer werknemer, Bedrijf bedrijf, string functie);
 		void VerwijderWerknemerFunctie(Werknemer werknemer, Bedrijf bedrijf, string functie);
-		void WijzigWerknemer(Werknemer werknemer, Bedrijf bedrijf);
+		void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf);
 
 		bool BestaatWerknemer(Werknemer werknemer);
 		bool BestaatWerknemer(long id);

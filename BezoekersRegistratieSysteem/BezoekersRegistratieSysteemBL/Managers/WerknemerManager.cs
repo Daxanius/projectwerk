@@ -95,7 +95,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 			}
 		}
 
-		public void WijzigWerknemer(Werknemer werknemer, Bedrijf bedrijf)
+		public void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf)
 		{
 			if (werknemer == null)
 				throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer mag niet leeg zijn");
@@ -105,7 +105,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 				throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer bestaat niet");
 			try
 			{
-				_werknemerRepository.WijzigWerknemer(werknemer, bedrijf);
+				_werknemerRepository.BewerkWerknemer(werknemer, bedrijf);
 			} catch (Exception ex)
 			{
 				throw new WerknemerManagerException(ex.Message);

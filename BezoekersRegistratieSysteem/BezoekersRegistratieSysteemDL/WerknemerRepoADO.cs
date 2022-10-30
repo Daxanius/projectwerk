@@ -587,7 +587,7 @@ namespace BezoekersRegistratieSysteemDL
 		/// </summary>
 		/// <param name="werknemer">Werknemer object die gewijzigd moet worden</param>
 		/// <exception cref="WerknemerADOException">Faalt om werknemer te wijzigen</exception>
-		public void WijzigWerknemer(Werknemer werknemer, Bedrijf bedrijf)
+		public void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf)
 		{
 			SqlConnection con = GetConnection();
 			string queryWerknemer = "UPDATE Werknemer " +

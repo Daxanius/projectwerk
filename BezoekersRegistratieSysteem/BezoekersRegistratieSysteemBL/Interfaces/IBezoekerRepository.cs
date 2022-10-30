@@ -9,7 +9,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces
 	{
 		Bezoeker VoegBezoekerToe(Bezoeker bezoeker);
 		void VerwijderBezoeker(long id);
-		void WijzigBezoeker(Bezoeker bezoeker);
+		void BewerkBezoeker(Bezoeker bezoeker);
 
 		bool BestaatBezoeker(Bezoeker bezoeker);
 		bool BestaatBezoeker(long bezoekerId);
