@@ -788,5 +788,10 @@ namespace BezoekersRegistratieSysteemDL
 		{
 			throw new NotImplementedException();
 		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDag(long id, DateTime datum)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
