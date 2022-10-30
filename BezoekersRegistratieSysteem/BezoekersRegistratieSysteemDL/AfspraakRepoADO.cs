@@ -748,5 +748,45 @@ namespace BezoekersRegistratieSysteemDL
 				con.Close();
 			}
 		}
+
+		public void BeeindigAfspraakOpEmail(long id, string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool BestaatAfspraak(uint afspraakid)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool BestaatLopendeAfspraak(Afspraak afspraak)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Afspraak GeefHuidigeAfspraakPerWerknemer(long werknemerId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long id, DateTime datum)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaam(string voornaam, string achternaam)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpEmail(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Afspraak GeefHuidigeAfspraakBezoeker(long id)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

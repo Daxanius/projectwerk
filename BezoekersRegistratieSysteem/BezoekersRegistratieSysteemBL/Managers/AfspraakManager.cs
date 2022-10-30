@@ -92,7 +92,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             }
         }
 
-        public Afspraak GeefAfspraak(uint afspraakId) {
+        public Afspraak GeefAfspraak(long afspraakId) {
 			if (!_afspraakRepository.BestaatAfspraak(afspraakId)) throw new AfspraakManagerException("AfspraakManager - GeefAfspraak - afspraak bestaat niet");
 			try {
 				return _afspraakRepository.GeefAfspraak(afspraakId);

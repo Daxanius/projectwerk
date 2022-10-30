@@ -82,7 +82,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				{
 					if (openstaand)
 					{
-						return Ok(AfsrpaakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfsprakenPerWerknemer(werknemer)));
+						return Ok(AfsrpaakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfspraakPerWerknemer(werknemer)));
 					}
 
 					// Zou dit niet ook beter een ID zijn?
