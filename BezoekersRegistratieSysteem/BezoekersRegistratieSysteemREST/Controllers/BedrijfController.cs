@@ -65,7 +65,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			try
 			{
 				// Kan dit fout gaan?
-				return Ok(BedrijfOutputDTO.NaarDTO(_bedrijfManager.Geefbedrijven()));
+				return Ok(BedrijfOutputDTO.NaarDTO(_bedrijfManager.GeefBedrijven()));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex);

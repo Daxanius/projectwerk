@@ -171,7 +171,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
         public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaam(string voornaam, string achternaam)
 		{
-            if (string.IsNullOrEmpty(voornaam) || (string.IsNullOrEmpty(achternaam))) throw new AfspraakManagerException("AfspraakManager - GeefAfspraakPerBezoekerOpNaam - naam mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(voornaam) || (string.IsNullOrWhiteSpace(achternaam))) throw new AfspraakManagerException("AfspraakManager - GeefAfspraakPerBezoekerOpNaam - naam mag niet leeg zijn");
             try
             {
                 return _afspraakRepository.GeefAfsprakenPerBezoekerOpNaam(voornaam, achternaam);
@@ -184,7 +184,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
         public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpEmail(string email)
         {
-            if (string.IsNullOrEmpty(email)) throw new AfspraakManagerException("AfspraakManager - GeefAfspraakPerBezoekerOpEmail - email mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("AfspraakManager - GeefAfspraakPerBezoekerOpEmail - email mag niet leeg zijn");
             try
             {
                 return _afspraakRepository.GeefAfsprakenPerBezoekerOpEmail(email);

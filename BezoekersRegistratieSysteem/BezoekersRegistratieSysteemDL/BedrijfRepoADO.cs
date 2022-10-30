@@ -288,7 +288,7 @@ namespace BezoekersRegistratieSysteemDL
 		/// </summary>
 		/// <returns>Lijst van bedrijf object</returns>
 		/// <exception cref="BedrijfADOException">Faalt om een lijst van bedrijven op te roepen</exception>
-		public IReadOnlyList<Bedrijf> Geefbedrijven()
+		public IReadOnlyList<Bedrijf> GeefBedrijven()
 		{
 			SqlConnection con = GetConnection();
 			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
