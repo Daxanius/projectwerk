@@ -8,5 +8,11 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid />
+    <StackPanel>
+        <Button Click="VeranderTab" Content="Dashboard" />
+        <Button Click="VeranderTab" Content="Bedrijven" />
+        <Button Click="VeranderTab" Content="Afspraken" />
+        <Button Click="VeranderTab" Content="Werknemers" />
+        <Button Click="VeranderTab" Content="Bezoekers" />
+    </StackPanel>
 </UserControl>

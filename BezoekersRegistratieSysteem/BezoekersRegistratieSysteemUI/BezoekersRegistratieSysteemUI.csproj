@@ -9,8 +9,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Page Remove="icons\BedrijfIcon.xaml" />
-	  <Page Remove="icons\DefaultLeeg.xaml" />
+	  <None Remove="Fonts\Inter-Black.ttf" />
+	  <None Remove="Fonts\Inter-Bold.ttf" />
+	  <None Remove="Fonts\Inter-ExtraBold.ttf" />
+	  <None Remove="Fonts\Inter-ExtraLight.ttf" />
+	  <None Remove="Fonts\Inter-Light.ttf" />
+	  <None Remove="Fonts\Inter-Medium.ttf" />
+	  <None Remove="Fonts\Inter-Regular.ttf" />
+	  <None Remove="Fonts\Inter-SemiBold.ttf" />
+	  <None Remove="Fonts\Inter-Thin.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Remove="Icons\BedrijfIcon.xaml" />
+	  <Page Remove="Icons\DefaultLeeg.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -46,12 +58,39 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="icons\DefaultLeeg.xaml">
+	  <Resource Include="Fonts\Inter-Black.ttf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Fonts\Inter-Bold.ttf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Fonts\Inter-ExtraBold.ttf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Fonts\Inter-ExtraLight.ttf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Fonts\Inter-Light.ttf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Fonts\Inter-Medium.ttf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Fonts\Inter-Regular.ttf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Fonts\Inter-SemiBold.ttf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Fonts\Inter-Thin.ttf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\DefaultLeeg.xaml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	    <SubType>Designer</SubType>
 	    <Generator>MSBuild:Compile</Generator>
 	  </Resource>
-	  <Resource Include="icons\BedrijfIcon.xaml">
+	  <Resource Include="Icons\BedrijfIcon.xaml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
 	</ItemGroup>

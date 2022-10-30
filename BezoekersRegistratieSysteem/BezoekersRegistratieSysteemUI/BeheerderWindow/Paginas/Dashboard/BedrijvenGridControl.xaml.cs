@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
+﻿using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,55 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Dashboard {
 	public partial class BedrijvenGridControl : UserControl {
 		private const int MAX_COLUMN_COUNT = 4;
 
+		private List<BedrijfDTO> bedrijven = new() { new BedrijfDTO(1, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
+				new BedrijfDTO(2, "Odice", "Btw1", "Telefoon1", "Email1", "Adress1", null),
+				new BedrijfDTO(3, "Allphi", "Btw2", "Telefoon2", "Email2", "Adress2", null),
+				new BedrijfDTO(4, "Scheppers", "Btw3", "Telefoon3", "Email3", "Adress3", null),
+				new BedrijfDTO(5, "Artevelde", "Btw4", "Telefoon4", "Email4", "Adress4", null),
+				new BedrijfDTO(6, "De Bolster", "Btw5", "Telefoon5", "Email5", "Adress5", null),
+				new BedrijfDTO(7, "Brauzz", "Btw", "Telefoon", "Email", "Adress", null),
+				new BedrijfDTO(8, "Apple", "Btw1", "Telefoon1", "Email1", "Adress1", null),
+				new BedrijfDTO(9, "Microsoft", "Btw2", "Telefoon2", "Email2", "Adress2", null),
+				new BedrijfDTO(10, "Hp", "Btw3", "Telefoon3", "Email3", "Adress3", null),
+				new BedrijfDTO(11, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
+				new BedrijfDTO(12, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),
+				new BedrijfDTO(13, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
+				new BedrijfDTO(14, "Odice", "Btw1", "Telefoon1", "Email1", "Adress1", null),
+				new BedrijfDTO(15, "Allphi", "Btw2", "Telefoon2", "Email2", "Adress2", null),
+				new BedrijfDTO(16, "Scheppers", "Btw3", "Telefoon3", "Email3", "Adress3", null),
+				new BedrijfDTO(17, "Artevelde", "Btw4", "Telefoon4", "Email4", "Adress4", null),
+				new BedrijfDTO(18, "De Bolster", "Btw5", "Telefoon5", "Email5", "Adress5", null),
+				new BedrijfDTO(19, "Brauzz", "Btw", "Telefoon", "Email", "Adress", null),
+				new BedrijfDTO(20, "Apple", "Btw1", "Telefoon1", "Email1", "Adress1", null),
+				new BedrijfDTO(21, "Microsoft", "Btw2", "Telefoon2", "Email2", "Adress2", null),
+				new BedrijfDTO(22, "Hp", "Btw3", "Telefoon3", "Email3", "Adress3", null),
+				new BedrijfDTO(23, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
+				new BedrijfDTO(24, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),
+				new BedrijfDTO(1, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
+				new BedrijfDTO(2, "Odice", "Btw1", "Telefoon1", "Email1", "Adress1", null),
+				new BedrijfDTO(3, "Allphi", "Btw2", "Telefoon2", "Email2", "Adress2", null),
+				new BedrijfDTO(4, "Scheppers", "Btw3", "Telefoon3", "Email3", "Adress3", null),
+				new BedrijfDTO(5, "Artevelde", "Btw4", "Telefoon4", "Email4", "Adress4", null),
+				new BedrijfDTO(6, "De Bolster", "Btw5", "Telefoon5", "Email5", "Adress5", null),
+				new BedrijfDTO(7, "Brauzz", "Btw", "Telefoon", "Email", "Adress", null),
+				new BedrijfDTO(8, "Apple", "Btw1", "Telefoon1", "Email1", "Adress1", null),
+				new BedrijfDTO(9, "Microsoft", "Btw2", "Telefoon2", "Email2", "Adress2", null),
+				new BedrijfDTO(10, "Hp", "Btw3", "Telefoon3", "Email3", "Adress3", null),
+				new BedrijfDTO(11, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
+				new BedrijfDTO(12, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),
+				new BedrijfDTO(13, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
+				new BedrijfDTO(14, "Odice", "Btw1", "Telefoon1", "Email1", "Adress1", null),
+				new BedrijfDTO(15, "Allphi", "Btw2", "Telefoon2", "Email2", "Adress2", null),
+				new BedrijfDTO(16, "Scheppers", "Btw3", "Telefoon3", "Email3", "Adress3", null),
+				new BedrijfDTO(17, "Artevelde", "Btw4", "Telefoon4", "Email4", "Adress4", null),
+				new BedrijfDTO(18, "De Bolster", "Btw5", "Telefoon5", "Email5", "Adress5", null),
+				new BedrijfDTO(19, "Brauzz", "Btw", "Telefoon", "Email", "Adress", null),
+				new BedrijfDTO(20, "Apple", "Btw1", "Telefoon1", "Email1", "Adress1", null),
+				new BedrijfDTO(21, "Microsoft", "Btw2", "Telefoon2", "Email2", "Adress2", null),
+				new BedrijfDTO(22, "Hp", "Btw3", "Telefoon3", "Email3", "Adress3", null),
+				new BedrijfDTO(23, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
+				new BedrijfDTO(24, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),};
+
 		public BedrijvenGridControl() {
 			this.DataContext = this;
 			InitializeComponent();
@@ -29,61 +79,51 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Dashboard {
 		}
 
 		private void SpawnBedrijvenGrid() {
-			List<BedrijfDTO> bedrijven = new() { new BedrijfDTO(1, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
-				new BedrijfDTO(2, "Odice", "Btw1", "Telefoon1", "Email1", "Adress1", null),
-				new BedrijfDTO(3, "Allphi", "Btw2", "Telefoon2", "Email2", "Adress2", null),
-				new BedrijfDTO(4, "Scheppers", "Btw3", "Telefoon3", "Email3", "Adress3", null),
-				new BedrijfDTO(5, "Artevelde", "Btw4", "Telefoon4", "Email4", "Adress4", null),
-				new BedrijfDTO(6, "De Bolster", "Btw5", "Telefoon5", "Email5", "Adress5", null),
-				new BedrijfDTO(1, "Brauzz", "Btw", "Telefoon", "Email", "Adress", null),
-				new BedrijfDTO(2, "Apple", "Btw1", "Telefoon1", "Email1", "Adress1", null),
-				new BedrijfDTO(3, "Microsoft", "Btw2", "Telefoon2", "Email2", "Adress2", null),
-				new BedrijfDTO(4, "Hp", "Btw3", "Telefoon3", "Email3", "Adress3", null),
-				new BedrijfDTO(5, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
-				new BedrijfDTO(6, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null) };
-
 			int rowCount = 0;
 			int columnCount = 0;
 
 			gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
 			for (int i = 0; i < bedrijven.Count; i++) {
-				Grid container = new();
-				container.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
-				container.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
+				Border border = new Border();
+				border.Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style;
+				border.Height = 85;
+				border.MinWidth = 300;
+				border.Margin = new Thickness(10);
+				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab;
+				border.DataContext = bedrijven[i];
 
-				container.Margin = new Thickness(10);
-				container.Background = Brushes.Yellow;
-				container.HorizontalAlignment = HorizontalAlignment.Center;
+				StackPanel container = new();
+				container.Margin = new Thickness(5);
+				container.Orientation = Orientation.Horizontal;
+				container.HorizontalAlignment = HorizontalAlignment.Left;
 				container.VerticalAlignment = VerticalAlignment.Center;
-				container.MinHeight = 100;
-				container.MinWidth = 75;
-
-				Grid.SetColumn(container, columnCount);
-				Grid.SetRow(container, rowCount);
 
 				TextBlock bedrijfNaam = new() {
 					Text = bedrijven[i].Naam,
-					Background = Brushes.Cyan,
+					FontSize = 24,
+					FontWeight = FontWeights.Bold,
 					TextAlignment = TextAlignment.Center,
-					VerticalAlignment = VerticalAlignment.Center
+					VerticalAlignment = VerticalAlignment.Center,
+					TextWrapping = TextWrapping.Wrap
 				};
 
-				//< iconspresenter:Icon
-				//			CircleBackground = "{StaticResource MainAchtergrond}"
+				Icon icon = new() {
+					IconSize = 42,
+					CircleSize = 48,
+					IconOffsetLeft = 12,
+					IconOffsetRight = 12,
+					IconSource = "../BedrijfIcon.xaml",
+					Margin = new Thickness(10, 0, 10, 0)
+				};
 
-				//			IconOffsetLeft = "8"
+				Grid.SetColumn(border, columnCount);
+				Grid.SetRow(border, rowCount);
 
-				//			IconOffsetRight = "8"
-
-				//			IconSize = "40"
-
-				//			IconSource = "../BedrijfIcon.xaml" />
-
-				Grid.SetColumn(bedrijfNaam, 1);
-				Grid.SetRow(bedrijfNaam, 0);
-
+				container.Children.Add(icon);
 				container.Children.Add(bedrijfNaam);
+
+				border.Child = container;
 
 				if (columnCount == MAX_COLUMN_COUNT - 1) {
 					columnCount = 0;
@@ -91,13 +131,28 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Dashboard {
 					gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
 					rowCount++;
-				}
-				else {
+				} else {
 					columnCount++;
 				}
 
-				gridContainer.Children.Add(container);
+				gridContainer.Children.Add(border);
 			}
+		}
+
+		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
+			BedrijfDTO bedrijf = (BedrijfDTO)((Border)sender).DataContext;
+
+			//Window window = Window.GetWindow(this);
+			//BeheerderDashboard beheerderDashboard = (BeheerderDashboard)window.DataContext;
+			//TabControl tabControl = beheerderDashboard.TabNavigeerder;
+
+			//beheerderDashboard.ZetGeselecteerdBedrijf(bedrijf);
+			//beheerderDashboard.DashboardTab.IsSelected = false;
+			//beheerderDashboard.BedrijvenTab.IsSelected = false;
+			//beheerderDashboard.BezoekersTab.IsSelected = false;
+			//beheerderDashboard.WerknemersTab.IsSelected = false;
+			//beheerderDashboard.AfsprakenTab.IsSelected = true;
+			//tabControl.TabIndex = 2;
 		}
 	}
 }

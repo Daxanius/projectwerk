@@ -8,5 +8,188 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid />
+    <ListView
+        Background="Transparent"
+        BorderBrush="Transparent"
+        ItemsSource="{Binding Afspraken}"
+        ScrollViewer.CanContentScroll="False"
+        ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ListView.Style>
+            <Style TargetType="ListView">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="False">
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ListView.Style>
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                            <UniformGrid MouseLeftButtonDown="KlikOpRow">
+                                <Border
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0,0,0,1">
+                                    <GridViewRowPresenter
+                                        Width="Auto"
+                                        Margin="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Content="{TemplateBinding Content}" />
+                                </Border>
+                            </UniformGrid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Cursor" Value="Hand" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ListView.ItemContainerStyle>
+
+        <ListView.View>
+            <GridView>
+                <GridView.ColumnHeaderContainerStyle>
+                    <Style TargetType="GridViewColumnHeader">
+                        <Setter Property="FontSize" Value="25" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="GridViewColumnHeader">
+                                    <Label
+                                        Content="{TemplateBinding Content}"
+                                        FontSize="16"
+                                        FontWeight="Normal"
+                                        Foreground="{StaticResource LichtGrijs}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </GridView.ColumnHeaderContainerStyle>
+                <GridView.Columns>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock
+                                MinWidth="250"
+                                Text="Datum"
+                                TextAlignment="Center" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label
+                                    Padding="15"
+                                    Content="{Binding StartTijd}"
+                                    FontSize="15"
+                                    FontWeight="DemiBold" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock
+                                MinWidth="250"
+                                Text="Bezoeker"
+                                TextAlignment="Center" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label
+                                    Padding="15"
+                                    FontSize="15"
+                                    FontWeight="DemiBold">
+                                    <Label.Content>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="Bezoeker.Voornaam" />
+                                                    <Binding Path="Bezoeker.Achternaam" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Label.Content>
+                                </Label>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock
+                                MinWidth="250"
+                                Text="Werknemer"
+                                TextAlignment="Center" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label
+                                    Padding="15"
+                                    FontSize="15"
+                                    FontWeight="DemiBold">
+                                    <Label.Content>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="Werknemer.Voornaam" />
+                                                    <Binding Path="Werknemer.Achternaam" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Label.Content>
+                                </Label>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock
+                                MinWidth="250"
+                                Text="Bedrijf"
+                                TextAlignment="Center" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label
+                                    Padding="15"
+                                    Content="{Binding WerknemerBedrijf}"
+                                    FontSize="15"
+                                    FontWeight="DemiBold" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock
+                                MinWidth="100"
+                                Padding="5,0"
+                                Text="Status"
+                                TextAlignment="Center" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Click="klikOpActionButtonOpRow"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource WijzigButtonStyle}">
+                                    <Border Style="{StaticResource AfspraakStatusBackgroundStyle}" Tag="{Binding Status}">
+                                        <TextBlock Style="{StaticResource ListViewWijzigTextBlockStyle}" Text="{Binding Status}" />
+                                    </Border>
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView.Columns>
+            </GridView>
+        </ListView.View>
+    </ListView>
 </UserControl>

@@ -10,8 +10,16 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Viewbox Width="{Binding IconSize}" Height="{Binding IconSize}">
-        <Canvas Width="50" Height="50">
+    <Viewbox
+        Width="{Binding IconSize}"
+        Height="{Binding IconSize}"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+        <Canvas
+            Width="50"
+            Height="50"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
             <Ellipse
                 Width="{Binding CircleSize}"
                 Height="{Binding CircleSize}"
@@ -19,6 +27,10 @@
             <Frame
                 Canvas.Left="{Binding IconOffsetLeft}"
                 Canvas.Top="{Binding IconOffsetLeft}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
                 Foreground="White"
                 Source="{Binding IconSource}" />
         </Canvas>
