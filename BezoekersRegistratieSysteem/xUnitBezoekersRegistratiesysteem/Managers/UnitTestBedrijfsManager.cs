@@ -6,6 +6,8 @@ using Moq;
 namespace BezoekersRegistratieSysteemBL.Managers {
 	public class UnitTestBedrijfsManagerTest {
         
+        //AF
+
         #region MOQ
         private BedrijfManager _bedrijfManager;
         private Mock<IBedrijfRepository> _mockRepo;
@@ -82,17 +84,16 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             Assert.Equal("BedrijfManager - BewerkBedrijf - bedrijf bestaat niet", ex.Message);
         }
 
-        //[Fact]
-        //public void BewerkBedrijf_Invalid_BedrijfNietGewijzigd()
-        //{
-        //    _mockRepo = new Mock<IBedrijfRepository>();
-        //    _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+        [Fact]
+        public void BewerkBedrijf_Invalid_BedrijfNietGewijzigd()
+        {
+            _mockRepo = new Mock<IBedrijfRepository>();
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
 
-        //    //"BedrijfManager - BewerkBedrijf - bedrijf is niet gewijzigd"
-        //    _mockRepo.Setup(x => x.GeefBedrijf(_vb.Id).BedrijfIsGelijk(_vb)).Returns(true);
-        //    var ex = Assert.Throws<BedrijfManagerException>(() => _bedrijfManager.BewerkBedrijf(_vb));
-        //    Assert.Equal("BedrijfManager - BewerkBedrijf - bedrijf is niet gewijzigd", ex.Message);
-        //}
+            //"BedrijfManager - BewerkBedrijf - bedrijf is niet gewijzigd"
+            _mockRepo.Setup(x => x.GeefBedrijf(_vb.Id)).Returns(_vb);
+            Assert.Throws<BedrijfManagerException>(() => _bedrijfManager.BewerkBedrijf(_vb));
+        }
         #endregion
 
         #region Bedrijf Opvragen

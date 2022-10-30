@@ -4,7 +4,9 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 using Moq;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
-	public class AfspraakManagerTest {
+	public class UnitTestAfspraakManagerTest
+    {
+        //AF
         
 		#region MOQ
 		private AfspraakManager _afspraakManager;
@@ -92,6 +94,17 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
             var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
             Assert.Equal("AfspraakManager - BewerkAfspraak - afspraak bestaat niet", ex.Message);
+        }
+
+        [Fact]
+        public void BewerkAfspraak_Invalid_AfspraakNietGewijzigd()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - BewerkAfspraak - afspraak is niet gewijzigd"
+            _mockRepo.Setup(x => x.GeefAfspraak(_oa.Id)).Returns(_oa);
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
         }
         #endregion
 
