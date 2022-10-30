@@ -184,10 +184,24 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
         public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpEmail(string email)
         {
-            if (string.IsNullOrEmpty(email)) throw new AfspraakManagerException("AfspraakManager - GeefAfspraakPerBezoekerOpEmail - voornaam mag niet leeg zijn");
+            if (string.IsNullOrEmpty(email)) throw new AfspraakManagerException("AfspraakManager - GeefAfspraakPerBezoekerOpEmail - email mag niet leeg zijn");
             try
             {
                 return _afspraakRepository.GeefAfsprakenPerBezoekerOpEmail(email);
+            }
+            catch (Exception ex)
+            {
+                throw new AfspraakManagerException(ex.Message);
+            }
+        }
+
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDag(Bezoeker bezoeker, DateTime datum)
+        {
+            if (bezoeker == null) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpDag - bezoeker mag niet leeg zijn");
+            if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpDag - opvraag datum kan niet in de toekomst liggen");
+            try
+            {
+                return _afspraakRepository.GeefAfsprakenPerBezoekerOpDag(bezoeker.Id, datum);
             }
             catch (Exception ex)
             {

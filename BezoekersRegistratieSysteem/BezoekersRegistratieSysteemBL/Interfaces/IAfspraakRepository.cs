@@ -26,6 +26,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
         IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long id, DateTime datum);
         IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaam(string voornaam, string achternaam);
         IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpEmail(string email);
+		IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDag(long id, DateTime datum);
 		Afspraak GeefHuidigeAfspraakBezoeker(long id);
 	}
 }
