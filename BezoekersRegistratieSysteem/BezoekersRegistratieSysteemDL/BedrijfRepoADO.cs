@@ -255,7 +255,9 @@ namespace BezoekersRegistratieSysteemDL
 							string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
 							string bedrijfMail = (string)reader["BedrijfMail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+
+							// TODO VOOR GEKKE BJORN: true vervangen door statuscode
+							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 						}
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId")))
 						{
@@ -317,7 +319,9 @@ namespace BezoekersRegistratieSysteemDL
 							string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
 							string bedrijfMail = (string)reader["BedrijfMail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+
+							// TODO VOOR GEKKE BJORN: vervang true door statuscode
+							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 							bedrijven.Add(bedrijf);
 						}
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId")))

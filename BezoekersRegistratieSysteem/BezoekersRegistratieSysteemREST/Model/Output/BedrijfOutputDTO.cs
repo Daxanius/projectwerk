@@ -12,7 +12,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 				werknemers.Add(w.Id);
 			}
 
-			return new(bedrijf.Id, bedrijf.Naam, bedrijf.BTW, bedrijf.IsGecontroleert, bedrijf.TelefoonNummer, bedrijf.Email, bedrijf.Adres, werknemers);
+			return new(bedrijf.Id, bedrijf.Naam, bedrijf.BTW, bedrijf.BtwGeverifieerd, bedrijf.TelefoonNummer, bedrijf.Email, bedrijf.Adres, werknemers);
 		}
 
 		public static IEnumerable<BedrijfOutputDTO> NaarDTO(IEnumerable<Bedrijf> bedrijven)
