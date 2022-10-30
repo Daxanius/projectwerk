@@ -23,11 +23,13 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 			Assert.Equal((long)10, b.Id);
 		}
 
-		[Fact]
-		public void ZetId_Invalid()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void ZetId_Invalid(long id)
 		{
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-			Assert.Throws<BedrijfException>(() => b.ZetId(0));
+			Assert.Throws<BedrijfException>(() => b.ZetId(id));
 		}
 		#endregion
 

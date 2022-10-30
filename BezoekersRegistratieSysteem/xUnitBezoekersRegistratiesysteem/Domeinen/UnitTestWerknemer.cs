@@ -24,12 +24,13 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 			Assert.Equal((long)10, w.Id);
 		}
 
-		[Fact]
-		public void ZetId_Invalid()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void ZetId_Invalid(long id)
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
-			//"Werknemer - ZetId - Id moet groter zijn dan 0"
-			Assert.Throws<WerknemerException>(() => w.ZetId(0));
+			Assert.Throws<WerknemerException>(() => w.ZetId(id));
 		}
 		#endregion
 
