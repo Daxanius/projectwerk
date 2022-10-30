@@ -16,14 +16,6 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 		public BedrijfDTO _geselecteerdBedrijf { get; private set; }
 
-		private double _actualDockPanelWidth;
-		public double ActualDockPanelWidth {
-			get => _actualDockPanelWidth; set {
-				_actualDockPanelWidth = value;
-				UpdatePropperty();
-			}
-		}
-
 		public string Datum {
 			get {
 				return DateTime.Now.ToString("dd.MM");
@@ -46,12 +38,6 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 			this.DataContext = this;
 			InitializeComponent();
-
-			ResizeScherm();
-		}
-
-		private void ResizeScherm() {
-			ActualDockPanelWidth = this.Width - Sidebar.Width - 40;
 		}
 
 		public void ZetGeselecteerdBedrijf(BedrijfDTO bedrijf) {
@@ -67,13 +53,5 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		}
 
 		#endregion ProppertyChanged
-
-		private void WindowResize(object sender, SizeChangedEventArgs e) {
-			ResizeScherm();
-		}
-
-		private void WindowState(object sender, EventArgs e) {
-			ResizeScherm();
-		}
 	}
 }

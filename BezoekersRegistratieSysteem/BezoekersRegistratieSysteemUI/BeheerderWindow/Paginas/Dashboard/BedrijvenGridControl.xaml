@@ -8,17 +8,25 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <ScrollViewer
-        Grid.Column="1"
-        MaxHeight="400"
-        CanContentScroll="True">
-        <Grid Name="gridContainer">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-        </Grid>
-    </ScrollViewer>
+    <StackPanel Margin="0,20,40,0">
+        <Label
+            Padding="20,0,0,20"
+            Content="Dashboard"
+            FontSize="40"
+            FontWeight="Bold"
+            Foreground="{StaticResource DonkerGrijs}" />
+        <ScrollViewer
+            MaxHeight="440"
+            Padding="0,0,0,20"
+            CanContentScroll="True">
+            <Grid Name="gridContainer">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </ScrollViewer>
+    </StackPanel>
 </UserControl>

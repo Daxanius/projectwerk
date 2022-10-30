@@ -12,8 +12,7 @@
         Background="Transparent"
         BorderBrush="Transparent"
         ItemsSource="{Binding Afspraken}"
-        ScrollViewer.CanContentScroll="False"
-        ScrollViewer.VerticalScrollBarVisibility="Auto">
+        ScrollViewer.CanContentScroll="False">
         <ListView.Style>
             <Style TargetType="ListView">
                 <Style.Triggers>
@@ -33,7 +32,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListViewItem}">
-                            <UniformGrid MouseLeftButtonDown="KlikOpRow">
+                            <StackPanel MouseLeftButtonDown="KlikOpRow">
                                 <Border
                                     Background="Transparent"
                                     BorderBrush="Transparent"
@@ -45,7 +44,7 @@
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                         Content="{TemplateBinding Content}" />
                                 </Border>
-                            </UniformGrid>
+                            </StackPanel>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
@@ -57,7 +56,6 @@
                 </Style.Triggers>
             </Style>
         </ListView.ItemContainerStyle>
-
         <ListView.View>
             <GridView>
                 <GridView.ColumnHeaderContainerStyle>

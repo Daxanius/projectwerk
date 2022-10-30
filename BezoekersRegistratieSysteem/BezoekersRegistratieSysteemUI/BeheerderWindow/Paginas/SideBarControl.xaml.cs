@@ -31,43 +31,43 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas {
 
 			Window window = Window.GetWindow(this);
 			BeheerderDashboard beheerderDashboard = window.DataContext as BeheerderDashboard;
-			TabControl tabControl = beheerderDashboard.TabNavigeerder;
+			//TabControl tabControl = beheerderDashboard.TabNavigeerder;
 
-			switch (tab) {
-				case "Dashboard":
-				tabControl.TabIndex = 0;
-				ZetTabsOpNietGeselecteed(beheerderDashboard);
-				beheerderDashboard.DashboardTab.IsSelected = true;
-				break;
-				case "Bedrijven":
-				tabControl.TabIndex = 1;
-				ZetTabsOpNietGeselecteed(beheerderDashboard);
-				beheerderDashboard.BedrijvenTab.IsSelected = true;
-				break;
-				case "Afspraken":
-				tabControl.TabIndex = 2;
-				ZetTabsOpNietGeselecteed(beheerderDashboard);
-				beheerderDashboard.AfsprakenTab.IsSelected = true;
-				break;
-				case "Werknemers":
-				tabControl.TabIndex = 3;
-				ZetTabsOpNietGeselecteed(beheerderDashboard);
-				beheerderDashboard.WerknemersTab.IsSelected = true;
-				break;
-				case "Bezoekers":
-				tabControl.TabIndex = 4;
-				ZetTabsOpNietGeselecteed(beheerderDashboard);
-				beheerderDashboard.BezoekersTab.IsSelected = true;
-				break;
-			}
+			//switch (tab) {
+			//	case "Dashboard":
+			//	tabControl.TabIndex = 0;
+			//	ZetTabsOpNietGeselecteed(beheerderDashboard);
+			//	beheerderDashboard.DashboardTab.IsSelected = true;
+			//	break;
+			//	case "Bedrijven":
+			//	tabControl.TabIndex = 1;
+			//	ZetTabsOpNietGeselecteed(beheerderDashboard);
+			//	beheerderDashboard.BedrijvenTab.IsSelected = true;
+			//	break;
+			//	case "Afspraken":
+			//	tabControl.TabIndex = 2;
+			//	ZetTabsOpNietGeselecteed(beheerderDashboard);
+			//	beheerderDashboard.AfsprakenTab.IsSelected = true;
+			//	break;
+			//	case "Werknemers":
+			//	tabControl.TabIndex = 3;
+			//	ZetTabsOpNietGeselecteed(beheerderDashboard);
+			//	beheerderDashboard.WerknemersTab.IsSelected = true;
+			//	break;
+			//	case "Bezoekers":
+			//	tabControl.TabIndex = 4;
+			//	ZetTabsOpNietGeselecteed(beheerderDashboard);
+			//	beheerderDashboard.BezoekersTab.IsSelected = true;
+			//	break;
+			//}
 		}
 
 		void ZetTabsOpNietGeselecteed(BeheerderDashboard beheerderDashboard) {
-			beheerderDashboard.DashboardTab.IsSelected = false;
-			beheerderDashboard.BedrijvenTab.IsSelected = false;
-			beheerderDashboard.AfsprakenTab.IsSelected = false;
-			beheerderDashboard.WerknemersTab.IsSelected = false;
-			beheerderDashboard.BezoekersTab.IsSelected = false;
+			//beheerderDashboard.DashboardTab.IsSelected = false;
+			//beheerderDashboard.BedrijvenTab.IsSelected = false;
+			//beheerderDashboard.AfsprakenTab.IsSelected = false;
+			//beheerderDashboard.WerknemersTab.IsSelected = false;
+			//beheerderDashboard.BezoekersTab.IsSelected = false;
 		}
 	}
 }

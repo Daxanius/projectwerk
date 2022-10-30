@@ -10,8 +10,6 @@
     Title="Beheerder"
     Icon="/BRS.ico"
     ResizeMode="CanResize"
-    SizeChanged="WindowResize"
-    StateChanged="WindowState"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     WindowStyle="SingleBorderWindow"
@@ -22,48 +20,35 @@
             <FontFamily x:Key="Inter">/Fonts/#Inter</FontFamily>
         </ResourceDictionary>
     </Window.Resources>
-    <DockPanel LayoutTransform="{StaticResource windowScaleTransform}">
+    <DockPanel LastChildFill="True" LayoutTransform="{StaticResource windowScaleTransform}">
         <controlls:SideBarControl
             x:Name="Sidebar"
             Width="280"
             DockPanel.Dock="Left" />
-        <TabControl Name="TabNavigeerder">
-            <TabControl.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="OverridesDefaultStyle" Value="True" />
-                </Style>
-            </TabControl.Resources>
-            <TabItem Name="DashboardTab" IsSelected="True">
-                <DockPanel
-                    Width="{Binding ActualDockPanelWidth}"
-                    Background="Yellow"
-                    LastChildFill="False">
-                    <Label
-                        Content="Dashboard"
+        <DockPanel>
+            <dashboard:BedrijvenGridControl DockPanel.Dock="Top" />
+            <Border
+                Margin="20"
+                Padding="20"
+                Background="{StaticResource LichtGrijsAccent}"
+                CornerRadius="25"
+                DockPanel.Dock="Bottom">
+                <DockPanel>
+                    <TextBlock
+                        Padding="5,0,0,10"
                         DockPanel.Dock="Top"
-                        FontSize="40"
+                        FontSize="28"
                         FontWeight="Bold"
-                        Foreground="{StaticResource DonkerGrijs}" />
-                    <Border
-                        Margin="10"
-                        Padding="15"
-                        DockPanel.Dock="Top">
-                        <dashboard:BedrijvenGridControl DockPanel.Dock="Top" />
-                    </Border>
-                    <Border
-                        Margin="10"
-                        Padding="15"
-                        Background="{StaticResource LichtGrijsAccent}"
-                        CornerRadius="25"
-                        DockPanel.Dock="Bottom">
-                        <dashboard:AfsprakenLijstControl />
-                    </Border>
+                        Foreground="{StaticResource DonkerGrijs}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} | Afspraken">
+                                <Binding Path="Datum" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <dashboard:AfsprakenLijstControl />
                 </DockPanel>
-            </TabItem>
-            <TabItem Name="BedrijvenTab" />
-            <TabItem Name="AfsprakenTab" />
-            <TabItem Name="WerknemersTab" />
-            <TabItem Name="BezoekersTab" />
-        </TabControl>
+            </Border>
+        </DockPanel>
     </DockPanel>
 </Window>
