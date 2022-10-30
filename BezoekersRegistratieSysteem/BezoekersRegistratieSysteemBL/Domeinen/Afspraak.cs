@@ -1,12 +1,14 @@
 ﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
-namespace BezoekersRegistratieSysteemBL.Domeinen {
+namespace BezoekersRegistratieSysteemBL.Domeinen
+{
 	/// <summary>
 	/// Een klasse die de aanwezigheid van bezoekers
 	/// bijhoudt
 	/// </summary>
-	public class Afspraak {
-		public uint Id { get; private set; }
+	public class Afspraak
+	{
+		public long Id { get; private set; }
 		public DateTime Starttijd { get; private set; }
 		public DateTime? Eindtijd { get; private set; }
 		public Bezoeker Bezoeker { get; private set; }
@@ -23,7 +25,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="starttijd"></param>
 		/// <param name="bezoeker"></param>
 		/// <param name="werknemer"></param>
-		public Afspraak(DateTime starttijd, Bezoeker bezoeker, Werknemer werknemer) {
+		public Afspraak(DateTime starttijd, Bezoeker bezoeker, Werknemer werknemer)
+		{
 			ZetStarttijd(starttijd);
 			ZetBezoeker(bezoeker);
 			ZetWerknemer(werknemer);
@@ -37,7 +40,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="eindtijd"></param>
 		/// <param name="bezoeker"></param>
 		/// <param name="werknemer"></param>
-		public Afspraak(uint id, DateTime starttijd, DateTime? eindtijd, Bezoeker bezoeker, Werknemer werknemer) {
+		public Afspraak(long id, DateTime starttijd, DateTime? eindtijd, Bezoeker bezoeker, Werknemer werknemer)
+		{
 			ZetId(id);
 			ZetStarttijd(starttijd);
 			ZetEindtijd(eindtijd);
@@ -49,8 +53,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// Zet id.
 		/// </summary>
 		/// <param name="id"></param>
-		public void ZetId(uint id) {
-			if (id == 0) throw new AfspraakException("Afspraak - ZetId - Id mag niet 0 zijn.");
+		public void ZetId(long id)
+		{
+			if (id == 0)
+				throw new AfspraakException("Afspraak - ZetId - Id mag niet 0 zijn.");
 			Id = id;
 		}
 
@@ -59,9 +65,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="starttijd"></param>
 		/// <exception cref="AfspraakException"></exception>
-		public void ZetStarttijd(DateTime starttijd) {
-			if (Eindtijd is not null) throw new AfspraakException("Afspraak - ZetStarttijd - Afspraak is al afgelopen");
-			if (starttijd.Date == new DateTime()) throw new AfspraakException("Afspraak - ZetStarttijd - Starttijd is niet ingevuld");
+		public void ZetStarttijd(DateTime starttijd)
+		{
+			if (Eindtijd is not null)
+				throw new AfspraakException("Afspraak - ZetStarttijd - Afspraak is al afgelopen");
+			if (starttijd.Date == new DateTime())
+				throw new AfspraakException("Afspraak - ZetStarttijd - Starttijd is niet ingevuld");
 			Starttijd = starttijd;
 		}
 
@@ -70,8 +79,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="eindtijd"></param>
 		/// <exception cref="AfspraakException"></exception>
-		public void ZetEindtijd(DateTime? eindtijd) {
-			if (eindtijd.HasValue && eindtijd <= Starttijd) throw new AfspraakException("Afspraak - ZetEindtijd - Eindtijd moet na starttijd liggen");
+		public void ZetEindtijd(DateTime? eindtijd)
+		{
+			if (eindtijd.HasValue && eindtijd <= Starttijd)
+				throw new AfspraakException("Afspraak - ZetEindtijd - Eindtijd moet na starttijd liggen");
 			Eindtijd = eindtijd;
 		}
 
@@ -80,7 +91,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="bezoeker"></param>
 		/// <exception cref="AfspraakException"></exception>
-		public void ZetBezoeker(Bezoeker bezoeker) {
+		public void ZetBezoeker(Bezoeker bezoeker)
+		{
 			Bezoeker = bezoeker ?? throw new AfspraakException("Afspraak - ZetBezoeker - Bezoeker mag niet leeg zijn");
 		}
 
@@ -89,7 +101,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="werknemer"></param>
 		/// <exception cref="AfspraakException"></exception>
-		public void ZetWerknemer(Werknemer werknemer) {
+		public void ZetWerknemer(Werknemer werknemer)
+		{
 			Werknemer = werknemer ?? throw new AfspraakException("Afspraak - ZetWerknemer - Werknemer mag niet leeg zijn");
 		}
 
@@ -97,13 +110,20 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// Vergelijkt afspraken op inhoud.
 		/// </summary>
 		/// <exception cref="BedrijfException"></exception>
-		public bool AfspraakIsGelijk(Afspraak afspraak) {
-			if (afspraak is null) return false;
-			if (afspraak.Id != Id) return false;
-			if (afspraak.Starttijd != Starttijd) return false;
-			if (afspraak.Eindtijd != Eindtijd) return false;
-			if (afspraak.Bezoeker != Bezoeker) return false;
-			if (afspraak.Werknemer != Werknemer) return false;
+		public bool AfspraakIsGelijk(Afspraak afspraak)
+		{
+			if (afspraak is null)
+				return false;
+			if (afspraak.Id != Id)
+				return false;
+			if (afspraak.Starttijd != Starttijd)
+				return false;
+			if (afspraak.Eindtijd != Eindtijd)
+				return false;
+			if (afspraak.Bezoeker != Bezoeker)
+				return false;
+			if (afspraak.Werknemer != Werknemer)
+				return false;
 			return true;
 		}
 	}

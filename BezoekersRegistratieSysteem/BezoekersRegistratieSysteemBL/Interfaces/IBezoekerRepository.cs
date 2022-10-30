@@ -1,18 +1,20 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemBL.Interfaces {
+namespace BezoekersRegistratieSysteemBL.Interfaces
+{
 	/// <summary>
 	/// Bezoeker storage hook
 	/// </summary>
-	public interface IBezoekerRepository {
+	public interface IBezoekerRepository
+	{
 		Bezoeker VoegBezoekerToe(Bezoeker bezoeker);
-		void VerwijderBezoeker(uint id);
+		void VerwijderBezoeker(long id);
 		void WijzigBezoeker(Bezoeker bezoeker);
 
 		bool BestaatBezoeker(Bezoeker bezoeker);
-		bool BestaatBezoeker(uint bezoekerId);
+		bool BestaatBezoeker(long bezoekerId);
 
-		Bezoeker GeefBezoeker(uint id);
+		Bezoeker GeefBezoeker(long id);
 		IReadOnlyList<Bezoeker> GeefBezoekerOpNaam(string voornaam, string achternaam);
 		IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers();
 		IReadOnlyList<Bezoeker> GeefBezoekersOpDatum(DateTime datum);

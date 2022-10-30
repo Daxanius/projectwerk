@@ -1,10 +1,12 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemBL.Interfaces {
+namespace BezoekersRegistratieSysteemBL.Interfaces
+{
 	/// <summary>
 	/// Werknemer storage hook
 	/// </summary>
-	public interface IWerknemerRepository {
+	public interface IWerknemerRepository
+	{
 		Werknemer VoegWerknemerToe(Werknemer werknemer);
 		void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf);
 		void VoegWerknemerFunctieToe(Werknemer werknemer, Bedrijf bedrijf, string functie);
@@ -12,10 +14,10 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void WijzigWerknemer(Werknemer werknemer, Bedrijf bedrijf);
 
 		bool BestaatWerknemer(Werknemer werknemer);
-		bool BestaatWerknemer(uint id);
+		bool BestaatWerknemer(long id);
 
-		Werknemer GeefWerknemer(uint id);
+		Werknemer GeefWerknemer(long id);
 		IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam);
-		IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(uint id);
+		IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(long id);
 	}
 }
