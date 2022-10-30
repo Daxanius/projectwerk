@@ -1,34 +1,59 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <ApplicationIcon>BRS.ico</ApplicationIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<ApplicationIcon>BRS.ico</ApplicationIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="BRS.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+	  <Page Remove="icons\BedrijfIcon.xaml" />
+	  <Page Remove="icons\DefaultLeeg.xaml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="BRS.ico">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Page Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="AanmeldenOfAfmeldenWindow\Afmelden\Style\AfmeldStyle.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="AanmeldenOfAfmeldenWindow\Afmelden\Style\AfmeldStyle.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="BeheerderWindow\Popups\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="MaterialDesignColors" Version="2.0.9" />
+	  <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="icons\DefaultLeeg.xaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Resource>
+	  <Resource Include="icons\BedrijfIcon.xaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	</ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindow.Controlls.DetailControls;
-using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -7,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Controlls {
+namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas {
 
 	/// <summary>
 	/// Interaction logic for AfsprakenControl.xaml
@@ -52,8 +51,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Controlls {
 		}
 
 		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
-			AfspraakDetailWindow afspraakDetailWindow = new AfspraakDetailWindow(afspraak);
-			afspraakDetailWindow.Show();
+
 		}
 
 		private StackPanel _selecteditem;
