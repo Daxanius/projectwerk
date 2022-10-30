@@ -6,7 +6,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		// AF
 
 		#region Valid Info
-		private Bedrijf _b = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+		private Bedrijf _b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 		private string _e = "werknemer.werknemersen@email.com";
 		#endregion
 

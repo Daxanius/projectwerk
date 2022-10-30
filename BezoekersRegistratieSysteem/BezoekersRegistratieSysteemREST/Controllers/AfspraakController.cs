@@ -4,15 +4,18 @@ using BezoekersRegistratieSysteemREST.Model;
 using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BezoekersRegistratieSysteemREST.Controllers {
+namespace BezoekersRegistratieSysteemREST.Controllers
+{
 	[Route("api/[controller]")]
 	[ApiController]
-	public class AfspraakController : ControllerBase {
+	public class AfspraakController : ControllerBase
+	{
 		private readonly AfspraakManager _afspraakManager;
 		private readonly WerknemerManager _werknemerManager;
 		private readonly BedrijfManager _bedrijfManager;
 
-		public AfspraakController(AfspraakManager afspraakManager, WerknemerManager werknemerManager, BedrijfManager bedrijfManager) {
+		public AfspraakController(AfspraakManager afspraakManager, WerknemerManager werknemerManager, BedrijfManager bedrijfManager)
+		{
 			_afspraakManager = afspraakManager;
 			_werknemerManager = werknemerManager;
 			_bedrijfManager = bedrijfManager;
@@ -24,10 +27,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afspraakId"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
-		public ActionResult<AfsrpaakOutputDTO> GeefAfspraak(uint afspraakId) {
-			try {
+		public ActionResult<AfsrpaakOutputDTO> GeefAfspraak(long afspraakId)
+		{
+			try
+			{
 				return AfsrpaakOutputDTO.NaarDTO(_afspraakManager.GeefAfspraak(afspraakId));
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return NotFound(ex.Message);
 			}
 		}
@@ -41,34 +47,42 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="openstaand">Als openstaand true is, geef huidige afspraken, werkt alleen voor werknemer</param>
 		/// <returns></returns>
 		[HttpGet]
-		public ActionResult<IEnumerable<AfsrpaakOutputDTO>> GeefAfspraken([FromQuery] DateTime? dag, [FromQuery] uint? werknemerId, [FromQuery] uint? bedrijfId, [FromQuery] bool openstaand = false) {
-			try {
+		public ActionResult<IEnumerable<AfsrpaakOutputDTO>> GeefAfspraken([FromQuery] DateTime? dag, [FromQuery] long? werknemerId, [FromQuery] long? bedrijfId, [FromQuery] bool openstaand = false)
+		{
+			try
+			{
 				// Ophalen via ID
 				Werknemer? werknemer = null;
 				Bedrijf? bedrijf = null;
 
-				if (werknemerId != null) {
+				if (werknemerId != null)
+				{
 					werknemer = _werknemerManager.GeefWerknemer(werknemerId ?? 0);
 				}
 
-				if (bedrijfId != null) {
+				if (bedrijfId != null)
+				{
 					bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId ?? 0);
 				}
 
 				// Als beide de dag EN de werknemer zijn meegegeven
-				if (werknemer != null && dag != null) {
+				if (werknemer != null && dag != null)
+				{
 					return Ok(AfsrpaakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerWerknemerOpDag(werknemer, dag ?? DateTime.Now)));
 				}
 
 				// Als alleen de dag is meegegeven
-				if (dag != null) {
+				if (dag != null)
+				{
 					return Ok(AfsrpaakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerDag(dag ?? DateTime.Now)));
 				}
 
 				// Als alleen de werknemer is meegegeven
-				if (werknemer != null) {
-					if (openstaand) {
-						return Ok(AfsrpaakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfsprakenPerWerknemer(werknemer)));
+				if (werknemer != null)
+				{
+					if (openstaand)
+					{
+						return Ok(AfsrpaakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfspraakPerWerknemer(werknemer)));
 					}
 
 					// Zou dit niet ook beter een ID zijn?
@@ -76,13 +90,15 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				}
 
 				// Geef alle openstaande afspraken per bedrijf
-				if (bedrijf != null) {
+				if (bedrijf != null)
+				{
 					return Ok(AfsrpaakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfsprakenPerBedrijf(bedrijf)));
 				}
 
 				// Als niets is meegegeven
 				return Ok(AfsrpaakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfspraken()));
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return BadRequest(ex);
 			}
 		}
@@ -93,12 +109,15 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpDelete("{id}")]
-		public IActionResult VerwijderAfspraak(uint id) {
-			try {
+		public IActionResult VerwijderAfspraak(long id)
+		{
+			try
+			{
 				Afspraak afspraak = _afspraakManager.GeefAfspraak(id);
 				_afspraakManager.VerwijderAfspraak(afspraak);
 				return Ok();
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return NotFound(ex.Message);
 			}
 		}
@@ -109,15 +128,18 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afrspraak"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<AfsrpaakOutputDTO> MaakAfspraak([FromBody] AfspraakInputDTO afrspraak) {
-			try {
+		public ActionResult<AfsrpaakOutputDTO> MaakAfspraak([FromBody] AfspraakInputDTO afrspraak)
+		{
+			try
+			{
 				// De bezoeker en de werknemer ophalen van de ids
 				Bezoeker bezoeker = afrspraak.Bezoeker.NaarBusiness();
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(afrspraak.WerknemerId);
 				return AfsrpaakOutputDTO.NaarDTO(
 					_afspraakManager.VoegAfspraakToe(new(DateTime.Now, bezoeker, werknemer))
 				);
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return BadRequest(ex.Message);
 			}
 		}
@@ -129,14 +151,17 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bezoekerInput"></param>
 		/// <returns></returns>
 		[HttpPut("end/{id}")]
-		public IActionResult End(uint afspraakId, BezoekerInputDTO bezoekerInput) {
-			try {
+		public IActionResult End(long afspraakId, BezoekerInputDTO bezoekerInput)
+		{
+			try
+			{
 				Afspraak afspraak = _afspraakManager.GeefAfspraak(afspraakId);
 				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
 				afspraak.ZetBezoeker(bezoeker);
 				_afspraakManager.BeeindigAfspraakBezoeker(afspraak);
 				return Ok();
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return NotFound(ex.Message);
 			}
 		}
@@ -148,13 +173,16 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="afspraakInput"></param>
 		/// <returns></returns>
 		[HttpPut("{afspraakId}")]
-		public ActionResult<AfsrpaakOutputDTO> BewerkAfspraak(uint afspraakId, [FromBody] AfspraakInputDTO afspraakInput) {
-			try {
+		public ActionResult<AfsrpaakOutputDTO> BewerkAfspraak(long afspraakId, [FromBody] AfspraakInputDTO afspraakInput)
+		{
+			try
+			{
 				Afspraak afspraak = afspraakInput.NaarBusiness(_werknemerManager);
 				afspraak.ZetId(afspraakId);
 				_afspraakManager.BewerkAfspraak(afspraak);
 				return AfsrpaakOutputDTO.NaarDTO(afspraak);
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				return BadRequest(ex.Message);
 			}
 		}

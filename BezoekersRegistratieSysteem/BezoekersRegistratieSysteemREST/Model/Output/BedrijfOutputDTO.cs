@@ -1,25 +1,31 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemREST.Model.Output {
-	public class BedrijfOutputDTO {
-		public static BedrijfOutputDTO NaarDTO(Bedrijf bedrijf) {
-			List<uint> werknemers = new();
-			foreach(Werknemer w in bedrijf.GeefWerknemers()) {
+namespace BezoekersRegistratieSysteemREST.Model.Output
+{
+	public class BedrijfOutputDTO
+	{
+		public static BedrijfOutputDTO NaarDTO(Bedrijf bedrijf)
+		{
+			List<long> werknemers = new();
+			foreach (Werknemer w in bedrijf.GeefWerknemers())
+			{
 				werknemers.Add(w.Id);
 			}
 
-			return new(bedrijf.Id, bedrijf.Naam, bedrijf.BTW, bedrijf.IsGecontroleert, bedrijf.TelefoonNummer, bedrijf.Email, bedrijf.Adres, werknemers);
+			return new(bedrijf.Id, bedrijf.Naam, bedrijf.BTW, bedrijf.BtwGeverifieerd, bedrijf.TelefoonNummer, bedrijf.Email, bedrijf.Adres, werknemers);
 		}
 
-		public static IEnumerable<BedrijfOutputDTO> NaarDTO(IEnumerable<Bedrijf> bedrijven) {
+		public static IEnumerable<BedrijfOutputDTO> NaarDTO(IEnumerable<Bedrijf> bedrijven)
+		{
 			List<BedrijfOutputDTO> output = new();
-			foreach (Bedrijf bedrijf in bedrijven) {
+			foreach (Bedrijf bedrijf in bedrijven)
+			{
 				output.Add(BedrijfOutputDTO.NaarDTO(bedrijf));
 			}
 			return output;
 		}
 
-		public uint Id { get; set; }
+		public long Id { get; set; }
 		public string Naam { get; set; }
 		public string BTW { get; set; }
 		public bool IsGecontroleert { get; set; }
@@ -27,9 +33,10 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		public string Email { get; set; }
 		public string Adres { get; set; }
 
-		public List<uint> Werknemers { get; set; } = new();
+		public List<long> Werknemers { get; set; } = new();
 
-		public BedrijfOutputDTO(uint id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, List<uint> werknemers) {
+		public BedrijfOutputDTO(long id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, List<long> werknemers)
+		{
 			Id = id;
 			Naam = naam;
 			BTW = bTW;
