@@ -48,8 +48,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <exception cref="WerknemerException"></exception>
 		public void ZetId(long id)
 		{
-			if (id == 0)
-				throw new WerknemerException("Werknemer - ZetId - Id mag niet 0 zijn.");
+			if (id <= 0)
+				throw new WerknemerException("Werknemer - ZetId - id mag niet kleiner dan of gelijk aan 0 zijn.");
 			Id = id;
 		}
 

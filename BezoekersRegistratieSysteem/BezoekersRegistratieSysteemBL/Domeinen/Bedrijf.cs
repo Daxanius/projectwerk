@@ -66,8 +66,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="id"></param>
 		public void ZetId(long id)
 		{
-			if (id == 0)
-				throw new BedrijfException("Bedrijf - ZetId - Id mag niet 0 zijn.");
+			if (id <= 0)
+				throw new BedrijfException("Bedrijf - ZetId - id mag niet kleiner dan of gelijk aan 0 zijn.");
 			Id = id;
 		}
 
