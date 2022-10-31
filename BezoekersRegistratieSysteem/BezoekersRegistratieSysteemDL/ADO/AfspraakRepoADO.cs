@@ -522,8 +522,13 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
+<<<<<<< HEAD
         public Afspraak GeefHuidigeAfspraakPerWerknemer(long werknemerId) {
             //TODO: Lijst Afspraken
+=======
+
+        public IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemer(long werknemerId) {
+>>>>>>> develop
             throw new NotImplementedException();
         }
 
