@@ -353,7 +353,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		}
 
 		[Fact]
-		public void GeefWerknemersOpNaam_Invalid_GeenAfspraken() {
+		public void GeefWerknemersOpNaam_Invalid_GeenWerknemers() {
 			_mockRepo = new Mock<IWerknemerRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
 
