@@ -7,12 +7,10 @@ namespace BezoekersRegistratieSysteemBL.Managers
 	public class WerknemerManager
 	{
 		private readonly IWerknemerRepository _werknemerRepository;
-		private readonly IBedrijfRepository _bedrijfRepository;
 
-		public WerknemerManager(IWerknemerRepository werknemerRepository, IBedrijfRepository bedrijfRepository)
+		public WerknemerManager(IWerknemerRepository werknemerRepository)
 		{
 			this._werknemerRepository = werknemerRepository;
-			this._bedrijfRepository = bedrijfRepository;
 		}
 
 		public Werknemer VoegWerknemerToe(Werknemer werknemer)
@@ -55,9 +53,9 @@ namespace BezoekersRegistratieSysteemBL.Managers
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - functie mag niet leeg zijn");
 			if (!_werknemerRepository.BestaatWerknemer(werknemer))
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer bestaat niet");
-			if (!_bedrijfRepository.BestaatBedrijf(bedrijf))
-				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - bedrijf bestaat niet");
-			if (_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(functie))
+            if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf))
+                throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer niet werkzaam bij dit bedrijf");
+            if (_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(functie))
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft deze functie al bij dit bedrijf");
 			try
 			{
@@ -78,10 +76,8 @@ namespace BezoekersRegistratieSysteemBL.Managers
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - functie mag niet leeg zijn");
 			if (!_werknemerRepository.BestaatWerknemer(werknemer))
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer bestaat niet");
-			if (!_bedrijfRepository.BestaatBedrijf(bedrijf))
-				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - bedrijf bestaat niet");
-			if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf))
-				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer heeft geen functie bij dit bedrijf");
+            if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf))
+				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer niet werkzaam bij dit bedrijf");
 			if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(functie))
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer heeft geen functie bij dit bedrijf");
 			if (_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Count() == 1)
@@ -95,17 +91,19 @@ namespace BezoekersRegistratieSysteemBL.Managers
 			}
 		}
 
-		public void WijzigWerknemer(Werknemer werknemer, Bedrijf bedrijf)
+		public void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf)
 		{
 			if (werknemer == null)
-				throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer mag niet leeg zijn");
-			if (!_werknemerRepository.BestaatWerknemer(werknemer))
-				throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer bestaat niet");
+				throw new WerknemerManagerException("WerknemerManager - BewerkWerknemer - werknemer mag niet leeg zijn");
+            if (bedrijf == null)
+                throw new WerknemerManagerException("WerknemerManager - BewerkWerknemer - bedrijf mag niet leeg zijn");
+            if (!_werknemerRepository.BestaatWerknemer(werknemer))
+				throw new WerknemerManagerException("WerknemerManager - BewerkWerknemer - werknemer bestaat niet");
 			if (_werknemerRepository.GeefWerknemer(werknemer.Id).WerknemerIsGelijk(werknemer))
-				throw new WerknemerManagerException("WerknemerManager - WijzigWerknemer - werknemer bestaat niet");
-			try
+                throw new WerknemerManagerException("WerknemerManager - BewerkWerknemer - werknemer is niet gewijzigd");
+            try
 			{
-				_werknemerRepository.WijzigWerknemer(werknemer, bedrijf);
+				_werknemerRepository.BewerkWerknemer(werknemer, bedrijf);
 			} catch (Exception ex)
 			{
 				throw new WerknemerManagerException(ex.Message);
@@ -150,5 +148,21 @@ namespace BezoekersRegistratieSysteemBL.Managers
 				throw new WerknemerManagerException(ex.Message);
 			}
 		}
-	}
+
+        public void VoegFunctieToe(string functie)
+		{
+            if (string.IsNullOrWhiteSpace(functie))
+                throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie mag niet leeg zijn");
+            if (_werknemerRepository.BestaatFunctie(functie))
+                throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie bestaat al");
+            try
+            {
+                _werknemerRepository.VoegFunctieToe(functie);
+            }
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
+    }
 }

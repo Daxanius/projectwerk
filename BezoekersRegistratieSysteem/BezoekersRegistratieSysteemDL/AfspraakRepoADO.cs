@@ -755,7 +755,7 @@ namespace BezoekersRegistratieSysteemDL
 			}
 		}
 
-		public void BeeindigAfspraakOpEmail(long id, string email)
+		public void BeeindigAfspraakOpEmail(string email)
 		{
 			throw new NotImplementedException();
 		}
@@ -796,6 +796,11 @@ namespace BezoekersRegistratieSysteemDL
 		}
 
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDag(long id, DateTime datum)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmail(string voornaam, string achternaam, string email)
 		{
 			throw new NotImplementedException();
 		}

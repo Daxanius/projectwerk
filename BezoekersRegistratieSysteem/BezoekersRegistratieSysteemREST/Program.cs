@@ -22,10 +22,9 @@ if (connectionstring is null) {
 // Alle managers als singleton toevoegen
 // dit omdat de API interract met de managers
 // WAARCHUWING: DE REPOS ZIJN TIJDELIJK, MOETEN VERVANGEN WORDEN DOOR DB
-var manager = new BedrijfRepoADO(connectionstring);
-BedrijfManager bedrijfManager = new(manager);
+BedrijfManager bedrijfManager = new(new BedrijfRepoADO(connectionstring));
 AfspraakManager afspraakManager = new(new AfspraakRepoADO(connectionstring));
-WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring), manager);
+WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring));
 
 builder.Services.AddSingleton(bedrijfManager);
 builder.Services.AddSingleton(afspraakManager);

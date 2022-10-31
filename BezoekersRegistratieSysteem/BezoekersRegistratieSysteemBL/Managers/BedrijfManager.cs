@@ -47,11 +47,11 @@ namespace BezoekersRegistratieSysteemBL.Managers
 		public void BewerkBedrijf(Bedrijf bedrijf)
 		{
 			if (bedrijf == null)
-				throw new BedrijfManagerException("BedrijfManager - UpdateBedrijf - bedrijf mag niet leeg zijn");
+				throw new BedrijfManagerException("BedrijfManager - BewerkBedrijf - bedrijf mag niet leeg zijn");
 			if (!_bedrijfRepository.BestaatBedrijf(bedrijf))
-				throw new BedrijfManagerException("BedrijfManager - UpdateBedrijf - bedrijf bestaat niet");
+				throw new BedrijfManagerException("BedrijfManager - BewerkBedrijf - bedrijf bestaat niet");
 			if (_bedrijfRepository.GeefBedrijf(bedrijf.Id).BedrijfIsGelijk(bedrijf))
-				throw new BedrijfManagerException("BedrijfManager - UpdateBedrijf - bedrijf is niet gewijzigd");
+				throw new BedrijfManagerException("BedrijfManager - BewerkBedrijf - bedrijf is niet gewijzigd");
 			try
 			{
 				_bedrijfRepository.BewerkBedrijf(bedrijf);
@@ -74,11 +74,11 @@ namespace BezoekersRegistratieSysteemBL.Managers
 			}
 		}
 
-		public IReadOnlyList<Bedrijf> Geefbedrijven()
+		public IReadOnlyList<Bedrijf> GeefBedrijven()
 		{
 			try
 			{
-				return _bedrijfRepository.Geefbedrijven();
+				return _bedrijfRepository.GeefBedrijven();
 			} catch (Exception ex)
 			{
 				throw new BedrijfManagerException(ex.Message);
@@ -89,7 +89,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 		{
 			if (string.IsNullOrWhiteSpace(bedrijfsnaam))
 				throw new BedrijfManagerException("BedrijfManager - GeefBedrijf - bedrijfsnaam mag niet leeg zijn");
-			if (_bedrijfRepository.BestaatBedrijf(bedrijfsnaam))
+			if (!_bedrijfRepository.BestaatBedrijf(bedrijfsnaam))
 				throw new BedrijfManagerException("BedrijfManager - GeefBedrijf - bedrijf bestaat niet");
 			try
 			{

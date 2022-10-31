@@ -129,7 +129,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				werknemer.ZetId(werknemerId);
 
 				// Waarom heeft dit een bedrijf nodig om werknemer te weizigen?
-				_werknemerManager.WijzigWerknemer(werknemer, bedrijf);
+				_werknemerManager.BewerkWerknemer(werknemer, bedrijf);
 				return WerknemerOutputDTO.NaarDTO(werknemer);
 			} catch (Exception ex)
 			{
