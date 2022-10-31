@@ -197,10 +197,10 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <param name="afspraak">Optioneel: Afspraak object die gecontroleerd moet worden</param>
         /// <param name="afspraakid">Optioneel: Afspraak id die gecontroleerd moet worden</param>
-        /// <param name="status">Optioneel: Status</param>
+        /// <param name="afspraakStatus">Optioneel: Status</param>
         /// <returns>bool (True = bestaat)</returns>
         /// <exception cref="AfspraakADOException">Faalt om te kijken of een afspraak bestaat op basis van afspraak object</exception>
-        private bool BestaatAfspraak(Afspraak afspraak, long? afspraakid, int? status) {
+        private bool BestaatAfspraak(Afspraak afspraak, long? afspraakid, int? afspraakStatus) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM Afspraak a ";
@@ -224,10 +224,10 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
                         cmd.Parameters["@id"].Value = afspraakid.Value;
                     }
-                    if (status.HasValue) {
+                    if (afspraakStatus.HasValue) {
                         query += " AND a.AfspraakStatusId = @statusId";
                         cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
-                        cmd.Parameters["@statusId"].Value = status.Value;
+                        cmd.Parameters["@statusId"].Value = afspraakStatus.Value;
                     }
                     cmd.CommandText = query;
                     int i = (int)cmd.ExecuteScalar();
