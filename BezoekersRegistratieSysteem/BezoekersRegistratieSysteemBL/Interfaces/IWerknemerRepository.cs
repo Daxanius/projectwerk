@@ -19,5 +19,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces
 		Werknemer GeefWerknemer(long id);
 		IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam);
 		IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(long id);
-	}
+        bool BestaatFunctie(string functie);
+        void VoegFunctieToe(string functie);
+    }
 }

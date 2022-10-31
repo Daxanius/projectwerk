@@ -636,5 +636,15 @@ namespace BezoekersRegistratieSysteemDL
 				con.Close();
 			}
 		}
+
+		public bool BestaatFunctie(string functie)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void VoegFunctieToe(string functie)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

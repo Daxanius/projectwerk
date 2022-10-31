@@ -63,15 +63,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
-        public void BeeindigAfspraakOpEmail(Afspraak afspraak, string email)
+        public void BeeindigAfspraakOpEmail(string email)
         {
-            if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - afspraak mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - email mag niet leeg zijn");
-            if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - afspraak is al beeindigd");
-            if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - afspraak bestaat niet");
             try
             {
-                _afspraakRepository.BeeindigAfspraakOpEmail(afspraak.Id, email);
+                _afspraakRepository.BeeindigAfspraakOpEmail(email);
             }
             catch (Exception ex)
             {

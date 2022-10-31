@@ -177,16 +177,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         #endregion
 
         #region UnitTest Afspraak beeindigen Email
-        [Fact]
-        public void BeeindigAfspraakOpMail_Invalid_AfspraakLeeg()
-        {
-            _mockRepo = new Mock<IAfspraakRepository>();
-            _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-            //"AfspraakManager - BeeindigAfspraakOpMail - afspraak mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakOpEmail(null, _b.Email));
-        }
-
         [Theory]
         [InlineData(null)]
         [InlineData("")]
@@ -201,7 +191,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - BeeindigAfspraakOpMail - email mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakOpEmail(_ia, email));
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakOpEmail(email));
         }
 
         [Fact]
@@ -211,19 +201,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - BeeindigAfspraakSysteem - afspraak bestaat niet"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakOpEmail(_ia, _b.Email));
-        }
-
-        [Fact]
-        public void BeeindigAfspraakOpEmail_Invalid_AfspraakBestaatNiet()
-        {
-            _mockRepo = new Mock<IAfspraakRepository>();
-            _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-            //"AfspraakManager - BeeindigAfspraakOpEmail - afspraak is al beeindigd"
-            _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
-            var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakOpEmail(_oa, _b.Email));
-            Assert.Equal("AfspraakManager - BeeindigAfspraakOpEmail - afspraak is al beeindigd", ex.Message);
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakOpEmail(_b.Email));
         }
         #endregion
 

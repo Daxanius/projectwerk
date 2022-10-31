@@ -755,7 +755,7 @@ namespace BezoekersRegistratieSysteemDL
 			}
 		}
 
-		public void BeeindigAfspraakOpEmail(long id, string email)
+		public void BeeindigAfspraakOpEmail(string email)
 		{
 			throw new NotImplementedException();
 		}

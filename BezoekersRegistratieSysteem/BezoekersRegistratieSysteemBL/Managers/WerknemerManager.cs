@@ -148,5 +148,21 @@ namespace BezoekersRegistratieSysteemBL.Managers
 				throw new WerknemerManagerException(ex.Message);
 			}
 		}
-	}
+
+        public void VoegFunctieToe(string functie)
+		{
+            if (string.IsNullOrWhiteSpace(functie))
+                throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie mag niet leeg zijn");
+            if (_werknemerRepository.BestaatFunctie(functie))
+                throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie bestaat al");
+            try
+            {
+                _werknemerRepository.VoegFunctieToe(functie);
+            }
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
+    }
 }
