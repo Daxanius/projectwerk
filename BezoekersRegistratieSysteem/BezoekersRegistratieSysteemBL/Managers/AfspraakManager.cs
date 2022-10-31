@@ -41,12 +41,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
-		public void BeeindigAfspraakBezoeker(Afspraak afspraak) {
+		public void BeeindigAfspraakAdministratiefMedewerker(Afspraak afspraak) {
 			if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakBezoeker - afspraak mag niet leeg zijn");
 			if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakBezoeker - afspraak is al beeindigd");
 			if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("BeeindigAfspraakBezoeker - BeeindigAfspraak - afspraak bestaat niet");
 			try {
-				_afspraakRepository.BeeindigAfspraakBezoeker(afspraak.Id);
+				_afspraakRepository.BeeindigAfspraakAdministratiefMedewerker(afspraak.Id);
 			} catch (Exception ex) {
 				throw new AfspraakManagerException(ex.Message);
 			}

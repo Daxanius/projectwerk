@@ -36,7 +36,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <summary>
         /// Beindigd afspraak via de bezoeker zijn kant
         /// </summary>
-        /// <param name="email">Id van afspraak die beeindigd moet worden</param>
+        /// <param name="email">mail bezoeker van afspraak die beeindigd moet worden</param>
         /// <exception cref="AfspraakADOException">Faalt om afspraak te beeindigen</exception>
         public void BeeindigAfspraakOpEmail(string email) {
             try {
@@ -46,9 +46,17 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
-        public void BeeindigAfspraakBezoeker(long id) {
-            //TODO: dit zou weg gaan
-            throw new NotImplementedException();
+        /// <summary>
+        /// Beindigd afspraak via de bezoeker zijn kant
+        /// </summary>
+        /// <param name="afspraakId">Id van afspraak die beeindigd moet worden</param>
+        /// <exception cref="AfspraakADOException">Faalt om afspraak te beeindigen</exception>
+        public void BeeindigAfspraakAdministratiefMedewerker(long afspraakId) {
+            try {
+                BeeindigAfspraak(null, afspraakId, 5);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
         }
 
         /// <summary>
