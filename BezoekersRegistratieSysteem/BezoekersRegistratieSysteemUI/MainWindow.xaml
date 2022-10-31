@@ -19,14 +19,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid LayoutTransform="{StaticResource windowScaleTransform}">
-        <Border CornerRadius="10 10 10 10">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                    <GradientStop Offset="0" Color="#41518F" />
-                    <GradientStop Offset="1" Color="#2C386C" />
-                </LinearGradientBrush>
-            </Border.Background>
-
+        <Border CornerRadius="10 10 10 10" Background="{StaticResource MainAchtergrond}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -46,35 +39,18 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Button
+                    <Button Background="{StaticResource LichtGrijsAccent}" BorderBrush="Transparent"
                         Grid.Column="0"
                         Width="523"
-                        Height="330"
+                        Height="250"
                         Margin="0,0,50,0"
                         Click="ParkeerButton_Click">
                         <Button.Resources>
                             <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10" />
+                                <Setter Property="CornerRadius" Value="20" />
                             </Style>
                         </Button.Resources>
-                        <Button.Background>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0.5" Color="#FF827BFF" />
-                                <GradientStop Offset="1.5" Color="#FFD9B5FF" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                        <StackPanel Height="330" Orientation="Horizontal">
-                            <Ellipse
-                                Width="500"
-                                Height="500"
-                                Margin="175,-225,0,0">
-                                <Ellipse.Fill>
-                                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                                        <GradientStop Offset="0" Color="#B298FD" />
-                                        <GradientStop Offset="1" Color="#E4BBFF" />
-                                    </LinearGradientBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
+                        <StackPanel Height="250" Orientation="Horizontal">
                             <Label
                                 Margin="-305,0,0,0"
                                 Content="&#xf163;"
@@ -89,40 +65,23 @@
                                 Foreground="White" />
                         </StackPanel>
                     </Button>
-                    <Button
+                    <Button Background="{StaticResource LichtGrijsAccent}" BorderBrush="Transparent"
                         Grid.Column="1"
                         Width="523"
-                        Height="330"
+                        Height="250"
                         Margin="25,0,25,0"
                         Click="AanmeldButton_Click">
                         <Button.Resources>
                             <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10" />
+                                <Setter Property="CornerRadius" Value="20" />
                             </Style>
                         </Button.Resources>
-                        <Button.Background>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0.5" Color="#FD8A87" />
-                                <GradientStop Offset="1.5" Color="#F3AB92" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                        <StackPanel Height="330" Orientation="Horizontal">
+                        <StackPanel Height="250" Orientation="Horizontal">
                             <StackPanel.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="10" />
                                 </Style>
                             </StackPanel.Resources>
-                            <Ellipse
-                                Width="500"
-                                Height="500"
-                                Margin="175,-225,0,0">
-                                <Ellipse.Fill>
-                                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                                        <GradientStop Offset="0" Color="#FBD5A8" />
-                                        <GradientStop Offset="1" Color="#FDB89B" />
-                                    </LinearGradientBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
                             <Label
                                 Margin="-290,15,0,0"
                                 Content="&#xebda;"
@@ -137,35 +96,18 @@
                                 Foreground="White" />
                         </StackPanel>
                     </Button>
-                    <Button
+                    <Button Background="{StaticResource LichtGrijsAccent}" BorderBrush="Transparent"
                         Grid.Column="2"
                         Width="523"
-                        Height="330"
+                        Height="250"
                         Margin="50,0,0,0"
                         Click="AdminButton_Click">
                         <Button.Resources>
                             <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10" />
+                                <Setter Property="CornerRadius" Value="20" />
                             </Style>
                         </Button.Resources>
-                        <Button.Background>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0.5" Color="#FC84CB" />
-                                <GradientStop Offset="1.5" Color="#FC8FAE" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                        <StackPanel Height="330" Orientation="Horizontal">
-                            <Ellipse
-                                Width="500"
-                                Height="500"
-                                Margin="175,-225,0,0">
-                                <Ellipse.Fill>
-                                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                                        <GradientStop Offset="0" Color="#FC8FAE" />
-                                        <GradientStop Offset="1" Color="#FFABE6" />
-                                    </LinearGradientBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
+                        <StackPanel Height="250" Orientation="Horizontal">
                             <Label
                                 Margin="-290,15,0,0"
                                 Content="&#xef58;"
