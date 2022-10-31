@@ -1,7 +1,9 @@
 ﻿using System.Runtime.Serialization;
 
 namespace BezoekersRegistratieSysteemBL.Exceptions.DomeinException {
+
 	public class WerknemerInfoException : Exception {
+
 		public WerknemerInfoException() {
 		}
 

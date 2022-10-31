@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
 namespace BezoekersRegistratieSysteemBL {
+
 	public static class Nutsvoorziening {
 
         public static readonly Regex RegexWhitespace = new(@"\s+");
