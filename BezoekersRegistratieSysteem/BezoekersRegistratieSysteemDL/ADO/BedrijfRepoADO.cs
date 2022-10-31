@@ -219,7 +219,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                             string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
                             string bedrijfMail = (string)reader["BedrijfMail"];
                             string bedrijfAdres = (string)reader["BedrijfAdres"];
-                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
                         }
                         if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
                             long werknemerId = (long)reader["WerknemerId"];
@@ -273,7 +273,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                             string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
                             string bedrijfMail = (string)reader["BedrijfMail"];
                             string bedrijfAdres = (string)reader["BedrijfAdres"];
-                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
                             bedrijven.Add(bedrijf);
                         }
                         if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
