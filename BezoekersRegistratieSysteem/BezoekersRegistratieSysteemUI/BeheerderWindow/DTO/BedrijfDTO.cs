@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.DTO
-{
-	public class BedrijfDTO
-	{
+namespace BezoekersRegistratieSysteemUI.BeheerderWindow.DTO {
 
-
+	public class BedrijfDTO {
 		public int Id { get; set; }
 		public string Naam { get; set; }
 		public string BTW { get; set; }
@@ -15,8 +12,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.DTO
 
 		public List<WerknemerDTO> Werknemers = new List<WerknemerDTO>();
 
-		public BedrijfDTO(int id, string naam, string bTW, string telefoonNummer, string email, string adres, List<WerknemerDTO> werknemers)
-		{
+		public BedrijfDTO(int id, string naam, string bTW, string telefoonNummer, string email, string adres, List<WerknemerDTO> werknemers) {
 			Id = id;
 			Naam = naam;
 			BTW = bTW;

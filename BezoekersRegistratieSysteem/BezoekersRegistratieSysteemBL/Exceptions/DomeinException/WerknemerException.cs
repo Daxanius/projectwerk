@@ -1,13 +1,19 @@
 ﻿using System.Runtime.Serialization;
 
 namespace BezoekersRegistratieSysteemBL.Exceptions.DomeinException {
+
 	public class WerknemerException : Exception {
-		public WerknemerException() { }
 
-		public WerknemerException(string? message) : base(message) { }
+		public WerknemerException() {
+		}
 
-		public WerknemerException(string? message, Exception? innerException) : base(message, innerException) { }
+		public WerknemerException(string? message) : base(message) {
+		}
 
-		protected WerknemerException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+		public WerknemerException(string? message, Exception? innerException) : base(message, innerException) {
+		}
+
+		protected WerknemerException(SerializationInfo info, StreamingContext context) : base(info, context) {
+		}
 	}
 }

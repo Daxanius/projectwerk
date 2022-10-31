@@ -1,15 +1,18 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemBL.Interfaces
-{
+namespace BezoekersRegistratieSysteemBL.Interfaces {
+
 	/// <summary>
 	/// Werknemer storage hook
 	/// </summary>
-	public interface IWerknemerRepository
-	{
+	public interface IWerknemerRepository {
+
 		Werknemer VoegWerknemerToe(Werknemer werknemer);
+
 		void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf);
+
 		void VoegWerknemerFunctieToe(Werknemer werknemer, Bedrijf bedrijf, string functie);
+
 		void VerwijderWerknemerFunctie(Werknemer werknemer, Bedrijf bedrijf, string functie);
 		void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf);
 

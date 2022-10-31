@@ -9,17 +9,18 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace BezoekersRegistratieSysteemUI.Controlls
-{
+namespace BezoekersRegistratieSysteemUI.Controlls {
+
 	/// <summary>
 	/// Interaction logic for InputControl.xaml
 	/// </summary>
-	public partial class GegevensControl : UserControl, INotifyPropertyChanged
-	{
+	public partial class GegevensControl : UserControl, INotifyPropertyChanged {
+
 		/// <summary>
 		/// Voornaam Bezoeker
 		/// </summary>
 		private string _voornaam = "Test VOORNAAM";
+
 		public string Voornaam {
 			get {
 				return _voornaam;
@@ -34,6 +35,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// Achternaam Bezoeker
 		/// </summary>
 		private string _achternaam = "Test ACHTERNAAM";
+
 		public string Achternaam {
 			get {
 				return _achternaam;
@@ -44,11 +46,11 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 			}
 		}
 
-
 		/// <summary>
 		/// Email Bezoeker
 		/// </summary>
 		private string _email = "Test EMAIL";
+
 		public string Email {
 			get {
 				return _email;
@@ -63,6 +65,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// Bedrijf Bezoeker
 		/// </summary>
 		private string _bedrijf = "Test BEDRIJF";
+
 		public string Bedrijf {
 			get {
 				return _bedrijf;
@@ -77,6 +80,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// Werknemer waar de Bezoeker langs gaat
 		/// </summary>
 		private WerknemerMetFunctieDTO _werknemer;
+
 		public WerknemerMetFunctieDTO Werknemer {
 			get {
 				return _werknemer;
@@ -91,6 +95,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// Bedrijf waar Bezoeker op bezoek komt
 		/// </summary>
 		private string _bedrijfsNaam = "";
+
 		public string BedrijfsNaam {
 			get {
 				return _bedrijfsNaam;
@@ -105,6 +110,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// Lijst van Werknemers van Bedrijf die Bezoeker kiest
 		/// </summary>
 		private List<WerknemerMetFunctieDTO> _werknemersLijst = new() { new(1, "Weude", "Van Dirk", "CEO"), new(2, "Bjorn", "Not Balding", "CEO2"), new(3, "Balder", "Rust", "CEO3") };
+
 		public List<WerknemerMetFunctieDTO> WerknemersLijst {
 			get {
 				return _werknemersLijst;
@@ -118,8 +124,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// <summary>
 		/// Jullie weten wel wat dit is... Anders weer naar prog basis
 		/// </summary>
-		public GegevensControl()
-		{
+		public GegevensControl() {
 			//Nodig voor het binden van data
 			this.DataContext = this;
 			InitializeComponent();
@@ -129,10 +134,8 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// Zet bedrijf belijk aan propperty Bedrijf
 		/// </summary>
 		/// <param name="bedrijfsNaam">Geselecteerd bedrijf waar de bezoeker naar toe moet gaan</param>
-		public void ZetGeselecteerdBedrijf(string bedrijfsNaam)
-		{
-			if (string.IsNullOrWhiteSpace(bedrijfsNaam))
-			{
+		public void ZetGeselecteerdBedrijf(string bedrijfsNaam) {
+			if (string.IsNullOrWhiteSpace(bedrijfsNaam)) {
 				MessageBox.Show("Bedrijf is leeg", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			KrijgWerknemersVanBedrijf(bedrijfsNaam);
@@ -144,8 +147,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// </summary>
 		/// <param name="bedrijfsNaam">Naam van het bedrijf waarvan je een lijst van werknemers wil</param>
 		/// <returns></returns>
-		private IEnumerable<WerknemerMetFunctieDTO> KrijgWerknemersVanBedrijf(string bedrijfsNaam)
-		{
+		private IEnumerable<WerknemerMetFunctieDTO> KrijgWerknemersVanBedrijf(string bedrijfsNaam) {
 			//Int bedrijfId = [GET] /api/bedrijf/{ bedrijfsNaam} => Krijg bedrijfId van bedrijfsNaam.
 			//List<WerknemersDTO> werknemers = [GET] /api/werknemer/{ bedrijfId} => Krijg alle werknemers, van een bepaald bedrijf.
 
@@ -156,36 +158,30 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public void UpdatePropperty([CallerMemberName] string propertyName = "")
-		{
+		public void UpdatePropperty([CallerMemberName] string propertyName = "") {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		#endregion
+		#endregion ProppertyChanged
 
 		/// <summary>
 		/// De bezoeker heeft alles ingevuld en op de knop geklikt om aan te melden
 		/// </summary>
 		/// <param name="sender">Button info</param>
 		/// <param name="e">Click info</param>
-		private void GaVerderButtonClickEvent(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				if (Werknemer == null)
-				{
+		private void GaVerderButtonClickEvent(object sender, RoutedEventArgs e) {
+			try {
+				if (Werknemer == null) {
 					MessageBox.Show("Gelieve een werknemer te kiezen", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 
 				BezoekerDTO nieuweBezoekerData = new(Voornaam, Achternaam, Email, Bedrijf);
 
-				if (Werknemer.Id.HasValue)
-				{
+				if (Werknemer.Id.HasValue) {
 					MaakNieuweAfspraak(Werknemer.Id.Value, nieuweBezoekerData);
 				}
-			} catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
@@ -200,8 +196,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// </summary>
 		/// <param name="werknemerId">De werknemer id</param>
 		/// <param name="bezoeker">Het bezoekerinfo object</param>
-		private void MaakNieuweAfspraak(int werknemerId, BezoekerDTO bezoeker)
-		{
+		private void MaakNieuweAfspraak(int werknemerId, BezoekerDTO bezoeker) {
 			//var body = {
 			//	"bezoeker": {
 			//		"voornaam": "string",
@@ -220,8 +215,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// </summary>
 		/// <param name="sender">Button info</param>
 		/// <param name="e">Click info</param>
-		private async void ConformeerPopup(object sender, RoutedEventArgs e)
-		{
+		private async void ConformeerPopup(object sender, RoutedEventArgs e) {
 			popupConform.IsOpen = false;
 			popupAangemeld.IsOpen = true;
 
@@ -247,8 +241,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// </summary>
 		/// <param name="sender">Button info</param>
 		/// <param name="e">Click info</param>
-		private void WijzigPopup(object sender, RoutedEventArgs e)
-		{
+		private void WijzigPopup(object sender, RoutedEventArgs e) {
 			gegevensControl.Opacity = 1;
 			gegevensControl.IsHitTestVisible = true;
 			popupConform.IsOpen = false;
@@ -259,11 +252,9 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// </summary>
 		/// <param name="sender">Button info</param>
 		/// <param name="e">Click info</param>
-		private void KiesWerknemerUitListViewBox(object sender, MouseButtonEventArgs e)
-		{
+		private void KiesWerknemerUitListViewBox(object sender, MouseButtonEventArgs e) {
 			ListBoxItem? item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
-			if (item is not null)
-			{
+			if (item is not null) {
 				WerknemerMetFunctieDTO selectedItem = item.Content as WerknemerMetFunctieDTO;
 				Werknemer = selectedItem;
 			}
@@ -274,8 +265,7 @@ namespace BezoekersRegistratieSysteemUI.Controlls
 		/// </summary>
 		/// <param name="sender">Button info</param>
 		/// <param name="e">Click info</param>
-		private void GaTerug(object sender, MouseButtonEventArgs e)
-		{
+		private void GaTerug(object sender, MouseButtonEventArgs e) {
 			Voornaam = string.Empty;
 			Achternaam = string.Empty;
 			Email = string.Empty;
