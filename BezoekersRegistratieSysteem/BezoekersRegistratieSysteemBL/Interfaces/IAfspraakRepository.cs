@@ -8,7 +8,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		Afspraak VoegAfspraakToe(Afspraak afspraak);
 		void VerwijderAfspraak(long afspraakId);
 		void BewerkAfspraak(Afspraak afspraak);
-		void BeeindigAfspraakAdministratiefMedewerker(long afspraakId);
+		void BeeindigAfspraakBezoeker(long afspraakId);
 		void BeeindigAfspraakSysteem(long afspraakId);
 		void BeeindigAfspraakOpEmail(string bezoekerMail);
 		Afspraak GeefAfspraak(long afspraakId);

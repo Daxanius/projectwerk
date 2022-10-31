@@ -51,9 +51,9 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <param name="afspraakId">Id van afspraak die beeindigd moet worden</param>
         /// <exception cref="AfspraakADOException">Faalt om afspraak te beeindigen</exception>
-        public void BeeindigAfspraakAdministratiefMedewerker(long afspraakId) {
+        public void BeeindigAfspraakBezoeker(long afspraakId) {
             try {
-                BeeindigAfspraak(null, afspraakId, 5);
+                BeeindigAfspraak(null, afspraakId, 3);
             } catch (Exception ex) {
                 throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
