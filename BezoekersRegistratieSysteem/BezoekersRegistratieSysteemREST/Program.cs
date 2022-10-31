@@ -1,5 +1,6 @@
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemDL;
+using BezoekersRegistratieSysteemDL.ADO;
 
 const string KEY_SQL_CONNECTION = "SQL:ConnectionString";
 
