@@ -663,9 +663,6 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
-        public void BeeindigAfspraakOpEmail(long id, string email) {
-            throw new NotImplementedException();
-        }
 
         public bool BestaatLopendeAfspraak(Afspraak afspraak) {
             throw new NotImplementedException();
@@ -692,6 +689,14 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         }
 
         public Afspraak GeefHuidigeAfspraakBezoeker(long id) {
+            throw new NotImplementedException();
+        }
+
+        public void BeeindigAfspraakOpEmail(string email) {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmail(string voornaam, string achternaam, string email) {
             throw new NotImplementedException();
         }
     }

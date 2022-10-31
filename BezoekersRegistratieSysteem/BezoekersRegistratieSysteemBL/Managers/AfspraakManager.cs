@@ -63,15 +63,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
-        public void BeeindigAfspraakOpEmail(Afspraak afspraak, string email)
+        public void BeeindigAfspraakOpEmail(string email)
         {
-            if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - afspraak mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - email mag niet leeg zijn");
-            if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - afspraak is al beeindigd");
-            if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - afspraak bestaat niet");
             try
             {
-                _afspraakRepository.BeeindigAfspraakOpEmail(afspraak.Id, email);
+                _afspraakRepository.BeeindigAfspraakOpEmail(email);
             }
             catch (Exception ex)
             {
@@ -169,25 +166,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaam(string voornaam, string achternaam)
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmail(string voornaam, string achternaam, string email)
 		{
-            if (string.IsNullOrEmpty(voornaam) || (string.IsNullOrEmpty(achternaam))) throw new AfspraakManagerException("AfspraakManager - GeefAfspraakPerBezoekerOpNaam - naam mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(voornaam) || (string.IsNullOrWhiteSpace(achternaam)) || string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmail - naam of email mag niet leeg zijn");
             try
             {
-                return _afspraakRepository.GeefAfsprakenPerBezoekerOpNaam(voornaam, achternaam);
-            }
-            catch (Exception ex)
-            {
-                throw new AfspraakManagerException(ex.Message);
-            }
-        }
-
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpEmail(string email)
-        {
-            if (string.IsNullOrEmpty(email)) throw new AfspraakManagerException("AfspraakManager - GeefAfspraakPerBezoekerOpEmail - email mag niet leeg zijn");
-            try
-            {
-                return _afspraakRepository.GeefAfsprakenPerBezoekerOpEmail(email);
+                return _afspraakRepository.GeefAfsprakenPerBezoekerOpNaamOfEmail(voornaam, achternaam, email);
             }
             catch (Exception ex)
             {

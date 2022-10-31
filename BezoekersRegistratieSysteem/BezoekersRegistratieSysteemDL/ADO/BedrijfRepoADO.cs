@@ -400,5 +400,9 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 con.Close();
             }
         }
+
+        public IReadOnlyList<Bedrijf> GeefBedrijven() {
+            throw new NotImplementedException();
+        }
     }
 }

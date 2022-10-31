@@ -547,5 +547,17 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 con.Close();
             }
         }
+
+        public void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf) {
+            throw new NotImplementedException();
+        }
+
+        public bool BestaatFunctie(string functie) {
+            throw new NotImplementedException();
+        }
+
+        public void VoegFunctieToe(string functie) {
+            throw new NotImplementedException();
+        }
     }
 }
