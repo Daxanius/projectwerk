@@ -193,16 +193,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             //"AfspraakManager - BeeindigAfspraakOpMail - email mag niet leeg zijn"
             Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakOpEmail(email));
         }
-
-        [Fact]
-        public void BeeindigAfspraakOpEmail_Invalid_AfspraakReedsBeeindigd()
-        {
-            _mockRepo = new Mock<IAfspraakRepository>();
-            _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-            //"AfspraakManager - BeeindigAfspraakSysteem - afspraak bestaat niet"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakOpEmail(_b.Email));
-        }
         #endregion
 
         #region UnitTest Bestaat lopende afspraak
