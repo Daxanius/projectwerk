@@ -8,6 +8,7 @@
     <SolidColorBrush x:Key="LichtRood" Color="#D25C37" />
     <SolidColorBrush x:Key="DonkerGrijs" Color="#3F3F3F" />
     <SolidColorBrush x:Key="SelectedGrijs" Color="#232323" />
+    <SolidColorBrush x:Key="DonkerBlauw" Color="#353851" />
 
     <Style x:Key="SideBarTextBlockStyle" TargetType="TextBlock">
         <Setter Property="Margin" Value="0,0,0,60" />
@@ -108,6 +109,28 @@
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="Transparent" />
                 <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="DotsButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentPresenter Content="{TemplateBinding Content}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Opacity" Value=".2" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="False">
+                <Setter Property="Opacity" Value="1" />
             </Trigger>
         </Style.Triggers>
     </Style>

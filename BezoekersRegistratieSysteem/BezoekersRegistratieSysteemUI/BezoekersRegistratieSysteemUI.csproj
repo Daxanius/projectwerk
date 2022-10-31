@@ -23,6 +23,9 @@
 	<ItemGroup>
 	  <Page Remove="Icons\BedrijfIcon.xaml" />
 	  <Page Remove="Icons\DefaultLeeg.xaml" />
+	  <Page Remove="Icons\DotsIcon.xaml" />
+	  <Page Remove="Icons\PlusIcon.xaml" />
+	  <Page Remove="Icons\VergrootGlasIcon.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -119,6 +122,17 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </Resource>
 	  <Resource Include="Icons\BedrijfIcon.xaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\DotsIcon.xaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\VergrootGlasIcon.xaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Resource>
+	  <Resource Include="Icons\PlusIcon.xaml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
 	</ItemGroup>

@@ -12,10 +12,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.DTO {
 
 		public List<WerknemerDTO> Werknemers = new List<WerknemerDTO>();
 
-		public BedrijfDTO(int id, string naam, string bTW, string telefoonNummer, string email, string adres, List<WerknemerDTO> werknemers) {
+		public BedrijfDTO(int id, string naam, string btw, string telefoonNummer, string email, string adres, List<WerknemerDTO> werknemers) {
 			Id = id;
 			Naam = naam;
-			BTW = bTW;
+			BTW = btw;
 			TelefoonNummer = telefoonNummer;
 			Email = email;
 			Adres = adres;
