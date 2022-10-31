@@ -11,16 +11,14 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 	/// Interaction logic for AanOfUitMeldenScherm.xaml
 	/// </summary>
 	public partial class BeheerderDashboard : Window, INotifyPropertyChanged {
+		#region Scaling
 		public double ScaleX { get; set; }
 		public double ScaleY { get; set; }
+		#endregion
 
-		public BedrijfDTO _geselecteerdBedrijf { get; private set; }
-
-		public string Datum {
-			get {
-				return DateTime.Now.ToString("dd.MM");
-			}
-		}
+		#region Private Attributes
+		private BedrijfDTO _geselecteerdBedrijf { get; set; }
+		#endregion
 
 		public BeheerderDashboard() {
 

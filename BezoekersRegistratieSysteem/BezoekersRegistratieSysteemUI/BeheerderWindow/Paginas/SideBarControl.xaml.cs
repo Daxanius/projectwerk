@@ -27,47 +27,28 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas {
 		private void VeranderTab(object sender, RoutedEventArgs e) {
 			Button button = (Button)sender;
 
-			string tab = button.Content.ToString();
+			string tab = (string)button.Content;
 
 			Window window = Window.GetWindow(this);
-			BeheerderDashboard beheerderDashboard = window.DataContext as BeheerderDashboard;
-			//TabControl tabControl = beheerderDashboard.TabNavigeerder;
+			BeheerderDashboard beheerderDashboard = (BeheerderDashboard)window.DataContext;
 
-			//switch (tab) {
-			//	case "Dashboard":
-			//	tabControl.TabIndex = 0;
-			//	ZetTabsOpNietGeselecteed(beheerderDashboard);
-			//	beheerderDashboard.DashboardTab.IsSelected = true;
-			//	break;
-			//	case "Bedrijven":
-			//	tabControl.TabIndex = 1;
-			//	ZetTabsOpNietGeselecteed(beheerderDashboard);
-			//	beheerderDashboard.BedrijvenTab.IsSelected = true;
-			//	break;
-			//	case "Afspraken":
-			//	tabControl.TabIndex = 2;
-			//	ZetTabsOpNietGeselecteed(beheerderDashboard);
-			//	beheerderDashboard.AfsprakenTab.IsSelected = true;
-			//	break;
-			//	case "Werknemers":
-			//	tabControl.TabIndex = 3;
-			//	ZetTabsOpNietGeselecteed(beheerderDashboard);
-			//	beheerderDashboard.WerknemersTab.IsSelected = true;
-			//	break;
-			//	case "Bezoekers":
-			//	tabControl.TabIndex = 4;
-			//	ZetTabsOpNietGeselecteed(beheerderDashboard);
-			//	beheerderDashboard.BezoekersTab.IsSelected = true;
-			//	break;
-			//}
-		}
-
-		void ZetTabsOpNietGeselecteed(BeheerderDashboard beheerderDashboard) {
-			//beheerderDashboard.DashboardTab.IsSelected = false;
-			//beheerderDashboard.BedrijvenTab.IsSelected = false;
-			//beheerderDashboard.AfsprakenTab.IsSelected = false;
-			//beheerderDashboard.WerknemersTab.IsSelected = false;
-			//beheerderDashboard.BezoekersTab.IsSelected = false;
+			switch (tab) {
+				case "Dashboard":
+				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/DashBoard/DashBoardPage.xaml", UriKind.Relative);
+				break;
+				case "Bedrijven":
+				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Bedrijven/BedrijvenPage.xaml", UriKind.Relative);
+				break;
+				case "Afspraken":
+				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Afspraken/AfsprakenPage.xaml", UriKind.Relative);
+				break;
+				case "Werknemers":
+				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Werknemers/WerknemersPage.xaml", UriKind.Relative);
+				break;
+				case "Bezoekers":
+				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Bezoekers/BezoekersPage.xaml", UriKind.Relative);
+				break;
+			}
 		}
 	}
 }

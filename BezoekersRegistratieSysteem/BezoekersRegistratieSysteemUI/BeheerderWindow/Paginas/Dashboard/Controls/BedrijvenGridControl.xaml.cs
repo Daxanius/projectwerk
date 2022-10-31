@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Dashboard {
+namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Dashboard.Controls {
 	/// <summary>
 	/// Interaction logic for BedrijvenGridControl.xaml
 	/// </summary>

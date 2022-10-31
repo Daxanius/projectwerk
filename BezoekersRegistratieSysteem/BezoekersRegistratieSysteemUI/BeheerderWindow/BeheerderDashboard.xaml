@@ -4,8 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controlls="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dashboard="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Dashboard"
-    xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Beheerder"
     Icon="/BRS.ico"
@@ -20,35 +18,11 @@
             <FontFamily x:Key="Inter">/Fonts/#Inter</FontFamily>
         </ResourceDictionary>
     </Window.Resources>
-    <DockPanel LastChildFill="True" LayoutTransform="{StaticResource windowScaleTransform}">
-        <controlls:SideBarControl
-            x:Name="Sidebar"
-            Width="280"
-            DockPanel.Dock="Left" />
-        <DockPanel>
-            <dashboard:BedrijvenGridControl DockPanel.Dock="Top" />
-            <Border
-                Margin="20"
-                Padding="20"
-                Background="{StaticResource LichtGrijsAccent}"
-                CornerRadius="25"
-                DockPanel.Dock="Bottom">
-                <DockPanel>
-                    <TextBlock
-                        Padding="5,0,0,10"
-                        DockPanel.Dock="Top"
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Foreground="{StaticResource DonkerGrijs}">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} | Afspraken">
-                                <Binding Path="Datum" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                    <dashboard:AfsprakenLijstControl />
-                </DockPanel>
-            </Border>
-        </DockPanel>
+    <DockPanel LayoutTransform="{StaticResource windowScaleTransform}">
+        <controlls:SideBarControl Width="280" DockPanel.Dock="Left" />
+        <Frame
+            x:Name="FrameControl"
+            NavigationUIVisibility="Hidden"
+            Source="/BeheerderWindow/Paginas/DashBoard/DashBoardPage.xaml" />
     </DockPanel>
 </Window>
