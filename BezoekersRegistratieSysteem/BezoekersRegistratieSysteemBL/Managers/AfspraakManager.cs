@@ -169,25 +169,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaam(string voornaam, string achternaam)
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmail(string voornaam, string achternaam, string email)
 		{
-            if (string.IsNullOrWhiteSpace(voornaam) || (string.IsNullOrWhiteSpace(achternaam))) throw new AfspraakManagerException("AfspraakManager - GeefAfspraakPerBezoekerOpNaam - naam mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(voornaam) || (string.IsNullOrWhiteSpace(achternaam)) || string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmail - naam of email mag niet leeg zijn");
             try
             {
-                return _afspraakRepository.GeefAfsprakenPerBezoekerOpNaam(voornaam, achternaam);
-            }
-            catch (Exception ex)
-            {
-                throw new AfspraakManagerException(ex.Message);
-            }
-        }
-
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpEmail(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("AfspraakManager - GeefAfspraakPerBezoekerOpEmail - email mag niet leeg zijn");
-            try
-            {
-                return _afspraakRepository.GeefAfsprakenPerBezoekerOpEmail(email);
+                return _afspraakRepository.GeefAfsprakenPerBezoekerOpNaamOfEmail(voornaam, achternaam, email);
             }
             catch (Exception ex)
             {

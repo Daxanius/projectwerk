@@ -799,5 +799,10 @@ namespace BezoekersRegistratieSysteemDL
 		{
 			throw new NotImplementedException();
 		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmail(string voornaam, string achternaam, string email)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
