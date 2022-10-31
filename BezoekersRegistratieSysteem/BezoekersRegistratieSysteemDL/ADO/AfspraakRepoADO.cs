@@ -668,7 +668,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             throw new NotImplementedException();
         }
 
-        public Afspraak GeefHuidigeAfspraakPerWerknemer(long werknemerId) {
+        public IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemer(long werknemerId) {
             throw new NotImplementedException();
         }
 
