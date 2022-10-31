@@ -16,8 +16,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces
 		bool BestaatBedrijf(string bedrijfsnaam);
 
 		Bedrijf GeefBedrijf(long id);
-		IReadOnlyList<Bedrijf> Geefbedrijven();
-
+		IReadOnlyList<Bedrijf> GeefBedrijven();
 		Bedrijf GeefBedrijf(string bedrijfsnaam);
 	}
 }
