@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
     Name="mainWindow"
     Title="MainWindow"
     AllowsTransparency="True"
@@ -82,18 +82,13 @@
                                     <Setter Property="CornerRadius" Value="10" />
                                 </Style>
                             </StackPanel.Resources>
+                            <iconspresenter:Icon IconSource="../BezoekerIcon.xaml" CircleBackground="Transparent" VerticalAlignment="Center" Width="100" Height="100"/>
                             <Label
-                                Margin="-290,15,0,0"
-                                Content="&#xebda;"
-                                FontFamily="Segoe Fluent Icons"
-                                FontSize="105"
-                                Foreground="White" />
-                            <Label
-                                Margin="-665,235,0,0"
                                 Content="AANMELD APP"
                                 FontFamily="Segoe UI Variable Text Semibold"
                                 FontSize="60"
-                                Foreground="White" />
+                                Foreground="DarkBlue" 
+                                VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                     <Button Background="{StaticResource LichtGrijsAccent}" BorderBrush="Transparent"
