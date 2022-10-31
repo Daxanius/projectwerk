@@ -8,8 +8,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		//AF
 
 		#region Valid Info
-		private Bedrijf _b1 = new(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-		private Bedrijf _b2 = new(1, "anderbedrijf", "BE0724540609", "876543210", "anderbedrijf@email.com", "anderebedrijfstraat 10");
+		private Bedrijf _b1 = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+		private Bedrijf _b2 = new(1, "anderbedrijf", "BE0724540609", true, "876543210", "anderbedrijf@email.com", "anderebedrijfstraat 10");
 		private string _of = "oudefunctie";
 		private string _nf = "nieuwefunctie";
 		private string _e = "werknemer.werknemersen@email.com";
@@ -24,12 +24,13 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 			Assert.Equal((long)10, w.Id);
 		}
 
-		[Fact]
-		public void ZetId_Invalid()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void ZetId_Invalid(long id)
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
-			//"Werknemer - ZetId - Id moet groter zijn dan 0"
-			Assert.Throws<WerknemerException>(() => w.ZetId(0));
+			Assert.Throws<WerknemerException>(() => w.ZetId(id));
 		}
 		#endregion
 

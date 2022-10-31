@@ -16,12 +16,14 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 			Assert.Equal((long)10, b.Id);
 		}
 
-		[Fact]
-		public void ZetId_Invalid()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void ZetId_Invalid(long id)
 		{
 			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 			//"Werknemer - ZetId - Id moet groter zijn dan 0"
-			Assert.Throws<BezoekerException>(() => b.ZetId(0));
+			Assert.Throws<BezoekerException>(() => b.ZetId(id));
 		}
 		#endregion
 

@@ -302,7 +302,9 @@ namespace BezoekersRegistratieSysteemDL
 						//functie portie
 						string functieNaam = (string)reader["FunctieNaam"];
 						Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
+
+						// TODO VOOR GEKKE BJORN: Vervang de true in constructor door statuscode voor BTW
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
 						afspraak = new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
 					}
 					return afspraak;
@@ -446,7 +448,9 @@ namespace BezoekersRegistratieSysteemDL
 						//functie portie
 						string functieNaam = (string)reader["FunctieNaam"];
 						Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
+
+						// TODO VOOR GEKKE BJORN: vervang true door statuscode
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
 						afspraken.Add(new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
 					}
 					return afspraken.AsReadOnly();
@@ -588,7 +592,9 @@ namespace BezoekersRegistratieSysteemDL
 						//functie portie
 						string functieNaam = (string)reader["FunctieNaam"];
 						Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
+
+						// TODO VOOR GEKKE BJORN: True vervangen door statuscode
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
 						afspraken.Add(new Afspraak(long.Parse(afspraakId.ToString()), start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
 					}
 					return afspraken.AsReadOnly();
@@ -747,6 +753,51 @@ namespace BezoekersRegistratieSysteemDL
 			{
 				con.Close();
 			}
+		}
+
+		public void BeeindigAfspraakOpEmail(long id, string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool BestaatAfspraak(uint afspraakid)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool BestaatLopendeAfspraak(Afspraak afspraak)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Afspraak GeefHuidigeAfspraakPerWerknemer(long werknemerId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long id, DateTime datum)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaam(string voornaam, string achternaam)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpEmail(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Afspraak GeefHuidigeAfspraakBezoeker(long id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDag(long id, DateTime datum)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

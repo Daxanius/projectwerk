@@ -56,9 +56,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="id"></param>
 		/// <exception cref="BezoekerException"></exception>
-		public void ZetId(long id) {
-			if (id == 0)
-				throw new BezoekerException("Bezoeker - ZetId - Id mag niet 0 zijn");
+		public void ZetId(long id)
+		{
+			if (id <= 0)
+				throw new BezoekerException("Bezoeker - ZetId - id mag niet kleiner dan of gelijk aan 0 zijn.");
 			Id = id;
 		}
 
@@ -67,7 +68,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="voornaam"></param>
 		/// <exception cref="BezoekerException"></exception>
-		public void ZetVoornaam(string voornaam) {
+		public void ZetVoornaam(string voornaam)
+		{
 			if (string.IsNullOrWhiteSpace(voornaam))
 				throw new BezoekerException("Bezoeker - ZetVoornaam - voornaam mag niet leeg zijn");
 			Voornaam = voornaam.Trim();
@@ -78,7 +80,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="achternaam"></param>
 		/// <exception cref="BezoekerException"></exception>
-		public void ZetAchternaam(string achternaam) {
+		public void ZetAchternaam(string achternaam)
+		{
 			if (string.IsNullOrWhiteSpace(achternaam))
 				throw new BezoekerException("Bezoeker - ZetAchternaam - achternaam mag niet leeg zijn");
 			Achternaam = achternaam.Trim();
@@ -105,7 +108,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		/// <param name="bedrijf"></param>
 		/// <exception cref="BezoekerException"></exception>
-		public void ZetBedrijf(string bedrijf) {
+		public void ZetBedrijf(string bedrijf)
+		{
 			if (string.IsNullOrWhiteSpace(bedrijf))
 				throw new BezoekerException("Bezoeker - ZetBedrijf - bedrijf mag niet leeg zijn");
 			Bedrijf = bedrijf.Trim();
@@ -115,7 +119,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// Vergelijkt bezoekers op inhoud.
 		/// </summary>
 		/// <exception cref="BedrijfException"></exception>
-		public bool BezoekerIsGelijk(Bezoeker bezoeker) {
+		public bool BezoekerIsGelijk(Bezoeker bezoeker)
+		{
 			if (bezoeker == null)
 				return false;
 			if (bezoeker.Id != Id)
