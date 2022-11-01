@@ -21,7 +21,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Dashboard.Contro
 	/// Interaction logic for AfsprakenLijstControl.xaml
 	/// </summary>
 	public partial class AfsprakenLijstControl : UserControl {
+		#region Afspraken
 		public ObservableCollection<AfspraakDTO> Afspraken { get; set; }
+		#endregion
 
 		public AfsprakenLijstControl() {
 			Afspraken = new() {
@@ -52,7 +54,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Dashboard.Contro
 			InitializeComponent();
 		}
 
-		private void klikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
+		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
 			Button? b = sender as Button;
 			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
 

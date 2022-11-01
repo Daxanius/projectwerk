@@ -24,10 +24,15 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas {
 			InitializeComponent();
 		}
 
-		private void VeranderTab(object sender, RoutedEventArgs e) {
-			Button button = (Button)sender;
+		private void VeranderTab(object sender, MouseButtonEventArgs e) {
+			string tab = (string)((Label)((StackPanel)((Label)((Border)sender).Child).Content).Children[1]).Content;
 
-			string tab = (string)button.Content;
+			foreach (Border border in BorderContainer.Children) {
+				border.Tag = "UnSelected";
+			}
+
+			((Border)sender).Tag = "Selected";
+
 
 			Window window = Window.GetWindow(this);
 			BeheerderDashboard beheerderDashboard = (BeheerderDashboard)window.DataContext;
