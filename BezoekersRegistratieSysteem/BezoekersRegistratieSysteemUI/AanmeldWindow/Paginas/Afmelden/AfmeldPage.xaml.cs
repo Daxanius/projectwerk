@@ -15,11 +15,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
+namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 	/// <summary>
 	/// Interaction logic for KiesBedrijfPage.xaml
 	/// </summary>
-	public partial class KiesBedrijfPage : Page {
+	public partial class AfmeldPage : Page {
 		private const int MAX_COLUMN_COUNT = 4;
 
 		private List<BedrijfDTO> bedrijven = new() { new BedrijfDTO(1, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
@@ -71,7 +71,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				new BedrijfDTO(23, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
 				new BedrijfDTO(24, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),};
 
-		public KiesBedrijfPage() {
+		public AfmeldPage() {
 			this.DataContext = this;
 			InitializeComponent();
 			SpawnBedrijvenGrid();

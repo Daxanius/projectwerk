@@ -22,7 +22,7 @@
                 Source="/Images/BRS_MyAdmin.png" />
             <StackPanel Name="BorderContainer" Margin="60,230,0,0">
                 <Border
-                    Name="DashboardTab"
+                    Name="AanmeldenTab"
                     Margin="0,0,0,5"
                     Padding="58,10,0,3"
                     CornerRadius="25 0 0 25"
@@ -42,13 +42,13 @@
                             Padding="0,0,0,6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Content="Dashboard"
+                            Content="Aanmelden"
                             FontSize="16"
                             FontWeight="Bold" />
                     </StackPanel>
                 </Border>
                 <Border
-                    Name="BedrijvenTab"
+                    Name="AfmeldenTab"
                     Margin="0,0,0,5"
                     Padding="58,10,0,3"
                     CornerRadius="25 0 0 25"
@@ -67,77 +67,7 @@
                             Padding="0,0,0,6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Content="Bedrijven"
-                            FontSize="16" />
-                    </StackPanel>
-                </Border>
-                <Border
-                    Name="AfsprakenTab"
-                    Margin="0,0,0,5"
-                    Padding="58,10,0,3"
-                    CornerRadius="25 0 0 25"
-                    Cursor="Hand"
-                    MouseLeftButtonDown="VeranderTab"
-                    Style="{StaticResource SideBarBorderNavSelect}"
-                    Tag="UnSelected">
-                    <StackPanel Orientation="Horizontal">
-                        <iconspresenter:Icon
-                            Margin="-10,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            CircleBackground="{x:Null}"
-                            IconSource="../AfspraakIcon.xaml" />
-                        <Label
-                            Padding="0,0,0,6"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Content="Afspraken"
-                            FontSize="16" />
-                    </StackPanel>
-                </Border>
-                <Border
-                    Name="WerknemersTab"
-                    Padding="58,10,0,3"
-                    CornerRadius="25 0 0 25"
-                    Cursor="Hand"
-                    MouseLeftButtonDown="VeranderTab"
-                    Style="{StaticResource SideBarBorderNavSelect}"
-                    Tag="UnSelected">
-                    <StackPanel Orientation="Horizontal">
-                        <iconspresenter:Icon
-                            Margin="-10,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            CircleBackground="{x:Null}"
-                            IconSource="../WerknemerIcon.xaml" />
-                        <Label
-                            Padding="0,0,0,6"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Content="Werknemers"
-                            FontSize="16" />
-                    </StackPanel>
-                </Border>
-                <Border
-                    Name="BezoekersTab"
-                    Padding="58,10,0,3"
-                    CornerRadius="25 0 0 25"
-                    Cursor="Hand"
-                    MouseLeftButtonDown="VeranderTab"
-                    Style="{StaticResource SideBarBorderNavSelect}"
-                    Tag="UnSelected">
-                    <StackPanel Orientation="Horizontal">
-                        <iconspresenter:Icon
-                            Margin="-10,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            CircleBackground="{x:Null}"
-                            IconSource="../BezoekerIcon.xaml" />
-                        <Label
-                            Padding="0,0,0,6"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Content="Bezoekers"
+                            Content="Afmelden"
                             FontSize="16" />
                     </StackPanel>
                 </Border>
