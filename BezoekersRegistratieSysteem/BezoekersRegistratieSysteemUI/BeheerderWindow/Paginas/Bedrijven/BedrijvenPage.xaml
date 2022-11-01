@@ -67,9 +67,20 @@
                     CornerRadius="20"
                     DockPanel.Dock="Right">
                     <ComboBox Text="Filter">
-                        <ComboBoxItem>Bedrijf1</ComboBoxItem>
-                        <ComboBoxItem>Bedrijf2</ComboBoxItem>
-                        <ComboBoxItem>Bedrijf3</ComboBoxItem>
+                        <ComboBox.Template>
+                            <ControlTemplate TargetType="ComboBox">
+                                <Border
+                                    Padding="20"
+                                    Background="{StaticResource DonkerBlauw}"
+                                    CornerRadius="20">
+                                    <Label Content="{TemplateBinding Text}" Foreground="{StaticResource MainAchtergrond}" />
+                                </Border>
+                            </ControlTemplate>
+                        </ComboBox.Template>
+                        <ComboBoxItem Content="Hogent" />
+                        <ComboBoxItem Content="Hogent" />
+                        <ComboBoxItem Content="Hogent" />
+                        <ComboBoxItem Content="Hogent" />
                     </ComboBox>
                 </Border>
                 <StackPanel />
