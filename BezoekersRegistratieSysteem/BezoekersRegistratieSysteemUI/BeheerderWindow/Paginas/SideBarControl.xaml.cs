@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Controlls;
+using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,16 +23,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas {
 	public partial class SideBarControl : UserControl {
 		public SideBarControl() {
 			InitializeComponent();
-		}
-
-		private void VeranderTab(object sender, MouseButtonEventArgs e) {
-			string tab = (string)((Label)((StackPanel)((Label)((Border)sender).Child).Content).Children[1]).Content;
 
 			foreach (Border border in BorderContainer.Children) {
 				border.Tag = "UnSelected";
 			}
+		}
+
+		private void VeranderTab(object sender, MouseButtonEventArgs e) {
+			string tab = (string)((Label)((StackPanel)((Border)sender).Child).Children[1]).Content;
+
+			foreach (Border border in BorderContainer.Children) {
+				border.Tag = "UnSelected";
+				((Label)((StackPanel)(border).Child).Children[1]).FontWeight = FontWeights.Normal;
+			}
 
 			((Border)sender).Tag = "Selected";
+			((Label)((StackPanel)((Border)sender).Child).Children[1]).FontWeight = FontWeights.Bold;
 
 
 			Window window = Window.GetWindow(this);
@@ -54,6 +61,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas {
 				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Bezoekers/BezoekersPage.xaml", UriKind.Relative);
 				break;
 			}
+		}
+
+		private void ToonAanwezigeBezoekers(object sender, MouseButtonEventArgs e) {
+
 		}
 	}
 }

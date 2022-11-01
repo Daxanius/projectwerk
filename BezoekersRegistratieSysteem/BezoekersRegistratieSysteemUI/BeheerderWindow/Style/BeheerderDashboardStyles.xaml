@@ -166,6 +166,7 @@
         <Style.Triggers>
             <Trigger Property="Tag" Value="Selected">
                 <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
+                <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
             </Trigger>
             <Trigger Property="Tag" Value="UnSelected">
                 <Setter Property="Background" Value="Transparent" />

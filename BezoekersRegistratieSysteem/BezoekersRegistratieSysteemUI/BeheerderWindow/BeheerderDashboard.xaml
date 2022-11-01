@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Beheerder"
+    FontFamily="{StaticResource Inter}"
     Icon="/BRS.ico"
     ResizeMode="CanResize"
     WindowStartupLocation="CenterScreen"
@@ -15,7 +16,6 @@
     <Window.Resources>
         <ResourceDictionary>
             <ScaleTransform x:Key="windowScaleTransform" ScaleX="{Binding ScaleX}" ScaleY="{Binding ScaleY}" />
-            <FontFamily x:Key="Inter">/Fonts/#Inter</FontFamily>
         </ResourceDictionary>
     </Window.Resources>
     <DockPanel LayoutTransform="{StaticResource windowScaleTransform}">

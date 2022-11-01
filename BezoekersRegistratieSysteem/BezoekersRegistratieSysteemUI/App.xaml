@@ -7,6 +7,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <FontFamily x:Key="Inter">/Fonts/#Inter</FontFamily>
+                </ResourceDictionary>
                 <ResourceDictionary Source="\AanmeldenOfAfmeldenWindow\Aanmelden\Style\KiesBedrijfStyle.xaml" />
                 <ResourceDictionary Source="\AanmeldenOfAfmeldenWindow\Afmelden\Style\AfmeldStyle.xaml" />
                 <ResourceDictionary Source="\BeheerderWindow\Style\BeheerderDashboardStyles.xaml" />
