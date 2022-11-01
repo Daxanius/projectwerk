@@ -22,9 +22,9 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(long bedrijfId);
         IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long id, DateTime datum);
         //
-        
+
         //Werknemer
-		Afspraak GeefHuidigeAfspraakPerWerknemer(long werknemerId);
+        IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemer(long werknemerId);
 		IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(long werknemerId);
 		IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(long werknemerId, DateTime datum);
 		//

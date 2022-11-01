@@ -311,9 +311,9 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - GeefHuidigeAfspraakPerWerknemer - er zijn geen afspraken"
-            _mockRepo.Setup(x => x.GeefHuidigeAfspraakPerWerknemer(_w.Id)).Returns(new Afspraak());
+            _mockRepo.Setup(x => x.GeefHuidigeAfspraakPerWerknemer(_w.Id)).Returns(new List<Afspraak>());
             var ex = _afspraakManager.GeefHuidigeAfspraakPerWerknemer(_w);
-            Assert.Null(ex.Werknemer);
+            Assert.Empty(ex);
         }
         #endregion
         
