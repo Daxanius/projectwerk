@@ -90,6 +90,7 @@
 
 	<ItemGroup>
 		<Folder Include="BeheerderWindow\Popups\" />
+		<Folder Include="BeheerderWindow\Style\" />
 	</ItemGroup>
 
 	<ItemGroup>
