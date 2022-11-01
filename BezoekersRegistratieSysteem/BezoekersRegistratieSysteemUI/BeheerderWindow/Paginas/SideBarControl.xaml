@@ -4,15 +4,81 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <StackPanel Background="Yellow">
-        <Button Click="VeranderTab" Content="Dashboard" />
-        <Button Click="VeranderTab" Content="Bedrijven" />
-        <Button Click="VeranderTab" Content="Afspraken" />
-        <Button Click="VeranderTab" Content="Werknemers" />
-        <Button Click="VeranderTab" Content="Bezoekers" />
-    </StackPanel>
+    <Border Margin="40,20,20,20" Background="{StaticResource LichtGrijsAccent}" CornerRadius="50">
+        <Grid>
+            <Image Width="150"  Margin="40" HorizontalAlignment="Center" VerticalAlignment="Top" Source="/Images/BRS_MyAdmin.png"/>
+            <StackPanel Margin="60,230,0,0">
+                <Button Padding="-30,7,0,0" Click="VeranderTab" BorderBrush="{x:Null}" Background="{x:Null}">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="25,0,0,25"/>
+                        </Style>
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <iconspresenter:Icon IconSource="../DashboardIcon.xaml" CircleBackground="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-10,0,0,0"/>
+                        <Label Content="Dashboard" Padding="0,7,0,0" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Button>
+                <Button Padding="-30,7,0,0" Click="VeranderTab" BorderBrush="{x:Null}" Background="{x:Null}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="25,0,0,25"/>
+                    </Style>
+                </Button.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <iconspresenter:Icon IconSource="../BedrijfIcon.xaml" CircleBackground="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-17,0,0,0"/>
+                        <Label Content="Bedrijven" Padding="0,7,0,0" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Button>
+                <Button Padding="-30,7,0,0" Click="VeranderTab" BorderBrush="{x:Null}" Background="{x:Null}">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="25,0,0,25"/>
+                        </Style>
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <iconspresenter:Icon IconSource="../AfspraakIcon.xaml" CircleBackground="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-13,0,0,0"/>
+                        <Label Content="Afspraken" Padding="0,7,0,0" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Button>
+                <Button Padding="-30,7,0,0" Click="VeranderTab" BorderBrush="{x:Null}" Background="{x:Null}">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="25,0,0,25"/>
+                        </Style>
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <iconspresenter:Icon IconSource="../WerknemerIcon.xaml" CircleBackground="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <Label Content="Werknemers" Padding="0,7,0,0" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Button>
+                <Button Padding="-30,7,0,0" Click="VeranderTab" BorderBrush="{x:Null}" Background="{x:Null}">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="25,0,0,25"/>
+                        </Style>
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <iconspresenter:Icon IconSource="../BezoekerIcon.xaml" CircleBackground="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-13,0,0,0"/>
+                        <Label Content="Bezoekers" Padding="0,7,0,0" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <Button Margin="25"  Width="150" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" BorderBrush="{x:Null}" Background="{StaticResource MainAchtergrond}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
+                <StackPanel Orientation="Horizontal">
+                    <iconspresenter:Icon IconSource="../LijstIcon.xaml" CircleBackground="Transparent" VerticalAlignment="Center" HorizontalAlignment="center" Margin="-7,8,-7,0"/>
+                    <Label Content="aanwezigen" Padding="0,9,0,0" HorizontalAlignment="Left"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Border>
 </UserControl>
