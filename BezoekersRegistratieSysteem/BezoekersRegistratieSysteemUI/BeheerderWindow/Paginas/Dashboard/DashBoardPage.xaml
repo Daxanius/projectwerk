@@ -24,7 +24,7 @@
                     DockPanel.Dock="Top"
                     FontSize="28"
                     FontWeight="Bold"
-                    Foreground="{StaticResource DonkerGrijs}">
+                    Foreground="{StaticResource DonkerBlauw}">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0} | Afspraken">
                             <Binding Path="Datum" />

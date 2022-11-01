@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Printing.IndexedProperties;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BezoekersRegistratieSysteemUI.Beheerder {
 
@@ -42,11 +43,39 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 		private void OnPageNavigation(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e) {
 			string path = e.Uri.OriginalString;
-			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Bezoekers", "Dashboard", "Dashboard" };
+			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Bezoekers", "Dashboard", "Werknemers" };
 
-			//foreach (var item in collection) {
+			foreach (string folder in pathFolders) {
+				if (path.Contains(folder)) {
 
-			//}
+					foreach (Border border in SideBar.BorderContainer.Children) {
+						border.Tag = "UnSelected";
+					}
+
+					switch (folder) {
+						case "Dashboard":
+						SideBar.DashboardTab.Tag = "Selected";
+						break;
+
+						case "Bedrijven":
+						SideBar.BedrijvenTab.Tag = "Selected";
+						break;
+
+						case "Afspraken":
+							SideBar.AfsprakenTab.Tag = "Selected";
+						break;
+
+						case "Bezoekers":
+							SideBar.BezoekersTab.Tag = "Selected";
+						break;
+
+						case "Werknemers":
+							SideBar.WerknemersTab.Tag = "Selected";
+						break;
+					}
+					return;
+				}
+			}
 		}
 
 		public void ZetGeselecteerdBedrijf(BedrijfDTO bedrijf) {

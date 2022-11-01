@@ -60,8 +60,8 @@
             <GridView>
                 <GridView.ColumnHeaderContainerStyle>
                     <Style TargetType="GridViewColumnHeader">
-                        <Setter Property="FontSize" Value="25" />
-                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="FontSize" Value="16" />
+                        <Setter Property="FontWeight" Value="DemiBold" />
                         <Setter Property="OverridesDefaultStyle" Value="True" />
                         <Setter Property="Template">
                             <Setter.Value>
@@ -81,16 +81,17 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="250"
-                                Text="Datum"
-                                TextAlignment="Center" />
+                                Foreground="{StaticResource LichtGrijs}"
+                                Text="Datum" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Label
-                                    Padding="15"
+                                    Padding="8,15,0,15"
                                     Content="{Binding StartTijd}"
                                     FontSize="15"
-                                    FontWeight="DemiBold" />
+                                    FontWeight="DemiBold"
+                                    Foreground="{StaticResource LichtGrijs}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -98,13 +99,13 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="250"
-                                Text="Bezoeker"
-                                TextAlignment="Center" />
+                                Foreground="{StaticResource LichtGrijs}"
+                                Text="Bezoeker" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Label
-                                    Padding="15"
+                                    Padding="0,15,0,15"
                                     FontSize="15"
                                     FontWeight="DemiBold">
                                     <Label.Content>
@@ -125,13 +126,13 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="250"
-                                Text="Werknemer"
-                                TextAlignment="Center" />
+                                Foreground="{StaticResource LichtGrijs}"
+                                Text="Werknemer" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Label
-                                    Padding="15"
+                                    Padding="0,15,0,15"
                                     FontSize="15"
                                     FontWeight="DemiBold">
                                     <Label.Content>
@@ -152,13 +153,13 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="250"
-                                Text="Bedrijf"
-                                TextAlignment="Center" />
+                                Foreground="{StaticResource LichtGrijs}"
+                                Text="Bedrijf" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Label
-                                    Padding="15"
+                                    Padding="0,15,0,15"
                                     Content="{Binding WerknemerBedrijf}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
@@ -170,8 +171,8 @@
                             <TextBlock
                                 MinWidth="100"
                                 Padding="5,0"
-                                Text="Status"
-                                TextAlignment="Center" />
+                                Foreground="{StaticResource LichtGrijs}"
+                                Text="Status" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

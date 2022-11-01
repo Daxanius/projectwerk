@@ -22,6 +22,7 @@
                 Source="/Images/BRS_MyAdmin.png" />
             <StackPanel Name="BorderContainer" Margin="60,230,0,0">
                 <Border
+                    Name="DashboardTab"
                     Margin="0,0,0,5"
                     Padding="0,3"
                     CornerRadius="25 0 0 25"
@@ -47,6 +48,7 @@
                     </Label>
                 </Border>
                 <Border
+                    Name="BedrijvenTab"
                     Margin="0,0,0,5"
                     Padding="0,3"
                     CornerRadius="25 0 0 25"
@@ -72,6 +74,7 @@
                     </Label>
                 </Border>
                 <Border
+                    Name="AfsprakenTab"
                     Margin="0,0,0,5"
                     Padding="0,3"
                     CornerRadius="25 0 0 25"
@@ -97,6 +100,7 @@
                     </Label>
                 </Border>
                 <Border
+                    Name="WerknemersTab"
                     Padding="0,3"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
@@ -121,6 +125,7 @@
                     </Label>
                 </Border>
                 <Border
+                    Name="BezoekersTab"
                     Padding="0,3"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
@@ -145,32 +150,27 @@
                     </Label>
                 </Border>
             </StackPanel>
-            <Button
+            <Border
                 Width="150"
                 Height="40"
                 Margin="25"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Background="{StaticResource MainAchtergrond}"
-                BorderBrush="{x:Null}">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="20" />
-                    </Style>
-                </Button.Resources>
-                <StackPanel Orientation="Horizontal">
+                CornerRadius="25">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
                     <iconspresenter:Icon
                         Margin="-7,8,-7,0"
                         HorizontalAlignment="center"
                         VerticalAlignment="Center"
                         CircleBackground="Transparent"
                         IconSource="../LijstIcon.xaml" />
-                    <Label
-                        Padding="0,9,0,0"
-                        HorizontalAlignment="Left"
-                        Content="aanwezigen" />
+                    <Label VerticalAlignment="Center" Content="Aanwezigen" />
                 </StackPanel>
-            </Button>
+            </Border>
         </Grid>
     </Border>
 </UserControl>

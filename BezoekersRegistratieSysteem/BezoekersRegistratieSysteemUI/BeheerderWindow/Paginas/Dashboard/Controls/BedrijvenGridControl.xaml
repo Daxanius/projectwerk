@@ -10,11 +10,11 @@
     mc:Ignorable="d">
     <StackPanel Margin="0,20,40,0">
         <Label
-            Padding="20,0,0,20"
+            Padding="40,0,0,20"
             Content="Dashboard"
             FontSize="40"
             FontWeight="Bold"
-            Foreground="{StaticResource DonkerGrijs}" />
+            Foreground="{StaticResource DonkerBlauw}" />
         <ScrollViewer
             MaxHeight="440"
             Padding="0,0,0,20"
