@@ -18,6 +18,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow {
 	/// </summary>
 	public partial class RegistratieWindow : Window {
 		public RegistratieWindow() {
+			this.DataContext = this;
 			InitializeComponent();
 		}
 	}

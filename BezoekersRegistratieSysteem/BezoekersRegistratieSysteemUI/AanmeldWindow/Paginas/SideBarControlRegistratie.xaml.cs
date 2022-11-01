@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Beheerder;
+﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
+using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
@@ -43,23 +44,23 @@ namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.Pagi
 
 
 			Window window = Window.GetWindow(this);
-			BeheerderWindow BeheerderWindow = (BeheerderWindow)window.DataContext;
+			RegistratieWindow registratieWindow = (RegistratieWindow)window.DataContext;
 
 			switch (tab) {
 				case "Aanmelden":
-				BeheerderWindow.FrameControl.Source = new Uri("/AanmeldWindow/Paginas/Aanmelden/KiesBedrijfPage.xaml", UriKind.Relative);
+				registratieWindow.FrameControl.Source = new Uri("/AanmeldWindow/Paginas/Aanmelden/KiesBedrijfPage.xaml", UriKind.Relative);
 				break;
 				case "Afmelden":
-				BeheerderWindow.FrameControl.Source = new Uri("/AanmeldWindow/Paginas/Afmelden/AfmeldPage.xaml", UriKind.Relative);
+				registratieWindow.FrameControl.Source = new Uri("/AanmeldWindow/Paginas/Afmelden/AfmeldPage.xaml", UriKind.Relative);
 				break;
 				case "  ":
-				BeheerderWindow.FrameControl.Source = new Uri("", UriKind.Relative);
+				registratieWindow.FrameControl.Source = new Uri("", UriKind.Relative);
 				break;
 				case "   ":
-				BeheerderWindow.FrameControl.Source = new Uri("", UriKind.Relative);
+				registratieWindow.FrameControl.Source = new Uri("", UriKind.Relative);
 				break;
 				case "    ":
-				BeheerderWindow.FrameControl.Source = new Uri("", UriKind.Relative);
+				registratieWindow.FrameControl.Source = new Uri("", UriKind.Relative);
 				break;
 			}
 		}
