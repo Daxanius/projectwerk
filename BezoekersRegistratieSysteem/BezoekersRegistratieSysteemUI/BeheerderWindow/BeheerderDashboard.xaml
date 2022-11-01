@@ -19,7 +19,10 @@
         </ResourceDictionary>
     </Window.Resources>
     <DockPanel LayoutTransform="{StaticResource windowScaleTransform}">
-        <controlls:SideBarControl Width="350" DockPanel.Dock="Left" />
+        <controlls:SideBarControl
+            x:Name="SideBar"
+            Width="350"
+            DockPanel.Dock="Left" />
         <Frame
             x:Name="FrameControl"
             NavigationUIVisibility="Hidden"

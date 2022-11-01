@@ -142,17 +142,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Dashboard.Contro
 		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
 			BedrijfDTO bedrijf = (BedrijfDTO)((Border)sender).DataContext;
 
-			//Window window = Window.GetWindow(this);
-			//BeheerderDashboard beheerderDashboard = (BeheerderDashboard)window.DataContext;
-			//TabControl tabControl = beheerderDashboard.TabNavigeerder;
+			Window window = Window.GetWindow(this);
+			BeheerderDashboard beheerderDashboard = (BeheerderDashboard)window.DataContext;
 
-			//beheerderDashboard.ZetGeselecteerdBedrijf(bedrijf);
-			//beheerderDashboard.DashboardTab.IsSelected = false;
-			//beheerderDashboard.BedrijvenTab.IsSelected = false;
-			//beheerderDashboard.BezoekersTab.IsSelected = false;
-			//beheerderDashboard.WerknemersTab.IsSelected = false;
-			//beheerderDashboard.AfsprakenTab.IsSelected = true;
-			//tabControl.TabIndex = 2;
+			beheerderDashboard.ZetGeselecteerdBedrijf(bedrijf);
+			beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Afspraken/AfsprakenPage.xaml", UriKind.Relative);
 		}
 	}
 }
