@@ -15,17 +15,17 @@
         CornerRadius="50">
         <Grid>
             <Image
-                Width="150"
+                Width="250"
                 Margin="40"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Source="/Images/BRS_MyAdmin.png" />
-            <StackPanel Name="BorderContainer" Margin="60,230,0,0">
+                VerticalAlignment="Top" Source="/Images/BRS_Register.png"
+                 />
+            <StackPanel Name="BorderContainer" Margin="100,0,0,0" VerticalAlignment="Center">
                 <Border
                     Name="AanmeldenTab"
                     Margin="0,0,0,5"
-                    Padding="58,10,0,3"
-                    CornerRadius="25 0 0 25"
+                    Padding="30,10,0,3"
+                    CornerRadius="35 0 0 35"
                     Cursor="Hand"
                     MouseLeftButtonDown="VeranderTab"
                     Style="{StaticResource SideBarBorderNavSelect}"
@@ -36,22 +36,23 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             CircleBackground="{x:Null}"
-                            IconSource="../DashboardIcon.xaml"
+                            IconSource="../IncheckIcon.xaml"
+                            IconSize="60"
                             Opacity="1" />
                         <Label
-                            Padding="0,0,0,6"
+                            Padding="0,10,0,20"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="Aanmelden"
-                            FontSize="16"
+                            FontSize="24"
                             FontWeight="Bold" />
                     </StackPanel>
                 </Border>
                 <Border
                     Name="AfmeldenTab"
                     Margin="0,0,0,5"
-                    Padding="58,10,0,3"
-                    CornerRadius="25 0 0 25"
+                    Padding="30,10,0,3"
+                    CornerRadius="35 0 0 35"
                     Cursor="Hand"
                     MouseLeftButtonDown="VeranderTab"
                     Style="{StaticResource SideBarBorderNavSelect}"
@@ -62,24 +63,25 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             CircleBackground="{x:Null}"
-                            IconSource="../BedrijfIcon.xaml" />
+                            IconSource="../UitcheckIcon.xaml" 
+                            IconSize="60"/>
                         <Label
-                            Padding="0,0,0,6"
+                            Padding="0,10,0,20"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="Afmelden"
-                            FontSize="16" />
+                            FontSize="24" />
                     </StackPanel>
                 </Border>
             </StackPanel>
             <Border
-                Width="150"
-                Height="40"
+                Width="250"
+                Height="60"
                 Margin="25"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Background="{StaticResource MainAchtergrond}"
-                CornerRadius="20"
+                CornerRadius="30"
                 Cursor="Hand"
                 MouseLeftButtonDown="ToonAanwezigeBezoekers">
                 <StackPanel
@@ -91,9 +93,9 @@
                         HorizontalAlignment="center"
                         VerticalAlignment="Center"
                         CircleBackground="Transparent"
-                        IconSource="../LijstIcon.xaml"
-                        Opacity=".6" />
-                    <Label VerticalAlignment="Center" Content="Aanwezigen" />
+                        IconSource="../HelpIcon.xaml"
+                        IconSize="48"/>
+                    <Label VerticalAlignment="Center" FontWeight="SemiBold" Content="HELP" FontSize="18" Padding="-10,0,0,0"/>
                 </StackPanel>
             </Border>
         </Grid>

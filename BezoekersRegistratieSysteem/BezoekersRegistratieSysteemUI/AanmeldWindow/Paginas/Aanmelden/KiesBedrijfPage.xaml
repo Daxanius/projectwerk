@@ -9,18 +9,10 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <DockPanel Margin="0,20,40,0">
-        <Label
-            Padding="40,0,0,20"
-            Content="Dashboard"
-            DockPanel.Dock="Top"
-            FontSize="40"
-            FontWeight="Bold"
-            Foreground="{StaticResource DonkerBlauw}" />
+    <DockPanel Margin="0,115,40,115" VerticalAlignment="Center">
         <ScrollViewer Padding="0,0,0,20" CanContentScroll="True">
             <Grid Name="gridContainer">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
