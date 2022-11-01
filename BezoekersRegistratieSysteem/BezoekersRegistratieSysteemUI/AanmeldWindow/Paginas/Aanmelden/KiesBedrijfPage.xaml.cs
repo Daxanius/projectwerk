@@ -1,5 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
@@ -16,11 +15,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
+namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 	/// <summary>
-	/// Interaction logic for BedrijvenGridControl.xaml
+	/// Interaction logic for KiesBedrijfPage.xaml
 	/// </summary>
-	public partial class BedrijvenGridControl : UserControl {
+	public partial class KiesBedrijfPage : Page {
 		private const int MAX_COLUMN_COUNT = 4;
 
 		private List<BedrijfDTO> bedrijven = new() { new BedrijfDTO(1, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
@@ -72,7 +71,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 				new BedrijfDTO(23, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
 				new BedrijfDTO(24, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),};
 
-		public BedrijvenGridControl() {
+		public KiesBedrijfPage() {
 			this.DataContext = this;
 			InitializeComponent();
 			SpawnBedrijvenGrid();
@@ -140,13 +139,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 		}
 
 		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
-			BedrijfDTO bedrijf = (BedrijfDTO)((Border)sender).DataContext;
-
-			Window window = Window.GetWindow(this);
-			BeheerderWindow BeheerderWindow = (BeheerderWindow)window.DataContext;
-
-			BeheerderWindow.ZetGeselecteerdBedrijf(bedrijf);
-			BeheerderWindow.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Afspraken/AfsprakenPage.xaml", UriKind.Relative);
+			
 		}
 	}
 }

@@ -8,6 +8,7 @@
     Title="ParkeerWindow"
     Width="800"
     Height="450"
+    FontFamily="{StaticResource Inter}"
     mc:Ignorable="d">
     <Grid />
 </Window>

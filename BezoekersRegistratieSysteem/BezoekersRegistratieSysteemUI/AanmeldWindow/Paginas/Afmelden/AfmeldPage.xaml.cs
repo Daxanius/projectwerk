@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,20 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
+namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 	/// <summary>
-	/// Interaction logic for DashBoardPage.xaml
+	/// Interaction logic for KiesBedrijfPage.xaml
 	/// </summary>
-	public partial class AfsprakenPage : Page {
-		#region Public Propperty
-		public string Datum {
-			get {
-				return DateTime.Now.ToString("dd.MM");
-			}
-		}
-		#endregion
-
-		public AfsprakenPage() {
+	public partial class AfmeldPage : Page {
+		public AfmeldPage() {
 			this.DataContext = this;
 			InitializeComponent();
 		}

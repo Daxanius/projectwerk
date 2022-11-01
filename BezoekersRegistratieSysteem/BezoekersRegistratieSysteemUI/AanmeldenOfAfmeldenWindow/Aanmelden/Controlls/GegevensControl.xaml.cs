@@ -1,5 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.DTO;
-using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

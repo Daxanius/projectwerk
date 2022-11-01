@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Beheerder;
+﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
+using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Controlls;
 using System.Windows;
 
@@ -33,13 +34,13 @@ namespace BezoekersRegistratieSysteemUI {
 		}
 
 		private void AanmeldButton_Click(object sender, RoutedEventArgs e) {
-			AanOfUitMeldenScherm aanmeldWindow = new AanOfUitMeldenScherm();
+			RegistratieWindow registratieWindow = new RegistratieWindow();
 			this.Close();
-			aanmeldWindow.ShowDialog();
+			registratieWindow.ShowDialog();
 		}
 
 		private void AdminButton_Click(object sender, RoutedEventArgs e) {
-			BeheerderDashboard parkeerWindow = new BeheerderDashboard();
+			BeheerderWindow parkeerWindow = new BeheerderWindow();
 			this.Close();
 			parkeerWindow.ShowDialog();
 		}

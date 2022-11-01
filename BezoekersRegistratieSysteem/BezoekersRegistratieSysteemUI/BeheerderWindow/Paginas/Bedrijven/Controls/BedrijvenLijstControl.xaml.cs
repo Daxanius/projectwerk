@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Bedrijven.Controls {
+namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Controls {
 	/// <summary>
 	/// Interaction logic for BedrijvenLijstControl.xaml
 	/// </summary>

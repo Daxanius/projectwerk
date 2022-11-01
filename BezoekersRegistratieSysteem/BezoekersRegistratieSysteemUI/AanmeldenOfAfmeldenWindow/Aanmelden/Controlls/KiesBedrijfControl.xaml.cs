@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
