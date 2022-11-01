@@ -10,24 +10,14 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
+namespace BezoekersRegistratieSysteemUI.AanmeldWindow {
 	/// <summary>
-	/// Interaction logic for DashBoardPage.xaml
+	/// Interaction logic for RegistratieWindow.xaml
 	/// </summary>
-	public partial class AfsprakenPage : Page {
-		#region Public Propperty
-		public string Datum {
-			get {
-				return DateTime.Now.ToString("dd.MM");
-			}
-		}
-		#endregion
-
-		public AfsprakenPage() {
-			this.DataContext = this;
+	public partial class RegistratieWindow : Window {
+		public RegistratieWindow() {
 			InitializeComponent();
 		}
 	}

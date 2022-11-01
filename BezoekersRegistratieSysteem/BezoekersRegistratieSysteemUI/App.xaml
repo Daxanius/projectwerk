@@ -12,7 +12,7 @@
                 </ResourceDictionary>
                 <ResourceDictionary Source="\AanmeldenOfAfmeldenWindow\Aanmelden\Style\KiesBedrijfStyle.xaml" />
                 <ResourceDictionary Source="\AanmeldenOfAfmeldenWindow\Afmelden\Style\AfmeldStyle.xaml" />
-                <ResourceDictionary Source="\BeheerderWindow\Style\BeheerderDashboardStyles.xaml" />
+                <ResourceDictionary Source="\BeheerderWindow\Style\BeheerderWindowStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

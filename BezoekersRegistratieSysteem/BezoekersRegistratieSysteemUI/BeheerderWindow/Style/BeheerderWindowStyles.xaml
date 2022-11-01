@@ -173,7 +173,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <!--<Style TargetType="ScrollBar">
+    <Style TargetType="ScrollBar">
         <Setter Property="MinWidth" Value="17" />
         <Setter Property="MinHeight" Value="17" />
         <Setter Property="IsTabStop" Value="False" />
@@ -207,5 +207,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>-->
+    </Style>
 </ResourceDictionary>

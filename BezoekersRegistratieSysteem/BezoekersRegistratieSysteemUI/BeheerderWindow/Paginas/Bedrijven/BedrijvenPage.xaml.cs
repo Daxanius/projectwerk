@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Bedrijven {
+namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 	/// <summary>
 	/// Interaction logic for DashBoardPage.xaml
 	/// </summary>

@@ -1,4 +1,4 @@
-﻿namespace BezoekersRegistratieSysteemUI.BeheerderWindow.DTO {
+﻿namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 
 	public class BezoekerDTO {
 

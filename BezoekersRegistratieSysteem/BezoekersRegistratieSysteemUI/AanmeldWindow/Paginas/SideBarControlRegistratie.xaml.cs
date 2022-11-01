@@ -1,5 +1,4 @@
 ﻿using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.Controlls;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
@@ -16,16 +15,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas {
+namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.Paginas {
 	/// <summary>
-	/// Interaction logic for SideBarDashboard.xaml
+	/// Interaction logic for SideBarControl.xaml
 	/// </summary>
-	public partial class SideBarControl : UserControl {
-		public SideBarControl() {
+	public partial class SideBarControlRegistratie : UserControl {
+		public SideBarControlRegistratie() {
 			InitializeComponent();
 
 			foreach (Border border in BorderContainer.Children) {
-				border.Tag = "UnSelected";
+				((Icon)((StackPanel)border.Child).Children[0]).Opacity = .6;
 			}
 		}
 
@@ -35,30 +34,32 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas {
 			foreach (Border border in BorderContainer.Children) {
 				border.Tag = "UnSelected";
 				((Label)((StackPanel)(border).Child).Children[1]).FontWeight = FontWeights.Normal;
+				((Icon)((StackPanel)border.Child).Children[0]).Opacity = .6;
 			}
 
 			((Border)sender).Tag = "Selected";
 			((Label)((StackPanel)((Border)sender).Child).Children[1]).FontWeight = FontWeights.Bold;
+			((Icon)((StackPanel)((Border)sender).Child).Children[0]).Opacity = 1;
 
 
 			Window window = Window.GetWindow(this);
-			BeheerderDashboard beheerderDashboard = (BeheerderDashboard)window.DataContext;
+			BeheerderWindow BeheerderWindow = (BeheerderWindow)window.DataContext;
 
 			switch (tab) {
-				case "Dashboard":
-				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/DashBoard/DashBoardPage.xaml", UriKind.Relative);
+				case "Aanmelden":
+				BeheerderWindow.FrameControl.Source = new Uri("/AanmeldWindow/Paginas/Aanmelden/KiesBedrijfPage.xaml", UriKind.Relative);
 				break;
-				case "Bedrijven":
-				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Bedrijven/BedrijvenPage.xaml", UriKind.Relative);
+				case "Afmelden":
+				BeheerderWindow.FrameControl.Source = new Uri("/AanmeldWindow/Paginas/Afmelden/AfmeldPage.xaml", UriKind.Relative);
 				break;
-				case "Afspraken":
-				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Afspraken/AfsprakenPage.xaml", UriKind.Relative);
+				case "  ":
+				BeheerderWindow.FrameControl.Source = new Uri("", UriKind.Relative);
 				break;
-				case "Werknemers":
-				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Werknemers/WerknemersPage.xaml", UriKind.Relative);
+				case "   ":
+				BeheerderWindow.FrameControl.Source = new Uri("", UriKind.Relative);
 				break;
-				case "Bezoekers":
-				beheerderDashboard.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Bezoekers/BezoekersPage.xaml", UriKind.Relative);
+				case "    ":
+				BeheerderWindow.FrameControl.Source = new Uri("", UriKind.Relative);
 				break;
 			}
 		}

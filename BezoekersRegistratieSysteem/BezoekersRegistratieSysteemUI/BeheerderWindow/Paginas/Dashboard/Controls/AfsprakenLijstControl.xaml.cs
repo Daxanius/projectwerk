@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Dashboard.Controls {
+namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	/// <summary>
 	/// Interaction logic for AfsprakenLijstControl.xaml
 	/// </summary>

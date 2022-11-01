@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.DTO {
+namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 
 	public class AfspraakDTO {
 		public int Id { get; set; }
