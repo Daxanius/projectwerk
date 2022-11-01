@@ -36,6 +36,17 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 			this.DataContext = this;
 			InitializeComponent();
+
+			FrameControl.Navigating += OnPageNavigation;
+		}
+
+		private void OnPageNavigation(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e) {
+			string path = e.Uri.OriginalString;
+			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Bezoekers", "Dashboard", "Dashboard" };
+
+			//foreach (var item in collection) {
+
+			//}
 		}
 
 		public void ZetGeselecteerdBedrijf(BedrijfDTO bedrijf) {
