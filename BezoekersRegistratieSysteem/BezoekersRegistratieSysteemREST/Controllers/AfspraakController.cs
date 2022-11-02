@@ -26,7 +26,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// </summary>
 		/// <param name="afspraakId"></param>
 		/// <returns></returns>
-		[HttpGet("{id}")]
+		[HttpGet("{afspraakId}")]
 		public ActionResult<AfspraakOutputDTO> GeefAfspraak(long afspraakId)
 		{
 			try
