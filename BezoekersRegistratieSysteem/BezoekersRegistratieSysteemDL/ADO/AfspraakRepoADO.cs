@@ -491,7 +491,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
         public Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long bezoekerId, long bedrijfId) {
             try {
-                return GeefHuidigeAfspraken(bedrijfId, null, bedrijfId).First();
+                return GeefHuidigeAfspraken(bedrijfId, null, bezoekerId).First();
             } catch (Exception ex) {
                 throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
