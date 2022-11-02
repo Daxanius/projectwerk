@@ -24,9 +24,9 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
         //
 
         //Werknemer
-        IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemer(long werknemerId);
-		IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(long werknemerId);
-		IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(long werknemerId, DateTime datum);
+		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId);
+        IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId);
+        IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId);
 		//
         
         //Dag
@@ -34,19 +34,11 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
         //
         
         //Bezoeker
-		Afspraak GeefHuidigeAfspraakBezoeker(long id);
-		IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmail(string voornaam, string achternaam, string email);
-		IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDag(long id, DateTime datum);
+		Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long bezoekerId, long bedrijfId);
+        IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string voornaam, string achternaam, string email, long bedrijfId);
+		IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(long bezoekerId, DateTime datum, long bedrijfId);
         //
 
-		//NEW AND IMPROVED
-		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerOpBedrijf(long werknemerId, long bedrijfId);
-        IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerOpBedrijf(long werknemerId, long bedrijfId);
-        IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagOpBedrijf(long werknemerId, DateTime datum, long bedrijfId);
-        IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string voornaam, string achternaam, string email, long bedrijfId);
-		IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId);
-		Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long werknemerId, long bedrijfId);
 		IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers();
-		//
 	}
 }

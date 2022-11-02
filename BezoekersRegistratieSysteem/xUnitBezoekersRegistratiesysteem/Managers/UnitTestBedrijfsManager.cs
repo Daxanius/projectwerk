@@ -28,7 +28,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region Bedrijf Toevoegen
+        #region UnitTest VoegBedrijfToe
         [Fact]
         public void VoegBedrijfToe_Invalid_BedrijfLeeg()
         {
@@ -50,7 +50,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region Bedrijf Verwijderen
+        #region UnitTest VerwijderBedrijf
         [Fact]
         public void VerwijderBedrijf_Invalid_BedrijfLeeg()
         {
@@ -72,7 +72,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region Bedrijf Bewerken
+        #region UnitTest BewerkBedrijf
         [Fact]
         public void BewerkBedrijf_Invalid_BedrijfLeeg()
         {
@@ -100,12 +100,14 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _bedrijfManager = new BedrijfManager(_mockRepo.Object);
 
             //"BedrijfManager - BewerkBedrijf - bedrijf is niet gewijzigd"
+            _mockRepo.Setup(x => x.BestaatBedrijf(_vb)).Returns(true);
             _mockRepo.Setup(x => x.GeefBedrijf(_vb.Id)).Returns(_vb);
-            Assert.Throws<BedrijfManagerException>(() => _bedrijfManager.BewerkBedrijf(_vb));
+            var ex = Assert.Throws<BedrijfManagerException>(() => _bedrijfManager.BewerkBedrijf(_vb));
+            Assert.Equal("BedrijfManager - BewerkBedrijf - bedrijf is niet gewijzigd", ex.Message);
         }
         #endregion
 
-        #region Bedrijf Opvragen
+        #region UnitTest GeefBedrijf [id]
         [Fact]
         public void GeefBedrijfOpId_Invalid_BedrijfBestaatNiet()
         {
@@ -119,7 +121,21 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region Bedrijf Opvragen op Naam
+        #region UnitTest GeefBedrijven
+        [Fact]
+        public void GeefBedrijven_Invalid_BedrijvenBestaanNiet()
+        {
+            _mockRepo = new Mock<IBedrijfRepository>();
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+
+            //"BedrijfManager - GeefBedrijven - er zijn geen bedrijven"
+            _mockRepo.Setup(x => x.GeefBedrijven()).Returns(new List<Bedrijf>());
+            var ex = _bedrijfManager.GeefBedrijven();
+            Assert.Empty(ex);
+        }
+        #endregion
+
+        #region UnitTest GeefBedrijf [naam]
         [Theory]
         [InlineData(null)]
         [InlineData("")]
