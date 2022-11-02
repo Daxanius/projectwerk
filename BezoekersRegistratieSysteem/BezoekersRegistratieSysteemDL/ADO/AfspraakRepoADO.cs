@@ -628,13 +628,12 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
                         cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
                     }
-                    query += " ORDER BY b.Naam, w.VNaam, w.ANaam";
+                    query += " ORDER BY b.id, w.id";
                     cmd.CommandText = query;
                     IDataReader reader = cmd.ExecuteReader();
                     List<Afspraak> afspraken = new List<Afspraak>();
                     Werknemer werknemer = null;
                     Bedrijf bedrijf = null;
-                    string werknemerMail = "";
                     while (reader.Read()) {
                         //Afspraak portie
                         long afspraakId = (long)reader["AfspraakId"];
@@ -661,10 +660,10 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                             long werknemerId = (long)reader["WerknemerId"];
                             string werknemerANaam = (string)reader["WerknemerANaam"];
                             string werknemerVNaam = (string)reader["WerknemerVNaam"];
-                            werknemerMail = (string)reader["WerknemerEmail"];
-                            werknemer = new(werknemerId, werknemerVNaam, werknemerANaam);
-                        } 
+                            werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
+                        }
                         //functie portie
+                        string werknemerMail = (string)reader["WerknemerEmail"];
                         string functieNaam = (string)reader["FunctieNaam"];
 						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
                         afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
@@ -847,6 +846,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.CommandText = query;
                     IDataReader reader = cmd.ExecuteReader();
                     List<Afspraak> afspraken = new List<Afspraak>();
+                    Werknemer werknemer = null;
+                    Bedrijf bedrijf = null;
                     while (reader.Read()) {
                         //Afspraak portie
                         long afspraakId = (long)reader["AfspraakId"];
@@ -859,22 +860,26 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         string bezoekerMail = (string)reader["BezoekerMail"];
                         string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
                         //bedrijf portie
-                        long bedrijfId = (long)reader["BedrijfId"];
-                        string bedrijfNaam = (string)reader["BedrijfNaam"];
-                        string bedrijfBTWNr = (string)reader["BTWNr"];
-                        string bedrijfTeleNr = (string)reader["TeleNr"];
-                        string bedrijfMail = (string)reader["BedrijfEmail"];
-                        string bedrijfAdres = (string)reader["BedrijfAdres"];
+                        if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
+                            long bedrijfId = (long)reader["BedrijfId"];
+                            string bedrijfNaam = (string)reader["BedrijfNaam"];
+                            string bedrijfBTWNr = (string)reader["BTWNr"];
+                            string bedrijfTeleNr = (string)reader["TeleNr"];
+                            string bedrijfMail = (string)reader["BedrijfEmail"];
+                            string bedrijfAdres = (string)reader["BedrijfAdres"];
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                        }
                         //werknemer portie
-                        long werknemerId = (long)reader["WerknemerId"];
-                        string werknemerANaam = (string)reader["WerknemerANaam"];
-                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
-                        string werknemerMail = (string)reader["WerknemerEmail"];
+                        if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
+                            long werknemerId = (long)reader["WerknemerId"];
+                            string werknemerANaam = (string)reader["WerknemerANaam"];
+                            string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                            werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
+                        }
                         //functie portie
                         string functieNaam = (string)reader["FunctieNaam"];
-                        Werknemer werknemer = new(werknemerId, werknemerVNaam, werknemerANaam);
-                        Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
-						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                        string werknemerMail = (string)reader["WerknemerEmail"];
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
                         afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
                     }
                     return afspraken.AsReadOnly();
