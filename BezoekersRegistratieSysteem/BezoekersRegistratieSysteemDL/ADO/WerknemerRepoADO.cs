@@ -590,5 +590,10 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 con.Close();
             }
         }
+
+        public IReadOnlyList<Werknemer> GeefWerknemersOpFunctie(string functie)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

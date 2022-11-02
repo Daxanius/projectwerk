@@ -24,5 +24,6 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(long id);
         bool BestaatFunctie(string functie);
         void VoegFunctieToe(string functie);
+        IReadOnlyList<Werknemer> GeefWerknemersOpFunctie(string functie);
     }
 }

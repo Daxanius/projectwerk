@@ -4,7 +4,7 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 using Moq;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
-	public class UnitTestAfspraakManagerTest
+	public class UnitTestAfspraakManager
     {
         //AF
         
@@ -14,15 +14,33 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		#endregion
 
 		#region Valid Info
-		private static DateTime _st = DateTime.Now;
-		private static DateTime _et = _st.AddHours(2);
-		private static Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-		private static Werknemer _w = new(10, "werknemer", "werknemersen");
+		private  DateTime _st;
+		private  DateTime _et;
+		private  Bezoeker _b;
+        private Werknemer _w;
 
-        private static Bedrijf _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+        private Bedrijf _bd;
 
-        private Afspraak _ia = new(_st, _bd, _b, _w);
-        private Afspraak _oa = new (10, _st, _et, _bd, _b, _w);
+        private Afspraak _ia;
+        private Afspraak _oa;
+        #endregion
+
+        #region Initialiseren
+        public UnitTestAfspraakManager()
+        {
+            _st = DateTime.Now;
+            _et = _st.AddHours(2);
+
+            _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
+            _w = new(10, "werknemer", "werknemersen");
+
+            _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+
+            _bd.VoegWerknemerToeInBedrijf(_w, "werknemer.werknemersen@email.com", "functie");
+            
+            _ia = new(_st, _bd, _b, _w);
+            _oa = new(10, _st, _et, _bd, _b, _w);
+        }
         #endregion
 
         #region UnitTest Afspraak toevoegen

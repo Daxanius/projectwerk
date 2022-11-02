@@ -229,5 +229,15 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			return true;
 		}
 
+		public override bool Equals(object? obj)
+		{
+			return obj is Werknemer werknemer &&
+				   Id == werknemer.Id;
+		}
+
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(Id);
+		}
 	}
 }
