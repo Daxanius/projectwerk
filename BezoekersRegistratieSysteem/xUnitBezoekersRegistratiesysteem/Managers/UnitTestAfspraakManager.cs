@@ -4,7 +4,7 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 using Moq;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
-	public class UnitTestAfspraakManagerTest
+	public class UnitTestAfspraakManager
     {
         //AF
         
@@ -21,9 +21,17 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
         private static Bedrijf _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 
-        private Afspraak _ia = new(_st, _bd, _b, _w);
-        private Afspraak _oa = new (10, _st, _et, _bd, _b, _w);
+        private Afspraak _ia;
+        private Afspraak _oa;
         #endregion
+        
+        public UnitTestAfspraakManager()
+        {
+            if(!_bd.GeefWerknemers().Contains(_w)) _bd.VoegWerknemerToeInBedrijf(_w, "werknemer.werknemersen@email.com", "functie");
+            
+            _ia = new(_st, _bd, _b, _w);
+            _oa = new(10, _st, _et, _bd, _b, _w);
+        }
 
         #region UnitTest Afspraak toevoegen
         [Fact]

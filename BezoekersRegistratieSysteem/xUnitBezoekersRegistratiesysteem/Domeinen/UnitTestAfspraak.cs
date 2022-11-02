@@ -9,14 +9,33 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 
 		#region Valid Info
 		private Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-		private Werknemer _w = new(10, "werknemer", "werknemersen");
-		private Bedrijf _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+        private Werknemer _w = new(10, "werknemer", "werknemersen");
+        private Bedrijf _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
         private static DateTime _st = DateTime.Now;
 		private static DateTime _et = _st.AddHours(2);
-		#endregion
+        #endregion
 
-		#region UnitTest Id
-		[Fact]
+        #region Invalid Info
+        private Bezoeker _ivb = new(1, "anderebezoeker", "anderebezoekersen", "anderebezoeker.bezoekersen@email.com", "anderbezoekerbedrijf");
+        private Werknemer _ivw = new(1, "anderewerknemer", "anderewerknemersen");
+        private Bedrijf _ivbd = new(1, "anderbedrijf", "BE0676747521", true, "876543210", "anderbedrijf@email.com", "anderbedrijfstraat 10");
+        #endregion
+
+        #region Setup
+        public UnitTestAfspraak()
+        {
+            //For Valid Paths
+			_bd.VoegWerknemerToeInBedrijf(_w, "werknemer.werknemersen@email.com", "functie");
+            //
+
+            //For Invalid Paths
+            _ivbd.VoegWerknemerToeInBedrijf(_ivw, "anderewerknemer.werknemersen@email.com", "anderefunctie");
+            //
+        }
+        #endregion
+
+        #region UnitTest Id
+        [Fact]
 		public void ZetId_Valid()
 		{
 			Afspraak a = new(10, _st, null, _bd,_b, _w);
@@ -114,6 +133,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		}
 		#endregion
 
+        //TODO Theory invalid
 		#region UnitTest Afspraak Gelijk
 		[Fact]
 		public void AfspraakIsGelijk_Valid()
@@ -126,11 +146,12 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		public void AfspraakIsGelijk_Invalid()
 		{
 			Afspraak a1 = new(10, _st, null, _bd, _b, _w);
-			Afspraak a2 = new(1, _st.AddHours(1), _et, new(1, "anderbedrijf", "BE0676747521", true, "876543210", "anderbedrijf@email.com", "anderbedrijfstraat 10"),new(1, "anderebezoeker", "anderebezoekersen", "anderebezoeker.bezoekersen@email.com", "anderbezoekerbedrijf"), new(1, "anderewerknemer", "andere werknemersen"));
+			Afspraak a2 = new(1, _st.AddHours(1), _et, _ivbd, _ivb, _ivw);
 
 			Assert.False(a1.AfspraakIsGelijk(a2));
 		}
 		#endregion
+        //
 
 		#region UnitTest Afspraak ctor
 		[Fact]

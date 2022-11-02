@@ -4,7 +4,7 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 using Moq;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
-	public class UnitTestBedrijfsManagerTest {
+	public class UnitTestBedrijfsManager {
         
         //AF
 
