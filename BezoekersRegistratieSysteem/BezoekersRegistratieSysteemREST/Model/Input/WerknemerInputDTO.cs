@@ -1,9 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemREST.Model.Input;
-using BezoekersRegistratieSysteemREST.Model.Output;
 
 namespace BezoekersRegistratieSysteemREST.Model {
+
 	public class WerknemerInputDTO {
+
 		public Werknemer NaarBusiness() {
 			return new(Voornaam, Achternaam);
 		}

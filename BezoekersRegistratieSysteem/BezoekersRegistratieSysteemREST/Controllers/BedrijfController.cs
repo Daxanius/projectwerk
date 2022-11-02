@@ -26,8 +26,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// </summary>
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
-		[HttpGet("{id}")]
-		public ActionResult<BedrijfOutputDTO> GeefBedrijf(long bedrijfId)
+		[HttpGet("id/{bedrijfId}")]
+		public ActionResult<BedrijfOutputDTO> GeefBedrijfOpId(long bedrijfId)
 		{
 			try
 			{
@@ -43,8 +43,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// </summary>
 		/// <param name="bedrijfNaam"></param>
 		/// <returns></returns>
-		[HttpGet("{naam}")]
-		public ActionResult<BedrijfOutputDTO> GeefBedrijf(string bedrijfNaam)
+		[HttpGet("naam/{bedrijfNaam}")]
+		public ActionResult<BedrijfOutputDTO> GeefBedrijfOpNaam(string bedrijfNaam)
 		{
 			try
 			{
@@ -65,7 +65,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			try
 			{
 				// Kan dit fout gaan?
-				return Ok(BedrijfOutputDTO.NaarDTO(_bedrijfManager.Geefbedrijven()));
+				return Ok(BedrijfOutputDTO.NaarDTO(_bedrijfManager.GeefBedrijven()));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex);
@@ -78,7 +78,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// </summary>
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
-		[HttpDelete("{bedrijfId}")]
+		[HttpDelete("id/{bedrijfId}")]
 		public IActionResult VerwijderBedrijf(long bedrijfId)
 		{
 			try
@@ -116,7 +116,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <param name="bedrijfId"></param>
 		/// <param name="bedrijfInput"></param>
 		/// <returns></returns>
-		[HttpPut("{bedrijfId}")]
+		[HttpPut("id/{bedrijfId}")]
 		public ActionResult<BedrijfOutputDTO> BewerkBedrijf(long bedrijfId, [FromBody] BedrijfInputDTO bedrijfInput)
 		{
 			try
@@ -137,7 +137,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// </summary>
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
-		[HttpGet("werknemer/{bedrijfId}")]
+		[HttpGet("werknemer/id/{bedrijfId}")]
 		public ActionResult<IEnumerable<WerknemerOutputDTO>> GetWerknemers(long bedrijfId)
 		{
 			try
@@ -178,7 +178,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <param name="werknemerId"></param>
 		/// <param name="werknemerInfo"></param>
 		/// <returns></returns>
-		[HttpPost("werknemer/{werknemerId}")]
+		[HttpPost("werknemer/id/{werknemerId}")]
 		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegwegnemerToeAanBedrijf(long werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo)
 		{
 			try

@@ -1,7 +1,9 @@
 ﻿using System.Runtime.Serialization;
 
 namespace BezoekersRegistratieSysteemBL.Exceptions.ManagerException {
+
 	public class ParkeerManagerException : Exception {
+
 		public ParkeerManagerException() {
 		}
 

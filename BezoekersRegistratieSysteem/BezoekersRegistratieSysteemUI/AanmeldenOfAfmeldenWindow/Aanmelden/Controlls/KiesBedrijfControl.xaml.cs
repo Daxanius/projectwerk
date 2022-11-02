@@ -1,28 +1,16 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
-using BezoekersRegistratieSysteemUI.Exceptions;
-using System;
-using System.Collections.Generic;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.Controlls;
 
 /// <summary>
 /// Interaction logic for KiesBedrijfControl.xaml
 /// </summary>
-public partial class KiesBedrijfControl : UserControl
-{
+public partial class KiesBedrijfControl : UserControl {
+
 	/// <summary>
 	/// Lijst met alle bedrijven die de bezoeker kan bezoeken
 	/// </summary>
@@ -31,8 +19,7 @@ public partial class KiesBedrijfControl : UserControl
 	/// <summary>
 	/// Dit kennen jullie wel he ;-)
 	/// </summary>
-	public KiesBedrijfControl()
-	{
+	public KiesBedrijfControl() {
 		GetBedrijvenToeAanLijst();
 		InitializeComponent();
 	}
@@ -42,11 +29,9 @@ public partial class KiesBedrijfControl : UserControl
 	/// </summary>
 	/// <param name="sender">Control info</param>
 	/// <param name="e">Click info</param>
-	private void SelecteerBedrijfHandler(object sender, MouseButtonEventArgs e)
-	{
+	private void SelecteerBedrijfHandler(object sender, MouseButtonEventArgs e) {
 		ListBoxItem bedrijfItemUitLijst = (ListBoxItem)sender;
-		if (bedrijfItemUitLijst != null)
-		{
+		if (bedrijfItemUitLijst != null) {
 			//Selecteer het item
 			bedrijfItemUitLijst.IsSelected = true;
 
@@ -66,8 +51,7 @@ public partial class KiesBedrijfControl : UserControl
 	/// <summary>
 	/// HTTP GET request om alle bedrijven te verkrijgen van de datasource
 	/// </summary>
-	private void GetBedrijvenToeAanLijst()
-	{
+	private void GetBedrijvenToeAanLijst() {
 		//List<Bedrijf> bedrijven = [GET] /api/bedrijf => Alle bedrijven.
 	}
 
@@ -76,8 +60,7 @@ public partial class KiesBedrijfControl : UserControl
 	/// </summary>
 	/// <param name="sender">Button info</param>
 	/// <param name="e">Click info</param>
-	private void GaTerug(object sender, MouseButtonEventArgs e)
-	{
+	private void GaTerug(object sender, MouseButtonEventArgs e) {
 		bedrijfLijst.SelectedItem = null;
 
 		Window window = Window.GetWindow(this);

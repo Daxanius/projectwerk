@@ -3,7 +3,9 @@ using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.DTO;
 
 namespace xUnitBezoekersRegistratiesysteem {
+
 	public class UnitTestNutvoorziening {
+
 		#region VerwijderWhitespace
 
 		[Theory]
@@ -31,9 +33,10 @@ namespace xUnitBezoekersRegistratiesysteem {
 			Assert.Equal("ABC", Nutsvoorziening.VerwijderWhitespace(whitespace));
 		}
 
-		#endregion
+		#endregion VerwijderWhitespace
 
 		#region ControleerBTWNummer
+
 		[Theory]
 		[InlineData(null)]
 		[InlineData("")]
@@ -62,9 +65,11 @@ namespace xUnitBezoekersRegistratiesysteem {
 			(bool valid, DTOBtwInfo? info) = Nutsvoorziening.GeefBTWInfo(btw);
 			Assert.True(Nutsvoorziening.ControleerBTWNummer(btw));
 		}
-		#endregion
+
+		#endregion ControleerBTWNummer
 
 		#region BTWInfo
+
 		[Theory]
 		[InlineData("")]
 		[InlineData(" ")]
@@ -105,9 +110,11 @@ namespace xUnitBezoekersRegistratiesysteem {
 			Assert.False(valid);
 			Assert.Null(info);
 		}
-		#endregion
+
+		#endregion BTWInfo
 
 		#region IsEmailGeldig
+
 		[Theory]
 		[InlineData(null)]
 		[InlineData("")]
@@ -131,6 +138,7 @@ namespace xUnitBezoekersRegistratiesysteem {
 		public void IsEmailGeldig_Valid(string email) {
 			Assert.True(Nutsvoorziening.IsEmailGeldig(email));
 		}
-		#endregion
+
+		#endregion IsEmailGeldig
 	}
 }

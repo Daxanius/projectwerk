@@ -1,7 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemREST.Model {
+
 	public class BezoekerInputDTO {
+
 		public Bezoeker NaarBusiness() {
 			return new(Voornaam, Achternaam, Email, Bedrijf);
 		}

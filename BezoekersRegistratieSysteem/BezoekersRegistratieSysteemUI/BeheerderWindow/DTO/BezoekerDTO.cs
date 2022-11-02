@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.DTO
-{
-	public class BezoekerDTO
-	{
-		public BezoekerDTO(int id, string voornaam, string achternaam, string email, string bedrijf)
-		{
+	public class BezoekerDTO {
+
+		public BezoekerDTO(int id, string voornaam, string achternaam, string email, string bedrijf) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
@@ -17,8 +10,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindow.DTO
 			Bedrijf = bedrijf;
 		}
 
-		public BezoekerDTO(string voornaam, string achternaam, string email, string bedrijf)
-		{
+		public BezoekerDTO(string voornaam, string achternaam, string email, string bedrijf) {
 			Voornaam = voornaam;
 			Achternaam = achternaam;
 			Email = email;

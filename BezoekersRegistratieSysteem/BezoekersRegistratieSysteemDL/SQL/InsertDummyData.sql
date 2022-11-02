@@ -28,7 +28,7 @@ INSERT INTO Bezoeker
 		  ('Lars', 'Mars', 'ISh1dd3dMyPant@Outlook.com', 'Dominos')
 
 INSERT INTO Werknemer
-	(VNaam, ANaam, Email)
+	(VNaam, ANaam)
 	VALUES('Jan', 'Cornelis'),
 		  ('Piet', 'Comelis'),
 		  ('Joris', 'Conelis')

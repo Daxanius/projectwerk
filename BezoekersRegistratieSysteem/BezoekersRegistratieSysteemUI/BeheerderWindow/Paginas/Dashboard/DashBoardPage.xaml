@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.DashBoardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dashboard="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="DashBoardPage"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <DockPanel>
+        <dashboard:BedrijvenGridControl DockPanel.Dock="Top" />
+        <Border
+            Margin="20"
+            Padding="20"
+            Background="{StaticResource LichtGrijsAccent}"
+            CornerRadius="25"
+            DockPanel.Dock="Bottom">
+            <DockPanel>
+                <TextBlock
+                    Padding="5,0,0,10"
+                    DockPanel.Dock="Top"
+                    FontSize="28"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource DonkerBlauw}">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} | Afspraken">
+                            <Binding Path="Datum" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <dashboard:AfsprakenLijstControl />
+            </DockPanel>
+        </Border>
+    </DockPanel>
+</Page>

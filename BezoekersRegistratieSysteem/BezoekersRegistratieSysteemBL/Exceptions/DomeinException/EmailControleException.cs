@@ -1,7 +1,9 @@
 ﻿using System.Runtime.Serialization;
 
 namespace BezoekersRegistratieSysteemBL.Exceptions.DomeinException {
+
 	public class EmailControleException : Exception {
+
 		public EmailControleException() {
 		}
 
