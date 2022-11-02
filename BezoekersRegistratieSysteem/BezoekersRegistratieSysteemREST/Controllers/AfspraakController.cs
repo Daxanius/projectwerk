@@ -165,10 +165,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 
 
 		/// <summary>
-		/// Beeindig een afspraak
+		/// Beeindig een afspraak op Email
 		/// </summary>
-		/// <param name="afspraakId"></param>
-		/// <param name="bezoekerInput"></param>
+		/// <param name="email"></param>
 		/// <returns></returns>
 		[HttpPut("end")]
 		public IActionResult End([FromQuery] string email)
