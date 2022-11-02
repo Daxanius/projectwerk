@@ -765,6 +765,9 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             throw new NotImplementedException();
         }
 
+        public Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long werknemerId, long bedrijfId) {
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// Geeft lijst van afspraken op basis van werknemer en datum
         /// </summary>
