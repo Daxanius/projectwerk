@@ -152,6 +152,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 				return false;
 			if (afspraak.Werknemer != Werknemer)
 				return false;
+			if (afspraak.Bedrijf != Bedrijf)
+				return false;
 			return true;
 		}
 	}
