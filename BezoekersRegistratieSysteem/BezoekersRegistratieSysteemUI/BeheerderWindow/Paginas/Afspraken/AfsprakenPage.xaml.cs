@@ -33,18 +33,47 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			}
 			set => _selectedDatum = value;
 		}
-
 		public BedrijfDTO GeselecteerdBedrijf { get; set; }
-		public ObservableCollection<string> MedewerkersVanGeselecteerdBedrijf { get; set; } = new();
+		public ObservableCollection<WerknemerDTO> MedewerkersVanGeselecteerdBedrijf { get; set; } = new();
+		public ObservableCollection<AfspraakDTO> AfsprakenVanGeselecteerdeMedewerker { get; set; } = new();
 
 		public AfsprakenPage() {
 			GeselecteerdBedrijf = BeheerderWindow.GeselecteerdBedrijf;
-			MedewerkersVanGeselecteerdBedrijf.Add("Weude - CEO");
-			MedewerkersVanGeselecteerdBedrijf.Add("Balding - CEOO");
-			MedewerkersVanGeselecteerdBedrijf.Add("Baldering - CEOOOO");
-			MedewerkersVanGeselecteerdBedrijf.Add("Stan - CEOOOOO");
+			MedewerkersVanGeselecteerdBedrijf.Add(new WerknemerDTO(1, "Stan", "Persoons", "Stan.Persoons@student.hogent.be"));
+			MedewerkersVanGeselecteerdBedrijf.Add(new WerknemerDTO(2, "Stan1", "Persoons1", "Stan1.Persoons@student.hogent.be"));
+			MedewerkersVanGeselecteerdBedrijf.Add(new WerknemerDTO(3, "Stan2", "Persoons2", "Stan2.Persoons@student.hogent.be"));
+			MedewerkersVanGeselecteerdBedrijf.Add(new WerknemerDTO(4, "Stan3", "Persoons3", "Stan3.Persoons@student.hogent.be"));
+			MedewerkersVanGeselecteerdBedrijf.Add(new WerknemerDTO(5, "Stan4", "Persoons4", "Stan4.Persoons@student.hogent.be"));
+			MedewerkersVanGeselecteerdBedrijf.Add(new WerknemerDTO(6, "Stan5", "Persoons5", "Stan5.Persoons@student.hogent.be"));
+
+			AfsprakenVanGeselecteerdeMedewerker = new() { new AfspraakDTO(1, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(1, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now, DateTime.Now.AddHours(8)),
+				new AfspraakDTO(2, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(2, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(1)),
+				new AfspraakDTO(3, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(3, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(2)),
+				new AfspraakDTO(4, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(4, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(3)),
+				new AfspraakDTO(5, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(5, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(1)),
+				new AfspraakDTO(6, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(6, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(2)),
+				new AfspraakDTO(7, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(7, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(3)),
+				new AfspraakDTO(8, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(8, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(1)),
+				new AfspraakDTO(9, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(9, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(2), DateTime.Now.AddHours(7)),
+				new AfspraakDTO(10, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(10, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(3), DateTime.Now.AddHours(7)),
+				new AfspraakDTO(11, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(11, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(1), DateTime.Now.AddHours(6)),
+				new AfspraakDTO(12, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(12, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(2)),
+				new AfspraakDTO(13, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(13, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(3)),
+				new AfspraakDTO(14, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(14, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(1)),
+				new AfspraakDTO(15, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(15, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(2)),
+				new AfspraakDTO(16, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(16, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(3)),
+				new AfspraakDTO(17, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(17, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(1)),
+				new AfspraakDTO(18, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(18, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(2)),
+				new AfspraakDTO(19, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(19, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(3)),
+				new AfspraakDTO(20, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(20, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(1)),
+				new AfspraakDTO(21, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(21, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(2), DateTime.Now.AddHours(7)),
+				new AfspraakDTO(22, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(22, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(3), DateTime.Now.AddHours(7)) };
+
 			this.DataContext = this;
 			InitializeComponent();
+
+			WerknemerLijst.ItemSource = MedewerkersVanGeselecteerdBedrijf;
+			WerknemerAfsprakenLijst.ItemSource = AfsprakenVanGeselecteerdeMedewerker;
 		}
 
 		private readonly Regex _regex = new Regex("[^0-9./]+");
@@ -75,6 +104,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			StackPanel stackpanel = (StackPanel)border.Child;
 			TextBlock textBlock = (TextBlock)stackpanel.Children[1];
 			AfsprakenLijstControl afsprakenLijstControl;
+			AfsprakenLijstControl werknemersLijstControl;
 
 			switch (textBlock.Text) {
 				case "Huidige Afspraken":

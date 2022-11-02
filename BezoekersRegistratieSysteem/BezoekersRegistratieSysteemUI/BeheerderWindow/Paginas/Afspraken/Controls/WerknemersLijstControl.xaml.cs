@@ -20,24 +20,24 @@ using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls {
 	/// <summary>
-	/// Interaction logic for AfsprakenLijstControl.xaml
+	/// Interaction logic for WerknemersLijstControl.xaml
 	/// </summary>
-	public partial class AfsprakenLijstControl : UserControl {
+	public partial class WerknemersLijstControl : UserControl {
 		public bool HeeftData { get; set; }
 
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
-		  typeof(ObservableCollection<AfspraakDTO>),
-		  typeof(AfsprakenLijstControl),
-		  new PropertyMetadata(new ObservableCollection<AfspraakDTO>())
-		 );
+		  typeof(ObservableCollection<WerknemerDTO>),
+		  typeof(WerknemersLijstControl),
+		  new PropertyMetadata(new ObservableCollection<WerknemerDTO>())
+	  );
 
-		public ObservableCollection<AfspraakDTO> ItemSource {
-			get { return (ObservableCollection<AfspraakDTO>)GetValue(ItemSourceProperty); }
+		public ObservableCollection<WerknemerDTO> ItemSource {
+			get { return (ObservableCollection<WerknemerDTO>)GetValue(ItemSourceProperty); }
 			set { SetValue(ItemSourceProperty, value); }
 		}
 
-		public AfsprakenLijstControl() {
+		public WerknemersLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
 
@@ -46,13 +46,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
 			Button? b = sender as Button;
-			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
+			WerknemerDTO? werknemer = b?.CommandParameter as WerknemerDTO;
 
-			OpenAfspraakDetail(afspraak);
-		}
-
-		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
-
+			//Zet de geselecteerde werknemer in de DataContext van de BeheerWindow
 		}
 
 		private Border _selecteditem;

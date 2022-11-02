@@ -140,31 +140,6 @@
                 </Border>
             </UniformGrid>
         </Grid>
-        <DockPanel Margin="0,0,0,25" DockPanel.Dock="Top">
-            <StackPanel
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <Label
-                    Margin="0,0,10,0"
-                    VerticalContentAlignment="Center"
-                    Content="Kies Werknemer"
-                    FontSize="24"
-                    FontWeight="Bold"
-                    Foreground="{StaticResource DonkerBlauw}" />
-                <ComboBox
-                    Height="50"
-                    MinWidth="120"
-                    MaxWidth="350"
-                    Background="{StaticResource DonkerBlauw}"
-                    Cursor="Hand"
-                    DockPanel.Dock="Right"
-                    FontSize="24"
-                    FontWeight="Bold"
-                    Foreground="{StaticResource MainAchtergrond}"
-                    ItemsSource="{Binding MedewerkersVanGeselecteerdBedrijf}" />
-            </StackPanel>
-        </DockPanel>
         <DockPanel Name="FilterContainer" LastChildFill="True">
             <Grid>
                 <DockPanel Name="HuidigeAfsprakenTab">
@@ -210,46 +185,115 @@
                     </Border>
                 </DockPanel>
                 <DockPanel Name="WerknemerAfsprakenTab" Visibility="Collapsed">
-                    <Border
-                        Padding="20"
-                        Background="{StaticResource LichtGrijsAccent}"
-                        CornerRadius="25">
-                        <DockPanel>
-                            <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    FontSize="30"
-                                    FontWeight="Bold"
-                                    Foreground="{StaticResource DonkerBlauw}"
-                                    Text="Werknemer Afspraken" />
-                                <StackPanel
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Right"
-                                    Orientation="Horizontal">
-                                    <Border CornerRadius="15">
-                                        <TextBox
-                                            Padding="10"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent"
-                                            BorderThickness="0"
-                                            FontSize="20"
-                                            FontWeight="DemiBold"
-                                            Foreground="{StaticResource DonkerBlauw}"
-                                            LostKeyboardFocus="DatePickerInput_LostKeyboardFocus"
-                                            PreviewTextInput="IsDatePickerGeldigeText"
-                                            Style="{StaticResource DefaultTextBoxStyle}"
-                                            Text="{Binding Datum}"
-                                            TextAlignment="Center" />
-                                    </Border>
-                                </StackPanel>
-                            </Grid>
-                            <controls:AfsprakenLijstControl x:Name="WerknemerAfsprakenLijst" />
-                        </DockPanel>
-                    </Border>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height=".1*" />
+                            <RowDefinition Height="1.5*" />
+                        </Grid.RowDefinitions>
+                        <!--#region WerknemerLijst-->
+                        <Border
+                            Grid.Row="0"
+                            Padding="20"
+                            Background="{StaticResource LichtGrijsAccent}"
+                            CornerRadius="25"
+                            DockPanel.Dock="Top">
+                            <DockPanel>
+                                <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        FontSize="24"
+                                        FontWeight="Bold"
+                                        Foreground="{StaticResource DonkerBlauw}"
+                                        Text="Werknemers" />
+                                    <StackPanel Grid.Column="1">
+                                        <StackPanel HorizontalAlignment="Right">
+                                            <TextBox DockPanel.Dock="Left">
+                                                <TextBox.Template>
+                                                    <ControlTemplate TargetType="TextBox">
+                                                        <Border Background="{StaticResource MainAchtergrond}" CornerRadius="25">
+                                                            <StackPanel
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Orientation="Horizontal">
+                                                                <iconspresenter:Icon
+                                                                    Margin="10,10,0,0"
+                                                                    CircleBackground="Transparent"
+                                                                    IconSize="45"
+                                                                    IconSource="../VergrootGlasIcon.xaml" />
+                                                                <TextBox
+                                                                    MinWidth="200"
+                                                                    MaxWidth="400"
+                                                                    Padding="0,0,15,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Background="Transparent"
+                                                                    BorderBrush="Transparent"
+                                                                    BorderThickness="0"
+                                                                    FontSize="24"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="{StaticResource DonkerGrijs}"
+                                                                    Text="{TemplateBinding Text}" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </TextBox.Template>
+                                            </TextBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                                <controls:WerknemersLijstControl x:Name="WerknemerLijst" />
+                            </DockPanel>
+                        </Border>
+                        <!--#endregion-->
+                        <!--#region Werknemer Afspraken Lijst-->
+                        <Border
+                            Grid.Row="2"
+                            Padding="20"
+                            Background="{StaticResource LichtGrijsAccent}"
+                            CornerRadius="25"
+                            DockPanel.Dock="Bottom">
+                            <DockPanel>
+                                <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        FontSize="26"
+                                        FontWeight="Bold"
+                                        Foreground="{StaticResource DonkerBlauw}"
+                                        Text="Werknemer Afspraken" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        Orientation="Horizontal">
+                                        <Border CornerRadius="15">
+                                            <TextBox
+                                                Padding="10"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                BorderThickness="0"
+                                                FontSize="20"
+                                                FontWeight="DemiBold"
+                                                Foreground="{StaticResource DonkerBlauw}"
+                                                LostKeyboardFocus="DatePickerInput_LostKeyboardFocus"
+                                                PreviewTextInput="IsDatePickerGeldigeText"
+                                                Style="{StaticResource DefaultTextBoxStyle}"
+                                                Text="{Binding Datum}"
+                                                TextAlignment="Center" />
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
+                                <controls:AfsprakenLijstControl x:Name="WerknemerAfsprakenLijst" />
+                            </DockPanel>
+                        </Border>
+                        <!--#endregion-->
+                    </Grid>
                 </DockPanel>
                 <DockPanel Name="BezoekerAfsprakenTab" Visibility="Collapsed">
                     <Border
