@@ -76,7 +76,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				{
 					return Ok(AfsrpaakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerDag(dag ?? DateTime.Now)));
 				}
-
+				
 				// Als alleen de werknemer is meegegeven
 				if (werknemer != null)
 				{
@@ -143,6 +143,26 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+
+		/// <summary>
+		/// Beeindig een afspraak
+		/// </summary>
+		/// <param name="afspraakId"></param>
+		/// <param name="bezoekerInput"></param>
+		/// <returns></returns>
+		[HttpPut("end/{afspraakId}")]
+		public IActionResult End(long afspraakId, BezoekerInputDTO bezoekerInput) {
+			try {
+				Afspraak afspraak = _afspraakManager.GeefAfspraak(afspraakId);
+				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
+				afspraak.ZetBezoeker(bezoeker);
+				_afspraakManager.BeeindigAfspraakBezoeker(afspraak);
+				return Ok();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
 
 		/// <summary>
 		/// Beeindig een afspraak
