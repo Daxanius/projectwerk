@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
@@ -143,10 +144,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			BedrijfDTO bedrijf = (BedrijfDTO)((Border)sender).DataContext;
 
 			Window window = Window.GetWindow(this);
-			BeheerderWindow BeheerderWindow = (BeheerderWindow)window.DataContext;
+			BeheerderWindow beheerderWindow = (BeheerderWindow)window.DataContext;
 
-			BeheerderWindow.ZetGeselecteerdBedrijf(bedrijf);
-			BeheerderWindow.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Afspraken/AfsprakenPage.xaml", UriKind.Relative);
+			beheerderWindow.ZetGeselecteerdBedrijf(bedrijf);
+			beheerderWindow.FrameControl.Navigate(new AfsprakenPage());
 		}
 	}
 }

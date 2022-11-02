@@ -59,6 +59,9 @@
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\AfsprakenPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\AfsprakenLijstControl.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 		<Compile Update="BeheerderWindow\Paginas\Werknemers\WerknemersPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
@@ -84,6 +87,10 @@
 		  <SubType>Designer</SubType>
 		</Page>
 		<Page Update="BeheerderWindow\Paginas\Afspraken\AfsprakenPage.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\AfsprakenLijstControl.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
