@@ -64,17 +64,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				{
 					bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId ?? 0);
 				}
-
-				// Als beide de dag EN de werknemer zijn meegegeven
-				if (werknemer != null && dag != null && bedrijf != null)
-				{
-					return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerWerknemerOpDagPerBedrijf(werknemer, dag ?? DateTime.Now, bedrijf)));
-				}
-
-				// Als een bedrijf en een dag zijn gegeven
-				if (bedrijf != null && dag != null) {
-					return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerBedrijfOpDag(bedrijf, dag ?? DateTime.Now)));
-				}
 				
 				// Als alleen de werknemer is meegegeven
 				if (werknemer != null && bedrijf != null)
@@ -84,13 +73,22 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 						return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfsprakenPerWerknemerPerBedrijf(werknemer, bedrijf)));
 					}
 
-					// Zou dit niet ook beter een ID zijn?
+					// Als je ook een dag meegeeft
+					if (dag != null) {
+						_afspraakManager.GeefAfsprakenPerWerknemerOpDagPerBedrijf(werknemer, dag.Value, bedrijf);
+					}
+
 					return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAlleAfsprakenPerWerknemerPerBedrijf(werknemer, bedrijf)));
+				}
+
+				// Als een bedrijf en een dag zijn gegeven
+				if (bedrijf != null && dag != null) {
+					return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerBedrijfOpDag(bedrijf, dag.Value)));
 				}
 
 				// Als alleen de dag is meegegeven
 				if (dag != null) {
-					return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerDag(dag ?? DateTime.Now)));
+					return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerDag(dag.Value)));
 				}
 
 				// Geef alle openstaande afspraken per bedrijf
@@ -110,14 +108,14 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <summary>
 		/// Verwijder een afspraak
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="afspraakId"></param>
 		/// <returns></returns>
-		[HttpDelete("id/{id}")]
-		public IActionResult VerwijderAfspraak(long id)
+		[HttpDelete("id/{afspraakId}")]
+		public IActionResult VerwijderAfspraak(long afspraakId)
 		{
 			try
 			{
-				Afspraak afspraak = _afspraakManager.GeefAfspraak(id);
+				Afspraak afspraak = _afspraakManager.GeefAfspraak(afspraakId);
 				_afspraakManager.VerwijderAfspraak(afspraak);
 				return Ok();
 			} catch (Exception ex)
@@ -209,7 +207,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <param name="bezoekerInput"></param>
 		/// <param name="dag"></param>
 		/// <returns></returns>
-		[HttpGet("bezoeker/afspraken/id/{bedrijfId")]
+		[HttpGet("bezoeker/afspraken/id/{bedrijfId}")]
 		public ActionResult<IEnumerable<AfspraakOutputDTO>> GeefAfsprakenOpBezoeker(long bedrijfId, [FromBody] BezoekerInputDTO bezoekerInput, [FromQuery] DateTime? dag) {
 			try {
 				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
