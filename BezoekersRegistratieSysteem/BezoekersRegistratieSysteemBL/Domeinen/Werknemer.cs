@@ -89,7 +89,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			if (bedrijf == null)
 				throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - bedrijf mag niet leeg zijn");
             if (string.IsNullOrWhiteSpace(email) || Nutsvoorziening.IsEmailGeldig(email) == false)
-                throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - email mag niet leeg zijn");
+                throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - email foutief");
 			if (string.IsNullOrWhiteSpace(functie))
 				throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - functie mag niet leeg zijn");
 			if (werknemerInfo.ContainsKey(bedrijf))
