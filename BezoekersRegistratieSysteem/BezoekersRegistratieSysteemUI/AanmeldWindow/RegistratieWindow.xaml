@@ -22,7 +22,7 @@
     <DockPanel LayoutTransform="{StaticResource windowScaleTransform}">
         <paginas:SideBarControlRegistratie
             x:Name="SideBar"
-            Width="350"
+            Width="500"
             DockPanel.Dock="Left" />
         <Frame
             x:Name="FrameControl"

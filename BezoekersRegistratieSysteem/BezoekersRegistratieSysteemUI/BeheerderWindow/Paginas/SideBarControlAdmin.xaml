@@ -24,7 +24,7 @@
                 <Border
                     Name="DashboardTab"
                     Margin="0,0,0,5"
-                    Padding="58,10,0,3"
+                    Padding="30,10,0,3"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
                     MouseLeftButtonDown="VeranderTab"
@@ -50,7 +50,7 @@
                 <Border
                     Name="BedrijvenTab"
                     Margin="0,0,0,5"
-                    Padding="58,10,0,3"
+                    Padding="30,10,0,3"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
                     MouseLeftButtonDown="VeranderTab"
@@ -74,7 +74,7 @@
                 <Border
                     Name="AfsprakenTab"
                     Margin="0,0,0,5"
-                    Padding="58,10,0,3"
+                    Padding="30,10,0,3"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
                     MouseLeftButtonDown="VeranderTab"
@@ -97,7 +97,7 @@
                 </Border>
                 <Border
                     Name="WerknemersTab"
-                    Padding="58,10,0,3"
+                    Padding="30,10,0,3"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
                     MouseLeftButtonDown="VeranderTab"
@@ -120,7 +120,7 @@
                 </Border>
                 <Border
                     Name="BezoekersTab"
-                    Padding="58,10,0,3"
+                    Padding="30,10,0,3"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
                     MouseLeftButtonDown="VeranderTab"
@@ -161,9 +161,8 @@
                         HorizontalAlignment="center"
                         VerticalAlignment="Center"
                         CircleBackground="Transparent"
-                        IconSource="../LijstIcon.xaml"
-                        Opacity=".6" />
-                    <Label VerticalAlignment="Center" Content="Aanwezigen" />
+                        IconSource="../LijstIcon.xaml"/>
+                    <Label VerticalAlignment="Center" FontWeight="Medium" Content="Aanwezigen" />
                 </StackPanel>
             </Border>
         </Grid>
