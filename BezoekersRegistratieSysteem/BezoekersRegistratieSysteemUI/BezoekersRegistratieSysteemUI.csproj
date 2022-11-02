@@ -21,17 +21,32 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Page Remove="Icons\AfspraakIcon.xaml" />
+	  <Page Remove="Icons\ArrowIcon.xaml" />
 	  <Page Remove="Icons\BedrijfIcon.xaml" />
+	  <Page Remove="Icons\BezoekerIcon.xaml" />
+	  <Page Remove="Icons\DashboardIcon.xaml" />
 	  <Page Remove="Icons\DefaultLeeg.xaml" />
 	  <Page Remove="Icons\DotsIcon.xaml" />
+	  <Page Remove="Icons\LijstIcon.xaml" />
 	  <Page Remove="Icons\PlusIcon.xaml" />
 	  <Page Remove="Icons\VergrootGlasIcon.xaml" />
+	  <Page Remove="Icons\WerknemerIcon.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Resource Include="BRS.ico">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
+	  <Resource Include="Icons\AfspraakIcon.xaml" />
+	  <Resource Include="Icons\ArrowIcon.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\BezoekerIcon.xaml" />
+	  <Resource Include="Icons\DashboardIcon.xaml" />
+	  <Resource Include="Icons\LijstIcon.xaml" />
+	  <Resource Include="Icons\WerknemerIcon.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -88,6 +103,7 @@
 
 	<ItemGroup>
 		<Folder Include="BeheerderWindow\Popups\" />
+		<Folder Include="BeheerderWindow\Style\" />
 	</ItemGroup>
 
 	<ItemGroup>

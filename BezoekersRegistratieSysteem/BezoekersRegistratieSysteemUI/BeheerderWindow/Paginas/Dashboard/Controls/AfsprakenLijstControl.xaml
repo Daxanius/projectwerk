@@ -66,11 +66,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="GridViewColumnHeader">
-                                    <Label
-                                        Content="{TemplateBinding Content}"
-                                        FontSize="16"
-                                        FontWeight="Normal"
-                                        Foreground="{StaticResource LichtGrijs}" />
+                                    <Label Content="{TemplateBinding Content}" />
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
