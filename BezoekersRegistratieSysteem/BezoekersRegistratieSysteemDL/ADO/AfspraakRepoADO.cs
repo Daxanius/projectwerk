@@ -579,13 +579,14 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <param name="bedrijfId">bedrijf id die gezocht moet worden</param>
         /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf en/of werknemer</returns>
         /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
-        public IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemerOpBedrijf(long werknemerId, long bedrijfId) {
+        public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerOpBedrijf(long werknemerId, long bedrijfId) {
             try {
                 return GeefHuidigeAfspraken(bedrijfId, werknemerId);
             } catch (Exception ex) {
                 throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
+
 
         /// <summary>
         /// Prive methode die een lijst van huidige afspraken geeft van bedrijf of werknemer
@@ -743,6 +744,28 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         }
 
         /// <summary>
+        /// Geeft lijst van afspraken op basis van bezoeker vNaam, aNaam, of Mail
+        /// </summary>
+        /// <param name="bezoekerVNaam">bezoeker Vnaam die gezocht moet worden</param>
+        /// <param name="bezoekerANaam">bezoeker Anaam die gezocht moet worden</param>
+        /// <param name="bezoekerMail">bezoeker mail die gezocht moet worden</param>
+        /// <param name="bedrijfId">bedrijf id die gezocht moet worden</param>
+        /// <returns>Lijst van Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string bezoekerVNaam, string bezoekerANaam, string bezoekerMail, long bedrijfId) {
+            try {
+                return GeefAlleAfspraken(bedrijfId, null, null, bezoekerVNaam, bezoekerANaam, bezoekerMail, null);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
+        }
+
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId) {
+            //TODO: Methode naam is anders of variables
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Geeft lijst van afspraken op basis van werknemer en datum
         /// </summary>
         /// <param name="werknemerId">werknemer id die gezocht moet worden</param>
@@ -771,6 +794,36 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
+        /// <summary>
+        /// Geeft lijst van afspraken op basis van werknemer
+        /// </summary>
+        /// <param name="werknemerId">werknemer id die gezocht moet worden</param>
+        /// <param name="bedrijfId">bedrijf id die gezocht moet worden</param>
+        /// <returns>Lijst van Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerOpBedrijf(long werknemerId, long bedrijfId) {
+            try {
+                return GeefAlleAfspraken(bedrijfId, werknemerId, null, null, null, null, null);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Geeft lijst van afspraken op basis van werknemer
+        /// </summary>
+        /// <param name="werknemerId">werknemer id die gezocht moet worden</param>
+        /// <param name="datum">datum waarop die gezocht moet worden</param>
+        /// <param name="bedrijfId">bedrijf id die gezocht moet worden</param>
+        /// <returns>Lijst van Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagOpBedrijf(long werknemerId, DateTime datum, long bedrijfId) {
+            try {
+                return GeefAlleAfspraken(bedrijfId, werknemerId, null, null, null, null, datum);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
+        }
         /// <summary>
         /// Prive methode die alle afspraken op combinatie datum of/en werknemer
         /// </summary>
@@ -893,39 +946,42 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 con.Close();
             }
         }
+        #endregion
+        #region Bezoeker
 
-        public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerOpBedrijf(long id1, long id2) {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerOpBedrijf(long werknemerId, long bedrijfId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagOpBedrijf(long werknemerId, DateTime datum, long bedrijfId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string voornaam, string achternaam, string email, long bedrijfId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long werknemerId, long bedrijfId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers()
-        {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Geeft lijst van bezoekers die aanwezig zijn
+        /// </summary>
+        /// <returns>Lijst van Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers() {
+            SqlConnection con = GetConnection();
+            string query = "SELECT b.Id, b.VNaam, b.ANaam, b.Email, b.EigenBedrijf " +
+                           "FROM Afspraak a " +
+                           "JOIN Bezoeker b ON(a.BezoekerId = b.Id) " +
+                           "WHERE a.AfspraakStatusId = 1 AND a.EindTijd IS NULL " +
+                           "ORDER BY b.Vnaam, b.ANaam";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    List<Bezoeker> bezoekers = new List<Bezoeker>();
+                    while (reader.Read()) {
+                        long bezoekerId = (long)reader["Id"];
+                        string bezoekerVNaam = (string)reader["VNaam"];
+                        string bezoekerANaam = (string)reader["ANaam"];
+                        string bezoekerMail = (string)reader["Email"];
+                        string bezoekerBedrijf = (string)reader["EigenBedrijf"];
+                        bezoekers.Add(new Bezoeker(bezoekerId, bezoekerVNaam,bezoekerANaam,bezoekerMail,bezoekerBedrijf));
+                    }
+                    return bezoekers.AsReadOnly();
+                }
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}", ex);
+            } finally {
+                con.Close();
+            }
         }
         #endregion
     }
