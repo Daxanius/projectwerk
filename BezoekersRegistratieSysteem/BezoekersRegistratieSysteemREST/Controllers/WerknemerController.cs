@@ -25,8 +25,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// </summary>
 		/// <param name="werknemerId"></param>
 		/// <returns></returns>
-		[HttpGet("{werknemerId}")]
-		public ActionResult<WerknemerOutputDTO> GeefWerknemer(long werknemerId)
+		[HttpGet("id/{werknemerId}")]
+		public ActionResult<WerknemerOutputDTO> GeefWerknemerOpId(long werknemerId)
 		{
 			try
 			{
@@ -52,24 +52,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			} catch (Exception ex)
 			{
 				return NotFound(ex.Message);
-			}
-		}
-
-		/// <summary>
-		/// Geef werknemers per bedrijf
-		/// </summary>
-		/// <param name="bedrijfId"></param>
-		/// <returns></returns>
-		[HttpGet("{bedrijfId}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersPerBedrijf(long bedrijfId)
-		{
-			try
-			{
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf)));
-			} catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
 			}
 		}
 
@@ -142,7 +124,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// </summary>
 		/// <param name="werknemerId"></param>
 		/// <returns></returns>
-		[HttpGet("info/{werknemerId}")]
+		[HttpGet("info/id/{werknemerId}")]
 		public ActionResult<Dictionary<long, WerknemerInfoOutputDTO>> GeefBedrijvenEnFunctiesPerWerknemer(long werknemerId)
 		{
 			try
@@ -168,10 +150,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// Voeg info toe aan werknemer
 		/// </summary>
 		/// <param name="werknemerId"></param>
-		/// <param name="bedrijfId"></param>
 		/// <param name="info"></param>
 		/// <returns></returns>
-		[HttpPost("info/{werknemerId}")]
+		[HttpPost("info/id/{werknemerId}")]
 		public ActionResult<WerknemerOutputDTO> VoegInfoToe(long werknemerId, [FromBody] WerknemerInfoInputDTO info)
 		{
 			try
