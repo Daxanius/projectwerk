@@ -18,8 +18,6 @@
 	  <None Remove="Fonts\Inter-Regular.ttf" />
 	  <None Remove="Fonts\Inter-SemiBold.ttf" />
 	  <None Remove="Fonts\Inter-Thin.ttf" />
-	  <None Remove="Images\BRS_MyAdmin.png" />
-	  <None Remove="Images\BRS_Register.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -144,8 +142,6 @@
 	  <Resource Include="Icons\PlusIcon.xaml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="Images\BRS_MyAdmin.png" />
-	  <Resource Include="Images\BRS_Register.png" />
 	</ItemGroup>
 
 </Project>

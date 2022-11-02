@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:images="clr-namespace:BezoekersRegistratieSysteemUI.Images"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -14,12 +14,11 @@
         Background="{StaticResource LichtGrijsAccent}"
         CornerRadius="50">
         <Grid>
-            <Image
+            <images:BRS_Logo 
                 Width="150"
                 Margin="40"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Source="/Images/BRS_MyAdmin.png" />
+                VerticalAlignment="Top"/>
             <StackPanel Name="BorderContainer" Margin="60,230,0,0">
                 <Border
                     Name="DashboardTab"
