@@ -36,15 +36,26 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <summary>
         /// Beindigd afspraak via de bezoeker zijn kant
         /// </summary>
+        /// <param name="email">mail bezoeker van afspraak die beeindigd moet worden</param>
+        /// <exception cref="AfspraakADOException">Faalt om afspraak te beeindigen</exception>
+        public void BeeindigAfspraakOpEmail(string email) {
+            try {
+                BeeindigAfspraak(email,null, 3);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Beindigd afspraak via de bezoeker zijn kant
+        /// </summary>
         /// <param name="afspraakId">Id van afspraak die beeindigd moet worden</param>
         /// <exception cref="AfspraakADOException">Faalt om afspraak te beeindigen</exception>
         public void BeeindigAfspraakBezoeker(long afspraakId) {
             try {
-                BeeindigAfspraak(afspraakId, 3);
+                BeeindigAfspraak(null, afspraakId, 3);
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-                exx.Data.Add("afspraakId", afspraakId);
-                throw exx;
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -55,11 +66,9 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <exception cref="AfspraakADOException">Faalt om afspraak te beeindigen</exception>
         public void BeeindigAfspraakSysteem(long afspraakId) {
             try {
-                BeeindigAfspraak(afspraakId, 4);
+                BeeindigAfspraak(null, afspraakId, 4);
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-                exx.Data.Add("afspraakId", afspraakId);
-                throw exx;
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -69,26 +78,34 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <param name="afspraakId">Id van afspraak die gewijzigd moet worden</param>
         /// <param name="statusId">Id van status die toegekend moet worden</param>
         /// <exception cref="AfspraakADOException">Faalt om status van een afspraak te wijzigen</exception>
-        private void BeeindigAfspraak(long afspraakId, int statusId) {
+        private void BeeindigAfspraak(string? bezoekerMail, long? afspraakId, int statusId) {
             SqlConnection con = GetConnection();
             string query = "UPDATE Afspraak " +
                            "SET AfspraakStatusId = @statusId, " +
                            "EindTijd = @Eindtijd " +
-                           "WHERE Id = @afspraakid";
+                           "WHERE AfspraakStatusId = 1";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
+                    if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
+                        query += " AND BezoekerId = (SELECT Id FROM Bezoeker WHERE Email = @mail)";
+                        cmd.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
+                        cmd.Parameters["@mail"].Value = bezoekerMail;
+                    } else {
+                        query += " AND id = @afspraakId";
+                        cmd.Parameters.Add(new SqlParameter("@afspraakId", SqlDbType.BigInt));
+                        cmd.Parameters["@afspraakId"].Value = afspraakId.Value;
+                    }
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
                     cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
                     cmd.Parameters.Add(new SqlParameter("@Eindtijd", SqlDbType.DateTime));
-                    cmd.Parameters["@afspraakid"].Value = afspraakId;
                     cmd.Parameters["@statusId"].Value = statusId;
                     cmd.Parameters["@Eindtijd"].Value = DateTime.Now;
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("mail", bezoekerMail);
                 exx.Data.Add("afspraakId", afspraakId);
                 exx.Data.Add("statusId", statusId);
                 throw exx;
@@ -135,6 +152,98 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("afspraakId", afspraakId);
                 exx.Data.Add("statusId", statusId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
+
+        /// <summary>
+        /// Kijkt of afspraak bestaat op basis van afspraak object
+        /// </summary>
+        /// <param name="afspraak">Afspraak object die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+        /// <exception cref="AfspraakADOException">Faalt om te kijken of een afspraak bestaat op basis van afspraak object</exception>
+        public bool BestaatAfspraak(Afspraak afspraak) {
+            try {
+                return BestaatAfspraak(afspraak, null, null);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Kijkt of afspraak bestaat op basis van afspraak id
+        /// </summary>
+        /// <param name="afspraakid">Afspraak id die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+        /// <exception cref="AfspraakADOException">Faalt om te kijken of een afspraak bestaat op basis van afspraak object</exception>
+        public bool BestaatAfspraak(long afspraakid) {
+            try {
+                return BestaatAfspraak(null, afspraakid, null);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} id {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Kijkt of lopende afspraak bestaat op basis van afspraak object
+        /// </summary>
+        /// <param name="afspraak">Afspraak object die gecontroleerd moet worden</param>
+        /// <returns>bool (True = bestaat)</returns>
+        /// <exception cref="AfspraakADOException">Faalt om te kijken of een afspraak bestaat op basis van afspraak object</exception>
+        public bool BestaatLopendeAfspraak(Afspraak afspraak) {
+            try {
+                return BestaatAfspraak(afspraak,null,1);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Kijkt of lopende afspraak bestaat op basis van afspraak object of id
+        /// </summary>
+        /// <param name="afspraak">Optioneel: Afspraak object die gecontroleerd moet worden</param>
+        /// <param name="afspraakid">Optioneel: Afspraak id die gecontroleerd moet worden</param>
+        /// <param name="afspraakStatus">Optioneel: Status</param>
+        /// <returns>bool (True = bestaat)</returns>
+        /// <exception cref="AfspraakADOException">Faalt om te kijken of een afspraak bestaat op basis van afspraak object</exception>
+        private bool BestaatAfspraak(Afspraak afspraak, long? afspraakid, int? afspraakStatus) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+                           "FROM Afspraak a ";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    if (afspraak is not null) {
+                        if (afspraak.Id != 0) {
+                            query += "WHERE a.Id = @id";
+                            cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                            cmd.Parameters["@id"].Value = afspraak.Id;
+                        } else {
+                            //TODO: Maybe check with statusID rather than eindTijd
+                            query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
+                                     "WHERE bz.Email = @bmail AND a.eindTijd is null";
+                            cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));
+                            cmd.Parameters["@bmail"].Value = afspraak.Bezoeker.Email;
+                        }
+                    } else {
+                        query += "WHERE a.Id = @id";
+                        cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                        cmd.Parameters["@id"].Value = afspraakid.Value;
+                    }
+                    if (afspraakStatus.HasValue) {
+                        query += " AND a.AfspraakStatusId = @statusId";
+                        cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+                        cmd.Parameters["@statusId"].Value = afspraakStatus.Value;
+                    }
+                    cmd.CommandText = query;
+                    int i = (int)cmd.ExecuteScalar();
+                    return (i > 0);
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("afspraak", afspraak);
                 throw exx;
             } finally {
                 con.Close();
@@ -209,7 +318,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 con.Close();
             }
         }
-
+        #region GeefAfspraak
         /// <summary>
         /// Geeft een afspraak op basis van een id
         /// </summary>
@@ -283,261 +392,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 con.Close();
             }
         }
-
-        /// <summary>
-        /// Geeft een lijst van afspraken op een specifieke datum
-        /// </summary>
-        /// <param name="datum">Gewenste datum</param>
-        /// <returns>Lijst van afspraken op gewenste datum</returns>
-        /// <exception cref="AfspraakADOException">Faalt om een lijst van afspraken op datum op te roepen</exception>
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
-            try {
-                return GeefAlleAfspraken(null, datum);
-            } catch (Exception ex) {
-                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-            }
-        }
-
-        /// <summary>
-        /// Geeft alle afspraken per werknemer
-        /// </summary>
-        /// <param name="werknemerId">Id van werknemer</param>
-        /// <returns>Lijst van afspraken op gewenste werknemer</returns>
-        /// <exception cref="AfspraakADOException">Faalt om een lijst van afspraken op werknemer op te roepen</exception>
-        public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(long werknemerId) {
-            try {
-                return GeefAlleAfspraken(werknemerId, null);
-            } catch (Exception ex) {
-                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-            }
-        }
-
-        /// <summary>
-        /// Geeft alle afspraken op datum en werknemer
-        /// </summary>
-        /// <param name="werknemerId">Id van werknemer</param>
-        /// <param name="datum">Datum</param>
-        /// <returns>Lijst van afspraken op combinatie van datum en werknemer</returns>
-        /// <exception cref="AfspraakADOException">Faalt om een lijst van afspraken op werknemer en datum op te roepen</exception>
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(long werknemerId, DateTime datum) {
-            try {
-                return GeefAlleAfspraken(werknemerId, datum);
-            } catch (Exception ex) {
-                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-            }
-        }
-
-        /// <summary>
-        /// Prive methode die alle afspraken op combinatie datum of/en werknemer
-        /// </summary>
-        /// <param name="_werknemerId">Optioneel: id van werknemer</param>
-        /// <param name="_datum">Optioneel: gewenste datum</param>
-        /// <returns>Lijst van afspraken op combinatie van datum en/of werknemer</returns>
-        /// <exception cref="AfspraakADOException">Faalt om een lijst van afspraken op werknemer en/of datum op te roepen</exception>
-        private IReadOnlyList<Afspraak> GeefAlleAfspraken(long? _werknemerId, DateTime? _datum) {
-            SqlConnection con = GetConnection();
-            /* INFO SELECT
-             * Afspraak
-             * Bezoeker
-             * Bedrijf
-             * Werknemer
-             * Functie Medewerker
-             */
-            string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
-                           "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
-                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
-                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
-                           "f.FunctieNaam " +
-                           "FROM Afspraak a " +
-                           "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
-                           "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
-                           "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
-                           "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
-                           "JOIN Functie f ON(wb.FunctieId = f.Id) " +
-                           "WHERE 1=1";
-            try {
-                using (SqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    if (_werknemerId.HasValue) {
-                        query += " AND w.id = @werknemerId";
-                        cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-                        cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
-                    }
-                    if (_datum.HasValue) {
-                        query += " AND CONVERT(DATE, a.StartTijd) = @date";
-                        cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
-                        cmd.Parameters["@date"].Value = _datum.Value.Date;
-                    }
-                    cmd.CommandText = query;
-                    IDataReader reader = cmd.ExecuteReader();
-                    List<Afspraak> afspraken = new List<Afspraak>();
-                    while (reader.Read()) {
-                        //Afspraak portie
-                        long afspraakId = (long)reader["AfspraakId"];
-                        DateTime start = (DateTime)reader["StartTijd"];
-                        DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
-                        //bezoeker portie
-                        long bezoekerId = (long)reader["BezoekerId"];
-                        string bezoekerAnaam = (string)reader["BezoekerANaam"];
-                        string bezoekerVnaam = (string)reader["BezoekerVNaam"];
-                        string bezoekerMail = (string)reader["BezoekerMail"];
-                        string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
-                        //bedrijf portie
-                        long bedrijfId = (long)reader["BedrijfId"];
-                        string bedrijfNaam = (string)reader["BedrijfNaam"];
-                        string bedrijfBTWNr = (string)reader["BTWNr"];
-                        string bedrijfTeleNr = (string)reader["TeleNr"];
-                        string bedrijfMail = (string)reader["BedrijfEmail"];
-                        string bedrijfAdres = (string)reader["BedrijfAdres"];
-                        //werknemer portie
-                        long werknemerId = (long)reader["WerknemerId"];
-                        string werknemerANaam = (string)reader["WerknemerANaam"];
-                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
-                        string werknemerMail = (string)reader["WerknemerEmail"];
-                        //functie portie
-                        string functieNaam = (string)reader["FunctieNaam"];
-                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
-                        afspraken.Add(new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
-                    }
-                    return afspraken.AsReadOnly();
-                }
-            } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-                exx.Data.Add("datum", _datum);
-                exx.Data.Add("werknemerId", _werknemerId);
-                throw exx;
-            } finally {
-                con.Close();
-            }
-        }
-
-        /// <summary>
-        /// Geeft een lijst van afspraken die nog bezig zijn (AfspraakStatus = 1)
-        /// </summary>
-        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1)</returns>
-        /// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken</exception>
-        public IReadOnlyList<Afspraak> GeefHuidigeAfspraken() {
-            try {
-                return GeefHuidigeAfspraken(null, null);
-            } catch (Exception ex) {
-                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-            }
-        }
-
-        /// <summary>
-        /// Geeft een lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf
-        /// </summary>
-        /// <param name="bedrijfId">Id van gewenste bedrijf</param>
-        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf</returns>
-        /// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken per bedrijf</exception>
-        public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(long bedrijfId) {
-            try {
-                return GeefHuidigeAfspraken(bedrijfId, null);
-            } catch (Exception ex) {
-                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-            }
-        }
-
-        /// <summary>
-        /// Geeft een lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per werknemer
-        /// </summary>
-        /// <param name="werknemerId">Id van gewenste werknemer</param>
-        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per werknemer</returns>
-        /// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken per werknemer</exception>
-        public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemer(long werknemerId) {
-            try {
-                return GeefHuidigeAfspraken(null, werknemerId);
-            } catch (Exception ex) {
-                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-            }
-        }
-
-        /// <summary>
-        /// Prive methode die een lijst van huidige afspraken geeft
-        /// </summary>
-        /// <param name="_bedrijfId">Optioneel: id van bedrijf</param>
-        /// <param name="_werknemerId">Optioneel: id van werknemer</param>
-        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf en/of werknemer</returns>
-        /// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken per bedrijf en/of werknemer</exception>
-        private IReadOnlyList<Afspraak> GeefHuidigeAfspraken(long? _bedrijfId, long? _werknemerId) {
-            SqlConnection con = GetConnection();
-            /* INFO SELECT
-             * Afspraak
-             * Bezoeker
-             * Bedrijf
-             * Werknemer
-             * Functie Medewerker
-             */
-            string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
-                           "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
-                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
-                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
-                           "f.FunctieNaam " +
-                           "FROM Afspraak a " +
-                           "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
-                           "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
-                           "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
-                           "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
-                           "JOIN Functie f ON(wb.FunctieId = f.Id) " +
-                           "WHERE a.AfspraakStatusId = 1";
-            try {
-                using (SqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    if (_bedrijfId.HasValue) {
-                        query += " AND b.id = @bedrijfId";
-                        cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-                        cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
-                    } else if (_werknemerId.HasValue) {
-                        query += " AND w.id = @werknemerId";
-                        cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-                        cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
-                    }
-                    cmd.CommandText = query;
-                    IDataReader reader = cmd.ExecuteReader();
-                    List<Afspraak> afspraken = new List<Afspraak>();
-                    while (reader.Read()) {
-                        //Afspraak portie
-                        long afspraakId = (long)reader["AfspraakId"];
-                        DateTime start = (DateTime)reader["StartTijd"];
-                        DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
-                        //bezoeker portie
-                        long bezoekerId = (long)reader["BezoekerId"];
-                        string bezoekerAnaam = (string)reader["BezoekerANaam"];
-                        string bezoekerVnaam = (string)reader["BezoekerVNaam"];
-                        string bezoekerMail = (string)reader["BezoekerMail"];
-                        string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
-                        //bedrijf portie
-                        long bedrijfId = (long)reader["BedrijfId"];
-                        string bedrijfNaam = (string)reader["BedrijfNaam"];
-                        string bedrijfBTWNr = (string)reader["BTWNr"];
-                        string bedrijfTeleNr = (string)reader["TeleNr"];
-                        string bedrijfMail = (string)reader["BedrijfEmail"];
-                        string bedrijfAdres = (string)reader["BedrijfAdres"];
-                        //werknemer portie
-                        long werknemerId = (long)reader["WerknemerId"];
-                        string werknemerANaam = (string)reader["WerknemerANaam"];
-                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
-                        string werknemerMail = (string)reader["WerknemerEmail"];
-                        //functie portie
-                        string functieNaam = (string)reader["FunctieNaam"];
-                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
-                        afspraken.Add(new Afspraak(long.Parse(afspraakId.ToString()), start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
-                    }
-                    return afspraken.AsReadOnly();
-                }
-            } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-                exx.Data.Add("bedrijfId", _bedrijfId);
-                exx.Data.Add("werknemerId", _werknemerId);
-                throw exx;
-            } finally {
-                con.Close();
-            }
-        }
-
-
+#endregion
+        #region VoegAfspraakToe
         /// <summary>
         /// Maakt afspraak aan via een afspraak object
         /// </summary>
@@ -596,108 +452,416 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 con.Close();
             }
         }
-
+        #endregion
+        #region HuidigeAfspraken
         /// <summary>
-        /// Kijkt of afspraak bestaat op basis van afspraak object
+        /// Geeft afspraak op basis van bezoeker id
         /// </summary>
-        /// <param name="afspraak">Afspraak object die gecontroleerd moet worden</param>
-        /// <returns>bool (True = bestaat)</returns>
-        /// <exception cref="AfspraakADOException">Faalt om te kijken of een afspraak bestaat op basis van afspraak object</exception>
-        public bool BestaatAfspraak(Afspraak afspraak) {
+        /// <param name="_bezoekerId">Bezoeker id die gezocht moet worden</param>
+        /// <returns>Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public Afspraak GeefHuidigeAfspraakBezoeker(long _bezoekerId) {
             SqlConnection con = GetConnection();
-            string query = "SELECT COUNT(*) " +
-                           "FROM Afspraak a ";
-            try {
-                using (SqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    if (afspraak.Id != 0) {
-                        query += "WHERE a.Id = @id";
-                        cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
-                        cmd.Parameters["@id"].Value = afspraak.Id;
-                    } else {
-                        //TODO: Maybe check with statusID rather than eindTijd
-                        query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
-                                 "WHERE bz.Email = @bmail AND a.eindTijd is null";
-                        cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));
-                        cmd.Parameters["@bmail"].Value = afspraak.Bezoeker.Email;
-                    }
-                    cmd.CommandText = query;
-                    int i = (int)cmd.ExecuteScalar();
-                    return (i > 0);
-                }
-            } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
-                exx.Data.Add("afspraak", afspraak);
-                throw exx;
-            } finally {
-                con.Close();
-            }
-        }
-
-        /// <summary>
-        /// Kijkt of afspraak bestaat op basis van afspraak id
-        /// </summary>
-        /// <param name="afspraakid">Afspraak id die gecontroleerd moet worden</param>
-        /// <returns>bool (True = bestaat)</returns>
-        /// <exception cref="AfspraakADOException">Faalt om te kijken of een afspraak bestaat op basis van afspraak object</exception>
-        public bool BestaatAfspraak(long afspraakid) {
-            SqlConnection con = GetConnection();
-            string query = "SELECT COUNT(*) " +
+            /* INFO SELECT
+             * Afspraak
+             * Bezoeker
+             * Bedrijf
+             * Werknemer
+             * Functie Medewerker
+             */
+            string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
+                           "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
+                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
+                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
+                           "f.FunctieNaam " +
                            "FROM Afspraak a " +
-                           "WHERE a.Id = @id";
+                           "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
+                           "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
+                           "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
+                           "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
+                           "JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "WHERE a.AfspraakStatusId = 1 AND bz.id = @bezoekerId";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
-                    cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
-                    cmd.Parameters["@id"].Value = afspraakid;
                     cmd.CommandText = query;
-                    int i = (int)cmd.ExecuteScalar();
-                    return (i > 0);
+                    cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+                    cmd.Parameters["@bezoekerId"].Value = _bezoekerId;
+                    IDataReader reader = cmd.ExecuteReader();
+                    Afspraak afspraak = null;
+                    while (reader.Read()) {
+                        //Afspraak portie
+                        long afspraakId = (long)reader["AfspraakId"];
+                        DateTime start = (DateTime)reader["StartTijd"];
+                        DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
+                        //bezoeker portie
+                        long bezoekerId = (long)reader["BezoekerId"];
+                        string bezoekerAnaam = (string)reader["BezoekerANaam"];
+                        string bezoekerVnaam = (string)reader["BezoekerVNaam"];
+                        string bezoekerMail = (string)reader["BezoekerMail"];
+                        string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
+                        //bedrijf portie
+                        long bedrijfId = (long)reader["BedrijfId"];
+                        string bedrijfNaam = (string)reader["BedrijfNaam"];
+                        string bedrijfBTWNr = (string)reader["BTWNr"];
+                        string bedrijfTeleNr = (string)reader["TeleNr"];
+                        string bedrijfMail = (string)reader["BedrijfEmail"];
+                        string bedrijfAdres = (string)reader["BedrijfAdres"];
+                        //werknemer portie
+                        long werknemerId = (long)reader["WerknemerId"];
+                        string werknemerANaam = (string)reader["WerknemerANaam"];
+                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                        string werknemerMail = (string)reader["WerknemerEmail"];
+                        //functie portie
+                        string functieNaam = (string)reader["FunctieNaam"];
+                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
+                        afspraak = new Afspraak(long.Parse(afspraakId.ToString()), start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
+                    }
+                    return afspraak;
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} id {ex.Message}", ex);
-                exx.Data.Add("afspraakid", afspraakid);
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("bezoekerId", _bezoekerId);
                 throw exx;
             } finally {
                 con.Close();
             }
         }
 
-
-        public bool BestaatLopendeAfspraak(Afspraak afspraak) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Geeft lijst van huidige afspraken
+        /// </summary>
+        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf en/of werknemer</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefHuidigeAfspraken() {
+            try {
+                return GeefHuidigeAfspraken(null, null);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
         }
 
+        /// <summary>
+        /// Geeft lijst van huidige afspraken op basis van werknemer id
+        /// </summary>
+        /// <param name="werknemerId">werknemer id die gezocht moet worden</param>
+        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf en/of werknemer</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
         public IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemer(long werknemerId) {
-            throw new NotImplementedException();
+            try {
+                return GeefHuidigeAfspraken(null, werknemerId);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
         }
 
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long id, DateTime datum) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Geeft lijst van huidige afspraken op basis van bedrijf id
+        /// </summary>
+        /// <param name="bedrijfId">bedrijf id die gezocht moet worden</param>
+        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf en/of werknemer</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(long bedrijfId) {
+            try {
+                return GeefHuidigeAfspraken(bedrijfId, null);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
         }
 
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaam(string voornaam, string achternaam) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Prive methode die een lijst van huidige afspraken geeft van bedrijf of werknemer
+        /// </summary>
+        /// <param name="_bedrijfId">Optioneel: id van bedrijf</param>
+        /// <param name="_werknemerId">Optioneel: id van werknemer</param>
+        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf en/of werknemer</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken per bedrijf en/of werknemer</exception>
+        private IReadOnlyList<Afspraak> GeefHuidigeAfspraken(long? _bedrijfId, long? _werknemerId) {
+            SqlConnection con = GetConnection();
+            /* INFO SELECT
+             * Afspraak
+             * Bezoeker
+             * Bedrijf
+             * Werknemer
+             * Functie Medewerker
+             */
+            string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
+                           "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
+                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
+                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
+                           "f.FunctieNaam " +
+                           "FROM Afspraak a " +
+                           "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
+                           "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
+                           "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
+                           "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
+                           "JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "WHERE a.AfspraakStatusId = 1";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    if (_bedrijfId.HasValue) {
+                        query += " AND b.id = @bedrijfId";
+                        cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                        cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
+                    }
+                    if (_werknemerId.HasValue) {
+                        query += " AND w.id = @werknemerId";
+                        cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+                        cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
+                    }
+                    query += " ORDER BY b.Naam, w.VNaam, w.ANaam";
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    List<Afspraak> afspraken = new List<Afspraak>();
+                    while (reader.Read()) {
+                        //Afspraak portie
+                        long afspraakId = (long)reader["AfspraakId"];
+                        DateTime start = (DateTime)reader["StartTijd"];
+                        DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
+                        //bezoeker portie
+                        long bezoekerId = (long)reader["BezoekerId"];
+                        string bezoekerAnaam = (string)reader["BezoekerANaam"];
+                        string bezoekerVnaam = (string)reader["BezoekerVNaam"];
+                        string bezoekerMail = (string)reader["BezoekerMail"];
+                        string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
+                        //bedrijf portie
+                        long bedrijfId = (long)reader["BedrijfId"];
+                        string bedrijfNaam = (string)reader["BedrijfNaam"];
+                        string bedrijfBTWNr = (string)reader["BTWNr"];
+                        string bedrijfTeleNr = (string)reader["TeleNr"];
+                        string bedrijfMail = (string)reader["BedrijfEmail"];
+                        string bedrijfAdres = (string)reader["BedrijfAdres"];
+                        //werknemer portie
+                        long werknemerId = (long)reader["WerknemerId"];
+                        string werknemerANaam = (string)reader["WerknemerANaam"];
+                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                        string werknemerMail = (string)reader["WerknemerEmail"];
+                        //functie portie
+                        string functieNaam = (string)reader["FunctieNaam"];
+                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
+                        afspraken.Add(new Afspraak(long.Parse(afspraakId.ToString()), start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+                    }
+                    return afspraken.AsReadOnly();
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("bedrijfId", _bedrijfId);
+                exx.Data.Add("werknemerId", _werknemerId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
+        #endregion
+        #region AlleAfspraken
+
+        /// <summary>
+        /// Geeft lijst van afspraken op basis van datum
+        /// </summary>
+        /// <param name="datum">datum die gezocht moet worden</param>
+        /// <returns>Lijst van Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
+            try {
+                return GeefAlleAfspraken(null, null, null, null, null, null, datum);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
         }
 
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpEmail(string email) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Geeft lijst van afspraken op basis van bedrijf en datum
+        /// </summary>
+        /// <param name="bedrijfId">bedrijf die gezocht moet worden</param>
+        /// <param name="datum">datum die gezocht moet worden</param>
+        /// <returns>Lijst van Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long bedrijfId, DateTime datum) {
+            try {
+                return GeefAlleAfspraken(bedrijfId, null, null, null, null, null, datum);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
         }
 
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDag(long id, DateTime datum) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Geeft lijst van afspraken op basis van bezoeker en datum
+        /// </summary>
+        /// <param name="bezoekerId">bezoeker id die gezocht moet worden</param>
+        /// <param name="datum">datum die gezocht moet worden</param>
+        /// <returns>Lijst van Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDag(long bezoekerId, DateTime datum) {
+            try {
+                return GeefAlleAfspraken(null, null, bezoekerId, null, null, null, datum);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
         }
 
-        public Afspraak GeefHuidigeAfspraakBezoeker(long id) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Geeft lijst van afspraken op basis van bezoeker vNaam, aNaam, of Mail
+        /// </summary>
+        /// <param name="bezoekerVNaam">bezoeker Vnaam die gezocht moet worden</param>
+        /// <param name="bezoekerANaam">bezoeker Anaam die gezocht moet worden</param>
+        /// <param name="bezoekerMail">bezoeker mail die gezocht moet worden</param>
+        /// <returns>Lijst van Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmail(string bezoekerVNaam, string bezoekerANaam, string bezoekerMail) {
+            try {
+                return GeefAlleAfspraken(null, null, null, bezoekerVNaam, bezoekerANaam, bezoekerMail, null);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
         }
 
-        public void BeeindigAfspraakOpEmail(string email) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Geeft lijst van afspraken op basis van werknemer en datum
+        /// </summary>
+        /// <param name="werknemerId">werknemer id die gezocht moet worden</param>
+        /// <param name="datum">datum die gezocht moet worden</param>
+        /// <returns>Lijst van Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDag(long werknemerId, DateTime datum) {
+            try {
+                return GeefAlleAfspraken(null, werknemerId, null, null, null, null, datum);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
         }
 
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmail(string voornaam, string achternaam, string email) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Geeft lijst van afspraken op basis van werknemer
+        /// </summary>
+        /// <param name="werknemerId">werknemer id die gezocht moet worden</param>
+        /// <returns>Lijst van Afspraak object</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(long werknemerId) {
+            try {
+                return GeefAlleAfspraken(null, werknemerId, null, null, null, null, null);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
         }
+
+        /// <summary>
+        /// Prive methode die alle afspraken op combinatie datum of/en werknemer
+        /// </summary>
+        /// <param name="_bedrijfId">Optioneel: id van bedrijf</param>
+        /// <param name="_werknemerId">Optioneel: id van werknemer</param>
+        /// <param name="_bezoekerId">Optioneel: gewenste bezoeker id</param>
+        /// <param name="_bezoekerVNaam">Optioneel: gewenste bezoeker voornaam</param>
+        /// <param name="_bezoekerANaam">Optioneel: gewenste bezoeker achternaam</param>
+        /// <param name="_bezoekerMail">Optioneel: gewenste bezoeker mail</param>
+        /// <param name="_datum">Optioneel: gewenste datum</param>
+        /// <returns>Lijst van afspraken op combinatie van datum en/of werknemer</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een lijst van afspraken op werknemer en/of datum op te roepen</exception>
+        private IReadOnlyList<Afspraak> GeefAlleAfspraken(long? _bedrijfId, long? _werknemerId, long? _bezoekerId, string? _bezoekerVNaam, string? _bezoekerANaam, string? _bezoekerMail, DateTime? _datum) {
+            SqlConnection con = GetConnection();
+            /* INFO SELECT
+             * Afspraak
+             * Bezoeker
+             * Bedrijf
+             * Werknemer
+             * Functie Medewerker
+             */
+            string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
+                           "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
+                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
+                           "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
+                           "f.FunctieNaam " +
+                           "FROM Afspraak a " +
+                           "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
+                           "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
+                           "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
+                           "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
+                           "JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "WHERE 1=1";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    if (_bedrijfId.HasValue) {
+                        query += " AND b.id = @bedrijfId";
+                        cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                        cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
+                    }
+                    if (_werknemerId.HasValue) {
+                        query += " AND w.id = @werknemerId";
+                        cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+                        cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
+                    }
+                    if (_bezoekerId.HasValue) {
+                        query += " AND bz.id = @bezoekerId";
+                        cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+                        cmd.Parameters["@bezoekerId"].Value = _bezoekerId.Value;
+                    }
+                    if (!String.IsNullOrWhiteSpace(_bezoekerVNaam)) {
+                        query += " AND bz.VNaam LIKE @VNaam";
+                        cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+                        cmd.Parameters["@VNaam"].Value = $"%{_bezoekerVNaam}%";
+                    }
+                    if (!String.IsNullOrWhiteSpace(_bezoekerANaam)) {
+                        query += " AND bz.ANaam LIKE @ANaam";
+                        cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+                        cmd.Parameters["@ANaam"].Value = $"%{_bezoekerANaam}%";
+                    }
+                    if (!String.IsNullOrWhiteSpace(_bezoekerMail)) {
+                        query += " AND bz.Email LIKE @Email";
+                        cmd.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar));
+                        cmd.Parameters["@Email"].Value = $"%{_bezoekerMail}%";
+                    }
+                    if (_datum.HasValue) {
+                        query += " AND CONVERT(DATE, a.StartTijd) = @date";
+                        cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
+                        cmd.Parameters["@date"].Value = _datum.Value.Date;
+                    }
+                    query += " ORDER BY a.StartTijd DESC, b.id, w.id";
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    List<Afspraak> afspraken = new List<Afspraak>();
+                    while (reader.Read()) {
+                        //Afspraak portie
+                        long afspraakId = (long)reader["AfspraakId"];
+                        DateTime start = (DateTime)reader["StartTijd"];
+                        DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
+                        //bezoeker portie
+                        long bezoekerId = (long)reader["BezoekerId"];
+                        string bezoekerAnaam = (string)reader["BezoekerANaam"];
+                        string bezoekerVnaam = (string)reader["BezoekerVNaam"];
+                        string bezoekerMail = (string)reader["BezoekerMail"];
+                        string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
+                        //bedrijf portie
+                        long bedrijfId = (long)reader["BedrijfId"];
+                        string bedrijfNaam = (string)reader["BedrijfNaam"];
+                        string bedrijfBTWNr = (string)reader["BTWNr"];
+                        string bedrijfTeleNr = (string)reader["TeleNr"];
+                        string bedrijfMail = (string)reader["BedrijfEmail"];
+                        string bedrijfAdres = (string)reader["BedrijfAdres"];
+                        //werknemer portie
+                        long werknemerId = (long)reader["WerknemerId"];
+                        string werknemerANaam = (string)reader["WerknemerANaam"];
+                        string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                        string werknemerMail = (string)reader["WerknemerEmail"];
+                        //functie portie
+                        string functieNaam = (string)reader["FunctieNaam"];
+                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
+                        afspraken.Add(new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+                    }
+                    return afspraken.AsReadOnly();
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("datum", _datum);
+                exx.Data.Add("werknemerId", _werknemerId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
+        #endregion
     }
 }

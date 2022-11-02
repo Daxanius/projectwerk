@@ -51,15 +51,15 @@ namespace BezoekersRegistratieSysteemUI.icons.IconsPresenter {
 				  new PropertyMetadata(8)
 			  );
 
-		public int IconOffsetRight {
-			get { return (int)GetValue(IconOffsetRightPropperty); }
-			set { SetValue(IconOffsetRightPropperty, value); }
+		public int IconOffsetTop {
+			get { return (int)GetValue(IconOffsetTopPropperty); }
+			set { SetValue(IconOffsetTopPropperty, value); }
 		}
 
 		// Using a DependencyProperty as the backing store for Property1.  
 		// This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty IconOffsetRightPropperty = DependencyProperty.Register(
-				  nameof(IconOffsetRight),
+		public static readonly DependencyProperty IconOffsetTopPropperty = DependencyProperty.Register(
+				  nameof(IconOffsetTop),
 				  typeof(int),
 				  typeof(Icon),
 				  new PropertyMetadata(8)

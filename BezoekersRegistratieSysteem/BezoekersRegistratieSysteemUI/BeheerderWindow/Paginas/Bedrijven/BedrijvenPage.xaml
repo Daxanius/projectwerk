@@ -62,30 +62,30 @@
                     FontWeight="Bold"
                     Foreground="{StaticResource DonkerGrijs}"
                     Text="Bedrijven" />
-                <Border
-                    Background="{StaticResource LichtGrijs}"
-                    CornerRadius="20"
-                    DockPanel.Dock="Right">
-                    <ComboBox Text="Filter">
-                        <ComboBox.Template>
-                            <ControlTemplate TargetType="ComboBox">
-                                <Border
-                                    Padding="20"
-                                    Background="{StaticResource DonkerBlauw}"
-                                    CornerRadius="20">
-                                    <Label Content="{TemplateBinding Text}" Foreground="{StaticResource MainAchtergrond}" />
-                                </Border>
-                            </ControlTemplate>
-                        </ComboBox.Template>
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                    </ComboBox>
-                </Border>
+                <ComboBox
+                    Height="50"
+                    MinWidth="120"
+                    MaxWidth="350"
+                    Background="{StaticResource DonkerBlauw}"
+                    Cursor="Hand"
+                    DockPanel.Dock="Right"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource MainAchtergrond}">
+                    <ComboBoxItem Content="Hogent" />
+                    <ComboBoxItem Content="Hogent" />
+                    <ComboBoxItem Content="Hogent" />
+                    <ComboBoxItem Content="Hogent" />
+                </ComboBox>
                 <StackPanel />
             </DockPanel>
         </Grid>
-        <controls:BedrijvenLijstControl />
+        <Border
+            Padding="20"
+            Background="{StaticResource LichtGrijsAccent}"
+            CornerRadius="25"
+            DockPanel.Dock="Bottom">
+            <controls:BedrijvenLijstControl />
+        </Border>
     </DockPanel>
 </Page>

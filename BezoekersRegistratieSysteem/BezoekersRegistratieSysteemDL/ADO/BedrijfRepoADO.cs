@@ -247,7 +247,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <returns>Lijst van bedrijf object</returns>
         /// <exception cref="BedrijfADOException">Faalt om een lijst van bedrijven op te roepen</exception>
-        public IReadOnlyList<Bedrijf> Geefbedrijven() {
+        public IReadOnlyList<Bedrijf> GeefBedrijven() {
             SqlConnection con = GetConnection();
             string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
                            "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
@@ -399,10 +399,6 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             } finally {
                 con.Close();
             }
-        }
-
-        public IReadOnlyList<Bedrijf> GeefBedrijven() {
-            throw new NotImplementedException();
         }
     }
 }
