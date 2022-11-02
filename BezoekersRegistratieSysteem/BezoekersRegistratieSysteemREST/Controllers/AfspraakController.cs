@@ -26,7 +26,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// </summary>
 		/// <param name="afspraakId"></param>
 		/// <returns></returns>
-		[HttpGet("{afspraakId}")]
+		[HttpGet("id/{afspraakId}")]
 		public ActionResult<AfspraakOutputDTO> GeefAfspraak(long afspraakId)
 		{
 			try
@@ -108,7 +108,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		[HttpDelete("{id}")]
+		[HttpDelete("id/{id}")]
 		public IActionResult VerwijderAfspraak(long id)
 		{
 			try
@@ -168,7 +168,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <param name="afspraakId"></param>
 		/// <param name="afspraakInput"></param>
 		/// <returns></returns>
-		[HttpPut("{afspraakId}")]
+		[HttpPut("id/{afspraakId}")]
 		public ActionResult<AfspraakOutputDTO> BewerkAfspraak(long afspraakId, [FromBody] AfspraakInputDTO afspraakInput)
 		{
 			try
