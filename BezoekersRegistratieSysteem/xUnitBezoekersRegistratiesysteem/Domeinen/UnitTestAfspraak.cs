@@ -8,24 +8,35 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		//AF
 
 		#region Valid Info
-		private Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-        private Werknemer _w = new(10, "werknemer", "werknemersen");
-        private Bedrijf _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-        private static DateTime _st = DateTime.Now;
-		private static DateTime _et = _st.AddHours(2);
+		private Bezoeker _b;
+        private Werknemer _w;
+        private Bedrijf _bd;
+        private DateTime _st;
+		private DateTime _et;
         #endregion
 
         #region Invalid Info
-        private Bezoeker _ivb = new(1, "anderebezoeker", "anderebezoekersen", "anderebezoeker.bezoekersen@email.com", "anderbezoekerbedrijf");
-        private Werknemer _ivw = new(1, "anderewerknemer", "anderewerknemersen");
-        private Bedrijf _ivbd = new(1, "anderbedrijf", "BE0676747521", true, "876543210", "anderbedrijf@email.com", "anderbedrijfstraat 10");
-        #endregion
+        private Bezoeker _ivb;
+        private Werknemer _ivw;
+        private Bedrijf _ivbd;
+		#endregion
 
-        #region Setup
+        #region Initialiseren
         public UnitTestAfspraak()
         {
+			_b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
+			_w = new(10, "werknemer", "werknemersen");
+            _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+
+            _st = DateTime.Now;
+            _et = _st.AddHours(2);
+
+            _ivb = new(1, "anderebezoeker", "anderebezoekersen", "anderebezoeker.bezoekersen@email.com", "anderbezoekerbedrijf");
+            _ivw = new(1, "anderewerknemer", "anderewerknemersen");
+            _ivbd = new(1, "anderbedrijf", "BE0676747521", true, "876543210", "anderbedrijf@email.com", "anderbedrijfstraat 10");
+
             //For Valid Paths
-			_bd.VoegWerknemerToeInBedrijf(_w, "werknemer.werknemersen@email.com", "functie");
+            _bd.VoegWerknemerToeInBedrijf(_w, "werknemer.werknemersen@email.com", "functie");
             //
 
             //For Invalid Paths

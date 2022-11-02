@@ -14,13 +14,22 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		#endregion
 
 		#region Valid Info
-		private static Werknemer _w = new(10, "werknemer", "werknemersen");
-		private Bedrijf _b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-		private string _f = "functie";
-		#endregion
+		private Werknemer _w;
+		private Bedrijf _b;
+		private string _f;
+        #endregion
 
-		#region UnitTest Werknemer Toevoegen
-		[Fact]
+        #region Initialiseren
+        public UnitTestWerknemerManager()
+		{
+            _w = new(10, "werknemer", "werknemersen");
+            _b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            _f = "functie";
+        }
+        #endregion
+
+        #region UnitTest Werknemer Toevoegen
+        [Fact]
 		public void VoegWerknemerToe_Invalid_WerknemerLeeg() {
 			_mockRepo = new Mock<IWerknemerRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);

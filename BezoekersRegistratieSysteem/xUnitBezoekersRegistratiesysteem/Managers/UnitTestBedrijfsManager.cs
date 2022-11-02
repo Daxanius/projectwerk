@@ -14,9 +14,18 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         #endregion
 
         #region Valid Info
-        private static Werknemer _w = new(10, "werknemer", "werknemersen");
-        private Bedrijf _unb = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-        private Bedrijf _vb = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+        private Werknemer _w;
+        private Bedrijf _unb;
+        private Bedrijf _vb;
+        #endregion
+
+        #region Initialiseren
+        public UnitTestBedrijfsManager()
+        {
+            _w = new(10, "werknemer", "werknemersen");
+            _unb = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            _vb = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+        }
         #endregion
 
         #region Bedrijf Toevoegen

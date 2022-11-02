@@ -6,12 +6,20 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		// AF
 
 		#region Valid Info
-		private Bedrijf _b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-		private string _e = "werknemer.werknemersen@email.com";
+		private Bedrijf _b;
+		private string _e;
 		#endregion
 
-		#region UnitTest Bedrijf
-		[Fact]
+		#region Initialiseren
+		public UnitTestWerknemerInfo()
+		{
+			_b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+			_e = "werknemer.werknemersen@email.com";
+		}
+        #endregion
+
+        #region UnitTest Bedrijf
+        [Fact]
 		public void ZetBedrijf_Valid() {
 			WerknemerInfo wi = new(_b, "werknemer.werknemersen@email.com");
 			wi.ZetBedrijf(_b);
