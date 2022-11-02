@@ -31,12 +31,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="BRS.ico" />
+	  <Resource Include="BRS.ico">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
 	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml.cs">
 			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="AanmeldWindow\Paginas\Afmelden\AfmeldPage.xaml.cs">
+		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\AfsprakenPage.xaml.cs">
 		  <SubType>Code</SubType>
@@ -60,6 +65,10 @@
 		<Page Update="AanmeldenOfAfmeldenWindow\Afmelden\Style\AfmeldStyle.xaml">
 			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="AanmeldWindow\Paginas\Afmelden\AfmeldPage.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
 		</Page>
 		<Page Update="BeheerderWindow\Paginas\Afspraken\AfsprakenPage.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

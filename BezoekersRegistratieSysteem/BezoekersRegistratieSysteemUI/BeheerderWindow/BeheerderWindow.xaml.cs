@@ -1,7 +1,9 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindow.DTO;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.ComponentModel;
 using System.Printing.IndexedProperties;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +13,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 	/// <summary>
 	/// Interaction logic for AanOfUitMeldenScherm.xaml
 	/// </summary>
-	public partial class BeheerderDashboard : Window, INotifyPropertyChanged {
+	public partial class BeheerderWindow : Window, INotifyPropertyChanged {
 		#region Scaling
 		public double ScaleX { get; set; }
 		public double ScaleY { get; set; }
@@ -21,7 +23,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		private BedrijfDTO _geselecteerdBedrijf { get; set; }
 		#endregion
 
-		public BeheerderDashboard() {
+		public BeheerderWindow() {
 
 			double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
 			double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
@@ -50,27 +52,39 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 					foreach (Border border in SideBar.BorderContainer.Children) {
 						border.Tag = "UnSelected";
+						((Label)((StackPanel)border.Child).Children[1]).FontWeight = FontWeights.Medium;
+						((Icon)((StackPanel)border.Child).Children[0]).Opacity = .6;
 					}
 
 					switch (folder) {
 						case "Dashboard":
 						SideBar.DashboardTab.Tag = "Selected";
+						((Icon)((StackPanel)SideBar.DashboardTab.Child).Children[0]).Opacity = 1;
+						((Label)((StackPanel)SideBar.DashboardTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 
 						case "Bedrijven":
 						SideBar.BedrijvenTab.Tag = "Selected";
+						((Icon)((StackPanel)SideBar.BedrijvenTab.Child).Children[0]).Opacity = 1;
+						((Label)((StackPanel)SideBar.BedrijvenTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 
 						case "Afspraken":
-							SideBar.AfsprakenTab.Tag = "Selected";
+						SideBar.AfsprakenTab.Tag = "Selected";
+						((Icon)((StackPanel)SideBar.AfsprakenTab.Child).Children[0]).Opacity = 1; ;
+						((Label)((StackPanel)SideBar.AfsprakenTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 
 						case "Bezoekers":
-							SideBar.BezoekersTab.Tag = "Selected";
+						SideBar.BezoekersTab.Tag = "Selected";
+						((Icon)((StackPanel)SideBar.BezoekersTab.Child).Children[0]).Opacity = 1;
+						((Label)((StackPanel)SideBar.BezoekersTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 
 						case "Werknemers":
-							SideBar.WerknemersTab.Tag = "Selected";
+						SideBar.WerknemersTab.Tag = "Selected";
+						((Icon)((StackPanel)SideBar.WerknemersTab.Child).Children[0]).Opacity = 1;
+						((Label)((StackPanel)SideBar.WerknemersTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 					}
 					return;

@@ -1,0 +1,107 @@
+﻿<UserControl
+    x:Class="BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.Paginas.SideBarControlRegistratie"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.Paginas"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource Inter}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Border
+        Margin="40,20,20,20"
+        Background="{StaticResource LichtGrijsAccent}"
+        CornerRadius="50">
+        <Grid>
+            <Image
+                Width="250"
+                Margin="40"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top" Source="/Images/BRS_Register.png"
+                 />
+            <StackPanel Name="BorderContainer" Margin="100,0,0,0" VerticalAlignment="Center">
+                <Border
+                    Name="AanmeldenTab"
+                    Margin="0,0,0,5"
+                    Padding="30,10,0,3"
+                    CornerRadius="35 0 0 35"
+                    Cursor="Hand"
+                    MouseLeftButtonDown="VeranderTab"
+                    Style="{StaticResource SideBarBorderNavSelect}"
+                    Tag="Selected">
+                    <StackPanel Orientation="Horizontal">
+                        <iconspresenter:Icon
+                            Margin="-10,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            CircleBackground="{x:Null}"
+                            IconSource="../IncheckIcon.xaml"
+                            IconSize="60"
+                            Opacity="1" />
+                        <Label
+                            Padding="0,10,0,20"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="Aanmelden"
+                            FontSize="24"
+                            FontWeight="Bold" 
+                            Foreground="{StaticResource DonkerBlauw}"/>
+                    </StackPanel>
+                </Border>
+                <Border
+                    Name="AfmeldenTab"
+                    Margin="0,0,0,5"
+                    Padding="30,10,0,3"
+                    CornerRadius="35 0 0 35"
+                    Cursor="Hand"
+                    MouseLeftButtonDown="VeranderTab"
+                    Style="{StaticResource SideBarBorderNavSelect}"
+                    Tag="UnSelected">
+                    <StackPanel Orientation="Horizontal">
+                        <iconspresenter:Icon
+                            Margin="-10,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            CircleBackground="{x:Null}"
+                            IconSource="../UitcheckIcon.xaml" 
+                            IconSize="60"/>
+                        <Label
+                            Padding="0,10,0,20"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="Afmelden"
+                            FontSize="24" 
+                            Foreground="{StaticResource DonkerBlauw}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <Border
+                Width="250"
+                Height="60"
+                Margin="25"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Background="{StaticResource MainAchtergrond}"
+                CornerRadius="30"
+                Cursor="Hand"
+                MouseLeftButtonDown="ToonAanwezigeBezoekers">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <iconspresenter:Icon
+                        Margin="-7,8,-7,0"
+                        HorizontalAlignment="center"
+                        VerticalAlignment="Center"
+                        CircleBackground="Transparent"
+                        IconSource="../HelpIcon.xaml"
+                        IconSize="48"
+                        Foreground="{StaticResource DonkerBlauw}"/>
+                    <Label VerticalAlignment="Center" FontWeight="SemiBold" Content="HELP" FontSize="18" Padding="-10,0,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>
