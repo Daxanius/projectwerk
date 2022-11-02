@@ -237,21 +237,52 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         }
 
         [Fact]
-        public void DL_ctor_Invalid()
+        public void DL_ctor_Invalid_Id0()
         {
             //Id 0
             Assert.Throws<AfspraakException>(() => new Afspraak(0, _st, null, _bd, _b, _w));
-            //Null/Default check Starttijd
+        }
+
+        [Fact]
+        public void DL_ctor_Invalid_IdNegatief()
+        {
+            //Id 0
+            Assert.Throws<AfspraakException>(() => new Afspraak(-1, _st, null, _bd, _b, _w));
+        }
+
+        [Fact]
+        public void DL_ctor_Invalid_NullOfDefaultStarttijd()
+        {
             Assert.Throws<AfspraakException>(() => new Afspraak(10, new DateTime(), null, _bd, _b, _w));
-            //Eindtijd voor Starttijd
+        }
+
+        [Fact]
+        public void DL_ctor_Invalid_EindtijdVoorStartijd()
+        {
             Assert.Throws<AfspraakException>(() => new Afspraak(10, _et, _st, _bd, _b, _w));
-            //Bedrijf is null
+        }
+
+        [Fact]
+        public void DL_ctor_Invalid_BedrijfLeeg()
+        {
             Assert.Throws<AfspraakException>(() => new Afspraak(10, _st, _et, null, _b, _w));
-            //Bezoeker is Null
+        }
+
+        [Fact]
+        public void DL_ctor_Invalid_BezoekerLeeg()
+        {
             Assert.Throws<AfspraakException>(() => new Afspraak(10, _st, _et, _bd, null, _w));
-            //Werknemer is Null
+        }
+
+        [Fact]
+        public void DL_ctor_Invalid_WerknemerLeeg()
+        {
             Assert.Throws<AfspraakException>(() => new Afspraak(10, _st, _et, _bd, _b, null));
-            //Constructor leeg
+        }
+
+        [Fact]
+        public void DL_ctor_Invalid_ctorLeeg()
+        {
             Assert.Throws<AfspraakException>(() => new Afspraak(10, new DateTime(), null, null, null, null));
         }
         #endregion

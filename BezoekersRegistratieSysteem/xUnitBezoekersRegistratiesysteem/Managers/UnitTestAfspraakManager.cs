@@ -121,8 +121,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - BewerkAfspraak - afspraak is niet gewijzigd"
+            _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(true);
             _mockRepo.Setup(x => x.GeefAfspraak(_oa.Id)).Returns(_oa);
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
+            var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
+            Assert.Equal("AfspraakManager - BewerkAfspraak - afspraak is niet gewijzigd", ex.Message);
         }
         #endregion
 

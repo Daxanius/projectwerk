@@ -226,7 +226,49 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 			Assert.Contains(_w, b.GeefWerknemers());
 		}
 
+		[Fact]
+		public void VoegWerknemerToeInBedrijf_Invalid_WerknemerLeeg()
+		{
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, _e, _f1));
+        }
+
+        [Fact]
+        public void VoegWerknemerToeInBedrijf_Invalid_ParametersLeeg()
+        {
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, null, null));
+        }
+
 		[Theory]
+		[InlineData("werknemer.werknemersen@email.com", null)]
+        [InlineData("werknemer.werknemersen@email.com", "")]
+        [InlineData("werknemer.werknemersen@email.com", " ")]
+        [InlineData("werknemer.werknemersen@email.com", "\n")]
+        [InlineData("werknemer.werknemersen@email.com", "\r")]
+        [InlineData("werknemer.werknemersen@email.com", "\t")]
+        [InlineData("werknemer.werknemersen@email.com", "\v")]
+		public void VoegWerknemerToeInBedrijf_Invalid_BedrijfException(string email, string functie)
+		{
+			Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
+        }
+
+        [Theory]
+        [InlineData(null, "functie")]
+        [InlineData("", "functie")]
+        [InlineData(" ", "functie")]
+        [InlineData("\n", "functie")]
+        [InlineData("\r", "functie")]
+        [InlineData("\t", "functie")]
+        [InlineData("\v", "functie")]
+        public void VoegWerknemerToeInBedrijf_Invalid_WerknemerException(string email, string functie)
+        {
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            Assert.Throws<WerknemerException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
+        }
+
+        [Theory]
 		[InlineData("@email.com", "functie")]
 		[InlineData("werknemer.werknemersen@email.", "functie")]
 		[InlineData("werknemer.werknemersen@.com", "functie")]
@@ -235,40 +277,25 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		[InlineData("werknemer.werknemersen", "functie")]
 		[InlineData("werknemer.werknemersen@.", "functie")]
 		[InlineData("werknemer.werknemersen.com", "functie")]
-		[InlineData("werknemer.werknemersen@email.com", null)]
-		[InlineData("werknemer.werknemersen@email.com", "")]
-		[InlineData("werknemer.werknemersen@email.com", " ")]
-		[InlineData("werknemer.werknemersen@email.com", "\n")]
-		[InlineData("werknemer.werknemersen@email.com", "\r")]
-		[InlineData("werknemer.werknemersen@email.com", "\t")]
-		[InlineData("werknemer.werknemersen@email.com", "\v")]
-		[InlineData(null, "functie")]
-		[InlineData("", "functie")]
-		[InlineData(" ", "functie")]
-		[InlineData("\n", "functie")]
-		[InlineData("\r", "functie")]
-		[InlineData("\t", "functie")]
-		[InlineData("\v", "functie")]
-		public void VoegWerknemerToeInBedrijf_Invalid(string email, string functie)
+		public void VoegWerknemerToeInBedrijf_Invalid_WerknemerInfo(string email, string functie)
 		{
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 
-			Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, _e, _f1));
-			Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(null, null, null));
-			if (string.IsNullOrWhiteSpace(functie))
-				Assert.Throws<BedrijfException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
-			else if (string.IsNullOrWhiteSpace(email))
-				Assert.Throws<WerknemerException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
-			else
-				Assert.Throws<WerknemerInfoException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
-			//"Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - werknemer is in dit bedrijf al werkzaam onder deze functie"
-			b.VoegWerknemerToeInBedrijf(_w, _e, _f1);
-			Assert.Throws<WerknemerException>(() => b.VoegWerknemerToeInBedrijf(_w, _e, _f1));
+			Assert.Throws<WerknemerInfoException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
 		}
-		#endregion
 
-		#region UnitTest Verwijder Werknemer
-		[Fact]
+        [Fact]
+        public void VoegWerknemerToeInBedrijf_Invalid_WerknemerInBedrijfMetFunctie()
+        {
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            //"Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - werknemer is in dit bedrijf al werkzaam onder deze functie"
+            b.VoegWerknemerToeInBedrijf(_w, _e, _f1);
+            Assert.Throws<WerknemerException>(() => b.VoegWerknemerToeInBedrijf(_w, _e, _f1));
+        }
+        #endregion
+
+        #region UnitTest Verwijder Werknemer
+        [Fact]
 		public void VerwijderWerknemerUitBedrijf_Valid()
 		{
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
@@ -278,17 +305,24 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		}
 
 		[Fact]
-		public void VerwijderWerknemerUitBedrijf_Invalid()
+		public void VerwijderWerknemerUitBedrijf_Invalid_WerknemerLeeg()
 		{
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-
-			Assert.Throws<BedrijfException>(() => b.VerwijderWerknemerUitBedrijf(null));
-			Assert.Throws<BedrijfException>(() => b.VerwijderWerknemerUitBedrijf(_w));
+            //"Bedrijf - VerwijderWerknemerUitBedrijf - werknemer mag niet leeg zijn"
+            Assert.Throws<BedrijfException>(() => b.VerwijderWerknemerUitBedrijf(null));
 		}
-		#endregion
 
-		#region UnitTest Geef Werknemers
-		[Fact]
+        [Fact]
+        public void VerwijderWerknemerUitBedrijf_Invalid_WerknemerNietInBedrijf()
+        {
+            Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            //"Bedrijf - VerwijderWerknemerUitBedrijf - werknemer bestaat niet"
+            Assert.Throws<BedrijfException>(() => b.VerwijderWerknemerUitBedrijf(_w));
+        }
+        #endregion
+
+        #region UnitTest Geef Werknemers
+        [Fact]
 		public void GeefWerknemers_Valid()
 		{
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
@@ -351,8 +385,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 
 		[Theory]
 		[InlineData(0, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(-1, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 
-		[InlineData(10, null, "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+        [InlineData(10, null, "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, " ", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "\n", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]

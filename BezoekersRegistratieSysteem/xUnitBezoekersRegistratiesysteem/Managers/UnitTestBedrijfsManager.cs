@@ -100,8 +100,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _bedrijfManager = new BedrijfManager(_mockRepo.Object);
 
             //"BedrijfManager - BewerkBedrijf - bedrijf is niet gewijzigd"
+            _mockRepo.Setup(x => x.BestaatBedrijf(_vb)).Returns(true);
             _mockRepo.Setup(x => x.GeefBedrijf(_vb.Id)).Returns(_vb);
-            Assert.Throws<BedrijfManagerException>(() => _bedrijfManager.BewerkBedrijf(_vb));
+            var ex = Assert.Throws<BedrijfManagerException>(() => _bedrijfManager.BewerkBedrijf(_vb));
+            Assert.Equal("BedrijfManager - BewerkBedrijf - bedrijf is niet gewijzigd", ex.Message);
         }
         #endregion
 
