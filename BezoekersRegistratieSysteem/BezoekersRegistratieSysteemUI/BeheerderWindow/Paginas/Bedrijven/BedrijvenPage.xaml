@@ -66,6 +66,7 @@
                     Height="50"
                     MinWidth="120"
                     MaxWidth="350"
+                    Background="{StaticResource DonkerBlauw}"
                     Cursor="Hand"
                     DockPanel.Dock="Right"
                     FontSize="24"
@@ -79,6 +80,12 @@
                 <StackPanel />
             </DockPanel>
         </Grid>
-        <controls:BedrijvenLijstControl />
+        <Border
+            Padding="20"
+            Background="{StaticResource LichtGrijsAccent}"
+            CornerRadius="25"
+            DockPanel.Dock="Bottom">
+            <controls:BedrijvenLijstControl />
+        </Border>
     </DockPanel>
 </Page>

@@ -26,7 +26,7 @@
                 Fill="{Binding CircleBackground}" />
             <Frame
                 Canvas.Left="{Binding IconOffsetLeft}"
-                Canvas.Top="{Binding IconOffsetLeft}"
+                Canvas.Top="{Binding IconOffsetTop}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 HorizontalContentAlignment="Center"
