@@ -503,7 +503,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <param name="werknemer">Werknemer object die gewijzigd moet worden</param>
         /// <exception cref="WerknemerADOException">Faalt om werknemer te wijzigen</exception>
-        public void WijzigWerknemer(Werknemer werknemer, Bedrijf bedrijf) {
+        public void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf) {
             SqlConnection con = GetConnection();
             string queryWerknemer = "UPDATE Werknemer " +
                                     "SET VNaam = @Vnaam, " +
@@ -548,16 +548,47 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
-        public void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf) {
-            throw new NotImplementedException();
+        public bool BestaatFunctie(string functieNaam) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+                           "FROM Functie " +
+                           "WHERE FunctieNaam = @fNaam";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@fNaam", SqlDbType.VarChar));
+                    cmd.Parameters["fNaam"].Value = functieNaam;
+                    int i = (int)cmd.ExecuteScalar();
+                    return (i > 0);
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("functieNaam", functieNaam);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
-        public bool BestaatFunctie(string functie) {
-            throw new NotImplementedException();
-        }
-
-        public void VoegFunctieToe(string functie) {
-            throw new NotImplementedException();
+        public void VoegFunctieToe(string functieNaam) {
+            SqlConnection con = GetConnection();
+            string query = "INSERT INTO Functie(FunctieNaam) VALUES(@fNaam)";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@fNaam", SqlDbType.VarChar));
+                    cmd.Parameters["fNaam"].Value = functieNaam;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("functieNaam", functieNaam);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
     }
 }
