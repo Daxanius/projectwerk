@@ -5,7 +5,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 	public class Werknemer
 	{
 
-		public long Id { get; private set; }
+        public long Id { get; private set; }
 		public string Voornaam { get; private set; }
 		public string Achternaam { get; private set; }
 
@@ -88,8 +88,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (bedrijf == null)
 				throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - bedrijf mag niet leeg zijn");
-			if (string.IsNullOrWhiteSpace(email))
-				throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - email mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(email) || Nutsvoorziening.IsEmailGeldig(email) == false)
+                throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - email foutief");
 			if (string.IsNullOrWhiteSpace(functie))
 				throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - functie mag niet leeg zijn");
 			if (werknemerInfo.ContainsKey(bedrijf))

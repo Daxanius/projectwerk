@@ -867,16 +867,16 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
-        public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerOpBedrijf(long id1, long id2) {
+        public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerPerBedrijf(long id1, long id2) {
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerOpBedrijf(long werknemerId, long bedrijfId)
+        public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId)
         {
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagOpBedrijf(long werknemerId, DateTime datum, long bedrijfId)
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId)
         {
             throw new NotImplementedException();
         }

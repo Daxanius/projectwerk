@@ -198,11 +198,38 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Assert.Equal(_b, wi.Bedrijf);
 			Assert.Equal(_e, wi.Email);
 		}
+        
 		[Fact]
-		public void ctor_Invalid() {
+		public void ctor_Invalid_BedrijfLeeg() {
 			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(null, _e));
-			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(_b, null));
 		}
-		#endregion
-	}
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n")]
+        [InlineData("\r")]
+        [InlineData("\t")]
+        [InlineData("\v")]
+        [InlineData("@email.com")]
+        [InlineData("werknemer.werknemersen@email.")]
+        [InlineData("werknemer.werknemersen@.com")]
+        [InlineData("werknemer.werknemersen@email")]
+        [InlineData("werknemer.werknemersen@")]
+        [InlineData("werknemer.werknemersen")]
+        [InlineData("werknemer.werknemersen@.")]
+        [InlineData("werknemer.werknemersen.com")]
+        public void ctor_InvalidEmailFoutief(string email)
+        {
+            Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(_b, email));
+        }
+
+        [Fact]
+        public void ctor_Invalid_ctorLeeg()
+        {
+            Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(null, null));
+        }
+        #endregion
+    }
 }
