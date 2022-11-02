@@ -682,6 +682,18 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        //TODO GeefAanwezigeBezoekers
+        #region UnitTest GeefAanwezigeBezoekers
+        [Fact]
+        public void GeefAanwezigeBezoekers_Invalid_GeenAanwezigeBezoekers()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - GeefAanwezigeBezoekers - geen aanwezige bezoekers"
+            _mockRepo.Setup(x => x.GeefAanwezigeBezoekers()).Returns(new List<Bezoeker>());
+            var ex =_afspraakManager.GeefAanwezigeBezoekers();
+            Assert.Empty(ex);
+        }
+        #endregion
     }
 }

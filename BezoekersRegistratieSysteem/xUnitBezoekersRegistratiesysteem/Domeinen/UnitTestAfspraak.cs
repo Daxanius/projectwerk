@@ -144,7 +144,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		}
 		#endregion
 
-        //TODO Theory invalid
 		#region UnitTest Afspraak Gelijk
 		[Fact]
 		public void AfspraakIsGelijk_Valid()
@@ -162,46 +161,99 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 			Assert.False(a1.AfspraakIsGelijk(a2));
 		}
 		#endregion
-        //
 
-		#region UnitTest Afspraak ctor
+		#region UnitTest Afspraak ctor BL
 		[Fact]
-		public void ctor_Valid()
+		public void BL_ctor_Valid()
 		{
-			Afspraak a = new(10, _st, null, _bd, _b, _w);
+			Afspraak a = new(_st, _bd, _b, _w);
 
-			Assert.Equal((long)10, a.Id);
 			Assert.Equal(_st, a.Starttijd);
-
-			//Eindtijd Null check
-			Assert.Null(a.Eindtijd);
-
-			//Eindtijd ingevuld check
-			a.ZetEindtijd(_et);
-			Assert.Equal(_et, a.Eindtijd);
-
+			Assert.Equal(_bd, a.Bedrijf);
 			Assert.Equal(_b, a.Bezoeker);
 			Assert.Equal(_w, a.Werknemer);
 		}
 
 		[Fact]
-		public void ctor_Invalid()
+		public void BL_ctor_Invalid_NullOfDefaultStarttijd()
 		{
-			//Id 0
-			Assert.Throws<AfspraakException>(() => new Afspraak(0, _st, null, _bd, _b, _w));
-			//Null/Default check Starttijd
-			Assert.Throws<AfspraakException>(() => new Afspraak(10, new DateTime(), null, _bd, _b, _w));
-			//Eindtijd voor Starttijd
-			Assert.Throws<AfspraakException>(() => new Afspraak(10, _et, _st, _bd, _b, _w));
+			Assert.Throws<AfspraakException>(() => new Afspraak(new DateTime(), _bd, _b, _w));
+		}
+
+        [Fact]
+        public void BL_ctor_Invalid_BedrijfLeeg()
+        {
+            Assert.Throws<AfspraakException>(() => new Afspraak(_st, null, _b, _w));
+        }
+
+        [Fact]
+        public void BL_ctor_Invalid_BezoekerLeeg()
+        {
+            Assert.Throws<AfspraakException>(() => new Afspraak(_st, _bd, null, _w));
+        }
+
+        [Fact]
+        public void BL_ctor_Invalid_WerknemerLeeg()
+        {
+            Assert.Throws<AfspraakException>(() => new Afspraak(_st, _bd, _b, null));
+        }
+
+        [Fact]
+        public void BL_ctor_Invalid_ctorLeeg()
+        {
+            Assert.Throws<AfspraakException>(() => new Afspraak(new DateTime(), null, null, null));
+        }
+        #endregion
+
+        #region UnitTest Afspraak ctor DL
+        [Fact]
+        public void DL_ctor_Valid_EindtijfNull()
+        {
+            Afspraak a = new(10, _st, null, _bd, _b, _w);
+
+            Assert.Equal((long)10, a.Id);
+            Assert.Equal(_st, a.Starttijd);
+
+            //Eindtijd Null check
+            Assert.Null(a.Eindtijd);
+
+            Assert.Equal(_b, a.Bezoeker);
+            Assert.Equal(_w, a.Werknemer);
+        }
+
+        public void DL_ctor_Valid_EindtijdIngevuld()
+        {
+            Afspraak a = new(10, _st, null, _bd, _b, _w);
+
+            Assert.Equal((long)10, a.Id);
+            Assert.Equal(_st, a.Starttijd);
+
+            //Eindtijd ingevuld check
+            a.ZetEindtijd(_et);
+            Assert.Equal(_et, a.Eindtijd);
+
+            Assert.Equal(_b, a.Bezoeker);
+            Assert.Equal(_w, a.Werknemer);
+        }
+
+        [Fact]
+        public void DL_ctor_Invalid()
+        {
+            //Id 0
+            Assert.Throws<AfspraakException>(() => new Afspraak(0, _st, null, _bd, _b, _w));
+            //Null/Default check Starttijd
+            Assert.Throws<AfspraakException>(() => new Afspraak(10, new DateTime(), null, _bd, _b, _w));
+            //Eindtijd voor Starttijd
+            Assert.Throws<AfspraakException>(() => new Afspraak(10, _et, _st, _bd, _b, _w));
             //Bedrijf is null
-            Assert.Throws<AfspraakException>(() => new Afspraak(10, _et, _st, null, _b, _w));
+            Assert.Throws<AfspraakException>(() => new Afspraak(10, _st, _et, null, _b, _w));
             //Bezoeker is Null
             Assert.Throws<AfspraakException>(() => new Afspraak(10, _st, _et, _bd, null, _w));
-			//Werknemer is Null
-			Assert.Throws<AfspraakException>(() => new Afspraak(10, _st, _et, _bd, _b, null));
-			//Constructor leeg
-			Assert.Throws<AfspraakException>(() => new Afspraak(10, new DateTime(), null, null, null, null));
-		}
-		#endregion
-	}
+            //Werknemer is Null
+            Assert.Throws<AfspraakException>(() => new Afspraak(10, _st, _et, _bd, _b, null));
+            //Constructor leeg
+            Assert.Throws<AfspraakException>(() => new Afspraak(10, new DateTime(), null, null, null, null));
+        }
+        #endregion
+    }
 }
