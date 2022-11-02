@@ -184,7 +184,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Geef huidige afspraak per bezoeker
+		/// Geef huidige afspraak op bezoeker
 		/// </summary>
 		/// <param name="bezoekerInput"></param>
 		/// <returns></returns>
@@ -193,6 +193,27 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			try {
 				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
 				return AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfspraakBezoeker(bezoeker));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Geef afspraken per bezoeker
+		/// </summary>
+		/// <param name="bezoekerInput"></param>
+		/// <param name="dag"></param>
+		/// <returns></returns>
+		[HttpGet("bezoeker/afspraken")]
+		public ActionResult<IEnumerable<AfspraakOutputDTO>> GeefAfsprakenOpBezoeker([FromBody] BezoekerInputDTO bezoekerInput, [FromQuery] DateTime? dag) {
+			try {
+				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
+
+				if (dag != null) {
+					return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerBezoekerOpDag(bezoeker, dag ?? DateTime.Now)));
+				}
+
+				return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmail(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email)));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
