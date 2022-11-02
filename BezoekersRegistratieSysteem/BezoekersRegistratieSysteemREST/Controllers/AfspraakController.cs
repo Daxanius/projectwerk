@@ -145,26 +145,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Beeindig een afspraak
-		/// </summary>
-		/// <param name="afspraakId"></param>
-		/// <param name="bezoekerInput"></param>
-		/// <returns></returns>
-		[HttpPut("end/{afspraakId}")]
-		public IActionResult End(long afspraakId, BezoekerInputDTO bezoekerInput) {
-			try {
-				Afspraak afspraak = _afspraakManager.GeefAfspraak(afspraakId);
-				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
-				afspraak.ZetBezoeker(bezoeker);
-				_afspraakManager.BeeindigAfspraakBezoeker(afspraak);
-				return Ok();
-			} catch (Exception ex) {
-				return NotFound(ex.Message);
-			}
-		}
-
-
-		/// <summary>
 		/// Beeindig een afspraak op Email
 		/// </summary>
 		/// <param name="email"></param>
