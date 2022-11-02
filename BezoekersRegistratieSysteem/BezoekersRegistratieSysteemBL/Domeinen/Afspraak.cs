@@ -11,6 +11,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		public long Id { get; private set; }
 		public DateTime Starttijd { get; private set; }
 		public DateTime? Eindtijd { get; private set; }
+		public Bedrijf Bedrijf { get; private set; }
 		public Bezoeker Bezoeker { get; private set; }
 		public Werknemer Werknemer { get; private set; }
 
@@ -23,13 +24,15 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// Constructor voor het aanmaken van een afspraak in de BusinessLaag.
 		/// </summary>
 		/// <param name="starttijd"></param>
+		/// <param name="bedrijf"></param>
 		/// <param name="bezoeker"></param>
 		/// <param name="werknemer"></param>
-		public Afspraak(DateTime starttijd, Bezoeker bezoeker, Werknemer werknemer)
+		public Afspraak(DateTime starttijd, Bedrijf bedrijf, Bezoeker bezoeker, Werknemer werknemer)
 		{
 			ZetStarttijd(starttijd);
 			ZetBezoeker(bezoeker);
 			ZetWerknemer(werknemer);
+			ZetBedrijfEnWerknemer(bedrijf, werknemer);
 		}
 
 		/// <summary>
@@ -38,15 +41,16 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="id"></param>
 		/// <param name="starttijd"></param>
 		/// <param name="eindtijd"></param>
+		/// <param name="bedrijf"></param>
 		/// <param name="bezoeker"></param>
 		/// <param name="werknemer"></param>
-		public Afspraak(long id, DateTime starttijd, DateTime? eindtijd, Bezoeker bezoeker, Werknemer werknemer)
+		public Afspraak(long id, DateTime starttijd, DateTime? eindtijd, Bedrijf bedrijf, Bezoeker bezoeker, Werknemer werknemer)
 		{
 			ZetId(id);
 			ZetStarttijd(starttijd);
 			ZetEindtijd(eindtijd);
 			ZetBezoeker(bezoeker);
-			ZetWerknemer(werknemer);
+			ZetBedrijfEnWerknemer(bedrijf, werknemer);
 		}
 
 		/// <summary>
@@ -75,6 +79,21 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		}
 
 		/// <summary>
+		/// Controleert & zet bedrijf
+		/// </summary>
+		/// <param name="bedrijf"></param>
+		/// <exception cref="AfspraakException"></exception>
+		public void ZetBedrijfEnWerknemer(Bedrijf bedrijf, Werknemer werknemer) {
+			if (bedrijf == null || werknemer == null)
+				throw new AfspraakException("Afspraak - ZetBedrijfEnWerknemer - bedrijf en werknemer mogen niet leeg zijn");
+			if (!bedrijf.GeefWerknemers().Contains(werknemer))
+				throw new AfspraakException("Afspraak - ZetBedrijfEnWerknemer - bedrijf bevat werknemer niet");
+
+			ZetBedrijf(bedrijf);
+			ZetWerknemer(werknemer);
+		}
+
+		/// <summary>
 		/// Controleert & zet eindtijd.
 		/// </summary>
 		/// <param name="eindtijd"></param>
@@ -97,7 +116,16 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		}
 
 		/// <summary>
-		/// Zet bezoeker.
+		/// Zet bedrijf.
+		/// </summary>
+		/// <param name="bedrijf"></param>
+		/// <exception cref="AfspraakException"></exception>
+		public void ZetBedrijf(Bedrijf bedrijf) {
+			Bedrijf = bedrijf ?? throw new AfspraakException("Afspraak - ZetBedrijf - bedrijf mag niet leeg zijn");
+		}
+
+		/// <summary>
+		/// Zet werknemer.
 		/// </summary>
 		/// <param name="werknemer"></param>
 		/// <exception cref="AfspraakException"></exception>
@@ -123,6 +151,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			if (afspraak.Bezoeker != Bezoeker)
 				return false;
 			if (afspraak.Werknemer != Werknemer)
+				return false;
+			if (afspraak.Bedrijf != Bedrijf)
 				return false;
 			return true;
 		}

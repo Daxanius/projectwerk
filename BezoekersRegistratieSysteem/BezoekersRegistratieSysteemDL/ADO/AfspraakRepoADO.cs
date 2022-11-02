@@ -378,9 +378,10 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         string werknemerMail = (string)reader["WerknemerEmail"];
                         //functie portie
                         string functieNaam = (string)reader["FunctieNaam"];
-                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
-                        afspraak = new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
+                        Werknemer werknemer = new(werknemerId, werknemerVNaam, werknemerANaam);
+                        Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                        afspraak = new Afspraak(afspraakId, start, eind, bedrijf, new(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
                     }
                     return afspraak;
                 }
@@ -515,8 +516,9 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         //functie portie
                         string functieNaam = (string)reader["FunctieNaam"];
                         Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
-                        afspraak = new Afspraak(long.Parse(afspraakId.ToString()), start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
+                        Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                        afspraak = new Afspraak(long.Parse(afspraakId.ToString()), start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
                     }
                     return afspraak;
                 }
@@ -640,9 +642,10 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         string werknemerMail = (string)reader["WerknemerEmail"];
                         //functie portie
                         string functieNaam = (string)reader["FunctieNaam"];
-                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
-                        afspraken.Add(new Afspraak(long.Parse(afspraakId.ToString()), start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+                        Werknemer werknemer = new(werknemerId, werknemerVNaam, werknemerANaam);
+                        Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                        afspraken.Add(new Afspraak(long.Parse(afspraakId.ToString()), start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
                     }
                     return afspraken.AsReadOnly();
                 }
@@ -847,9 +850,10 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         string werknemerMail = (string)reader["WerknemerEmail"];
                         //functie portie
                         string functieNaam = (string)reader["FunctieNaam"];
-                        Werknemer werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres), werknemerMail, functieNaam);
-                        afspraken.Add(new Afspraak(afspraakId, start, eind, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+                        Werknemer werknemer = new(werknemerId, werknemerVNaam, werknemerANaam);
+                        Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                        afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
                     }
                     return afspraken.AsReadOnly();
                 }
@@ -861,6 +865,10 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             } finally {
                 con.Close();
             }
+        }
+
+        public IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemerOpBedrijf(long id1, long id2) {
+            throw new NotImplementedException();
         }
         #endregion
     }

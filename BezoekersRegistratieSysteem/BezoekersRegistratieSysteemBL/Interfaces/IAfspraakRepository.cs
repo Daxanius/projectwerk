@@ -37,6 +37,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		Afspraak GeefHuidigeAfspraakBezoeker(long id);
 		IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmail(string voornaam, string achternaam, string email);
 		IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDag(long id, DateTime datum);
+		IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemerOpBedrijf(long id1, long id2);
 		//
 	}
 }

@@ -28,7 +28,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData(-1)]
         public void ZetId_Invalid(long id)
 		{
-			Afspraak a = new(10, _st, null, _b, _w);
+			Afspraak a = new(10, _st, null, _bd, _b, _w);
 			Assert.Throws<AfspraakException>(() => a.ZetId(id));
 		}
 		#endregion

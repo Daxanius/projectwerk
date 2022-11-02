@@ -125,18 +125,16 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <summary>
 		/// Maak een afspraak
 		/// </summary>
-		/// <param name="afrspraak"></param>
+		/// <param name="afspraakInput"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public ActionResult<AfspraakOutputDTO> MaakAfspraak([FromBody] AfspraakInputDTO afrspraak)
+		public ActionResult<AfspraakOutputDTO> MaakAfspraak([FromBody] AfspraakInputDTO afspraakInput)
 		{
 			try
 			{
-				// De bezoeker en de werknemer ophalen van de ids
-				Bezoeker bezoeker = afrspraak.Bezoeker.NaarBusiness();
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(afrspraak.WerknemerId);
+				Afspraak afspraak = afspraakInput.NaarBusiness(_werknemerManager, _bedrijfManager);
 				return AfspraakOutputDTO.NaarDTO(
-					_afspraakManager.VoegAfspraakToe(new(DateTime.Now, bezoeker, werknemer))
+					_afspraakManager.VoegAfspraakToe(afspraak)
 				);
 			} catch (Exception ex)
 			{
@@ -173,7 +171,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		{
 			try
 			{
-				Afspraak afspraak = afspraakInput.NaarBusiness(_werknemerManager);
+				Afspraak afspraak = afspraakInput.NaarBusiness(_werknemerManager, _bedrijfManager);
 				afspraak.ZetId(afspraakId);
 				_afspraakManager.BewerkAfspraak(afspraak);
 				return AfspraakOutputDTO.NaarDTO(afspraak);

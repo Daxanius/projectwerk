@@ -138,6 +138,16 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
+		public IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemerOpBedrijf(Werknemer werknemer, Bedrijf bedrijf) {
+			if (werknemer == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerWerknemer - werknemer mag niet leeg zijn");
+			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerWerknemer - werknemer mag niet leeg zijn");
+			try {
+				return _afspraakRepository.GeefHuidigeAfspraakPerWerknemerOpBedrijf(werknemer.Id, bedrijf.Id);
+			} catch (Exception ex) {
+				throw new AfspraakManagerException(ex.Message);
+			}
+		}
+
 		public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemer(Werknemer werknemer) {
 			if (werknemer == null) throw new AfspraakManagerException("AfspraakManager - GeefAlleAfsprakenPerWerknemer - werknemer mag niet leeg zijn");
 			try {
