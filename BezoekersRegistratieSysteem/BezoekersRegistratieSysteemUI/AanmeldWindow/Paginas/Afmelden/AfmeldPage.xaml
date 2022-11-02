@@ -23,7 +23,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Margin="0,0,0,10" Content="Gelieve uw mailadres in te geven." HorizontalAlignment="Center" FontSize="48" FontWeight="Medium" Foreground="{StaticResource DonkerBlauw}"/>
-            <TextBox TextWrapping="Wrap" MinWidth="1000" MinHeight="45"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Transparent" Background="{StaticResource LichtGrijsAccent}">
+            <TextBox TextWrapping="Wrap" MinWidth="1000" MinHeight="45"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Transparent" Background="{StaticResource LichtGrijsAccent}" FontSize="18" FontWeight="Medium">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="25"/>
