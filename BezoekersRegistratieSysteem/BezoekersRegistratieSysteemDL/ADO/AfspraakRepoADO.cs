@@ -867,7 +867,37 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
-        public IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemerOpBedrijf(long id1, long id2) {
+        public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerOpBedrijf(long id1, long id2) {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerOpBedrijf(long werknemerId, long bedrijfId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagOpBedrijf(long werknemerId, DateTime datum, long bedrijfId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string voornaam, string achternaam, string email, long bedrijfId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long werknemerId, long bedrijfId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers()
+        {
             throw new NotImplementedException();
         }
         #endregion

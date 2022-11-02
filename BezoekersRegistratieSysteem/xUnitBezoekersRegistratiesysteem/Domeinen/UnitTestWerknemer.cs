@@ -8,15 +8,26 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		//AF
 
 		#region Valid Info
-		private Bedrijf _b1 = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-		private Bedrijf _b2 = new(1, "anderbedrijf", "BE0724540609", true, "876543210", "anderbedrijf@email.com", "anderebedrijfstraat 10");
-		private string _of = "oudefunctie";
-		private string _nf = "nieuwefunctie";
-		private string _e = "werknemer.werknemersen@email.com";
+		private Bedrijf _b1;
+		private Bedrijf _b2;
+		private string _of;
+		private string _nf;
+		private string _e;
 		#endregion
 
-		#region UnitTest Id
-		[Fact]
+		#region Initialiseren
+		public UnitTestWerknemer()
+		{
+            _b1 = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            _b2 = new(1, "anderbedrijf", "BE0724540609", true, "876543210", "anderbedrijf@email.com", "anderebedrijfstraat 10");
+            _of = "oudefunctie";
+            _nf = "nieuwefunctie";
+            _e = "werknemer.werknemersen@email.com";
+        }
+        #endregion
+
+        #region UnitTest Id
+        [Fact]
 		public void ZetId_Valid()
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
