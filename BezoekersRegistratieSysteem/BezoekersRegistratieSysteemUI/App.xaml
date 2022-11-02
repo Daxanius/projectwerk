@@ -6,6 +6,7 @@
     StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <FontFamily x:Key="Inter">pack://application:,,,/Fonts/#Inter</FontFamily>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <FontFamily x:Key="Inter">/Fonts/#Inter</FontFamily>

@@ -2,24 +2,24 @@
 
 namespace BezoekersRegistratieSysteemREST.Model.Output
 {
-	public class AfsrpaakOutputDTO
+	public class AfspraakOutputDTO
 	{
-		public static AfsrpaakOutputDTO NaarDTO(Afspraak afspraak)
+		public static AfspraakOutputDTO NaarDTO(Afspraak afspraak)
 		{
 			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, afspraak.Bezoeker.Id, afspraak.Werknemer.Id);
 		}
 
-		public static IEnumerable<AfsrpaakOutputDTO> NaarDTO(IEnumerable<Afspraak> afspraken)
+		public static IEnumerable<AfspraakOutputDTO> NaarDTO(IEnumerable<Afspraak> afspraken)
 		{
-			List<AfsrpaakOutputDTO> output = new();
+			List<AfspraakOutputDTO> output = new();
 			foreach (Afspraak afspraak in afspraken)
 			{
-				output.Add(AfsrpaakOutputDTO.NaarDTO(afspraak));
+				output.Add(AfspraakOutputDTO.NaarDTO(afspraak));
 			}
 			return output;
 		}
 
-		public AfsrpaakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, long bezoekerId, long werknemerId)
+		public AfspraakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, long bezoekerId, long werknemerId)
 		{
 			Id = id;
 			Starttijd = starttijd;

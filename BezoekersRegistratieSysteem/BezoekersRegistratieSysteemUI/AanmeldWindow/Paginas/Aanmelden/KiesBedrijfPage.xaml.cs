@@ -20,7 +20,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 	/// Interaction logic for KiesBedrijfPage.xaml
 	/// </summary>
 	public partial class KiesBedrijfPage : Page {
-		private const int MAX_COLUMN_COUNT = 4;
+		private const int MAX_COLUMN_COUNT = 3;
 
 		private List<BedrijfDTO> bedrijven = new() { new BedrijfDTO(1, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
 				new BedrijfDTO(2, "Odice", "Btw1", "Telefoon1", "Email1", "Adress1", null),
@@ -71,7 +71,26 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				new BedrijfDTO(23, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
 				new BedrijfDTO(24, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),};
 
-		public KiesBedrijfPage() {
+		#region Scaling
+        public double ScaleX { get; set; }
+        public double ScaleY { get; set; }
+        #endregion
+
+
+        public KiesBedrijfPage() {
+
+            double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
+            double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
+
+            double defaultResHeight = 1080.0;
+            double defaultResWidth = 1920.0;
+
+            double aspectratio = schermResolutieWidth / schermResolutieHeight;
+            double change = aspectratio > 2 ? 0.3 : aspectratio > 1.5 ? 0 : aspectratio > 1 ? -0.05 : -0.3;
+
+            ScaleX = (schermResolutieWidth / defaultResWidth);
+            ScaleY = (schermResolutieHeight / defaultResHeight) + change;
+
 			this.DataContext = this;
 			InitializeComponent();
 			SpawnBedrijvenGrid();
@@ -87,7 +106,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				Border border = new Border();
 				border.Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style;
 				border.Height = 85;
-				border.MinWidth = 300;
+				border.MinWidth = 350;
 				border.Margin = new Thickness(10);
 				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab;
 				border.DataContext = bedrijven[i];
