@@ -423,57 +423,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         #endregion
 
         #region UnitTest GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        [InlineData("\r")]
-        [InlineData("\t")]
-        [InlineData("\v")]
-        public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_VoornaamLeeg(string voornaam)
-        {
-            _mockRepo = new Mock<IAfspraakRepository>();
-            _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf - naam of email mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(voornaam, "bezoekersen", "bezoeker.bezoekersen@email.com", _bd));
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        [InlineData("\r")]
-        [InlineData("\t")]
-        [InlineData("\v")]
-        public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_AchternaamLeeg(string achternaam)
-        {
-            _mockRepo = new Mock<IAfspraakRepository>();
-            _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf - naam of email mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf("bezoeker", achternaam, "bezoeker.bezoekersen@email.com", _bd));
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        [InlineData("\r")]
-        [InlineData("\t")]
-        [InlineData("\v")]
-        public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_EmailLeeg(string email)
-        {
-            _mockRepo = new Mock<IAfspraakRepository>();
-            _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf - email mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf("bezoeker", "bezoekersen", email, _bd));
-        }
-
         [Fact]
         public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_BedrijfLeeg()
         {
@@ -486,57 +435,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
         [Theory]
         [InlineData(null, null, null)]
-
-        [InlineData(null, "bezoekersen", "bezoeker.bezoekersen@email.com")]
-
-        [InlineData(null, null, "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, "", "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, " ", "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, "\n", "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, "\r", "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, "\t", "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, "\v", "bezoeker.bezoekersen@email.com")]
-        
-        [InlineData(null, "bezoekersen", null)]
-        [InlineData(null, "bezoekersen", "")]
-        [InlineData(null, "bezoekersen", " ")]
-        [InlineData(null, "bezoekersen", "\n")]
-        [InlineData(null, "bezoekersen", "\r")]
-        [InlineData(null, "bezoekersen", "\t")]
-        [InlineData(null, "bezoekersen", "\v")]
-
-        [InlineData("bezoeker", null, "bezoeker.bezoekersen@email.com")]
-
-        [InlineData("", null, "bezoeker.bezoekersen@email.com")]
-        [InlineData(" ", null, "bezoeker.bezoekersen@email.com")]
-        [InlineData("\n", null, "bezoeker.bezoekersen@email.com")]
-        [InlineData("\r", null, "bezoeker.bezoekersen@email.com")]
-        [InlineData("\t", null, "bezoeker.bezoekersen@email.com")]
-        [InlineData("\v", null, "bezoeker.bezoekersen@email.com")]
-
-        [InlineData("bezoeker", null, null)]
-        [InlineData("bezoeker", null, "")]
-        [InlineData("bezoeker", null, " ")]
-        [InlineData("bezoeker", null, "\n")]
-        [InlineData("bezoeker", null, "\r")]
-        [InlineData("bezoeker", null, "\t")]
-        [InlineData("bezoeker", null, "\v")]
-
-        [InlineData("bezoeker", "bezoekersen", null)]
-
-        [InlineData("", "bezoekersen", null)]
-        [InlineData(" ", "bezoekersen", null)]
-        [InlineData("\n", "bezoekersen", null)]
-        [InlineData("\r", "bezoekersen", null)]
-        [InlineData("\t", "bezoekersen", null)]
-        [InlineData("\v", "bezoekersen", null)]
-
-        [InlineData("bezoeker", "", null)]
-        [InlineData("bezoeker", " ", null)]
-        [InlineData("bezoeker", "\n", null)]
-        [InlineData("bezoeker", "\r", null)]
-        [InlineData("bezoeker", "\t", null)]
-        [InlineData("bezoeker", "\v", null)]
 
         [InlineData(null, "", "")]
         [InlineData(null, " ", "")]
