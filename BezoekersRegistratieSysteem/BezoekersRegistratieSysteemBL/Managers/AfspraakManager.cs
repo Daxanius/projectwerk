@@ -131,7 +131,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerPerBedrijf(Werknemer werknemer, Bedrijf bedrijf) {
 			if (werknemer == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerWerknemerPerBedrijf - werknemer mag niet leeg zijn");
-			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerWerknemerPerBedrijf - werknemer mag niet leeg zijn");
+			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerWerknemerPerBedrijf - bedrijf mag niet leeg zijn");
 			try {
 				return _afspraakRepository.GeefHuidigeAfsprakenPerWerknemerPerBedrijf(werknemer.Id, bedrijf.Id);
 			} catch (Exception ex) {
