@@ -34,6 +34,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			set => _selectedDatum = value;
 		}
 		public BedrijfDTO GeselecteerdBedrijf { get; set; }
+		public ObservableCollection<AfspraakDTO> HuidigeAfsprakenLijstData { get; set; } = new();
 		public ObservableCollection<WerknemerDTO> MedewerkersVanGeselecteerdBedrijf { get; set; } = new();
 		public ObservableCollection<AfspraakDTO> AfsprakenVanGeselecteerdeMedewerker { get; set; } = new();
 
@@ -69,9 +70,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				new AfspraakDTO(21, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(21, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(2), DateTime.Now.AddHours(7)),
 				new AfspraakDTO(22, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(22, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(3), DateTime.Now.AddHours(7)) };
 
+			HuidigeAfsprakenLijstData = AfsprakenVanGeselecteerdeMedewerker;
+
 			this.DataContext = this;
 			InitializeComponent();
 
+			HuidigeAfsprakenLijst.ItemSource = HuidigeAfsprakenLijstData;
 			WerknemerLijst.ItemSource = MedewerkersVanGeselecteerdBedrijf;
 			WerknemerAfsprakenLijst.ItemSource = AfsprakenVanGeselecteerdeMedewerker;
 		}
