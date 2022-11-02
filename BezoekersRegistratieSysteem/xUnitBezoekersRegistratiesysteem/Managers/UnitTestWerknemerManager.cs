@@ -16,6 +16,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		#region Valid Info
 		private Werknemer _w;
 		private Bedrijf _b;
+		private WerknemerInfo _wi;
 		private string _f;
         #endregion
 
@@ -25,10 +26,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _w = new(10, "werknemer", "werknemersen");
             _b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             _f = "functie";
+
+			_wi = new(_b, "werknemer.werknemersen@email.com");
         }
         #endregion
 
-        #region UnitTest Werknemer Toevoegen
+        #region UnitTest VoegWerknemerToe
         [Fact]
 		public void VoegWerknemerToe_Invalid_WerknemerLeeg() {
 			_mockRepo = new Mock<IWerknemerRepository>();
@@ -47,10 +50,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VoegWerknemerToe(_w));
 			Assert.Equal("WerknemerManager - VoegWerknemerToe - werknemer bestaat al", ex.Message);
 		}
-		#endregion
+        #endregion
 
-		#region UnitTest Werknemer Verwijderen
-		[Fact]
+        #region UnitTest VerwijderWerknemer
+        [Fact]
 		public void VerwijderWerknemer_Invalid_WerknemerLeeg() {
 			_mockRepo = new Mock<IWerknemerRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
@@ -76,10 +79,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemer(_w, _b));
 			Assert.Equal("WerknemerManager - VerwijderWerknemer - werknemer bestaat niet", ex.Message);
 		}
-		#endregion
+        #endregion
 
-		#region UnitTest Werknemer Toevoegen met Functie
-		[Fact]
+        #region UnitTest VoegWerknemerFunctieToe
+        [Fact]
 		public void VoegWerknemerFunctieToe_Invalid_WerknemerLeeg() {
 			_mockRepo = new Mock<IWerknemerRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
@@ -131,10 +134,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
 			Assert.DoesNotContain(_b, _w.GeefBedrijvenEnFunctiesPerWerknemer().Keys);
 		}
-		#endregion
+        #endregion
 
-		#region UnitTest Verwijder werknemer Functie
-		[Fact]
+        #region UnitTest VerwijderWerknemerFunctie
+        [Fact]
 		public void VerwijderWerknemerFunctie_Invalid_WerknemerLeeg() {
 			_mockRepo = new Mock<IWerknemerRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
@@ -208,10 +211,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
 			Assert.True(_w.GeefBedrijvenEnFunctiesPerWerknemer().Values.Count() < 1);
 		}
-		#endregion
+        #endregion
 
-		#region UnitTest Werknemer Bewerken
-		[Fact]
+        #region UnitTest BewerkWerknemer
+        [Fact]
 		public void BewerkWerknemer_Invalid_WerknemerLeeg() {
 			_mockRepo = new Mock<IWerknemerRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
@@ -247,10 +250,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
 			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.BewerkWerknemer(_w, _b));
 		}
-		#endregion
+        #endregion
 
-		#region UnitTest Werknemer Opvragen
-		[Fact]
+        #region UnitTest GeefWerknemer
+        [Fact]
 		public void GeefWerknemer_Invalid_WerknemerBestaatNiet() {
 			_mockRepo = new Mock<IWerknemerRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
@@ -260,10 +263,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemer(_w.Id));
 			Assert.Equal("WerknemerManager - GeefWerknemer - werknemer bestaat niet", ex.Message);
 		}
-		#endregion
+        #endregion
 
-		#region UnitTest Werknemers Opvragen op Naam
-		[Theory]
+        #region UnitTest GeefWerknemersOpNaam
+        [Theory]
 		[InlineData(null)]
 		[InlineData("")]
 		[InlineData(" ")]
@@ -371,10 +374,41 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			var ex = _werknemerManager.GeefWerknemersOpNaam(_w.Voornaam, _w.Achternaam);
 			Assert.Empty(ex);
 		}
-		#endregion
+        #endregion
 
-		#region UnitTest Werknemer Opvragen per Bedrijf
-		[Fact]
+        #region UnitTest GeefWerknemersOpFunctie
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n")]
+        [InlineData("\r")]
+        [InlineData("\t")]
+        [InlineData("\v")]
+        public void GeefWerknemersOpFunctie_Invalid_FunctieLeeg(string functie)
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object);
+
+            //"WerknemerManager - GeefWerknemersOpFunctie - functie mag niet leeg zijn"
+            Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpFunctie(functie));
+        }
+
+        [Fact]
+        public void GeefWerknemersOpFunctie_Invalid_GeenWerknemers()
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object);
+
+            //"WerknemerManager - GeefWerknemersOpNaam - er zijn geen werknemers"
+            _mockRepo.Setup(x => x.GeefWerknemersOpFunctie("functie")).Returns(new List<Werknemer>());
+            var ex = _werknemerManager.GeefWerknemersOpFunctie("functie");
+            Assert.Empty(ex);
+        }
+        #endregion
+
+        #region UnitTest GeefWerknemersPerBedrijf
+        [Fact]
 		public void GeefWerknemersPerBedrijf_Invalid_BedrijfLeeg() {
 			_mockRepo = new Mock<IWerknemerRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
@@ -393,8 +427,37 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			var ex = _werknemerManager.GeefWerknemersPerBedrijf(_b);
 			Assert.Empty(ex);
 		}
-		#endregion
+        #endregion
 
+        #region UnitTest VoegFunctieToe
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n")]
+        [InlineData("\r")]
+        [InlineData("\t")]
+        [InlineData("\v")]
+        public void VoegFunctieToe_Invalid_FunctieLeeg(string functie)
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object);
 
-	}
+            //"WerknemerManager - VoegFunctieToe - functie mag niet leeg zijn"
+            Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VoegFunctieToe(functie));
+        }
+
+        [Fact]
+        public void VoegFunctieToe_Invalid_FunctieBestaat()
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object);
+
+            //"WerknemerManager - VoegFunctieToe - functie bestaat al"
+            _mockRepo.Setup(x => x.BestaatFunctie("functie")).Returns(true);
+            var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VoegFunctieToe("functie"));
+            Assert.Equal("WerknemerManager - VoegFunctieToe - functie bestaat al", ex.Message);
+        }
+        #endregion
+    }
 }
