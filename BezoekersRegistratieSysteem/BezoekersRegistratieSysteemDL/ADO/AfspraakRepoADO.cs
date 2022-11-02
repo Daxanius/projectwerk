@@ -573,6 +573,21 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         }
 
         /// <summary>
+        /// Geeft lijst van huidige afspraken op basis van bedrijf id en werknemer id
+        /// </summary>
+        /// <param name="werknemerId">werknemer id die gezocht moet worden</param>
+        /// <param name="bedrijfId">bedrijf id die gezocht moet worden</param>
+        /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf en/of werknemer</returns>
+        /// <exception cref="AfspraakADOException">Faalt om een afspraakobject toe te voegen</exception>
+        public IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemerOpBedrijf(long werknemerId, long bedrijfId) {
+            try {
+                return GeefHuidigeAfspraken(bedrijfId, werknemerId);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
         /// Prive methode die een lijst van huidige afspraken geeft van bedrijf of werknemer
         /// </summary>
         /// <param name="_bedrijfId">Optioneel: id van bedrijf</param>
@@ -865,10 +880,6 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             } finally {
                 con.Close();
             }
-        }
-
-        public IReadOnlyList<Afspraak> GeefHuidigeAfspraakPerWerknemerOpBedrijf(long id1, long id2) {
-            throw new NotImplementedException();
         }
         #endregion
     }
