@@ -182,5 +182,20 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+
+		/// <summary>
+		/// Geef huidige afspraak per bezoeker
+		/// </summary>
+		/// <param name="bezoekerInput"></param>
+		/// <returns></returns>
+		[HttpGet("bezoeker")]
+		public ActionResult<AfspraakOutputDTO> GeefAfspraakOpBezoeker([FromBody] BezoekerInputDTO bezoekerInput) {
+			try {
+				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
+				return AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfspraakBezoeker(bezoeker));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
 	}
 }
