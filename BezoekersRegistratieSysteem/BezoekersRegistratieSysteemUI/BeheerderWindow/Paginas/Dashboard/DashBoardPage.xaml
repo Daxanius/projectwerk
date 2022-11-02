@@ -9,6 +9,7 @@
     Title="DashBoardPage"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    KeepAlive="True"
     mc:Ignorable="d">
     <DockPanel>
         <dashboard:BedrijvenGridControl DockPanel.Dock="Top" />

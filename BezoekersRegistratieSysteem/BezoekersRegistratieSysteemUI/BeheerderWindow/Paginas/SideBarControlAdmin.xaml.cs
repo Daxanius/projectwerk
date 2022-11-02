@@ -1,4 +1,9 @@
-﻿using BezoekersRegistratieSysteemUI.Beheerder;
+﻿using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers;
 using BezoekersRegistratieSysteemUI.Controlls;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
@@ -44,23 +49,23 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 
 
 			Window window = Window.GetWindow(this);
-			BeheerderWindow BeheerderWindow = (BeheerderWindow)window.DataContext;
+			BeheerderWindow beheerderWindow = (BeheerderWindow)window.DataContext;
 
 			switch (tab) {
 				case "Dashboard":
-				BeheerderWindow.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/DashBoard/DashBoardPage.xaml", UriKind.Relative);
+				beheerderWindow.FrameControl.Navigate(new DashBoardPage());
 				break;
 				case "Bedrijven":
-				BeheerderWindow.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Bedrijven/BedrijvenPage.xaml", UriKind.Relative);
+				beheerderWindow.FrameControl.Navigate(new BedrijvenPage());
 				break;
 				case "Afspraken":
-				BeheerderWindow.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Afspraken/AfsprakenPage.xaml", UriKind.Relative);
+				beheerderWindow.FrameControl.Navigate(new AfsprakenPage());
 				break;
 				case "Werknemers":
-				BeheerderWindow.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Werknemers/WerknemersPage.xaml", UriKind.Relative);
+				beheerderWindow.FrameControl.Navigate(new WerknemersPage());
 				break;
 				case "Bezoekers":
-				BeheerderWindow.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Bezoekers/BezoekersPage.xaml", UriKind.Relative);
+				beheerderWindow.FrameControl.Navigate(new BezoekersPage());
 				break;
 			}
 		}

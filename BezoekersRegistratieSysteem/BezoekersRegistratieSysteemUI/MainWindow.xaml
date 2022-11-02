@@ -4,8 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
+    xmlns:images="clr-namespace:BezoekersRegistratieSysteemUI.Images"
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:images="clr-namespace:BezoekersRegistratieSysteemUI.Images"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="mainWindow"
     Title="MainWindow"
     AllowsTransparency="True"
@@ -55,13 +56,19 @@
                             </Style>
                         </Button.Resources>
                         <StackPanel>
-                            <iconspresenter:Icon 
-                            CircleBackground="Transparent"
-                            IconSize="500"
-                            IconOffsetLeft="13"
-                            Margin="0,-60,0,0"
-                            IconSource="../ParkingIcon.xaml"/>
-                            <Label Content="PARKING APPLICATION" FontWeight="Bold" Foreground="{StaticResource GewoonBlauw}" FontSize="24" Margin="0,-120,0,0" HorizontalContentAlignment="Center"/>
+                            <iconspresenter:Icon
+                                Margin="0,-60,0,0"
+                                CircleBackground="Transparent"
+                                IconOffsetLeft="13"
+                                IconSize="500"
+                                IconSource="../ParkingIcon.xaml" />
+                            <Label
+                                Margin="0,-120,0,0"
+                                HorizontalContentAlignment="Center"
+                                Content="PARKING APPLICATION"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource GewoonBlauw}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -78,13 +85,19 @@
                             </Style>
                         </Button.Resources>
                         <StackPanel>
-                        <iconspresenter:Icon 
-                            CircleBackground="Transparent"
-                            IconSize="500"
-                            IconOffsetLeft="13"
-                            Margin="0,-60,0,0"
-                            IconSource="../WerknemerIcon.xaml"/>
-                            <Label Content="REGISTRATIE APPLICATION" FontWeight="Bold" Foreground="{StaticResource GewoonBlauw}" FontSize="24" Margin="0,-120,0,0" HorizontalContentAlignment="Center"/>
+                            <iconspresenter:Icon
+                                Margin="0,-60,0,0"
+                                CircleBackground="Transparent"
+                                IconOffsetLeft="13"
+                                IconSize="500"
+                                IconSource="../WerknemerIcon.xaml" />
+                            <Label
+                                Margin="0,-120,0,0"
+                                HorizontalContentAlignment="Center"
+                                Content="REGISTRATIE APPLICATION"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource GewoonBlauw}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -101,13 +114,19 @@
                             </Style>
                         </Button.Resources>
                         <StackPanel>
-                            <iconspresenter:Icon 
-                            CircleBackground="Transparent"
-                            IconSize="500"
-                            IconOffsetLeft="13"
-                            Margin="0,-60,0,0"
-                            IconSource="../DashboardIcon.xaml"/>
-                            <Label Content="ADMIN APPLICATION" FontWeight="Bold" Foreground="{StaticResource GewoonBlauw}" FontSize="24" Margin="0,-120,0,0" HorizontalContentAlignment="Center"/>
+                            <iconspresenter:Icon
+                                Margin="0,-60,0,0"
+                                CircleBackground="Transparent"
+                                IconOffsetLeft="13"
+                                IconSize="500"
+                                IconSource="../DashboardIcon.xaml" />
+                            <Label
+                                Margin="0,-120,0,0"
+                                HorizontalContentAlignment="Center"
+                                Content="ADMIN APPLICATION"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource GewoonBlauw}" />
                         </StackPanel>
                     </Button>
                 </Grid>

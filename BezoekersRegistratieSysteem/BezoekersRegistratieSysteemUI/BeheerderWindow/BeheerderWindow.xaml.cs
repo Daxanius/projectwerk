@@ -19,8 +19,8 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		public double ScaleY { get; set; }
 		#endregion
 
-		#region Private Attributes
-		private BedrijfDTO _geselecteerdBedrijf { get; set; }
+		#region Public propperty
+		public static BedrijfDTO GeselecteerdBedrijf { get; private set; }
 		#endregion
 
 		public BeheerderWindow() {
@@ -44,8 +44,18 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		}
 
 		private void OnPageNavigation(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e) {
-			string path = e.Uri.OriginalString;
+			string path = e.Content.GetType().Name;
 			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Bezoekers", "Dashboard", "Werknemers" };
+
+			if(GeselecteerdBedrijf is not null) {
+				SideBar.AfsprakenTab.IsEnabled = true;
+				SideBar.BezoekersTab.IsEnabled = true;
+				SideBar.WerknemersTab.IsEnabled = true;
+			} else {
+				SideBar.AfsprakenTab.IsEnabled = false;
+				SideBar.BezoekersTab.IsEnabled = false;
+				SideBar.WerknemersTab.IsEnabled = false;
+			}
 
 			foreach (string folder in pathFolders) {
 				if (path.Contains(folder)) {
@@ -93,7 +103,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		}
 
 		public void ZetGeselecteerdBedrijf(BedrijfDTO bedrijf) {
-			_geselecteerdBedrijf = bedrijf;
+			GeselecteerdBedrijf = bedrijf;
 		}
 
 		#region ProppertyChanged
