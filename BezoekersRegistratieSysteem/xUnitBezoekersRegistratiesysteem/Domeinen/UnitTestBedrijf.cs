@@ -262,27 +262,19 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         [InlineData("\r", "functie")]
         [InlineData("\t", "functie")]
         [InlineData("\v", "functie")]
+        [InlineData("@email.com", "functie")]
+        [InlineData("werknemer.werknemersen@email.", "functie")]
+        [InlineData("werknemer.werknemersen@.com", "functie")]
+        [InlineData("werknemer.werknemersen@email", "functie")]
+        [InlineData("werknemer.werknemersen@", "functie")]
+        [InlineData("werknemer.werknemersen", "functie")]
+        [InlineData("werknemer.werknemersen@.", "functie")]
+        [InlineData("werknemer.werknemersen.com", "functie")]
         public void VoegWerknemerToeInBedrijf_Invalid_WerknemerException(string email, string functie)
         {
             Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
             Assert.Throws<WerknemerException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
         }
-
-        [Theory]
-		[InlineData("@email.com", "functie")]
-		[InlineData("werknemer.werknemersen@email.", "functie")]
-		[InlineData("werknemer.werknemersen@.com", "functie")]
-		[InlineData("werknemer.werknemersen@email", "functie")]
-		[InlineData("werknemer.werknemersen@", "functie")]
-		[InlineData("werknemer.werknemersen", "functie")]
-		[InlineData("werknemer.werknemersen@.", "functie")]
-		[InlineData("werknemer.werknemersen.com", "functie")]
-		public void VoegWerknemerToeInBedrijf_Invalid_WerknemerInfo(string email, string functie)
-		{
-			Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-
-			Assert.Throws<WerknemerInfoException>(() => b.VoegWerknemerToeInBedrijf(_w, email, functie));
-		}
 
         [Fact]
         public void VoegWerknemerToeInBedrijf_Invalid_WerknemerInBedrijfMetFunctie()

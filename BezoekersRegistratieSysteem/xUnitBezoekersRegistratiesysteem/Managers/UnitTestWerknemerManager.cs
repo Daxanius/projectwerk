@@ -249,8 +249,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             //"WerknemerManager - BewerkWerknemer - werknemer is niet gewijzigd"
             _mockRepo.Setup(x => x.BestaatWerknemer(_w.Id)).Returns(true);
             _mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
-			var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.BewerkWerknemer(_w, _b));
-            Assert.Equal("WerknemerManager - BewerkWerknemer - werknemer is niet gewijzigd", ex.Message);
+			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.BewerkWerknemer(_w, _b));
         }
         #endregion
 
