@@ -19,10 +19,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		private static Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 		private static Werknemer _w = new(10, "werknemer", "werknemersen");
 
-        private Bedrijf _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+        private static Bedrijf _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 
-        private Afspraak _ia = new(_st, _b, _w);
-        private Afspraak _oa = new (10, _st, _et, _b, _w);
+        private Afspraak _ia = new(_st, _bd, _b, _w);
+        private Afspraak _oa = new (10, _st, _et, _bd, _b, _w);
         #endregion
 
         #region UnitTest Afspraak toevoegen
