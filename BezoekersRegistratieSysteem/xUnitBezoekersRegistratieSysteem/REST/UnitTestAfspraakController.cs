@@ -1,9 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
 using BezoekersRegistratieSysteemREST.Model;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace xUnitBezoekersRegistratieSysteem.REST {
@@ -110,6 +110,17 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		public void GeefAfspraak_Invalid_AfspraakBestaatNiet() {
 			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(0)).Returns(false);
 			var result = _afspraakController.GeefAfspraak(0);
+			Assert.Null(result.Value);
+		}
+		#endregion
+
+		#region UnitTest GeefHuidigeAfspraken
+		[Fact]
+		public void GeefHuidigeAfspraken_Invalid_GeenAfspraken() {
+			_mockRepoAfspraak.Setup(x => x.GeefHuidigeAfspraken()).Returns(new List<Afspraak>());
+			var result = _afspraakController.GeefAfspraken(null, null, null, true);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
 		#endregion
