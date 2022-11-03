@@ -44,8 +44,8 @@
                             VerticalAlignment="Center"
                             Content="Dashboard"
                             FontSize="16"
-                            FontWeight="Bold" 
-                            Foreground="{StaticResource DonkerBlauw}"/>
+                            FontWeight="Bold"
+                            Foreground="{StaticResource DonkerBlauw}" />
                     </StackPanel>
                 </Border>
                 <Border
@@ -69,8 +69,8 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="Bedrijven"
-                            FontSize="16" 
-                            Foreground="{StaticResource DonkerBlauw}"/>
+                            FontSize="16"
+                            Foreground="{StaticResource DonkerBlauw}" />
                     </StackPanel>
                 </Border>
                 <Border
@@ -95,8 +95,8 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="Afspraken"
-                            FontSize="16" 
-                            Foreground="{StaticResource DonkerBlauw}"/>
+                            FontSize="16"
+                            Foreground="{StaticResource DonkerBlauw}" />
                     </StackPanel>
                 </Border>
                 <Border
@@ -120,8 +120,8 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="Werknemers"
-                            FontSize="16" 
-                            Foreground="{StaticResource DonkerBlauw}"/>
+                            FontSize="16"
+                            Foreground="{StaticResource DonkerBlauw}" />
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -148,8 +148,8 @@
                     <Label
                         VerticalAlignment="Center"
                         Content="Aanwezigen"
-                        FontWeight="Medium" 
-                        Foreground="{StaticResource DonkerBlauw}"/>
+                        FontWeight="Medium"
+                        Foreground="{StaticResource DonkerBlauw}" />
                 </StackPanel>
             </Border>
         </Grid>

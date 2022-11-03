@@ -1,24 +1,26 @@
 ﻿<UserControl
-    x:Class="BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls.AfsprakenLijstControl"
+    x:Class="BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Controls.WerknemersLijstControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:convert="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
-    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <convert:StatusConverter x:Key="StatusConverter" />
+    </UserControl.Resources>
     <ListView
-        x:Name="AfsprakenLijst"
+        Padding="0,5,0,0"
+        HorizontalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
-        VerticalContentAlignment="Stretch"
         Background="Transparent"
         BorderBrush="Transparent"
-        FontFamily="Inter"
         ItemsSource="{Binding ItemSource}"
-        ScrollViewer.CanContentScroll="False"
-        SelectionMode="Single">
+        ScrollViewer.CanContentScroll="False">
         <ListView.Style>
             <Style TargetType="ListView">
                 <Style.Triggers>
@@ -54,7 +56,6 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Cursor" Value="Hand" />
@@ -66,21 +67,13 @@
             <GridView>
                 <GridView.ColumnHeaderContainerStyle>
                     <Style TargetType="GridViewColumnHeader">
-                        <Setter Property="FontSize" Value="16" />
+                        <Setter Property="FontSize" Value="20" />
                         <Setter Property="FontWeight" Value="DemiBold" />
                         <Setter Property="OverridesDefaultStyle" Value="True" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="GridViewColumnHeader">
-                                    <ControlTemplate.Resources>
-                                        <Style TargetType="DataGridColumnHeader">
-                                            <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                        </Style>
-                                    </ControlTemplate.Resources>
-                                    <Label
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Stretch"
-                                        Content="{TemplateBinding Content}" />
+                                    <Label Content="{TemplateBinding Content}" />
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -90,40 +83,23 @@
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="200"
+                                MinWidth="220"
+                                Margin="0,0,50,0"
                                 Foreground="{StaticResource LichtGrijs}"
-                                Text="Datum" />
+                                Text="Naam" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Label
                                     Padding="8,15,0,15"
-                                    Content="{Binding StartTijd}"
-                                    FontSize="15"
-                                    FontWeight="DemiBold"
-                                    Foreground="{StaticResource LichtGrijs}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn>
-                        <GridViewColumn.Header>
-                            <TextBlock
-                                MinWidth="250"
-                                Foreground="{StaticResource LichtGrijs}"
-                                Text="Werknemer" />
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label
-                                    Padding="0,15,0,15"
                                     FontSize="15"
                                     FontWeight="DemiBold">
                                     <Label.Content>
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="Werknemer.Voornaam" />
-                                                    <Binding Path="Werknemer.Achternaam" />
+                                                    <Binding Path="Voornaam" />
+                                                    <Binding Path="Achternaam" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -135,34 +111,8 @@
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="250"
-                                Foreground="{StaticResource LichtGrijs}"
-                                Text="Bezoeker" />
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label
-                                    Padding="0,15,0,15"
-                                    FontSize="15"
-                                    FontWeight="DemiBold">
-                                    <Label.Content>
-                                        <TextBlock>
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="Bezoeker.Voornaam" />
-                                                    <Binding Path="Bezoeker.Achternaam" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </Label.Content>
-                                </Label>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn>
-                        <GridViewColumn.Header>
-                            <TextBlock
-                                MinWidth="250"
+                                MinWidth="220"
+                                Margin="0,0,50,0"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Email" />
                         </GridViewColumn.Header>
@@ -170,29 +120,50 @@
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
+                                    Content="{Binding Email}"
                                     FontSize="15"
-                                    FontWeight="DemiBold">
-                                    <Label.Content>
-                                        <TextBlock Text="{Binding Bezoeker.Email}" />
-                                    </Label.Content>
-                                </Label>
+                                    FontWeight="DemiBold" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="80"
+                                MinWidth="100"
+                                Margin="0,0,50,0"
                                 Foreground="{StaticResource LichtGrijs}"
-                                Text="Bedrijf" />
+                                Text="Functies" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
-                                    Content="{Binding WerknemerBedrijf}"
+                                    Content="{Binding Functie}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock
+                                Margin="0,0,20,0"
+                                Foreground="{StaticResource LichtGrijs}"
+                                Text="Status" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Padding="0,8"
+                                    Style="{StaticResource WerknemersStatusBackgroundStyle}"
+                                    Tag="{Binding Status, Converter={StaticResource StatusConverter}}">
+                                    <TextBlock
+                                        FontSize="15"
+                                        FontWeight="Bold"
+                                        Foreground="{StaticResource MainAchtergrond}"
+                                        Text="{Binding Status, Converter={StaticResource StatusConverter}}"
+                                        TextAlignment="Center" />
+                                </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -206,7 +177,7 @@
                                     Background="Transparent"
                                     BorderBrush="Transparent"
                                     BorderThickness="0"
-                                    Click="KlikOpAfspraakOptions"
+                                    Click="KlikOpWerknemerOptions"
                                     CommandParameter="{Binding}"
                                     Style="{StaticResource DotsButtonStyle}">
                                     <iconspresenter:Icon

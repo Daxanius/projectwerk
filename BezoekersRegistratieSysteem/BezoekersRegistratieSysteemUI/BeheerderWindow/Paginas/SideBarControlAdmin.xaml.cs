@@ -2,7 +2,6 @@
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers;
 using BezoekersRegistratieSysteemUI.Controlls;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
@@ -53,19 +52,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 
 			switch (tab) {
 				case "Dashboard":
-				beheerderWindow.FrameControl.Navigate(new DashBoardPage());
+				beheerderWindow.FrameControl.Navigate(DashBoardPage.Instance);
 				break;
 				case "Bedrijven":
-				beheerderWindow.FrameControl.Navigate(new BedrijvenPage());
+				beheerderWindow.FrameControl.Navigate(BedrijvenPage.Instance);
 				break;
 				case "Afspraken":
-				beheerderWindow.FrameControl.Navigate(new AfsprakenPage());
+				beheerderWindow.FrameControl.Navigate(AfsprakenPage.Instance);
 				break;
 				case "Werknemers":
-				beheerderWindow.FrameControl.Navigate(new WerknemersPage());
-				break;
-				case "Bezoekers":
-				beheerderWindow.FrameControl.Navigate(new BezoekersPage());
+				beheerderWindow.FrameControl.Navigate(WerknemersPage.Instance);
 				break;
 			}
 		}
