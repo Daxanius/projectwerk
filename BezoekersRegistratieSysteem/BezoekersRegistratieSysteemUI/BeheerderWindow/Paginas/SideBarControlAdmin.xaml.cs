@@ -2,7 +2,6 @@
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers;
 using BezoekersRegistratieSysteemUI.Controlls;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
@@ -63,9 +62,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 				break;
 				case "Werknemers":
 				beheerderWindow.FrameControl.Navigate(new WerknemersPage());
-				break;
-				case "Bezoekers":
-				beheerderWindow.FrameControl.Navigate(new BezoekersPage());
 				break;
 			}
 		}

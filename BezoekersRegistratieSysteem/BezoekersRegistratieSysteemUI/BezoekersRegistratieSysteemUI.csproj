@@ -93,13 +93,13 @@
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\AfsprakenLijstControl.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
+		<Compile Update="BeheerderWindow\Paginas\Werknemers\Controls\WerknemersLijstControl.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 		<Compile Update="BeheerderWindow\Paginas\Werknemers\WerknemersPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Update="BeheerderWindow\Paginas\Bedrijven\BedrijvenPage.xaml.cs">
-		  <SubType>Code</SubType>
-		</Compile>
-		<Compile Update="BeheerderWindow\Paginas\Bezoekers\BezoekersPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
 	</ItemGroup>
@@ -137,6 +137,10 @@
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
+		<Page Update="BeheerderWindow\Paginas\Werknemers\Controls\WerknemersLijstControl.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
 		<Page Update="BeheerderWindow\Paginas\Werknemers\WerknemersPage.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
@@ -145,14 +149,10 @@
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
-		<Page Update="BeheerderWindow\Paginas\Bezoekers\BezoekersPage.xaml">
-		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-		  <SubType>Designer</SubType>
-		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="BeheerderWindow\Popups\" />
+		<Folder Include="BeheerderWindow\Paginas\Werknemers\Converter\" />
 		<Folder Include="BeheerderWindow\Style\" />
 	</ItemGroup>
 
