@@ -14,7 +14,7 @@
     <DockPanel>
         <dashboard:BedrijvenGridControl DockPanel.Dock="Top" />
         <Border
-            Margin="20"
+            Margin="0,40,40,40"
             Padding="20"
             Background="{StaticResource LichtGrijsAccent}"
             CornerRadius="25"

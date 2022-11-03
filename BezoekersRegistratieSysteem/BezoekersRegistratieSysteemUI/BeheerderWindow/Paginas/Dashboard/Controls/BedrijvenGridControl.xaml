@@ -8,17 +8,18 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <StackPanel Margin="0,20,40,0">
+    <StackPanel Margin="0,20,60,0">
         <Label
-            Padding="40,0,0,20"
+            Padding="0,10,0,20"
             Content="Dashboard"
             FontSize="40"
             FontWeight="Bold"
             Foreground="{StaticResource DonkerBlauw}" />
         <ScrollViewer
             MaxHeight="440"
-            Padding="0,0,0,20"
-            CanContentScroll="True">
+            Padding="0,0,0,0"
+            CanContentScroll="True"
+            Foreground="{StaticResource DonkerBlauw}">
             <Grid Name="gridContainer">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
