@@ -193,11 +193,12 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		#endregion
 
 		#region UnitTest GeefAfsprakenPerBedrijfOpDag
+		[Fact]
 		public void GeefAfsprakenPerBedrijfOpDag_Invalid_WerknemerNegatief() {
 			var result = _afspraakController.GeefAfspraken(_st, null, -3, false);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
-			Assert.Null(result);
+			Assert.Null(result.Value);
 		}
 
 		[Fact]
