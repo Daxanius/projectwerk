@@ -166,5 +166,22 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefHuidigeAfsprakenPerBedrijf
+		[Fact]
+		public void GeefHuidigeAfsprakenPerBedrijf_Invalid_BedrijfNegatief() {
+			var result = _afspraakController.GeefAfspraken(null, null, -3, true);
+			Assert.NotNull(result.Result);
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefHuidigeAfsprakenPerBedrijf_Invalid_GeenAfspraken() {
+			_mockRepoAfspraak.Setup(x => x.GeefHuidigeAfsprakenPerBedrijf(0)).Returns(new List<Afspraak>());
+			var result = _afspraakController.GeefAfspraken(null, null, 0, true);
+			Assert.NotNull(result.Result);
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
