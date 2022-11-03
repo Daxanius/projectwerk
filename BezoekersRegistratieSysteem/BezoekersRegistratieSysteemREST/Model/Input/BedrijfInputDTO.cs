@@ -8,9 +8,9 @@ namespace BezoekersRegistratieSysteemREST.Model {
 			return new(Naam, BTW, TelefoonNummer, Email, Adres);
 		}
 
-		public BedrijfInputDTO(string naam, string bTW, string telefoonNummer, string email, string adres) {
+		public BedrijfInputDTO(string naam, string BTW, string telefoonNummer, string email, string adres) {
 			Naam = naam;
-			BTW = bTW;
+			this.BTW = BTW;
 			TelefoonNummer = telefoonNummer;
 			Email = email;
 			Adres = adres;

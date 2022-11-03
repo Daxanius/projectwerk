@@ -179,7 +179,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <param name="werknemerInfo"></param>
 		/// <returns></returns>
 		[HttpPost("werknemer/id/{werknemerId}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegwegnemerToeAanBedrijf(long werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo)
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegWerknemerToeAanBedrijf(long werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo)
 		{
 			try
 			{

@@ -1,7 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
+using BezoekersRegistratieSysteemREST.Model;
 using Moq;
 
 namespace xUnitBezoekersRegistratieSysteem.REST {
@@ -41,6 +43,22 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			// Controllers
 			_bedrijfController = new(_bedrijfManager, _werknemerManger);
+		}
+		#endregion
+
+		#region UnitTest VoegBedrijfToe
+		[Fact]
+		public void VoegBedrijfToe_Invalid_BedrijfLeeg() {
+			var result = _bedrijfController.VoegBedrijfToe(null);
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void VoegBedrijfToe_Invalid_BedrijfBestaatAl() {
+			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(_unb)).Returns(true);
+			BedrijfInputDTO input = new(_unb.Naam, _unb.BTW, _unb.TelefoonNummer, _unb.Email, _unb.Adres);
+			var result = _bedrijfController.VoegBedrijfToe(input));
+			Assert.Null(result.Value);
 		}
 		#endregion
 	}
