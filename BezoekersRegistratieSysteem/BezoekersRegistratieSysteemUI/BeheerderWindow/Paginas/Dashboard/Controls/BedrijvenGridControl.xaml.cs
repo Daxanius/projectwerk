@@ -108,7 +108,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 					TextAlignment = TextAlignment.Center,
 					VerticalAlignment = VerticalAlignment.Center,
 					TextWrapping = TextWrapping.Wrap,
-					Padding = new Thickness(0, 0, 0, 2)
+					Padding = new Thickness(0, 0, 0, 4)
 				};
 
 				Icon icon = new() {

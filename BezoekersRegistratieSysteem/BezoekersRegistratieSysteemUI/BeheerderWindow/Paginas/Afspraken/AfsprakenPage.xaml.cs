@@ -37,6 +37,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		public ObservableCollection<AfspraakDTO> HuidigeAfsprakenLijstData { get; set; } = new();
 		public ObservableCollection<WerknemerDTO> MedewerkersVanGeselecteerdBedrijf { get; set; } = new();
 		public ObservableCollection<AfspraakDTO> AfsprakenVanGeselecteerdeMedewerker { get; set; } = new();
+		public ObservableCollection<AfspraakDTO> BezoekersLijstData { get; set; } = new();
+		public ObservableCollection<AfspraakDTO> OpDatumLijstData { get; set; } = new();
 
 		public AfsprakenPage() {
 			GeselecteerdBedrijf = BeheerderWindow.GeselecteerdBedrijf;
@@ -71,6 +73,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				new AfspraakDTO(22, new BezoekerDTO("Stan", "Persoons", "stan@gmail.com", "hogent"), "Hogent", new WerknemerDTO(22, "Weude", "VanDirk", "Weude@VanDirk.be"), DateTime.Now.AddHours(3), DateTime.Now.AddHours(7)) };
 
 			HuidigeAfsprakenLijstData = AfsprakenVanGeselecteerdeMedewerker;
+			BezoekersLijstData = AfsprakenVanGeselecteerdeMedewerker;
+			OpDatumLijstData = AfsprakenVanGeselecteerdeMedewerker;
 
 			this.DataContext = this;
 			InitializeComponent();
@@ -78,6 +82,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			HuidigeAfsprakenLijst.ItemSource = HuidigeAfsprakenLijstData;
 			WerknemerLijst.ItemSource = MedewerkersVanGeselecteerdBedrijf;
 			WerknemerAfsprakenLijst.ItemSource = AfsprakenVanGeselecteerdeMedewerker;
+			BezoekerAfsprakenLijst.ItemSource = BezoekersLijstData;
+			OpDatumAfsprakenLijst.ItemSource = OpDatumLijstData;
 		}
 
 		private readonly Regex _regex = new Regex("[^0-9./]+");
@@ -109,13 +115,15 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			TextBlock textBlock = (TextBlock)stackpanel.Children[1];
 			AfsprakenLijstControl afsprakenLijstControl;
 			AfsprakenLijstControl werknemersLijstControl;
+			BezoekersLijstControl bezoekersLijstControl;
+			OpDatumLijstControl opDatumLijstControl;
 
 			switch (textBlock.Text) {
 				case "Huidige Afspraken":
 				//Lazy Loading
 				afsprakenLijstControl = (AfsprakenLijstControl)HuidigeAfsprakenLijst.DataContext;
 				if (!afsprakenLijstControl.HeeftData) {
-					afsprakenLijstControl.FetchHuidigeAfspraken();
+					afsprakenLijstControl.FetchData();
 				}
 
 				ResetFilterSelection();
@@ -127,7 +135,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				//Lazy Loading
 				afsprakenLijstControl = (AfsprakenLijstControl)WerknemerAfsprakenLijst.DataContext;
 				if (!afsprakenLijstControl.HeeftData) {
-					afsprakenLijstControl.FetchWerknemerAfspraken(null);
+					afsprakenLijstControl.FetchData();
 				}
 
 				ResetFilterSelection();
@@ -137,9 +145,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 				case "Afspraken Bezoeker":
 				//Lazy Loading
-				afsprakenLijstControl = (AfsprakenLijstControl)BezoekerAfsprakenLijst.DataContext;
-				if (!afsprakenLijstControl.HeeftData) {
-					afsprakenLijstControl.FetchBezoekerAfspraken(null);
+				bezoekersLijstControl = (BezoekersLijstControl)BezoekerAfsprakenLijst.DataContext;
+				if (!bezoekersLijstControl.HeeftData) {
+					bezoekersLijstControl.FetchData();
 				}
 
 				ResetFilterSelection();
@@ -149,9 +157,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 				case "Afspraak Op Datum":
 				//Lazy Loading
-				afsprakenLijstControl = (AfsprakenLijstControl)OpDatumAfsprakenLijst.DataContext;
-				if (!afsprakenLijstControl.HeeftData) {
-					afsprakenLijstControl.FetchAfsprakenOpDatumData(DateTime.Now);
+				opDatumLijstControl = (OpDatumLijstControl)OpDatumAfsprakenLijst.DataContext;
+				if (!opDatumLijstControl.HeeftData) {
+					opDatumLijstControl.FetchData();
 				}
 				//Lazy Loading
 				ResetFilterSelection();

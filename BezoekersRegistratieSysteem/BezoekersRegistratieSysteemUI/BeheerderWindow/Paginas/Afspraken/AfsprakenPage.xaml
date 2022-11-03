@@ -14,8 +14,8 @@
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="55" />
+                <RowDefinition Height="25" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="150" />
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
                 <TextBlock
@@ -34,6 +34,7 @@
                     TextDecorations="Underline" />
                 <iconspresenter:Icon
                     CircleBackground="{StaticResource DonkerBlauw}"
+                    Cursor="Hand"
                     DockPanel.Dock="Right"
                     IconSize="50"
                     IconSource="../PlusIcon.xaml" />
@@ -42,7 +43,7 @@
             <UniformGrid
                 Name="FilterContainerHeaders"
                 Grid.Row="2"
-                VerticalAlignment="Center"
+                VerticalAlignment="Bottom"
                 Columns="4"
                 Rows="1">
                 <Border
@@ -159,26 +160,6 @@
                                     FontWeight="Bold"
                                     Foreground="{StaticResource DonkerBlauw}"
                                     Text="Huidige Afspraken" />
-                                <StackPanel
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Right"
-                                    Orientation="Horizontal">
-                                    <Border CornerRadius="15">
-                                        <TextBox
-                                            Padding="10"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent"
-                                            BorderThickness="0"
-                                            FontSize="20"
-                                            FontWeight="DemiBold"
-                                            Foreground="{StaticResource DonkerBlauw}"
-                                            LostKeyboardFocus="DatePickerInput_LostKeyboardFocus"
-                                            PreviewTextInput="IsDatePickerGeldigeText"
-                                            Style="{StaticResource DefaultTextBoxStyle}"
-                                            Text="{Binding Datum}"
-                                            TextAlignment="Center" />
-                                    </Border>
-                                </StackPanel>
                             </Grid>
                             <controls:AfsprakenLijstControl x:Name="HuidigeAfsprakenLijst" />
                         </DockPanel>
@@ -287,6 +268,13 @@
                                                 Text="{Binding Datum}"
                                                 TextAlignment="Center" />
                                         </Border>
+                                        <iconspresenter:Icon
+                                            Padding="0,8,0,0"
+                                            CircleBackground="{StaticResource DonkerBlauw}"
+                                            Cursor="Hand"
+                                            DockPanel.Dock="Right"
+                                            IconSize="40"
+                                            IconSource="../ReloadIcon.xaml" />
                                     </StackPanel>
                                 </Grid>
                                 <controls:AfsprakenLijstControl x:Name="WerknemerAfsprakenLijst" />
@@ -331,9 +319,16 @@
                                             Text="{Binding Datum}"
                                             TextAlignment="Center" />
                                     </Border>
+                                    <iconspresenter:Icon
+                                        Padding="0,8,0,0"
+                                        CircleBackground="{StaticResource DonkerBlauw}"
+                                        Cursor="Hand"
+                                        DockPanel.Dock="Right"
+                                        IconSize="40"
+                                        IconSource="../ReloadIcon.xaml" />
                                 </StackPanel>
                             </Grid>
-                            <controls:AfsprakenLijstControl x:Name="BezoekerAfsprakenLijst" />
+                            <controls:BezoekersLijstControl x:Name="BezoekerAfsprakenLijst" />
                         </DockPanel>
                     </Border>
                 </DockPanel>
@@ -373,9 +368,16 @@
                                             Text="{Binding Datum}"
                                             TextAlignment="Center" />
                                     </Border>
+                                    <iconspresenter:Icon
+                                        Padding="0,8,0,0"
+                                        CircleBackground="{StaticResource DonkerBlauw}"
+                                        Cursor="Hand"
+                                        DockPanel.Dock="Right"
+                                        IconSize="40"
+                                        IconSource="../ReloadIcon.xaml" />
                                 </StackPanel>
                             </Grid>
-                            <controls:AfsprakenLijstControl x:Name="OpDatumAfsprakenLijst" />
+                            <controls:OpDatumLijstControl x:Name="OpDatumAfsprakenLijst" />
                         </DockPanel>
                     </Border>
                 </DockPanel>

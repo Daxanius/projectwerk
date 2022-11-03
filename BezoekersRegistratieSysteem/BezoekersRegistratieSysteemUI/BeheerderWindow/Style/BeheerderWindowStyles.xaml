@@ -356,7 +356,7 @@
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Opacity" Value="0.6" />
         <Setter Property="Background" Value="{StaticResource LichtGrijsAccent}" />
-        <Setter Property="CornerRadius" Value="30" />
+        <Setter Property="CornerRadius" Value="15 15 0 0" />
     </Style>
 
 </ResourceDictionary>
