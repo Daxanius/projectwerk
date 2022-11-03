@@ -13,7 +13,7 @@ namespace BezoekersRegistratieSysteemBL {
         public static readonly Regex RegexWhitespace = new(@"\s+");
 		public static readonly Regex RegexBtw = new("^[A-Za-z]{2,4}(?=.{2,12}$)[-_\\s0-9]*(?:[a-zA-Z][-_\\s0-9]*){0,2}$");
 		public static readonly Regex RegexEmail = new(@"^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$", RegexOptions.IgnoreCase);
-		public static readonly Regex RegexTelefoonNummer = new(@"^\+?[0-9]{1,15}$");
+		public static readonly Regex RegexTelefoonnummer = new(@"^\+?[0-9]{1,15}$");
 
 		/// <summary>
 		/// Verwijdert alle whitespace van een string
@@ -102,11 +102,11 @@ namespace BezoekersRegistratieSysteemBL {
 		/// </summary>
 		/// <param name="nummer"></param>
 		/// <returns></returns>
-		public static bool IsTelefoonNummerGeldig(string nummer) {
+		public static bool IsTelefoonnummerGeldig(string nummer) {
 			if (string.IsNullOrWhiteSpace(nummer))
 				return false;
 
-			return RegexTelefoonNummer.IsMatch(VerwijderWhitespace(nummer));
+			return RegexTelefoonnummer.IsMatch(VerwijderWhitespace(nummer));
 		}
     }
 }
