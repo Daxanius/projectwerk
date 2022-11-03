@@ -66,12 +66,12 @@
                     Height="50"
                     MinWidth="120"
                     MaxWidth="350"
-                    Background="{StaticResource DonkerBlauw}"
+                    Background="{StaticResource LichtGrijsAccent}"
                     Cursor="Hand"
                     DockPanel.Dock="Right"
-                    FontSize="24"
+                    FontSize="26"
                     FontWeight="Bold"
-                    Foreground="{StaticResource MainAchtergrond}">
+                    Foreground="{StaticResource DonkerBlauw}">
                     <ComboBoxItem Content="Hogent" />
                     <ComboBoxItem Content="Hogent" />
                     <ComboBoxItem Content="Hogent" />

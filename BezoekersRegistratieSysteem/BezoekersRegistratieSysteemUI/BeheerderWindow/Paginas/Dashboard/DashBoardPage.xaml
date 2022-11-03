@@ -20,18 +20,41 @@
             CornerRadius="25"
             DockPanel.Dock="Bottom">
             <DockPanel>
-                <TextBlock
-                    Padding="5,0,0,10"
+                <DockPanel
+                    Margin="5"
+                    VerticalAlignment="Center"
                     DockPanel.Dock="Top"
-                    FontSize="28"
-                    FontWeight="Bold"
-                    Foreground="{StaticResource DonkerBlauw}">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} | Afspraken">
-                            <Binding Path="Datum" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                    LastChildFill="False">
+                    <TextBlock
+                        Padding="5,0,0,10"
+                        VerticalAlignment="Center"
+                        DockPanel.Dock="Left"
+                        FontSize="28"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource DonkerBlauw}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} | Afspraken">
+                                <Binding Path="Datum" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <ComboBox
+                        Height="50"
+                        MinWidth="120"
+                        MaxWidth="350"
+                        Margin="0,0,15,0"
+                        Background="{StaticResource LichtGrijsAccent}"
+                        Cursor="Hand"
+                        DockPanel.Dock="Right"
+                        FontSize="26"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource DonkerBlauw}">
+                        <ComboBoxItem Content="Hogent" />
+                        <ComboBoxItem Content="Hogent" />
+                        <ComboBoxItem Content="Hogent" />
+                        <ComboBoxItem Content="Hogent" />
+                    </ComboBox>
+                </DockPanel>
                 <dashboard:AfsprakenLijstControl />
             </DockPanel>
         </Border>

@@ -148,7 +148,7 @@
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="150"
+                                MinWidth="120"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Adres" />
                         </GridViewColumn.Header>

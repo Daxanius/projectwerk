@@ -152,6 +152,19 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <Style x:Key="WerknemersStatusBackgroundStyle" TargetType="Border">
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="Width" Value="75" />
+        <Style.Triggers>
+            <Trigger Property="Tag" Value="Bezet">
+                <Setter Property="Background" Value="#C73535" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Vrij">
+                <Setter Property="Background" Value="#35C789" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <Style x:Key="BedrijvenBorderGridStyle" TargetType="Border">
         <Setter Property="CornerRadius" Value="28" />
         <Setter Property="Background" Value="{StaticResource LichtGrijsAccent}" />
@@ -221,7 +234,7 @@
                                 <TextBlock
                                     Padding="8,0,0,0"
                                     Background="Transparent"
-                                    Foreground="{StaticResource MainAchtergrond}"
+                                    Foreground="{StaticResource DonkerBlauw}"
                                     Text="{Binding}">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
@@ -257,9 +270,9 @@
                             x:Name="Border"
                             Grid.ColumnSpan="2"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="#F6F6F6"
-                            BorderThickness="1"
-                            CornerRadius="8" />
+                            BorderBrush="{TemplateBinding Foreground}"
+                            BorderThickness="1.5"
+                            CornerRadius="25" />
                         <iconspresenter:Icon
                             Grid.Column="1"
                             CircleBackground="Transparent"
@@ -276,7 +289,7 @@
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="Foreground" Value="#333" />
         <Setter Property="BorderBrush" Value="Gray" />
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
@@ -312,13 +325,14 @@
                         <TextBox
                             x:Name="PART_EditableTextBox"
                             Margin="10,0,50,0"
+                            Padding="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Background="Transparent"
                             BorderBrush="Transparent"
                             Focusable="False"
                             FontSize="20"
-                            Foreground="{StaticResource MainAchtergrond}"
+                            Foreground="{TemplateBinding Foreground}"
                             IsHitTestVisible="False"
                             Text="{TemplateBinding Text}" />
                         <Popup
@@ -336,9 +350,9 @@
                                 SnapsToDevicePixels="True">
                                 <Border
                                     x:Name="DropDownBorder"
-                                    Background="{StaticResource DonkerBlauw}"
-                                    BorderBrush="Transparent"
-                                    BorderThickness="0"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding Foreground}"
+                                    BorderThickness="1"
                                     CornerRadius="8" />
                                 <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
@@ -351,12 +365,11 @@
         </Setter>
         <Style.Triggers />
     </Style>
-
     <Style x:Key="FilterTabLijstStyle" TargetType="Border">
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Opacity" Value="0.6" />
         <Setter Property="Background" Value="{StaticResource LichtGrijsAccent}" />
-        <Setter Property="CornerRadius" Value="30" />
+        <Setter Property="CornerRadius" Value="15 15 0 0" />
     </Style>
 
 </ResourceDictionary>

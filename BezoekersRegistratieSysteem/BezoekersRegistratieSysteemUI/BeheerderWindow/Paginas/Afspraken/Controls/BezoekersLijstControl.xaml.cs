@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,24 +21,24 @@ using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls {
 	/// <summary>
-	/// Interaction logic for WerknemersLijstControl.xaml
+	/// Interaction logic for AfsprakenLijstControl.xaml
 	/// </summary>
-	public partial class WerknemersLijstControl : UserControl {
+	public partial class BezoekersLijstControl : UserControl {
 		public bool HeeftData { get; set; }
 
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
-		  typeof(ObservableCollection<WerknemerDTO>),
-		  typeof(WerknemersLijstControl),
-		  new PropertyMetadata(new ObservableCollection<WerknemerDTO>())
-	  );
+		  typeof(ObservableCollection<AfspraakDTO>),
+		  typeof(BezoekersLijstControl),
+		  new PropertyMetadata(new ObservableCollection<AfspraakDTO>())
+		 );
 
-		public ObservableCollection<WerknemerDTO> ItemSource {
-			get { return (ObservableCollection<WerknemerDTO>)GetValue(ItemSourceProperty); }
+		public ObservableCollection<AfspraakDTO> ItemSource {
+			get { return (ObservableCollection<AfspraakDTO>)GetValue(ItemSourceProperty); }
 			set { SetValue(ItemSourceProperty, value); }
 		}
 
-		public WerknemersLijstControl() {
+		public BezoekersLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
 
@@ -46,9 +47,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
 			Button? b = sender as Button;
-			WerknemerDTO? werknemer = b?.CommandParameter as WerknemerDTO;
+			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
 
-			//Zet de geselecteerde werknemer in de DataContext van de BeheerWindow
+			OpenAfspraakDetail(afspraak);
+		}
+
+		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
+
 		}
 
 		private Border _selecteditem;
@@ -71,6 +76,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			border.CornerRadius = new CornerRadius(20);
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;
+		}
+
+		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
+			Button b = (Button)sender;
+			AfspraakDTO afspraak = (AfspraakDTO)b.CommandParameter;
 		}
 
 		public void FetchData(string url = "", object body = null) {

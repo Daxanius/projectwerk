@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -77,24 +78,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			_selecteditem = border;
 		}
 
-		public void FetchHuidigeAfspraken() {
-			FetchData(url: "");
-		}
-
-		public void FetchWerknemerAfspraken(WerknemerDTO werknemer) {
-			FetchData(url: "", werknemer);
+		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
+			Button b = (Button)sender;
+			AfspraakDTO afspraak = (AfspraakDTO)b.CommandParameter;
 		}
 
 		public void FetchData(string url = "", object body = null) {
 
-		}
-
-		internal void FetchBezoekerAfspraken(BezoekerDTO bezoeker) {
-			FetchData(url: "", bezoeker);
-		}
-
-		internal void FetchAfsprakenOpDatumData(DateTime now) {
-			FetchData(url: "", now);
 		}
 	}
 }
