@@ -92,6 +92,7 @@
                             <TextBlock
                                 MinWidth="200"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Datum" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -110,6 +111,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Werknemer" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -137,6 +139,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Bezoeker" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -164,6 +167,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Email" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -184,6 +188,7 @@
                             <TextBlock
                                 MinWidth="80"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Bedrijf" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>

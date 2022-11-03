@@ -82,6 +82,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Naam" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -99,6 +100,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="TelefoonNummer" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -116,6 +118,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Email" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -133,6 +136,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="BTW" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -150,6 +154,7 @@
                             <TextBlock
                                 MinWidth="120"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Adres" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
