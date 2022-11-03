@@ -35,8 +35,21 @@ INSERT INTO Werknemer
 
 INSERT INTO Bedrijf
 	(Naam, BTWNr, TeleNr, Email, Adres, BTWChecked)
-	VALUES('Alternate','0893031290', '03 871 11 11', 'info@alternate.be', 'Oeyvaersbosch 16-18 , 2630 Aartselaar, Belgie',1),
-		  ('Bol.com bv', '0824148721', '032 027 885 999', 'info@bol.be', 'Papendorpseweg 100 , 3528BJ Utrecht, Belgie',1)
+  VALUES('allphi','BE0838576480','093961130','info@allphi.be','guldensporenpark 24 9820 merelbeke', 1),
+		('orbid','BE0463174208','092729911','info@orbid.be','guldensporenpark 29 9820 merelbeke', 1),
+		('cerence','BE0476308008','092398000','info@cerence.com','guldensporenpark 32 9820 merelbeke', 1),
+		('bistro insieme','BE0506713746','0489243921','bistro@insieme.eu','guldensporenpark 31 9820 merelbeke', 1),
+		('thermo fisher','BE0449564217','092725599','info@thermofisher.com','guldensporenpark 26 9820 merelbeke', 1),
+		('cadmes','BE0652874237','092222323','info@cadmes.com','guldensporenpark 12 9820 merelbeke', 1),
+		('hybrid software','BE0839161252','093295753','info-eur@hybridsoftware.com','guldensporenpark 18 9820 merelbeke', 1),
+		('doubleVerify','BE0423956118','0483631624','advertisersupport@doubleverify.com','guldensporenpark 2 9820 merelbeke', 1),
+		('infor','BE0456494767','092361636','middle.east@infor.com','guldensporenpark 78 9820 merelbeke', 1),
+		('eastman','BE0859910443','18003278626','taminco@eastman.be','guldensporenpark 74 9820 merelbeke', 1),
+		('santander','BE0445641853','092355000','santander@consumerfinance.be','guldensporenpark 81 9820 merelbeke', 1),
+		('xplore','BE0865300673','038719966','info@appfoundry.be','guldensporenpark 88 9820 merelbeke', 1),
+		('axxes','BE0877961252','033034404','info@axxessid.com','guldensporenlaan 2 9820 merelbeke', 1),
+		('linak','NL801383572B01','092300109','sales@linak.cn','guldensporenpark 31 9820 merelbeke', 1),
+		('walters people','BE0874633459','092105740','gent@walterspeople.com','guldensporenpark 25 9820 merelbeke', 1)
 
 
 INSERT INTO WerknemerBedrijf
