@@ -78,6 +78,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[Fact]
 		public void VoegAfspraakToe_Invalid_AfspraakLeeg() {
 			var result = _afspraakController.MaakAfspraak(null);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
 
@@ -85,6 +87,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		public void VoegAfspraakToe_Invalid_AfspraakBestaatAl() {
 			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(_a.NaarBusiness(_werknemerManger, _bedrijfManager))).Returns(true);
 			var result = _afspraakController.MaakAfspraak(_a);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
 		#endregion
@@ -458,6 +462,41 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		public void GeefAfsprakenPerBezoekerOpNaamOfEmail_Invalid_GeenAfspraken() {
 			_mockRepoAfspraak.Setup(x => x.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(_b.Voornaam, _b.Achternaam, _b.Email, 0)).Returns(new List<Afspraak>());
 			var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, null);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
+
+		#region UnitTest GeefAfsprakenPerBezoekerOpDagPerBedrijf
+		[Fact]
+		public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_WerknemerLeeg() {
+			var result = _afspraakController.GeefAfsprakenOpBezoeker(0, null, _st);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_DatumInToekomst() {
+			var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, _st.AddDays(1));
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_BedrijfNegatief() {
+			var result = _afspraakController.GeefAfsprakenOpBezoeker(-23, _b, _st.AddDays(1));
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_GeenAfspraken() {
+			_mockRepoAfspraak.Setup(x => x.GeefAfsprakenPerBezoekerOpDagPerBedrijf(0, _st, 0)).Returns(new List<Afspraak>());
+			var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, _st);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
