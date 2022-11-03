@@ -49,11 +49,9 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 			if(GeselecteerdBedrijf is not null) {
 				SideBar.AfsprakenTab.IsEnabled = true;
-				SideBar.BezoekersTab.IsEnabled = true;
 				SideBar.WerknemersTab.IsEnabled = true;
 			} else {
 				SideBar.AfsprakenTab.IsEnabled = false;
-				SideBar.BezoekersTab.IsEnabled = false;
 				SideBar.WerknemersTab.IsEnabled = false;
 			}
 
@@ -83,12 +81,6 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 						SideBar.AfsprakenTab.Tag = "Selected";
 						((Icon)((StackPanel)SideBar.AfsprakenTab.Child).Children[0]).Opacity = 1; ;
 						((Label)((StackPanel)SideBar.AfsprakenTab.Child).Children[1]).FontWeight = FontWeights.Bold;
-						break;
-
-						case "Bezoekers":
-						SideBar.BezoekersTab.Tag = "Selected";
-						((Icon)((StackPanel)SideBar.BezoekersTab.Child).Children[0]).Opacity = 1;
-						((Label)((StackPanel)SideBar.BezoekersTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 
 						case "Werknemers":
