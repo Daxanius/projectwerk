@@ -222,5 +222,18 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				return NotFound(ex.Message);
 			}
 		}
+
+		/// <summary>
+		/// Geef alle aanwezige bezoekers
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet("bezoeker/aanwezig")]
+		public ActionResult<IEnumerable<BezoekerOutputDTO>> GeefAanwezigeBezoekers() {
+			try {
+				return Ok(BezoekerOutputDTO.NaarDTO(_afspraakManager.GeefAanwezigeBezoekers()));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
 	}
 }

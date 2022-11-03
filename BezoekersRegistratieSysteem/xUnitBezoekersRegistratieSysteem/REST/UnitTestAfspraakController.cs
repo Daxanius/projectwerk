@@ -521,5 +521,16 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefAanwezigeBezoekers
+		[Fact]
+		public void GeefAanwezigeBezoekers_Invalid_GeenAanwezigeBezoekers() {
+			_mockRepoAfspraak.Setup(x => x.GeefAanwezigeBezoekers()).Returns(new List<Bezoeker>());
+			var result = _afspraakController.GeefAanwezigeBezoekers();
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
