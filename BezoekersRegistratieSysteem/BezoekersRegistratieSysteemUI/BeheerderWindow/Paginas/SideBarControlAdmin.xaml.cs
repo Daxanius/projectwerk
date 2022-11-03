@@ -52,16 +52,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 
 			switch (tab) {
 				case "Dashboard":
-				beheerderWindow.FrameControl.Navigate(new DashBoardPage());
+				beheerderWindow.FrameControl.Navigate(DashBoardPage.Instance);
 				break;
 				case "Bedrijven":
-				beheerderWindow.FrameControl.Navigate(new BedrijvenPage());
+				beheerderWindow.FrameControl.Navigate(BedrijvenPage.Instance);
 				break;
 				case "Afspraken":
-				beheerderWindow.FrameControl.Navigate(new AfsprakenPage());
+				beheerderWindow.FrameControl.Navigate(AfsprakenPage.Instance);
 				break;
 				case "Werknemers":
-				beheerderWindow.FrameControl.Navigate(new WerknemersPage());
+				beheerderWindow.FrameControl.Navigate(WerknemersPage.Instance);
 				break;
 			}
 		}

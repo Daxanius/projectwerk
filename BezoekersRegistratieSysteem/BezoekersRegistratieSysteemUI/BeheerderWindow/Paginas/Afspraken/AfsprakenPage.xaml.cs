@@ -24,6 +24,26 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 	/// Interaction logic for DashBoardPage.xaml
 	/// </summary>
 	public partial class AfsprakenPage : Page {
+
+		private static AfsprakenPage instance = null;
+		private static readonly object padlock = new object();
+
+		public static AfsprakenPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new AfsprakenPage();
+					}
+					return instance;
+				}
+			}
+		}
+
+		/// <summary>
+		/// ////////////////////////////////////////////////////////////////////////////////
+		/// </summary>
+
+
 		private static string _selectedDatum = DateTime.Now.ToString("dd/MM/yyyy");
 		private string _oudeValidDate = _selectedDatum;
 

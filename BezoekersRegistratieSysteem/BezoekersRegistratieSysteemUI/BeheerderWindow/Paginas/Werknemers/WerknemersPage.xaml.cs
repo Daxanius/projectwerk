@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,11 +22,27 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 	/// Interaction logic for DashBoardPage.xaml
 	/// </summary>
 	public partial class WerknemersPage : Page {
-		#region Public Propperty
+		private static WerknemersPage instance = null;
+		private static readonly object padlock = new object();
+
+		public static WerknemersPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new WerknemersPage();
+					}
+					return instance;
+				}
+			}
+		}
+
+		/// <summary>
+		/// ///////////////////////////////////////////////////
+		/// </summary>
+
 		public ObservableCollection<WerknemerDTO> WerknemersVanGeselecteerdBedrijf { get; set; } = new();
 
 		public BedrijfDTO GeselecteerdBedrijf { get; set; }
-		#endregion
 
 		public WerknemersPage() {
 			GeselecteerdBedrijf = BeheerderWindow.GeselecteerdBedrijf;
