@@ -57,7 +57,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		public void VoegBedrijfToe_Invalid_BedrijfBestaatAl() {
 			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(_unb)).Returns(true);
 			BedrijfInputDTO input = new(_unb.Naam, _unb.BTW, _unb.TelefoonNummer, _unb.Email, _unb.Adres);
-			var result = _bedrijfController.VoegBedrijfToe(input));
+			var result = _bedrijfController.VoegBedrijfToe(input);
 			Assert.Null(result.Value);
 		}
 		#endregion

@@ -1,7 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
+using BezoekersRegistratieSysteemREST.Model;
 using Moq;
 
 namespace xUnitBezoekersRegistratieSysteem.REST {
@@ -60,6 +62,23 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			// Controllers
 			_afspraakController = new(_afspraakManager , _werknemerManger, _bedrijfManager);
+		}
+		#endregion
+
+		#region UnitTest VoegAfspraakToe
+		[Fact]
+		public void VoegAfspraakToe_Invalid_AfspraakLeeg() {
+			var result = _afspraakController.MaakAfspraak(null);
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void VoegAfspraakToe_Invalid_AfspraakBestaatAl() {
+			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(_ia)).Returns(true);
+			BezoekerInputDTO bezoekerInput = new(_ia.Bezoeker.Voornaam, _ia.Bezoeker.Achternaam, _ia.Bezoeker.Email, _ia.Bezoeker.Bedrijf);
+			AfspraakInputDTO input = new(bezoekerInput, _ia.Werknemer.Id, _ia.Bedrijf.Id);
+			var result = _afspraakController.MaakAfspraak(input);
+			Assert.Null(result.Value);
 		}
 		#endregion
 	}
