@@ -97,6 +97,11 @@ namespace BezoekersRegistratieSysteemBL {
 			return RegexEmail.IsMatch(email.Trim());
 		}
 
+		/// <summary>
+		/// Controleert of het telefoonnumer in het correcte formaat is.
+		/// </summary>
+		/// <param name="nummer"></param>
+		/// <returns></returns>
 		public static bool IsTelefoonNummerGeldig(string nummer) {
 			if (string.IsNullOrWhiteSpace(nummer))
 				return false;
