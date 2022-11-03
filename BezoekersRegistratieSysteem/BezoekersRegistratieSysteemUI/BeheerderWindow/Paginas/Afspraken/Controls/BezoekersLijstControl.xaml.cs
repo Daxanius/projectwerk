@@ -78,6 +78,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			_selecteditem = border;
 		}
 
+		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
+			Button b = (Button)sender;
+			AfspraakDTO afspraak = (AfspraakDTO)b.CommandParameter;
+		}
+
 		public void FetchData(string url = "", object body = null) {
 
 		}

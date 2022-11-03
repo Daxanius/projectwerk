@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
@@ -181,7 +182,7 @@
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="120"
+                                MinWidth="80"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Bedrijf" />
                         </GridViewColumn.Header>
@@ -197,20 +198,23 @@
                     </GridViewColumn>
                     <GridViewColumn>
                         <GridViewColumn.Header>
-                            <TextBlock
-                                Padding="5,0"
-                                Foreground="{StaticResource LichtGrijs}"
-                                Text="Status" />
+                            <TextBlock Padding="5,0" Text="" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button
-                                    Click="KlikOpActionButtonOpRow"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    Click="KlikOpAfspraakOptions"
                                     CommandParameter="{Binding}"
-                                    Style="{StaticResource WijzigButtonStyle}">
-                                    <Border Style="{StaticResource AfspraakStatusBackgroundStyle}" Tag="{Binding Status}">
-                                        <TextBlock Style="{StaticResource ListViewWijzigTextBlockStyle}" Text="{Binding Status}" />
-                                    </Border>
+                                    Style="{StaticResource DotsButtonStyle}">
+                                    <iconspresenter:Icon
+                                        CircleBackground="Transparent"
+                                        FontSize="20"
+                                        IconOffsetLeft="12"
+                                        IconOffsetTop="12"
+                                        IconSource="../DotsIcon.xaml" />
                                 </Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
