@@ -599,5 +599,15 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 con.Close();
             }
         }
+
+        public IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
