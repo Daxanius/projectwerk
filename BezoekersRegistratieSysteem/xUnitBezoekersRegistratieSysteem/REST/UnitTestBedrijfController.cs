@@ -21,17 +21,12 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		#endregion
 
 		#region Valid Info
-		private Werknemer _w;
-		private Bedrijf _unb;
-		private Bedrijf _vb;
+		private WerknemerInputDTO _w;
+		private BedrijfInputDTO _bd;
 		#endregion
 
 		#region Initialiseren
 		public UnitTestBedrijfController() {
-			_w = new(10, "werknemer", "werknemersen");
-			_unb = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-			_vb = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-
 			// Moq repos
 			_mockRepoBedrijf = new();
 			_mockRepoWerknemer = new();
@@ -42,6 +37,10 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			// Controllers
 			_bedrijfController = new(_bedrijfManager, _werknemerManger);
+
+			// Data
+			_w = new("werknemer", "werknemersen");
+			_bd = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 		}
 		#endregion
 
@@ -54,9 +53,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void VoegBedrijfToe_Invalid_BedrijfBestaatAl() {
-			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(_unb)).Returns(true);
-			BedrijfInputDTO input = new(_unb.Naam, _unb.BTW, _unb.TelefoonNummer, _unb.Email, _unb.Adres);
-			var result = _bedrijfController.VoegBedrijfToe(input);
+			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(_bd.NaarBusiness())).Returns(true);
+			var result = _bedrijfController.VoegBedrijfToe(_bd);
 			Assert.Null(result.Value);
 		}
 		#endregion
