@@ -277,10 +277,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             var ex = _afspraakManager.GeefHuidigeAfsprakenPerBedrijf(_bd);
             Assert.Empty(ex);
         }
-        #endregion
+		#endregion
 
-        #region UnitTest GeefAfsprakenPerBedrijfOpDag
-        public void GeefAfsprakenPerBedrijfOpDag_Invalid_WerknemerNull()
+		#region UnitTest GeefAfsprakenPerBedrijfOpDag
+		[Fact]
+		public void GeefAfsprakenPerBedrijfOpDag_Invalid_WerknemerNull()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
