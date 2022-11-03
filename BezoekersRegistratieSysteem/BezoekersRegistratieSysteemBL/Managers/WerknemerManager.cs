@@ -178,5 +178,29 @@ namespace BezoekersRegistratieSysteemBL.Managers
                 throw new WerknemerManagerException(ex.Message);
             }
         }
+
+        public IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(Bedrijf bedrijf)
+        {
+            try
+            {
+                return _werknemerRepository.GeefVrijeWerknemersOpDitMomentVoorBedrijf(bedrijf.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
+
+        public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(Bedrijf bedrijf)
+        {
+            try
+            {
+                return _werknemerRepository.GeefBezetteWerknemersOpDitMomentVoorBedrijf(bedrijf.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
     }
 }
