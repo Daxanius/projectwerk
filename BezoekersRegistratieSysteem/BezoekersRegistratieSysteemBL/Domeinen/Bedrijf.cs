@@ -129,7 +129,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			//Een telefoonnummer kan maximaal 15 cijfers bevatten. Het eerste deel van het telefoonnummer is de landcode (een tot drie cijfers),
 			//Het tweede deel is de nationale bestemmingscode (NDC),
 			//Het laatste deel is het abonneenummer (SN).
-			if (telefoonNummer.Length > 15)
+			if (!Nutsvoorziening.IsTelefoonNummerGeldig(telefoonNummer))
 				throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet langer zijn dan 15 karakters");
 			TelefoonNummer = telefoonNummer.Trim();
 		}
