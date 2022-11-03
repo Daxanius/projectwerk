@@ -218,5 +218,32 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefHuidigeAfsprakenPerWerknemerPerBedrijf
+		[Fact]
+		public void GeefHuidigeAfspraakPerWerknemer_Invalid_WerknemerNegatief() {
+			var result = _afspraakController.GeefAfspraken(null, 0, -5, true);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefHuidigeAfspraakPerWerknemer_Invalid_BedrijfNegatief() {
+			var result = _afspraakController.GeefAfspraken(null, -5, 0, true);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefHuidigeAfspraakPerWerknemer_Invalid_GeenAfspraak() {
+			_mockRepoAfspraak.Setup(x => x.GeefHuidigeAfsprakenPerWerknemerPerBedrijf(0, 0)).Returns(new List<Afspraak>());
+			var result = _afspraakController.GeefAfspraken(null, 0, 0, true);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
