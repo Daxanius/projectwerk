@@ -34,16 +34,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 		}
 
 		private void VeranderTab(object sender, MouseButtonEventArgs e) {
-			string tab = (string)((Label)((StackPanel)((Border)sender).Child).Children[1]).Content;
+			string tab = ((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).Text;
 
 			foreach (Border border in BorderContainer.Children) {
 				border.Tag = "UnSelected";
-				((Label)((StackPanel)(border).Child).Children[1]).FontWeight = FontWeights.Normal;
+				((TextBlock)((StackPanel)(border).Child).Children[1]).FontWeight = FontWeights.Normal;
 				((Icon)((StackPanel)border.Child).Children[0]).Opacity = .6;
 			}
 
 			((Border)sender).Tag = "Selected";
-			((Label)((StackPanel)((Border)sender).Child).Children[1]).FontWeight = FontWeights.Bold;
+			((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).FontWeight = FontWeights.Bold;
 			((Icon)((StackPanel)((Border)sender).Child).Children[0]).Opacity = 1;
 
 
@@ -66,8 +66,19 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			}
 		}
 
-		private void ToonAanwezigeBezoekers(object sender, MouseButtonEventArgs e) {
-
+		private bool _isAanwezigeBezoekersPressed;
+		private void ToggleAanwezigeBezoekersAchtergrond(object sender, MouseButtonEventArgs e) {
+			if(!_isAanwezigeBezoekersPressed) {
+				ToonAanwezigenText.Foreground = Application.Current.Resources["MainAchtergrond"] as SolidColorBrush;
+				ToonAanwezigenContainer.Background = Application.Current.Resources["GewoonBlauw"] as SolidColorBrush;
+				ToonAanwezigenIcon.IconSource = "../WitLijstIcon.xaml";
+				_isAanwezigeBezoekersPressed = true;
+			} else {
+				ToonAanwezigenText.Foreground = Application.Current.Resources["MainBlack"] as SolidColorBrush;
+				ToonAanwezigenContainer.Background = Application.Current.Resources["MainAchtergrond"] as SolidColorBrush;
+				ToonAanwezigenIcon.IconSource = "../LijstIcon.xaml";
+				_isAanwezigeBezoekersPressed = false;
+			}
 		}
 	}
 }
