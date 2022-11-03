@@ -194,7 +194,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			try {
 				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				return AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(bezoeker, bedrijf));
+				return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(bezoeker, bedrijf)));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}

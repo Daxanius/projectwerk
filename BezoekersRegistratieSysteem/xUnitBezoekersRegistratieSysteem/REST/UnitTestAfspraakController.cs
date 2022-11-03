@@ -503,6 +503,25 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		}
 		#endregion
 
+		#region UnitTest GeefHuidigeAfspraakBezoekerPerBedrijf
+		[Fact]
+		public void GeefHuidigeAfspraakBezoekerPerBedrijf_Invalid_EmailLeeg() {
+			var result = _afspraakController.GeefAfspraakOpBezoeker(-34, _b);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefHuidigeAfspraakBezoekerPerBedrijf_Invalid_GeenAfspraken() {
+			_mockRepoAfspraak.Setup(x => x.GeefHuidigeAfspraakBezoekerPerBerijf(0, 0)).Returns(_a.NaarBusiness(_werknemerManger, _bedrijfManager));
+			var result = _afspraakController.GeefAfspraakOpBezoeker(0, _b);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
+
 		#region UnitTest GeefAfsprakenPerDag
 		[Fact]
 		public void GeefAfsprakenPerDag_Invalid_DatumInToekomst() {
