@@ -59,9 +59,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void VoegWerknemerToe_Invalid_WerknemerBestaatAl() {
-			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(_w)).Returns(true);
-			WerknemerInputDTO input = new(_w.Voornaam, _w.Achternaam);
-			var result = _werknemerController.VoegWerknemerToe(input);
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(_w.NaarBusiness())).Returns(true);
+			var result = _werknemerController.VoegWerknemerToe(_w);
 			Assert.Null(result.Value);
 		}
 		#endregion

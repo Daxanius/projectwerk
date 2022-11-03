@@ -104,5 +104,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefAfspraak
+		[Fact]
+		public void GeefAfspraak_Invalid_AfspraakBestaatNiet() {
+			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(0)).Returns(false);
+			var result = _afspraakController.GeefAfspraak(0);
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
