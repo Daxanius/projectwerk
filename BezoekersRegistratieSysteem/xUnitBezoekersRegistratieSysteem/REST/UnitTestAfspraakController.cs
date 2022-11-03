@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
@@ -23,32 +24,16 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		#endregion
 
 		#region Valid Info
-		private DateTime _st;
-		private DateTime _et;
-		private Bezoeker _b;
-		private Werknemer _w;
+		private BezoekerInputDTO _b;
+		private WerknemerInputDTO _w;
 
-		private Bedrijf _bd;
+		private BedrijfInputDTO _bd;
 
-		private Afspraak _ia;
-		private Afspraak _oa;
+		private AfspraakInputDTO _a;
 		#endregion
 
 		#region Initialiseren
 		public UnitTestAfspraakController() {
-			_st = DateTime.Now;
-			_et = _st.AddHours(2);
-
-			_b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-			_w = new(10, "werknemer", "werknemersen");
-
-			_bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-
-			_bd.VoegWerknemerToeInBedrijf(_w, "werknemer.werknemersen@email.com", "functie");
-
-			_ia = new(_st, _bd, _b, _w);
-			_oa = new(10, _st, _et, _bd, _b, _w);
-
 			// Moq repos
 			_mockRepoAfspraak = new();
 			_mockRepoBedrijf = new();
@@ -60,7 +45,25 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_werknemerManger = new(_mockRepoWerknemer.Object);
 
 			// Controllers
-			_afspraakController = new(_afspraakManager , _werknemerManger, _bedrijfManager);
+			_afspraakController = new(_afspraakManager, _werknemerManger, _bedrijfManager);
+
+			// Data
+			_b = new("bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
+			_w = new("werknemer", "werknemersen");
+
+			_bd = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+
+			_a = new(_b, 0, 0);
+
+			Bedrijf b = _bd.NaarBusiness();
+			Werknemer w = _w.NaarBusiness();
+
+			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemersen@bedrijf.com", "nietsen");
+
+			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(true);
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
+			_mockRepoBedrijf.Setup(x => x.GeefBedrijf(0)).Returns(b);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(w);
 		}
 		#endregion
 
@@ -73,10 +76,31 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void VoegAfspraakToe_Invalid_AfspraakBestaatAl() {
-			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(_ia)).Returns(true);
-			BezoekerInputDTO bezoekerInput = new(_ia.Bezoeker.Voornaam, _ia.Bezoeker.Achternaam, _ia.Bezoeker.Email, _ia.Bezoeker.Bedrijf);
-			AfspraakInputDTO input = new(bezoekerInput, _ia.Werknemer.Id, _ia.Bedrijf.Id);
-			var result = _afspraakController.MaakAfspraak(input);
+			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(_a.NaarBusiness(_werknemerManger, _bedrijfManager))).Returns(true);
+			var result = _afspraakController.MaakAfspraak(_a);
+			Assert.Null(result.Value);
+		}
+		#endregion
+
+		#region UnitTest BewerkAfspraak
+		[Fact]
+		public void BewerkAfspraak_Invalid_AfspraakLeeg() {
+			var result = _afspraakController.BewerkAfspraak(-2, _a);
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void BewerkAfspraak_Invalid_AfspraakBestaatNiet() {
+			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(_a.NaarBusiness(_werknemerManger, _bedrijfManager))).Returns(false);
+			var result = _afspraakController.BewerkAfspraak(0, _a);
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void BewerkAfspraak_Invalid_AfspraakNietGewijzigd() {
+			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(0)).Returns(true);
+			_mockRepoAfspraak.Setup(x => x.GeefAfspraak(0)).Returns(_a.NaarBusiness(_werknemerManger, _bedrijfManager));
+			var result = _afspraakController.BewerkAfspraak(0, _a);
 			Assert.Null(result.Value);
 		}
 		#endregion
