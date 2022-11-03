@@ -59,7 +59,7 @@
                             Padding="0,10,0,0"
                             IconOffsetTop="9"
                             IconSize="50"
-                            IconSource="../BedrijfIcon.xaml" />
+                            IconSource="../HuidigeAfspraakIcon.xaml" />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontSize="20"
@@ -81,7 +81,7 @@
                             Padding="0,10,0,0"
                             IconOffsetTop="9"
                             IconSize="50"
-                            IconSource="../BedrijfIcon.xaml" />
+                            IconSource="../WerknemerAfspraakIcon.xaml" />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontSize="20"
@@ -103,7 +103,7 @@
                             Padding="0,10,0,0"
                             IconOffsetTop="9"
                             IconSize="50"
-                            IconSource="../BedrijfIcon.xaml" />
+                            IconSource="../BezoekerAfspraakIcon.xaml" />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontSize="20"
@@ -125,7 +125,7 @@
                             Padding="0,10,0,0"
                             IconOffsetTop="9"
                             IconSize="50"
-                            IconSource="../BedrijfIcon.xaml" />
+                            IconSource="../OpDatumAfspraakIcon.xaml" />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontSize="20"
