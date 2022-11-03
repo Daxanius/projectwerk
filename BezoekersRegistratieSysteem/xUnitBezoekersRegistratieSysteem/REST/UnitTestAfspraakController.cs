@@ -272,5 +272,40 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefAfsprakenPerWerknemerOpDagPerBedrijf
+		[Fact]
+		public void GeefAfsprakenPerWerknemerOpDagPerBedrijf_Invalid_WerknemerLeeg() {
+			var result = _afspraakController.GeefAfspraken(_st, null, 0, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefAfsprakenPerWerknemerOpDagPerBedrijf_Invalid_DatumInToekomst() {
+			var result = _afspraakController.GeefAfspraken(_st.AddDays(1), 0, 0, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefAfsprakenPerWerknemerOpDagPerBedrijf_Invalid_BedrijfLeeg() {
+			var result = _afspraakController.GeefAfspraken(_st, 0, null, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefAfsprakenPerWerknemerOpDagPerBedrijf_Invalid_GeenAfspraken() {
+			_mockRepoAfspraak.Setup(x => x.GeefAfsprakenPerWerknemerOpDagPerBedrijf(0, _st, 0)).Returns(new List<Afspraak>());
+			var result = _afspraakController.GeefAfspraken(_st, 0, 0, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
