@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
@@ -79,6 +80,23 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(_a.NaarBusiness(_werknemerManger, _bedrijfManager))).Returns(true);
 			var result = _afspraakController.MaakAfspraak(_a);
 			Assert.Null(result.Value);
+		}
+		#endregion
+
+		#region UnitTest VerwijderAfspraak
+		[Fact]
+		public void VerwijderAfspraak_Invalid_AfspraakNegatief() {
+			var result = _afspraakController.VerwijderAfspraak(-3);
+			Assert.NotNull(result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
+		}
+
+		[Fact]
+		public void VerwijderAfspraak_Invalid_AfspraakBestaatNiet() {
+			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(_a.NaarBusiness(_werknemerManger, _bedrijfManager))).Returns(false);
+			var result = _afspraakController.VerwijderAfspraak(0);
+			Assert.NotNull(result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
 		}
 		#endregion
 
