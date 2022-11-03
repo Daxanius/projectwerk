@@ -158,7 +158,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		}
 
 		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
-			
-		}
+			Window window = Window.GetWindow(this);
+            RegistratieWindow registratieWindow = (RegistratieWindow)window.DataContext;
+
+			registratieWindow.FrameControl.Navigate(new AanmeldGegevensPage());
+        }
 	}
 }
