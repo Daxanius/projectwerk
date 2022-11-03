@@ -3,6 +3,7 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
 using BezoekersRegistratieSysteemREST.Model;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace xUnitBezoekersRegistratieSysteem.REST {
@@ -48,6 +49,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[Fact]
 		public void VoegBedrijfToe_Invalid_BedrijfLeeg() {
 			var result = _bedrijfController.VoegBedrijfToe(null);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
 
@@ -55,6 +58,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		public void VoegBedrijfToe_Invalid_BedrijfBestaatAl() {
 			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(_b.NaarBusiness())).Returns(true);
 			var result = _bedrijfController.VoegBedrijfToe(_b);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
 		#endregion
