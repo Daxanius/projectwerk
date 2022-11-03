@@ -37,6 +37,7 @@
 	  <Page Remove="Icons\VergrootGlasIcon.xaml" />
 	  <Page Remove="Icons\WerknemerAfspraakIcon.xaml" />
 	  <Page Remove="Icons\WerknemerIcon.xaml" />
+	  <Page Remove="Icons\WitLijstIcon.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -57,6 +58,9 @@
 	  <Resource Include="Icons\DashboardIcon.xaml" />
 	  <Resource Include="Icons\HuidigeAfspraakIcon.xaml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\WitLijstIcon.xaml">
+	    <Generator>MSBuild:Compile</Generator>
 	  </Resource>
 	  <Resource Include="Icons\LijstIcon.xaml" />
 	  <Resource Include="Icons\OpDatumAfspraakIcon.xaml">

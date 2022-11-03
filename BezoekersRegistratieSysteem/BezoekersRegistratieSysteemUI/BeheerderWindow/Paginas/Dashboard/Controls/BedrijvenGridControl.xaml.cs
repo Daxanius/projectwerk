@@ -149,7 +149,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			BeheerderWindow beheerderWindow = (BeheerderWindow)window.DataContext;
 
 			beheerderWindow.ZetGeselecteerdBedrijf(bedrijf);
-			beheerderWindow.FrameControl.Navigate(new AfsprakenPage());
+			beheerderWindow.FrameControl.Navigate(AfsprakenPage.Instance);
 		}
 	}
 }
