@@ -235,14 +235,15 @@
                                     Padding="8,0,0,0"
                                     Background="Transparent"
                                     Foreground="{StaticResource DonkerBlauw}"
+                                    Opacity="0.5"
                                     Text="{Binding}">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter Property="Cursor" Value="Hand" />
-                                                    <Setter Property="TextDecorations" Value="Underline" />
                                                     <Setter Property="Background" Value="Transparent" />
+                                                    <Setter Property="Opacity" Value="1"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
@@ -270,7 +271,6 @@
                             x:Name="Border"
                             Grid.ColumnSpan="2"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding Foreground}"
                             BorderThickness="1.5"
                             CornerRadius="25" />
                         <iconspresenter:Icon
@@ -352,8 +352,7 @@
                                     x:Name="DropDownBorder"
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding Foreground}"
-                                    BorderThickness="1"
-                                    CornerRadius="8" />
+                                    CornerRadius="0,0,8,8"/>
                                 <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </ScrollViewer>

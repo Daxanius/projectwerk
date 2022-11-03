@@ -86,6 +86,7 @@
                                 MinWidth="220"
                                 Margin="0,0,50,0"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Naam" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -114,6 +115,7 @@
                                 MinWidth="220"
                                 Margin="0,0,50,0"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Email" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -132,6 +134,7 @@
                                 MinWidth="100"
                                 Margin="0,0,50,0"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Functies" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -149,6 +152,7 @@
                             <TextBlock
                                 Margin="0,0,20,0"
                                 Foreground="{StaticResource LichtGrijs}"
+                                FontSize="12"
                                 Text="Status" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>

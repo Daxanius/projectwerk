@@ -43,16 +43,14 @@
                         MinWidth="120"
                         MaxWidth="350"
                         Margin="0,0,15,0"
-                        Background="{StaticResource LichtGrijsAccent}"
+                        Background="{StaticResource MainAchtergrond}"
                         Cursor="Hand"
                         DockPanel.Dock="Right"
-                        FontSize="26"
+                        FontSize="14"
                         FontWeight="Bold"
                         Foreground="{StaticResource DonkerBlauw}">
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
+                        <ComboBoxItem Content="Lopend" />
+                        <ComboBoxItem Content="Afgerond" />
                     </ComboBox>
                 </DockPanel>
                 <dashboard:AfsprakenLijstControl />
