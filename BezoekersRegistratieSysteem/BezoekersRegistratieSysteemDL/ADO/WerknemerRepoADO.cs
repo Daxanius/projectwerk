@@ -118,7 +118,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         public Werknemer GeefWerknemer(long _werknemerId) {
             SqlConnection con = GetConnection();
             string query = "SELECT wn.id as WerknemerId, wn.Vnaam as WerknemerVnaam, wn.Anaam as WerknemerAnaam, wb.WerknemerEmail, " +
-                           "b.id as BedrijfId, b.naam as BedrijfNaam, b.btwnr as bedrijfBTW, b.telenr as bedrijfTele, b.email as BedrijfMail, b.adres as BedrijfAdres, " +
+                           "b.id as BedrijfId, b.naam as BedrijfNaam, b.btwnr as bedrijfBTW, b.telenr as bedrijfTele, b.email as BedrijfMail, b.adres as BedrijfAdres, b.BTWChecked, " +
                            "f.functienaam " +
                            "FROM Werknemer wn " +
                            "LEFT JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) AND wb.Status = 1 " +
@@ -148,7 +148,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                                 string bedrijfTele = (string)reader["bedrijfTele"];
                                 string bedrijfMail = (string)reader["BedrijfMail"];
                                 string bedrijfAdres = (string)reader["BedrijfAdres"];
-                                bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTele, bedrijfMail, bedrijfAdres);
+                                bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+                                bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
                             }
                             string werknemerMail = (string)reader["WerknemerEmail"];
                             string functieNaam = (string)reader["functienaam"];
@@ -221,7 +222,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         private IReadOnlyList<Werknemer> GeefWerknemers(long? _bedrijfId, string? _voornaam, string? _achternaam, string? _functie) {
             SqlConnection con = GetConnection();
             string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
-                           "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
+                           "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
                            "f.Functienaam " +
                            "FROM Werknemer wn " +
                            "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) AND wb.Status = 1 " +
@@ -273,7 +274,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                                 string bedrijfTele = (string)reader["BedrijfTeleNr"];
                                 string bedrijfMail = (string)reader["BedrijfMail"];
                                 string bedrijfAdres = (string)reader["BedrijfAdres"];
-                                bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTele, bedrijfMail, bedrijfAdres);
+                                bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+                                bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
                             }
                             string werknemerMail = (string)reader["WerknemerEmail"];
                             string functieNaam = (string)reader["functienaam"];
@@ -415,7 +417,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     long i = (long)cmd.ExecuteScalar();
                     werknemer.ZetId(i);
                     //Dit voegt de bedrijven/functie toe aan uw werknemer in de DB
-                    voegFunctieToeAanWerknemer(werknemer);
+                    VoegFunctieToeAanWerknemer(werknemer);
                     return werknemer;
                 }
             } catch (Exception ex) {
@@ -432,7 +434,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <param name="werknemer">Bedrijf en functie die aan werknemer word toegevoegd</param>
         /// <exception cref="WerknemerADOException">Faalt om bedrijf en functie aan werknemer toe te voegen</exception>
-        private void voegFunctieToeAanWerknemer(Werknemer werknemer) {
+        private void VoegFunctieToeAanWerknemer(Werknemer werknemer) {
 
             bool bestaatJob = false;
 
@@ -545,6 +547,11 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
+        /// <summary>
+        /// Kijkt of functie bestaat
+        /// </summary>
+        /// <param name="functieNaam">Functie naam die gezocht moet worden</param>
+        /// <exception cref="WerknemerADOException">Faalt om werknemer te wijzigen</exception>
         public bool BestaatFunctie(string functieNaam) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
@@ -568,6 +575,11 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
+        /// <summary>
+        /// Voegt functie toe
+        /// </summary>
+        /// <param name="functieNaam">Functie naam die toegevoegd moet worden</param>
+        /// <exception cref="WerknemerADOException">Faalt om werknemer te wijzigen</exception>
         public void VoegFunctieToe(string functieNaam) {
             SqlConnection con = GetConnection();
             string query = "INSERT INTO Functie(FunctieNaam) VALUES(@fNaam)";

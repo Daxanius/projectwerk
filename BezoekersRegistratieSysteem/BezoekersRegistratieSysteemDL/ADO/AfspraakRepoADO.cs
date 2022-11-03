@@ -336,7 +336,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
              */
             string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
                            "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
-                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
+                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
                            "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
                            "f.FunctieNaam " +
                            "FROM Afspraak a " +
@@ -371,6 +371,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         string bedrijfTeleNr = (string)reader["TeleNr"];
                         string bedrijfMail = (string)reader["BedrijfEmail"];
                         string bedrijfAdres = (string)reader["BedrijfAdres"];
+                        bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
                         //werknemer portie
                         long werknemerId = (long)reader["WerknemerId"];
                         string werknemerANaam = (string)reader["WerknemerANaam"];
@@ -379,7 +380,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         //functie portie
                         string functieNaam = (string)reader["FunctieNaam"];
                         Werknemer werknemer = new(werknemerId, werknemerVNaam, werknemerANaam);
-                        Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                        Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
                         werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
                         afspraak = new Afspraak(afspraakId, start, eind, bedrijf, new(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
                     }
@@ -518,6 +519,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <param name="_bedrijfId">Optioneel: id van bedrijf</param>
         /// <param name="_werknemerId">Optioneel: id van werknemer</param>
+        /// <param name="_bezoekerId">Optioneel: id van bezoeker</param>
         /// <returns>Lijst van afspraken die nog bezig zijn (AfspraakStatus = 1) per bedrijf en/of werknemer</returns>
         /// <exception cref="AfspraakADOException">Faalt om een lijst op te roepen van huidige afspraken per bedrijf en/of werknemer</exception>
         private IReadOnlyList<Afspraak> GeefHuidigeAfspraken(long? _bedrijfId, long? _werknemerId, long? _bezoekerId) {
@@ -531,7 +533,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
              */
             string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
                            "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
-                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
+                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
                            "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
                            "f.FunctieNaam " +
                            "FROM Afspraak a " +
@@ -584,7 +586,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                             string bedrijfTeleNr = (string)reader["TeleNr"];
                             string bedrijfMail = (string)reader["BedrijfEmail"];
                             string bedrijfAdres = (string)reader["BedrijfAdres"];
-                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
                         }
                         //werknemer portie
                         if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
@@ -729,7 +732,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
              */
             string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
                            "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
-                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, " +
+                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
                            "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
                            "f.FunctieNaam " +
                            "FROM Afspraak a " +
@@ -802,7 +805,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                             string bedrijfTeleNr = (string)reader["TeleNr"];
                             string bedrijfMail = (string)reader["BedrijfEmail"];
                             string bedrijfAdres = (string)reader["BedrijfAdres"];
-                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
                         }
                         //werknemer portie
                         if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {

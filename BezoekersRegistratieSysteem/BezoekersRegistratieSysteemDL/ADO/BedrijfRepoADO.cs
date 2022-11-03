@@ -122,7 +122,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                            "BTWNr = @btwnr, " +
                            "TeleNr = @telenr, " +
                            "Email = @email, " +
-                           "Adres = @adres " +
+                           "Adres = @adres, " +
+                           "BTWChecked = @btwcheck " +
                            "WHERE id = @id";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
@@ -133,12 +134,14 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.Parameters.Add(new SqlParameter("@telenr", SqlDbType.VarChar));
                     cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
                     cmd.Parameters.Add(new SqlParameter("@adres", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@btwcheck", SqlDbType.Bit));
                     cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
                     cmd.Parameters["@naam"].Value = bedrijf.Naam;
                     cmd.Parameters["@btwnr"].Value = bedrijf.BTW;
                     cmd.Parameters["@telenr"].Value = bedrijf.TelefoonNummer;
                     cmd.Parameters["@email"].Value = bedrijf.Email;
                     cmd.Parameters["@adres"].Value = bedrijf.Adres;
+                    cmd.Parameters["@btwcheck"].Value = bedrijf.BtwGeverifieerd;
                     cmd.Parameters["@id"].Value = bedrijf.Id;
                     cmd.ExecuteNonQuery();
                 }
@@ -188,7 +191,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <exception cref="BedrijfADOException">Faalt om een bedrijf object weer te geven op basis van id of naam</exception>
         private Bedrijf GeefBedrijf(long? _bedrijfId, string? _bedrijfnaam) {
             SqlConnection con = GetConnection();
-            string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
+            string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
                            "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
@@ -219,7 +222,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                             string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
                             string bedrijfMail = (string)reader["BedrijfMail"];
                             string bedrijfAdres = (string)reader["BedrijfAdres"];
-                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bool bedrijfBtwCheck = (bool)reader["BTWChecked"];
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBtwCheck, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
                         }
                         if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
                             long werknemerId = (long)reader["WerknemerId"];
@@ -249,7 +253,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <exception cref="BedrijfADOException">Faalt om een lijst van bedrijven op te roepen</exception>
         public IReadOnlyList<Bedrijf> GeefBedrijven() {
             SqlConnection con = GetConnection();
-            string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, " +
+            string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
                            "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
                            "FROM Bedrijf b " +
@@ -273,7 +277,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                             string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
                             string bedrijfMail = (string)reader["BedrijfMail"];
                             string bedrijfAdres = (string)reader["BedrijfAdres"];
-                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, true, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bool bedrijfBtwCheck = (bool)reader["BTWChecked"];
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBtwCheck, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
                             bedrijven.Add(bedrijf);
                         }
                         if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
@@ -371,9 +376,9 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <exception cref="BedrijfADOException">Faalt om een bedrijf toe te voegen</exception>
         public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
             SqlConnection con = GetConnection();
-            string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres) " +
+            string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres, BTWChecked) " +
                            "output INSERTED.ID " +
-                           "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres)";
+                           "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked)";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
@@ -383,11 +388,13 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.Parameters.Add(new SqlParameter("@TeleNr", SqlDbType.VarChar));
                     cmd.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar));
                     cmd.Parameters.Add(new SqlParameter("@Adres", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@BTWChecked", SqlDbType.Bit));
                     cmd.Parameters["@naam"].Value = bedrijf.Naam;
                     cmd.Parameters["@btwNr"].Value = bedrijf.BTW;
                     cmd.Parameters["@TeleNr"].Value = bedrijf.TelefoonNummer;
                     cmd.Parameters["@Email"].Value = bedrijf.Email;
                     cmd.Parameters["@Adres"].Value = bedrijf.Adres;
+                    cmd.Parameters["@BTWChecked"].Value = bedrijf.BtwGeverifieerd;
                     long i = (long)cmd.ExecuteScalar();
                     bedrijf.ZetId(i);
                     return bedrijf;
