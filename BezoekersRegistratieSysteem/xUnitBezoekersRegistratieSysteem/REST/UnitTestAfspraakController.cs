@@ -502,5 +502,24 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefAfsprakenPerDag
+		[Fact]
+		public void GeefAfsprakenPerDag_Invalid_DatumInToekomst() {
+			var result = _afspraakController.GeefAfspraken(_st.AddDays(1), null, null, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefAfsprakenPerDag_Invalid_GeenAfspraken() {
+			_mockRepoAfspraak.Setup(x => x.GeefAfsprakenPerDag(_st)).Returns(new List<Afspraak>());
+			var result = _afspraakController.GeefAfspraken(_st, null, null, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
