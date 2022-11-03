@@ -40,15 +40,14 @@
                     IconSource="../PlusIcon.xaml" />
                 <StackPanel />
             </DockPanel>
-            <UniformGrid
-                Name="FilterContainerHeaders"
+            <StackPanel
+                x:Name="FilterContainerHeaders"
                 Grid.Row="2"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
-                Columns="4"
-                Rows="1">
+                Orientation="Horizontal">
                 <Border
-                    Margin="45,0"
-                    Padding="5,0"
+                    Padding="20,0"
                     MouseLeftButtonDown="SelecteerFilterOpties"
                     Opacity="1"
                     Style="{StaticResource FilterTabLijstStyle}">
@@ -71,8 +70,7 @@
                     </StackPanel>
                 </Border>
                 <Border
-                    Margin="45,0"
-                    Padding="5,0"
+                    Padding="15,0"
                     MouseLeftButtonDown="SelecteerFilterOpties"
                     Style="{StaticResource FilterTabLijstStyle}">
                     <StackPanel
@@ -94,8 +92,7 @@
                     </StackPanel>
                 </Border>
                 <Border
-                    Margin="45,0"
-                    Padding="5,0"
+                    Padding="15,0"
                     MouseLeftButtonDown="SelecteerFilterOpties"
                     Style="{StaticResource FilterTabLijstStyle}">
                     <StackPanel
@@ -117,8 +114,7 @@
                     </StackPanel>
                 </Border>
                 <Border
-                    Margin="45,0"
-                    Padding="5,0"
+                    Padding="15,0"
                     MouseLeftButtonDown="SelecteerFilterOpties"
                     Style="{StaticResource FilterTabLijstStyle}">
                     <StackPanel
@@ -139,7 +135,7 @@
                             TextAlignment="Center" />
                     </StackPanel>
                 </Border>
-            </UniformGrid>
+            </StackPanel>
         </Grid>
         <DockPanel Name="FilterContainer" LastChildFill="True">
             <Grid>
@@ -147,7 +143,7 @@
                     <Border
                         Padding="20"
                         Background="{StaticResource LichtGrijsAccent}"
-                        CornerRadius="25">
+                        CornerRadius="0 25 25 25">
                         <DockPanel>
                             <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
                                 <Grid.ColumnDefinitions>
@@ -177,7 +173,7 @@
                             Grid.Row="0"
                             Padding="20"
                             Background="{StaticResource LichtGrijsAccent}"
-                            CornerRadius="25"
+                            CornerRadius="0 25 25 25"
                             DockPanel.Dock="Top">
                             <DockPanel>
                                 <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
@@ -287,7 +283,7 @@
                     <Border
                         Padding="20"
                         Background="{StaticResource LichtGrijsAccent}"
-                        CornerRadius="25">
+                        CornerRadius="0 25 25 25">
                         <DockPanel>
                             <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
                                 <Grid.ColumnDefinitions>
@@ -336,7 +332,7 @@
                     <Border
                         Padding="20"
                         Background="{StaticResource LichtGrijsAccent}"
-                        CornerRadius="25">
+                        CornerRadius="0 25 25 25">
                         <DockPanel>
                             <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
                                 <Grid.ColumnDefinitions>
