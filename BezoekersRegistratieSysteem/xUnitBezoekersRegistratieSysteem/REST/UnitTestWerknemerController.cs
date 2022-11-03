@@ -4,6 +4,7 @@ using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
 using BezoekersRegistratieSysteemREST.Model;
 using BezoekersRegistratieSysteemREST.Model.Input;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace xUnitBezoekersRegistratieSysteem.REST {
@@ -54,6 +55,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[Fact]
 		public void VoegWerknemerToe_Invalid_WerknemerLeeg() {
 			var result = _werknemerController.VoegWerknemerToe(null);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
 
@@ -61,6 +64,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		public void VoegWerknemerToe_Invalid_WerknemerBestaatAl() {
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(_w.NaarBusiness())).Returns(true);
 			var result = _werknemerController.VoegWerknemerToe(_w);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
 		#endregion
