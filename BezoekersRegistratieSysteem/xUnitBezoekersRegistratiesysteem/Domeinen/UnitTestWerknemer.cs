@@ -8,15 +8,26 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		//AF
 
 		#region Valid Info
-		private Bedrijf _b1 = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-		private Bedrijf _b2 = new(1, "anderbedrijf", "BE0724540609", true, "876543210", "anderbedrijf@email.com", "anderebedrijfstraat 10");
-		private string _of = "oudefunctie";
-		private string _nf = "nieuwefunctie";
-		private string _e = "werknemer.werknemersen@email.com";
+		private Bedrijf _b1;
+		private Bedrijf _b2;
+		private string _of;
+		private string _nf;
+		private string _e;
 		#endregion
 
-		#region UnitTest Id
-		[Fact]
+		#region Initialiseren
+		public UnitTestWerknemer()
+		{
+            _b1 = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+            _b2 = new(1, "anderbedrijf", "BE0724540609", true, "876543210", "anderbedrijf@email.com", "anderebedrijfstraat 10");
+            _of = "oudefunctie";
+            _nf = "nieuwefunctie";
+            _e = "werknemer.werknemersen@email.com";
+        }
+        #endregion
+
+        #region UnitTest Id
+        [Fact]
 		public void ZetId_Valid()
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -112,6 +123,13 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 				});
 		}
 
+		[Fact]
+        public void VoegBedrijvenEnFunctieToeAanWerknemer_Invalid_BedrijfLeeg()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(null, "werknemer.werknemersen@email.com", "functie"));
+        }
+        
 		[Theory]
 		[InlineData(null, "nieuwefunctie")]
 		[InlineData("", "nieuwefunctie")]
@@ -128,7 +146,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		[InlineData("werknemer.werknemersen", "nieuwefunctie")]
 		[InlineData("werknemer.werknemersen@.", "nieuwefunctie")]
 		[InlineData("werknemer.werknemersen.com", "nieuwefunctie")]
-		[InlineData("werknemer.werknemersen@email.com", "nieuwefunctie")]
 		[InlineData("werknemer.werknemersen@email.com", null)]
 		[InlineData("werknemer.werknemersen@email.com", "")]
 		[InlineData("werknemer.werknemersen@email.com", " ")]
@@ -136,18 +153,24 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		[InlineData("werknemer.werknemersen@email.com", "\r")]
 		[InlineData("werknemer.werknemersen@email.com", "\t")]
 		[InlineData("werknemer.werknemersen@email.com", "\v")]
-		public void VoegBedrijvenEnFunctieToeAanWerknemer_Invalid(string email, string functie)
+		public void VoegBedrijvenEnFunctieToeAanWerknemer_Invalid_EmailOfFunctieFout(string email, string functie)
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
-			Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(null, email, functie));
-			//CHECK duplicates
-			w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _nf);
-			Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _nf));
+			Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, email, functie));
 		}
-		#endregion
 
-		#region UnitTest Verwijder Bedrijf
-		[Fact]
+        [Fact]
+        public void VoegBedrijvenEnFunctieToeAanWerknemer_Invalid_Duplicaat()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _nf);
+            Assert.Throws<WerknemerException>(() => w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _nf));
+        }
+        #endregion
+
+        #region UnitTest Verwijder Bedrijf
+        [Fact]
 		public void VerwijderBedrijfVanWerknemer_Valid()
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -172,16 +195,24 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		}
 
 		[Fact]
-		public void VerwijderBedrijfVanWerknemer_Invalid()
+		public void VerwijderBedrijfVanWerknemer_Invalid_BedrijfLeeg()
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
-			Assert.Throws<WerknemerException>(() => w.VerwijderBedrijfVanWerknemer(null));
-			Assert.Throws<WerknemerException>(() => w.VerwijderBedrijfVanWerknemer(_b1));
+            //"Werknemer - VerwijderBedrijfVanWerknemer - bedrijf mag niet leeg zijn"
+            Assert.Throws<WerknemerException>(() => w.VerwijderBedrijfVanWerknemer(null));
 		}
-		#endregion
 
-		#region UnitTest Wijzig Functie
-		[Fact]
+        [Fact]
+        public void VerwijderBedrijfVanWerknemer_Invalid_BedrijfBestaatNiet()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            //"Werknemer - VerwijderBedrijfVanWerknemer - bedrijf bevat deze werknemer niet"
+            Assert.Throws<WerknemerException>(() => w.VerwijderBedrijfVanWerknemer(_b1));
+        }
+        #endregion
+
+        #region UnitTest Wijzig Functie
+        [Fact]
 		public void WijzigFunctie_Valid()
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -198,7 +229,15 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 				});
 		}
 
-		[Theory]
+        [Fact]
+        public void WijzigFunctie_Invalid_BedrijfLeeg()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            //"Werknemer - WijzigFunctie - bedrijf mag niet leeg zijn"
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(null, _of, _nf));
+        }
+
+        [Theory]
 		[InlineData(null, "nieuwefunctie")]
 		[InlineData("", "nieuwefunctie")]
 		[InlineData(" ", "nieuwefunctie")]
@@ -217,20 +256,34 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		public void WijzigFunctie_Invalid(string oudefunctie, string nieuwefunctie)
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
-			Assert.Throws<WerknemerException>(() => w.WijzigFunctie(null, _of, _nf));
 			Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, oudefunctie, nieuwefunctie));
-
-			//"Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie"
-			w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _nf);
-			Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
+            
 			//"Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie"
 			w.VoegBedrijfEnFunctieToeAanWerknemer(_b2, _e, _of);
 			Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b2, _of, _of));
 		}
-		#endregion
 
-		#region UnitTest Verwijder Functie
-		[Fact]
+        [Fact]
+        public void WijzigFunctie_Invalid_WerknemerNietInBedrijf()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie"
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _nf);
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b1, _of, _nf));
+        }
+
+        [Fact]
+        public void WijzigFunctie_Invalid_WerknemerNietInBedrijf2()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            //"Werknemer - WijzigFunctie - werknemer is in dit bedrijf al werkzaam onder deze functie"
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b2, _e, _of);
+            Assert.Throws<WerknemerException>(() => w.WijzigFunctie(_b2, _of, _of));
+        }
+        #endregion
+
+        #region UnitTest Verwijder Functie
+        [Fact]
 		public void VerwijderFunctie_Valid()
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -248,7 +301,15 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 				});
 		}
 
-		[Theory]
+        [Fact]
+        public void VerwijderFunctie_Invalid_BedrijfLeeg()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            //"Werknemer - VerwijderFunctie - bedrijf mag niet leeg zijn"
+            Assert.Throws<WerknemerException>(() => w.VerwijderFunctie(null, _of));
+        }
+
+        [Theory]
 		[InlineData(null)]
 		[InlineData("")]
 		[InlineData(" ")]
@@ -260,15 +321,21 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		public void VerwijderFunctie_Invalid(string functie)
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
-			Assert.Throws<WerknemerException>(() => w.VerwijderFunctie(null, _of));
 			Assert.Throws<WerknemerException>(() => w.VerwijderFunctie(_b1, functie));
-			w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _of);
-			Assert.Throws<WerknemerException>(() => w.VerwijderFunctie(_b1, _nf));
 		}
-		#endregion
 
-		#region UnitTest Geef bedrijven en functies
-		[Fact]
+        [Fact]
+        public void VerwijderFunctie_Invalid_WerknemerNietInBedrijf()
+        {
+            Werknemer w = new(10, "werknemer", "werknemersen");
+            //"Werknemer - VerwijderFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie"
+            w.VoegBedrijfEnFunctieToeAanWerknemer(_b1, _e, _of);
+            Assert.Throws<WerknemerException>(() => w.VerwijderFunctie(_b1, _nf));
+        }
+        #endregion
+
+        #region UnitTest Geef bedrijven en functies
+        [Fact]
 		public void GeefBedrijvenEnFunctiesPerWerknemer_Valid()
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
@@ -336,8 +403,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 
 		[Theory]
 		[InlineData(0, "werknemer", "werknemersen")]
+        [InlineData(-1, "werknemer", "werknemersen")]
 
-		[InlineData(10, null, "werknemersen")]
+        [InlineData(10, null, "werknemersen")]
 		[InlineData(10, "", "werknemersen")]
 		[InlineData(10, " ", "werknemersen")]
 		[InlineData(10, "\n", "werknemersen")]

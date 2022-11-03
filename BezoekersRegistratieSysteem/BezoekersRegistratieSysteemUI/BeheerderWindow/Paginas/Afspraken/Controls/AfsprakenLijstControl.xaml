@@ -1,17 +1,18 @@
 ﻿<UserControl
-    x:Class="BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls.AfsprakenLijstControl"
+    x:Class="BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls.AfsprakenLijstControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <ListView
+        x:Name="AfsprakenLijst"
         Background="Transparent"
         BorderBrush="Transparent"
-        ItemsSource="{Binding Afspraken}"
+        ItemsSource="{Binding ItemSource}"
         ScrollViewer.CanContentScroll="False">
         <ListView.Style>
             <Style TargetType="ListView">
@@ -78,8 +79,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
-                                Text="Datum" 
-                                FontSize="12"/>
+                                Text="Datum" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -87,6 +87,7 @@
                                     Padding="8,15,0,15"
                                     Content="{Binding StartTijd}"
                                     FontSize="15"
+                                    FontWeight="DemiBold"
                                     Foreground="{StaticResource LichtGrijs}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -96,8 +97,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
-                                Text="Bezoeker" 
-                                FontSize="12"/>
+                                Text="Bezoeker" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -106,7 +106,7 @@
                                     FontSize="15"
                                     FontWeight="DemiBold">
                                     <Label.Content>
-                                        <TextBlock Foreground="{StaticResource MainBlack}">
+                                        <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
                                                     <Binding Path="Bezoeker.Voornaam" />
@@ -124,8 +124,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
-                                Text="Werknemer" 
-                                FontSize="12"/>
+                                Text="Werknemer" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -134,7 +133,7 @@
                                     FontSize="15"
                                     FontWeight="DemiBold">
                                     <Label.Content>
-                                        <TextBlock Foreground="{StaticResource MainBlack}">
+                                        <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
                                                     <Binding Path="Werknemer.Voornaam" />
@@ -152,8 +151,7 @@
                             <TextBlock
                                 MinWidth="250"
                                 Foreground="{StaticResource LichtGrijs}"
-                                Text="Bedrijf" 
-                                FontSize="12"/>
+                                Text="Bedrijf" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -161,8 +159,7 @@
                                     Padding="0,15,0,15"
                                     Content="{Binding WerknemerBedrijf}"
                                     FontSize="15"
-                                    FontWeight="DemiBold" 
-                                    Foreground="{StaticResource MainBlack}"/>
+                                    FontWeight="DemiBold" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -172,8 +169,7 @@
                                 MinWidth="100"
                                 Padding="5,0"
                                 Foreground="{StaticResource LichtGrijs}"
-                                Text="Status" 
-                                FontSize="12"/>
+                                Text="Status" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

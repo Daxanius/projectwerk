@@ -1,6 +1,8 @@
 ﻿using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
+using MahApps.Metro.Markup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,7 +104,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 				TextBlock bedrijfNaam = new() {
 					Text = bedrijven[i].Naam,
 					FontSize = 24,
-					FontWeight = FontWeights.Bold,
+					FontWeight = FontWeights.Medium,
 					TextAlignment = TextAlignment.Center,
 					VerticalAlignment = VerticalAlignment.Center,
 					TextWrapping = TextWrapping.Wrap
@@ -143,10 +145,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			BedrijfDTO bedrijf = (BedrijfDTO)((Border)sender).DataContext;
 
 			Window window = Window.GetWindow(this);
-			BeheerderWindow BeheerderWindow = (BeheerderWindow)window.DataContext;
+			BeheerderWindow beheerderWindow = (BeheerderWindow)window.DataContext;
 
-			BeheerderWindow.ZetGeselecteerdBedrijf(bedrijf);
-			BeheerderWindow.FrameControl.Source = new Uri("/BeheerderWindow/Paginas/Afspraken/AfsprakenPage.xaml", UriKind.Relative);
+			beheerderWindow.ZetGeselecteerdBedrijf(bedrijf);
+			beheerderWindow.FrameControl.Navigate(new AfsprakenPage());
 		}
 	}
 }

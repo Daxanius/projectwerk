@@ -4,7 +4,7 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 using Moq;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
-	public class UnitTestAfspraakManagerTest
+	public class UnitTestAfspraakManager
     {
         //AF
         
@@ -14,18 +14,36 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		#endregion
 
 		#region Valid Info
-		private static DateTime _st = DateTime.Now;
-		private static DateTime _et = _st.AddHours(2);
-		private static Bezoeker _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-		private static Werknemer _w = new(10, "werknemer", "werknemersen");
+		private  DateTime _st;
+		private  DateTime _et;
+		private  Bezoeker _b;
+        private Werknemer _w;
 
-        private Bedrijf _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+        private Bedrijf _bd;
 
-        private Afspraak _ia = new(_st, _b, _w);
-        private Afspraak _oa = new (10, _st, _et, _b, _w);
+        private Afspraak _ia;
+        private Afspraak _oa;
         #endregion
 
-        #region UnitTest Afspraak toevoegen
+        #region Initialiseren
+        public UnitTestAfspraakManager()
+        {
+            _st = DateTime.Now;
+            _et = _st.AddHours(2);
+
+            _b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
+            _w = new(10, "werknemer", "werknemersen");
+
+            _bd = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+
+            _bd.VoegWerknemerToeInBedrijf(_w, "werknemer.werknemersen@email.com", "functie");
+            
+            _ia = new(_st, _bd, _b, _w);
+            _oa = new(10, _st, _et, _bd, _b, _w);
+        }
+        #endregion
+
+        #region UnitTest VoegAfspraakToe
         [Fact]
         public void VoegAfspraakToe_Invalid_AfspraakLeeg()
         {
@@ -49,7 +67,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region UnitTest Afspraak verwijderen
+        #region UnitTest VerwijderAfspraak
         [Fact]
         public void VerwijderAfspraak_Invalid_AfspraakLeeg()
         {
@@ -73,7 +91,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region UnitTest Afspraak bewerken
+        #region UnitTest BewerkAfspraak
         [Fact]
         public void BewerkAfspraak_Invalid_AfspraakLeeg()
         {
@@ -90,7 +108,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - BewerkAfspraak - afspraak bestaat al"
+            //"AfspraakManager - BewerkAfspraak - afspraak bestaat niet"
             _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
             var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
             Assert.Equal("AfspraakManager - BewerkAfspraak - afspraak bestaat niet", ex.Message);
@@ -103,12 +121,14 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - BewerkAfspraak - afspraak is niet gewijzigd"
+            _mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(true);
             _mockRepo.Setup(x => x.GeefAfspraak(_oa.Id)).Returns(_oa);
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
+            var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
+            Assert.Equal("AfspraakManager - BewerkAfspraak - afspraak is niet gewijzigd", ex.Message);
         }
         #endregion
 
-        #region UnitTest Afspraak beeindigen Bezoeker
+        #region UnitTest BeeindigAfspraakBezoeker
         [Fact]
         public void BeeindigAfspraakBezoeker_Invalid_AfspraakLeeg()
         {
@@ -142,7 +162,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region UnitTest Afspraak beeindigen Systeem
+        #region UnitTest BeeindigAfspraakSysteem
         [Fact]
         public void BeeindigAfspraakSysteem_Invalid_AfspraakLeeg()
         {
@@ -176,7 +196,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region UnitTest Afspraak beeindigen Email
+        #region UnitTest BeeindigAfspraakOpEmail
         [Theory]
         [InlineData(null)]
         [InlineData("")]
@@ -195,7 +215,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region UnitTest Bestaat lopende afspraak
+        #region UnitTest BestaatLopendeAfspraak
         [Fact]
         public void BestaatLopendeAfspraak_Invalid_AfspraakLeeg()
         {
@@ -207,7 +227,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region UnitTest Afspraak opvragen
+        #region UnitTest GeefAfspraak
         [Fact]
         public void GeefAfspraak_Invalid_AfspraakBestaatNiet()
         {
@@ -221,7 +241,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region UnitTest Huidige Afspraken
+        #region UnitTest GeefHuidigeAfspraken
         [Fact]
         public void GeefHuidigeAfspraken_Invalid_GeenAfspraken()
         {
@@ -235,7 +255,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region UnitTest Huidige Afspraken Per Bedrijf
+        #region UnitTest GeefHuidigeAfsprakenPerBedrijf
         [Fact]
         public void GeefHuidigeAfsprakenPerBedrijf_Invalid_BedrijfNull()
         {
@@ -259,8 +279,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region UnitTest Afspraken Per Bedrijf Op Dag
-        [Fact]
+        #region UnitTest GeefAfsprakenPerBedrijfOpDag
         public void GeefAfsprakenPerBedrijfOpDag_Invalid_WerknemerNull()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
@@ -293,15 +312,25 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         }
         #endregion
 
-        #region UnitTest Huidige Afspraak voor Werknemer
+        #region UnitTest GeefHuidigeAfsprakenPerWerknemerPerBedrijf
         [Fact]
-        public void GeefHuidigeAfspraakPerWerknemer_Invalid_WerknemerNull()
+        public void GeefHuidigeAfspraakPerWerknemer_Invalid_WerknemerLeeg()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - GeefHuidigeAfsprakenPerWerknemer - werknemer mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefHuidigeAfspraakPerWerknemer(null));
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefHuidigeAfsprakenPerWerknemerPerBedrijf(null, _bd));
+        }
+
+        [Fact]
+        public void GeefHuidigeAfspraakPerWerknemer_Invalid_BedrijfLeeg()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - GeefHuidigeAfsprakenPerWerknemer - bedrijf mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefHuidigeAfsprakenPerWerknemerPerBedrijf(_w, null));
         }
 
         [Fact]
@@ -311,199 +340,103 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - GeefHuidigeAfspraakPerWerknemer - er zijn geen afspraken"
-            _mockRepo.Setup(x => x.GeefHuidigeAfspraakPerWerknemer(_w.Id)).Returns(new List<Afspraak>());
-            var ex = _afspraakManager.GeefHuidigeAfspraakPerWerknemer(_w);
+            _mockRepo.Setup(x => x.GeefHuidigeAfsprakenPerWerknemerPerBedrijf(_w.Id, _bd.Id)).Returns(new List<Afspraak>());
+            var ex = _afspraakManager.GeefHuidigeAfsprakenPerWerknemerPerBedrijf(_w,_bd);
             Assert.Empty(ex);
         }
         #endregion
-        
-        #region UnitTest Alle Afspraken Per Werknemer
+
+        #region UnitTest GeefAlleAfsprakenPerWerknemerPerBedrijf
         [Fact]
-        public void GeefAlleAfsprakenPerWerknemer_Invalid_WerknemerNull()
+        public void GeefAlleAfsprakenPerWerknemerPerBedrijf_Invalid_WerknemerLeeg()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
             //"AfspraakManager - GeefAlleAfsprakenPerWerknemer - werknemer mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAlleAfsprakenPerWerknemer(null));
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAlleAfsprakenPerWerknemerPerBedrijf(null, _bd));
         }
 
         [Fact]
-        public void GeefAlleAfsprakenPerWerknemer_Invalid_GeenAfspraken()
+        public void GeefAlleAfsprakenPerWerknemerPerBedrijf_Invalid_BedrijfLeeg()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefAlleAfsprakenPerWerknemer - er zijn geen afspraken"
-            _mockRepo.Setup(x => x.GeefAlleAfsprakenPerWerknemer(_w.Id)).Returns(new List<Afspraak>());
-            var ex = _afspraakManager.GeefAlleAfsprakenPerWerknemer(_w);
+            //"AfspraakManager - GeefAlleAfsprakenPerWerknemerPerBedrijf - werknemer mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAlleAfsprakenPerWerknemerPerBedrijf(_w, null));
+        }
+
+        [Fact]
+        public void GeefAlleAfsprakenPerWerknemerPerBedrijf_Invalid_GeenAfspraken()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - GeefAlleAfsprakenPerWerknemerPerBedrijf - er zijn geen afspraken"
+            _mockRepo.Setup(x => x.GeefAlleAfsprakenPerWerknemerPerBedrijf(_w.Id, _bd.Id)).Returns(new List<Afspraak>());
+            var ex = _afspraakManager.GeefAlleAfsprakenPerWerknemerPerBedrijf(_w,_bd);
             Assert.Empty(ex);
         }
         #endregion
 
-        #region UnitTest Afspraken Per Werknemer Op Dag
+        #region UnitTest GeefAfsprakenPerWerknemerOpDagPerBedrijf
         [Fact]
-        public void GeefAfsprakenPerWerknemerOpDag_Invalid_WerknemerNull()
+        public void GeefAfsprakenPerWerknemerOpDagPerBedrijf_Invalid_WerknemerLeeg()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
-            
-            //"AfspraakManager - GeefAfsprakenPerWerknemerOpDag - werknemer mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerWerknemerOpDag(null, _st));
+
+            //"AfspraakManager - GeefAfsprakenPerWerknemerOpDagPerBedrijf - werknemer mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerWerknemerOpDagPerBedrijf(null, _st, _bd));
         }
         
         [Fact]
-        public void GeefAfsprakenPerWerknemerOpDag_Invalid_DatumInToekomst()
+        public void GeefAfsprakenPerWerknemerOpDagPerBedrijf_Invalid_DatumInToekomst()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefAfsprakenPerWerknemerOpDag - opvraag datum kan niet in de toekomst liggen"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerWerknemerOpDag(_w, _st.AddDays(1)));
+            //"AfspraakManager - GeefAfsprakenPerWerknemerOpDagPerBedrijf - opvraag datum kan niet in de toekomst liggen"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerWerknemerOpDagPerBedrijf(_w, _st.AddDays(1), _bd));
         }
 
         [Fact]
-        public void GeefAfsprakenPerWerknemerOpDag_Invalid_GeenAfspraken()
+        public void GeefAfsprakenPerWerknemerOpDagPerBedrijf_Invalid_BedrijfLeeg()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefAlleAfsprakenPerWerknemer - er zijn geen afspraken"
-            _mockRepo.Setup(x => x.GeefAfsprakenPerWerknemerOpDag(_w.Id, _st)).Returns(new List<Afspraak>());
-            var ex = _afspraakManager.GeefAfsprakenPerWerknemerOpDag(_w, _st);
+            //"AfspraakManager - GeefAfsprakenPerWerknemerOpDagPerBedrijf - bedrijf mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerWerknemerOpDagPerBedrijf(_w, _st, null));
+        }
+
+        [Fact]
+        public void GeefAfsprakenPerWerknemerOpDagPerBedrijf_Invalid_GeenAfspraken()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - GeefAfsprakenPerWerknemerOpDagPerBedrijf - er zijn geen afspraken"
+            _mockRepo.Setup(x => x.GeefAfsprakenPerWerknemerOpDagPerBedrijf(_w.Id, _st, _bd.Id)).Returns(new List<Afspraak>());
+            var ex = _afspraakManager.GeefAfsprakenPerWerknemerOpDagPerBedrijf(_w, _st, _bd);
             Assert.Empty(ex);
         }
         #endregion
 
-        #region UnitTest Afspraken Per Dag
+        #region UnitTest GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf
         [Fact]
-        public void GeefAfsprakenPerDag_Invalid_DatumInToekomst()
+        public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_BedrijfLeeg()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefAfsprakenPerDag - opvraag datum kan niet in de toekomst liggen"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerDag(_st.AddDays(1)));
-        }
-
-        [Fact]
-        public void GeefAfsprakenPerDag_Invalid_GeenAfspraken()
-        {
-            _mockRepo = new Mock<IAfspraakRepository>();
-            _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-            //"AfspraakManager - GeefAfsprakenPerDag - er zijn geen afspraken"
-            _mockRepo.Setup(x => x.GeefAfsprakenPerDag(_st)).Returns(new List<Afspraak>());
-            var ex = _afspraakManager.GeefAfsprakenPerDag(_st);
-            Assert.Empty(ex);
-        }
-        #endregion
-
-        #region UnitTest Afspraken Per Bezoeker Op Naam of Email
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        [InlineData("\r")]
-        [InlineData("\t")]
-        [InlineData("\v")]
-        public void GeefAfsprakenPerBezoekerOpNaamOfEmail_Invalid_VoornaamLeeg(string voornaam)
-        {
-            _mockRepo = new Mock<IAfspraakRepository>();
-            _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmail - naam of email mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmail(voornaam, "bezoekersen", "bezoeker.bezoekersen@email.com"));
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        [InlineData("\r")]
-        [InlineData("\t")]
-        [InlineData("\v")]
-        public void GeefAfsprakenPerBezoekerOpNaamOfEmail_Invalid_AchternaamLeeg(string achternaam)
-        {
-            _mockRepo = new Mock<IAfspraakRepository>();
-            _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmail - naam of email mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmail("bezoeker", achternaam, "bezoeker.bezoekersen@email.com"));
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        [InlineData("\r")]
-        [InlineData("\t")]
-        [InlineData("\v")]
-        public void GeefAfsprakenPerBezoekerOpNaamOfEmail_Invalid_EmailLeeg(string email)
-        {
-            _mockRepo = new Mock<IAfspraakRepository>();
-            _afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmail - email mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmail("bezoeker", "bezoekersen", email));
+            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf - bedrijf mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf("bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", null));
         }
 
         [Theory]
         [InlineData(null, null, null)]
-
-        [InlineData(null, "bezoekersen", "bezoeker.bezoekersen@email.com")]
-
-        [InlineData(null, null, "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, "", "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, " ", "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, "\n", "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, "\r", "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, "\t", "bezoeker.bezoekersen@email.com")]
-        [InlineData(null, "\v", "bezoeker.bezoekersen@email.com")]
-        
-        [InlineData(null, "bezoekersen", null)]
-        [InlineData(null, "bezoekersen", "")]
-        [InlineData(null, "bezoekersen", " ")]
-        [InlineData(null, "bezoekersen", "\n")]
-        [InlineData(null, "bezoekersen", "\r")]
-        [InlineData(null, "bezoekersen", "\t")]
-        [InlineData(null, "bezoekersen", "\v")]
-
-        [InlineData("bezoeker", null, "bezoeker.bezoekersen@email.com")]
-
-        [InlineData("", null, "bezoeker.bezoekersen@email.com")]
-        [InlineData(" ", null, "bezoeker.bezoekersen@email.com")]
-        [InlineData("\n", null, "bezoeker.bezoekersen@email.com")]
-        [InlineData("\r", null, "bezoeker.bezoekersen@email.com")]
-        [InlineData("\t", null, "bezoeker.bezoekersen@email.com")]
-        [InlineData("\v", null, "bezoeker.bezoekersen@email.com")]
-
-        [InlineData("bezoeker", null, null)]
-        [InlineData("bezoeker", null, "")]
-        [InlineData("bezoeker", null, " ")]
-        [InlineData("bezoeker", null, "\n")]
-        [InlineData("bezoeker", null, "\r")]
-        [InlineData("bezoeker", null, "\t")]
-        [InlineData("bezoeker", null, "\v")]
-
-        [InlineData("bezoeker", "bezoekersen", null)]
-
-        [InlineData("", "bezoekersen", null)]
-        [InlineData(" ", "bezoekersen", null)]
-        [InlineData("\n", "bezoekersen", null)]
-        [InlineData("\r", "bezoekersen", null)]
-        [InlineData("\t", "bezoekersen", null)]
-        [InlineData("\v", "bezoekersen", null)]
-
-        [InlineData("bezoeker", "", null)]
-        [InlineData("bezoeker", " ", null)]
-        [InlineData("bezoeker", "\n", null)]
-        [InlineData("bezoeker", "\r", null)]
-        [InlineData("bezoeker", "\t", null)]
-        [InlineData("bezoeker", "\v", null)]
 
         [InlineData(null, "", "")]
         [InlineData(null, " ", "")]
@@ -625,13 +558,15 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         [InlineData("\r", "\v", null)]
         [InlineData("\t", "\v", null)]
         [InlineData("\v", "\v", null)]
-        public void GeefAfsprakenPerBezoekerOpNaamOfEmail_Invalid_NaamOfEmailLeeg(string voornaam, string achternaam, string email)
+        public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_NaamOfEmailLeeg(string voornaam, string achternaam, string email)
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefAfspraakPerBezoekerOpNaam - naam of email mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmail(voornaam, achternaam, email));
+            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf - naam of email mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(voornaam, achternaam, email, _bd));
+            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf - bedrijf mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(voornaam, achternaam, email, null));
         }
 
         [Fact]
@@ -640,67 +575,125 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaam - er zijn geen afspraken"
-            _mockRepo.Setup(x => x.GeefAfsprakenPerBezoekerOpNaamOfEmail(_b.Voornaam, _b.Achternaam, _b.Email)).Returns(new List<Afspraak>());
-            var ex = _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmail(_b.Voornaam, _b.Achternaam, _b.Email);
+            //"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf - er zijn geen afspraken"
+            _mockRepo.Setup(x => x.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(_b.Voornaam, _b.Achternaam, _b.Email, _bd.Id)).Returns(new List<Afspraak>());
+            var ex = _afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(_b.Voornaam, _b.Achternaam, _b.Email, _bd);
             Assert.Empty(ex);
         }
         #endregion
 
-        #region UnitTest Huidige Afspraak voor Bezoeker
+        #region UnitTest GeefAfsprakenPerBezoekerOpDagPerBedrijf
         [Fact]
-        public void GeefHuidigeAfspraakBezoeker_Invalid_EmailLeeg()
+        public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_WerknemerLeeg()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefHuidigeAfspraakBezoeker - bezoeker mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefHuidigeAfspraakBezoeker(null));
+            //"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bezoeker mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(null, _st, _bd));
         }
 
         [Fact]
-        public void GeefHuidigeAfspraakBezoeker_Invalid_GeenAfspraken()
+        public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_DatumInToekomst()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefHuidigeAfspraakBezoeker - er is geen afspraak"
-            _mockRepo.Setup(x => x.GeefHuidigeAfspraakBezoeker(_b.Id)).Returns(new Afspraak());
-            var ex = _afspraakManager.GeefHuidigeAfspraakBezoeker(_b);
+            //"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - opvraag datum kan niet in de toekomst liggen"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b, _st.AddDays(1), _bd));
+        }
+
+        [Fact]
+        public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_BedrijfLeeg()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bedrijf mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b, _st, null));
+        }
+
+        [Fact]
+        public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_GeenAfspraken()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - er zijn geen afspraken"
+            _mockRepo.Setup(x => x.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b.Id, _st, _bd.Id)).Returns(new List<Afspraak>());
+            var ex = _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b, _st, _bd);
+            Assert.Empty(ex);
+        }
+        #endregion
+        
+        #region UnitTest GeefHuidigeAfspraakBezoekerPerBedrijf
+        [Fact]
+        public void GeefHuidigeAfspraakBezoekerPerBedrijf_Invalid_EmailLeeg()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - GeefHuidigeAfspraakBezoekerPerBedrijf - bezoeker mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(null, _bd));
+        }
+
+        [Fact]
+        public void GeefHuidigeAfspraakBezoekerPerBedrijf_Invalid_BedrijfLeeg()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - GeefHuidigeAfspraakBezoekerPerBedrijf - bedrijf mag niet leeg zijn"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(_b, null));
+        }
+
+        [Fact]
+        public void GeefHuidigeAfspraakBezoekerPerBedrijf_Invalid_GeenAfspraken()
+        {
+            _mockRepo = new Mock<IAfspraakRepository>();
+            _afspraakManager = new AfspraakManager(_mockRepo.Object);
+
+            //"AfspraakManager - GeefHuidigeAfspraakBezoekerPerBedrijf - er is geen afspraak"
+            _mockRepo.Setup(x => x.GeefHuidigeAfspraakBezoekerPerBerijf(_b.Id, _bd.Id)).Returns(new Afspraak());
+            var ex = _afspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(_b, _bd);
             Assert.Null(ex.Bezoeker);
         }
         #endregion
 
-        #region UnitTest Afspraken Per Werknemer Op Dag
+        #region UnitTest GeefAfsprakenPerDag
         [Fact]
-        public void GeefAfsprakenPerBezoekerOpDag_Invalid_WerknemerNull()
+        public void GeefAfsprakenPerDag_Invalid_DatumInToekomst()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefAfsprakenPerBezoekerOpDag - bezoeker mag niet leeg zijn"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDag(null, _st));
+            //"AfspraakManager - GeefAfsprakenPerDag - opvraag datum kan niet in de toekomst liggen"
+            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerDag(_st.AddDays(1)));
         }
 
         [Fact]
-        public void GeefAfsprakenPerBezoekerOpDag_Invalid_DatumInToekomst()
+        public void GeefAfsprakenPerDag_Invalid_GeenAfspraken()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefAfsprakenPerBezoekerOpDag - opvraag datum kan niet in de toekomst liggen"
-            Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDag(_b, _st.AddDays(1)));
+            //"AfspraakManager - GeefAfsprakenPerDag - er zijn geen afspraken"
+            _mockRepo.Setup(x => x.GeefAfsprakenPerDag(_st)).Returns(new List<Afspraak>());
+            var ex = _afspraakManager.GeefAfsprakenPerDag(_st);
+            Assert.Empty(ex);
         }
+        #endregion
 
+        #region UnitTest GeefAanwezigeBezoekers
         [Fact]
-        public void GeefAfsprakenPerBezoekerOpDag_Invalid_GeenAfspraken()
+        public void GeefAanwezigeBezoekers_Invalid_GeenAanwezigeBezoekers()
         {
             _mockRepo = new Mock<IAfspraakRepository>();
             _afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-            //"AfspraakManager - GeefAlleAfsprakenPerWerknemer - er zijn geen afspraken"
-            _mockRepo.Setup(x => x.GeefAfsprakenPerBezoekerOpDag(_b.Id, _st)).Returns(new List<Afspraak>());
-            var ex = _afspraakManager.GeefAfsprakenPerBezoekerOpDag(_b, _st);
+            //"AfspraakManager - GeefAanwezigeBezoekers - geen aanwezige bezoekers"
+            _mockRepo.Setup(x => x.GeefAanwezigeBezoekers()).Returns(new List<Bezoeker>());
+            var ex =_afspraakManager.GeefAanwezigeBezoekers();
             Assert.Empty(ex);
         }
         #endregion

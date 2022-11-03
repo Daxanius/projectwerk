@@ -25,6 +25,7 @@ CREATE TABLE [dbo].[Bedrijf](
 	[TeleNr] VARCHAR(30) NOT NULL,
 	[Email] VARCHAR(255) NOT NULL,
 	[Adres] VARCHAR(255) NOT NULL,
+	[BTWChecked] BIT NOT NULL,
 	[Status] INT NOT NULL DEFAULT 1
 )
 
@@ -51,8 +52,7 @@ CREATE TABLE [dbo].[Bezoeker](
 	[ANaam] VARCHAR(255) NOT NULL,
 	[VNaam] VARCHAR(255) NOT NULL,
 	[Email] VARCHAR(255) NOT NULL,
-	[EigenBedrijf] VARCHAR(255) NOT NULL,
-	[Status] INT NOT NULL DEFAULT 1
+	[EigenBedrijf] VARCHAR(255) NOT NULL
 )
 
 CREATE TABLE [dbo].[Afspraak](

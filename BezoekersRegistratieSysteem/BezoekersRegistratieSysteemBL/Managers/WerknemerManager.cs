@@ -136,7 +136,21 @@ namespace BezoekersRegistratieSysteemBL.Managers
 			}
 		}
 
-		public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(Bedrijf bedrijf)
+        public IReadOnlyList<Werknemer> GeefWerknemersOpFunctie(string functie)
+        {
+            if (string.IsNullOrWhiteSpace(functie))
+                throw new WerknemerManagerException("WerknemerManager - GeefWerknemerOpFunctie - functie mag niet leeg zijn");
+            try
+            {
+                return _werknemerRepository.GeefWerknemersOpFunctie(functie);
+            }
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
+
+        public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(Bedrijf bedrijf)
 		{
 			if (bedrijf == null)
 				throw new WerknemerManagerException("WerknemerManager - GeefWerknemersPerBedrijf - bedrijf mag niet leeg zijn");

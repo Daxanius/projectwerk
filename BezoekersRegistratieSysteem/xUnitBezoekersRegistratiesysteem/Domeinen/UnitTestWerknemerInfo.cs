@@ -6,12 +6,20 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		// AF
 
 		#region Valid Info
-		private Bedrijf _b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-		private string _e = "werknemer.werknemersen@email.com";
+		private Bedrijf _b;
+		private string _e;
 		#endregion
 
-		#region UnitTest Bedrijf
-		[Fact]
+		#region Initialiseren
+		public UnitTestWerknemerInfo()
+		{
+			_b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+			_e = "werknemer.werknemersen@email.com";
+		}
+        #endregion
+
+        #region UnitTest Bedrijf
+        [Fact]
 		public void ZetBedrijf_Valid() {
 			WerknemerInfo wi = new(_b, "werknemer.werknemersen@email.com");
 			wi.ZetBedrijf(_b);
@@ -190,11 +198,38 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			Assert.Equal(_b, wi.Bedrijf);
 			Assert.Equal(_e, wi.Email);
 		}
+        
 		[Fact]
-		public void ctor_Invalid() {
+		public void ctor_Invalid_BedrijfLeeg() {
 			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(null, _e));
-			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(_b, null));
 		}
-		#endregion
-	}
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n")]
+        [InlineData("\r")]
+        [InlineData("\t")]
+        [InlineData("\v")]
+        [InlineData("@email.com")]
+        [InlineData("werknemer.werknemersen@email.")]
+        [InlineData("werknemer.werknemersen@.com")]
+        [InlineData("werknemer.werknemersen@email")]
+        [InlineData("werknemer.werknemersen@")]
+        [InlineData("werknemer.werknemersen")]
+        [InlineData("werknemer.werknemersen@.")]
+        [InlineData("werknemer.werknemersen.com")]
+        public void ctor_InvalidEmailFoutief(string email)
+        {
+            Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(_b, email));
+        }
+
+        [Fact]
+        public void ctor_Invalid_ctorLeeg()
+        {
+            Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(null, null));
+        }
+        #endregion
+    }
 }

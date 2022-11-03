@@ -244,7 +244,6 @@
         <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
         <Setter Property="Foreground" Value="{StaticResource DonkerBlauw}" />
     </Style>
-
     <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
         <Setter Property="Template">
             <Setter.Value>
@@ -274,7 +273,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="Foreground" Value="#333" />
         <Setter Property="BorderBrush" Value="Gray" />
@@ -352,6 +350,13 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers />
+    </Style>
+
+    <Style x:Key="FilterTabLijstStyle" TargetType="Border">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Opacity" Value="0.6" />
+        <Setter Property="Background" Value="{StaticResource LichtGrijsAccent}" />
+        <Setter Property="CornerRadius" Value="30" />
     </Style>
 
 </ResourceDictionary>

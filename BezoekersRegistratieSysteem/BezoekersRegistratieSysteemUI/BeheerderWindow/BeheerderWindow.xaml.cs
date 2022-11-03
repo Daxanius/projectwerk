@@ -19,8 +19,8 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		public double ScaleY { get; set; }
 		#endregion
 
-		#region Private Attributes
-		private BedrijfDTO _geselecteerdBedrijf { get; set; }
+		#region Public propperty
+		public static BedrijfDTO GeselecteerdBedrijf { get; private set; }
 		#endregion
 
 		public BeheerderWindow() {
@@ -44,8 +44,16 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		}
 
 		private void OnPageNavigation(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e) {
-			string path = e.Uri.OriginalString;
+			string path = e.Content.GetType().Name;
 			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Bezoekers", "Dashboard", "Werknemers" };
+
+			if(GeselecteerdBedrijf is not null) {
+				SideBar.AfsprakenTab.IsEnabled = true;
+				SideBar.WerknemersTab.IsEnabled = true;
+			} else {
+				SideBar.AfsprakenTab.IsEnabled = false;
+				SideBar.WerknemersTab.IsEnabled = false;
+			}
 
 			foreach (string folder in pathFolders) {
 				if (path.Contains(folder)) {
@@ -75,12 +83,6 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 						((Label)((StackPanel)SideBar.AfsprakenTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 
-						case "Bezoekers":
-						SideBar.BezoekersTab.Tag = "Selected";
-						((Icon)((StackPanel)SideBar.BezoekersTab.Child).Children[0]).Opacity = 1;
-						((Label)((StackPanel)SideBar.BezoekersTab.Child).Children[1]).FontWeight = FontWeights.Bold;
-						break;
-
 						case "Werknemers":
 						SideBar.WerknemersTab.Tag = "Selected";
 						((Icon)((StackPanel)SideBar.WerknemersTab.Child).Children[0]).Opacity = 1;
@@ -93,7 +95,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		}
 
 		public void ZetGeselecteerdBedrijf(BedrijfDTO bedrijf) {
-			_geselecteerdBedrijf = bedrijf;
+			GeselecteerdBedrijf = bedrijf;
 		}
 
 		#region ProppertyChanged
