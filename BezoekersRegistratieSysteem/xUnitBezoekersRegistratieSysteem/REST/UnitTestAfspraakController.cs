@@ -25,6 +25,9 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		#endregion
 
 		#region Valid Info
+		private DateTime _st;
+		private DateTime _et;
+
 		private BezoekerInputDTO _b;
 		private WerknemerInputDTO _w;
 
@@ -49,6 +52,9 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_afspraakController = new(_afspraakManager, _werknemerManger, _bedrijfManager);
 
 			// Data
+			_st = DateTime.Now;
+			_et = _st.AddHours(2);
+
 			_b = new("bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 			_w = new("werknemer", "werknemersen");
 
@@ -172,6 +178,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		public void GeefHuidigeAfsprakenPerBedrijf_Invalid_BedrijfNegatief() {
 			var result = _afspraakController.GeefAfspraken(null, null, -3, true);
 			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
 
@@ -180,6 +187,33 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_mockRepoAfspraak.Setup(x => x.GeefHuidigeAfsprakenPerBedrijf(0)).Returns(new List<Afspraak>());
 			var result = _afspraakController.GeefAfspraken(null, null, 0, true);
 			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
+
+		#region UnitTest GeefAfsprakenPerBedrijfOpDag
+		public void GeefAfsprakenPerBedrijfOpDag_Invalid_WerknemerNegatief() {
+			var result = _afspraakController.GeefAfspraken(_st, null, -3, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result);
+		}
+
+		[Fact]
+		public void GeefAfsprakenPerBedrijfOpDag_Invalid_DatumInToekomst() {
+			var result = _afspraakController.GeefAfspraken(_st.AddDays(1), null, -4, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefAfsprakenPerBedrijfOpDag_Invalid_GeenAfspraken() {
+			_mockRepoAfspraak.Setup(x => x.GeefAfsprakenPerBedrijfOpDag(0, _st)).Returns(new List<Afspraak>());
+			var result = _afspraakController.GeefAfspraken(_st, null, 0, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
 		#endregion
