@@ -3,6 +3,7 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
 using BezoekersRegistratieSysteemREST.Model;
+using BezoekersRegistratieSysteemREST.Model.Input;
 using Moq;
 
 namespace xUnitBezoekersRegistratieSysteem.REST {
@@ -21,21 +22,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		#endregion
 
 		#region Valid Info
-		private Werknemer _w;
-		private Bedrijf _b;
-		private WerknemerInfo _wi;
+		private WerknemerInputDTO _w;
+		private BedrijfInputDTO _b;
+		private WerknemerInfoInputDTO _wi;
 		private string _f;
 		#endregion
 
 		#region Initialiseren
 		public UnitTestWerknemerController() {
-			// Info
-			_w = new(10, "werknemer", "werknemersen");
-			_b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-			_f = "functie";
-
-			_wi = new(_b, "werknemer.werknemersen@email.com");
-
 			// Moq repos
 			_mockRepoWerknemer = new();
 			_mockRepoBedrijf = new();
@@ -46,6 +40,13 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			// Controllers
 			_werknemerController = new(_werknemerManager, _bedrijfManager);
+
+			// Data
+			_w = new("werknemer", "werknemersen");
+			_b = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+			_f = "functie";
+
+			_wi = new(0, "werknemer.werknemersen@email.com", new() { _f });
 		}
 		#endregion
 

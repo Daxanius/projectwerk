@@ -22,7 +22,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		#region Valid Info
 		private WerknemerInputDTO _w;
-		private BedrijfInputDTO _bd;
+		private BedrijfInputDTO _b;
 		#endregion
 
 		#region Initialiseren
@@ -40,7 +40,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			// Data
 			_w = new("werknemer", "werknemersen");
-			_bd = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
+			_b = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 		}
 		#endregion
 
@@ -53,8 +53,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void VoegBedrijfToe_Invalid_BedrijfBestaatAl() {
-			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(_bd.NaarBusiness())).Returns(true);
-			var result = _bedrijfController.VoegBedrijfToe(_bd);
+			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(_b.NaarBusiness())).Returns(true);
+			var result = _bedrijfController.VoegBedrijfToe(_b);
 			Assert.Null(result.Value);
 		}
 		#endregion
