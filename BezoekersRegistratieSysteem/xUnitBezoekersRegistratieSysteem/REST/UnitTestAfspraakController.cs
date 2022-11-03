@@ -1,5 +1,4 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;

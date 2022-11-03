@@ -1,13 +1,8 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
 using BezoekersRegistratieSysteemREST.Model;
-using BezoekersRegistratieSysteemREST.Model.Input;
-using BezoekersRegistratieSysteemREST.Model.Output;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace xUnitBezoekersRegistratieSysteem.REST {
