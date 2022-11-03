@@ -2,7 +2,6 @@
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
-using MahApps.Metro.Markup;
 using System;
 using System.Collections.Generic;
 using System.Linq;

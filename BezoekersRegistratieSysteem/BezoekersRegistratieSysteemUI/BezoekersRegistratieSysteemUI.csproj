@@ -161,11 +161,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="MaterialDesignColors" Version="2.0.9" />
-	  <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.5" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Resource Include="Fonts\Inter-Black.ttf">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
