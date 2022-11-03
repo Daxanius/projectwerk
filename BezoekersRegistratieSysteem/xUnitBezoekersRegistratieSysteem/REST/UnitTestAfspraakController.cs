@@ -129,6 +129,22 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		}
 		#endregion
 
+		#region UnitTest BeeindigAfspraakOpEmail
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
+		public void BeeindigAfspraakOpMail_Invalid_EmailLeeg(string email) {
+			var result = _afspraakController.End(email);
+			Assert.NotNull(result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
+		}
+		#endregion
+
 		#region UnitTest GeefAfspraak
 		[Fact]
 		public void GeefAfspraak_Invalid_AfspraakBestaatNiet() {
