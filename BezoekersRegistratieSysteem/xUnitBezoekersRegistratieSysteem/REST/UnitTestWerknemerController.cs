@@ -48,6 +48,16 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_f = "functie";
 
 			_wi = new(0, "werknemer.werknemersen@email.com", new() { _f });
+
+			Bedrijf b = _b.NaarBusiness();
+			Werknemer w = _w.NaarBusiness();
+
+			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemerson@bedrijf.com", _f);
+
+			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(true);
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
+			_mockRepoBedrijf.Setup(x => x.GeefBedrijf(0)).Returns(b);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(w);
 		}
 		#endregion
 
