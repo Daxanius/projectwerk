@@ -131,5 +131,16 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefBedrijven
+		[Fact]
+		public void GeefBedrijven_Invalid_BedrijvenBestaanNiet() {
+			_mockRepoBedrijf.Setup(x => x.GeefBedrijven()).Returns(new List<Bedrijf>());
+			var result = _bedrijfController.GeefAlleBedrijven();
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
