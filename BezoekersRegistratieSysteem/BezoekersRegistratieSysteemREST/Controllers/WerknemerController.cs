@@ -197,7 +197,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				_werknemerManager.VerwijderWerknemerFunctie(werknemer, bedrijf, naam);
 				return Ok();
 			} catch (Exception ex) {
-				return BadRequest(ex.Message);
+				return NotFound(ex.Message);
 			}
 		}
 

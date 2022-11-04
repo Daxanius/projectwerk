@@ -140,14 +140,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		#endregion
 
 		#region UnitTest VerwijderWerknemerFunctie
-		[Fact]
-		public void VerwijderWerknemerFunctie_Invalid_WerknemerLeeg() {
-			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemerFunctie(null, _b, _f));
-		}
-
-		[Fact]
-		public void VerwijderWerknemerFunctie_Invalid_BedrijfLeeg() {
-			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemerFunctie(_w, null, _f));
+		[Theory]
+		[InlineData(0, -2)]
+		[InlineData(-2, 0)]
+		[InlineData(-2, -2)]
+		public void VerwijderWerknemerFunctie_Invalid(long werknemerId, long bedrijfId) {
+			var result = _werknemerController.VerwijderWerknemerFunctie(werknemerId, bedrijfId, _f);
+			Assert.NotNull(result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
 		}
 
 		[Theory]
@@ -159,32 +159,17 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[InlineData("\t")]
 		[InlineData("\v")]
 		public void VerwijderWerknemerFunctie_Invalid_functieLeeg(string functie) {
-			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemerFunctie(_w, _b, functie));
+			var result = _werknemerController.VerwijderWerknemerFunctie(0, 0, functie);
+			Assert.NotNull(result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
 		}
 
 		[Fact]
 		public void VerwijderWerknemerFunctie_Invalid_WerknemerBestaatNiet() {
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
-			var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemerFunctie(_w, _b, _f));
-			Assert.Equal("WerknemerManager - VerwijderWerknemerFunctie - werknemer bestaat niet", ex.Message);
-		}
-
-		[Fact]
-		public void VerwijderWerknemerFunctie_Invalid_WerknemerNietBijBedrijf() {
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness());
-			Assert.DoesNotContain(_b, _w.GeefBedrijvenEnFunctiesPerWerknemer().Keys);
-		}
-
-		[Fact]
-		public void VerwijderWerknemerFunctie_Invalid_GeenFunctiesBijBedrijf() {
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness());
-			Assert.Empty(_w.GeefBedrijvenEnFunctiesPerWerknemer().Values);
-		}
-
-		[Fact]
-		public void VerwijderWerknemerFunctie_Invalid_WerknemerMinstens1FunctieBijBedrijf() {
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness());
-			Assert.True(_w.GeefBedrijvenEnFunctiesPerWerknemer().Values.Count() < 1);
+			var result = _werknemerController.VerwijderWerknemerFunctie(0, 0, _f);
+			Assert.NotNull(result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
 		}
 		#endregion
 	}
