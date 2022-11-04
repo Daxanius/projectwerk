@@ -1,4 +1,4 @@
-![](/Documentatie/Images/inside.jpg, "")
+![.inside](/Documentatie/Images/inside.jpg, "")
 
 # Projectwerk 2A - Graduaat Programmeren
 Projectwerk graduaat Programmeren gemaakt door:
