@@ -2,7 +2,6 @@
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
-using MahApps.Metro.Markup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -149,7 +148,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			BeheerderWindow beheerderWindow = (BeheerderWindow)window.DataContext;
 
 			beheerderWindow.ZetGeselecteerdBedrijf(bedrijf);
-			beheerderWindow.FrameControl.Navigate(new AfsprakenPage());
+			beheerderWindow.FrameControl.Navigate(AfsprakenPage.Instance);
 		}
 	}
 }

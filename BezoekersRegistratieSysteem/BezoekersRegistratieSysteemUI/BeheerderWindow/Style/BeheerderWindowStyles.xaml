@@ -234,20 +234,9 @@
                                 <TextBlock
                                     Padding="8,0,0,0"
                                     Background="Transparent"
+                                    Cursor="Hand"
                                     Foreground="{StaticResource DonkerBlauw}"
-                                    Text="{Binding}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Cursor" Value="Hand" />
-                                                    <Setter Property="TextDecorations" Value="Underline" />
-                                                    <Setter Property="Background" Value="Transparent" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                    Text="{Binding}" />
                             </DataTemplate>
                         </ContentPresenter.ContentTemplate>
                     </ContentPresenter>
@@ -256,6 +245,14 @@
         </Setter>
         <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
         <Setter Property="Foreground" Value="{StaticResource DonkerBlauw}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="False">
+                <Setter Property="Opacity" Value=".5" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
         <Setter Property="Template">
@@ -267,10 +264,9 @@
                             <ColumnDefinition Width="50" />
                         </Grid.ColumnDefinitions>
                         <Border
-                            x:Name="Border"
+                            Name="RoundBorder"
                             Grid.ColumnSpan="2"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding Foreground}"
                             BorderThickness="1.5"
                             CornerRadius="25" />
                         <iconspresenter:Icon
@@ -313,7 +309,6 @@
                             Foreground="{TemplateBinding Foreground}"
                             IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                             Style="{StaticResource ComboBoxToggleButton}" />
-
                         <ContentPresenter
                             Name="ContentSite"
                             Margin="10,3,30,3"
@@ -342,7 +337,7 @@
                             Focusable="False"
                             IsOpen="{TemplateBinding IsDropDownOpen}"
                             Placement="Bottom"
-                            PopupAnimation="Fade">
+                            PopupAnimation="Slide">
                             <Grid
                                 Name="DropDown"
                                 MinWidth="{TemplateBinding ActualWidth}"
@@ -352,8 +347,7 @@
                                     x:Name="DropDownBorder"
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding Foreground}"
-                                    BorderThickness="1"
-                                    CornerRadius="8" />
+                                    CornerRadius="8,8,8,8" />
                                 <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </ScrollViewer>

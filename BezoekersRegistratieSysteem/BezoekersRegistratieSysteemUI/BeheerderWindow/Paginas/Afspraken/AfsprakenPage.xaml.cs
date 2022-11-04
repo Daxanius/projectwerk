@@ -196,5 +196,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				((Grid)FilterContainer.Children[0]).Children[i].Visibility = Visibility.Collapsed;
 			}
 		}
+
+		private void HuidigeAfsprakenLijst_Loaded(object sender, RoutedEventArgs e)
+		{
+
+		}
 	}
 }

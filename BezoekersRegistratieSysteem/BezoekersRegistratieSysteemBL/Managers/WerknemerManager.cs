@@ -178,5 +178,31 @@ namespace BezoekersRegistratieSysteemBL.Managers
                 throw new WerknemerManagerException(ex.Message);
             }
         }
+
+        public IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(Bedrijf bedrijf)
+        {
+            if (bedrijf == null) throw new WerknemerManagerException("WerknemerManager - GeefVrijeWerknemersOpDitMomentVoorBedrijf - bedrijf mag niet leeg zijn");
+            try
+            {
+                return _werknemerRepository.GeefVrijeWerknemersOpDitMomentVoorBedrijf(bedrijf.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
+
+        public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(Bedrijf bedrijf)
+        {
+            if (bedrijf == null) throw new WerknemerManagerException("WerknemerManager - GeefBezetteWerknemersOpDitMomentVoorBedrijf - bedrijf mag niet leeg zijn");
+            try
+            {
+                return _werknemerRepository.GeefBezetteWerknemersOpDitMomentVoorBedrijf(bedrijf.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new WerknemerManagerException(ex.Message);
+            }
+        }
     }
 }

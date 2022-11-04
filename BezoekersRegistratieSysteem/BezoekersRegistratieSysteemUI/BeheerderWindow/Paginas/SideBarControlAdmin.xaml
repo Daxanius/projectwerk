@@ -38,14 +38,14 @@
                             CircleBackground="{x:Null}"
                             IconSource="../DashboardIcon.xaml"
                             Opacity="1" />
-                        <Label
+                        <TextBlock
                             Padding="0,0,0,6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Content="Dashboard"
                             FontSize="16"
                             FontWeight="Bold"
-                            Foreground="{StaticResource DonkerBlauw}" />
+                            Foreground="{StaticResource DonkerBlauw}"
+                            Text="Dashboard" />
                     </StackPanel>
                 </Border>
                 <Border
@@ -64,13 +64,13 @@
                             VerticalAlignment="Center"
                             CircleBackground="{x:Null}"
                             IconSource="../BedrijfIcon.xaml" />
-                        <Label
+                        <TextBlock
                             Padding="0,0,0,6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Content="Bedrijven"
                             FontSize="16"
-                            Foreground="{StaticResource DonkerBlauw}" />
+                            Foreground="{StaticResource DonkerBlauw}"
+                            Text="Bedrijven" />
                     </StackPanel>
                 </Border>
                 <Border
@@ -90,13 +90,13 @@
                             VerticalAlignment="Center"
                             CircleBackground="{x:Null}"
                             IconSource="../AfspraakIcon.xaml" />
-                        <Label
+                        <TextBlock
                             Padding="0,0,0,6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Content="Afspraken"
                             FontSize="16"
-                            Foreground="{StaticResource DonkerBlauw}" />
+                            Foreground="{StaticResource DonkerBlauw}"
+                            Text="Afspraken" />
                     </StackPanel>
                 </Border>
                 <Border
@@ -115,17 +115,18 @@
                             VerticalAlignment="Center"
                             CircleBackground="{x:Null}"
                             IconSource="../WerknemerIcon.xaml" />
-                        <Label
+                        <TextBlock
                             Padding="0,0,0,6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Content="Werknemers"
                             FontSize="16"
-                            Foreground="{StaticResource DonkerBlauw}" />
+                            Foreground="{StaticResource DonkerBlauw}"
+                            Text="Werknemers" />
                     </StackPanel>
                 </Border>
             </StackPanel>
             <Border
+                x:Name="ToonAanwezigenContainer"
                 Width="150"
                 Height="40"
                 Margin="25"
@@ -134,22 +135,24 @@
                 Background="{StaticResource MainAchtergrond}"
                 CornerRadius="20"
                 Cursor="Hand"
-                MouseLeftButtonDown="ToonAanwezigeBezoekers">
+                MouseLeftButtonDown="ToggleAanwezigeBezoekersAchtergrond">
                 <StackPanel
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
                     <iconspresenter:Icon
+                        x:Name="ToonAanwezigenIcon"
                         Margin="-7,8,-7,0"
                         HorizontalAlignment="center"
                         VerticalAlignment="Center"
                         CircleBackground="Transparent"
                         IconSource="../LijstIcon.xaml" />
-                    <Label
+                    <TextBlock
+                        x:Name="ToonAanwezigenText"
                         VerticalAlignment="Center"
-                        Content="Aanwezigen"
                         FontWeight="Medium"
-                        Foreground="{StaticResource DonkerBlauw}" />
+                        Foreground="{StaticResource DonkerBlauw}"
+                        Text="Aanwezigen" />
                 </StackPanel>
             </Border>
         </Grid>
