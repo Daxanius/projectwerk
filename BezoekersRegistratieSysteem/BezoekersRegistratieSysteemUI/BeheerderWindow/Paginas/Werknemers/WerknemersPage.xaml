@@ -82,10 +82,8 @@
                     FontSize="26"
                     FontWeight="Bold"
                     Foreground="{StaticResource DonkerBlauw}">
-                    <ComboBoxItem Content="Hogent" />
-                    <ComboBoxItem Content="Hogent" />
-                    <ComboBoxItem Content="Hogent" />
-                    <ComboBoxItem Content="Hogent" />
+                    <ComboBoxItem Content="Vrij" />
+                    <ComboBoxItem Content="Bezet" />
                 </ComboBox>
                 <StackPanel />
             </DockPanel>

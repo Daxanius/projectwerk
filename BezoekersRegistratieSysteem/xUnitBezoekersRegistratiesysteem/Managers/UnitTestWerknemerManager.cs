@@ -460,5 +460,53 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             Assert.Equal("WerknemerManager - VoegFunctieToe - functie bestaat al", ex.Message);
         }
         #endregion
+
+        #region GeefVrijeWerknemersOpDitMomentVoorBedrijf
+        [Fact]
+        public void GeefVrijeWerknemersOpDitMomentVoorBedrijf_Invalid_BedrijfLeeg()
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object);
+
+            //"WerknemerManager - GeefVrijeWerknemersOpDitMomentVoorBedrijf - bedrijf mag niet leeg zijn"
+            Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefVrijeWerknemersOpDitMomentVoorBedrijf(null));
+        }
+
+        [Fact]
+        public void GeefVrijeWerknemersOpDitMomentVoorBedrijf_Invalid_GeenWerknemers()
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object);
+
+            //"WerknemerManager - GeefVrijeWerknemersOpDitMomentVoorBedrijf - er zijn geen werknemers"
+            _mockRepo.Setup(x => x.GeefVrijeWerknemersOpDitMomentVoorBedrijf(_b.Id)).Returns(new List<Werknemer>());
+            var ex = _werknemerManager.GeefVrijeWerknemersOpDitMomentVoorBedrijf(_b);
+            Assert.Empty(ex);
+        }
+        #endregion
+
+        #region GeefBezetteWerknemersOpDitMomentVoorBedrijf
+        [Fact]
+        public void GeefBezetteWerknemersOpDitMomentVoorBedrijf_Invalid_BedrijfLeeg()
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object);
+
+            //"WerknemerManager - GeefBezetteWerknemersOpDitMomentVoorBedrijf - bedrijf mag niet leeg zijn"
+            Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefBezetteWerknemersOpDitMomentVoorBedrijf(null));
+        }
+
+        [Fact]
+        public void GeefBezetteWerknemersOpDitMomentVoorBedrijf_Invalid_GeenWerknemers()
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object);
+
+            //"WerknemerManager - GeefBezetteWerknemersOpDitMomentVoorBedrijf - er zijn geen werknemers"
+            _mockRepo.Setup(x => x.GeefBezetteWerknemersOpDitMomentVoorBedrijf(_b.Id)).Returns(new List<Werknemer>());
+            var ex = _werknemerManager.GeefBezetteWerknemersOpDitMomentVoorBedrijf(_b);
+            Assert.Empty(ex);
+        }
+        #endregion
     }
 }

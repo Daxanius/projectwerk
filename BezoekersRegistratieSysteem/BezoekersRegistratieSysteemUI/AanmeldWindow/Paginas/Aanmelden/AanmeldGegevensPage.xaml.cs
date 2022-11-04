@@ -13,13 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindow.Paginas.Werknemers.Popups {
-	/// <summary>
-	/// Interaction logic for VoegWerknemerToePopup.xaml
-	/// </summary>
-	public partial class VoegWerknemerToePopup : UserControl {
-		public VoegWerknemerToePopup() {
-			InitializeComponent();
-		}
-	}
+namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden
+{
+    /// <summary>
+    /// Interaction logic for AanmeldGegevensPage.xaml
+    /// </summary>
+    public partial class AanmeldGegevensPage : Page
+    {
+        public AanmeldGegevensPage()
+        {
+            
+            InitializeComponent();
+        }
+    }
 }
