@@ -79,5 +79,25 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest VerwijderWerknemer
+		[Theory]
+		[InlineData(0, -1)]
+		[InlineData(-1, 0)]
+		[InlineData(-1, -1)]
+		public void VerwijderWerknemer_Invalid(long bedrijfId, long werknemerId) {
+			var result = _werknemerController.VerwijderWerknemer(bedrijfId, werknemerId);
+			Assert.NotNull(result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
+		}
+
+		[Fact]
+		public void VerwijderWerknemer_Invalid_WerknemerBestaatNiet() {
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
+			var result = _werknemerController.VerwijderWerknemer(0, 0);
+			Assert.NotNull(result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
+		}
+		#endregion
 	}
 }
