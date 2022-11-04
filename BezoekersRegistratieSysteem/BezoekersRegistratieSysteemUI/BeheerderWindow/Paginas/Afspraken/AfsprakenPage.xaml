@@ -36,6 +36,7 @@
                     CircleBackground="{StaticResource DonkerBlauw}"
                     Cursor="Hand"
                     DockPanel.Dock="Right"
+                    IconPadding="0, 0, 4.5, 4"
                     IconSize="50"
                     IconSource="../PlusIcon.xaml" />
                 <StackPanel />
@@ -55,11 +56,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
-                        <iconspresenter:Icon
-                            Padding="0,10,0,0"
-                            IconOffsetTop="9"
-                            IconSize="50"
-                            IconSource="../HuidigeAfspraakIcon.xaml" />
+                        <iconspresenter:Icon IconSize="50" IconSource="../HuidigeAfspraakIcon.xaml" />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontSize="20"
@@ -77,11 +74,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
-                        <iconspresenter:Icon
-                            Padding="0,10,0,0"
-                            IconOffsetTop="9"
-                            IconSize="50"
-                            IconSource="../WerknemerAfspraakIcon.xaml" />
+                        <iconspresenter:Icon IconSize="50" IconSource="../WerknemerAfspraakIcon.xaml" />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontSize="20"
@@ -99,11 +92,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
-                        <iconspresenter:Icon
-                            Padding="0,10,0,0"
-                            IconOffsetTop="9"
-                            IconSize="50"
-                            IconSource="../BezoekerAfspraakIcon.xaml" />
+                        <iconspresenter:Icon IconSize="50" IconSource="../BezoekerAfspraakIcon.xaml" />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontSize="20"
@@ -121,11 +110,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
-                        <iconspresenter:Icon
-                            Padding="0,10,0,0"
-                            IconOffsetTop="9"
-                            IconSize="50"
-                            IconSource="../OpDatumAfspraakIcon.xaml" />
+                        <iconspresenter:Icon IconSize="50" IconSource="../OpDatumAfspraakIcon.xaml" />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontSize="20"
@@ -198,9 +183,8 @@
                                                                 VerticalAlignment="Center"
                                                                 Orientation="Horizontal">
                                                                 <iconspresenter:Icon
-                                                                    Margin="10,10,0,0"
                                                                     CircleBackground="Transparent"
-                                                                    IconSize="45"
+                                                                    IconSize="50"
                                                                     IconSource="../VergrootGlasIcon.xaml" />
                                                                 <TextBox
                                                                     MinWidth="200"
@@ -265,10 +249,10 @@
                                                 TextAlignment="Center" />
                                         </Border>
                                         <iconspresenter:Icon
-                                            Padding="0,8,0,0"
                                             CircleBackground="{StaticResource DonkerBlauw}"
                                             Cursor="Hand"
                                             DockPanel.Dock="Right"
+                                            IconPadding="0, 0, 2.5, 1"
                                             IconSize="40"
                                             IconSource="../ReloadIcon.xaml" />
                                     </StackPanel>
@@ -316,10 +300,10 @@
                                             TextAlignment="Center" />
                                     </Border>
                                     <iconspresenter:Icon
-                                        Padding="0,8,0,0"
                                         CircleBackground="{StaticResource DonkerBlauw}"
                                         Cursor="Hand"
                                         DockPanel.Dock="Right"
+                                        IconPadding="0, 0, 2.5, 1"
                                         IconSize="40"
                                         IconSource="../ReloadIcon.xaml" />
                                 </StackPanel>
@@ -365,10 +349,10 @@
                                             TextAlignment="Center" />
                                     </Border>
                                     <iconspresenter:Icon
-                                        Padding="0,8,0,0"
                                         CircleBackground="{StaticResource DonkerBlauw}"
                                         Cursor="Hand"
                                         DockPanel.Dock="Right"
+                                        IconPadding="0, 0, 2.5, 1"
                                         IconSize="40"
                                         IconSource="../ReloadIcon.xaml" />
                                 </StackPanel>

@@ -6,34 +6,32 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DataContext="{d:DesignInstance Type=controlls:AfmeldControl}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Viewbox
-        Width="{Binding IconSize}"
-        Height="{Binding IconSize}"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center">
+    <Viewbox Width="{Binding IconSize}" Height="{Binding IconSize}">
         <Canvas
-            Width="50"
-            Height="50"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <Ellipse
-                Width="{Binding CircleSize}"
-                Height="{Binding CircleSize}"
-                Fill="{Binding CircleBackground}" />
-            <Frame
-                Canvas.Left="{Binding IconOffsetLeft}"
-                Canvas.Top="{Binding IconOffsetTop}"
+            x:Name="myCanvas"
+            Width="{Binding CanvasWidth}"
+            Height="{Binding CanvasWidth}">
+            <Grid
+                Width="{Binding ActualWidth, ElementName=myCanvas}"
+                Height="{Binding ActualHeight, ElementName=myCanvas}"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                Foreground="White"
-                NavigationUIVisibility="Hidden"
-                Source="{Binding IconSource}" />
+                VerticalAlignment="Center">
+                <Ellipse
+                    Width="{Binding CircleSize}"
+                    Height="{Binding CircleSize}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Fill="{Binding CircleBackground}" />
+                <Frame
+                    Padding="{Binding IconPadding}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    NavigationUIVisibility="Hidden"
+                    Source="{Binding IconSource}" />
+            </Grid>
         </Canvas>
     </Viewbox>
 </UserControl>

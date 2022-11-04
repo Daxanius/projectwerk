@@ -37,32 +37,46 @@ namespace BezoekersRegistratieSysteemUI.icons.IconsPresenter {
 				  new PropertyMetadata(40)
 			  );
 		
-		public int IconOffsetLeft {
-			get { return (int)GetValue(IconOffsetLeftPropperty); }
-			set { SetValue(IconOffsetLeftPropperty, value); }
+		public int CanvasWidth {
+			get { return (int)GetValue(CanvasWidthPropperty); }
+			set { SetValue(CanvasWidthPropperty, value); }
 		}
 
 		// Using a DependencyProperty as the backing store for Property1.  
 		// This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty IconOffsetLeftPropperty = DependencyProperty.Register(
-				  nameof(IconOffsetLeft),
+		public static readonly DependencyProperty CanvasWidthPropperty = DependencyProperty.Register(
+				  nameof(CanvasWidth),
 				  typeof(int),
 				  typeof(Icon),
-				  new PropertyMetadata(8)
+				  new PropertyMetadata(50)
+			  );
+		
+		public Thickness IconPadding {
+			get { return (Thickness)GetValue(IconPaddingPropperty); }
+			set { SetValue(IconPaddingPropperty, value); }
+		}
+
+		// Using a DependencyProperty as the backing store for Property1.  
+		// This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty IconPaddingPropperty = DependencyProperty.Register(
+				  nameof(IconPadding),
+				  typeof(Thickness),
+				  typeof(Icon),
+				  new PropertyMetadata(new Thickness(0))
 			  );
 
-		public int IconOffsetTop {
-			get { return (int)GetValue(IconOffsetTopPropperty); }
-			set { SetValue(IconOffsetTopPropperty, value); }
+		public int CanvasHeight {
+			get { return (int)GetValue(CanvasHeightPropperty); }
+			set { SetValue(CanvasHeightPropperty, value); }
 		}
 
 		// Using a DependencyProperty as the backing store for Property1.  
 		// This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty IconOffsetTopPropperty = DependencyProperty.Register(
-				  nameof(IconOffsetTop),
+		public static readonly DependencyProperty CanvasHeightPropperty = DependencyProperty.Register(
+				  nameof(CanvasHeight),
 				  typeof(int),
 				  typeof(Icon),
-				  new PropertyMetadata(8)
+				  new PropertyMetadata(50)
 			  );
 
 		public int CircleSize {

@@ -26,9 +26,8 @@
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal">
                                     <iconspresenter:Icon
-                                        Margin="10,10,0,0"
                                         CircleBackground="Transparent"
-                                        IconSize="45"
+                                        IconSize="50"
                                         IconSource="../VergrootGlasIcon.xaml" />
                                     <TextBox
                                         MinWidth="200"
@@ -50,6 +49,7 @@
                 <iconspresenter:Icon
                     CircleBackground="{StaticResource DonkerBlauw}"
                     DockPanel.Dock="Right"
+                    IconPadding="0, 0, 4.5, 4"
                     IconSize="50"
                     IconSource="../PlusIcon.xaml" />
                 <StackPanel />
