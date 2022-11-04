@@ -104,14 +104,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		#region UnitTest VoegWerknemerFunctieToe
 		[Fact]
 		public void VoegWerknemerFunctieToe_Invalid_WerknemerNegatief() {
-			var result = _werknemerController.VoegWerknermerFunctieToe(-2, 0, _f);
+			var result = _werknemerController.VoegWerknemerFunctieToe(-2, 0, _f);
 			Assert.NotNull(result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
 		}
 
 		[Fact]
 		public void VoegWerknemerFunctieToe_Invalid_BedrijfNegatief() {
-			var result = _werknemerController.VoegWerknermerFunctieToe(0, -2, _f);
+			var result = _werknemerController.VoegWerknemerFunctieToe(0, -2, _f);
 			Assert.NotNull(result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
 		}
@@ -125,7 +125,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[InlineData("\t")]
 		[InlineData("\v")]
 		public void VoegWerknemerFunctieToe_Invalid_functieLeeg(string functie) {
-			var result = _werknemerController.VoegWerknermerFunctieToe(0, 0, functie);
+			var result = _werknemerController.VoegWerknemerFunctieToe(0, 0, functie);
 			Assert.NotNull(result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
 		}
@@ -133,9 +133,58 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[Fact]
 		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet() {
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
-			var result = _werknemerController.VoegWerknermerFunctieToe(0, 0, _f);
+			var result = _werknemerController.VoegWerknemerFunctieToe(0, 0, _f);
 			Assert.NotNull(result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+		}
+		#endregion
+
+		#region UnitTest VerwijderWerknemerFunctie
+		[Fact]
+		public void VerwijderWerknemerFunctie_Invalid_WerknemerLeeg() {
+			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemerFunctie(null, _b, _f));
+		}
+
+		[Fact]
+		public void VerwijderWerknemerFunctie_Invalid_BedrijfLeeg() {
+			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemerFunctie(_w, null, _f));
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
+		public void VerwijderWerknemerFunctie_Invalid_functieLeeg(string functie) {
+			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemerFunctie(_w, _b, functie));
+		}
+
+		[Fact]
+		public void VerwijderWerknemerFunctie_Invalid_WerknemerBestaatNiet() {
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
+			var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemerFunctie(_w, _b, _f));
+			Assert.Equal("WerknemerManager - VerwijderWerknemerFunctie - werknemer bestaat niet", ex.Message);
+		}
+
+		[Fact]
+		public void VerwijderWerknemerFunctie_Invalid_WerknemerNietBijBedrijf() {
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness());
+			Assert.DoesNotContain(_b, _w.GeefBedrijvenEnFunctiesPerWerknemer().Keys);
+		}
+
+		[Fact]
+		public void VerwijderWerknemerFunctie_Invalid_GeenFunctiesBijBedrijf() {
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness());
+			Assert.Empty(_w.GeefBedrijvenEnFunctiesPerWerknemer().Values);
+		}
+
+		[Fact]
+		public void VerwijderWerknemerFunctie_Invalid_WerknemerMinstens1FunctieBijBedrijf() {
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness());
+			Assert.True(_w.GeefBedrijvenEnFunctiesPerWerknemer().Values.Count() < 1);
 		}
 		#endregion
 	}

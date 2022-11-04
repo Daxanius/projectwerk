@@ -146,6 +146,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Voeg een functie toe
+		/// </summary>
+		/// <param name="naam"></param>
+		/// <returns></returns>
 		[HttpPost("functie/{naam}")]
 		public IActionResult VoegFunctieToe(string naam) {
 			try {
@@ -156,13 +161,40 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Voeg een werknemer functie toe
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfID"></param>
+		/// <param name="naam"></param>
+		/// <returns></returns>
 		[HttpPost("functie/{werknemerId}/{bedrijfId}/{naam}")]
-		public IActionResult VoegWerknermerFunctieToe(long werknemerId, long bedrijfID, string naam) {
+		public IActionResult VoegWerknemerFunctieToe(long werknemerId, long bedrijfID, string naam) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfID);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
 				_werknemerManager.VoegWerknemerFunctieToe(werknemer, bedrijf, naam);
+				return Ok();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Verwijder een werknemer functie
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfID"></param>
+		/// <param name="naam"></param>
+		/// <returns></returns>
+		[HttpDelete("functie/{werknemerId}/{bedrijfId}/{naam}")]
+		public IActionResult VerwijderWerknemerFunctie(long werknemerId, long bedrijfID, string naam) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfID);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+
+				_werknemerManager.VerwijderWerknemerFunctie(werknemer, bedrijf, naam);
 				return Ok();
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
