@@ -91,5 +91,34 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
 		}
 		#endregion
+
+		#region UnitTest BewerkBedrijf
+		[Fact]
+		public void BewerkBedrijf_Invalid_BedrijfNegatief() {
+			var result = _bedrijfController.BewerkBedrijf(-3, _b);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void BewerkBedrijf_Invalid_BedrijfBestaatNiet() {
+			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(false);
+			var result = _bedrijfController.BewerkBedrijf(0, _b);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void BewerkBedrijf_Invalid_BedrijfNietGewijzigd() {
+			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(true);
+			_mockRepoBedrijf.Setup(x => x.GeefBedrijf(0)).Returns(_b.NaarBusiness());
+			var result = _bedrijfController.BewerkBedrijf(0, _b);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
