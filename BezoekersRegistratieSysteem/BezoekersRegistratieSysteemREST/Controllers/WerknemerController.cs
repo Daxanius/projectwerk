@@ -30,7 +30,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		{
 			try
 			{
-				return WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemer(werknemerId));
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemer(werknemerId)));
 			} catch (Exception ex)
 			{
 				return NotFound(ex.Message);
@@ -87,7 +87,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		{
 			try
 			{
-				return WerknemerOutputDTO.NaarDTO(_werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness()));
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness())));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -112,7 +112,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 
 				// Waarom heeft dit een bedrijf nodig om werknemer te weizigen?
 				_werknemerManager.BewerkWerknemer(werknemer, bedrijf);
-				return WerknemerOutputDTO.NaarDTO(werknemer);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -146,6 +146,29 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			}
 		}
 
+		[HttpPost("functie/{naam}")]
+		public IActionResult VoegFunctieToe(string naam) {
+			try {
+				_werknemerManager.VoegFunctieToe(naam);
+				return Ok();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[HttpPost("functie/{werknemerId}/{bedrijfId}/{naam}")]
+		public IActionResult VoegWerknermerFunctieToe(long werknemerId, long bedrijfID, string naam) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfID);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+
+				_werknemerManager.VoegWerknemerFunctieToe(werknemer, bedrijf, naam);
+				return Ok();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
 		/// <summary>
 		/// Voeg info toe aan werknemer
 		/// </summary>
@@ -162,7 +185,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 
 				// Dit is nogal een vreemde manier om functies toe te voegen, wat heeft Email hiermee te maken?
 				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, info.Email, info.Functies.First());
-				return WerknemerOutputDTO.NaarDTO(werknemer);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -184,7 +207,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 				werknemer.WijzigFunctie(bedrijf, oudeFunctie, nieuweFunctie);
-				return WerknemerOutputDTO.NaarDTO(werknemer);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -206,7 +229,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 				werknemer.VerwijderFunctie(bedrijf, functie);
-				return WerknemerOutputDTO.NaarDTO(werknemer);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -227,7 +250,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 				werknemer.VerwijderBedrijfVanWerknemer(bedrijf);
-				return WerknemerOutputDTO.NaarDTO(werknemer);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);

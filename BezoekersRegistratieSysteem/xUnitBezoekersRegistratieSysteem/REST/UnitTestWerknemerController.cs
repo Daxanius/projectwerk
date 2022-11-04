@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
@@ -97,6 +98,55 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			var result = _werknemerController.VerwijderWerknemer(0, 0);
 			Assert.NotNull(result);
 			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
+		}
+		#endregion
+
+		#region UnitTest VoegWerknemerFunctieToe
+		[Fact]
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerNegatief() {
+			var result = _werknemerController.VoegInfoToe(-2, _wi);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+		}
+
+		[Fact]
+		public void VoegWerknemerFunctieToe_Invalid_BedrijfLeeg() {
+			_wi.BedrijfId = -2;
+			var result = _werknemerController.VoegInfoToe(0, _wi);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
+		public void VoegWerknemerFunctieToe_Invalid_functieLeeg(string functie) {
+			_wi.Functies = new() { functie };
+			var result = _werknemerController.VoegInfoToe(0, _wi);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+		}
+
+		[Fact]
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet() {
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
+			var result = _werknemerController.VoegInfoToe(0, _wi);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+		}
+
+		[Fact]
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerNietBijBedrijf() {
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness());
+			var result = _werknemerController.GeefWerknemerOpId(0);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.NotNull(result.Value);
 		}
 		#endregion
 	}

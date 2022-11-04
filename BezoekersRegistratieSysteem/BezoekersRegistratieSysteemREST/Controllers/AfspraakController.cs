@@ -31,7 +31,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		{
 			try
 			{
-				return AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfspraak(afspraakId));
+				return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfspraak(afspraakId)));
 			} catch (Exception ex)
 			{
 				return NotFound(ex.Message);
@@ -135,9 +135,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			try
 			{
 				Afspraak afspraak = afspraakInput.NaarBusiness(_werknemerManager, _bedrijfManager);
-				return AfspraakOutputDTO.NaarDTO(
+				return Ok(AfspraakOutputDTO.NaarDTO(
 					_afspraakManager.VoegAfspraakToe(afspraak)
-				);
+				));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -176,7 +176,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				Afspraak afspraak = afspraakInput.NaarBusiness(_werknemerManager, _bedrijfManager);
 				afspraak.ZetId(afspraakId);
 				_afspraakManager.BewerkAfspraak(afspraak);
-				return AfspraakOutputDTO.NaarDTO(afspraak);
+				return Ok(AfspraakOutputDTO.NaarDTO(afspraak));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
