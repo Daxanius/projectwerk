@@ -120,5 +120,16 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefBedrijf [id]
+		[Fact]
+		public void GeefBedrijfOpId_Invalid_BedrijfBestaatNiet() {
+			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(false);
+			var result = _bedrijfController.GeefBedrijfOpId(0);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
