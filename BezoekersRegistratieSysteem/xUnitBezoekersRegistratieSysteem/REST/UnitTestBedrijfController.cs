@@ -142,5 +142,31 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefBedrijf [naam]
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
+		public void GeefBedrijfOpNaam_Invalid_BedrijfLeeg(string bedrijfsnaam) {
+			var result = _bedrijfController.GeefBedrijfOpNaam(bedrijfsnaam);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefBedrijfOpNaam_Invalid_BedrijfBestaatNiet() {
+			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(_b.Naam)).Returns(false);
+			var result = _bedrijfController.GeefBedrijfOpNaam(_b.Naam);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
