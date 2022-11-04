@@ -217,8 +217,6 @@
                                     <iconspresenter:Icon
                                         CircleBackground="Transparent"
                                         FontSize="20"
-                                        IconOffsetLeft="12"
-                                        IconOffsetTop="12"
                                         IconSource="../DotsIcon.xaml" />
                                 </Button>
                             </DataTemplate>

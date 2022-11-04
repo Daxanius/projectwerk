@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,6 +45,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 		public BedrijfDTO GeselecteerdBedrijf { get; set; }
 
+		public int FullWidth { get; set; }
+		public int FullHeight { get; set; }
+
 		public WerknemersPage() {
 			GeselecteerdBedrijf = BeheerderWindow.GeselecteerdBedrijf;
 
@@ -69,10 +73,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			WerknemersVanGeselecteerdBedrijf.Add(medewerkerMetFuncties);
 			WerknemersVanGeselecteerdBedrijf.Add(medewerkerMetFuncties2);
 
+			//FullWidth = (int)SystemParameters.PrimaryScreenWidth;
+			//FullHeight = (int)SystemParameters.PrimaryScreenHeight
+
 			this.DataContext = this;
 			InitializeComponent();
 
 			WerknemerLijstControl.ItemSource = WerknemersVanGeselecteerdBedrijf;
+		}
+
+		private void AddWerknemer(object sender, MouseButtonEventArgs e) {
+			WerknemersPopup.Visibility = Visibility.Visible;
 		}
 	}
 }
