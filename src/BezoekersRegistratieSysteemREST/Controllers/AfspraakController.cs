@@ -189,7 +189,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <param name="bedrijfId"></param>
 		/// <param name="bezoekerInput"></param>
 		/// <returns></returns>
-		[HttpGet("bezoeker/id/{berijfId}")]
+		[HttpGet("bezoeker/id/{bedrijfId}")]
 		public ActionResult<AfspraakOutputDTO> GeefAfspraakOpBezoeker(long bedrijfId, [FromBody] BezoekerInputDTO bezoekerInput) {
 			try {
 				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
