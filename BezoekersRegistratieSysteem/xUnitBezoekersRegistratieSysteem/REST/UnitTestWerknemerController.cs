@@ -413,6 +413,23 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
+
+		[Fact]
+		public void GeefBezetteWerknemersOpDitMomentVoorBedrijf_Invalid_BedrijfNegatief() {
+			var result = _werknemerController.GeefWerknemersPerBedrijfVrijOfBezet(-3, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefBezetteWerknemersOpDitMomentVoorBedrijf_Invalid_GeenWerknemers() {
+			_mockRepoWerknemer.Setup(x => x.GeefBezetteWerknemersOpDitMomentVoorBedrijf(0)).Returns(new List<Werknemer>());
+			var result = _werknemerController.GeefWerknemersPerBedrijfVrijOfBezet(0, false);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
 		#endregion
 	}
 }
