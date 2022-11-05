@@ -209,5 +209,16 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefWerknemer
+		[Fact]
+		public void GeefWerknemer_Invalid_WerknemerBestaatNiet() {
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
+			var result = _werknemerController.GeefWerknemerOpId(0);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
