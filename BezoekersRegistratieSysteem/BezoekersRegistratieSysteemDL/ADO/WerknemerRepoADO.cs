@@ -642,5 +642,15 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         {
             throw new NotImplementedException();
         }
+
+        public IReadOnlyList<Werknemer> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Werknemer> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

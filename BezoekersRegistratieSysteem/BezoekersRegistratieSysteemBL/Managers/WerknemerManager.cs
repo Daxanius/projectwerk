@@ -144,6 +144,8 @@ namespace BezoekersRegistratieSysteemBL.Managers
         {
             if (string.IsNullOrWhiteSpace(functie))
                 throw new WerknemerManagerException("WerknemerManager - GeefWerknemerOpFunctie - functie mag niet leeg zijn");
+            if (bedrijf == null)
+                throw new WerknemerManagerException("WerknemerManager - GeefWerknemerOpFunctie - bedrijf mag niet leeg zijn");
             try
             {
                 return _werknemerRepository.GeefWerknemersOpFunctiePerBedrijf(functie, bedrijf.Id);
