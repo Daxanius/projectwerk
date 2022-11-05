@@ -9,3 +9,9 @@ Een bedrijvenpark met een centrale receptie wil een applicatie die de bezoekers 
 * [Wout De Crop (business)](https://github.com/WDCHogent)
 * [Stan Persoons (testing)](https://github.com/Sten435)
 * [Balder huybreghs (architectuur)](https://github.com/Daxanius)
+
+***
+
+📄 [Docs](https://daxanius.github.io/projectwerk/)
+
+
