@@ -141,9 +141,16 @@
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Popups\AfsprakenPopup.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
 		<Page Update="BeheerderWindow\Paginas\Werknemers\Controls\WerknemersLijstControl.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="BeheerderWindow\Paginas\Bedrijven\Popups\BedrijvenPopup.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		</Page>
 		<Page Update="BeheerderWindow\Paginas\Werknemers\WerknemersPage.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

@@ -23,23 +23,19 @@
             <StackPanel Name="BorderContainer" Margin="60,230,0,0">
                 <Border
                     Name="DashboardTab"
-                    Margin="0,0,0,5"
-                    Padding="30,10,0,3"
+                    Padding="30,5,0,5"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
                     MouseLeftButtonDown="VeranderTab"
                     Style="{StaticResource SideBarBorderNavSelect}"
                     Tag="Selected">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                         <iconspresenter:Icon
                             Margin="-10,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
                             CircleBackground="{x:Null}"
                             IconSource="../DashboardIcon.xaml"
                             Opacity="1" />
                         <TextBlock
-                            Padding="0,0,0,6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="16"
@@ -50,8 +46,7 @@
                 </Border>
                 <Border
                     Name="BedrijvenTab"
-                    Margin="0,0,0,5"
-                    Padding="30,10,0,3"
+                    Padding="30,5,0,5"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
                     MouseLeftButtonDown="VeranderTab"
@@ -60,12 +55,9 @@
                     <StackPanel Orientation="Horizontal">
                         <iconspresenter:Icon
                             Margin="-10,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
                             CircleBackground="{x:Null}"
                             IconSource="../BedrijfIcon.xaml" />
                         <TextBlock
-                            Padding="0,0,0,6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="16"
@@ -75,8 +67,7 @@
                 </Border>
                 <Border
                     Name="AfsprakenTab"
-                    Margin="0,0,0,5"
-                    Padding="30,10,0,3"
+                    Padding="30,5,0,5"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
                     IsEnabled="False"
@@ -86,12 +77,9 @@
                     <StackPanel Orientation="Horizontal">
                         <iconspresenter:Icon
                             Margin="-10,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
                             CircleBackground="{x:Null}"
                             IconSource="../AfspraakIcon.xaml" />
                         <TextBlock
-                            Padding="0,0,0,6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="16"
@@ -101,7 +89,7 @@
                 </Border>
                 <Border
                     Name="WerknemersTab"
-                    Padding="30,10,0,3"
+                    Padding="30,5,0,5"
                     CornerRadius="25 0 0 25"
                     Cursor="Hand"
                     IsEnabled="False"
@@ -111,12 +99,10 @@
                     <StackPanel Orientation="Horizontal">
                         <iconspresenter:Icon
                             Margin="-10,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
+                            Padding="0,0,0,5"
                             CircleBackground="{x:Null}"
                             IconSource="../WerknemerIcon.xaml" />
                         <TextBlock
-                            Padding="0,0,0,6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="16"
@@ -128,8 +114,8 @@
             <Border
                 x:Name="ToonAanwezigenContainer"
                 Width="150"
-                Height="40"
                 Margin="25"
+                Padding="0,0,12,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Background="{StaticResource MainAchtergrond}"
@@ -142,14 +128,13 @@
                     Orientation="Horizontal">
                     <iconspresenter:Icon
                         x:Name="ToonAanwezigenIcon"
-                        Margin="-7,8,-7,0"
-                        HorizontalAlignment="center"
-                        VerticalAlignment="Center"
+                        Padding="0,0,0,2"
                         CircleBackground="Transparent"
                         IconSource="../LijstIcon.xaml" />
                     <TextBlock
                         x:Name="ToonAanwezigenText"
                         VerticalAlignment="Center"
+                        FontSize="16"
                         FontWeight="Medium"
                         Foreground="{StaticResource DonkerBlauw}"
                         Text="Aanwezigen" />

@@ -7,9 +7,10 @@
     <SolidColorBrush x:Key="LichtGrijs" Color="#747474" />
     <SolidColorBrush x:Key="LichtGrijsAccent" Color="#f5f5f5" />
     <SolidColorBrush x:Key="LichtWit" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="LichtGroen" Color="#65B175" />
+    <SolidColorBrush x:Key="LichtGroen" Color="#35C789" />
     <SolidColorBrush x:Key="LichtOranje" Color="#D28B37" />
     <SolidColorBrush x:Key="LichtRood" Color="#D25C37" />
+    <SolidColorBrush x:Key="DonkerRood" Color="#C73535" />
     <SolidColorBrush x:Key="DonkerGrijs" Color="#3F3F3F" />
     <SolidColorBrush x:Key="SelectedGrijs" Color="#232323" />
     <SolidColorBrush x:Key="GewoonBlauw" Color="#404BDA" />
@@ -145,10 +146,10 @@
         <Setter Property="Width" Value="90" />
         <Style.Triggers>
             <Trigger Property="Tag" Value="Afgerond">
-                <Setter Property="Background" Value="#C73535" />
+                <Setter Property="Background" Value="{StaticResource DonkerRood}" />
             </Trigger>
             <Trigger Property="Tag" Value="Lopend">
-                <Setter Property="Background" Value="#35C789" />
+                <Setter Property="Background" Value="{StaticResource LichtGroen}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -261,7 +262,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
-                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="58" />
                         </Grid.ColumnDefinitions>
                         <Border
                             Name="RoundBorder"
@@ -269,14 +270,15 @@
                             Background="{TemplateBinding Background}"
                             BorderThickness="1.5"
                             CornerRadius="25" />
-                        <iconspresenter:Icon
-                            Grid.Column="1"
-                            CircleBackground="Transparent"
-                            CircleSize="26"
-                            IconOffsetLeft="10"
-                            IconOffsetTop="14"
-                            IconSize="70"
-                            IconSource="../ArrowIcon.xaml" />
+                        <Border Grid.Column="1" Margin="0,-5,0,0">
+                            <iconspresenter:Icon
+                                CanvasHeight="50"
+                                CanvasWidth="50"
+                                CircleBackground="Transparent"
+                                CircleSize="26"
+                                IconSize="50"
+                                IconSource="../ArrowIcon.xaml" />
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -365,5 +367,82 @@
         <Setter Property="Background" Value="{StaticResource LichtGrijsAccent}" />
         <Setter Property="CornerRadius" Value="15 15 0 0" />
     </Style>
+    <Style x:Key="PopupInputStyle" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border
+                        Margin="0,22.5,0,20"
+                        Background="{StaticResource LichtGrijsAccent}"
+                        CornerRadius="20">
+                        <TextBox
+                            Padding="15,8"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            FontSize="20" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ActionButtonPopup" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                        Name="ActionButtonBorder"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{StaticResource MainAchtergrond}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="2"
+                        CornerRadius="15"
+                        Cursor="Hand">
+                        <Label
+                            Name="ActionButtonLabel"
+                            Padding="10,5"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Content="{TemplateBinding Content}"
+                            FontSize="20"
+                            FontWeight="DemiBold"
+                            Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="Tag" Value="Groen" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource LichtGroen}" />
+                                <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
+                                <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="Tag" Value="Rood" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource LichtRood}" />
+                                <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
+                                <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="InputLabelStyle" TargetType="Label">
+        <Setter Property="Padding" Value="10,0,0,0" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
 
-</ResourceDictionary>
+</ResourceDictionary> 

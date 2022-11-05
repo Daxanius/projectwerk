@@ -6,86 +6,98 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:popups="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups"
     Title="BedrijvenPage"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <DockPanel Margin="40">
-        <Grid DockPanel.Dock="Top">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="100" />
-            </Grid.RowDefinitions>
-            <DockPanel Grid.Row="0">
-                <TextBox DockPanel.Dock="Left">
-                    <TextBox.Template>
-                        <ControlTemplate TargetType="TextBox">
-                            <Border Background="{StaticResource LichtGrijsAccent}" CornerRadius="25">
-                                <StackPanel
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Orientation="Horizontal">
-                                    <iconspresenter:Icon
-                                        Margin="10,10,0,0"
-                                        CircleBackground="Transparent"
-                                        IconSize="45"
-                                        IconSource="../VergrootGlasIcon.xaml" />
-                                    <TextBox
-                                        MinWidth="200"
-                                        MaxWidth="400"
-                                        Padding="0,0,15,0"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Margin="40">
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="100" />
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <TextBox DockPanel.Dock="Left">
+                        <TextBox.Template>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border Background="{StaticResource LichtGrijsAccent}" CornerRadius="25">
+                                    <StackPanel
+                                        HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        BorderThickness="0"
-                                        FontSize="24"
-                                        FontWeight="Bold"
-                                        Foreground="{StaticResource DonkerGrijs}"
-                                        Text="{TemplateBinding Text}" />
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </TextBox.Template>
-                </TextBox>
-                <iconspresenter:Icon
-                    CircleBackground="{StaticResource DonkerBlauw}"
-                    DockPanel.Dock="Right"
-                    IconSize="50"
-                    IconSource="../PlusIcon.xaml" />
-                <StackPanel />
-            </DockPanel>
-            <DockPanel Grid.Row="1">
-                <TextBlock
-                    Margin="0,20,0,0"
-                    DockPanel.Dock="Left"
-                    FontSize="45"
-                    FontWeight="Bold"
-                    Foreground="{StaticResource DonkerGrijs}"
-                    Text="Bedrijven" />
-                <ComboBox
-                    Height="50"
-                    MinWidth="120"
-                    MaxWidth="350"
-                    Background="{StaticResource LichtGrijsAccent}"
-                    Cursor="Hand"
-                    DockPanel.Dock="Right"
-                    FontSize="26"
-                    FontWeight="Bold"
-                    Foreground="{StaticResource DonkerBlauw}">
-                    <ComboBoxItem Content="Hogent" />
-                    <ComboBoxItem Content="Hogent" />
-                    <ComboBoxItem Content="Hogent" />
-                    <ComboBoxItem Content="Hogent" />
-                </ComboBox>
-                <StackPanel />
-            </DockPanel>
-        </Grid>
-        <Border
-            Padding="20"
-            Background="{StaticResource LichtGrijsAccent}"
-            CornerRadius="25"
-            DockPanel.Dock="Bottom">
-            <controls:BedrijvenLijstControl />
-        </Border>
-    </DockPanel>
+                                        Orientation="Horizontal">
+                                        <iconspresenter:Icon
+                                            CircleBackground="Transparent"
+                                            IconSize="50"
+                                            IconSource="../VergrootGlasIcon.xaml" />
+                                        <TextBox
+                                            MinWidth="200"
+                                            MaxWidth="400"
+                                            Padding="0,0,15,0"
+                                            VerticalAlignment="Center"
+                                            Background="Transparent"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource DonkerGrijs}"
+                                            Text="{TemplateBinding Text}" />
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>
+                    <iconspresenter:Icon
+                        CircleBackground="{StaticResource DonkerBlauw}"
+                        Cursor="Hand"
+                        DockPanel.Dock="Right"
+                        IconPadding="0, 0, 4.5, 4"
+                        IconSize="50"
+                        IconSource="../PlusIcon.xaml"
+                        MouseLeftButtonDown="VoegBedrijfToe" />
+                    <StackPanel />
+                </DockPanel>
+                <DockPanel Grid.Row="1">
+                    <TextBlock
+                        Margin="0,20,0,0"
+                        DockPanel.Dock="Left"
+                        FontSize="45"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource DonkerGrijs}"
+                        Text="Bedrijven" />
+                    <ComboBox
+                        Height="50"
+                        MinWidth="120"
+                        MaxWidth="350"
+                        Background="{StaticResource LichtGrijsAccent}"
+                        Cursor="Hand"
+                        DockPanel.Dock="Right"
+                        FontSize="26"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource DonkerBlauw}">
+                        <ComboBoxItem Content="Hogent" />
+                        <ComboBoxItem Content="Hogent" />
+                        <ComboBoxItem Content="Hogent" />
+                        <ComboBoxItem Content="Hogent" />
+                    </ComboBox>
+                    <StackPanel />
+                </DockPanel>
+            </Grid>
+            <Border
+                Padding="20"
+                Background="{StaticResource LichtGrijsAccent}"
+                CornerRadius="25"
+                DockPanel.Dock="Bottom">
+                <controls:BedrijvenLijstControl />
+            </Border>
+        </DockPanel>
+        <popups:BedrijvenPopup
+            x:Name="BedrijvenPopup"
+            Grid.Row="0"
+            Visibility="Collapsed" />
+    </Grid>
 </Page>

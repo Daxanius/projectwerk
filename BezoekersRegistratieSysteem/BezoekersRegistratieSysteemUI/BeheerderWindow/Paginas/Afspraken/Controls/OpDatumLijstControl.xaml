@@ -91,8 +91,8 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="200"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Datum" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -110,8 +110,8 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="250"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Werknemer" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -138,8 +138,8 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="250"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Bezoeker" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -166,8 +166,8 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="250"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Email" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -187,8 +187,8 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="80"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Bedrijf" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -217,8 +217,6 @@
                                     <iconspresenter:Icon
                                         CircleBackground="Transparent"
                                         FontSize="20"
-                                        IconOffsetLeft="12"
-                                        IconOffsetTop="12"
                                         IconSource="../DotsIcon.xaml" />
                                 </Button>
                             </DataTemplate>

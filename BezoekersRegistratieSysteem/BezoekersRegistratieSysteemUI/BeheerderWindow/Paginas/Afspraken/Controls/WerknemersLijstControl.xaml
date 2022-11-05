@@ -77,8 +77,8 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="150"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Voornaam" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -95,8 +95,8 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="150"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Achteraam" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -113,8 +113,8 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 MinWidth="150"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Email" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>

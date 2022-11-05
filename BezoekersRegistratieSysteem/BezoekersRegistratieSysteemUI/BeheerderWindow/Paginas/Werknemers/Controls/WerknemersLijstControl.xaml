@@ -85,8 +85,8 @@
                             <TextBlock
                                 MinWidth="220"
                                 Margin="0,0,50,0"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Naam" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -114,8 +114,8 @@
                             <TextBlock
                                 MinWidth="220"
                                 Margin="0,0,50,0"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Email" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -133,8 +133,8 @@
                             <TextBlock
                                 MinWidth="100"
                                 Margin="0,0,50,0"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Functies" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -151,8 +151,8 @@
                         <GridViewColumn.Header>
                             <TextBlock
                                 Margin="0,0,20,0"
-                                Foreground="{StaticResource LichtGrijs}"
                                 FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Status" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
@@ -187,8 +187,6 @@
                                     <iconspresenter:Icon
                                         CircleBackground="Transparent"
                                         FontSize="20"
-                                        IconOffsetLeft="12"
-                                        IconOffsetTop="12"
                                         IconSource="../DotsIcon.xaml" />
                                 </Button>
                             </DataTemplate>
