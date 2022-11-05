@@ -28,7 +28,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		public long Id { get; set; }
 		public string Naam { get; set; }
 		public string BTW { get; set; }
-		public bool IsGecontroleert { get; set; }
+		public bool IsGecontroleerd { get; set; }
 		public string TelefoonNummer { get; set; }
 		public string Email { get; set; }
 		public string Adres { get; set; }
@@ -40,7 +40,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			Id = id;
 			Naam = naam;
 			BTW = bTW;
-			IsGecontroleert = isGecontroleert;
+			IsGecontroleerd = isGecontroleert;
 			TelefoonNummer = telefoonNummer;
 			Email = email;
 			Adres = adres;
