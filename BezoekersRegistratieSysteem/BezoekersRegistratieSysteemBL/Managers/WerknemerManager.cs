@@ -125,26 +125,28 @@ namespace BezoekersRegistratieSysteemBL.Managers
 			}
 		}
 
-		public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam)
+		public IReadOnlyList<Werknemer> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, Bedrijf bedrijf)
 		{
 			if (string.IsNullOrWhiteSpace(voornaam) || string.IsNullOrWhiteSpace(achternaam))
 				throw new WerknemerManagerException("WerknemerManager - GeefWerknemerOpNaam - naam mag niet leeg zijn");
-			try
+            if (bedrijf == null)
+                throw new WerknemerManagerException("WerknemerManager - GeefWerknemerOpNaam - bedrijf mag niet leeg zijn");
+            try
 			{
-				return _werknemerRepository.GeefWerknemersOpNaam(voornaam, achternaam);
+				return _werknemerRepository.GeefWerknemersOpNaamPerBedrijf(voornaam, achternaam, bedrijf.Id);
 			} catch (Exception ex)
 			{
 				throw new WerknemerManagerException(ex.Message);
 			}
 		}
 
-        public IReadOnlyList<Werknemer> GeefWerknemersOpFunctie(string functie)
+        public IReadOnlyList<Werknemer> GeefWerknemersOpFunctiePerBedrijf(string functie, Bedrijf bedrijf)
         {
             if (string.IsNullOrWhiteSpace(functie))
                 throw new WerknemerManagerException("WerknemerManager - GeefWerknemerOpFunctie - functie mag niet leeg zijn");
             try
             {
-                return _werknemerRepository.GeefWerknemersOpFunctie(functie);
+                return _werknemerRepository.GeefWerknemersOpFunctiePerBedrijf(functie, bedrijf.Id);
             }
             catch (Exception ex)
             {
