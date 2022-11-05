@@ -4,9 +4,12 @@
       "src": [
         {
           "files": [
-            "src/BezoekersRegistratieSysteemBL/BezoekersRegistratieSysteemBL.csproj",
-            "src/BezoekersRegistratieSysteemDL/BezoekersRegistratieSysteemDL.csproj",
-            "src/BezoekersRegistratieSysteemREST/BezoekersRegistratieSysteemREST.csproj"
+            "src/**.csproj"
+          ],
+          "exclude": [
+            "src/**CLI.csproj",
+            "src/**UI.csproj",
+            "src/**xUnit.csproj"
           ]
         }
       ],
