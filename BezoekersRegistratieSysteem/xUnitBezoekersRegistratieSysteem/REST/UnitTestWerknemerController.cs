@@ -413,7 +413,9 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
 		}
+		#endregion
 
+		#region GeefBezetteWerknemersOpDitMomentVoorBedrijf
 		[Fact]
 		public void GeefBezetteWerknemersOpDitMomentVoorBedrijf_Invalid_BedrijfNegatief() {
 			var result = _werknemerController.GeefWerknemersPerBedrijfVrijOfBezet(-3, false);
