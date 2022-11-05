@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 		public BedrijvenPage() {
 			this.DataContext = this;
 			InitializeComponent();
+		}
+
+		private void VoegBedrijfToe(object sender, MouseButtonEventArgs e) {
+			BedrijvenPopup.Visibility = Visibility.Visible;
 		}
 	}
 }

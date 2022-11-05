@@ -31,7 +31,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		{
 			try
 			{
-				return BedrijfOutputDTO.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfId));
+				return Ok(BedrijfOutputDTO.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfId)));
 			} catch (Exception ex)
 			{
 				return NotFound(ex.Message);
@@ -48,7 +48,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		{
 			try
 			{
-				return BedrijfOutputDTO.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfNaam));
+				return Ok(BedrijfOutputDTO.NaarDTO(_bedrijfManager.GeefBedrijf(bedrijfNaam)));
 			} catch (Exception ex)
 			{
 				return NotFound(ex.Message);
@@ -103,7 +103,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		{
 			try
 			{
-				return BedrijfOutputDTO.NaarDTO(_bedrijfManager.VoegBedrijfToe(bedrijfData.NaarBusiness()));
+				return Ok(BedrijfOutputDTO.NaarDTO(_bedrijfManager.VoegBedrijfToe(bedrijfData.NaarBusiness())));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -125,7 +125,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				bedrijf.ZetId(bedrijfId);
 
 				_bedrijfManager.BewerkBedrijf(bedrijf);
-				return BedrijfOutputDTO.NaarDTO(bedrijf);
+				return Ok(BedrijfOutputDTO.NaarDTO(bedrijf));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -179,7 +179,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <param name="werknemerInfo"></param>
 		/// <returns></returns>
 		[HttpPost("werknemer/id/{werknemerId}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegwegnemerToeAanBedrijf(long werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo)
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegWerknemerToeAanBedrijf(long werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo)
 		{
 			try
 			{
