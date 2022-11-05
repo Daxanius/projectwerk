@@ -231,7 +231,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[InlineData("\t")]
 		[InlineData("\v")]
 		public void GeefWerknemersOpNaam_Invalid_VoornaamLeeg(string voornaam) {
-			var result = _werknemerController.GeefWerknemersOpNaam(voornaam, "werknemersen");
+			var result = _werknemerController.GeefWerknemersOpNaam(0, voornaam, "werknemersen");
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
@@ -246,7 +246,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[InlineData("\t")]
 		[InlineData("\v")]
 		public void GeefWerknemersOpNaam_Invalid_AchternaamLeeg(string achternaam) {
-			var result = _werknemerController.GeefWerknemersOpNaam("werknemer", achternaam);
+			var result = _werknemerController.GeefWerknemersOpNaam(0, "werknemer", achternaam);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
@@ -311,7 +311,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[InlineData("\t", null)]
 		[InlineData("\v", null)]
 		public void GeefWerknemersOpNaam_Invalid_NaamLeeg(string voornaam, string achternaam) {
-			var result = _werknemerController.GeefWerknemersOpNaam(voornaam, achternaam);
+			var result = _werknemerController.GeefWerknemersOpNaam(0, voornaam, achternaam);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
@@ -319,8 +319,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void GeefWerknemersOpNaam_Invalid_GeenWerknemers() {
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemersOpNaam(_w.Voornaam, _w.Achternaam)).Returns(new List<Werknemer>());
-			var result = _werknemerController.GeefWerknemersOpNaam(_w.Voornaam, _w.Achternaam);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, 0)).Returns(new List<Werknemer>());
+			var result = _werknemerController.GeefWerknemersOpNaam(0, _w.Voornaam, _w.Achternaam);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
@@ -337,7 +337,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[InlineData("\t")]
 		[InlineData("\v")]
 		public void GeefWerknemersOpFunctie_Invalid_FunctieLeeg(string functie) {
-			var result = _werknemerController.GeefWerknemersOpFunctie(functie);
+			var result = _werknemerController.GeefWerknemersOpFunctie(0, functie);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
@@ -345,8 +345,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void GeefWerknemersOpFunctie_Invalid_GeenWerknemers() {
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemersOpFunctie("functie")).Returns(new List<Werknemer>());
-			var result = _werknemerController.GeefWerknemersOpFunctie("functie");
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemersOpFunctiePerBedrijf("functie", 0)).Returns(new List<Werknemer>());
+			var result = _werknemerController.GeefWerknemersOpFunctie(0, "functie");
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);

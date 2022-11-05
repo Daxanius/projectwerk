@@ -266,7 +266,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		}
         #endregion
 
-        #region UnitTest GeefWerknemersOpNaam
+        #region UnitTest GeefWerknemersOpNaamPerBedrijf
         [Theory]
 		[InlineData(null)]
 		[InlineData("")]
@@ -279,8 +279,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_mockRepo = new Mock<IWerknemerRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
 
-			//"WerknemerManager - GeefWerknemersOpNaam - naam mag niet leeg zijn"
-			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpNaam(voornaam, "werknemersen"));
+            //"WerknemerManager - GeefWerknemersOpNaamPerBedrijf - naam mag niet leeg zijn"
+            Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpNaamPerBedrijf(voornaam, "werknemersen", _b));
 		}
 
 		[Theory]
@@ -295,11 +295,21 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_mockRepo = new Mock<IWerknemerRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
 
-			//"WerknemerManager - GeefWerknemersOpNaam - naam mag niet leeg zijn"
-			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpNaam("werknemer", achternaam));
+            //"WerknemerManager - GeefWerknemersOpNaamPerBedrijf - naam mag niet leeg zijn"
+            Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpNaamPerBedrijf("werknemer", achternaam, _b));
 		}
 
-		[Theory]
+        [Fact]
+        public void GeefWerknemersOpNaam_Invalid_BedrijfLeeg()
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object);
+
+            //"WerknemerManager - GeefWerknemersOpNaamPerBedrijf - bedrijf mag niet leeg zijn"
+            Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpNaamPerBedrijf("werknemer", "werknemersen", null));
+        }
+
+        [Theory]
 		[InlineData(null, null)]
 
 		[InlineData(null, "")]
@@ -362,7 +372,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
 
 			//"WerknemerManager - GeefWerknemersOpNaam - naam mag niet leeg zijn"
-			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpNaam(voornaam, achternaam));
+			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpNaamPerBedrijf(voornaam, achternaam, _b));
 		}
 
 		[Fact]
@@ -371,13 +381,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
 
 			//"WerknemerManager - GeefWerknemersOpNaam - er zijn geen werknemers"
-			_mockRepo.Setup(x => x.GeefWerknemersOpNaam(_w.Voornaam, _w.Achternaam)).Returns(new List<Werknemer>());
-			var ex = _werknemerManager.GeefWerknemersOpNaam(_w.Voornaam, _w.Achternaam);
+			_mockRepo.Setup(x => x.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, _b.Id)).Returns(new List<Werknemer>());
+			var ex = _werknemerManager.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, _b);
 			Assert.Empty(ex);
 		}
         #endregion
 
-        #region UnitTest GeefWerknemersOpFunctie
+        #region UnitTest GeefWerknemersOpFunctiePerBedrijf
         [Theory]
         [InlineData(null)]
         [InlineData("")]
@@ -391,8 +401,18 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _mockRepo = new Mock<IWerknemerRepository>();
             _werknemerManager = new WerknemerManager(_mockRepo.Object);
 
-            //"WerknemerManager - GeefWerknemersOpFunctie - functie mag niet leeg zijn"
-            Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpFunctie(functie));
+            //"WerknemerManager - GeefWerknemersOpFunctiePerBedrijf - functie mag niet leeg zijn"
+            Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpFunctiePerBedrijf(functie, _b));
+        }
+
+        [Fact]
+        public void GeefWerknemersOpFunctie_Invalid_BedrijfLeeg()
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object);
+            
+            //"WerknemerManager - GeefWerknemersOpFunctiePerBedrijf - bedrijf mag niet leeg zijn"
+            Assert.Throws<WerknemerManagerException>(() => _werknemerManager.GeefWerknemersOpFunctiePerBedrijf("functie", null));
         }
 
         [Fact]
@@ -401,9 +421,9 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _mockRepo = new Mock<IWerknemerRepository>();
             _werknemerManager = new WerknemerManager(_mockRepo.Object);
 
-            //"WerknemerManager - GeefWerknemersOpNaam - er zijn geen werknemers"
-            _mockRepo.Setup(x => x.GeefWerknemersOpFunctie("functie")).Returns(new List<Werknemer>());
-            var ex = _werknemerManager.GeefWerknemersOpFunctie("functie");
+            //"WerknemerManager - GeefWerknemersOpFunctiePerBedrijf - er zijn geen werknemers"
+            _mockRepo.Setup(x => x.GeefWerknemersOpFunctiePerBedrijf("functie", _b.Id)).Returns(new List<Werknemer>());
+            var ex = _werknemerManager.GeefWerknemersOpFunctiePerBedrijf("functie", _b);
             Assert.Empty(ex);
         }
         #endregion

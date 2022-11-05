@@ -378,7 +378,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// Voegt bedrijf toe in de databank adhv een bedrijf object.
         /// </summary>
         /// <param name="bedrijf">Bedrijf object dat toegevoegd wenst te worden.</param>
-        /// <returns>Bedrijf object MET id</returns>
+        /// <returns>Gewenste bedrijf object MET id</returns>
         /// <exception cref="BedrijfADOException">Faalt bedrijf toe te voegen op basis van het bedrijf object.</exception>
         public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
             SqlConnection con = GetConnection();
