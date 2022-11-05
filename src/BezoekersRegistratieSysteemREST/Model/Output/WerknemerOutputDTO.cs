@@ -13,7 +13,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 				info.Add(b.Id, WerknemerInfoOutputDTO.NaarDTO(functies[b]));
 			}
 
-			return new(werknemer.Id, werknemer.Voornaam, werknemer.Achternaam, info);
+			return new(werknemer.Id, werknemer.Voornaam, werknemer.Achternaam, info.Values.ToList());
 		}
 
 		public static IEnumerable<WerknemerOutputDTO> NaarDTO(IEnumerable<Werknemer> werknemers)
@@ -26,7 +26,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			return output;
 		}
 
-		public WerknemerOutputDTO(long id, string voornaam, string achternaam, Dictionary<long, WerknemerInfoOutputDTO> werknemerInfo)
+		public WerknemerOutputDTO(long id, string voornaam, string achternaam, List<WerknemerInfoOutputDTO> werknemerInfo)
 		{
 			Id = id;
 			Voornaam = voornaam;
@@ -37,6 +37,6 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		public long Id { get; private set; }
 		public string Voornaam { get; private set; }
 		public string Achternaam { get; private set; }
-		public Dictionary<long, WerknemerInfoOutputDTO> WerknemerInfo { get; set; } = new();
+		public List<WerknemerInfoOutputDTO> WerknemerInfo { get; set; } = new();
 	}
 }
