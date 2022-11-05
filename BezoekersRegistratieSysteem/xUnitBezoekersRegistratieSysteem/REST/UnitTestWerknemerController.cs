@@ -326,5 +326,31 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefWerknemersOpFunctie
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
+		public void GeefWerknemersOpFunctie_Invalid_FunctieLeeg(string functie) {
+			var result = _werknemerController.GeefWerknemersOpFunctie(functie);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefWerknemersOpFunctie_Invalid_GeenWerknemers() {
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemersOpFunctie("functie")).Returns(new List<Werknemer>());
+			var result = _werknemerController.GeefWerknemersOpFunctie("functie");
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }

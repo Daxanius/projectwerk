@@ -56,6 +56,20 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
+		/// Geef een lijst van werknemers op functie
+		/// </summary>
+		/// <param name="functie"></param>
+		/// <returns></returns>
+		[HttpGet("functie/{functie}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersOpFunctie(string functie) {
+			try {
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersOpFunctie(functie).AsEnumerable()));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
 		/// Verwijder een werknemer van een bedrijf
 		/// </summary>
 		/// <param name="bedrijfId"></param>
