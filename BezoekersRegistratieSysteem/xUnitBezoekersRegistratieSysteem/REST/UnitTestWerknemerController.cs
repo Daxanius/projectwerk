@@ -172,5 +172,42 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
 		}
 		#endregion
+
+		#region UnitTest BewerkWerknemer
+		[Fact]
+		public void BewerkWerknemer_Invalid_WerknemerNegatief() {
+			var result = _werknemerController.BewerkWerknemer(-2, 0, _w);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void BewerkWerknemer_Invalid_BedrijfNegatief() {
+			var result = _werknemerController.BewerkWerknemer(0, -2, _w);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void BewerkWerknemer_Invalid_WerknemerBestaatAl() {
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
+			var result = _werknemerController.BewerkWerknemer(0, 0, _w);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void BewerkWerknemer_Invalid_WerknemerNietGewijzigd() {
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness());
+			var result = _werknemerController.BewerkWerknemer(0, 0, _w);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
