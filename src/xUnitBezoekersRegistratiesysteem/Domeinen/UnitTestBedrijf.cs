@@ -241,7 +241,14 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         }
 
 		[Theory]
-		[InlineData("werknemer.werknemersen@email.com", null)]
+        [InlineData(null, "functie")]
+        [InlineData("", "functie")]
+        [InlineData(" ", "functie")]
+        [InlineData("\n", "functie")]
+        [InlineData("\r", "functie")]
+        [InlineData("\t", "functie")]
+        [InlineData("\v", "functie")]
+        [InlineData("werknemer.werknemersen@email.com", null)]
         [InlineData("werknemer.werknemersen@email.com", "")]
         [InlineData("werknemer.werknemersen@email.com", " ")]
         [InlineData("werknemer.werknemersen@email.com", "\n")]
@@ -255,13 +262,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
         }
 
         [Theory]
-        [InlineData(null, "functie")]
-        [InlineData("", "functie")]
-        [InlineData(" ", "functie")]
-        [InlineData("\n", "functie")]
-        [InlineData("\r", "functie")]
-        [InlineData("\t", "functie")]
-        [InlineData("\v", "functie")]
         [InlineData("@email.com", "functie")]
         [InlineData("werknemer.werknemersen@email.", "functie")]
         [InlineData("werknemer.werknemersen@.com", "functie")]
