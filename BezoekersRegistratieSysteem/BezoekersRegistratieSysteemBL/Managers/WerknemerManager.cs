@@ -59,6 +59,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft deze functie al bij dit bedrijf");
 			try
 			{
+				functie = Nutsvoorziening.VerwijderWhitespace(functie).ToLower();
 				_werknemerRepository.VoegWerknemerFunctieToe(werknemer, bedrijf, functie);
 			} catch (Exception ex)
 			{
@@ -84,6 +85,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben");
 			try
 			{
+				functie = Nutsvoorziening.VerwijderWhitespace(functie).ToLower();
 				_werknemerRepository.VerwijderWerknemerFunctie(werknemer, bedrijf, functie);
 			} catch (Exception ex)
 			{
@@ -171,7 +173,8 @@ namespace BezoekersRegistratieSysteemBL.Managers
                 throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie bestaat al");
             try
             {
-                _werknemerRepository.VoegFunctieToe(functie);
+				functie = Nutsvoorziening.VerwijderWhitespace(functie).ToLower();
+				_werknemerRepository.VoegFunctieToe(functie);
             }
             catch (Exception ex)
             {
