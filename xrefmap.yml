@@ -5206,15 +5206,15 @@ references:
   commentId: T:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO
   fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO
   nameWithType: WerknemerOutputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.#ctor(System.Int64,System.String,System.String,Dictionary{System.Int64,BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO})
-  name: WerknemerOutputDTO(Int64, String, String, Dictionary<Int64, WerknemerInfoOutputDTO>)
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO__ctor_System_Int64_System_String_System_String_Dictionary_System_Int64_BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO__
-  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.#ctor(System.Int64,System.String,System.String,Dictionary{System.Int64,BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO})
-  name.vb: WerknemerOutputDTO(Int64, String, String, Dictionary(Of Int64, WerknemerInfoOutputDTO))
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.WerknemerOutputDTO(System.Int64, System.String, System.String, Dictionary<System.Int64, BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO>)
-  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.WerknemerOutputDTO(System.Int64, System.String, System.String, Dictionary(Of System.Int64, BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO))
-  nameWithType: WerknemerOutputDTO.WerknemerOutputDTO(Int64, String, String, Dictionary<Int64, WerknemerInfoOutputDTO>)
-  nameWithType.vb: WerknemerOutputDTO.WerknemerOutputDTO(Int64, String, String, Dictionary(Of Int64, WerknemerInfoOutputDTO))
+- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.#ctor(System.Int64,System.String,System.String,List{BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO})
+  name: WerknemerOutputDTO(Int64, String, String, List<WerknemerInfoOutputDTO>)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO__ctor_System_Int64_System_String_System_String_List_BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO__
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.#ctor(System.Int64,System.String,System.String,List{BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO})
+  name.vb: WerknemerOutputDTO(Int64, String, String, List(Of WerknemerInfoOutputDTO))
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.WerknemerOutputDTO(System.Int64, System.String, System.String, List<BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO>)
+  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.WerknemerOutputDTO(System.Int64, System.String, System.String, List(Of BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO))
+  nameWithType: WerknemerOutputDTO.WerknemerOutputDTO(Int64, String, String, List<WerknemerInfoOutputDTO>)
+  nameWithType.vb: WerknemerOutputDTO.WerknemerOutputDTO(Int64, String, String, List(Of WerknemerInfoOutputDTO))
 - uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.#ctor*
   name: WerknemerOutputDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO__ctor_
