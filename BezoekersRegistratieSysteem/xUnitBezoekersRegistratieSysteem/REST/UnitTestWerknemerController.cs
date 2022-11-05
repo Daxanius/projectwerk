@@ -352,5 +352,24 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefWerknemersPerBedrijf
+		[Fact]
+		public void GeefWerknemersPerBedrijf_Invalid_BedrijfNegatief() {
+			var result = _werknemerController.GeefWerknemersPerBedrijf(-3);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefWerknemersPerBedrijf_Invalid_GeenAfspraken() {
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemersPerBedrijf(0)).Returns(new List<Werknemer>());
+			var result = _werknemerController.GeefWerknemersPerBedrijf(0);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }

@@ -70,6 +70,22 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
+		/// Geef alle werknemers van een bedrijf
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpGet("bedrijf/id/{id}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersPerBedrijf(long id) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(id);
+
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf).AsEnumerable()));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
 		/// Verwijder een werknemer van een bedrijf
 		/// </summary>
 		/// <param name="bedrijfId"></param>
