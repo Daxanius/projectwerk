@@ -170,7 +170,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
         /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak object te verifiëren op basis van het afspraak object.</exception>
+        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
         public bool BestaatAfspraak(Afspraak afspraak) {
             try {
                 return BestaatAfspraak(afspraak, null, null);
@@ -198,7 +198,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
         /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak object te verifiëren op basis van het afspraak object.</exception>
+        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
         /// <remarks>Controle mbv statuscode 1 = 'In gang'</remarks>
         public bool BestaatLopendeAfspraak(Afspraak afspraak) {
             try {
@@ -209,13 +209,13 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         }
 
         /// <summary>
-        /// Gaat na of lopende afspraak bestaat adhv een afspraak object of parameter afspraak id.
+        /// Private methode gaat na of lopende afspraak bestaat adhv een afspraak object of parameter afspraak id.
         /// </summary>
         /// <param name="afspraak">Optioneel: Afspraak object dat gecontroleerd wenst te worden.</param>
         /// <param name="afspraakid">Optioneel: Id van de afspraak die gecontroleerd wenst te worden.</param>
         /// <param name="afspraakStatus">Optioneel: Afspraakstatus.</param>
         /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak object te verifiëren op basis van het afspraak object of id.</exception>
+        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object of id.</exception>
         private bool BestaatAfspraak(Afspraak afspraak, long? afspraakid, int? afspraakStatus) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
@@ -262,7 +262,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// Bewerkt gegevens van een afspraak adhv afspraak object.
         /// </summary>
         /// <param name="afspraak">Afspraak object die gewijzigd wenst te worden in de databank.</param>
-        /// <exception cref="AfspraakADOException">Faalt afspraak te wijzigen</exception>
+        /// <exception cref="AfspraakADOException">Faalt afspraak te wijzigen.</exception>
         public void BewerkAfspraak(Afspraak afspraak) {
             SqlConnection con = GetConnection();
             //SELECT WORD GEBRUIKT OM EEN ACCURATE STATUSID IN TE STELLEN.
@@ -723,7 +723,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         }
 
         /// <summary>
-        /// Prive methode die alle afspraken op combinatie datum of/en werknemer
+        /// Private methode die alle afspraken op combinatie datum of/en werknemer ophaalt uit de databank.
         /// </summary>
         /// <param name="_bedrijfId">Optioneel: Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
         /// <param name="_werknemerId">Optioneel: Id van de werknemer waar de afspraken van opgevraagd wensen te worden.</param>
