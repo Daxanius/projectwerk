@@ -7,9 +7,9 @@
             "src/**.csproj"
           ],
           "exclude": [
-            "src/**CLI.csproj",
-            "src/**UI.csproj",
-            "src/**xUnit.csproj"
+            "src/**CLI**.csproj",
+            "src/**UI**.csproj",
+            "src/**xUnit**.csproj"
           ]
         }
       ],
