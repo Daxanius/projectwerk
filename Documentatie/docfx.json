@@ -4,13 +4,16 @@
       "src": [
         {
           "files": [
-            "src/**.csproj"
+            "**.csproj"
           ],
           "exclude": [
-            "src/**CLI**.csproj",
-            "src/**UI**.csproj",
-            "src/**xUnit**.csproj"
-          ]
+            "**/bin/**",
+            "**/obj/**",
+            "**CLI**.csproj",
+            "**UI**.csproj",
+            "**xUnit**.csproj"
+          ],
+          "src": "../src"
         }
       ],
       "dest": "api",
@@ -49,11 +52,11 @@
         ],
         "exclude": [
           "obj/**",
-          "docs/**"
+          "_site/**"
         ]
       }
     ],
-    "dest": "docs",
+    "dest": "_site",
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
