@@ -24,15 +24,15 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// </summary>
 		public Bedrijf() { }
 
-		/// <summary>
-		/// Constructor voor het aanmaken van een bedrijf in de BusinessLaag.
-		/// </summary>
-		/// <param name="naam"></param>
-		/// <param name="btw"></param>
-		/// <param name="telefoonNummer"></param>
-		/// <param name="email"></param>
-		/// <param name="adres"></param>
-		public Bedrijf(string naam, string btw, string telefoonNummer, string email, string adres)
+        /// <summary>
+        /// Constructor voor het aanmaken van een bedrijf.
+        /// </summary>
+        /// <param name="naam"></param>
+        /// <param name="btw"></param>
+        /// <param name="telefoonNummer"></param>
+        /// <param name="email"></param>
+        /// <param name="adres"></param>
+        public Bedrijf(string naam, string btw, string telefoonNummer, string email, string adres)
 		{
 			ZetNaam(naam);
 			ZetBTWControle(btw);
@@ -41,16 +41,16 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			ZetAdres(adres);
 		}
 
-		/// <summary>
-		/// Constructor voor het aanmaken van een bedrijf in de DataLaag.
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="naam"></param>
-		/// <param name="btw"></param>
-		/// <param name="telefoonNummer"></param>
-		/// <param name="email"></param>
-		/// <param name="adres"></param>
-		public Bedrijf(long id, string naam, string btw, bool btwGeverifieerd, string telefoonNummer, string email, string adres)
+        /// <summary>
+        /// Constructor voor het ophalen van een bedrijf.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="naam"></param>
+        /// <param name="btw"></param>
+        /// <param name="telefoonNummer"></param>
+        /// <param name="email"></param>
+        /// <param name="adres"></param>
+        public Bedrijf(long id, string naam, string btw, bool btwGeverifieerd, string telefoonNummer, string email, string adres)
 		{
 			ZetId(id);
 			ZetNaam(naam);
@@ -60,35 +60,39 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			ZetAdres(adres);
 		}
 
-		/// <summary>
-		/// Zet id.
-		/// </summary>
-		/// <param name="id"></param>
-		public void ZetId(long id)
+        /// <summary>
+        /// Controleert voorwaarden op geldigheid en stelt het id in.
+        /// </summary>
+        /// <param name="id">Unieke identificator | moet groter zijn dan 0.</param>
+        /// <exception cref="BedrijfException">"Bedrijf - ZetId - id mag niet kleiner dan of gelijk aan 0 zijn."</exception>
+        /// <remarks>Id wordt automatisch gegenereerd door de databank.</remarks>
+        public void ZetId(long id)
 		{
 			if (id <= 0)
 				throw new BedrijfException("Bedrijf - ZetId - id mag niet kleiner dan of gelijk aan 0 zijn.");
 			Id = id;
 		}
 
-		/// <summary>
-		/// Zet naam.
-		/// </summary>
-		/// <param name="naam"></param>
-		/// <exception cref="BedrijfException"></exception>
-		public void ZetNaam(string naam)
+        /// <summary>
+        /// Controleert voorwaarden op geldigheid en stelt de bedrijfsnaam in.
+        /// </summary>
+        /// <param name="naam">Mag geen Null/WhiteSpace waarde zijn.</param>
+        /// <exception cref="BedrijfException">"Bedrijf - Zetnaam - naam mag niet leeg zijn"</exception>
+        public void ZetNaam(string naam)
 		{
 			if (string.IsNullOrWhiteSpace(naam))
 				throw new BedrijfException("Bedrijf - Zetnaam - naam mag niet leeg zijn");
 			Naam = naam.Trim();
 		}
 
-		/// <summary>
-		/// Roept btw controle op uit Nutsvoorziening & zet BTW.
-		/// </summary>
-		/// <param name="btw"></param>
-		/// <exception cref="BedrijfException"></exception>
-		public void ZetBTW(string btw, bool geverifieerd)
+        /// <summary>
+        /// Controleert voorwaarden op geldigheid en stelt het btwnummer in.
+        /// </summary>
+        /// <param name="btw">Mag geen Null/WhiteSpace waarde zijn.</param>
+        /// <param name="geverifieerd">Staat wordt bijgewerkt adhv Nutsvoorziening.GeefBTWInfo(btw).</param>
+        /// <exception cref="BedrijfException">"Bedrijf - ZetBTW - BTW mag niet leeg zijn"</exception>
+		/// <remarks>True indien geverifieerd door API | False indien API offline.</remarks>
+        public void ZetBTW(string btw, bool geverifieerd)
 		{
 			if (string.IsNullOrWhiteSpace(btw))
 				throw new BedrijfException("Bedrijf - ZetBTW - BTW mag niet leeg zijn");
@@ -96,13 +100,14 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			BtwGeverifieerd = geverifieerd;
 		}
 
-		/// <summary>
-		/// Roept btw controle op uit Nutsvoorziening & zet BTW.
-		/// </summary>
-		/// <param name="btw"></param>
-		/// <returns></returns>
-		/// <exception cref="BedrijfException"></exception>
-		public void ZetBTWControle(string btw)
+        /// <summary>
+        /// Verifieërt de geldigheid van het btwnummer.
+        /// </summary>
+        /// <param name="btw">Mag geen Null/WhiteSpace waarde zijn en moet een officieel erkend nummer zijn.</param>
+        /// <exception cref="BedrijfException">"Bedrijf - ZetBTWControle - Btw mag niet leeg zijn"</exception>
+		/// <exception cref="BedrijfException">"Bedrijf - ZetBTWControle - Btw is niet geldig"</exception>
+        /// <remarks>True indien geverifieerd door API | False indien API offline.</remarks>
+        public void ZetBTWControle(string btw)
 		{
 			btw = Nutsvoorziening.VerwijderWhitespace(btw);
 			if (string.IsNullOrWhiteSpace(btw))
@@ -117,12 +122,13 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			ZetBTW(btw, true);
 		}
 
-		/// <summary>
-		/// Controleert & zet telefoonnummer.
-		/// </summary>
-		/// <param name="telefoonNummer"></param>
-		/// <exception cref="BedrijfException"></exception>
-		public void ZetTelefoonNummer(string telefoonNummer)
+        /// <summary>
+        /// Controleert voorwaarden op geldigheid en stelt de bedrijfsnaam in.
+        /// </summary>
+        /// <param name="telefoonNummer">Mag geen Null/WhiteSpace waarde zijn en moet aan de voorwaarden voldoen.</param>
+        /// <exception cref="BedrijfException">"Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet leeg zijn"</exception>
+		/// <exception cref="BedrijfException">"Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet langer zijn dan 15 karakters"</exception>
+        public void ZetTelefoonNummer(string telefoonNummer)
 		{
 			if (string.IsNullOrWhiteSpace(telefoonNummer))
 				throw new BedrijfException("Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet leeg zijn");
@@ -134,12 +140,13 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			TelefoonNummer = telefoonNummer.Trim();
 		}
 
-		/// <summary>
-		/// Roept email controle op uit Nutsvoorziening & zet email.
-		/// </summary>
-		/// <param name="email"></param>
-		/// <exception cref="BedrijfException"></exception>
-		public void ZetEmail(string email)
+        /// <summary>
+        /// Controleert voorwaarden op geldigheid en stelt het mailadres in.
+        /// </summary>
+        /// <param name="email">Mag geen Null/WhiteSpace waarde zijn en moet aan de voorwaarden voldoen.</param>
+        /// <exception cref="BedrijfException">"Bedrijf - ZetEmail - email mag niet leeg zijn"</exception>
+        /// <exception cref="BedrijfException">"Bedrijf - ZetEmail - email is niet geldig"</exception>
+        public void ZetEmail(string email)
 		{
 			if (string.IsNullOrWhiteSpace(email))
 				throw new BedrijfException("Bedrijf - ZetEmail - email mag niet leeg zijn");
@@ -150,29 +157,35 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 				throw new BedrijfException("Bedrijf - ZetEmail - email is niet geldig");
 		}
 
-		/// <summary>
-		/// Zet adres, voert geen controle uit op geldigheid.
-		/// </summary>
-		/// <param name="adres"></param>
-		/// <exception cref="BedrijfException"></exception>
-		public void ZetAdres(string adres)
+        /// <summary>
+        /// Controleert voorwaarden op geldigheid en stelt het adres in.
+        /// </summary>
+        /// <param name="adres">Mag geen Null/WhiteSpace waarde zijn.</param>
+        /// <exception cref="BedrijfException">"Bedrijf - ZetAdres - adres mag niet leeg zijn"</exception>
+        public void ZetAdres(string adres)
 		{
 			if (string.IsNullOrWhiteSpace(adres))
 				throw new BedrijfException("Bedrijf - ZetAdres - adres mag niet leeg zijn");
 			Adres = adres.Trim();
 		}
 
-		/// <summary>
-		/// Voegt een werknemer toe aan het bedrijf.
-		/// </summary>
-		/// <param name="werknemer"></param>
-		/// <param name="functie"></param>
-		/// <exception cref="BedrijfException"></exception>
-		public void VoegWerknemerToeInBedrijf(Werknemer werknemer, string email, string functie)
+        /// <summary>
+        /// Controleert voorwaarden op geldigheid en voegt werknemer toe aan het bedrijf.
+        /// </summary>
+		/// <param name="werknemer">Mag geen Null waarde zijn.</param>
+		/// <param name="email">Mag geen Null/WhiteSpace waarde zijn.</param>
+        /// <param name="functie">Mag geen Null/WhiteSpace waarde zijn.</param>
+        /// <exception cref="BedrijfException">"Bedrijf - VoegWerknemerToeInBedrijf - werknemer mag niet leeg zijn"</exception>
+		/// <exception cref="BedrijfException">"Bedrijf - VoegWerknemerToeInBedrijf - email mag niet leeg zijn"</exception>
+		/// <exception cref="BedrijfException">"Bedrijf - VoegWerknemerToeInBedrijf - functie mag niet leeg zijn"</exception>
+		/// <remarks>werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, email, functie) => Kent DIT bedrijf toe aan werknemer!</remarks>
+        public void VoegWerknemerToeInBedrijf(Werknemer werknemer, string email, string functie)
 		{
 			if (werknemer == null)
 				throw new BedrijfException("Bedrijf - VoegWerknemerToeInBedrijf - werknemer mag niet leeg zijn");
-			if (string.IsNullOrWhiteSpace(functie))
+            if (string.IsNullOrWhiteSpace(email))
+                throw new BedrijfException("Bedrijf - VoegWerknemerToeInBedrijf - email mag niet leeg zijn");
+            if (string.IsNullOrWhiteSpace(functie))
 				throw new BedrijfException("Bedrijf - VoegWerknemerToeInBedrijf - functie mag niet leeg zijn");
 
 			// VoegBedrijfEnFunctieToe voert al de nodige controles uit om het
@@ -183,12 +196,14 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, email, functie);
 		}
 
-		/// <summary>
-		/// Verwijdert een werknemer uit het bedrijf.
-		/// </summary>
-		/// <param name="werknemer"></param>
-		/// <exception cref="BedrijfException"></exception>
-		public void VerwijderWerknemerUitBedrijf(Werknemer werknemer)
+        /// <summary>
+        /// Controleert voorwaarden op geldigheid en voegt werknemer toe aan het bedrijf.
+        /// </summary>
+        /// <param name="werknemer">Mag geen Null waarde zijn en bedrijf moet werknemer reeds bevatten.</param>
+        /// <exception cref="BedrijfException">"Bedrijf - VerwijderWerknemerUitBedrijf - werknemer mag niet leeg zijn"</exception>
+        /// <exception cref="BedrijfException">"Bedrijf - VerwijderWerknemerUitBedrijf - werknemer bestaat niet"</exception>
+        /// <remarks>werknemer.VerwijderBedrijfVanWerknemer(this) => Verwijdert DIT bedrijf van werknemer!</remarks>
+        public void VerwijderWerknemerUitBedrijf(Werknemer werknemer)
 		{
 			if (werknemer == null)
 				throw new BedrijfException("Bedrijf - VerwijderWerknemerUitBedrijf - werknemer mag niet leeg zijn");
@@ -199,20 +214,23 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		}
 
 
-		/// <summary>
-		/// Geeft een lijst van werknemers terug voor het bedrijf.
-		/// </summary>
-		/// <exception cref="BedrijfException"></exception>
-		public IReadOnlyList<Werknemer> GeefWerknemers()
+        /// <summary>
+        /// Haalt een lijst van werknemers op met enkel lees rechten voor dit bedrijf.
+        /// </summary>
+        /// <returns>IReadOnlyList van werknemer objecten.</returns>
+        /// <exception cref="BedrijfException"></exception>
+        public IReadOnlyList<Werknemer> GeefWerknemers()
 		{
 			return _werknemers.AsReadOnly();
 		}
 
-		/// <summary>
-		/// Vergelijkt bedrijven op inhoud.
-		/// </summary>
-		/// <exception cref="BedrijfException"></exception>
-		public bool BedrijfIsGelijk(Bedrijf bedrijf)
+        /// <summary>
+        /// Controleert voorwaarden op geldigheid en proprties op gelijkheid.
+        /// </summary>
+        /// <param name="bedrijf">Te vergelijken bedrijf.</param>
+        /// <returns>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</returns>
+        /// <exception cref="BedrijfException"></exception>
+        public bool BedrijfIsGelijk(Bedrijf bedrijf)
 		{
 			if (bedrijf == null)
 				return false;
@@ -236,10 +254,6 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 			return true;
 		}
 
-		/// <summary>
-		/// Equals & Hashset override.
-		/// </summary>
-		/// <exception cref="BedrijfException"></exception>
 		public override bool Equals(object? obj)
 		{
 			return Equals(obj as Bedrijf);
