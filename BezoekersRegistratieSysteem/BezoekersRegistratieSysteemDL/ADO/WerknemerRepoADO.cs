@@ -683,7 +683,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <summary>
         /// Stelt lijst van bezette werknemers samen met enkel lees rechten adhv parameter bedrijf id.
         /// </summary>
-        /// <param name="bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die momenteel in afspraak zijn.</param>
+        /// <param name="_bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die momenteel in afspraak zijn.</param>
         /// <returns>IReadOnlyList van werknemer objecten waar statuscode gelijk is aan 1 = 'In gang'.</returns>
         /// <exception cref="WerknemerADOException">Faalt lijst van bezette werknemer objecten samen te stellen op basis van bedrijf id.</exception>
         public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
