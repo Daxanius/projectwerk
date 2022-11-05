@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace BezoekersRegistratieSysteemCLI {
-	public class DataLaagCUI {
+	public class DataLaagCLI {
 		private const string sqlServerHost = @"";
 		private const string database = "";
 		private const string connectionString = $"Data Source={sqlServerHost};Initial Catalog={database};Integrated Security=True";
