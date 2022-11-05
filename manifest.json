@@ -4,12 +4,756 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.DTO.DTOBtwInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.DTO.DTOBtwInfo.html",
+          "hash": "9+s5qV2M035N5dq8EAOqaA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.DTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.DTO.html",
+          "hash": "HcFhChN4EoaDWs7sm4LT/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.Afspraak.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.Afspraak.html",
+          "hash": "QFUd93g3LT6WeQ2JlKOdxQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.html",
+          "hash": "DElU+cBahFy0FR1kOB2jGw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.html",
+          "hash": "sgtZrQ91pXs9Ck4SeVgqLQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.html",
+          "hash": "+EB1NZ/lmAz3B93rVENQ/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.html",
+          "hash": "HAKSW57wUnoVSZW3inopkg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.Werknemer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.Werknemer.html",
+          "hash": "iUs7NylYFzMhHEaJZ+2xlg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo.html",
+          "hash": "sH0UuaNasgMjVeSe2yKGJw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.html",
+          "hash": "Vf7MoBlPQ+T4mYpMI832hw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.AfspraakException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.AfspraakException.html",
+          "hash": "McIBNrXkV6eAEYhsQhYyqw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html",
+          "hash": "romnDHZSgXdvbhz5BavJBw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BezoekerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BezoekerException.html",
+          "hash": "SwIjt5DLb+KelCqJP0dbmg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.EmailControleException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.EmailControleException.html",
+          "hash": "RJf/XIVo+0dwwNp7Rw/OSA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.ParkingContractException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.ParkingContractException.html",
+          "hash": "9jD3FqY4E7OBgCXHC2cBtQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.WerknemerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.WerknemerException.html",
+          "hash": "ALnDnOcoDbVzhn87LyyMpA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.WerknemerInfoException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.WerknemerInfoException.html",
+          "hash": "FHakcnZeCGuDhJ/uJG2FwA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.html",
+          "hash": "nJwkssO1I8f8YfpcVBEHwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.AfspraakManagerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.AfspraakManagerException.html",
+          "hash": "xbPUdMS+inWdLme55S+8PQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.BedrijfManagerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.BedrijfManagerException.html",
+          "hash": "FIM2CVgUAJ8pbYgehx8iJQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.BezoekerManagerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.BezoekerManagerException.html",
+          "hash": "8b38N16lTVadORZEtPkTvQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.ParkeerManagerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.ParkeerManagerException.html",
+          "hash": "7TUSDZzTAXoK5hNRWHfqUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.WerknemerManagerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.WerknemerManagerException.html",
+          "hash": "9WdIizGgnxXVHTaoZKCe3Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.ManagerException.html",
+          "hash": "b38+b3ruZnnzLT/5r8VBuQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository.html",
+          "hash": "LhN14XLuXGpNfD3vINMw9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Interfaces.IBedrijfRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Interfaces.IBedrijfRepository.html",
+          "hash": "u72kZ1e0eIOCAebTtugiuQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html",
+          "hash": "jkX4hyA46dJtLzM8W2VNxA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Interfaces.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Interfaces.html",
+          "hash": "Xl1jVGGnGk8pwdB9emFDdw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Managers.AfspraakManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Managers.AfspraakManager.html",
+          "hash": "Q4mbFlJvTIXvRZwei3RSyA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Managers.BedrijfManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Managers.BedrijfManager.html",
+          "hash": "+vEZeHZGD5BPWeyv7+0J9g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Managers.ParkeerManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Managers.ParkeerManager.html",
+          "hash": "lwu7kNLrqt1KHU48mmx87g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html",
+          "hash": "m7o58lF3QY/7U1iDhBOcUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Managers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Managers.html",
+          "hash": "NOEANR4Eu5t4BhFwjz0kUw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Nutsvoorziening.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html",
+          "hash": "RbGO8/ryw3JN8tK6ZTjidA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.html",
+          "hash": "A5ChvPELQ+0f6Ce76f/42w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.html",
+          "hash": "/ANBCnmpuwwR2tR1MJzL4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemDL.ADO.BedrijfRepoADO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemDL.ADO.BedrijfRepoADO.html",
+          "hash": "9UmI1BFu0X9siG3hSicOqw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html",
+          "hash": "iaQfaAY0JOMDqA4Q/MYd7A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemDL.ADO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemDL.ADO.html",
+          "hash": "chdk9wzYzgahwlo/JVEO5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemDL.Exceptions.AfspraakADOException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemDL.Exceptions.AfspraakADOException.html",
+          "hash": "8MrNSwfLeXxFgRKPQAyWSQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemDL.Exceptions.BedrijfADOException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemDL.Exceptions.BedrijfADOException.html",
+          "hash": "xqinyxGGTpPJ41Afxgt5Xw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemDL.Exceptions.BezoekerADOException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemDL.Exceptions.BezoekerADOException.html",
+          "hash": "D2oVkQfjnZlNR9KWwT995A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemDL.Exceptions.WerknemerADOException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemDL.Exceptions.WerknemerADOException.html",
+          "hash": "4R/4OoEVWWW+517G1dPIJA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemDL.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemDL.Exceptions.html",
+          "hash": "wNj1ZIdzJ0bgVJ2O1lf+xA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html",
+          "hash": "GYnIjfWOd5pjXw4MdmhgcA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.BedrijfController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.BedrijfController.html",
+          "hash": "Ia/kMKw0ENNJ+8u/bMWw5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html",
+          "hash": "fFuaVNkFfabGndmsDOHaWg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.html",
+          "hash": "UWZf6YeD/ztLv7Jt2YNsLQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html",
+          "hash": "gkHotndTgjhous9s8UOufQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html",
+          "hash": "WYMQR+bsGD7/tfdf+g4PdQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html",
+          "hash": "XY04BbJZKWYYj/7UX0LD8g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html",
+          "hash": "NycssRzhtiL4+e8jrDDrPg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.html",
+          "hash": "TpksyXf60p931RkyvFBt2Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html",
+          "hash": "r3qj6qEBjCl+CcGkmbcbQg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html",
+          "hash": "QpLPu7wGPZCTRlrbBUiZGw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.BezoekerOutputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.BezoekerOutputDTO.html",
+          "hash": "YZPOx1enKW1oUnDNUu9ffw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html",
+          "hash": "82HKZUd/yjA/ES93O5dGhQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html",
+          "hash": "au2wtGbQhdZHZhBbBfopag=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.html",
+          "hash": "ZPh+57GovVTV6wSPXChPog=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html",
+          "hash": "vru97ZTClbNwYAm1Oa1djQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.html",
+          "hash": "UiksoP2gxmsPFEMCLkdf1g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "gkwRsxg09ntlnuw+V3N+ng=="
+          "hash": "CPoC6DQP7hsQAKvChI9kNA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "S+nGH+U53Bj3h9um8KU+lg=="
         }
       },
       "is_incremental": false,
@@ -21,7 +765,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "UwbVuEjXNUT1QCRZm/g2aw=="
+          "hash": "Rv4e5lt2MAuSNtBxvvE5Bw=="
         }
       },
       "is_incremental": false,
@@ -56,7 +800,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "NbtxjPwvAafHZAH+q0e3KQ=="
+          "hash": "PZ45tLU1upbPiweYGTKM0A=="
         }
       },
       "is_incremental": false,
@@ -68,7 +812,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "IGK1ZSYI4NbShXZSeUUd6Q=="
+          "hash": "+rHUkRZHZRi5gd1aTU6lJA=="
         }
       },
       "is_incremental": false,
@@ -90,6 +834,12 @@
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 3,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 61,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
