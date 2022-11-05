@@ -86,6 +86,27 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
+		/// Geef alle vrije of bezette werknemers van een bedrijf
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="vrij"></param>
+		/// <returns></returns>
+		[HttpGet("bedrijf/vb/id/{id}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersPerBedrijfVrijOfBezet(long id, [FromQuery] bool vrij) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(id);
+
+				if (!vrij) {
+					return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefBezetteWerknemersOpDitMomentVoorBedrijf(bedrijf).AsEnumerable()));
+				}
+
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefVrijeWerknemersOpDitMomentVoorBedrijf(bedrijf).AsEnumerable()));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
 		/// Verwijder een werknemer van een bedrijf
 		/// </summary>
 		/// <param name="bedrijfId"></param>
