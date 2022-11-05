@@ -309,7 +309,6 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmdUpdate.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
                     cmdUpdate.Parameters["@afspraakstatusId"].Value = afspraak.Eindtijd is not null && currentAfspraakStatusId == 1 ? 5 : afspraak.Eindtijd is not null && currentAfspraakStatusId != 1 ? currentAfspraakStatusId : 1;
                     //FUNCTIE GETBEDRIJF
-                    //TODO: GWILOM prob gets replaced by werknemerInfo
                     var bedrijf = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Keys.First();
                     var functie = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values.First().GeefWerknemerFuncties().First();
                     cmdUpdate.Parameters["@bedrijfId"].Value = bedrijf.Id;
