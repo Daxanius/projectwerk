@@ -4937,19 +4937,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.Id
   nameWithType: BedrijfOutputDTO.Id
-- uid: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleert
-  name: IsGecontroleert
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO_IsGecontroleert
-  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleert
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleert
-  nameWithType: BedrijfOutputDTO.IsGecontroleert
-- uid: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleert*
-  name: IsGecontroleert
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO_IsGecontroleert_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleert
+- uid: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleerd
+  name: IsGecontroleerd
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO_IsGecontroleerd
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleerd
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleerd
+  nameWithType: BedrijfOutputDTO.IsGecontroleerd
+- uid: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleerd*
+  name: IsGecontroleerd
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO_IsGecontroleerd_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleerd
   isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleert
-  nameWithType: BedrijfOutputDTO.IsGecontroleert
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.IsGecontroleerd
+  nameWithType: BedrijfOutputDTO.IsGecontroleerd
 - uid: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.Naam
   name: Naam
   href: api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO_Naam
