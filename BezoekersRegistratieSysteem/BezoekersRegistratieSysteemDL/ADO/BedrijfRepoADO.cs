@@ -309,7 +309,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         }
 
         /// <summary>
-        /// Verwijder gewenste bedrijf.
+        /// Verwijdert gewenste bedrijf.
         /// </summary>
         /// <param name="bedrijfId">Id van bedrijf dat verwijderd wenst te worden.</param>
         /// <exception cref="BedrijfADOException">Faalt bedrijf te verwijderen.</exception>
