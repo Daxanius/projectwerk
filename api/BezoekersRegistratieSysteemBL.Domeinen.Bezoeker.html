@@ -114,7 +114,7 @@
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker__ctor_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.#ctor*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker__ctor_System_Int64_System_String_System_String_System_String_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.#ctor(System.Int64,System.String,System.String,System.String,System.String)">Bezoeker(Int64, String, String, String, String)</h4>
-  <div class="markdown level1 summary"><p>Constructor voor het aanmaken van een bezoeker in de DataLaag.</p>
+  <div class="markdown level1 summary"><p>Constructor voor het ophalen van een bezoeker.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -167,7 +167,7 @@
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker__ctor_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.#ctor*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker__ctor_System_String_System_String_System_String_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.#ctor(System.String,System.String,System.String,System.String)">Bezoeker(String, String, String, String)</h4>
-  <div class="markdown level1 summary"><p>Constructor voor het aanmaken van een bezoeker in de BusinessLaag.</p>
+  <div class="markdown level1 summary"><p>Constructor voor het aanmaken van een bezoeker.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -365,11 +365,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_BezoekerIsGelijk_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.BezoekerIsGelijk(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L122">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L125">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_BezoekerIsGelijk_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.BezoekerIsGelijk*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_BezoekerIsGelijk_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.BezoekerIsGelijk(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker)">BezoekerIsGelijk(Bezoeker)</h4>
-  <div class="markdown level1 summary"><p>Vergelijkt bezoekers op inhoud.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en properties op gelijkheid.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -389,7 +389,8 @@
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.html">Bezoeker</a></td>
         <td><span class="parametername">bezoeker</span></td>
-        <td></td>
+        <td><p>Te vergelijken bezoeker.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -404,22 +405,8 @@
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
-        <td></td>
+        <td><p>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -428,11 +415,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetAchternaam_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetAchternaam(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L83">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L84">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetAchternaam_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetAchternaam*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetAchternaam_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetAchternaam(System.String)">ZetAchternaam(String)</h4>
-  <div class="markdown level1 summary"><p>Zet achternaam bezoeker.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt de achternaam in.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -452,7 +439,8 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">achternaam</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -467,7 +455,8 @@
     <tbody>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BezoekerException.html">BezoekerException</a></td>
-        <td></td>
+        <td><p>&quot;Bezoeker - ZetAchternaam - achternaam mag niet leeg zijn&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -476,11 +465,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetBedrijf_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetBedrijf(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L111">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L113">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetBedrijf_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetBedrijf(System.String)">ZetBedrijf(String)</h4>
-  <div class="markdown level1 summary"><p>Zet bedrijf.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt het bedrijf in.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -500,7 +489,8 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">bedrijf</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -515,7 +505,8 @@
     <tbody>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BezoekerException.html">BezoekerException</a></td>
-        <td></td>
+        <td><p>&quot;Bezoeker - ZetBedrijf - bedrijf mag niet leeg zijn&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -524,11 +515,12 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetEmail_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetEmail(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L95">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L97">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetEmail_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetEmail*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetEmail_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetEmail(System.String)">ZetEmail(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt het mailadres in.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -547,7 +539,29 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">email</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn en moet aan de voorwaarden voldoen.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BezoekerException.html">BezoekerException</a></td>
+        <td><p>&quot;Bezoeker - ZetEmail - email mag niet leeg zijn&quot;</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BezoekerException.html">BezoekerException</a></td>
+        <td><p>&quot;Bezoeker - ZetEmail - email is niet geldig&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -556,11 +570,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetId_System_Int64_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetId(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L59">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L60">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetId_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetId*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetId_System_Int64_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetId(System.Int64)">ZetId(Int64)</h4>
-  <div class="markdown level1 summary"><p>Zet id bezoeker.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt het id in.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -580,10 +594,14 @@
       <tr>
         <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">id</span></td>
-        <td></td>
+        <td><p>Unieke identificator | moet groter zijn dan 0.</p>
+</td>
       </tr>
     </tbody>
   </table>
+  <h5 id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetId_System_Int64__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Id wordt automatisch gegenereerd door de databank.</p>
+</div>
   <h5 class="exceptions">Exceptions</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -595,7 +613,8 @@
     <tbody>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BezoekerException.html">BezoekerException</a></td>
-        <td></td>
+        <td><p>&quot;Bezoeker - ZetId - id mag niet kleiner dan of gelijk aan 0 zijn.&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -604,11 +623,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetVoornaam_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetVoornaam(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L71">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bezoeker.cs/#L72">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetVoornaam_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetVoornaam*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_ZetVoornaam_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetVoornaam(System.String)">ZetVoornaam(String)</h4>
-  <div class="markdown level1 summary"><p>Zet voornaam bezoeker.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt de voornaam in.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -628,7 +647,8 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">voornaam</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -643,7 +663,8 @@
     <tbody>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BezoekerException.html">BezoekerException</a></td>
-        <td></td>
+        <td><p>&quot;Bezoeker - ZetVoornaam - voornaam mag niet leeg zijn&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>

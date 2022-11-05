@@ -115,7 +115,7 @@ implementeerd IEquatable</p>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf__ctor_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.#ctor*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf__ctor_System_Int64_System_String_System_String_System_Boolean_System_String_System_String_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.#ctor(System.Int64,System.String,System.String,System.Boolean,System.String,System.String,System.String)">Bedrijf(Int64, String, String, Boolean, String, String, String)</h4>
-  <div class="markdown level1 summary"><p>Constructor voor het aanmaken van een bedrijf in de DataLaag.</p>
+  <div class="markdown level1 summary"><p>Constructor voor het ophalen van een bedrijf.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -178,7 +178,7 @@ implementeerd IEquatable</p>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf__ctor_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.#ctor*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf__ctor_System_String_System_String_System_String_System_String_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.#ctor(System.String,System.String,System.String,System.String,System.String)">Bedrijf(String, String, String, String, String)</h4>
-  <div class="markdown level1 summary"><p>Constructor voor het aanmaken van een bedrijf in de BusinessLaag.</p>
+  <div class="markdown level1 summary"><p>Constructor voor het aanmaken van een bedrijf.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -441,11 +441,11 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_BedrijfIsGelijk_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.BedrijfIsGelijk(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L215">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L231">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_BedrijfIsGelijk_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.BedrijfIsGelijk*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_BedrijfIsGelijk_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.BedrijfIsGelijk(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">BedrijfIsGelijk(Bedrijf)</h4>
-  <div class="markdown level1 summary"><p>Vergelijkt bedrijven op inhoud.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en properties op gelijkheid.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -465,7 +465,8 @@ implementeerd IEquatable</p>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.html">Bedrijf</a></td>
         <td><span class="parametername">bedrijf</span></td>
-        <td></td>
+        <td><p>Te vergelijken bedrijf.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -480,22 +481,8 @@ implementeerd IEquatable</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
-        <td></td>
+        <td><p>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -504,7 +491,7 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_Equals_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.Equals(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L248">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L260">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_Equals_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.Equals*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_Equals_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.Equals(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">Equals(Bedrijf)</h4>
@@ -551,7 +538,7 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_Equals_System_Nullable_System_Object__.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.Equals(System.Nullable%7BSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L243">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L255">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_Equals_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.Equals*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_Equals_System_Nullable_System_Object__" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.Equals(System.Nullable{System.Object})">Equals(Nullable&lt;Object&gt;)</h4>
@@ -598,11 +585,11 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_GeefWerknemers.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.GeefWerknemers%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L206">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L221">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_GeefWerknemers_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.GeefWerknemers*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_GeefWerknemers" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.GeefWerknemers">GeefWerknemers()</h4>
-  <div class="markdown level1 summary"><p>Geeft een lijst van werknemers terug voor het bedrijf.</p>
+  <div class="markdown level1 summary"><p>Haalt een lijst van werknemers op met enkel lees rechten voor dit bedrijf.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -620,22 +607,8 @@ implementeerd IEquatable</p>
     <tbody>
       <tr>
         <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Werknemer.html">Werknemer</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
-        <td></td>
+        <td><p>IReadOnlyList van werknemer objecten.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -644,7 +617,7 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_GetHashCode.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L254">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L266">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_GetHashCode_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.GetHashCode*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_GetHashCode" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.GetHashCode">GetHashCode()</h4>
@@ -674,11 +647,11 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_VerwijderWerknemerUitBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.VerwijderWerknemerUitBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L191">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L206">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_VerwijderWerknemerUitBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.VerwijderWerknemerUitBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_VerwijderWerknemerUitBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.VerwijderWerknemerUitBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)">VerwijderWerknemerUitBedrijf(Werknemer)</h4>
-  <div class="markdown level1 summary"><p>Verwijdert een werknemer uit het bedrijf.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en voegt werknemer toe aan het bedrijf.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -698,10 +671,14 @@ implementeerd IEquatable</p>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Werknemer.html">Werknemer</a></td>
         <td><span class="parametername">werknemer</span></td>
-        <td></td>
+        <td><p>Mag geen Null waarde zijn en bedrijf moet werknemer reeds bevatten.</p>
+</td>
       </tr>
     </tbody>
   </table>
+  <h5 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_VerwijderWerknemerUitBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Werknemer__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>werknemer.VerwijderBedrijfVanWerknemer(this) =&gt; Verwijdert DIT bedrijf van werknemer!</p>
+</div>
   <h5 class="exceptions">Exceptions</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -713,7 +690,13 @@ implementeerd IEquatable</p>
     <tbody>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
-        <td></td>
+        <td><p>&quot;Bedrijf - VerwijderWerknemerUitBedrijf - werknemer mag niet leeg zijn&quot;</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - VerwijderWerknemerUitBedrijf - werknemer bestaat niet&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -722,11 +705,11 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_VoegWerknemerToeInBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_System_String_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.VoegWerknemerToeInBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Werknemer%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L171">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L182">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_VoegWerknemerToeInBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.VoegWerknemerToeInBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_VoegWerknemerToeInBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_System_String_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.VoegWerknemerToeInBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,System.String,System.String)">VoegWerknemerToeInBedrijf(Werknemer, String, String)</h4>
-  <div class="markdown level1 summary"><p>Voegt een werknemer toe aan het bedrijf.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en voegt werknemer toe aan het bedrijf.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -746,20 +729,26 @@ implementeerd IEquatable</p>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Werknemer.html">Werknemer</a></td>
         <td><span class="parametername">werknemer</span></td>
-        <td></td>
+        <td><p>Mag geen Null waarde zijn.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">email</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">functie</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn.</p>
+</td>
       </tr>
     </tbody>
   </table>
+  <h5 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_VoegWerknemerToeInBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_System_String_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>werknemer.VoegBedrijfEnFunctieToeAanWerknemer(this, email, functie) =&gt; Kent DIT bedrijf toe aan werknemer!</p>
+</div>
   <h5 class="exceptions">Exceptions</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -771,7 +760,18 @@ implementeerd IEquatable</p>
     <tbody>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
-        <td></td>
+        <td><p>&quot;Bedrijf - VoegWerknemerToeInBedrijf - werknemer mag niet leeg zijn&quot;</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - VoegWerknemerToeInBedrijf - email mag niet leeg zijn&quot;</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - VoegWerknemerToeInBedrijf - functie mag niet leeg zijn&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -780,11 +780,11 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetAdres_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetAdres(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L158">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L165">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetAdres_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetAdres*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetAdres_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetAdres(System.String)">ZetAdres(String)</h4>
-  <div class="markdown level1 summary"><p>Zet adres, voert geen controle uit op geldigheid.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt het adres in.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -804,7 +804,8 @@ implementeerd IEquatable</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">adres</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -819,7 +820,8 @@ implementeerd IEquatable</p>
     <tbody>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
-        <td></td>
+        <td><p>&quot;Bedrijf - ZetAdres - adres mag niet leeg zijn&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -828,11 +830,12 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetBTW_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetBTW(System.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L91">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L95">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetBTW_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetBTW*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetBTW_System_String_System_Boolean_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetBTW(System.String,System.Boolean)">ZetBTW(String, Boolean)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt het btwnummer in.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -851,12 +854,33 @@ implementeerd IEquatable</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">btw</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
         <td><span class="parametername">geverifieerd</span></td>
-        <td></td>
+        <td><p>Staat wordt bijgewerkt adhv Nutsvoorziening.GeefBTWInfo(btw).</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetBTW_System_String_System_Boolean__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>True indien geverifieerd door API | False indien API offline.</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - ZetBTW - BTW mag niet leeg zijn&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -865,11 +889,12 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetBTWControle_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetBTWControle(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L105">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L110">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetBTWControle_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetBTWControle*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetBTWControle_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetBTWControle(System.String)">ZetBTWControle(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Verifieërt de geldigheid van het btwnummer.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -888,7 +913,32 @@ implementeerd IEquatable</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">btw</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn en moet een officieel erkend nummer zijn.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetBTWControle_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>True indien geverifieerd door API | False indien API offline.</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - ZetBTWControle - Btw mag niet leeg zijn&quot;</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - ZetBTWControle - Btw is niet geldig&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -897,11 +947,12 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetEmail_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetEmail(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L142">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L149">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetEmail_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetEmail*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetEmail_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetEmail(System.String)">ZetEmail(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt het mailadres in.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -920,7 +971,29 @@ implementeerd IEquatable</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">email</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn en moet aan de voorwaarden voldoen.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - ZetEmail - email mag niet leeg zijn&quot;</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - ZetEmail - email is niet geldig&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -929,11 +1002,11 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetId_System_Int64_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetId(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L67">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L69">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetId_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetId*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetId_System_Int64_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetId(System.Int64)">ZetId(Int64)</h4>
-  <div class="markdown level1 summary"><p>Zet id.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt het id in.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -953,7 +1026,27 @@ implementeerd IEquatable</p>
       <tr>
         <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">id</span></td>
-        <td></td>
+        <td><p>Unieke identificator | moet groter zijn dan 0.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetId_System_Int64__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Id wordt automatisch gegenereerd door de databank.</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - ZetId - id mag niet kleiner dan of gelijk aan 0 zijn.&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -962,11 +1055,11 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetNaam_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetNaam(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L79">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L81">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetNaam_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetNaam*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetNaam_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetNaam(System.String)">ZetNaam(String)</h4>
-  <div class="markdown level1 summary"><p>Zet naam.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt de bedrijfsnaam in.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -986,7 +1079,8 @@ implementeerd IEquatable</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">naam</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1001,7 +1095,8 @@ implementeerd IEquatable</p>
     <tbody>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
-        <td></td>
+        <td><p>&quot;Bedrijf - Zetnaam - naam mag niet leeg zijn&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1010,11 +1105,12 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetTelefoonNummer_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetTelefoonNummer(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L125">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L131">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetTelefoonNummer_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetTelefoonNummer*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_ZetTelefoonNummer_System_String_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.ZetTelefoonNummer(System.String)">ZetTelefoonNummer(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt de bedrijfsnaam in.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1033,7 +1129,29 @@ implementeerd IEquatable</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">telefoonNummer</span></td>
-        <td></td>
+        <td><p>Mag geen Null/WhiteSpace waarde zijn en moet aan de voorwaarden voldoen.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet leeg zijn&quot;</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BedrijfException.html">BedrijfException</a></td>
+        <td><p>&quot;Bedrijf - ZetTelefoonNummer - telefoonnummer mag niet langer zijn dan 15 karakters&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1044,7 +1162,7 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_op_Equality_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.op_Equality(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L259">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L271">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_op_Equality_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.op_Equality*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_op_Equality_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.op_Equality(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">Equality(Bedrijf, Bedrijf)</h4>
@@ -1096,7 +1214,7 @@ implementeerd IEquatable</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_op_Inequality_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.op_Inequality(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L264">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/Bedrijf.cs/#L276">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_op_Inequality_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.op_Inequality*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_op_Inequality_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.op_Inequality(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">Inequality(Bedrijf, Bedrijf)</h4>
