@@ -261,7 +261,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <summary>
         /// Bewerkt gegevens van een afspraak adhv afspraak object.
         /// </summary>
-        /// <param name="afspraak">Afspraak object die gewijzigd wenst te worden in de databank.</param>
+        /// <param name="afspraak">Afspraak object dat gewijzigd wenst te worden in de databank.</param>
         /// <exception cref="AfspraakADOException">Faalt afspraak te wijzigen.</exception>
         public void BewerkAfspraak(Afspraak afspraak) {
             SqlConnection con = GetConnection();
@@ -328,7 +328,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 
         #region GeefAfspraak
         /// <summary>
-        /// Haalt afspraak op adhv parameter afspraak id.
+        /// Haalt afspraak op uit de databank adhv parameter afspraak id.
         /// </summary>
         /// <param name="afspraakId">Id van de gewenste afspraak.</param>
         /// <returns>Gewenst afspraak object</returns>
@@ -498,7 +498,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <param name="bezoekerId">Id van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
         /// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
-        /// <returns>IReadOnlyList van afspraak objecten waar statuscode gelijk is aan 1 = 'In gang' PER bezoeker per bedrijf.</returns>
+        /// <returns>Gewenste afspraak object waar statuscode gelijk is aan 1 = 'In gang' PER bezoeker per bedrijf.</returns>
         /// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van het bezoeker id en bedrijf id.</exception>
         public Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long bezoekerId, long bedrijfId) {
             try {
@@ -630,8 +630,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <summary>
         /// Stelt lijst van huidige afspraken samen met enkel lees rechten adhv parameter datum.
         /// </summary>
-        /// <param name="datum">datum waar de afspraken van opgevraagd wensen te worden.</param>
-        /// <returns>IReadOnlyList van afspraak objecten waar starttijd.Date = datum.Date</returns>
+        /// <param name="datum">Datum waar de afspraken van opgevraagd wensen te worden.</param>
+        /// <returns>IReadOnlyList van afspraak objecten waar starttijd.Date = datum.Date.</returns>
         /// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van datum.</exception>
         public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
             try {
@@ -645,8 +645,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// Stelt lijst van huidige afspraken samen met enkel lees rechten adhv parameters bedrijf id en datum.
         /// </summary>
         /// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
-        /// <param name="datum">datum waar de afspraken van opgevraagd wensen te worden.</param>
-        /// <returns>IReadOnlyList van afspraak objecten PER bedrijf en waar starttijd.Date = datum.Date</returns>
+        /// <param name="datum">Datum waar de afspraken van opgevraagd wensen te worden.</param>
+        /// <returns>IReadOnlyList van afspraak objecten PER bedrijf en waar starttijd.Date = datum.Date.</returns>
         /// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id en datum.</exception>
         public IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long bedrijfId, DateTime datum) {
             try {
@@ -660,7 +660,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// Stelt lijst van huidige afspraken samen met enkel lees rechten adhv parameters bezoeker id, bedrijf id en datum.
         /// </summary>
         /// <param name="bezoekerId">Id van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
-        /// <param name="datum">datum waar de afspraken van opgevraagd wensen te worden.</param>
+        /// <param name="datum">Datum waar de afspraken van opgevraagd wensen te worden.</param>
         /// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
         /// <returns>IReadOnlyList van afspraak objecten PER bedrijf per bezoeker en waar starttijd.Date = datum.Date</returns>
         /// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bezoeker id, bedrijf id en datum.</exception>
@@ -679,7 +679,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <param name="bezoekerANaam">Optioneel: Achternaam van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
         /// <param name="bezoekerMail">Optioneel: Email van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
         /// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
-        /// <returns>IReadOnlyList van afspraak objecten PER bedrijf per bezoeker op voornaam/achternaam/email en waar starttijd.Date = datum.Date</returns>
+        /// <returns>IReadOnlyList van afspraak objecten PER bedrijf per bezoeker op voornaam/achternaam/email en waar starttijd.Date = datum.Date.</returns>
         /// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bezoeker voornaam/achternaam/email en bedrijf id.</exception>
         public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string bezoekerVNaam, string bezoekerANaam, string bezoekerMail, long bedrijfId) {
             try {
@@ -695,7 +695,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <param name="werknemerId">Id van de werknemer waar de afspraken van opgevraagd wensen te worden.</param>
         /// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
-        /// <returns>IReadOnlyList van afspraak objecten PER bedrijf per werknemer</returns>
+        /// <returns>IReadOnlyList van afspraak objecten PER bedrijf per werknemer.</returns>
         /// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van werknemer id en bedrijf id.</exception>
         public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId) {
             try {
@@ -711,7 +711,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <param name="werknemerId">Id van de werknemer waar de afspraken van opgevraagd wensen te worden.</param>
         /// <param name="datum">datum waar de afspraken van opgevraagd wensen te worden.</param>
         /// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
-        /// <returns>IReadOnlyList van afspraak objecten PER bedrijf per werknemer en waar starttijd.Date = datum.Date</returns>
+        /// <returns>IReadOnlyList van afspraak objecten PER bedrijf per werknemer en waar starttijd.Date = datum.Date.</returns>
         /// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van werknemer id, bedrijf id en datum.</exception>
         public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId) {
             try {

@@ -38,17 +38,18 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Geef een werknemer op naam
+		/// Geef een werknemer van een bedrijf op naam
 		/// </summary>
+		/// <param name="bedrijfId"></param>
 		/// <param name="naam"></param>
 		/// <param name="achternaam"></param>
 		/// <returns></returns>
-		[HttpGet("{naam}/{achternaam}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersOpNaam(string naam, string achternaam)
+		[HttpGet("{bedrijfId}/{naam}/{achternaam}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersOpNaam(long bedrijfId, string naam, string achternaam)
 		{
-			try
-			{
-				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersOpNaam(naam, achternaam).AsEnumerable()));
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersOpNaamPerBedrijf(naam, achternaam, bedrijf).AsEnumerable()));
 			} catch (Exception ex)
 			{
 				return NotFound(ex.Message);
@@ -56,14 +57,16 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Geef een lijst van werknemers op functie
+		/// Geef een lijst van werknemers uit een bedrijf op functie
 		/// </summary>
+		/// <param name="bedrijfId"></param>
 		/// <param name="functie"></param>
 		/// <returns></returns>
-		[HttpGet("functie/{functie}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersOpFunctie(string functie) {
+		[HttpGet("functie/{bedrijfId}/{functie}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersOpFunctie(long bedrijfId, string functie) {
 			try {
-				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersOpFunctie(functie).AsEnumerable()));
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersOpFunctiePerBedrijf(functie, bedrijf).AsEnumerable()));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}

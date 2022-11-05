@@ -47,7 +47,7 @@
                         IconPadding="0, 0, 4.5, 4"
                         IconSize="50"
                         IconSource="../PlusIcon.xaml"
-                        MouseLeftButtonDown="Icon_MouseLeftButtonDown" />
+                        MouseLeftButtonDown="OpenAfsprakenPopup" />
                     <StackPanel />
                 </DockPanel>
                 <StackPanel
@@ -263,7 +263,8 @@
                                                 DockPanel.Dock="Right"
                                                 IconPadding="0, 0, 2.5, 1"
                                                 IconSize="40"
-                                                IconSource="../ReloadIcon.xaml" />
+                                                IconSource="../ReloadIcon.xaml"
+                                                MouseLeftButtonDown="ResetDatumFilter" />
                                         </StackPanel>
                                     </Grid>
                                     <controls:AfsprakenLijstControl x:Name="WerknemerAfsprakenLijst" />
@@ -314,7 +315,8 @@
                                             DockPanel.Dock="Right"
                                             IconPadding="0, 0, 2.5, 1"
                                             IconSize="40"
-                                            IconSource="../ReloadIcon.xaml" />
+                                            IconSource="../ReloadIcon.xaml"
+                                            MouseLeftButtonDown="ResetDatumFilter" />
                                     </StackPanel>
                                 </Grid>
                                 <controls:BezoekersLijstControl x:Name="BezoekerAfsprakenLijst" />
@@ -363,7 +365,8 @@
                                             DockPanel.Dock="Right"
                                             IconPadding="0, 0, 2.5, 1"
                                             IconSize="40"
-                                            IconSource="../ReloadIcon.xaml" />
+                                            IconSource="../ReloadIcon.xaml"
+                                            MouseLeftButtonDown="ResetDatumFilter" />
                                     </StackPanel>
                                 </Grid>
                                 <controls:OpDatumLijstControl x:Name="OpDatumAfsprakenLijst" />

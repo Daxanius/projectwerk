@@ -194,6 +194,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <returns>IReadOnlyList van werknemer objecten op werknemernaam PER bedrijf.</returns>
         /// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer voornaam/achternaam en bedrijf id.</exception>
         //TODO GWILOM PerBedrijf toevoegen.
+        //TODO Wout - PerBedrijf toevoegen.
         public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam) {
             try {
                 return GeefWerknemers(null, voornaam, achternaam, null);
@@ -209,6 +210,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <returns>IReadOnlyList van werknemer objecten op werknemerfunctie PER bedrijf.</returns>
         /// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie en bedrijf id.</exception>
         //TODO GWILOM PerBedrijf toevoegen.
+        //TODO Wout - PerBedrijf toevoegen.
         public IReadOnlyList<Werknemer> GeefWerknemersOpFunctie(string functie) {
             try {
                 return GeefWerknemers(null, null, null, functie);
@@ -738,6 +740,16 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             } finally {
                 con.Close();
             }
+        }
+
+        public IReadOnlyList<Werknemer> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Werknemer> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace BezoekersRegistratieSysteemBL.Managers {
 
-	public class ParkeerManagerTest {
+	public class UnitTextParkeerManager {
         
 	}
 }
