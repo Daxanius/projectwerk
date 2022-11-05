@@ -785,10 +785,10 @@
     },
     {
       "type": "Resource",
-      "source_relative_path": "images/favicon.ico",
+      "source_relative_path": "favicon.ico",
       "output": {
         "resource": {
-          "relative_path": "images/favicon.ico"
+          "relative_path": "favicon.ico"
         }
       },
       "is_incremental": false,
@@ -806,23 +806,23 @@
       "version": ""
     },
     {
-      "type": "Resource",
-      "source_relative_path": "images/logo.svg",
-      "output": {
-        "resource": {
-          "relative_path": "images/logo.svg"
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
         ".html": {
           "relative_path": "index.html",
           "hash": "nI72OXWKbrvVblsZxkeTNg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "logo.svg"
         }
       },
       "is_incremental": false,
