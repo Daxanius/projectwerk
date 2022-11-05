@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
@@ -20,28 +21,44 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 	/// Interaction logic for KiesBedrijfPage.xaml
 	/// </summary>
 	public partial class AfmeldPage : Page {
-        #region Scaling
-        public double ScaleX { get; set; }
-        public double ScaleY { get; set; }
-        #endregion
+		private static AfmeldPage instance = null;
+		private static readonly object padlock = new object();
 
+		public static AfmeldPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new AfmeldPage();
+					}
+					return instance;
+				}
+			}
+		}
 
-        public AfmeldPage()
-        {
+		/// <summary>
+		/// ///////////////////////////////////////////////////
+		/// </summary>
 
-            double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
-            double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
+		#region Scaling
+		public double ScaleX { get; set; }
+		public double ScaleY { get; set; }
+		#endregion
 
-            double defaultResHeight = 1080.0;
-            double defaultResWidth = 1920.0;
+		public AfmeldPage() {
 
-            double aspectratio = schermResolutieWidth / schermResolutieHeight;
-            double change = aspectratio > 2 ? 0.3 : aspectratio > 1.5 ? 0 : aspectratio > 1 ? -0.05 : -0.3;
+			double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
+			double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
 
-            ScaleX = (schermResolutieWidth / defaultResWidth);
-            ScaleY = (schermResolutieHeight / defaultResHeight) + change;
+			double defaultResHeight = 1080.0;
+			double defaultResWidth = 1920.0;
 
-            this.DataContext = this;
+			double aspectratio = schermResolutieWidth / schermResolutieHeight;
+			double change = aspectratio > 2 ? 0.3 : aspectratio > 1.5 ? 0 : aspectratio > 1 ? -0.05 : -0.3;
+
+			ScaleX = (schermResolutieWidth / defaultResWidth);
+			ScaleY = (schermResolutieHeight / defaultResHeight) + change;
+
+			this.DataContext = this;
 			InitializeComponent();
 		}
 	}

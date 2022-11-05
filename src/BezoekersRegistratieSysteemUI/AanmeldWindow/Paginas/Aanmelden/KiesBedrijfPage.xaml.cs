@@ -1,4 +1,6 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.ApiDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
@@ -20,76 +22,47 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 	/// Interaction logic for KiesBedrijfPage.xaml
 	/// </summary>
 	public partial class KiesBedrijfPage : Page {
-		private const int MAX_COLUMN_COUNT = 3;
+		private static KiesBedrijfPage instance = null;
+		private static readonly object padlock = new object();
 
-		private List<BedrijfDTO> bedrijven = new() { new BedrijfDTO(1, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
-				new BedrijfDTO(2, "Odice", "Btw1", "Telefoon1", "Email1", "Adress1", null),
-				new BedrijfDTO(3, "Allphi", "Btw2", "Telefoon2", "Email2", "Adress2", null),
-				new BedrijfDTO(4, "Scheppers", "Btw3", "Telefoon3", "Email3", "Adress3", null),
-				new BedrijfDTO(5, "Artevelde", "Btw4", "Telefoon4", "Email4", "Adress4", null),
-				new BedrijfDTO(6, "De Bolster", "Btw5", "Telefoon5", "Email5", "Adress5", null),
-				new BedrijfDTO(7, "Brauzz", "Btw", "Telefoon", "Email", "Adress", null),
-				new BedrijfDTO(8, "Apple", "Btw1", "Telefoon1", "Email1", "Adress1", null),
-				new BedrijfDTO(9, "Microsoft", "Btw2", "Telefoon2", "Email2", "Adress2", null),
-				new BedrijfDTO(10, "Hp", "Btw3", "Telefoon3", "Email3", "Adress3", null),
-				new BedrijfDTO(11, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
-				new BedrijfDTO(12, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),
-				new BedrijfDTO(13, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
-				new BedrijfDTO(14, "Odice", "Btw1", "Telefoon1", "Email1", "Adress1", null),
-				new BedrijfDTO(15, "Allphi", "Btw2", "Telefoon2", "Email2", "Adress2", null),
-				new BedrijfDTO(16, "Scheppers", "Btw3", "Telefoon3", "Email3", "Adress3", null),
-				new BedrijfDTO(17, "Artevelde", "Btw4", "Telefoon4", "Email4", "Adress4", null),
-				new BedrijfDTO(18, "De Bolster", "Btw5", "Telefoon5", "Email5", "Adress5", null),
-				new BedrijfDTO(19, "Brauzz", "Btw", "Telefoon", "Email", "Adress", null),
-				new BedrijfDTO(20, "Apple", "Btw1", "Telefoon1", "Email1", "Adress1", null),
-				new BedrijfDTO(21, "Microsoft", "Btw2", "Telefoon2", "Email2", "Adress2", null),
-				new BedrijfDTO(22, "Hp", "Btw3", "Telefoon3", "Email3", "Adress3", null),
-				new BedrijfDTO(23, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
-				new BedrijfDTO(24, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),
-				new BedrijfDTO(1, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
-				new BedrijfDTO(2, "Odice", "Btw1", "Telefoon1", "Email1", "Adress1", null),
-				new BedrijfDTO(3, "Allphi", "Btw2", "Telefoon2", "Email2", "Adress2", null),
-				new BedrijfDTO(4, "Scheppers", "Btw3", "Telefoon3", "Email3", "Adress3", null),
-				new BedrijfDTO(5, "Artevelde", "Btw4", "Telefoon4", "Email4", "Adress4", null),
-				new BedrijfDTO(6, "De Bolster", "Btw5", "Telefoon5", "Email5", "Adress5", null),
-				new BedrijfDTO(7, "Brauzz", "Btw", "Telefoon", "Email", "Adress", null),
-				new BedrijfDTO(8, "Apple", "Btw1", "Telefoon1", "Email1", "Adress1", null),
-				new BedrijfDTO(9, "Microsoft", "Btw2", "Telefoon2", "Email2", "Adress2", null),
-				new BedrijfDTO(10, "Hp", "Btw3", "Telefoon3", "Email3", "Adress3", null),
-				new BedrijfDTO(11, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
-				new BedrijfDTO(12, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),
-				new BedrijfDTO(13, "Hogent", "Btw", "Telefoon", "Email", "Adress", null),
-				new BedrijfDTO(14, "Odice", "Btw1", "Telefoon1", "Email1", "Adress1", null),
-				new BedrijfDTO(15, "Allphi", "Btw2", "Telefoon2", "Email2", "Adress2", null),
-				new BedrijfDTO(16, "Scheppers", "Btw3", "Telefoon3", "Email3", "Adress3", null),
-				new BedrijfDTO(17, "Artevelde", "Btw4", "Telefoon4", "Email4", "Adress4", null),
-				new BedrijfDTO(18, "De Bolster", "Btw5", "Telefoon5", "Email5", "Adress5", null),
-				new BedrijfDTO(19, "Brauzz", "Btw", "Telefoon", "Email", "Adress", null),
-				new BedrijfDTO(20, "Apple", "Btw1", "Telefoon1", "Email1", "Adress1", null),
-				new BedrijfDTO(21, "Microsoft", "Btw2", "Telefoon2", "Email2", "Adress2", null),
-				new BedrijfDTO(22, "Hp", "Btw3", "Telefoon3", "Email3", "Adress3", null),
-				new BedrijfDTO(23, "Gilo", "Btw4", "Telefoon4", "Email4", "Adress4", null),
-				new BedrijfDTO(24, "CCE", "Btw5", "Telefoon5", "Email5", "Adress5", null),};
+		public static KiesBedrijfPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						FetchAlleBedrijven();
+						instance = new KiesBedrijfPage();
+					}
+					return instance;
+				}
+			}
+		}
+
+		/// <summary>
+		/// ///////////////////////////////////////////////////
+		/// </summary>
+
+		private const int MAX_COLUMN_COUNT = 3;
+		private List<BedrijfDTO> _bedrijven = new();
 
 		#region Scaling
-        public double ScaleX { get; set; }
-        public double ScaleY { get; set; }
-        #endregion
+		public double ScaleX { get; set; }
+		public double ScaleY { get; set; }
+		#endregion
 
 
-        public KiesBedrijfPage() {
+		public KiesBedrijfPage() {
 
-            double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
-            double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
+			double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
+			double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
 
-            double defaultResHeight = 1080.0;
-            double defaultResWidth = 1920.0;
+			double defaultResHeight = 1080.0;
+			double defaultResWidth = 1920.0;
 
-            double aspectratio = schermResolutieWidth / schermResolutieHeight;
-            double change = aspectratio > 2 ? 0.3 : aspectratio > 1.5 ? 0 : aspectratio > 1 ? -0.05 : -0.3;
+			double aspectratio = schermResolutieWidth / schermResolutieHeight;
+			double change = aspectratio > 2 ? 0.3 : aspectratio > 1.5 ? 0 : aspectratio > 1 ? -0.05 : -0.3;
 
-            ScaleX = (schermResolutieWidth / defaultResWidth);
-            ScaleY = (schermResolutieHeight / defaultResHeight) + change;
+			ScaleX = (schermResolutieWidth / defaultResWidth);
+			ScaleY = (schermResolutieHeight / defaultResHeight) + change;
 
 			this.DataContext = this;
 			InitializeComponent();
@@ -102,14 +75,14 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 			gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
-			for (int i = 0; i < bedrijven.Count; i++) {
+			for (int i = 0; i < _bedrijven?.Count; i++) {
 				Border border = new Border();
 				border.Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style;
 				border.Height = 85;
 				border.MinWidth = 350;
 				border.Margin = new Thickness(10);
 				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab;
-				border.DataContext = bedrijven[i];
+				border.DataContext = _bedrijven[i];
 
 				StackPanel container = new();
 				container.Margin = new Thickness(5);
@@ -118,7 +91,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				container.VerticalAlignment = VerticalAlignment.Center;
 
 				TextBlock bedrijfNaam = new() {
-					Text = bedrijven[i].Naam,
+					Text = _bedrijven[i].Naam,
 					FontSize = 24,
 					FontWeight = FontWeights.Bold,
 					TextAlignment = TextAlignment.Center,
@@ -157,9 +130,20 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
 			Window window = Window.GetWindow(this);
-            RegistratieWindow registratieWindow = (RegistratieWindow)window.DataContext;
+			RegistratieWindow registratieWindow = (RegistratieWindow)window.DataContext;
 
 			registratieWindow.FrameControl.Navigate(new AanmeldGegevensPage());
-        }
+		}
+
+		#region API Requests
+		private void FetchAlleBedrijven() {
+			ApiHandler.Fetch<List<ApiBedrijfDTO>>("").ContinueWith((result) => {
+				(bool isvalid, List<ApiBedrijfDTO> bedrijven) = result.Result;
+				if (isvalid) {
+
+				}
+			});
+		}
+		#endregion
 	}
 }
