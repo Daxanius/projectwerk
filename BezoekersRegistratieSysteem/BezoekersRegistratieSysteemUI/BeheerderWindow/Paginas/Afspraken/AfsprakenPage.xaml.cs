@@ -197,9 +197,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			}
 		}
 
-		private void HuidigeAfsprakenLijst_Loaded(object sender, RoutedEventArgs e)
-		{
+		private void HuidigeAfsprakenLijst_Loaded(object sender, RoutedEventArgs e) {
 
+		}
+
+		private void Icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+			AfsprakenPopup.Visibility = Visibility.Visible;
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,29 +16,38 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
+namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups {
 	/// <summary>
 	/// Interaction logic for WerknemersPopup.xaml
 	/// </summary>
-	public partial class WerknemersPopup : UserControl, INotifyPropertyChanged {
+	public partial class BedrijvenPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		#region Bind Propperties
-		private string _voornaam = string.Empty;
-		public string Voornaam {
-			get { return _voornaam; }
+		private string _naam = string.Empty;
+		public string Naam {
+			get { return _naam; }
 			set {
-				if (value == _voornaam) return;
-				_voornaam = value;
+				if (value == _naam) return;
+				_naam = value;
 				UpdatePropperty();
 			}
 		}
-		private string _achternaam = string.Empty;
-		public string Achternaam {
-			get { return _achternaam; }
+		private string _telefoonNummer = string.Empty;
+		public string TelefoonNummer {
+			get { return _telefoonNummer; }
 			set {
-				if (value == _achternaam) return;
-				_achternaam = value;
+				if (value == _telefoonNummer) return;
+				_telefoonNummer = value;
+				UpdatePropperty();
+			}
+		}
+		private string _btwNummer = string.Empty;
+		public string BtwNummer {
+			get { return _btwNummer; }
+			set {
+				if (value == _btwNummer) return;
+				_btwNummer = value;
 				UpdatePropperty();
 			}
 		}
@@ -50,18 +60,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 				UpdatePropperty();
 			}
 		}
-		private string _functie = string.Empty;
-		public string Functie {
-			get { return _functie; }
+		private string _adres = string.Empty;
+		public string Adres {
+			get { return _adres; }
 			set {
-				if (value == _functie) return;
-				_functie = value;
+				if (value == _adres) return;
+				_adres = value;
 				UpdatePropperty();
 			}
 		}
 		#endregion
 
-		public WerknemersPopup() {
+		public BedrijvenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
 		}
@@ -80,13 +90,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 		}
 
 		private void SluitOverlay() {
-			Voornaam = "";
-			Achternaam = "";
-			Email = "";
-			Functie = "";
 
-			WerknemersPage werknemersPage = WerknemersPage.Instance;
-			werknemersPage.WerknemersPopup.Visibility = Visibility.Hidden;
+			BedrijvenPage bedrijvenPage = BedrijvenPage.Instance;
+			bedrijvenPage.BedrijvenPopup.Visibility = Visibility.Hidden;
 		}
 
 		#region ProppertyChanged

@@ -73,11 +73,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			WerknemersVanGeselecteerdBedrijf.Add(medewerkerMetFuncties);
 			WerknemersVanGeselecteerdBedrijf.Add(medewerkerMetFuncties2);
 
-			//FullWidth = (int)SystemParameters.PrimaryScreenWidth;
-			//FullHeight = (int)SystemParameters.PrimaryScreenHeight
+			FullWidth = (int)SystemParameters.PrimaryScreenWidth;
+			FullHeight = (int)SystemParameters.PrimaryScreenHeight;
 
 			this.DataContext = this;
 			InitializeComponent();
+
 
 			WerknemerLijstControl.ItemSource = WerknemersVanGeselecteerdBedrijf;
 		}
