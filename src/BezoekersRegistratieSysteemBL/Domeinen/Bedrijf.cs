@@ -218,14 +218,13 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         /// Haalt een lijst van werknemers op met enkel lees rechten voor dit bedrijf.
         /// </summary>
         /// <returns>IReadOnlyList van werknemer objecten.</returns>
-        /// <exception cref="BedrijfException"></exception>
         public IReadOnlyList<Werknemer> GeefWerknemers()
 		{
 			return _werknemers.AsReadOnly();
 		}
 
         /// <summary>
-        /// Controleert voorwaarden op geldigheid en proprties op gelijkheid.
+        /// Controleert voorwaarden op geldigheid en properties op gelijkheid.
         /// </summary>
         /// <param name="bedrijf">Te vergelijken bedrijf.</param>
         /// <returns>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</returns>

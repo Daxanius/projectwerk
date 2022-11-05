@@ -118,7 +118,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		}
 
         /// <summary>
-        /// Controleert voorwaarden op geldigheid en proprties op gelijkheid.
+        /// Controleert voorwaarden op geldigheid en properties op gelijkheid.
         /// </summary>
         /// <param name="bezoeker">Te vergelijken bezoeker.</param>
         /// <returns>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</returns>
