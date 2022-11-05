@@ -18,7 +18,7 @@
             Grid.Row="0"
             Background="Black"
             Opacity=".4" />
-        <Grid Grid.Row="0">
+        <Grid Name="MedeWerkerToevoegenEiland" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height=".5*" />
                 <RowDefinition Height="auto" />
@@ -67,37 +67,108 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid x:Name="StartTijdContainer" Grid.Row="0">
                             <Label Content="Starttijd" Style="{StaticResource InputLabelStyle}" />
-                            <TextBox Style="{StaticResource PopupInputStyle}" Text="{Binding StartTijd}" />
-                        </Grid>
-                        <Grid x:Name="BezoekerEnWerknemerContainer" Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="40" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label
-                                Grid.Column="0"
-                                Content="Werknemer"
-                                Style="{StaticResource InputLabelStyle}" />
                             <TextBox
-                                Grid.Column="0"
-                                Style="{StaticResource PopupInputStyle}"
-                                Text="{Binding Werknemer}" />
-                            <Label
-                                Grid.Column="2"
-                                Content="Bezoeker"
-                                Style="{StaticResource InputLabelStyle}" />
-                            <TextBox
-                                Grid.Column="2"
-                                Style="{StaticResource PopupInputStyle}"
-                                Text="{Binding Bezoeker}" />
+                                Margin="0,25,0,0"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                FontSize="20"
+                                FontWeight="DemiBold"
+                                Foreground="{StaticResource DonkerBlauw}"
+                                LostKeyboardFocus="DatePickerInput_LostKeyboardFocus"
+                                PreviewTextInput="IsDatePickerGeldigeText"
+                                Style="{StaticResource DefaultTextBoxStyle}"
+                                Text="{Binding StartTijd}" />
                         </Grid>
-                        <Grid x:Name="BeindigdContainer" Grid.Row="2">
-                            <Label Content="Is Beïndigd" Style="{StaticResource InputLabelStyle}" />
-                            <TextBox Style="{StaticResource PopupInputStyle}" Text="{Binding IsBeindigd}" />
+                        <Grid x:Name="BeindigdContainer" Grid.Row="1">
+                            <Label Content="Eindtijd" Style="{StaticResource InputLabelStyle}" />
+                            <TextBox
+                                Margin="0,25,0,0"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                FontSize="20"
+                                FontWeight="DemiBold"
+                                Foreground="{StaticResource DonkerBlauw}"
+                                LostKeyboardFocus="DatePickerInput_LostKeyboardFocus"
+                                PreviewTextInput="IsDatePickerGeldigeText"
+                                Style="{StaticResource DefaultTextBoxStyle}"
+                                Text="{Binding EindTijd}" />
+                        </Grid>
+                        <Grid x:Name="MedewerkerContainer" Grid.Row="2">
+                            <Label Content="Werknemer" Style="{StaticResource InputLabelStyle}" />
+                            <Border
+                                Margin="0,22.5,0,20"
+                                Background="{StaticResource LichtGrijsAccent}"
+                                CornerRadius="20"
+                                MouseLeftButtonDown="OpenMedewerkerKiezenPopup">
+                                <TextBlock
+                                    Name="KiesWerknemerTextBlock"
+                                    Padding="20,8"
+                                    Cursor="Hand"
+                                    FontSize="20"
+                                    FontWeight="DemiBold"
+                                    Foreground="{StaticResource LichtGrijs}"
+                                    Opacity=".8"
+                                    Text="Kies Werknemer"
+                                    TextDecorations="Underline" />
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid x:Name="BezoekerNaamContainer" Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    Content="Bezoeker Voornaam"
+                                    Style="{StaticResource InputLabelStyle}" />
+                                <TextBox
+                                    Grid.Column="0"
+                                    Style="{StaticResource PopupInputStyle}"
+                                    Text="{Binding BezoekerVoornaam}" />
+                                <Label
+                                    Grid.Column="2"
+                                    Content="Bezoeker Achternaam"
+                                    Style="{StaticResource InputLabelStyle}" />
+                                <TextBox
+                                    Grid.Column="2"
+                                    Style="{StaticResource PopupInputStyle}"
+                                    Text="{Binding BezoekerAchternaam}" />
+                            </Grid>
+                            <Grid x:Name="BezoekerEmailEnBedrijfContainer" Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    Content="Bezoeker Email"
+                                    Style="{StaticResource InputLabelStyle}" />
+                                <TextBox
+                                    Grid.Column="0"
+                                    Style="{StaticResource PopupInputStyle}"
+                                    Text="{Binding BezoekerEmail}" />
+                                <Label
+                                    Grid.Column="2"
+                                    Content="Bezoeker Bedrijf"
+                                    Style="{StaticResource InputLabelStyle}" />
+                                <TextBox
+                                    Grid.Column="2"
+                                    Style="{StaticResource PopupInputStyle}"
+                                    Text="{Binding BezoekerBedrijf}" />
+                            </Grid>
                         </Grid>
                     </Grid>
                     <UniformGrid
@@ -123,6 +194,64 @@
                             BorderThickness="2"
                             Click="BevestigenButton_Click"
                             Content="Bevestigen"
+                            Foreground="{StaticResource LichtGroen}"
+                            Style="{StaticResource ActionButtonPopup}"
+                            Tag="Groen" />
+                    </UniformGrid>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid
+            Name="KiesMedewerkerEiland"
+            Grid.Row="0"
+            Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".5*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height=".5*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width=".5*" />
+            </Grid.ColumnDefinitions>
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                Background="{StaticResource MainAchtergrond}"
+                CornerRadius="20">
+                <Grid MaxWidth="700">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <ListView
+                        x:Name="MedewerkersLijstVanBedrijf"
+                        Grid.Row="0"
+                        Margin="20" />
+                    <UniformGrid
+                        Grid.Row="1"
+                        Margin="0,10,0,20"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Columns="2">
+                        <Button
+                            x:Name="MedewerkerTerugButton"
+                            Margin="10,10,20,10"
+                            BorderBrush="{StaticResource LichtRood}"
+                            BorderThickness="2"
+                            Click="GaTerugNaarVoegMedewerkerEiland"
+                            Content="Terug"
+                            Foreground="{StaticResource LichtRood}"
+                            Style="{StaticResource ActionButtonPopup}"
+                            Tag="Rood" />
+                        <Button
+                            x:Name="MedewerkerKiesButton"
+                            Margin="20,10,10,10"
+                            BorderBrush="{StaticResource LichtGroen}"
+                            BorderThickness="2"
+                            Click="KiesMedeWerkerClick"
+                            Content="Kies"
                             Foreground="{StaticResource LichtGroen}"
                             Style="{StaticResource ActionButtonPopup}"
                             Tag="Groen" />

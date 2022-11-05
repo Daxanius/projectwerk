@@ -380,7 +380,28 @@
                             Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="0"
-                            FontSize="20" />
+                            FontSize="20"
+                            Text="{Binding Path=Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="PopupInputDateStyle" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border
+                        Margin="0,22.5,0,20"
+                        Background="{StaticResource LichtGrijsAccent}"
+                        CornerRadius="20">
+                        <TextBox
+                            Padding="15,8"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            FontSize="20"
+                            Text="{Binding Path=Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

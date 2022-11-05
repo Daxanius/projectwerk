@@ -90,7 +90,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 
 		private void SluitOverlay() {
-
+			Naam = string.Empty;
+			TelefoonNummer = string.Empty;
+			BtwNummer = string.Empty;
+			Email = string.Empty;
+			Adres = string.Empty;
 			BedrijvenPage bedrijvenPage = BedrijvenPage.Instance;
 			bedrijvenPage.BedrijvenPopup.Visibility = Visibility.Hidden;
 		}

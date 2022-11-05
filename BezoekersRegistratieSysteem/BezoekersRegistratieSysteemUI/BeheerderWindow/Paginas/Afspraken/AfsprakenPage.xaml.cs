@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
+using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -197,12 +198,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			}
 		}
 
-		private void HuidigeAfsprakenLijst_Loaded(object sender, RoutedEventArgs e) {
-
+		private void OpenAfsprakenPopup(object sender, MouseButtonEventArgs e) {
+			AfsprakenPopup.Visibility = Visibility.Visible;
 		}
 
-		private void Icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-			AfsprakenPopup.Visibility = Visibility.Visible;
+		private void ResetDatumFilter(object sender, MouseButtonEventArgs e) {
+			StackPanel parent = (StackPanel)((Icon)sender).Parent;
+			Border border = (Border)parent.Children[0];
+			TextBox textBox = (TextBox)border.Child;
+			textBox.Text = DateTime.Now.ToString();
+			ControleerInputOpDatum(textBox);
 		}
 	}
 }
