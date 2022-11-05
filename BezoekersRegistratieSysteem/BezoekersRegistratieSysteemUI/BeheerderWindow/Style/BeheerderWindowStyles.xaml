@@ -7,9 +7,10 @@
     <SolidColorBrush x:Key="LichtGrijs" Color="#747474" />
     <SolidColorBrush x:Key="LichtGrijsAccent" Color="#f5f5f5" />
     <SolidColorBrush x:Key="LichtWit" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="LichtGroen" Color="#65B175" />
+    <SolidColorBrush x:Key="LichtGroen" Color="#35C789" />
     <SolidColorBrush x:Key="LichtOranje" Color="#D28B37" />
     <SolidColorBrush x:Key="LichtRood" Color="#D25C37" />
+    <SolidColorBrush x:Key="DonkerRood" Color="#C73535" />
     <SolidColorBrush x:Key="DonkerGrijs" Color="#3F3F3F" />
     <SolidColorBrush x:Key="SelectedGrijs" Color="#232323" />
     <SolidColorBrush x:Key="GewoonBlauw" Color="#404BDA" />
@@ -145,9 +146,22 @@
         <Setter Property="Width" Value="90" />
         <Style.Triggers>
             <Trigger Property="Tag" Value="Afgerond">
-                <Setter Property="Background" Value="#C73535" />
+                <Setter Property="Background" Value="{StaticResource DonkerRood}" />
             </Trigger>
             <Trigger Property="Tag" Value="Lopend">
+                <Setter Property="Background" Value="{StaticResource LichtGroen}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="WerknemersStatusBackgroundStyle" TargetType="Border">
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="Width" Value="75" />
+        <Style.Triggers>
+            <Trigger Property="Tag" Value="Bezet">
+                <Setter Property="Background" Value="#C73535" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Vrij">
                 <Setter Property="Background" Value="#35C789" />
             </Trigger>
         </Style.Triggers>
@@ -221,20 +235,9 @@
                                 <TextBlock
                                     Padding="8,0,0,0"
                                     Background="Transparent"
-                                    Foreground="{StaticResource MainAchtergrond}"
-                                    Text="{Binding}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Cursor" Value="Hand" />
-                                                    <Setter Property="TextDecorations" Value="Underline" />
-                                                    <Setter Property="Background" Value="Transparent" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                    Cursor="Hand"
+                                    Foreground="{StaticResource DonkerBlauw}"
+                                    Text="{Binding}" />
                             </DataTemplate>
                         </ContentPresenter.ContentTemplate>
                     </ContentPresenter>
@@ -243,6 +246,14 @@
         </Setter>
         <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
         <Setter Property="Foreground" Value="{StaticResource DonkerBlauw}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="False">
+                <Setter Property="Opacity" Value=".5" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
         <Setter Property="Template">
@@ -251,23 +262,23 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
-                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="58" />
                         </Grid.ColumnDefinitions>
                         <Border
-                            x:Name="Border"
+                            Name="RoundBorder"
                             Grid.ColumnSpan="2"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="#F6F6F6"
-                            BorderThickness="1"
-                            CornerRadius="8" />
-                        <iconspresenter:Icon
-                            Grid.Column="1"
-                            CircleBackground="Transparent"
-                            CircleSize="26"
-                            IconOffsetLeft="10"
-                            IconOffsetTop="14"
-                            IconSize="70"
-                            IconSource="../ArrowIcon.xaml" />
+                            BorderThickness="1.5"
+                            CornerRadius="25" />
+                        <Border Grid.Column="1" Margin="0,-5,0,0">
+                            <iconspresenter:Icon
+                                CanvasHeight="50"
+                                CanvasWidth="50"
+                                CircleBackground="Transparent"
+                                CircleSize="26"
+                                IconSize="50"
+                                IconSource="../ArrowIcon.xaml" />
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -276,7 +287,7 @@
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="Foreground" Value="#333" />
         <Setter Property="BorderBrush" Value="Gray" />
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
@@ -300,7 +311,6 @@
                             Foreground="{TemplateBinding Foreground}"
                             IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                             Style="{StaticResource ComboBoxToggleButton}" />
-
                         <ContentPresenter
                             Name="ContentSite"
                             Margin="10,3,30,3"
@@ -312,13 +322,14 @@
                         <TextBox
                             x:Name="PART_EditableTextBox"
                             Margin="10,0,50,0"
+                            Padding="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Background="Transparent"
                             BorderBrush="Transparent"
                             Focusable="False"
                             FontSize="20"
-                            Foreground="{StaticResource MainAchtergrond}"
+                            Foreground="{TemplateBinding Foreground}"
                             IsHitTestVisible="False"
                             Text="{TemplateBinding Text}" />
                         <Popup
@@ -328,7 +339,7 @@
                             Focusable="False"
                             IsOpen="{TemplateBinding IsDropDownOpen}"
                             Placement="Bottom"
-                            PopupAnimation="Fade">
+                            PopupAnimation="Slide">
                             <Grid
                                 Name="DropDown"
                                 MinWidth="{TemplateBinding ActualWidth}"
@@ -336,10 +347,9 @@
                                 SnapsToDevicePixels="True">
                                 <Border
                                     x:Name="DropDownBorder"
-                                    Background="{StaticResource DonkerBlauw}"
-                                    BorderBrush="Transparent"
-                                    BorderThickness="0"
-                                    CornerRadius="8" />
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding Foreground}"
+                                    CornerRadius="8,8,8,8" />
                                 <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </ScrollViewer>
@@ -351,12 +361,88 @@
         </Setter>
         <Style.Triggers />
     </Style>
-
     <Style x:Key="FilterTabLijstStyle" TargetType="Border">
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Opacity" Value="0.6" />
         <Setter Property="Background" Value="{StaticResource LichtGrijsAccent}" />
-        <Setter Property="CornerRadius" Value="30" />
+        <Setter Property="CornerRadius" Value="15 15 0 0" />
+    </Style>
+    <Style x:Key="PopupInputStyle" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border
+                        Margin="0,22.5,0,20"
+                        Background="{StaticResource LichtGrijsAccent}"
+                        CornerRadius="20">
+                        <TextBox
+                            Padding="15,8"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            FontSize="20" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ActionButtonPopup" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                        Name="ActionButtonBorder"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{StaticResource MainAchtergrond}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="2"
+                        CornerRadius="15"
+                        Cursor="Hand">
+                        <Label
+                            Name="ActionButtonLabel"
+                            Padding="10,5"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Content="{TemplateBinding Content}"
+                            FontSize="20"
+                            FontWeight="DemiBold"
+                            Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="Tag" Value="Groen" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource LichtGroen}" />
+                                <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
+                                <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="Tag" Value="Rood" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource LichtRood}" />
+                                <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
+                                <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="InputLabelStyle" TargetType="Label">
+        <Setter Property="Padding" Value="10,0,0,0" />
+        <Setter Property="FontSize" Value="14" />
     </Style>
 
-</ResourceDictionary>
+</ResourceDictionary> 

@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.ComponentModel;
@@ -47,7 +48,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 			string path = e.Content.GetType().Name;
 			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Bezoekers", "Dashboard", "Werknemers" };
 
-			if(GeselecteerdBedrijf is not null) {
+			if (GeselecteerdBedrijf is not null) {
 				SideBar.AfsprakenTab.IsEnabled = true;
 				SideBar.WerknemersTab.IsEnabled = true;
 			} else {
@@ -60,7 +61,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 					foreach (Border border in SideBar.BorderContainer.Children) {
 						border.Tag = "UnSelected";
-						((Label)((StackPanel)border.Child).Children[1]).FontWeight = FontWeights.Medium;
+						((TextBlock)((StackPanel)border.Child).Children[1]).FontWeight = FontWeights.Medium;
 						((Icon)((StackPanel)border.Child).Children[0]).Opacity = .6;
 					}
 
@@ -68,25 +69,25 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 						case "Dashboard":
 						SideBar.DashboardTab.Tag = "Selected";
 						((Icon)((StackPanel)SideBar.DashboardTab.Child).Children[0]).Opacity = 1;
-						((Label)((StackPanel)SideBar.DashboardTab.Child).Children[1]).FontWeight = FontWeights.Bold;
+						((TextBlock)((StackPanel)SideBar.DashboardTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 
 						case "Bedrijven":
 						SideBar.BedrijvenTab.Tag = "Selected";
 						((Icon)((StackPanel)SideBar.BedrijvenTab.Child).Children[0]).Opacity = 1;
-						((Label)((StackPanel)SideBar.BedrijvenTab.Child).Children[1]).FontWeight = FontWeights.Bold;
+						((TextBlock)((StackPanel)SideBar.BedrijvenTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 
 						case "Afspraken":
 						SideBar.AfsprakenTab.Tag = "Selected";
 						((Icon)((StackPanel)SideBar.AfsprakenTab.Child).Children[0]).Opacity = 1; ;
-						((Label)((StackPanel)SideBar.AfsprakenTab.Child).Children[1]).FontWeight = FontWeights.Bold;
+						((TextBlock)((StackPanel)SideBar.AfsprakenTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 
 						case "Werknemers":
 						SideBar.WerknemersTab.Tag = "Selected";
 						((Icon)((StackPanel)SideBar.WerknemersTab.Child).Children[0]).Opacity = 1;
-						((Label)((StackPanel)SideBar.WerknemersTab.Child).Children[1]).FontWeight = FontWeights.Bold;
+						((TextBlock)((StackPanel)SideBar.WerknemersTab.Child).Children[1]).FontWeight = FontWeights.Bold;
 						break;
 					}
 					return;

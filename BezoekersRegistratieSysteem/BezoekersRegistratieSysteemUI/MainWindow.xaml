@@ -34,14 +34,12 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-
                 <Grid Grid.Row="1" Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-
                     <Button
                         Grid.Column="0"
                         Width="500"
@@ -57,13 +55,13 @@
                         </Button.Resources>
                         <StackPanel>
                             <iconspresenter:Icon
-                                Margin="0,-60,0,0"
+                                CanvasHeight="30"
+                                CanvasWidth="30"
                                 CircleBackground="Transparent"
-                                IconOffsetLeft="13"
-                                IconSize="500"
+                                CircleSize="0"
+                                IconSize="360"
                                 IconSource="../ParkingIcon.xaml" />
                             <Label
-                                Margin="0,-120,0,0"
                                 HorizontalContentAlignment="Center"
                                 Content="PARKING APPLICATION"
                                 FontSize="24"
@@ -86,13 +84,13 @@
                         </Button.Resources>
                         <StackPanel>
                             <iconspresenter:Icon
-                                Margin="0,-60,0,0"
+                                CanvasHeight="30"
+                                CanvasWidth="30"
                                 CircleBackground="Transparent"
-                                IconOffsetLeft="13"
-                                IconSize="500"
+                                CircleSize="0"
+                                IconSize="360"
                                 IconSource="../WerknemerIcon.xaml" />
                             <Label
-                                Margin="0,-120,0,0"
                                 HorizontalContentAlignment="Center"
                                 Content="REGISTRATIE APPLICATION"
                                 FontSize="24"
@@ -115,13 +113,13 @@
                         </Button.Resources>
                         <StackPanel>
                             <iconspresenter:Icon
-                                Margin="0,-60,0,0"
+                                CanvasHeight="30"
+                                CanvasWidth="30"
                                 CircleBackground="Transparent"
-                                IconOffsetLeft="13"
-                                IconSize="500"
+                                CircleSize="0"
+                                IconSize="360"
                                 IconSource="../DashboardIcon.xaml" />
                             <Label
-                                Margin="0,-120,0,0"
                                 HorizontalContentAlignment="Center"
                                 Content="ADMIN APPLICATION"
                                 FontSize="24"

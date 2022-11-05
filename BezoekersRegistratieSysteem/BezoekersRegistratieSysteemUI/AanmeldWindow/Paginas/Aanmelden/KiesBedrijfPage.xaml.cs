@@ -129,8 +129,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				Icon icon = new() {
 					IconSize = 42,
 					CircleSize = 48,
-					IconOffsetLeft = 12,
-					IconOffsetTop = 12,
 					IconSource = "../BedrijfIcon.xaml",
 					Margin = new Thickness(10, 0, 10, 0)
 				};
@@ -158,7 +156,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		}
 
 		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
-			
-		}
+			Window window = Window.GetWindow(this);
+            RegistratieWindow registratieWindow = (RegistratieWindow)window.DataContext;
+
+			registratieWindow.FrameControl.Navigate(new AanmeldGegevensPage());
+        }
 	}
 }

@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BezoekersRegistratieSysteemBL\BezoekersRegistratieSysteemBL.csproj" />
+    <ProjectReference Include="..\BezoekersRegistratieSysteemREST\BezoekersRegistratieSysteemREST.csproj" />
   </ItemGroup>
 
 </Project>

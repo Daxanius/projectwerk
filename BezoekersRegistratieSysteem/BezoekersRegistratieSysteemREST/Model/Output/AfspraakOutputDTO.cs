@@ -6,7 +6,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 	{
 		public static AfspraakOutputDTO NaarDTO(Afspraak afspraak)
 		{
-			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, afspraak.Bezoeker.Id, afspraak.Werknemer.Id);
+			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, afspraak.Bedrijf.Id, afspraak.Bezoeker.Id, afspraak.Werknemer.Id);
 		}
 
 		public static IEnumerable<AfspraakOutputDTO> NaarDTO(IEnumerable<Afspraak> afspraken)
@@ -19,11 +19,12 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			return output;
 		}
 
-		public AfspraakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, long bezoekerId, long werknemerId)
+		public AfspraakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, long bedrijfId,long bezoekerId, long werknemerId)
 		{
 			Id = id;
 			Starttijd = starttijd;
 			Eindtijd = eindtijd;
+			BedrijfId = bedrijfId;
 			BezoekerId = bezoekerId;
 			WerknemerId = werknemerId;
 		}
@@ -31,6 +32,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		public long Id { get; set; }
 		public DateTime Starttijd { get; set; }
 		public DateTime? Eindtijd { get; set; }
+		public long BedrijfId { get; set; }
 		public long BezoekerId { get; set; }
 		public long WerknemerId { get; set; }
 	}

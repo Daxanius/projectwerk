@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +20,25 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 	/// Interaction logic for DashBoardPage.xaml
 	/// </summary>
 	public partial class BedrijvenPage : Page {
+		private static BedrijvenPage instance = null;
+		private static readonly object padlock = new object();
+
+		public static BedrijvenPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new BedrijvenPage();
+					}
+					return instance;
+				}
+			}
+		}
+
+		/// <summary>
+		/// ///////////////////////////////////////////////////
+		/// </summary>
+
+
 		#region Public Propperty
 		public string Datum {
 			get {
@@ -29,6 +50,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 		public BedrijvenPage() {
 			this.DataContext = this;
 			InitializeComponent();
+		}
+
+		private void VoegBedrijfToe(object sender, MouseButtonEventArgs e) {
+			BedrijvenPopup.Visibility = Visibility.Visible;
 		}
 	}
 }

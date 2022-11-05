@@ -73,24 +73,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			_selecteditem = border;
 		}
 
-		public void FetchHuidigeAfspraken() {
-			FetchData(url: "");
-		}
-
-		public void FetchWerknemerAfspraken(WerknemerDTO werknemer) {
-			FetchData(url: "", werknemer);
-		}
-
 		public void FetchData(string url = "", object body = null) {
 
-		}
-
-		internal void FetchBezoekerAfspraken(BezoekerDTO bezoeker) {
-			FetchData(url: "", bezoeker);
-		}
-
-		internal void FetchAfsprakenOpDatumData(DateTime now) {
-			FetchData(url: "", now);
 		}
 	}
 }

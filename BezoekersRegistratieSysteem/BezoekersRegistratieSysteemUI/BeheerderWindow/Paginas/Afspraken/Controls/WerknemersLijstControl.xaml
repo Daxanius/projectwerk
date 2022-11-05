@@ -76,7 +76,8 @@
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="250"
+                                MinWidth="150"
+                                FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Voornaam" />
                         </GridViewColumn.Header>
@@ -93,7 +94,8 @@
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="250"
+                                MinWidth="150"
+                                FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Achteraam" />
                         </GridViewColumn.Header>
@@ -110,7 +112,8 @@
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="250"
+                                MinWidth="150"
+                                FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Email" />
                         </GridViewColumn.Header>

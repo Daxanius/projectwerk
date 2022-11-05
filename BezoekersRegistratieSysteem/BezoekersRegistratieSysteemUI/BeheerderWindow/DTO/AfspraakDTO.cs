@@ -16,8 +16,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 			Bezoeker = bezoeker;
 			WerknemerBedrijf = werknemerBedrijf;
 			Werknemer = werknemer;
-			StartTijd = startTijd.ToString("f");
-			EindTijd = eindTijd.HasValue ? eindTijd.Value.ToString("f") : "";
+			StartTijd = startTijd.ToString("HH:mm - dd/MM/yyyy");
+			EindTijd = eindTijd.HasValue ? eindTijd.Value.ToString("HH:mm - dd/MM/yyyy") : "";
 			Status = eindTijd.HasValue ? "Afgerond" : "Lopend";
 		}
 

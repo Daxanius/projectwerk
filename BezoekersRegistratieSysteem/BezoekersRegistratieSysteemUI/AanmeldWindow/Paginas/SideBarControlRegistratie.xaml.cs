@@ -1,4 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
+using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden;
+using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
@@ -48,19 +50,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.Pagi
 
 			switch (tab) {
 				case "Aanmelden":
-				registratieWindow.FrameControl.Source = new Uri("/AanmeldWindow/Paginas/Aanmelden/KiesBedrijfPage.xaml", UriKind.Relative);
+				registratieWindow.FrameControl.Navigate(new KiesBedrijfPage());
 				break;
 				case "Afmelden":
-				registratieWindow.FrameControl.Source = new Uri("/AanmeldWindow/Paginas/Afmelden/AfmeldPage.xaml", UriKind.Relative);
-				break;
-				case "  ":
-				registratieWindow.FrameControl.Source = new Uri("", UriKind.Relative);
-				break;
-				case "   ":
-				registratieWindow.FrameControl.Source = new Uri("", UriKind.Relative);
-				break;
-				case "    ":
-				registratieWindow.FrameControl.Source = new Uri("", UriKind.Relative);
+				registratieWindow.FrameControl.Navigate(new AfmeldPage());
 				break;
 			}
 		}

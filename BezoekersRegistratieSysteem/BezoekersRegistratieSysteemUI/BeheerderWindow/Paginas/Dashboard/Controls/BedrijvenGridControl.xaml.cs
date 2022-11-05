@@ -2,7 +2,6 @@
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
-using MahApps.Metro.Markup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -107,14 +106,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 					FontWeight = FontWeights.Medium,
 					TextAlignment = TextAlignment.Center,
 					VerticalAlignment = VerticalAlignment.Center,
-					TextWrapping = TextWrapping.Wrap
+					TextWrapping = TextWrapping.Wrap,
+					Padding = new Thickness(0, 0, 0, 4)
 				};
 
 				Icon icon = new() {
 					IconSize = 42,
 					CircleSize = 48,
-					IconOffsetLeft = 12,
-					IconOffsetTop = 12,
 					IconSource = "../BedrijfIcon.xaml",
 					Margin = new Thickness(10, 0, 10, 0)
 				};
@@ -148,7 +146,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			BeheerderWindow beheerderWindow = (BeheerderWindow)window.DataContext;
 
 			beheerderWindow.ZetGeselecteerdBedrijf(bedrijf);
-			beheerderWindow.FrameControl.Navigate(new AfsprakenPage());
+			beheerderWindow.FrameControl.Navigate(AfsprakenPage.Instance);
 		}
 	}
 }
