@@ -229,7 +229,6 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         /// </summary>
         /// <param name="bedrijf">Te vergelijken bedrijf.</param>
         /// <returns>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</returns>
-        /// <exception cref="BedrijfException"></exception>
         public bool BedrijfIsGelijk(Bedrijf bedrijf)
 		{
 			if (bedrijf == null)

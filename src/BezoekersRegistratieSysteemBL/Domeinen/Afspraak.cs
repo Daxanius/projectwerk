@@ -141,7 +141,6 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         /// </summary>
 		/// <param name="afspraak">Te vergelijken afspraak.</param>
         /// <returns>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</returns>
-        /// <exception cref="BedrijfException"></exception>
         public bool AfspraakIsGelijk(Afspraak afspraak)
 		{
 			if (afspraak is null)
