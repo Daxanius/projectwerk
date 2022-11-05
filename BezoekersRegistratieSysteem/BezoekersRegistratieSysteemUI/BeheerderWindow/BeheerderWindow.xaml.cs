@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.ComponentModel;
@@ -47,7 +48,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 			string path = e.Content.GetType().Name;
 			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Bezoekers", "Dashboard", "Werknemers" };
 
-			if(GeselecteerdBedrijf is not null) {
+			if (GeselecteerdBedrijf is not null) {
 				SideBar.AfsprakenTab.IsEnabled = true;
 				SideBar.WerknemersTab.IsEnabled = true;
 			} else {
