@@ -30,5 +30,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 			Status = isWerknemerVrij;
 			Bedrijf = bedrijf;
 		}
+
+		public override string ToString() {
+			return $"{Voornaam} {Achternaam} | {Functie}";
+		}
 	}
 }

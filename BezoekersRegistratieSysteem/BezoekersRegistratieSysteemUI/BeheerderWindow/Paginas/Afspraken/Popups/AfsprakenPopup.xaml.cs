@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.ConvertedClasses;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,26 +27,52 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		#region Bind Propperties
-		private string _werknemer;
-		public string Werknemer {
+		private static WerknemerDTO _werknemer;
+		public static WerknemerDTO Werknemer {
 			get { return _werknemer; }
 			set {
-				if (value == _werknemer) return;
+				if (value is null || value != _werknemer) return;
 				_werknemer = value;
-				UpdatePropperty();
 			}
 		}
-		private string _bezoeker;
-		public string Bezoeker {
-			get { return _bezoeker; }
+		private string _bezoekerVoornaam;
+		public string BezoekerVoornaam {
+			get { return _bezoekerVoornaam; }
 			set {
-				if (value == _bezoeker) return;
-				_bezoeker = value;
+				if (value == _bezoekerVoornaam) return;
+				_bezoekerVoornaam = value;
 				UpdatePropperty();
 			}
 		}
-		private DateTime? _startTijd = null;
-		public DateTime? StartTijd {
+		private string _bezoekerAchternaam;
+		public string BezoekerAchternaam {
+			get { return _bezoekerAchternaam; }
+			set {
+				if (value == _bezoekerAchternaam) return;
+				_bezoekerAchternaam = value;
+				UpdatePropperty();
+			}
+		}
+		private string _bezoekerEmail;
+		public string BezoekerEmail {
+			get { return _bezoekerEmail; }
+			set {
+				if (value == _bezoekerEmail) return;
+				_bezoekerEmail = value;
+				UpdatePropperty();
+			}
+		}
+		private string _bezoekerBedrijf;
+		public string BezoekerBedrijf {
+			get { return _bezoekerBedrijf; }
+			set {
+				if (value == _bezoekerBedrijf) return;
+				_bezoekerBedrijf = value;
+				UpdatePropperty();
+			}
+		}
+		private string _startTijd = string.Empty;
+		public string StartTijd {
 			get { return _startTijd; }
 			set {
 				if (value == _startTijd) return;
@@ -52,12 +80,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				UpdatePropperty();
 			}
 		}
-		private bool _isbeindigd = false;
-		public bool IsBeindigd {
-			get { return _isbeindigd; }
+		private string? _eindTijd = null;
+		public string? EindTijd {
+			get { return _eindTijd; }
 			set {
-				if (value == _isbeindigd) return;
-				_isbeindigd = value;
+				if (value == _eindTijd) return;
+				_eindTijd = value;
 				UpdatePropperty();
 			}
 		}
@@ -66,6 +94,27 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		public AfsprakenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
+		}
+
+		#region VoegMedeWerkerToeEiland
+		private readonly Regex _regex = new Regex("[^0-9./]+");
+		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
+			e.Handled = _regex.IsMatch(e.Text);
+		}
+
+		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) {
+			ControleerInputOpDatum(sender);
+		}
+
+		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
+			ControleerInputOpDatum(sender);
+		}
+
+		private void ControleerInputOpDatum(object sender) {
+			TextBox textBox = sender as TextBox;
+			if (DateTime.TryParse(textBox.Text.Trim('-'), out DateTime dateTime)) {
+				textBox.Text = dateTime.ToString("dd/MM/yyyy - HH:mm");
+			}
 		}
 
 		private void VoegNieuweFunctieToe(object sender, MouseButtonEventArgs e) {
@@ -81,11 +130,59 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			SluitOverlay();
 		}
 
+		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
+			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
+			KiesMedewerkerEiland.Visibility = Visibility.Visible;
+
+			// Test Data Werknemers
+
+			BedrijfDTO bedrijf = new(1, "Hogent", "Btw", "Telnummer", "Email", "Adres", null);
+
+			MedewerkersLijstVanBedrijf.ItemsSource = new List<WerknemerDTO>() {
+			new WerknemerDTO(1, "Stan", "Persoons", "Stan.Persoons@student.hogent.be", bedrijf, false),
+			new WerknemerDTO(2, "Stan1", "Persoons1", "Stan1.Persoons@student.hogent.be", bedrijf, false),
+			new WerknemerDTO(3, "Stan2", "Persoons2", "Stan2.Persoons@student.hogent.be", bedrijf, true),
+			new WerknemerDTO(4, "Stan3", "Persoons3", "Stan3.Persoons@student.hogent.be", bedrijf, true),
+			new WerknemerDTO(5, "Stan4", "Persoons4", "Stan4.Persoons@student.hogent.be", bedrijf, false),
+			new WerknemerDTO(6, "Stan5", "Persoons5", "Stan5.Persoons@student.hogent.be", bedrijf, false)
+			};
+
+		}
+
+		// Einde Test Data
+
 		private void SluitOverlay() {
+			Werknemer = null;
+
+			KiesWerknemerTextBlock.Text = "Kies Werknemer";
+			BezoekerVoornaam = string.Empty;
+			BezoekerAchternaam = string.Empty;
+			BezoekerEmail = string.Empty;
+			BezoekerBedrijf = string.Empty;
+			StartTijd = string.Empty;
+			EindTijd = null;
 
 			AfsprakenPage afsprakenPage = AfsprakenPage.Instance;
 			afsprakenPage.AfsprakenPopup.Visibility = Visibility.Hidden;
 		}
+		#endregion
+
+		#region KiesWerknemerEiland
+		private void KiesMedeWerkerClick(object sender, RoutedEventArgs e) {
+			object selectedItem = MedewerkersLijstVanBedrijf.SelectedValue;
+			if (selectedItem is not WerknemerDTO) return;
+			WerknemerDTO werknemer = (WerknemerDTO)selectedItem;
+
+			Werknemer = werknemer;
+			KiesWerknemerTextBlock.Text = werknemer.ToString();
+			GaTerugNaarVoegMedewerkerEiland(null, null);
+		}
+
+		private void GaTerugNaarVoegMedewerkerEiland(object sender, RoutedEventArgs e) {
+			MedeWerkerToevoegenEiland.Visibility = Visibility.Visible;
+			KiesMedewerkerEiland.Visibility = Visibility.Collapsed;
+		}
+		#endregion
 
 		#region ProppertyChanged
 
