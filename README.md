@@ -1,4 +1,4 @@
-![.inside](./images/inside.jpg)
+![.inside](./docs/images/inside.jpg)
 
 # .inside - Bezoekers registratie Systeem
 
