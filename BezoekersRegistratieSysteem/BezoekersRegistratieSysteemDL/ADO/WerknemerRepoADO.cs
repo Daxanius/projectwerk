@@ -287,7 +287,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                             string werknemerMail = (string)reader["WerknemerEmail"];
                             string functieNaam = (string)reader["functienaam"];
                             werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-                        }                       
+                        }
                     }
                     return werknemers;
                 }
@@ -530,7 +530,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             try {
                 using (SqlCommand cmdWerknemerBedrijf = con.CreateCommand())
                 using (SqlCommand cmdWerknemer = con.CreateCommand()) {
-                    
+
                     cmdWerknemer.Transaction = trans;
                     cmdWerknemerBedrijf.Transaction = trans;
                     //Portie werknemer
@@ -619,28 +619,125 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
-        //TODO GWILOM Implement dit plez
 
         /// <summary>
         /// Stelt lijst van afspraakloze werknemers samen met enkel lees rechten adhv parameter bedrijf id.
         /// </summary>
-        /// <param name="bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die niet in afspraak zijn.</param>
+        /// <param name="_bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die niet in afspraak zijn.</param>
         /// <returns>IReadOnlyList van werknemer objecten waar statuscode niet gelijk is aan 1 = 'In gang'.</returns>
         /// <exception cref="WerknemerADOException">Faalt lijst van afspraakloze werknemer objecten samen te stellen op basis van bedrijf id.</exception>
-        public IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long bedrijfId)
-        {
-            throw new NotImplementedException();
+        public IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerAnaam, wb.WerknemerEmail, f.FunctieNaam, " +
+                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked " +
+                           "FROM Werknemerbedrijf wb " +
+                           "JOIN Afspraak a ON(a.WerknemerBedrijfId = wb.Id) AND a.AfspraakStatusId = 1 " +
+                           "JOIN Werknemer w ON(w.Id = wb.WerknemerId) " +
+                           "JOIN Functie f ON(f.Id = wb.FunctieId) " +
+                           "JOIN Bedrijf b ON(b.Id = wb.BedrijfId) " +
+                           "WHERE wb.BedrijfId = @bedrijfId " +
+                           "ORDER BY w.VNaam, w.ANaam";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
+                    List<Werknemer> werknemers = new List<Werknemer>();
+                    Werknemer werknemer = null;
+                    Bedrijf bedrijf = null;
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read()) {
+                        if (bedrijf is null) {
+                            long bedrijfId = (long)reader["BedrijfId"];
+                            string bedrijfNaam = (string)reader["BedrijfNaam"];
+                            string bedrijfBTW = (string)reader["bedrijfBTW"];
+                            string bedrijfTele = (string)reader["BedrijfTeleNr"];
+                            string bedrijfMail = (string)reader["BedrijfMail"];
+                            string bedrijfAdres = (string)reader["BedrijfAdres"];
+                            bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+                        }
+                        if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
+                            long werknemerId = (long)reader["WerknemerId"];
+                            string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                            string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                            werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
+                            werknemers.Add(werknemer);
+                        }
+                        string werknemerMail = (string)reader["WerknemerEmail"];
+                        string functieNaam = (string)reader["FunctieNaam"];
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                    }
+                    return werknemers.AsReadOnly();
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("bedrijfId", _bedrijfId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
         /// <summary>
         /// Stelt lijst van bezette werknemers samen met enkel lees rechten adhv parameter bedrijf id.
         /// </summary>
-        /// <param name="bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die momenteel in afspraak zijn.</param>
+        /// <param name="_bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die momenteel in afspraak zijn.</param>
         /// <returns>IReadOnlyList van werknemer objecten waar statuscode gelijk is aan 1 = 'In gang'.</returns>
         /// <exception cref="WerknemerADOException">Faalt lijst van bezette werknemer objecten samen te stellen op basis van bedrijf id.</exception>
-        public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long bedrijfId)
-        {
-            throw new NotImplementedException();
+        public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerAnaam, wb.WerknemerEmail, f.FunctieNaam, " +
+                           "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked " +
+                           "FROM Werknemerbedrijf wb " +
+                           "LEFT JOIN Afspraak a ON(a.WerknemerBedrijfId = wb.Id) AND a.AfspraakStatusId = 1 " +
+                           "LEFT JOIN Werknemer w ON(w.Id = wb.WerknemerId) " +
+                           "LEFT JOIN Functie f ON(f.Id = wb.FunctieId) " +
+                           "LEFT JOIN Bedrijf b ON(b.Id = wb.BedrijfId) " +
+                           "WHERE a.Id IS NULL AND wb.BedrijfId = @bedrijfId " +
+                           "ORDER BY w.VNaam, w.ANaam";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
+                    List<Werknemer> werknemers = new List<Werknemer>();
+                    Werknemer werknemer = null;
+                    Bedrijf bedrijf = null;
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read()) {
+                        if (bedrijf is null) {
+                            long bedrijfId = (long)reader["BedrijfId"];
+                            string bedrijfNaam = (string)reader["BedrijfNaam"];
+                            string bedrijfBTW = (string)reader["bedrijfBTW"];
+                            string bedrijfTele = (string)reader["BedrijfTeleNr"];
+                            string bedrijfMail = (string)reader["BedrijfMail"];
+                            string bedrijfAdres = (string)reader["BedrijfAdres"];
+                            bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+                        }
+                        if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
+                            long werknemerId = (long)reader["WerknemerId"];
+                            string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                            string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                            werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
+                            werknemers.Add(werknemer);
+                        }
+                        string werknemerMail = (string)reader["WerknemerEmail"];
+                        string functieNaam = (string)reader["FunctieNaam"];
+                        werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                    }
+                    return werknemers.AsReadOnly();
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("bedrijfId", _bedrijfId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
         public IReadOnlyList<Werknemer> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId)
