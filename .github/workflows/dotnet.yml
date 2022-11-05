@@ -3,6 +3,8 @@ name: .NET
 on:
   push:
     branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
 
 jobs:
   build:
@@ -15,8 +17,8 @@ jobs:
         with:
           dotnet-version: 6.0.x
       - name: Restore dependencies
-        run: dotnet restore ./BezoekersRegistratieSysteem
+        run: dotnet restore ./src
       - name: Build
-        run: dotnet build --no-restore ./BezoekersRegistratieSysteem
+        run: dotnet build --no-restore ./src
       - name: Test
-        run: dotnet test --no-build --verbosity normal ./BezoekersRegistratieSysteem
+        run: dotnet test --no-build --verbosity normal ./src
