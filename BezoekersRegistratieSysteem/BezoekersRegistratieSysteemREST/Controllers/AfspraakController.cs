@@ -31,7 +31,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		{
 			try
 			{
-				return AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfspraak(afspraakId));
+				return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfspraak(afspraakId)));
 			} catch (Exception ex)
 			{
 				return NotFound(ex.Message);
@@ -75,7 +75,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 
 					// Als je ook een dag meegeeft
 					if (dag != null) {
-						_afspraakManager.GeefAfsprakenPerWerknemerOpDagPerBedrijf(werknemer, dag.Value, bedrijf);
+						return Ok(_afspraakManager.GeefAfsprakenPerWerknemerOpDagPerBedrijf(werknemer, dag.Value, bedrijf));
 					}
 
 					return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAlleAfsprakenPerWerknemerPerBedrijf(werknemer, bedrijf)));
@@ -135,9 +135,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			try
 			{
 				Afspraak afspraak = afspraakInput.NaarBusiness(_werknemerManager, _bedrijfManager);
-				return AfspraakOutputDTO.NaarDTO(
+				return Ok(AfspraakOutputDTO.NaarDTO(
 					_afspraakManager.VoegAfspraakToe(afspraak)
-				);
+				));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -176,7 +176,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				Afspraak afspraak = afspraakInput.NaarBusiness(_werknemerManager, _bedrijfManager);
 				afspraak.ZetId(afspraakId);
 				_afspraakManager.BewerkAfspraak(afspraak);
-				return AfspraakOutputDTO.NaarDTO(afspraak);
+				return Ok(AfspraakOutputDTO.NaarDTO(afspraak));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -194,7 +194,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			try {
 				Bezoeker bezoeker = bezoekerInput.NaarBusiness();
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				return AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(bezoeker, bedrijf));
+				return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(bezoeker, bedrijf)));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -218,6 +218,19 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				}
 
 				return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bedrijf)));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Geef alle aanwezige bezoekers
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet("bezoeker/aanwezig")]
+		public ActionResult<IEnumerable<BezoekerOutputDTO>> GeefAanwezigeBezoekers() {
+			try {
+				return Ok(BezoekerOutputDTO.NaarDTO(_afspraakManager.GeefAanwezigeBezoekers()));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}

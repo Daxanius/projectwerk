@@ -30,7 +30,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		{
 			try
 			{
-				return WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemer(werknemerId));
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemer(werknemerId)));
 			} catch (Exception ex)
 			{
 				return NotFound(ex.Message);
@@ -51,6 +51,57 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersOpNaam(naam, achternaam).AsEnumerable()));
 			} catch (Exception ex)
 			{
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Geef een lijst van werknemers op functie
+		/// </summary>
+		/// <param name="functie"></param>
+		/// <returns></returns>
+		[HttpGet("functie/{functie}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersOpFunctie(string functie) {
+			try {
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersOpFunctie(functie).AsEnumerable()));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Geef alle werknemers van een bedrijf
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpGet("bedrijf/id/{id}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersPerBedrijf(long id) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(id);
+
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf).AsEnumerable()));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Geef alle vrije of bezette werknemers van een bedrijf
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="vrij"></param>
+		/// <returns></returns>
+		[HttpGet("bedrijf/vb/id/{id}")]
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersPerBedrijfVrijOfBezet(long id, [FromQuery] bool vrij) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(id);
+
+				if (!vrij) {
+					return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefBezetteWerknemersOpDitMomentVoorBedrijf(bedrijf).AsEnumerable()));
+				}
+
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefVrijeWerknemersOpDitMomentVoorBedrijf(bedrijf).AsEnumerable()));
+			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
 		}
@@ -87,7 +138,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		{
 			try
 			{
-				return WerknemerOutputDTO.NaarDTO(_werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness()));
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness())));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -112,7 +163,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 
 				// Waarom heeft dit een bedrijf nodig om werknemer te weizigen?
 				_werknemerManager.BewerkWerknemer(werknemer, bedrijf);
-				return WerknemerOutputDTO.NaarDTO(werknemer);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -147,6 +198,61 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
+		/// Voeg een functie toe
+		/// </summary>
+		/// <param name="naam"></param>
+		/// <returns></returns>
+		[HttpPost("functie/{naam}")]
+		public IActionResult VoegFunctieToe(string naam) {
+			try {
+				_werknemerManager.VoegFunctieToe(naam);
+				return Ok();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Voeg een werknemer functie toe
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfID"></param>
+		/// <param name="naam"></param>
+		/// <returns></returns>
+		[HttpPost("functie/{werknemerId}/{bedrijfId}/{naam}")]
+		public IActionResult VoegWerknemerFunctieToe(long werknemerId, long bedrijfID, string naam) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfID);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+
+				_werknemerManager.VoegWerknemerFunctieToe(werknemer, bedrijf, naam);
+				return Ok();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Verwijder een werknemer functie
+		/// </summary>
+		/// <param name="werknemerId"></param>
+		/// <param name="bedrijfID"></param>
+		/// <param name="naam"></param>
+		/// <returns></returns>
+		[HttpDelete("functie/{werknemerId}/{bedrijfId}/{naam}")]
+		public IActionResult VerwijderWerknemerFunctie(long werknemerId, long bedrijfID, string naam) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfID);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+
+				_werknemerManager.VerwijderWerknemerFunctie(werknemer, bedrijf, naam);
+				return Ok();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
 		/// Voeg info toe aan werknemer
 		/// </summary>
 		/// <param name="werknemerId"></param>
@@ -162,7 +268,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 
 				// Dit is nogal een vreemde manier om functies toe te voegen, wat heeft Email hiermee te maken?
 				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, info.Email, info.Functies.First());
-				return WerknemerOutputDTO.NaarDTO(werknemer);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -184,7 +290,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 				werknemer.WijzigFunctie(bedrijf, oudeFunctie, nieuweFunctie);
-				return WerknemerOutputDTO.NaarDTO(werknemer);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -206,7 +312,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 				werknemer.VerwijderFunctie(bedrijf, functie);
-				return WerknemerOutputDTO.NaarDTO(werknemer);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -227,7 +333,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 				werknemer.VerwijderBedrijfVanWerknemer(bedrijf);
-				return WerknemerOutputDTO.NaarDTO(werknemer);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
