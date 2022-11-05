@@ -220,5 +220,111 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 		#endregion
+
+		#region UnitTest GeefWerknemersOpNaam
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
+		public void GeefWerknemersOpNaam_Invalid_VoornaamLeeg(string voornaam) {
+			var result = _werknemerController.GeefWerknemersOpNaam(voornaam, "werknemersen");
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
+		public void GeefWerknemersOpNaam_Invalid_AchternaamLeeg(string achternaam) {
+			var result = _werknemerController.GeefWerknemersOpNaam("werknemer", achternaam);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Theory]
+		[InlineData(null, null)]
+
+		[InlineData(null, "")]
+		[InlineData(null, " ")]
+		[InlineData(null, "\n")]
+		[InlineData(null, "\r")]
+		[InlineData(null, "\t")]
+		[InlineData(null, "\v")]
+
+		[InlineData("", "")]
+		[InlineData("", " ")]
+		[InlineData("", "\n")]
+		[InlineData("", "\r")]
+		[InlineData("", "\t")]
+		[InlineData("", "\v")]
+
+		[InlineData(" ", "")]
+		[InlineData(" ", " ")]
+		[InlineData(" ", "\n")]
+		[InlineData(" ", "\r")]
+		[InlineData(" ", "\t")]
+		[InlineData(" ", "\v")]
+
+		[InlineData("\n", "")]
+		[InlineData("\n", " ")]
+		[InlineData("\n", "\n")]
+		[InlineData("\n", "\r")]
+		[InlineData("\n", "\t")]
+		[InlineData("\n", "\v")]
+
+		[InlineData("\r", "")]
+		[InlineData("\r", " ")]
+		[InlineData("\r", "\n")]
+		[InlineData("\r", "\r")]
+		[InlineData("\r", "\t")]
+		[InlineData("\r", "\v")]
+
+		[InlineData("\t", "")]
+		[InlineData("\t", " ")]
+		[InlineData("\t", "\n")]
+		[InlineData("\t", "\r")]
+		[InlineData("\t", "\t")]
+		[InlineData("\t", "\v")]
+
+		[InlineData("\v", "")]
+		[InlineData("\v", " ")]
+		[InlineData("\v", "\n")]
+		[InlineData("\v", "\r")]
+		[InlineData("\v", "\t")]
+		[InlineData("\v", "\v")]
+
+		[InlineData("", null)]
+		[InlineData(" ", null)]
+		[InlineData("\n", null)]
+		[InlineData("\r", null)]
+		[InlineData("\t", null)]
+		[InlineData("\v", null)]
+		public void GeefWerknemersOpNaam_Invalid_NaamLeeg(string voornaam, string achternaam) {
+			var result = _werknemerController.GeefWerknemersOpNaam(voornaam, achternaam);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+
+		[Fact]
+		public void GeefWerknemersOpNaam_Invalid_GeenWerknemers() {
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemersOpNaam(_w.Voornaam, _w.Achternaam)).Returns(new List<Werknemer>());
+			var result = _werknemerController.GeefWerknemersOpNaam(_w.Voornaam, _w.Achternaam);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
+		#endregion
 	}
 }
