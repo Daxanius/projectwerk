@@ -6,6 +6,7 @@
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>BRS.ico</ApplicationIcon>
+		<UserSecretsId>52897b56-ead6-4d4f-8d68-334cd7b0fdee</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>

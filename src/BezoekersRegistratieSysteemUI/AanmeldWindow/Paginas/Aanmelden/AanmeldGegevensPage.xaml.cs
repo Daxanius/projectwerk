@@ -1,29 +1,168 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.DTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Exceptions;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden
-{
-    /// <summary>
-    /// Interaction logic for AanmeldGegevensPage.xaml
-    /// </summary>
-    public partial class AanmeldGegevensPage : Page
-    {
-        public AanmeldGegevensPage()
-        {
-            
-            InitializeComponent();
-        }
-    }
+namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
+	/// <summary>
+	/// Interaction logic for AanmeldGegevensPage.xaml
+	/// </summary>
+	public partial class AanmeldGegevensPage : Page, INotifyPropertyChanged {
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		#region Binding Propperties
+
+		private string _voornaam;
+		public string Voornaam {
+			get { return _voornaam; }
+			set {
+				if (value == _voornaam) return;
+				_voornaam = value.Trim();
+				UpdatePropperty();
+			}
+		}
+
+		private string _achternaam;
+		public string Achternaam {
+			get { return _achternaam; }
+			set {
+				if (value == _achternaam) return;
+				_achternaam = value.Trim();
+				UpdatePropperty();
+			}
+		}
+
+		private string _email;
+		public string Email {
+			get { return _email; }
+
+			set {
+				if (value == _email) return;
+				_email = value.Trim();
+				UpdatePropperty();
+			}
+		}
+
+		private string _bedrijf;
+		public string Bedrijf {
+			get { return _bedrijf; }
+			set {
+				if (value == _bedrijf) return;
+				_bedrijf = value.Trim();
+				UpdatePropperty();
+			}
+		}
+
+		private List<WerknemerDTO> _lijstMetWerknemersVanGeselecteerdBedrijf;
+		public List<WerknemerDTO> LijstMetWerknemersVanGeselecteerdBedrijf {
+			get { return _lijstMetWerknemersVanGeselecteerdBedrijf; }
+			set {
+				_lijstMetWerknemersVanGeselecteerdBedrijf = value;
+				UpdatePropperty();
+			}
+		}
+
+		#endregion
+
+		private long? _geselecteerdBedrijfsId;
+
+		public AanmeldGegevensPage() {
+			this.DataContext = this;
+			InitializeComponent();
+
+			_geselecteerdBedrijfsId = RegistratieWindow.GeselecteerdBedrijf.Id;
+
+			if (!_geselecteerdBedrijfsId.HasValue) {
+				MessageBox.Show("Bedrijf is niet gekozen", "Error");
+				((RegistratieWindow)Window.GetWindow(this)).FrameControl.Navigate(KiesBedrijfPage.Instance);
+				return;
+			}
+			FetchWerknemersVoorBedrijf();
+		}
+
+		private async void FetchWerknemersVoorBedrijf() {
+			(bool isValid, List<ApiWerknemer> werknemersVanGeselecteerdBedrijf) = await ApiController.Fetch<List<ApiWerknemer>>($"werknemer/bedrijf/id/{_geselecteerdBedrijfsId.Value}");
+			if (isValid) {
+				List<WerknemerDTO> werknemersDTOVanBedrijf = new();
+				werknemersVanGeselecteerdBedrijf.ForEach(w => {
+					WerknemerDTO werknemer = new(w.Id, w.Voornaam, w.Achternaam, w.WerknemerInfo);
+					werknemersDTOVanBedrijf.Add(werknemer);
+				});
+				LijstMetWerknemersVanGeselecteerdBedrijf = werknemersDTOVanBedrijf;
+			}
+			throw new FetchApiException("Fout bij het ophalen van werknemers");
+		}
+
+		#region Action Buttons
+
+		private void AnnulerenKlik(object sender, RoutedEventArgs e) {
+			GaTerugNaarKiesBedrijf();
+		}
+
+		private void AanmeldenKlik(object sender, RoutedEventArgs e) {
+			try {
+				WerknemerDTO? werknemer = (WerknemerDTO)WerknemersLijst.SelectedValue;
+
+				if (werknemer == null) {
+					MessageBox.Show("Gelieve een werknemer te kiezen", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+
+				BezoekerDTO bezoeker = new(Voornaam, Achternaam, Email, Bedrijf);
+
+				if (werknemer.Id.HasValue) {
+					MaakNieuweAfspraak(werknemer.Id.Value, _geselecteerdBedrijfsId.Value, bezoeker);
+				}
+			} catch (Exception ex) {
+				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+			GaTerugNaarKiesBedrijf();
+		}
+
+		private void GaTerugNaarKiesBedrijf() {
+			Voornaam = string.Empty;
+			Achternaam = string.Empty;
+			Email = string.Empty;
+			Bedrijf = string.Empty;
+
+			RegistratieWindow registratieWindow = (RegistratieWindow)Window.GetWindow(this);
+			registratieWindow.FrameControl.Navigate(KiesBedrijfPage.Instance);
+		}
+
+		private async void MaakNieuweAfspraak(long bedrijfsId, long werknemerId, BezoekerDTO bezoeker) {
+			var rawBody = new { werknemerId = werknemerId, bedrijfId = bedrijfsId, bezoeker };
+			string json = JsonConvert.SerializeObject(rawBody);
+
+			(bool isvalid, AfspraakDTO afspraak) = await ApiController.Post<AfspraakDTO>("/afspraak", json);
+
+			if (isvalid) {
+
+			} else {
+				MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
+			}
+		}
+
+		#endregion
+
+		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
+
+		}
+
+		#region ProppertyChanged
+
+		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		#endregion ProppertyChanged
+	}
 }

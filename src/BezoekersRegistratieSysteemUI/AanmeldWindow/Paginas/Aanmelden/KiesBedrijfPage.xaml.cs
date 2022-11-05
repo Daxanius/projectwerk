@@ -1,11 +1,14 @@
-﻿using BezoekersRegistratieSysteemUI.ApiDTO;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.DTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,7 +32,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			get {
 				lock (padlock) {
 					if (instance == null) {
-						FetchAlleBedrijven();
 						instance = new KiesBedrijfPage();
 					}
 					return instance;
@@ -42,7 +44,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		/// </summary>
 
 		private const int MAX_COLUMN_COUNT = 3;
-		private List<BedrijfDTO> _bedrijven = new();
+		private List<BedrijfDTO> _bedrijven;
 
 		#region Scaling
 		public double ScaleX { get; set; }
@@ -51,7 +53,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 
 		public KiesBedrijfPage() {
-
 			double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
 			double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
 
@@ -66,7 +67,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 			this.DataContext = this;
 			InitializeComponent();
-			SpawnBedrijvenGrid();
+
+			if (_bedrijven is null) {
+				FetchAlleBedrijven();
+			}
 		}
 
 		private void SpawnBedrijvenGrid() {
@@ -129,20 +133,28 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		}
 
 		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
+			BedrijfDTO geselecteerdbedrijf = (BedrijfDTO)((Border)sender).DataContext;
+
 			Window window = Window.GetWindow(this);
 			RegistratieWindow registratieWindow = (RegistratieWindow)window.DataContext;
 
+			RegistratieWindow.GeselecteerdBedrijf = geselecteerdbedrijf;
 			registratieWindow.FrameControl.Navigate(new AanmeldGegevensPage());
 		}
 
 		#region API Requests
-		private void FetchAlleBedrijven() {
-			ApiHandler.Fetch<List<ApiBedrijfDTO>>("").ContinueWith((result) => {
-				(bool isvalid, List<ApiBedrijfDTO> bedrijven) = result.Result;
-				if (isvalid) {
+		private async void FetchAlleBedrijven() {
+			_bedrijven = new();
+			(bool isvalid, List<ApiBedrijf> bedrijven) = await ApiController.Fetch<List<ApiBedrijf>>("/bedrijf");
 
-				}
-			});
+			if (isvalid) {
+				bedrijven.ForEach((api) => {
+					_bedrijven.Add(new BedrijfDTO(api.Id, api.Naam, api.Btw, api.TelefoonNummer, api.Email, api.Adres));
+				});
+			} else {
+				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de bedrijven", "Error /bedrijf");
+			}
+			SpawnBedrijvenGrid();
 		}
 		#endregion
 	}

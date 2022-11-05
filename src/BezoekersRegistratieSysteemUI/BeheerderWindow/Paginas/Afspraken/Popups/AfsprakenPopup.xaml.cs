@@ -136,15 +136,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			// Test Data Werknemers
 
-			BedrijfDTO bedrijf = new(1, "Hogent", "Btw", "Telnummer", "Email", "Adres", null);
-
 			MedewerkersLijstVanBedrijf.ItemsSource = new List<WerknemerDTO>() {
-			new WerknemerDTO(1, "Stan", "Persoons", "Stan.Persoons@student.hogent.be", bedrijf, false),
-			new WerknemerDTO(2, "Stan1", "Persoons1", "Stan1.Persoons@student.hogent.be", bedrijf, false),
-			new WerknemerDTO(3, "Stan2", "Persoons2", "Stan2.Persoons@student.hogent.be", bedrijf, true),
-			new WerknemerDTO(4, "Stan3", "Persoons3", "Stan3.Persoons@student.hogent.be", bedrijf, true),
-			new WerknemerDTO(5, "Stan4", "Persoons4", "Stan4.Persoons@student.hogent.be", bedrijf, false),
-			new WerknemerDTO(6, "Stan5", "Persoons5", "Stan5.Persoons@student.hogent.be", bedrijf, false)
+			new WerknemerDTO(1, "Stan", "Persoons", false),
+			new WerknemerDTO(2, "Stan1", "Persoons1", false),
+			new WerknemerDTO(3, "Stan2", "Persoons2", true),
+			new WerknemerDTO(4, "Stan3", "Persoons3", true),
+			new WerknemerDTO(5, "Stan4", "Persoons4", false),
+			new WerknemerDTO(6, "Stan5", "Persoons5", false)
 			};
 
 		}

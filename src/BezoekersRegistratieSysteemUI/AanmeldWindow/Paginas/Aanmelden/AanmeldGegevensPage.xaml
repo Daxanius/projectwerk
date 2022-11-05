@@ -59,6 +59,7 @@
                 FontSize="18"
                 FontWeight="Medium"
                 Foreground="{StaticResource DonkerBlauw}"
+                Text="{Binding Voornaam}"
                 TextWrapping="Wrap">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
@@ -85,6 +86,7 @@
                 FontSize="18"
                 FontWeight="Medium"
                 Foreground="{StaticResource DonkerBlauw}"
+                Text="{Binding Achternaam}"
                 TextWrapping="Wrap">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
@@ -113,6 +115,7 @@
                 FontSize="18"
                 FontWeight="Medium"
                 Foreground="{StaticResource DonkerBlauw}"
+                Text="{Binding Email}"
                 TextWrapping="Wrap">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
@@ -144,6 +147,7 @@
                 FontSize="18"
                 FontWeight="Medium"
                 Foreground="{StaticResource DonkerBlauw}"
+                Text="{Binding Bedrijf}"
                 TextWrapping="Wrap">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
@@ -152,8 +156,139 @@
                 </TextBox.Resources>
             </TextBox>
         </StackPanel>
-        <Button
+        <StackPanel
             Grid.Row="9"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="0,0,0,20">
+            <Label
+                Content="Werknemer"
+                FontSize="18"
+                FontWeight="Medium"
+                Foreground="{StaticResource DonkerBlauw}" />
+            <TextBox
+                Grid.Row="5"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                MinWidth="1000"
+                MinHeight="45"
+                Padding="25,0,0,0"
+                VerticalContentAlignment="Center"
+                Background="{StaticResource LichtGrijsAccent}"
+                BorderBrush="Transparent"
+                FontSize="18"
+                FontWeight="Medium"
+                Foreground="{StaticResource DonkerBlauw}"
+                Text="{Binding Bedrijf}"
+                TextWrapping="Wrap">
+                <TextBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="25" />
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+            <ListView x:Name="WerknemersLijst" ItemsSource="{Binding LijstMetWerknemersVanGeselecteerdBedrijf}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <StackPanel MouseLeftButtonDown="KlikOpRow">
+                                        <Border
+                                            Background="Transparent"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0,0,0,1">
+                                            <GridViewRowPresenter
+                                                Width="Auto"
+                                                Margin="0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Content="{TemplateBinding Content}" />
+                                        </Border>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style TargetType="GridViewColumnHeader">
+                                <Setter Property="FontSize" Value="16" />
+                                <Setter Property="FontWeight" Value="DemiBold" />
+                                <Setter Property="OverridesDefaultStyle" Value="True" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="GridViewColumnHeader">
+                                            <ControlTemplate.Resources>
+                                                <Style TargetType="DataGridColumnHeader">
+                                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                                </Style>
+                                            </ControlTemplate.Resources>
+                                            <Label
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Stretch"
+                                                Content="{TemplateBinding Content}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridView.Columns>
+                            <GridViewColumn>
+                                <GridViewColumn.Header>
+                                    <TextBlock
+                                        MinWidth="120"
+                                        FontSize="12"
+                                        Foreground="{StaticResource LichtGrijs}"
+                                        Text="Naam" />
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            Padding="8,15,0,15"
+                                            FontSize="15"
+                                            FontWeight="DemiBold">
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="Voornaam" />
+                                                <Binding Path="Achternaam" />
+                                            </MultiBinding>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn>
+                                <GridViewColumn.Header>
+                                    <TextBlock
+                                        MinWidth="250"
+                                        FontSize="12"
+                                        Foreground="{StaticResource LichtGrijs}"
+                                        Text="Functie" />
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label
+                                            Padding="0,15,0,15"
+                                            Content="{Binding Functie}"
+                                            FontSize="15"
+                                            FontWeight="DemiBold" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+        <Button
+            Grid.Row="10"
             Grid.Column="1"
             Width="150"
             Height="45"
@@ -162,6 +297,7 @@
             Background="Transparent"
             BorderBrush="{StaticResource LichtRood}"
             BorderThickness="3"
+            Click="AnnulerenKlik"
             Content="annuleren"
             FontSize="18"
             FontWeight="Medium"
@@ -173,7 +309,7 @@
             </Button.Resources>
         </Button>
         <Button
-            Grid.Row="9"
+            Grid.Row="10"
             Grid.Column="3"
             Width="150"
             Height="45"
@@ -182,6 +318,7 @@
             Background="Transparent"
             BorderBrush="{StaticResource ButtonGroen}"
             BorderThickness="3"
+            Click="AanmeldenKlik"
             Content="aanmelden"
             FontSize="18"
             FontWeight="Medium"

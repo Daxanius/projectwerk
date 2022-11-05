@@ -3,7 +3,7 @@
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 
 	public class AfspraakDTO {
-		public int Id { get; set; }
+		public long Id { get; set; }
 		public BezoekerDTO Bezoeker { get; set; }
 		public WerknemerDTO Werknemer { get; set; }
 		public string WerknemerBedrijf { get; set; }
@@ -11,7 +11,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 		public string EindTijd { get; set; }
 		public string Status { get; init; }
 
-		public AfspraakDTO(int id, BezoekerDTO bezoeker, string werknemerBedrijf, WerknemerDTO werknemer, DateTime startTijd, DateTime? eindTijd) {
+		public AfspraakDTO(long id, BezoekerDTO bezoeker, string werknemerBedrijf, WerknemerDTO werknemer, DateTime startTijd, DateTime? eindTijd) {
 			Id = id;
 			Bezoeker = bezoeker;
 			WerknemerBedrijf = werknemerBedrijf;
@@ -21,7 +21,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 			Status = eindTijd.HasValue ? "Afgerond" : "Lopend";
 		}
 
-		public AfspraakDTO(int id, BezoekerDTO bezoeker, string werknemerBedrijf, WerknemerDTO werknemer, DateTime startTijd) : this(id, bezoeker, werknemerBedrijf, werknemer, startTijd, null) {
+		public AfspraakDTO(long id, BezoekerDTO bezoeker, string werknemerBedrijf, WerknemerDTO werknemer, DateTime startTijd) : this(id, bezoeker, werknemerBedrijf, werknemer, startTijd, null) {
 		}
 	}
 }
