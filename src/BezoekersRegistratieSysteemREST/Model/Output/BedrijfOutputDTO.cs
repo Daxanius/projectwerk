@@ -2,6 +2,9 @@
 
 namespace BezoekersRegistratieSysteemREST.Model.Output
 {
+	/// <summary>
+	/// De DTO voor uitgaande bedrijf informatie.
+	/// </summary>
 	public class BedrijfOutputDTO
 	{
 		public static BedrijfOutputDTO NaarDTO(Bedrijf bedrijf)
