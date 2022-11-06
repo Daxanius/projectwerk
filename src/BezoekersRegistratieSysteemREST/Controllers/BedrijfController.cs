@@ -160,7 +160,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Verwijdert een werkneemr uit een bedrijf.
+		/// Verwijdert een werknemer uit een bedrijf.
 		/// </summary>
 		/// <param name="bedrijfId">De ID van het bedrijf</param>
 		/// <param name="werknemerId">De ID van de werknemer om te verwijderen</param>
