@@ -173,7 +173,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
         public bool BestaatAfspraak(Afspraak afspraak) {
             try {
-                return BestaatAfspraak(afspraak, null, null);
+                return BestaatAfspraak(afspraak, null, null, null);
             } catch (Exception ex) {
                 throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
             }
