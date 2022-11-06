@@ -3,10 +3,6 @@ using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
-	/// <summary>
-	/// Een klasse die alle essentiele informatie van bedrijven bijhoudt,
-	/// implementeerd IEquatable
-	/// </summary>
 	public class Bedrijf : IEquatable<Bedrijf?>
 	{
 		public long Id { get; private set; }

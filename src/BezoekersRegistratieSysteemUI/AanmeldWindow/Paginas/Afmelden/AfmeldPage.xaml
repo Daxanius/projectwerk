@@ -32,12 +32,12 @@
                 x:Name="AfmeldenButton"
                 Margin="0,70,0,0"
                 Padding="15,5"
-                BorderBrush="{StaticResource DonkerRood}"
+                BorderBrush="{StaticResource GewoonBlauw}"
                 BorderThickness="3"
                 Click="AfmeldenClick"
-                Content="Afmelden"
+                Content="afmelden"
                 FontSize="35"
-                Foreground="{StaticResource DonkerRood}"
+                Foreground="{StaticResource GewoonBlauw}"
                 Style="{StaticResource ActionButtonPopup}"
                 Tag="Rood" />
         </StackPanel>

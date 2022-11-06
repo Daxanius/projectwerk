@@ -2,9 +2,6 @@
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
-	/// <summary>
-	/// Informatie over bezoekers
-	/// </summary>
 	public class Bezoeker
 	{
 

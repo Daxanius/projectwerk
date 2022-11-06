@@ -63,7 +63,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             //"AfspraakManager - VoegAfspraakToe - afspraak bestaat al"
             _mockRepo.Setup(x => x.BestaatAfspraak(_ia)).Returns(true);
             var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(_ia));
-            Assert.Equal("AfspraakManager - VoegAfspraakToe - afspraak bestaat al", ex.Message);
+            Assert.Equal("AfspraakManager - VoegAfspraakToe - er is nog een lopende afspraak voor dit email adres", ex.Message);
         }
         #endregion
 
