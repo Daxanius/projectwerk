@@ -450,7 +450,18 @@
                                 <Condition Property="Tag" Value="Rood" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource LichtRood}" />
+                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource DonkerRood}" />
+                                <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
+                                <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="Tag" Value="Blauw" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource GewoonBlauw}" />
                                 <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
                                 <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
                             </MultiTrigger.Setters>

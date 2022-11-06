@@ -58,8 +58,8 @@ namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.Pagi
 			}
 		}
 
-		private void ToonAanwezigeBezoekers(object sender, MouseButtonEventArgs e) {
-
+		private void VraagHulpKnop(object sender, MouseButtonEventArgs e) {
+			MessageBox.Show("Lukt aanmelden niet?\n\n Neem contact op met de beheerder aan de balie.", "Probleem", MessageBoxButton.OK, MessageBoxImage.Question);
 		}
 	}
 }

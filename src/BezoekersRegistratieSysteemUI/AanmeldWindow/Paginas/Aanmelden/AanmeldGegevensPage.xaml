@@ -231,12 +231,12 @@
                     x:Name="AnnulerenButton"
                     Margin="10,10,50,10"
                     Padding="15,5"
-                    BorderBrush="{StaticResource LichtRood}"
+                    BorderBrush="{StaticResource DonkerRood}"
                     BorderThickness="3"
                     Click="AnnulerenKlik"
                     Content="Annuleren"
                     FontSize="35"
-                    Foreground="{StaticResource LichtRood}"
+                    Foreground="{StaticResource DonkerRood}"
                     Style="{StaticResource ActionButtonPopup}"
                     Tag="Rood" />
                 <Button

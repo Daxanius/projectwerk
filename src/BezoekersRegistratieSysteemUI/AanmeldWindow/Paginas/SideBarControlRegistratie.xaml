@@ -85,7 +85,7 @@
                 Background="{StaticResource MainAchtergrond}"
                 CornerRadius="20"
                 Cursor="Hand"
-                MouseLeftButtonDown="ToonAanwezigeBezoekers">
+                MouseLeftButtonDown="VraagHulpKnop">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                     <iconspresenter:Icon
                         CircleBackground="Transparent"
