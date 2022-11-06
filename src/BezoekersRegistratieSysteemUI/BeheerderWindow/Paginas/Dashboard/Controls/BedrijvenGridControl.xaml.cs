@@ -111,8 +111,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 
 			Window window = Window.GetWindow(this);
 			BeheerderWindow beheerderWindow = (BeheerderWindow)window.DataContext;
+			BeheerderWindow.GeselecteerdBedrijf = bedrijf;
 
-			beheerderWindow.ZetGeselecteerdBedrijf(bedrijf);
 			beheerderWindow.FrameControl.Content = AfsprakenPage.Instance;
 			beheerderWindow.SideBar.AfsprakenTab.Tag = "Selected";
 
