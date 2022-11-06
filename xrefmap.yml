@@ -3621,19 +3621,6 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemer
   nameWithType: WerknemerRepoADO.GeefWerknemer
-- uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpFunctie(System.String)
-  name: GeefWerknemersOpFunctie(String)
-  href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_GeefWerknemersOpFunctie_System_String_
-  commentId: M:BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpFunctie(System.String)
-  fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpFunctie(System.String)
-  nameWithType: WerknemerRepoADO.GeefWerknemersOpFunctie(String)
-- uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpFunctie*
-  name: GeefWerknemersOpFunctie
-  href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_GeefWerknemersOpFunctie_
-  commentId: Overload:BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpFunctie
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpFunctie
-  nameWithType: WerknemerRepoADO.GeefWerknemersOpFunctie
 - uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpFunctiePerBedrijf(System.String,System.Int64)
   name: GeefWerknemersOpFunctiePerBedrijf(String, Int64)
   href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_GeefWerknemersOpFunctiePerBedrijf_System_String_System_Int64_
@@ -3647,19 +3634,6 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpFunctiePerBedrijf
   nameWithType: WerknemerRepoADO.GeefWerknemersOpFunctiePerBedrijf
-- uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpNaam(System.String,System.String)
-  name: GeefWerknemersOpNaam(String, String)
-  href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_GeefWerknemersOpNaam_System_String_System_String_
-  commentId: M:BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpNaam(System.String,System.String)
-  fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpNaam(System.String, System.String)
-  nameWithType: WerknemerRepoADO.GeefWerknemersOpNaam(String, String)
-- uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpNaam*
-  name: GeefWerknemersOpNaam
-  href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_GeefWerknemersOpNaam_
-  commentId: Overload:BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpNaam
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpNaam
-  nameWithType: WerknemerRepoADO.GeefWerknemersOpNaam
 - uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpNaamPerBedrijf(System.String,System.String,System.Int64)
   name: GeefWerknemersOpNaamPerBedrijf(String, String, Int64)
   href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_GeefWerknemersOpNaamPerBedrijf_System_String_System_String_System_Int64_
