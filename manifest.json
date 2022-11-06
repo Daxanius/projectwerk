@@ -65,18 +65,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.html",
-          "hash": "419bgDZN9/Vuby1i06jwrQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.yml",
       "output": {
         ".html": {
@@ -117,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemBL.Domeinen.html",
-          "hash": "erh4lY75ceImwXwlRFSBsA=="
+          "hash": "b1N5FCqRZwP5vnR6NtkxBw=="
         }
       },
       "is_incremental": false,
@@ -154,6 +142,18 @@
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BezoekerException.html",
           "hash": "0e7y27kcr+WHICUaN28ysw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.html",
+          "hash": "K0CTBUjDIGP+5Olazaj+2A=="
         }
       },
       "is_incremental": false,
@@ -213,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.html",
-          "hash": "nJwkssO1I8f8YfpcVBEHwQ=="
+          "hash": "P/zCQEqP0HHcHYB8zWqQ5A=="
         }
       },
       "is_incremental": false,
@@ -405,7 +405,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html",
-          "hash": "B4s+6cLUqiJIarLZkoJPxg=="
+          "hash": "8Ygv8cYBnPt8wqUqR7s3jQ=="
         }
       },
       "is_incremental": false,
@@ -537,7 +537,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html",
-          "hash": "sH+4Wyf2GY2lu8bn/4rW5Q=="
+          "hash": "QSVUswvH0JDbYkzvhqztMw=="
         }
       },
       "is_incremental": false,
@@ -549,7 +549,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.BedrijfController.html",
-          "hash": "eyN9RoLGcixymSoCE1oVxw=="
+          "hash": "Jg85Nt7SrDITlR+hUVnGKg=="
         }
       },
       "is_incremental": false,
@@ -561,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html",
-          "hash": "sOF1DKRiyXl3o7eNnaPXTw=="
+          "hash": "2ZACKZiuE3Z07WrGRaaASQ=="
         }
       },
       "is_incremental": false,
@@ -573,7 +573,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.html",
-          "hash": "UWZf6YeD/ztLv7Jt2YNsLQ=="
+          "hash": "WDoLY7nD2ViRXnT24vknFg=="
         }
       },
       "is_incremental": false,
@@ -585,7 +585,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html",
-          "hash": "4VxriJFjue+YWxW9zQqoxQ=="
+          "hash": "rxKV0e180t+bL/dy7lp0Gg=="
         }
       },
       "is_incremental": false,
@@ -597,7 +597,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html",
-          "hash": "mfLVkl06A+ZKQssoUTkY4A=="
+          "hash": "N8YA40e7vgAE7czc33u8Mg=="
         }
       },
       "is_incremental": false,
@@ -609,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html",
-          "hash": "D1KL85dggSJehDQOX3kSsQ=="
+          "hash": "Xl8Nv1tM6Y4LX+p535YE0A=="
         }
       },
       "is_incremental": false,
@@ -621,7 +621,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html",
-          "hash": "zPukZNoa2NNmL6iWtjD/3Q=="
+          "hash": "VYyepjbMFac0xOpV4jhucg=="
         }
       },
       "is_incremental": false,
@@ -633,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.html",
-          "hash": "TpksyXf60p931RkyvFBt2Q=="
+          "hash": "LoiIbBsHFCcfEHSX99xbAA=="
         }
       },
       "is_incremental": false,
@@ -645,7 +645,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html",
-          "hash": "N0mBNDtVUUXpxpYp4dhaHg=="
+          "hash": "G+3fy+Xj2k8dVugXNqob5w=="
         }
       },
       "is_incremental": false,
@@ -657,7 +657,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html",
-          "hash": "9YT90PBMv883nmKs8kLOrw=="
+          "hash": "SnM5WSjozwjVDu9dCo6yGw=="
         }
       },
       "is_incremental": false,
@@ -669,7 +669,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.BezoekerOutputDTO.html",
-          "hash": "drJa1VHFyY8uLhY9B+rOkA=="
+          "hash": "ylpAgbgCVrXIp327s6QQOw=="
         }
       },
       "is_incremental": false,
@@ -681,7 +681,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html",
-          "hash": "fEDS/J2LAtQ/hlZLEhYL+g=="
+          "hash": "igEGww+fGQsKBi5b7j6Esg=="
         }
       },
       "is_incremental": false,
@@ -693,7 +693,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html",
-          "hash": "FtslclvVTe5AGi5ktFkUBA=="
+          "hash": "PZcx3CpzQ8T0wD1PbuqGHw=="
         }
       },
       "is_incremental": false,
@@ -705,7 +705,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.html",
-          "hash": "ZPh+57GovVTV6wSPXChPog=="
+          "hash": "r+Pz07r+NNfmuU87mkCtFA=="
         }
       },
       "is_incremental": false,
@@ -717,7 +717,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html",
-          "hash": "8DsiU065wh2qBWxA1DsJZQ=="
+          "hash": "PyMvJ65W0Ig85EvcG+AYig=="
         }
       },
       "is_incremental": false,
@@ -729,7 +729,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.html",
-          "hash": "UiksoP2gxmsPFEMCLkdf1g=="
+          "hash": "4IuWZHbOE/jpCltrvuJdnA=="
         }
       },
       "is_incremental": false,
@@ -753,7 +753,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "S+nGH+U53Bj3h9um8KU+lg=="
+          "hash": "uWRmrgzWUql+Z/c+ulqoBQ=="
         }
       },
       "is_incremental": false,

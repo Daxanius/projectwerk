@@ -732,49 +732,6 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.ZetVoornaam
   nameWithType: Bezoeker.ZetVoornaam
-- uid: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException
-  name: BtwControleException
-  href: api/BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.html
-  commentId: T:BezoekersRegistratieSysteemBL.Domeinen.BtwControleException
-  fullName: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException
-  nameWithType: BtwControleException
-- uid: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.#ctor
-  name: BtwControleException()
-  href: api/BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.html#BezoekersRegistratieSysteemBL_Domeinen_BtwControleException__ctor
-  commentId: M:BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.#ctor
-  fullName: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.BtwControleException()
-  nameWithType: BtwControleException.BtwControleException()
-- uid: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.#ctor(SerializationInfo,StreamingContext)
-  name: BtwControleException(SerializationInfo, StreamingContext)
-  href: api/BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.html#BezoekersRegistratieSysteemBL_Domeinen_BtwControleException__ctor_SerializationInfo_StreamingContext_
-  commentId: M:BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.#ctor(SerializationInfo,StreamingContext)
-  fullName: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.BtwControleException(SerializationInfo, StreamingContext)
-  nameWithType: BtwControleException.BtwControleException(SerializationInfo, StreamingContext)
-- uid: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.#ctor(System.Nullable{System.String})
-  name: BtwControleException(Nullable<String>)
-  href: api/BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.html#BezoekersRegistratieSysteemBL_Domeinen_BtwControleException__ctor_System_Nullable_System_String__
-  commentId: M:BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.#ctor(System.Nullable{System.String})
-  name.vb: BtwControleException(Nullable(Of String))
-  fullName: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.BtwControleException(System.Nullable<System.String>)
-  fullName.vb: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.BtwControleException(System.Nullable(Of System.String))
-  nameWithType: BtwControleException.BtwControleException(Nullable<String>)
-  nameWithType.vb: BtwControleException.BtwControleException(Nullable(Of String))
-- uid: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.#ctor(System.Nullable{System.String},System.Nullable{Exception})
-  name: BtwControleException(Nullable<String>, Nullable<Exception>)
-  href: api/BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.html#BezoekersRegistratieSysteemBL_Domeinen_BtwControleException__ctor_System_Nullable_System_String__System_Nullable_Exception__
-  commentId: M:BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.#ctor(System.Nullable{System.String},System.Nullable{Exception})
-  name.vb: BtwControleException(Nullable(Of String), Nullable(Of Exception))
-  fullName: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.BtwControleException(System.Nullable<System.String>, System.Nullable<Exception>)
-  fullName.vb: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.BtwControleException(System.Nullable(Of System.String), System.Nullable(Of Exception))
-  nameWithType: BtwControleException.BtwControleException(Nullable<String>, Nullable<Exception>)
-  nameWithType.vb: BtwControleException.BtwControleException(Nullable(Of String), Nullable(Of Exception))
-- uid: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.#ctor*
-  name: BtwControleException
-  href: api/BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.html#BezoekersRegistratieSysteemBL_Domeinen_BtwControleException__ctor_
-  commentId: Overload:BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.#ctor
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemBL.Domeinen.BtwControleException.BtwControleException
-  nameWithType: BtwControleException.BtwControleException
 - uid: BezoekersRegistratieSysteemBL.Domeinen.ParkingContract
   name: ParkingContract
   href: api/BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.html
@@ -1473,6 +1430,49 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BezoekerException.BezoekerException
   nameWithType: BezoekerException.BezoekerException
+- uid: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException
+  name: BtwControleException
+  href: api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.html
+  commentId: T:BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException
+  fullName: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException
+  nameWithType: BtwControleException
+- uid: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.#ctor
+  name: BtwControleException()
+  href: api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.html#BezoekersRegistratieSysteemBL_Exceptions_DomeinException_BtwControleException__ctor
+  commentId: M:BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.#ctor
+  fullName: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.BtwControleException()
+  nameWithType: BtwControleException.BtwControleException()
+- uid: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.#ctor(SerializationInfo,StreamingContext)
+  name: BtwControleException(SerializationInfo, StreamingContext)
+  href: api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.html#BezoekersRegistratieSysteemBL_Exceptions_DomeinException_BtwControleException__ctor_SerializationInfo_StreamingContext_
+  commentId: M:BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.#ctor(SerializationInfo,StreamingContext)
+  fullName: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.BtwControleException(SerializationInfo, StreamingContext)
+  nameWithType: BtwControleException.BtwControleException(SerializationInfo, StreamingContext)
+- uid: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.#ctor(System.Nullable{System.String})
+  name: BtwControleException(Nullable<String>)
+  href: api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.html#BezoekersRegistratieSysteemBL_Exceptions_DomeinException_BtwControleException__ctor_System_Nullable_System_String__
+  commentId: M:BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.#ctor(System.Nullable{System.String})
+  name.vb: BtwControleException(Nullable(Of String))
+  fullName: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.BtwControleException(System.Nullable<System.String>)
+  fullName.vb: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.BtwControleException(System.Nullable(Of System.String))
+  nameWithType: BtwControleException.BtwControleException(Nullable<String>)
+  nameWithType.vb: BtwControleException.BtwControleException(Nullable(Of String))
+- uid: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.#ctor(System.Nullable{System.String},System.Nullable{Exception})
+  name: BtwControleException(Nullable<String>, Nullable<Exception>)
+  href: api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.html#BezoekersRegistratieSysteemBL_Exceptions_DomeinException_BtwControleException__ctor_System_Nullable_System_String__System_Nullable_Exception__
+  commentId: M:BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.#ctor(System.Nullable{System.String},System.Nullable{Exception})
+  name.vb: BtwControleException(Nullable(Of String), Nullable(Of Exception))
+  fullName: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.BtwControleException(System.Nullable<System.String>, System.Nullable<Exception>)
+  fullName.vb: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.BtwControleException(System.Nullable(Of System.String), System.Nullable(Of Exception))
+  nameWithType: BtwControleException.BtwControleException(Nullable<String>, Nullable<Exception>)
+  nameWithType.vb: BtwControleException.BtwControleException(Nullable(Of String), Nullable(Of Exception))
+- uid: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.#ctor*
+  name: BtwControleException
+  href: api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.html#BezoekersRegistratieSysteemBL_Exceptions_DomeinException_BtwControleException__ctor_
+  commentId: Overload:BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.#ctor
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.BtwControleException.BtwControleException
+  nameWithType: BtwControleException.BtwControleException
 - uid: BezoekersRegistratieSysteemBL.Exceptions.DomeinException.EmailControleException
   name: EmailControleException
   href: api/BezoekersRegistratieSysteemBL.Exceptions.DomeinException.EmailControleException.html
@@ -3087,36 +3087,6 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Nutsvoorziening.IsTelefoonnummerGeldig
   nameWithType: Nutsvoorziening.IsTelefoonnummerGeldig
-- uid: BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexBtw
-  name: RegexBtw
-  href: api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html#BezoekersRegistratieSysteemBL_Nutsvoorziening_RegexBtw
-  commentId: F:BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexBtw
-  fullName: BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexBtw
-  nameWithType: Nutsvoorziening.RegexBtw
-- uid: BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexEmail
-  name: RegexEmail
-  href: api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html#BezoekersRegistratieSysteemBL_Nutsvoorziening_RegexEmail
-  commentId: F:BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexEmail
-  fullName: BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexEmail
-  nameWithType: Nutsvoorziening.RegexEmail
-- uid: BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexOptions
-  name: RegexOptions
-  href: api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html#BezoekersRegistratieSysteemBL_Nutsvoorziening_RegexOptions
-  commentId: F:BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexOptions
-  fullName: BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexOptions
-  nameWithType: Nutsvoorziening.RegexOptions
-- uid: BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexTelefoonnummer
-  name: RegexTelefoonnummer
-  href: api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html#BezoekersRegistratieSysteemBL_Nutsvoorziening_RegexTelefoonnummer
-  commentId: F:BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexTelefoonnummer
-  fullName: BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexTelefoonnummer
-  nameWithType: Nutsvoorziening.RegexTelefoonnummer
-- uid: BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexWhitespace
-  name: RegexWhitespace
-  href: api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html#BezoekersRegistratieSysteemBL_Nutsvoorziening_RegexWhitespace
-  commentId: F:BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexWhitespace
-  fullName: BezoekersRegistratieSysteemBL.Nutsvoorziening.RegexWhitespace
-  nameWithType: Nutsvoorziening.RegexWhitespace
 - uid: BezoekersRegistratieSysteemBL.Nutsvoorziening.VerwijderWhitespace(System.String)
   name: VerwijderWhitespace(String)
   href: api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html#BezoekersRegistratieSysteemBL_Nutsvoorziening_VerwijderWhitespace_System_String_
@@ -4306,32 +4276,6 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemersPerBedrijfVrijOfBezet
   nameWithType: WerknemerController.GeefWerknemersPerBedrijfVrijOfBezet
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderBedrijf(System.Int64,System.Int64)
-  name: VerwijderBedrijf(Int64, Int64)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VerwijderBedrijf_System_Int64_System_Int64_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderBedrijf(System.Int64,System.Int64)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderBedrijf(System.Int64, System.Int64)
-  nameWithType: WerknemerController.VerwijderBedrijf(Int64, Int64)
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderBedrijf*
-  name: VerwijderBedrijf
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VerwijderBedrijf_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderBedrijf
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderBedrijf
-  nameWithType: WerknemerController.VerwijderBedrijf
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderFunctie(System.Int64,System.Int64,System.String)
-  name: VerwijderFunctie(Int64, Int64, String)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VerwijderFunctie_System_Int64_System_Int64_System_String_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderFunctie(System.Int64,System.Int64,System.String)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderFunctie(System.Int64, System.Int64, System.String)
-  nameWithType: WerknemerController.VerwijderFunctie(Int64, Int64, String)
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderFunctie*
-  name: VerwijderFunctie
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VerwijderFunctie_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderFunctie
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderFunctie
-  nameWithType: WerknemerController.VerwijderFunctie
 - uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderWerknemer(System.Int64,System.Int64)
   name: VerwijderWerknemer(Int64, Int64)
   href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VerwijderWerknemer_System_Int64_System_Int64_

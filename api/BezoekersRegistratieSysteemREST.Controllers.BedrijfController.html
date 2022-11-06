@@ -73,7 +73,9 @@
   
   <h1 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController" class="text-break">Class BedrijfController
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>De bedrijf controller zorgt ervoor dat
+wij bedrijven kunnen beheren via de API.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -93,11 +95,12 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController__ctor_BezoekersRegistratieSysteemBL_Managers_BedrijfManager_BezoekersRegistratieSysteemBL_Managers_WerknemerManager_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController.%23ctor(BezoekersRegistratieSysteemBL.Managers.BedrijfManager%2CBezoekersRegistratieSysteemBL.Managers.WerknemerManager)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L18">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L27">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController__ctor_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.#ctor*"></a>
   <h4 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController__ctor_BezoekersRegistratieSysteemBL_Managers_BedrijfManager_BezoekersRegistratieSysteemBL_Managers_WerknemerManager_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.#ctor(BezoekersRegistratieSysteemBL.Managers.BedrijfManager,BezoekersRegistratieSysteemBL.Managers.WerknemerManager)">BedrijfController(BedrijfManager, WerknemerManager)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>De constructor.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -116,12 +119,14 @@
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Managers.BedrijfManager.html">BedrijfManager</a></td>
         <td><span class="parametername">afspraakManager</span></td>
-        <td></td>
+        <td><p>De afspraak manager</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html">WerknemerManager</a></td>
         <td><span class="parametername">werknemerManager</span></td>
-        <td></td>
+        <td><p>De werknemer manager</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -132,11 +137,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController_BewerkBedrijf_System_Int64_BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BewerkBedrijf(System.Int64%2CBezoekersRegistratieSysteemREST.Model.BedrijfInputDTO)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L119">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L127">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_BewerkBedrijf_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BewerkBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_BewerkBedrijf_System_Int64_BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BewerkBedrijf(System.Int64,BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO)">BewerkBedrijf(Int64, BedrijfInputDTO)</h4>
-  <div class="markdown level1 summary"><p>Bewerk een bedrijf</p>
+  <div class="markdown level1 summary"><p>Bewerkt een bedrijf.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -156,12 +161,14 @@
       <tr>
         <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">bedrijfId</span></td>
-        <td></td>
+        <td><p>De ID van het bedrijf</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html">BedrijfInputDTO</a></td>
         <td><span class="parametername">bedrijfInput</span></td>
-        <td></td>
+        <td><p>De nieuwe informatie van het bedrijf</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -176,7 +183,8 @@
     <tbody>
       <tr>
         <td><span class="xref">ActionResult</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html">BedrijfOutputDTO</a>&gt;</td>
-        <td></td>
+        <td><p>BadRequest bij mislukking</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -185,11 +193,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GeefAlleBedrijven.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GeefAlleBedrijven%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L62">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L71">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GeefAlleBedrijven_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GeefAlleBedrijven*"></a>
   <h4 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GeefAlleBedrijven" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GeefAlleBedrijven">GeefAlleBedrijven()</h4>
-  <div class="markdown level1 summary"><p>Geeft alle bedrijven</p>
+  <div class="markdown level1 summary"><p>Geeft alle bedrijven.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -207,7 +215,8 @@
     <tbody>
       <tr>
         <td><span class="xref">ActionResult</span>&lt;<span class="xref">IEnumerable</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html">BedrijfOutputDTO</a>&gt;&gt;</td>
-        <td></td>
+        <td><p>BadRequest bij mislukking</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -216,11 +225,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GeefBedrijfOpId_System_Int64_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GeefBedrijfOpId(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L29">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L38">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GeefBedrijfOpId_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GeefBedrijfOpId*"></a>
   <h4 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GeefBedrijfOpId_System_Int64_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GeefBedrijfOpId(System.Int64)">GeefBedrijfOpId(Int64)</h4>
-  <div class="markdown level1 summary"><p>Verkrijgt een bedrijf op ID</p>
+  <div class="markdown level1 summary"><p>Verkrijgt een bedrijf op ID.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -255,7 +264,8 @@
     <tbody>
       <tr>
         <td><span class="xref">ActionResult</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html">BedrijfOutputDTO</a>&gt;</td>
-        <td></td>
+        <td><p>NotFound bij mislukking</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -264,11 +274,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GeefBedrijfOpNaam_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GeefBedrijfOpNaam(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L46">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L55">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GeefBedrijfOpNaam_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GeefBedrijfOpNaam*"></a>
   <h4 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GeefBedrijfOpNaam_System_String_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GeefBedrijfOpNaam(System.String)">GeefBedrijfOpNaam(String)</h4>
-  <div class="markdown level1 summary"><p>Verkrijg een bedrijf op naam</p>
+  <div class="markdown level1 summary"><p>Verkrijgt een bedrijf op naam.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -288,7 +298,8 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">bedrijfNaam</span></td>
-        <td></td>
+        <td><p>De naam van het bedrijf</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -303,7 +314,8 @@
     <tbody>
       <tr>
         <td><span class="xref">ActionResult</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html">BedrijfOutputDTO</a>&gt;</td>
-        <td></td>
+        <td><p>NotFound bij mislukking</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -312,11 +324,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GetWerknemers_System_Int64_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GetWerknemers(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L140">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L148">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GetWerknemers_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GetWerknemers*"></a>
   <h4 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_GetWerknemers_System_Int64_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.GetWerknemers(System.Int64)">GetWerknemers(Int64)</h4>
-  <div class="markdown level1 summary"><p>Geef de werknemers van dit bedrijf</p>
+  <div class="markdown level1 summary"><p>Geeft de werknemers van een bedrijf.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -336,7 +348,8 @@
       <tr>
         <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">bedrijfId</span></td>
-        <td></td>
+        <td><p>De ID van het bedrijf</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -351,7 +364,8 @@
     <tbody>
       <tr>
         <td><span class="xref">ActionResult</span>&lt;<span class="xref">IEnumerable</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html">WerknemerOutputDTO</a>&gt;&gt;</td>
-        <td></td>
+        <td><p>BadRequest bij mislukking</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -360,12 +374,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VerwijderBedrijf_System_Int64_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VerwijderBedrijf(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L81">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L89">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VerwijderBedrijf_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VerwijderBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VerwijderBedrijf_System_Int64_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VerwijderBedrijf(System.Int64)">VerwijderBedrijf(Int64)</h4>
-  <div class="markdown level1 summary"><p>Verwijdert een bedrijf, vraagt momenteel
-het ID als parameter</p>
+  <div class="markdown level1 summary"><p>Verwijdert een bedrijf op ID.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -400,7 +413,8 @@ het ID als parameter</p>
     <tbody>
       <tr>
         <td><span class="xref">IActionResult</span></td>
-        <td></td>
+        <td><p>NotFound bij mislukking</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -409,11 +423,11 @@ het ID als parameter</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VerwijderWerknemerUitBedrijf_System_Int64_System_Int64_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VerwijderWerknemerUitBedrijf(System.Int64%2CSystem.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L160">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L168">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VerwijderWerknemerUitBedrijf_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VerwijderWerknemerUitBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VerwijderWerknemerUitBedrijf_System_Int64_System_Int64_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VerwijderWerknemerUitBedrijf(System.Int64,System.Int64)">VerwijderWerknemerUitBedrijf(Int64, Int64)</h4>
-  <div class="markdown level1 summary"><p>Verwijder een werkneemr uit een bedrijf</p>
+  <div class="markdown level1 summary"><p>Verwijdert een werkneemr uit een bedrijf.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -433,12 +447,14 @@ het ID als parameter</p>
       <tr>
         <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">bedrijfId</span></td>
-        <td></td>
+        <td><p>De ID van het bedrijf</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">werknemerId</span></td>
-        <td></td>
+        <td><p>De ID van de werknemer om te verwijderen</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -453,7 +469,8 @@ het ID als parameter</p>
     <tbody>
       <tr>
         <td><span class="xref">ActionResult</span>&lt;<span class="xref">IEnumerable</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html">WerknemerOutputDTO</a>&gt;&gt;</td>
-        <td></td>
+        <td><p>BadRequest bij mislukking</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -462,11 +479,11 @@ het ID als parameter</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VoegBedrijfToe_BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe(BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L101">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L109">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VoegBedrijfToe_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe*"></a>
   <h4 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VoegBedrijfToe_BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe(BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO)">VoegBedrijfToe(BedrijfInputDTO)</h4>
-  <div class="markdown level1 summary"><p>Voegt een bedrijf toe</p>
+  <div class="markdown level1 summary"><p>Voegt een bedrijf toe.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -486,7 +503,8 @@ het ID als parameter</p>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html">BedrijfInputDTO</a></td>
         <td><span class="parametername">bedrijfData</span></td>
-        <td></td>
+        <td><p>De informatie van het bedrijf</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -501,7 +519,8 @@ het ID als parameter</p>
     <tbody>
       <tr>
         <td><span class="xref">ActionResult</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html">BedrijfOutputDTO</a>&gt;</td>
-        <td></td>
+        <td><p>BadRequest bij mislukking</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -510,11 +529,11 @@ het ID als parameter</p>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VoegWerknemerToeAanBedrijf_System_Int64_BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegWerknemerToeAanBedrijf(System.Int64%2CBezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L181">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L190">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VoegWerknemerToeAanBedrijf_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegWerknemerToeAanBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VoegWerknemerToeAanBedrijf_System_Int64_BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO_" data-uid="BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegWerknemerToeAanBedrijf(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)">VoegWerknemerToeAanBedrijf(Int64, WerknemerInfoInputDTO)</h4>
-  <div class="markdown level1 summary"><p>Voeg een werknemer toe aan een bedrijf</p>
+  <div class="markdown level1 summary"><p>Voegt een werknemer toe aan een bedrijf.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -534,12 +553,14 @@ het ID als parameter</p>
       <tr>
         <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">werknemerId</span></td>
-        <td></td>
+        <td><p>De ID van de werknemer</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html">WerknemerInfoInputDTO</a></td>
         <td><span class="parametername">werknemerInfo</span></td>
-        <td></td>
+        <td><p>De nieuwe info van de werknemer om toe te voegen</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -554,7 +575,8 @@ het ID als parameter</p>
     <tbody>
       <tr>
         <td><span class="xref">ActionResult</span>&lt;<span class="xref">IEnumerable</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html">WerknemerOutputDTO</a>&gt;&gt;</td>
-        <td></td>
+        <td><p>BadRequest bij mislukking</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -569,7 +591,7 @@ het ID als parameter</p>
                     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Controllers_BedrijfController.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Controllers.BedrijfController%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L11" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Controllers/BedrijfController.cs/#L15" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
