@@ -19,7 +19,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		private readonly BedrijfManager _bedrijfManager;
 
 		/// <summary>
-		/// De constructor voor afspraak controller, heeft practisch alle managers nodig.
+		/// De constructor, heeft practisch alle managers nodig.
 		/// </summary>
 		/// <param name="afspraakManager">De afspraaak manager</param>
 		/// <param name="werknemerManager">De werknemer manager</param>
@@ -175,7 +175,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <summary>
 		/// Bewerkt een afspraak op ID.
 		/// </summary>
-		/// <param name="afspraakId">Het ID van de afspraak</param>
+		/// <param name="afspraakId">De ID van de afspraak</param>
 		/// <param name="afspraakInput">De nieuwe informatie van de afspraak</param>
 		/// <returns>BadRequest bij mislukking</returns>
 		[HttpPut("id/{afspraakId}")]
@@ -213,7 +213,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		/// <summary>
 		/// Geeft alle afspraken per bezoeker op een bedrijf.
 		/// </summary>
-		/// <param name="bedrijfId">Het ID van het bedirjf</param>
+		/// <param name="bedrijfId">De ID van het bedrijf</param>
 		/// <param name="bezoekerInput">De bezoeker informatie</param>
 		/// <param name="dag">De dag waarop de afspraak plaatsvond</param>
 		/// <returns>NotFound bij mislukking</returns>

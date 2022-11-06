@@ -8,6 +8,10 @@ using System.Collections;
 
 namespace BezoekersRegistratieSysteemREST.Controllers
 {
+	/// <summary>
+	/// De bedrijf controller zorgt ervoor dat 
+	/// wij bedrijven kunnen beheren via de API.
+	/// </summary>
 	[Route("api/[controller]")]
 	[ApiController]
 	public class BedrijfController : ControllerBase
@@ -15,6 +19,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		private readonly BedrijfManager _bedrijfManager;
 		private readonly WerknemerManager _werknemerManager;
 
+		/// <summary>
+		/// De constructor.
+		/// </summary>
+		/// <param name="afspraakManager">De afspraak manager</param>
+		/// <param name="werknemerManager">De werknemer manager</param>
 		public BedrijfController(BedrijfManager afspraakManager, WerknemerManager werknemerManager)
 		{
 			_bedrijfManager = afspraakManager;
@@ -22,10 +31,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Verkrijgt een bedrijf op ID
+		/// Verkrijgt een bedrijf op ID.
 		/// </summary>
 		/// <param name="bedrijfId"></param>
-		/// <returns></returns>
+		/// <returns>NotFound bij mislukking</returns>
 		[HttpGet("id/{bedrijfId}")]
 		public ActionResult<BedrijfOutputDTO> GeefBedrijfOpId(long bedrijfId)
 		{
@@ -39,10 +48,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Verkrijg een bedrijf op naam
+		/// Verkrijgt een bedrijf op naam.
 		/// </summary>
-		/// <param name="bedrijfNaam"></param>
-		/// <returns></returns>
+		/// <param name="bedrijfNaam">De naam van het bedrijf</param>
+		/// <returns>NotFound bij mislukking</returns>
 		[HttpGet("naam/{bedrijfNaam}")]
 		public ActionResult<BedrijfOutputDTO> GeefBedrijfOpNaam(string bedrijfNaam)
 		{
@@ -56,9 +65,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Geeft alle bedrijven
+		/// Geeft alle bedrijven.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>BadRequest bij mislukking</returns>
 		[HttpGet]
 		public ActionResult<IEnumerable<BedrijfOutputDTO>> GeefAlleBedrijven()
 		{
@@ -73,11 +82,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Verwijdert een bedrijf, vraagt momenteel
-		/// het ID als parameter
+		/// Verwijdert een bedrijf op ID.
 		/// </summary>
 		/// <param name="bedrijfId"></param>
-		/// <returns></returns>
+		/// <returns>NotFound bij mislukking</returns>
 		[HttpDelete("id/{bedrijfId}")]
 		public IActionResult VerwijderBedrijf(long bedrijfId)
 		{
@@ -94,10 +102,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Voegt een bedrijf toe
+		/// Voegt een bedrijf toe.
 		/// </summary>
-		/// <param name="bedrijfData"></param>
-		/// <returns></returns>
+		/// <param name="bedrijfData">De informatie van het bedrijf</param>
+		/// <returns>BadRequest bij mislukking</returns>
 		[HttpPost]
 		public ActionResult<BedrijfOutputDTO> VoegBedrijfToe([FromBody] BedrijfInputDTO bedrijfData)
 		{
@@ -111,11 +119,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Bewerk een bedrijf
+		/// Bewerkt een bedrijf.
 		/// </summary>
-		/// <param name="bedrijfId"></param>
-		/// <param name="bedrijfInput"></param>
-		/// <returns></returns>
+		/// <param name="bedrijfId">De ID van het bedrijf</param>
+		/// <param name="bedrijfInput">De nieuwe informatie van het bedrijf</param>
+		/// <returns>BadRequest bij mislukking</returns>
 		[HttpPut("id/{bedrijfId}")]
 		public ActionResult<BedrijfOutputDTO> BewerkBedrijf(long bedrijfId, [FromBody] BedrijfInputDTO bedrijfInput)
 		{
@@ -133,10 +141,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Geef de werknemers van dit bedrijf
+		/// Geeft de werknemers van een bedrijf.
 		/// </summary>
-		/// <param name="bedrijfId"></param>
-		/// <returns></returns>
+		/// <param name="bedrijfId">De ID van het bedrijf</param>
+		/// <returns>BadRequest bij mislukking</returns>
 		[HttpGet("werknemer/id/{bedrijfId}")]
 		public ActionResult<IEnumerable<WerknemerOutputDTO>> GetWerknemers(long bedrijfId)
 		{
@@ -152,11 +160,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Verwijder een werkneemr uit een bedrijf
+		/// Verwijdert een werkneemr uit een bedrijf.
 		/// </summary>
-		/// <param name="bedrijfId"></param>
-		/// <param name="werknemerId"></param>
-		/// <returns></returns>
+		/// <param name="bedrijfId">De ID van het bedrijf</param>
+		/// <param name="werknemerId">De ID van de werknemer om te verwijderen</param>
+		/// <returns>BadRequest bij mislukking</returns>
 		[HttpDelete("werknemer/{bedrijfId}/{werknemerId}")]
 		public ActionResult<IEnumerable<WerknemerOutputDTO>> VerwijderWerknemerUitBedrijf(long bedrijfId, long werknemerId)
 		{
@@ -173,11 +181,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Voeg een werknemer toe aan een bedrijf
+		/// Voegt een werknemer toe aan een bedrijf.
 		/// </summary>
-		/// <param name="werknemerId"></param>
-		/// <param name="werknemerInfo"></param>
-		/// <returns></returns>
+		/// <param name="werknemerId">De ID van de werknemer</param>
+		/// <param name="werknemerInfo">De nieuwe info van de werknemer om toe te voegen</param>
+		/// <returns>BadRequest bij mislukking</returns>
 		[HttpPost("werknemer/id/{werknemerId}")]
 		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegWerknemerToeAanBedrijf(long werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo)
 		{
