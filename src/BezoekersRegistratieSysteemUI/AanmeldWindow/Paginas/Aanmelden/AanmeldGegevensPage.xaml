@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="AanmeldGegevensPage"
@@ -11,186 +12,246 @@
     FontFamily="{StaticResource Inter}"
     mc:Ignorable="d">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="10*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label
-            Grid.Row="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Margin="0,0,0,40"
-            HorizontalAlignment="Center"
-            Content="Gelieve uw gegevens in te geven."
-            FontSize="48"
-            FontWeight="Bold"
-            Foreground="{StaticResource DonkerBlauw}" />
-        <StackPanel
-            Grid.Row="3"
-            Grid.Column="1"
-            Margin="0,0,0,20">
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <Label
-                Content="Voornaam"
-                FontSize="18"
-                FontWeight="Medium"
-                Foreground="{StaticResource DonkerBlauw}" />
-            <TextBox
-                MinHeight="45"
-                Padding="25,0,0,0"
+                Grid.Row="0"
+                Margin="0,100,0,0"
+                HorizontalAlignment="Center"
                 VerticalContentAlignment="Center"
-                Background="{StaticResource LichtGrijsAccent}"
-                BorderBrush="Transparent"
-                FontSize="18"
-                FontWeight="Medium"
-                Foreground="{StaticResource DonkerBlauw}"
-                TextWrapping="Wrap">
-                <TextBox.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="25" />
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
-        </StackPanel>
-        <StackPanel
-            Grid.Row="3"
-            Grid.Column="3"
-            Margin="0,0,0,20">
-            <Label
-                Content="Achternaam"
-                FontSize="18"
-                FontWeight="Medium"
+                Content="Gelieve uw gegevens in te geven."
+                FontSize="48"
+                FontWeight="Bold"
                 Foreground="{StaticResource DonkerBlauw}" />
-            <TextBox
-                MinHeight="45"
-                Padding="25,0,0,0"
-                VerticalContentAlignment="Center"
-                Background="{StaticResource LichtGrijsAccent}"
-                BorderBrush="Transparent"
-                FontSize="18"
-                FontWeight="Medium"
-                Foreground="{StaticResource DonkerBlauw}"
-                TextWrapping="Wrap">
-                <TextBox.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="25" />
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
-        </StackPanel>
-        <StackPanel
-            Grid.Row="5"
-            Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Margin="0,0,0,20">
-            <Label
-                Content="Email"
-                FontSize="18"
-                FontWeight="Medium"
-                Foreground="{StaticResource DonkerBlauw}" />
-            <TextBox
-                MinWidth="1000"
-                MinHeight="45"
-                Padding="25,0,0,0"
-                VerticalContentAlignment="Center"
-                Background="{StaticResource LichtGrijsAccent}"
-                BorderBrush="Transparent"
-                FontSize="18"
-                FontWeight="Medium"
-                Foreground="{StaticResource DonkerBlauw}"
-                TextWrapping="Wrap">
-                <TextBox.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="25" />
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
-        </StackPanel>
-        <StackPanel
-            Grid.Row="7"
-            Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Margin="0,0,0,20">
-            <Label
-                Content="Bedrijf"
-                FontSize="18"
-                FontWeight="Medium"
-                Foreground="{StaticResource DonkerBlauw}" />
-            <TextBox
-                Grid.Row="5"
-                Grid.Column="1"
-                Grid.ColumnSpan="3"
-                MinWidth="1000"
-                MinHeight="45"
-                Padding="25,0,0,0"
-                VerticalContentAlignment="Center"
-                Background="{StaticResource LichtGrijsAccent}"
-                BorderBrush="Transparent"
-                FontSize="18"
-                FontWeight="Medium"
-                Foreground="{StaticResource DonkerBlauw}"
-                TextWrapping="Wrap">
-                <TextBox.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="25" />
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
-        </StackPanel>
-        <Button
-            Grid.Row="9"
-            Grid.Column="1"
-            Width="150"
-            Height="45"
-            Margin="0,15,0,0"
-            HorizontalAlignment="Right"
-            Background="Transparent"
-            BorderBrush="{StaticResource LichtRood}"
-            BorderThickness="3"
-            Content="annuleren"
-            FontSize="18"
-            FontWeight="Medium"
-            Foreground="{StaticResource LichtRood}">
-            <Button.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="25" />
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Button
-            Grid.Row="9"
-            Grid.Column="3"
-            Width="150"
-            Height="45"
-            Margin="0,15,0,0"
-            HorizontalAlignment="Left"
-            Background="Transparent"
-            BorderBrush="{StaticResource ButtonGroen}"
-            BorderThickness="3"
-            Content="aanmelden"
-            FontSize="18"
-            FontWeight="Medium"
-            Foreground="{StaticResource ButtonGroen}">
-            <Button.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="25" />
-                </Style>
-            </Button.Resources>
-        </Button>
+            <UniformGrid
+                Grid.Row="1"
+                Margin="0,50"
+                Rows="2">
+                <Grid Margin="0,15,50,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Content="Voornaam"
+                        Style="{StaticResource AanmeldenLabelStyle}" />
+                    <TextBox
+                        Grid.Row="1"
+                        Style="{StaticResource AanmeldenInputStyle}"
+                        Text="{Binding Voornaam}" />
+                </Grid>
+                <Grid Margin="50,15,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Content="Achternaam"
+                        Style="{StaticResource AanmeldenLabelStyle}" />
+                    <TextBox
+                        Grid.Row="1"
+                        Style="{StaticResource AanmeldenInputStyle}"
+                        Text="{Binding Achternaam}" />
+                </Grid>
+                <Grid Margin="0,15,50,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Content="Email"
+                        Style="{StaticResource AanmeldenLabelStyle}" />
+                    <TextBox
+                        Grid.Row="1"
+                        Style="{StaticResource AanmeldenInputStyle}"
+                        Text="{Binding Email}" />
+                </Grid>
+                <Grid Margin="50,15,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Content="Bedrijf"
+                        Style="{StaticResource AanmeldenLabelStyle}" />
+                    <TextBox
+                        Grid.Row="1"
+                        Style="{StaticResource AanmeldenInputStyle}"
+                        Text="{Binding Bedrijf}" />
+                </Grid>
+            </UniformGrid>
+            <Grid Grid.Row="2" Margin="0,0,0,20">
+                <GroupBox
+                    Padding="15"
+                    BorderBrush="{StaticResource LichtGrijsAccent}"
+                    BorderThickness="2"
+                    FontSize="28"
+                    FontWeight="DemiBold"
+                    Header="Werknemer">
+                    <ListView
+                        x:Name="WerknemersLijst"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        BorderBrush="Transparent"
+                        FontFamily="Inter"
+                        ItemsSource="{Binding LijstMetWerknemersVanGeselecteerdBedrijf}"
+                        ScrollViewer.CanContentScroll="False"
+                        SelectionMode="Single">
+                        <ListView.Style>
+                            <Style TargetType="ListView">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="False">
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Style>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <StackPanel MouseLeftButtonDown="KlikOpRow">
+                                                <Border
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    BorderThickness="0">
+                                                    <GridViewRowPresenter
+                                                        Width="Auto"
+                                                        Margin="0"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        Content="{TemplateBinding Content}" />
+                                                </Border>
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView>
+                                <GridView.ColumnHeaderContainerStyle>
+                                    <Style TargetType="GridViewColumnHeader">
+                                        <Setter Property="FontSize" Value="16" />
+                                        <Setter Property="FontWeight" Value="DemiBold" />
+                                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="GridViewColumnHeader">
+                                                    <ControlTemplate.Resources>
+                                                        <Style TargetType="DataGridColumnHeader">
+                                                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                                        </Style>
+                                                    </ControlTemplate.Resources>
+                                                    <Label
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        Content="{TemplateBinding Content}" />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GridView.ColumnHeaderContainerStyle>
+                                <GridView.Columns>
+                                    <GridViewColumn>
+                                        <GridViewColumn.Header>
+                                            <TextBlock
+                                                MinWidth="200"
+                                                FontSize="12"
+                                                Foreground="{StaticResource LichtGrijs}"
+                                                Text="Naam" />
+                                        </GridViewColumn.Header>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label
+                                                    Padding="8,15,0,15"
+                                                    Content="{Binding Voornaam}"
+                                                    FontSize="15"
+                                                    FontWeight="DemiBold" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn>
+                                        <GridViewColumn.Header>
+                                            <TextBlock
+                                                MinWidth="200"
+                                                FontSize="12"
+                                                Foreground="{StaticResource LichtGrijs}"
+                                                Text="Functie(s)" />
+                                        </GridViewColumn.Header>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label
+                                                    Padding="8,15,0,15"
+                                                    Content="{Binding Functie}"
+                                                    FontSize="15"
+                                                    FontWeight="DemiBold" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </GroupBox>
+            </Grid>
+            <UniformGrid
+                Grid.Row="3"
+                Margin="0,10,0,20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Columns="2">
+                <Button
+                    x:Name="AnnulerenButton"
+                    Margin="10,10,50,10"
+                    Padding="15,5"
+                    BorderBrush="{StaticResource LichtRood}"
+                    BorderThickness="3"
+                    Click="AnnulerenKlik"
+                    Content="Terug"
+                    FontSize="35"
+                    Foreground="{StaticResource LichtRood}"
+                    Style="{StaticResource ActionButtonPopup}"
+                    Tag="Rood" />
+                <Button
+                    x:Name="BevestigenButton"
+                    Margin="50,10,10,10"
+                    Padding="15,5"
+                    BorderBrush="{StaticResource LichtGroen}"
+                    BorderThickness="3"
+                    Click="AanmeldenKlik"
+                    Content="Aanmelden"
+                    FontSize="35"
+                    Foreground="{StaticResource LichtGroen}"
+                    Style="{StaticResource ActionButtonPopup}"
+                    Tag="Groen" />
+            </UniformGrid>
+        </Grid>
     </Grid>
 </Page>
