@@ -8,7 +8,7 @@ namespace BezoekersRegistratieSysteemREST.Model {
 		/// <summary>
 		/// Zet de DTO om naar de business variant.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>De business variant</returns>
 		public Bedrijf NaarBusiness() {
 			return new(Naam, BTW, TelefoonNummer, Email, Adres);
 		}
@@ -45,7 +45,7 @@ namespace BezoekersRegistratieSysteemREST.Model {
 		public string TelefoonNummer { get; set; }
 
 		/// <summary>
-		/// De email van het bedrijf.
+		/// Het email van het bedrijf.
 		/// </summary>
 		public string Email { get; set; }
 
