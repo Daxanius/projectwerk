@@ -46,7 +46,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		#region Private Fields
 
 		private const int MAX_COLUMN_COUNT = 3;
-		private List<BedrijfDTO> _bedrijven;
+		public List<BedrijfDTO> _bedrijven;
 
 		#endregion
 
@@ -131,7 +131,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			RegistratieWindow registratieWindow = (RegistratieWindow)window.DataContext;
 
 			RegistratieWindow.GeselecteerdBedrijf = geselecteerdbedrijf;
-			registratieWindow.FrameControl.Navigate(new AanmeldGegevensPage());
+			registratieWindow.FrameControl.Content = new AanmeldGegevensPage();
 		}
 
 		#endregion

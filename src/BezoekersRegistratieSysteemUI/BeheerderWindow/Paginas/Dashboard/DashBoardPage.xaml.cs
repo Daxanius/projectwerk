@@ -48,6 +48,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 		public DashBoardPage() {
 			this.DataContext = this;
 			InitializeComponent();
+
+			//this.NavigationService.Navigate()
+			//TODO: :-)
 		}
 	}
 }

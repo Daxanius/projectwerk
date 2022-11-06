@@ -24,9 +24,6 @@
             x:Name="SideBar"
             Width="350"
             DockPanel.Dock="Left" />
-        <Frame
-            x:Name="FrameControl"
-            NavigationUIVisibility="Hidden"
-            Source="/BeheerderWindow/Paginas/DashBoard/DashBoardPage.xaml" />
+        <Frame x:Name="FrameControl" NavigationUIVisibility="Hidden" />
     </DockPanel>
 </Window>

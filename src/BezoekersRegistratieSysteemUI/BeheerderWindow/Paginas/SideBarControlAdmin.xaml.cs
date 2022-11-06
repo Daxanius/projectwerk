@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 
 			foreach (Border border in BorderContainer.Children) {
 				border.Tag = "UnSelected";
-				((TextBlock)((StackPanel)(border).Child).Children[1]).FontWeight = FontWeights.Normal;
+				((TextBlock)((StackPanel)(border).Child).Children[1]).FontWeight = FontWeights.Medium;
 				if (((TextBlock)((StackPanel)(border).Child).Children[1]).IsEnabled)
 					((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).Opacity = 1;
 				((Icon)((StackPanel)border.Child).Children[0]).Opacity = .6;
@@ -57,16 +57,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 
 			switch (tab) {
 				case "Dashboard":
-				beheerderWindow.FrameControl.Navigate(DashBoardPage.Instance);
+				beheerderWindow.FrameControl.Content = DashBoardPage.Instance;
 				break;
 				case "Bedrijven":
-				beheerderWindow.FrameControl.Navigate(BedrijvenPage.Instance);
+				beheerderWindow.FrameControl.Content = BedrijvenPage.Instance;
 				break;
 				case "Afspraken":
-				beheerderWindow.FrameControl.Navigate(AfsprakenPage.Instance);
+				beheerderWindow.FrameControl.Content = AfsprakenPage.Instance;
 				break;
 				case "Werknemers":
-				beheerderWindow.FrameControl.Navigate(WerknemersPage.Instance);
+				beheerderWindow.FrameControl.Content = WerknemersPage.Instance;
 				break;
 			}
 		}

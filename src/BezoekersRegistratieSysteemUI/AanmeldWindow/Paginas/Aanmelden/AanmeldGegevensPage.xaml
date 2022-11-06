@@ -182,26 +182,35 @@
                                     <GridViewColumn>
                                         <GridViewColumn.Header>
                                             <TextBlock
-                                                MinWidth="200"
-                                                FontSize="12"
+                                                FontSize="26"
                                                 Foreground="{StaticResource LichtGrijs}"
                                                 Text="Naam" />
                                         </GridViewColumn.Header>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Label
+                                                    Margin="0,0,25,0"
                                                     Padding="8,15,0,15"
-                                                    Content="{Binding Voornaam}"
-                                                    FontSize="15"
-                                                    FontWeight="DemiBold" />
+                                                    FontSize="26"
+                                                    FontWeight="DemiBold">
+                                                    <Label.Content>
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                                    <Binding Path="Voornaam" />
+                                                                    <Binding Path="Achternaam" />
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </Label.Content>
+                                                </Label>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
                                     <GridViewColumn>
                                         <GridViewColumn.Header>
                                             <TextBlock
-                                                MinWidth="200"
-                                                FontSize="12"
+                                                FontSize="26"
                                                 Foreground="{StaticResource LichtGrijs}"
                                                 Text="Functie(s)" />
                                         </GridViewColumn.Header>
@@ -210,7 +219,7 @@
                                                 <Label
                                                     Padding="8,15,0,15"
                                                     Content="{Binding Functie}"
-                                                    FontSize="15"
+                                                    FontSize="26"
                                                     FontWeight="DemiBold" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>

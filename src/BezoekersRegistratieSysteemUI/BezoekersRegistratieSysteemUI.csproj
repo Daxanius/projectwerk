@@ -19,6 +19,7 @@
 	  <None Remove="Fonts\Inter-Regular.ttf" />
 	  <None Remove="Fonts\Inter-SemiBold.ttf" />
 	  <None Remove="Fonts\Inter-Thin.ttf" />
+	  <None Remove="LoadingAnimation.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,6 +40,7 @@
 	  <Page Remove="Icons\WerknemerAfspraakIcon.xaml" />
 	  <Page Remove="Icons\WerknemerIcon.xaml" />
 	  <Page Remove="Icons\WitLijstIcon.xaml" />
+	  <Page Remove="LoadingAnimation.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -74,6 +76,12 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
 	  <Resource Include="Icons\WerknemerIcon.xaml" />
+	  <Resource Include="LoadingAnimation.svg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="LoadingAnimation.xaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
 	</ItemGroup>
 
 	<ItemGroup>

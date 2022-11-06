@@ -1,4 +1,7 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
@@ -6,6 +9,7 @@ using System.ComponentModel;
 using System.Printing.IndexedProperties;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -41,6 +45,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 			this.DataContext = this;
 			InitializeComponent();
 
+			FrameControl.Navigate(DashBoardPage.Instance);
 			FrameControl.Navigating += OnPageNavigation;
 		}
 
