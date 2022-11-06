@@ -13,9 +13,10 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void BeeindigAfspraakOpEmail(string bezoekerMail);
 		Afspraak GeefAfspraak(long afspraakId);
 		bool BestaatAfspraak(Afspraak afspraak);
-		bool BestaatAfspraak(long afspraakid);
+		bool BestaatAfspraak(long afspraakid);    
+        bool BestaatAfspraak(string bezoekerMail);
 
-		bool BestaatLopendeAfspraak(Afspraak afspraak);
+        bool BestaatLopendeAfspraak(Afspraak afspraak);
 
         //Bedrijf
         IReadOnlyList<Afspraak> GeefHuidigeAfspraken();
