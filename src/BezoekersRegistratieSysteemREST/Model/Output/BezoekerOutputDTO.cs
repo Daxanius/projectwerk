@@ -50,10 +50,29 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			Bedrijf = bedrijf;
 		}
 
+		/// <summary>
+		/// De ID van de bezoeker.
+		/// </summary>
 		public long Id { get; private set; }
+
+		/// <summary>
+		/// De voornaam van de bezoeker.
+		/// </summary>
 		public string Voornaam { get; private set; }
+
+		/// <summary>
+		/// De achternaam van de bezoeker.
+		/// </summary>
 		public string Achternaam { get; private set; }
+
+		/// <summary>
+		/// Het email van de bezoeker.
+		/// </summary>
 		public string Email { get; private set; }
+
+		/// <summary>
+		/// Het bedrijf van de bezoeker.
+		/// </summary>
 		public string Bedrijf { get; private set; }
 	}
 }

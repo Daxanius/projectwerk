@@ -39,14 +39,44 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			return output;
 		}
 
+		/// <summary>
+		/// De ID van het bedrijf.
+		/// </summary>
 		public long Id { get; set; }
+
+		/// <summary>
+		/// De naam van het bedrijf.
+		/// </summary>
 		public string Naam { get; set; }
+
+		/// <summary>
+		/// Het BTW nummer van het bedrijf.
+		/// </summary>
 		public string BTW { get; set; }
+
+		/// <summary>
+		/// Zegt of het BTW nummer gecontroleert is op bestaan.
+		/// </summary>
 		public bool IsGecontroleerd { get; set; }
+
+		/// <summary>
+		/// Het telefoon nummer van het bedrijf.
+		/// </summary>
 		public string TelefoonNummer { get; set; }
+
+		/// <summary>
+		/// Het mailadres van het bedrijf.
+		/// </summary>
 		public string Email { get; set; }
+
+		/// <summary>
+		/// Het adres van het bedrijf.
+		/// </summary>
 		public string Adres { get; set; }
 
+		/// <summary>
+		/// De werknemers van het bedrijf.
+		/// </summary>
 		public List<long> Werknemers { get; set; } = new();
 
 		/// <summary>

@@ -55,9 +55,24 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			WerknemerInfo = werknemerInfo;
 		}
 
+		/// <summary>
+		/// De ID van de werknemer
+		/// </summary>
 		public long Id { get; private set; }
+
+		/// <summary>
+		/// De voornaam van de werknemer.
+		/// </summary>
 		public string Voornaam { get; private set; }
+
+		/// <summary>
+		/// De achternaam van de werknemer.
+		/// </summary>
 		public string Achternaam { get; private set; }
+
+		/// <summary>
+		/// Alle bedrijven waarbij de werknemer werkt.
+		/// </summary>
 		public List<WerknemerInfoOutputDTO> WerknemerInfo { get; set; } = new();
 	}
 }

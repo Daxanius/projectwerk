@@ -46,8 +46,19 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			Functies = functies;
 		}
 
+		/// <summary>
+		/// Het bedrijf van de info.
+		/// </summary>
 		public long BedrijfId { get; set; }
+
+		/// <summary>
+		/// De bedrijfsmail van de werknemer binnen dit bedrijf.
+		/// </summary>
 		public string Email { get; set; }
+
+		/// <summary>
+		/// De functies van de werknemer binnen dit bedrijf.
+		/// </summary>
 		public List<string> Functies { get; set; } = new();
 	}
 }

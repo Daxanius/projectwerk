@@ -52,11 +52,34 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			WerknemerId = werknemerId;
 		}
 
+		/// <summary>
+		/// De afspraak ID.
+		/// </summary>
 		public long Id { get; set; }
+
+		/// <summary>
+		/// De starttijd van de afspraak.
+		/// </summary>
 		public DateTime Starttijd { get; set; }
+
+		/// <summary>
+		/// De eindtijd van de afspraak.
+		/// </summary>
 		public DateTime? Eindtijd { get; set; }
+
+		/// <summary>
+		/// Het bedrijf van de afspraak.
+		/// </summary>
 		public long BedrijfId { get; set; }
+
+		/// <summary>
+		/// De bezoeker van de afspraak.
+		/// </summary>
 		public long BezoekerId { get; set; }
+
+		/// <summary>
+		/// De werknemer van de afpsraak.
+		/// </summary>
 		public long WerknemerId { get; set; }
 	}
 }
