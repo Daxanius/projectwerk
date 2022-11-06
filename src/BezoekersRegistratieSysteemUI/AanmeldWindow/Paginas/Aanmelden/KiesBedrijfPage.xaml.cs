@@ -145,7 +145,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		#region API Requests
 		private async void FetchAlleBedrijven() {
 			_bedrijven = new();
-			(bool isvalid, List<ApiBedrijf> bedrijven) = await ApiController.Fetch<List<ApiBedrijf>>("/bedrijf");
+			(bool isvalid, List<ApiBedrijfIN> bedrijven) = await ApiController.Get<List<ApiBedrijfIN>>("/bedrijf");
 
 			if (isvalid) {
 				bedrijven.ForEach((api) => {

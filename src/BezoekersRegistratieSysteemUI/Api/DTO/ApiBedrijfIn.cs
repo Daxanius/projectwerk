@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemUI.Api.DTO
 {
-    public class ApiBedrijf
+    public class ApiBedrijfIN
     {
         [JsonProperty("id")]
         public int Id { get; set; }

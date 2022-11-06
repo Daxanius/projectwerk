@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Api;
+﻿using BezoekersRegistratieSysteemREST.Model.Output;
+using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.DTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.Exceptions;
@@ -10,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 	/// <summary>
@@ -89,7 +91,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		}
 
 		private async void FetchWerknemersVoorBedrijf() {
-			(bool isValid, List<ApiWerknemer> werknemersVanGeselecteerdBedrijf) = await ApiController.Fetch<List<ApiWerknemer>>($"werknemer/bedrijf/id/{_geselecteerdBedrijfsId.Value}");
+			(bool isValid, List<ApiWerknemerIn> werknemersVanGeselecteerdBedrijf) = await ApiController.Get<List<ApiWerknemerIn>>($"werknemer/bedrijf/id/{_geselecteerdBedrijfsId.Value}");
 			if (isValid) {
 				List<WerknemerDTO> werknemersDTOVanBedrijf = new();
 				werknemersVanGeselecteerdBedrijf.ForEach(w => {
@@ -98,7 +100,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				});
 				LijstMetWerknemersVanGeselecteerdBedrijf = werknemersDTOVanBedrijf;
 			}
-			throw new FetchApiException("Fout bij het ophalen van werknemers");
 		}
 
 		#region Action Buttons
@@ -119,7 +120,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				BezoekerDTO bezoeker = new(Voornaam, Achternaam, Email, Bedrijf);
 
 				if (werknemer.Id.HasValue) {
-					MaakNieuweAfspraak(werknemer.Id.Value, _geselecteerdBedrijfsId.Value, bezoeker);
+					MaakNieuweAfspraak(_geselecteerdBedrijfsId.Value, werknemer.Id.Value, bezoeker);
 				}
 			} catch (Exception ex) {
 				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -142,10 +143,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			var rawBody = new { werknemerId = werknemerId, bedrijfId = bedrijfsId, bezoeker };
 			string json = JsonConvert.SerializeObject(rawBody);
 
-			(bool isvalid, AfspraakDTO afspraak) = await ApiController.Post<AfspraakDTO>("/afspraak", json);
+			(bool isvalid, AfspraakOutputDTO afspraak) = await ApiController.Post<AfspraakOutputDTO>("/afspraak", json);
 
 			if (isvalid) {
-
+				MessageBox.Show("U registratie is goed ontvangen");
 			} else {
 				MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
 			}
@@ -153,16 +154,35 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		#endregion
 
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
 
+		private Border _selecteditem;
+		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
+			//Er is 2 keer geklikt
+			if (e.ClickCount == 2) {
+				return;
+			}
+
+			if (_selecteditem is not null) {
+				_selecteditem.Background = Brushes.Transparent;
+				_selecteditem.BorderThickness = new Thickness(0);
+			}
+			StackPanel? listViewItem = sender as StackPanel;
+
+			SolidColorBrush hightlightColor = (SolidColorBrush)Application.Current.Resources["LichtGrijsAccent"];
+
+			Border border = (Border)listViewItem.Children[0];
+			border.Background = hightlightColor;
+			border.BorderThickness = new Thickness(0);
+			border.BorderBrush = Brushes.LightGray;
+			border.CornerRadius = new CornerRadius(20);
+			border.Margin = new Thickness(0, 0, 20, 0);
+			_selecteditem = border;
 		}
 
 		#region ProppertyChanged
-
 		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
-
 		#endregion ProppertyChanged
 	}
 }

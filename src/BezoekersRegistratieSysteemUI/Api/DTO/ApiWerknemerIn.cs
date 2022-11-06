@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemUI.Api.DTO {
-	public class ApiWerknemer {
+	public class ApiWerknemerIn {
 		[JsonProperty("id")]
 		public long Id { get; set; }
 
@@ -17,6 +17,6 @@ namespace BezoekersRegistratieSysteemUI.Api.DTO {
 		public string Achternaam { get; set; }
 
 		[JsonProperty("werknemerInfo")]
-		public List<ApiWerknemerInfo> WerknemerInfo { get; set; }
+		public List<ApiWerknemerInfoIn> WerknemerInfo { get; set; }
 	}
 }

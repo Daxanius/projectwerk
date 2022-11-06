@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace BezoekersRegistratieSysteemUI.Api.DTO {
-	public class ApiWerknemerInfo {
+	public class ApiWerknemerInfoIn {
 		[JsonProperty("bedrijfId")]
 		public long BedrijfId { get; set; }
 
