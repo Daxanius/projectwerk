@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -74,7 +75,11 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		#endregion
 
+		#region Private Fields
+
 		private long? _geselecteerdBedrijfsId;
+
+		#endregion
 
 		public AanmeldGegevensPage() {
 			this.DataContext = this;
@@ -90,6 +95,8 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			FetchWerknemersVoorBedrijf();
 		}
 
+		#region FetchWerknemers
+
 		private async void FetchWerknemersVoorBedrijf() {
 			(bool isValid, List<ApiWerknemerIn> werknemersVanGeselecteerdBedrijf) = await ApiController.Get<List<ApiWerknemerIn>>($"werknemer/bedrijf/id/{_geselecteerdBedrijfsId.Value}");
 			if (isValid) {
@@ -102,6 +109,8 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
+		#endregion
+
 		#region Action Buttons
 
 		private void AnnulerenKlik(object sender, RoutedEventArgs e) {
@@ -110,6 +119,38 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		private void AanmeldenKlik(object sender, RoutedEventArgs e) {
 			try {
+				#region Controle Input
+
+				if (string.IsNullOrWhiteSpace(Voornaam)) {
+					MessageBox.Show("Voornaam is niet geldig!", "Error");
+					return;
+				}
+
+				if (string.IsNullOrWhiteSpace(Achternaam)) {
+					MessageBox.Show("Achternaam is niet geldig!", "Error");
+					return;
+				}
+
+				if (string.IsNullOrWhiteSpace(Email)) {
+					MessageBox.Show("Email is niet geldig!", "Error");
+					return;
+				}
+
+				string email = Email.Trim();
+				Regex regexEmail = new(@"^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$", RegexOptions.IgnoreCase);
+
+				if (!regexEmail.IsMatch(email)) {
+					MessageBox.Show("Email is niet geldig!", "Error");
+					return;
+				}
+
+				if (string.IsNullOrWhiteSpace(Bedrijf)) {
+					MessageBox.Show("Bedrijf is niet geldig!", "Error");
+					return;
+				}
+
+				#endregion
+
 				WerknemerDTO? werknemer = (WerknemerDTO)WerknemersLijst.SelectedValue;
 
 				if (werknemer == null) {
@@ -117,7 +158,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 					return;
 				}
 
-				BezoekerDTO bezoeker = new(Voornaam, Achternaam, Email, Bedrijf);
+				BezoekerDTO bezoeker = new(Voornaam.Trim(), Achternaam.Trim(), Email.Trim(), Bedrijf.Trim());
 
 				if (werknemer.Id.HasValue) {
 					MaakNieuweAfspraak(_geselecteerdBedrijfsId.Value, werknemer.Id.Value, bezoeker);
@@ -146,14 +187,11 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			(bool isvalid, AfspraakOutputDTO afspraak) = await ApiController.Post<AfspraakOutputDTO>("/afspraak", json);
 
 			if (isvalid) {
-				MessageBox.Show("U registratie is goed ontvangen");
+				MessageBox.Show($"U registratie is goed ontvangen met als startijd: {afspraak.Starttijd.ToString("HH:mm - dd/MM/yyyy")}");
 			} else {
 				MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
 			}
 		}
-
-		#endregion
-
 
 		private Border _selecteditem;
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
@@ -178,6 +216,8 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;
 		}
+
+		#endregion
 
 		#region ProppertyChanged
 		public void UpdatePropperty([CallerMemberName] string propertyName = null) {

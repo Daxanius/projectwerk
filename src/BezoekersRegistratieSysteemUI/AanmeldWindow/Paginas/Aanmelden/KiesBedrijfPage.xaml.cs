@@ -25,6 +25,8 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 	/// Interaction logic for KiesBedrijfPage.xaml
 	/// </summary>
 	public partial class KiesBedrijfPage : Page {
+		#region Singleton
+
 		private static KiesBedrijfPage instance = null;
 		private static readonly object padlock = new object();
 
@@ -39,32 +41,16 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
-		/// <summary>
-		/// ///////////////////////////////////////////////////
-		/// </summary>
+		#endregion
+
+		#region Private Fields
 
 		private const int MAX_COLUMN_COUNT = 3;
 		private List<BedrijfDTO> _bedrijven;
 
-		#region Scaling
-		public double ScaleX { get; set; }
-		public double ScaleY { get; set; }
 		#endregion
 
-
 		public KiesBedrijfPage() {
-			double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
-			double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
-
-			double defaultResHeight = 1080.0;
-			double defaultResWidth = 1920.0;
-
-			double aspectratio = schermResolutieWidth / schermResolutieHeight;
-			double change = aspectratio > 2 ? 0.3 : aspectratio > 1.5 ? 0 : aspectratio > 1 ? -0.05 : -0.3;
-
-			ScaleX = (schermResolutieWidth / defaultResWidth);
-			ScaleY = (schermResolutieHeight / defaultResHeight) + change;
-
 			this.DataContext = this;
 			InitializeComponent();
 
@@ -72,6 +58,8 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				FetchAlleBedrijven();
 			}
 		}
+
+		#region Fetch Bedrijven
 
 		private void SpawnBedrijvenGrid() {
 			int rowCount = 0;
@@ -132,6 +120,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
+		#endregion
+
+		#region Navigate
+
 		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
 			BedrijfDTO geselecteerdbedrijf = (BedrijfDTO)((Border)sender).DataContext;
 
@@ -141,6 +133,8 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			RegistratieWindow.GeselecteerdBedrijf = geselecteerdbedrijf;
 			registratieWindow.FrameControl.Navigate(new AanmeldGegevensPage());
 		}
+
+		#endregion
 
 		#region API Requests
 		private async void FetchAlleBedrijven() {
