@@ -882,6 +882,11 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 con.Close();
             }
         }
+
+        public bool BestaatAfspraak(string bezoekerMail)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

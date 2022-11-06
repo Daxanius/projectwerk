@@ -119,7 +119,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public void BeeindigAfspraakOpEmail(string email) {
 			if (string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - email mag niet leeg zijn");
-			try {
+            if (!_afspraakRepository.BestaatAfspraak(email)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - afspraak bestaat niet");
+            try {
 				_afspraakRepository.BeeindigAfspraakOpEmail(email);
 			} catch (Exception ex) {
 				throw new AfspraakManagerException(ex.Message);
