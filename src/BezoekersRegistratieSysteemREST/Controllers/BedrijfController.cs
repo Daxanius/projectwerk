@@ -172,6 +172,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			{
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+
 				bedrijf.VerwijderWerknemerUitBedrijf(werknemer);
 				return Ok();
 			} catch (Exception ex)
