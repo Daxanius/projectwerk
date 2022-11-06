@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers
 {
+	/// <summary>
+	/// De afspraak controller zorgt ervoor dat 
+	/// wij afspraken kunnen beheren via de API.
+	/// </summary>
 	[Route("api/[controller]")]
 	[ApiController]
 	public class AfspraakController : ControllerBase
@@ -14,6 +18,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		private readonly WerknemerManager _werknemerManager;
 		private readonly BedrijfManager _bedrijfManager;
 
+		/// <summary>
+		/// De constructor, heeft practisch alle managers nodig.
+		/// </summary>
+		/// <param name="afspraakManager">De afspraaak manager</param>
+		/// <param name="werknemerManager">De werknemer manager</param>
+		/// <param name="bedrijfManager">De bedrijf manager</param>
 		public AfspraakController(AfspraakManager afspraakManager, WerknemerManager werknemerManager, BedrijfManager bedrijfManager)
 		{
 			_afspraakManager = afspraakManager;
@@ -22,10 +32,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Geeft een afspraak op ID
+		/// Geeft een afspraak op ID.
 		/// </summary>
 		/// <param name="afspraakId"></param>
-		/// <returns></returns>
+		/// <returns>NotFound bij mislukking</returns>
 		[HttpGet("id/{afspraakId}")]
 		public ActionResult<AfspraakOutputDTO> GeefAfspraak(long afspraakId)
 		{
@@ -39,13 +49,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Geef alle afspraken die overeenkomen met de query
+		/// Geef alle afspraken die overeenkomen met de query.
 		/// </summary>
 		/// <param name="dag">Geef afspraken van dag</param>
 		/// <param name="werknemerId">Geef afspraken van werknemer</param>
 		/// <param name="bedrijfId">Geef afspraken van bedrijf</param>
 		/// <param name="openstaand">Als openstaand true is, geef huidige afspraken, werkt alleen voor werknemer</param>
-		/// <returns></returns>
+		/// <returns>BadRequest bij mislukking</returns>
 		[HttpGet]
 		public ActionResult<IEnumerable<AfspraakOutputDTO>> GeefAfspraken([FromQuery] DateTime? dag, [FromQuery] long? werknemerId, [FromQuery] long? bedrijfId, [FromQuery] bool openstaand = false)
 		{
@@ -106,10 +116,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Verwijder een afspraak
+		/// Verwijdert een afspraak op ID
 		/// </summary>
 		/// <param name="afspraakId"></param>
-		/// <returns></returns>
+		/// <returns>NotFound bij mislukking</returns>
 		[HttpDelete("id/{afspraakId}")]
 		public IActionResult VerwijderAfspraak(long afspraakId)
 		{
@@ -125,10 +135,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Maak een afspraak
+		/// Maakt een afspraak.
 		/// </summary>
-		/// <param name="afspraakInput"></param>
-		/// <returns></returns>
+		/// <param name="afspraakInput">De afspraak informatie om mee te geven</param>
+		/// <returns>BadRequest bij mislukking</returns>
 		[HttpPost]
 		public ActionResult<AfspraakOutputDTO> MaakAfspraak([FromBody] AfspraakInputDTO afspraakInput)
 		{
@@ -145,10 +155,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Beeindig een afspraak op Email
+		/// Beëindigt een afspraak op Email.
 		/// </summary>
 		/// <param name="email"></param>
-		/// <returns></returns>
+		/// <returns>NotFound bij mislukking</returns>
 		[HttpPut("end")]
 		public IActionResult End([FromQuery] string email)
 		{
@@ -163,11 +173,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Bewerk een afspraak
+		/// Bewerkt een afspraak op ID.
 		/// </summary>
-		/// <param name="afspraakId"></param>
-		/// <param name="afspraakInput"></param>
-		/// <returns></returns>
+		/// <param name="afspraakId">De ID van de afspraak</param>
+		/// <param name="afspraakInput">De nieuwe informatie van de afspraak</param>
+		/// <returns>BadRequest bij mislukking</returns>
 		[HttpPut("id/{afspraakId}")]
 		public ActionResult<AfspraakOutputDTO> BewerkAfspraak(long afspraakId, [FromBody] AfspraakInputDTO afspraakInput)
 		{
@@ -184,11 +194,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Geef huidige afspraak per bezoeker
+		/// Geeft de huidige afspraak per bezoeker.
 		/// </summary>
-		/// <param name="bedrijfId"></param>
-		/// <param name="bezoekerInput"></param>
-		/// <returns></returns>
+		/// <param name="bedrijfId">Het bedrijf waarbij de bezoeker zit</param>
+		/// <param name="bezoekerInput">De bezoeker informatie</param>
+		/// <returns>NotFound bij mislukking</returns>
 		[HttpGet("bezoeker/id/{bedrijfId}")]
 		public ActionResult<AfspraakOutputDTO> GeefAfspraakOpBezoeker(long bedrijfId, [FromBody] BezoekerInputDTO bezoekerInput) {
 			try {
@@ -201,12 +211,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Geef afspraken per bedrijfsbezoeker
+		/// Geeft alle afspraken per bezoeker op een bedrijf.
 		/// </summary>
-		/// <param name="bedrijfId"></param>
-		/// <param name="bezoekerInput"></param>
-		/// <param name="dag"></param>
-		/// <returns></returns>
+		/// <param name="bedrijfId">De ID van het bedrijf</param>
+		/// <param name="bezoekerInput">De bezoeker informatie</param>
+		/// <param name="dag">De dag waarop de afspraak plaatsvond</param>
+		/// <returns>NotFound bij mislukking</returns>
 		[HttpGet("bezoeker/afspraken/id/{bedrijfId}")]
 		public ActionResult<IEnumerable<AfspraakOutputDTO>> GeefAfsprakenOpBezoeker(long bedrijfId, [FromBody] BezoekerInputDTO bezoekerInput, [FromQuery] DateTime? dag) {
 			try {
@@ -224,9 +234,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 		}
 
 		/// <summary>
-		/// Geef alle aanwezige bezoekers
+		/// Geeft alle aanwezige bezoekers.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>NotFound bij mislukking</returns>
 		[HttpGet("bezoeker/aanwezig")]
 		public ActionResult<IEnumerable<BezoekerOutputDTO>> GeefAanwezigeBezoekers() {
 			try {
