@@ -374,7 +374,7 @@
                     <Border
                         Margin="0,22.5,0,20"
                         Background="{StaticResource LichtGrijsAccent}"
-                        CornerRadius="20">
+                        CornerRadius="25">
                         <TextBox
                             Padding="15,8"
                             Background="Transparent"
@@ -394,7 +394,7 @@
                     <Border
                         Margin="0,22.5,0,20"
                         Background="{StaticResource LichtGrijsAccent}"
-                        CornerRadius="20">
+                        CornerRadius="25">
                         <TextBox
                             Padding="15,8"
                             Background="Transparent"
@@ -418,7 +418,7 @@
                         Background="{StaticResource MainAchtergrond}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="2"
-                        CornerRadius="15"
+                        CornerRadius="25"
                         Cursor="Hand">
                         <Label
                             Name="ActionButtonLabel"
