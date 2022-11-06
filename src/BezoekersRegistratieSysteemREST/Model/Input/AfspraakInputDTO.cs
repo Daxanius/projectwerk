@@ -23,7 +23,7 @@ namespace BezoekersRegistratieSysteemREST.Model
 		}
 
 		/// <summary>
-		/// Constructor.
+		/// De constructor.
 		/// </summary>
 		/// <param name="bezoeker"></param>
 		/// <param name="werknemerId"></param>
