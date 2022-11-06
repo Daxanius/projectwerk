@@ -17,6 +17,12 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, afspraak.Bedrijf.Id, afspraak.Bezoeker.Id, afspraak.Werknemer.Id);
 		}
 
+		/// <summary>
+		/// Zet een lijst van business variant instanties
+		/// om naar een lijst van DTO instanties.
+		/// </summary>
+		/// <param name="afspraken"></param>
+		/// <returns>Een lijst van de DTO variant.</returns>
 		public static IEnumerable<AfspraakOutputDTO> NaarDTO(IEnumerable<Afspraak> afspraken)
 		{
 			List<AfspraakOutputDTO> output = new();
