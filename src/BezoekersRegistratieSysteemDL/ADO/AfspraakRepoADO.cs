@@ -187,7 +187,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het id.</exception>
         public bool BestaatAfspraak(long afspraakid) {
             try {
-                return BestaatAfspraak(null, afspraakid, null);
+                return BestaatAfspraak(null, afspraakid, null, null);
             } catch (Exception ex) {
                 throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} id {ex.Message}", ex);
             }
@@ -202,44 +202,69 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <remarks>Controle mbv statuscode 1 = 'In gang'</remarks>
         public bool BestaatLopendeAfspraak(Afspraak afspraak) {
             try {
-                return BestaatAfspraak(afspraak, null, 1);
+                return BestaatAfspraak(afspraak, null,null, 1);
             } catch (Exception ex) {
                 throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
             }
         }
 
         /// <summary>
+        /// Gaat na of lopende afspraak bestaat adhv een bezoeker email.
+        /// </summary>
+        /// <param name="bezoekerMail">Bezoeker mail dat gecontroleerd wenst te worden.</param>
+        /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
+        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+        /// <remarks>Controle mbv statuscode 1 = 'In gang'</remarks>
+        public bool BestaatAfspraak(string bezoekerMail) {
+            try {
+                return BestaatAfspraak(null, null, bezoekerMail, 1);
+            } catch (Exception ex) {
+                throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
+            }
+        }
+        /// <summary>
         /// Private methode gaat na of lopende afspraak bestaat adhv een afspraak object of parameter afspraak id.
         /// </summary>
         /// <param name="afspraak">Optioneel: Afspraak object dat gecontroleerd wenst te worden.</param>
         /// <param name="afspraakid">Optioneel: Id van de afspraak die gecontroleerd wenst te worden.</param>
+        /// <param name="bezoekerMail">Optioneel: Mail van bezoeker die gecontroleerd wenst te worden.</param>
         /// <param name="afspraakStatus">Optioneel: Afspraakstatus.</param>
         /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
         /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object of id.</exception>
-        private bool BestaatAfspraak(Afspraak afspraak, long? afspraakid, int? afspraakStatus) {
+        private bool BestaatAfspraak(Afspraak afspraak, long? afspraakid,string? bezoekerMail, int? afspraakStatus) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM Afspraak a ";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
+                    //Afspraak object
                     if (afspraak is not null) {
                         if (afspraak.Id != 0) {
                             query += "WHERE a.Id = @id";
                             cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
                             cmd.Parameters["@id"].Value = afspraak.Id;
                         } else {
-                            //TODO: Maybe check with statusID rather than eindtijd
                             query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
                                      "WHERE bz.Email = @bmail AND a.eindTijd is null";
                             cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));
                             cmd.Parameters["@bmail"].Value = afspraak.Bezoeker.Email;
                         }
-                    } else {
+                    }
+                    //Afspraak Id
+                    if (afspraakid.HasValue) {
                         query += "WHERE a.Id = @id";
                         cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
                         cmd.Parameters["@id"].Value = afspraakid.Value;
                     }
+                    //Bezoeker mail
+                    if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
+                        query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
+                                 "WHERE bz.Email = @bmail AND a.eindTijd is null";
+                        cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));
+                        cmd.Parameters["@bmail"].Value = bezoekerMail;
+                    }
+                    //Status Id
                     if (afspraakStatus.HasValue) {
                         query += " AND a.AfspraakStatusId = @statusId";
                         cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
@@ -252,6 +277,9 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             } catch (Exception ex) {
                 AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("afspraak", afspraak);
+                exx.Data.Add("afspraakId", afspraakid);
+                exx.Data.Add("bezoekerMail", bezoekerMail);
+                exx.Data.Add("statusId", afspraakStatus);
                 throw exx;
             } finally {
                 con.Close();
@@ -881,11 +909,6 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             } finally {
                 con.Close();
             }
-        }
-
-        public bool BestaatAfspraak(string bezoekerMail)
-        {
-            throw new NotImplementedException();
         }
         #endregion
     }
