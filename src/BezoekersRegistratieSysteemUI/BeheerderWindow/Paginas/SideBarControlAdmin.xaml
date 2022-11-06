@@ -44,6 +44,27 @@
                             Text="Dashboard" />
                     </StackPanel>
                 </Border>
+                <!--<Border
+                    Name="BedrijvenTab"
+                    Padding="30,5,0,5"
+                    CornerRadius="25 0 0 25"
+                    Cursor="Hand"
+                    MouseLeftButtonDown="VeranderTab"
+                    Style="{StaticResource SideBarBorderNavSelect}"
+                    Tag="UnSelected">
+                    <StackPanel Orientation="Horizontal">
+                        <iconspresenter:Icon
+                            Margin="-10,0,0,0"
+                            CircleBackground="{x:Null}"
+                            IconSource="../BedrijfIcon.xaml" />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Foreground="{StaticResource DonkerBlauw}"
+                            Text="Bedrijven" />
+                    </StackPanel>
+                </Border>-->
                 <Border
                     Name="BedrijvenTab"
                     Padding="30,5,0,5"
@@ -58,6 +79,7 @@
                             CircleBackground="{x:Null}"
                             IconSource="../BedrijfIcon.xaml" />
                         <TextBlock
+                            x:Name="BedrijvenText"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="16"
@@ -80,10 +102,12 @@
                             CircleBackground="{x:Null}"
                             IconSource="../AfspraakIcon.xaml" />
                         <TextBlock
+                            x:Name="AfsprakenText"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="16"
                             Foreground="{StaticResource DonkerBlauw}"
+                            Opacity=".2"
                             Text="Afspraken" />
                     </StackPanel>
                 </Border>
@@ -107,6 +131,7 @@
                             VerticalAlignment="Center"
                             FontSize="16"
                             Foreground="{StaticResource DonkerBlauw}"
+                            Opacity=".2"
                             Text="Werknemers" />
                     </StackPanel>
                 </Border>

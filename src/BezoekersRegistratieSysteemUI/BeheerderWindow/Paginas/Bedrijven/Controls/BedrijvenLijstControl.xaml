@@ -10,12 +10,13 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <ListView
+        Name="BedrijvenGrid"
         Padding="0,5,0,0"
         HorizontalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
         Background="Transparent"
         BorderBrush="Transparent"
-        ItemsSource="{Binding Bedrijven}"
+        ItemsSource="{Binding ItemSource}"
         ScrollViewer.CanContentScroll="False">
         <ListView.Style>
             <Style TargetType="ListView">

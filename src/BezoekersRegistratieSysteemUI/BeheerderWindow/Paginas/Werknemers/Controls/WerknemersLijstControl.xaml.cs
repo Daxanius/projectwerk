@@ -1,4 +1,7 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemREST.Model.Output;
+using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,6 +37,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Contro
 		public WerknemersLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
+			FetchAlleWerknemers();
 		}
 
 		private Border _selecteditem;
@@ -63,5 +67,20 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Contro
 			Button b = (Button)sender;
 			WerknemerDTO werknemer = (WerknemerDTO)b.CommandParameter;
 		}
+
+		#region API Requests
+		private async void FetchAlleWerknemers() {
+			(bool isvalid, List<WerknemerOutputDTO> apiWerknemers) = await ApiController.Get<List<WerknemerOutputDTO>>("werknemer/bedrijf/id/" + BeheerderWindow.GeselecteerdBedrijf.Id);
+			if (isvalid) {
+				apiWerknemers.ForEach((api) => {
+					List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(BeheerderWindow.GeselecteerdBedrijf, w.Email, w.Functies)).ToList());
+					WerknemerInfoOutputDTO werknemerInfo = api.WerknemerInfo.First(w => w.BedrijfId == BeheerderWindow.GeselecteerdBedrijf.Id);
+					ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, true));
+				});
+			} else {
+				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de bedrijven", "Error /bedrijf");
+			}
+		}
+		#endregion
 	}
 }

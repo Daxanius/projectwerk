@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 
 		private void VoegBedrijfToe(object sender, MouseButtonEventArgs e) {
 			BedrijvenPopup.Visibility = Visibility.Visible;
+		}
+
+		public void LoadBedrijvenInList(List<BedrijfDTO> bedrijven) {
+			BedrijvenLijst.ItemSource = new(bedrijven);
 		}
 	}
 }

@@ -50,16 +50,16 @@ namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.Pagi
 
 			switch (tab) {
 				case "Aanmelden":
-				registratieWindow.FrameControl.Navigate(KiesBedrijfPage.Instance);
+				registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
 				break;
 				case "Afmelden":
-				registratieWindow.FrameControl.Navigate(AfmeldPage.Instance);
+				registratieWindow.FrameControl.Content = AfmeldPage.Instance;
 				break;
 			}
 		}
 
-		private void ToonAanwezigeBezoekers(object sender, MouseButtonEventArgs e) {
-
+		private void VraagHulpKnop(object sender, MouseButtonEventArgs e) {
+			MessageBox.Show("Lukt aanmelden niet?\n\n Neem contact op met de beheerder aan de balie.", "Probleem", MessageBoxButton.OK, MessageBoxImage.Question);
 		}
 	}
 }
