@@ -191,13 +191,12 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// </summary>
         /// <param name="voornaam">Voornaam van de gewenste werknemer.</param>
         /// <param name="achternaam">Achternaam van de gewenste werknemer.</param>
+        /// <param name="bedrijfId">Bedrijf van de gewenste werknemer</param>
         /// <returns>IReadOnlyList van werknemer objecten op werknemernaam PER bedrijf.</returns>
         /// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer voornaam/achternaam en bedrijf id.</exception>
-        //TODO GWILOM PerBedrijf toevoegen.
-        //TODO Wout - PerBedrijf toevoegen.
-        public IReadOnlyList<Werknemer> GeefWerknemersOpNaam(string voornaam, string achternaam) {
+        public IReadOnlyList<Werknemer> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId) {
             try {
-                return GeefWerknemers(null, voornaam, achternaam, null);
+                return GeefWerknemers(bedrijfId, voornaam, achternaam, null);
             } catch (Exception ex) {
                 throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
@@ -207,13 +206,12 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// Stelt lijst van werknemers samen met enkel lees rechten adhv parameters werknemer functie en bedrijf id.
         /// </summary>
         /// <param name="functie">Functie van de gewenste werknemer</param>
+        /// <param name="bedrijfId">Bedrijf van de gewenste werknemer</param>
         /// <returns>IReadOnlyList van werknemer objecten op werknemerfunctie PER bedrijf.</returns>
         /// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie en bedrijf id.</exception>
-        //TODO GWILOM PerBedrijf toevoegen.
-        //TODO Wout - PerBedrijf toevoegen.
-        public IReadOnlyList<Werknemer> GeefWerknemersOpFunctie(string functie) {
+        public IReadOnlyList<Werknemer> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId) {
             try {
-                return GeefWerknemers(null, null, null, functie);
+                return GeefWerknemers(bedrijfId, null, null, functie);
             } catch (Exception ex) {
                 throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
@@ -742,14 +740,6 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
-        public IReadOnlyList<Werknemer> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId)
-        {
-            throw new NotImplementedException();
-        }
 
-        public IReadOnlyList<Werknemer> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

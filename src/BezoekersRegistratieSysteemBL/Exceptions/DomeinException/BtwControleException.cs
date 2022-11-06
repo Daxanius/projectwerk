@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace BezoekersRegistratieSysteemBL.Domeinen {
+namespace BezoekersRegistratieSysteemBL.Exceptions.DomeinException {
 
 	public class BtwControleException : Exception {
 

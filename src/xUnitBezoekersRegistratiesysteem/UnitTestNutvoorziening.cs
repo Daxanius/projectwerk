@@ -1,6 +1,6 @@
 ﻿using BezoekersRegistratieSysteemBL;
-using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.DTO;
+using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace xUnitBezoekersRegistratiesysteem {
 
