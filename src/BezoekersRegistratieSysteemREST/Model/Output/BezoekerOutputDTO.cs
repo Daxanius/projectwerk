@@ -33,6 +33,14 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			return output;
 		}
 
+		/// <summary>
+		/// De constructor.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="voornaam"></param>
+		/// <param name="achternaam"></param>
+		/// <param name="email"></param>
+		/// <param name="bedrijf"></param>
 		public BezoekerOutputDTO(long id, string voornaam, string achternaam, string email, string bedrijf)
 		{
 			Id = id;

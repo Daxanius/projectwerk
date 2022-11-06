@@ -33,6 +33,15 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			return output;
 		}
 
+		/// <summary>
+		/// De constructor.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="starttijd"></param>
+		/// <param name="eindtijd"></param>
+		/// <param name="bedrijfId"></param>
+		/// <param name="bezoekerId"></param>
+		/// <param name="werknemerId"></param>
 		public AfspraakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, long bedrijfId,long bezoekerId, long werknemerId)
 		{
 			Id = id;

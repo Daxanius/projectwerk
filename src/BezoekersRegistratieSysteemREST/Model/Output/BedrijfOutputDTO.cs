@@ -49,6 +49,17 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 
 		public List<long> Werknemers { get; set; } = new();
 
+		/// <summary>
+		/// De constructor
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="naam"></param>
+		/// <param name="bTW"></param>
+		/// <param name="isGecontroleert"></param>
+		/// <param name="telefoonNummer"></param>
+		/// <param name="email"></param>
+		/// <param name="adres"></param>
+		/// <param name="werknemers"></param>
 		public BedrijfOutputDTO(long id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, List<long> werknemers)
 		{
 			Id = id;

@@ -33,6 +33,12 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			return output;
 		}
 
+		/// <summary>
+		/// De constructor.
+		/// </summary>
+		/// <param name="bedrijfId"></param>
+		/// <param name="email"></param>
+		/// <param name="functies"></param>
 		public WerknemerInfoOutputDTO(long bedrijfId, string email, List<string> functies)
 		{
 			BedrijfId = bedrijfId;
