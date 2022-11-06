@@ -13,12 +13,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Pak de connectionstring van de omgevingsvariablen of de user secrets
-string? connectionstring = Environment.GetEnvironmentVariable(ENV_SQL_CONNECTION) ?? builder.Configuration[ENV_SQL_CONNECTION];
+string? connectionstring = builder.Configuration[ENV_SQL_CONNECTION] ?? Environment.GetEnvironmentVariable(ENV_SQL_CONNECTION);
 
 if (connectionstring is null) {
 	Console.WriteLine($"{ENV_SQL_CONNECTION} is niet ingesteld");
 	return;
 }
+
+// Weer een Microsoft quirk...
+connectionstring = connectionstring.Replace("\\\\", "\\");
 
 // Alle managers als singleton toevoegen
 // dit omdat de API interract met de managers
@@ -43,6 +46,7 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseAuthorization();
+app.UseHttpLogging();
 app.MapControllers();
 
 app.Run();
