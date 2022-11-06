@@ -1923,6 +1923,12 @@ references:
   commentId: M:BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository.BestaatAfspraak(System.Int64)
   fullName: BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository.BestaatAfspraak(System.Int64)
   nameWithType: IAfspraakRepository.BestaatAfspraak(Int64)
+- uid: BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository.BestaatAfspraak(System.String)
+  name: BestaatAfspraak(String)
+  href: api/BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IAfspraakRepository_BestaatAfspraak_System_String_
+  commentId: M:BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository.BestaatAfspraak(System.String)
+  fullName: BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository.BestaatAfspraak(System.String)
+  nameWithType: IAfspraakRepository.BestaatAfspraak(String)
 - uid: BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository.BestaatAfspraak*
   name: BestaatAfspraak
   href: api/BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IAfspraakRepository_BestaatAfspraak_
@@ -3176,6 +3182,12 @@ references:
   commentId: M:BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.BestaatAfspraak(System.Int64)
   fullName: BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.BestaatAfspraak(System.Int64)
   nameWithType: AfspraakRepoADO.BestaatAfspraak(Int64)
+- uid: BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.BestaatAfspraak(System.String)
+  name: BestaatAfspraak(String)
+  href: api/BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.html#BezoekersRegistratieSysteemDL_ADO_AfspraakRepoADO_BestaatAfspraak_System_String_
+  commentId: M:BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.BestaatAfspraak(System.String)
+  fullName: BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.BestaatAfspraak(System.String)
+  nameWithType: AfspraakRepoADO.BestaatAfspraak(String)
 - uid: BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.BestaatAfspraak*
   name: BestaatAfspraak
   href: api/BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.html#BezoekersRegistratieSysteemDL_ADO_AfspraakRepoADO_BestaatAfspraak_
