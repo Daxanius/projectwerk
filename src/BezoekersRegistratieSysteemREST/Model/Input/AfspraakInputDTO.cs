@@ -1,7 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemREST.Model
+namespace BezoekersRegistratieSysteemREST.Model.Input
 {
 	/// <summary>
 	/// De DTO voor inkomende afspraak informatie
