@@ -80,10 +80,12 @@
                             CircleBackground="{x:Null}"
                             IconSource="../AfspraakIcon.xaml" />
                         <TextBlock
+                            x:Name="AfsprakenText"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="16"
                             Foreground="{StaticResource DonkerBlauw}"
+                            Opacity=".2"
                             Text="Afspraken" />
                     </StackPanel>
                 </Border>
@@ -107,6 +109,7 @@
                             VerticalAlignment="Center"
                             FontSize="16"
                             Foreground="{StaticResource DonkerBlauw}"
+                            Opacity=".2"
                             Text="Werknemers" />
                     </StackPanel>
                 </Border>

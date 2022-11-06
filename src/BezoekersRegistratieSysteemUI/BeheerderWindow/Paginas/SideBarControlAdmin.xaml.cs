@@ -8,6 +8,7 @@ using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,11 +40,15 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			foreach (Border border in BorderContainer.Children) {
 				border.Tag = "UnSelected";
 				((TextBlock)((StackPanel)(border).Child).Children[1]).FontWeight = FontWeights.Normal;
+				if (((TextBlock)((StackPanel)(border).Child).Children[1]).IsEnabled)
+					((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).Opacity = 1;
 				((Icon)((StackPanel)border.Child).Children[0]).Opacity = .6;
 			}
 
 			((Border)sender).Tag = "Selected";
 			((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).FontWeight = FontWeights.Bold;
+			if (((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).IsEnabled)
+				((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).Opacity = 1;
 			((Icon)((StackPanel)((Border)sender).Child).Children[0]).Opacity = 1;
 
 
@@ -68,7 +73,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 
 		private bool _isAanwezigeBezoekersPressed;
 		private void ToggleAanwezigeBezoekersAchtergrond(object sender, MouseButtonEventArgs e) {
-			if(!_isAanwezigeBezoekersPressed) {
+			if (!_isAanwezigeBezoekersPressed) {
 				ToonAanwezigenText.Foreground = Application.Current.Resources["MainAchtergrond"] as SolidColorBrush;
 				ToonAanwezigenContainer.Background = Application.Current.Resources["GewoonBlauw"] as SolidColorBrush;
 				ToonAanwezigenIcon.IconSource = "../WitLijstIcon.xaml";
