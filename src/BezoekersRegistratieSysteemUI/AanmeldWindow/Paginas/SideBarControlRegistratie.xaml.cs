@@ -50,10 +50,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.Pagi
 
 			switch (tab) {
 				case "Aanmelden":
-				registratieWindow.FrameControl.Navigate(new KiesBedrijfPage());
+				registratieWindow.FrameControl.Navigate(KiesBedrijfPage.Instance);
 				break;
 				case "Afmelden":
-				registratieWindow.FrameControl.Navigate(new AfmeldPage());
+				registratieWindow.FrameControl.Navigate(AfmeldPage.Instance);
 				break;
 			}
 		}
