@@ -7,6 +7,11 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 	/// </summary>
 	public class AfspraakOutputDTO
 	{
+		/// <summary>
+		/// Zet de business variant om naar de DTO.
+		/// </summary>
+		/// <param name="afspraak"></param>
+		/// <returns>De DTO variant.</returns>
 		public static AfspraakOutputDTO NaarDTO(Afspraak afspraak)
 		{
 			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, afspraak.Bedrijf.Id, afspraak.Bezoeker.Id, afspraak.Werknemer.Id);

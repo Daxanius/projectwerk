@@ -7,6 +7,11 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 	/// </summary>
 	public class BezoekerOutputDTO
 	{
+		/// <summary>
+		/// Zet de business variant om naar de DTO.
+		/// </summary>
+		/// <param name="bezoeker"></param>
+		/// <returns>De DTO variant.</returns>
 		public static BezoekerOutputDTO NaarDTO(Bezoeker bezoeker)
 		{
 			return new(bezoeker.Id, bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bezoeker.Bedrijf);

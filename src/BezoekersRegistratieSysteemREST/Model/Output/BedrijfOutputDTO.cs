@@ -7,6 +7,11 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 	/// </summary>
 	public class BedrijfOutputDTO
 	{
+		/// <summary>
+		/// Zet de business variant om naar de DTO.
+		/// </summary>
+		/// <param name="bedrijf"></param>
+		/// <returns>De DTO variant.</returns>
 		public static BedrijfOutputDTO NaarDTO(Bedrijf bedrijf)
 		{
 			List<long> werknemers = new();

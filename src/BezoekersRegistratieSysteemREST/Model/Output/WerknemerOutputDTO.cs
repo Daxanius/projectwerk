@@ -7,6 +7,11 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 	/// </summary>
 	public class WerknemerOutputDTO
 	{
+		/// <summary>
+		/// Zet de business variant om naar de DTO.
+		/// </summary>
+		/// <param name="werknemer"></param>
+		/// <returns>De DTO variant.</returns>
 		public static WerknemerOutputDTO NaarDTO(Werknemer werknemer)
 		{
 			var functies = werknemer.GeefBedrijvenEnFunctiesPerWerknemer();
