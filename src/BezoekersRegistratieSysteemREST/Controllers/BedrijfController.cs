@@ -150,7 +150,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers
 			{
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 
-				return Ok(WerknemerOutputDTO.NaarDTO(bedrijf.GeefWerknemers()));
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager, bedrijf.GeefWerknemers()));
 			} catch (Exception ex)
 			{
 				return BadRequest(ex.Message);

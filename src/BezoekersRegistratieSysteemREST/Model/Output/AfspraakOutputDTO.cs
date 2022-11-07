@@ -14,7 +14,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <returns>De DTO variant.</returns>
 		public static AfspraakOutputDTO NaarDTO(Afspraak afspraak)
 		{
-			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, afspraak.Bedrijf.Id, afspraak.Bezoeker.Id, afspraak.Werknemer.Id);
+			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, IdInfoOutputDTO.NaarDTO(afspraak.Bedrijf), IdInfoOutputDTO.NaarDTO(afspraak.Bezoeker), IdInfoOutputDTO.NaarDTO(afspraak.Werknemer));
 		}
 
 		/// <summary>
@@ -39,17 +39,17 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <param name="id"></param>
 		/// <param name="starttijd"></param>
 		/// <param name="eindtijd"></param>
-		/// <param name="bedrijfId"></param>
-		/// <param name="bezoekerId"></param>
-		/// <param name="werknemerId"></param>
-		public AfspraakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, long bedrijfId,long bezoekerId, long werknemerId)
+		/// <param name="bedrijf"></param>
+		/// <param name="bezoeker"></param>
+		/// <param name="werknemer"></param>
+		public AfspraakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, IdInfoOutputDTO bedrijf, IdInfoOutputDTO bezoeker, IdInfoOutputDTO werknemer)
 		{
 			Id = id;
 			Starttijd = starttijd;
 			Eindtijd = eindtijd;
-			BedrijfId = bedrijfId;
-			BezoekerId = bezoekerId;
-			WerknemerId = werknemerId;
+			Bedrijf = bedrijf;
+			Bezoeker = bezoeker;
+			Werknemer = werknemer;
 		}
 
 		/// <summary>
@@ -70,16 +70,16 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <summary>
 		/// Het bedrijf van de afspraak.
 		/// </summary>
-		public long BedrijfId { get; set; }
+		public IdInfoOutputDTO Bedrijf { get; set; }
 
 		/// <summary>
 		/// De bezoeker van de afspraak.
 		/// </summary>
-		public long BezoekerId { get; set; }
+		public IdInfoOutputDTO Bezoeker { get; set; }
 
 		/// <summary>
 		/// De werknemer van de afpsraak.
 		/// </summary>
-		public long WerknemerId { get; set; }
+		public IdInfoOutputDTO Werknemer { get; set; }
 	}
 }
