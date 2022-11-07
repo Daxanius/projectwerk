@@ -88,9 +88,9 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 			_geselecteerdBedrijfs = RegistratieWindow.GeselecteerdBedrijf;
 
-			if (_geselecteerdBedrijfs is not null) {
+			if (_geselecteerdBedrijfs is null) {
 				MessageBox.Show("Bedrijf is niet gekozen", "Error");
-				((RegistratieWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
+                ((RegistratieWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
 				return;
 			}
 			FetchWerknemersVoorBedrijf();
