@@ -416,7 +416,7 @@
                         VerticalAlignment="Center"
                         Background="{StaticResource MainAchtergrond}"
                         BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="2"
+                        BorderThickness="5"
                         CornerRadius="25"
                         Cursor="Hand">
                         <Label
@@ -431,7 +431,7 @@
                             FontWeight="Bold"
                             Foreground="{TemplateBinding Foreground}" />
                     </Border>
-                    <ControlTemplate.Triggers>
+                    <!--<ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
@@ -465,7 +465,7 @@
                                 <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-                    </ControlTemplate.Triggers>
+                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -485,7 +485,7 @@
                             Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="0"
-                            FontSize="26"
+                            FontSize="24"
                             FontWeight="Medium"
                             Foreground="{StaticResource DonkerBlauw}"
                             Text="{Binding Path=Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
