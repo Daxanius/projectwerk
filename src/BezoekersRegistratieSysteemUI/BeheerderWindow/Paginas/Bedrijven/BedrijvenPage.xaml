@@ -69,21 +69,6 @@
                         FontWeight="Bold"
                         Foreground="{StaticResource DonkerGrijs}"
                         Text="Bedrijven" />
-                    <ComboBox
-                        Height="50"
-                        MinWidth="120"
-                        MaxWidth="350"
-                        Background="{StaticResource LichtGrijsAccent}"
-                        Cursor="Hand"
-                        DockPanel.Dock="Right"
-                        FontSize="26"
-                        FontWeight="Bold"
-                        Foreground="{StaticResource DonkerBlauw}">
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                    </ComboBox>
                     <StackPanel />
                 </DockPanel>
             </Grid>

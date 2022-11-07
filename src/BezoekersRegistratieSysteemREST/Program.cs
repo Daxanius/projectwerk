@@ -1,8 +1,7 @@
 using BezoekersRegistratieSysteemBL.Managers;
-using BezoekersRegistratieSysteemDL;
 using BezoekersRegistratieSysteemDL.ADO;
 
-const string KEY_SQL_CONNECTION = "SQL:ConnectionString";
+const string ENV_SQL_CONNECTION = "BRS_CONNECTION_STRING";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,12 +12,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string? connectionstring = builder.Configuration[KEY_SQL_CONNECTION];
+// Pak de connectionstring van de omgevingsvariablen of de user secrets
+string? connectionstring = builder.Configuration[ENV_SQL_CONNECTION] ?? Environment.GetEnvironmentVariable(ENV_SQL_CONNECTION);
 
 if (connectionstring is null) {
-	Console.WriteLine($"{KEY_SQL_CONNECTION} is niet ingesteld");
+	Console.WriteLine($"{ENV_SQL_CONNECTION} is niet ingesteld");
 	return;
 }
+
+// Weer een Microsoft quirk...
+connectionstring = connectionstring.Replace("\\\\", "\\");
 
 // Alle managers als singleton toevoegen
 // dit omdat de API interract met de managers
@@ -43,6 +46,7 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseAuthorization();
+app.UseHttpLogging();
 app.MapControllers();
 
 app.Run();

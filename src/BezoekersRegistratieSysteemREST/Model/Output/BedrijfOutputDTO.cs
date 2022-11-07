@@ -14,10 +14,10 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <returns>De DTO variant.</returns>
 		public static BedrijfOutputDTO NaarDTO(Bedrijf bedrijf)
 		{
-			List<long> werknemers = new();
+			List<IdInfoOutputDTO> werknemers = new();
 			foreach (Werknemer w in bedrijf.GeefWerknemers())
 			{
-				werknemers.Add(w.Id);
+				werknemers.Add(IdInfoOutputDTO.NaarDTO(w));
 			}
 
 			return new(bedrijf.Id, bedrijf.Naam, bedrijf.BTW, bedrijf.BtwGeverifieerd, bedrijf.TelefoonNummer, bedrijf.Email, bedrijf.Adres, werknemers);
@@ -77,10 +77,10 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <summary>
 		/// De werknemers van het bedrijf.
 		/// </summary>
-		public List<long> Werknemers { get; set; } = new();
+		public List<IdInfoOutputDTO> Werknemers { get; set; } = new();
 
 		/// <summary>
-		/// De constructor
+		/// De constructor.
 		/// </summary>
 		/// <param name="id"></param>
 		/// <param name="naam"></param>
@@ -90,7 +90,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <param name="email"></param>
 		/// <param name="adres"></param>
 		/// <param name="werknemers"></param>
-		public BedrijfOutputDTO(long id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, List<long> werknemers)
+		public BedrijfOutputDTO(long id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, List<IdInfoOutputDTO> werknemers)
 		{
 			Id = id;
 			Naam = naam;
