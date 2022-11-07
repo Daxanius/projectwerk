@@ -4,7 +4,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 	/// <summary>
 	/// Een class die bedoelt is als vervanger voor IDs in de REST
 	/// Dit zodat we niet elke keer een request moeten maken
-	/// voor triviale informatie zoals de naam
+	/// voor triviale informatie zoals de naam.
 	/// </summary>
 	public class IdInfoOutputDTO {
 		/// <summary>

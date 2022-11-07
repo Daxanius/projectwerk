@@ -14,7 +14,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <returns>De DTO variant.</returns>
 		public static WerknemerInfoOutputDTO NaarDTO(WerknemerInfo info)
 		{
-			return new(info.Bedrijf.Id, info.Email, info.GeefWerknemerFuncties().ToList());
+			return new(IdInfoOutputDTO.NaarDTO(info.Bedrijf), info.Email, info.GeefWerknemerFuncties().ToList());
 		}
 
 		/// <summary>
@@ -36,12 +36,12 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <summary>
 		/// De constructor.
 		/// </summary>
-		/// <param name="bedrijfId"></param>
+		/// <param name="bedrijf"></param>
 		/// <param name="email"></param>
 		/// <param name="functies"></param>
-		public WerknemerInfoOutputDTO(long bedrijfId, string email, List<string> functies)
+		public WerknemerInfoOutputDTO(IdInfoOutputDTO bedrijf, string email, List<string> functies)
 		{
-			BedrijfId = bedrijfId;
+			Bedrijf = bedrijf;
 			Email = email;
 			Functies = functies;
 		}
@@ -49,7 +49,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <summary>
 		/// Het bedrijf van de info.
 		/// </summary>
-		public long BedrijfId { get; set; }
+		public IdInfoOutputDTO Bedrijf { get; set; }
 
 		/// <summary>
 		/// De bedrijfsmail van de werknemer binnen dit bedrijf.

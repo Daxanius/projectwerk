@@ -17,8 +17,4 @@
     <ProjectReference Include="..\BezoekersRegistratieSysteemDL\BezoekersRegistratieSysteemDL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Model\Output\" />
-  </ItemGroup>
-
 </Project>
