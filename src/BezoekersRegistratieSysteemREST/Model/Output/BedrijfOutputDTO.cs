@@ -80,7 +80,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		public List<long> Werknemers { get; set; } = new();
 
 		/// <summary>
-		/// De constructor
+		/// De constructor.
 		/// </summary>
 		/// <param name="id"></param>
 		/// <param name="naam"></param>
