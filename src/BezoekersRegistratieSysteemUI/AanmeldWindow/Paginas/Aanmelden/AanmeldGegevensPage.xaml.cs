@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -77,7 +78,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		#region Private Fields
 
-		private long? _geselecteerdBedrijfsId;
+		private BedrijfDTO _geselecteerdBedrijfs;
 
 		#endregion
 
@@ -85,11 +86,11 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			this.DataContext = this;
 			InitializeComponent();
 
-			_geselecteerdBedrijfsId = RegistratieWindow.GeselecteerdBedrijf.Id;
+			_geselecteerdBedrijfs = RegistratieWindow.GeselecteerdBedrijf;
 
-			if (!_geselecteerdBedrijfsId.HasValue) {
+			if (_geselecteerdBedrijfs is not null) {
 				MessageBox.Show("Bedrijf is niet gekozen", "Error");
-				((RegistratieWindow)Window.GetWindow(this)).FrameControl.Navigate(KiesBedrijfPage.Instance);
+				((RegistratieWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
 				return;
 			}
 			FetchWerknemersVoorBedrijf();
@@ -98,11 +99,12 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		#region FetchWerknemers
 
 		private async void FetchWerknemersVoorBedrijf() {
-			(bool isValid, List<ApiWerknemerIn> werknemersVanGeselecteerdBedrijf) = await ApiController.Get<List<ApiWerknemerIn>>($"werknemer/bedrijf/id/{_geselecteerdBedrijfsId.Value}");
+			(bool isValid, List<ApiWerknemerIn> werknemersVanGeselecteerdBedrijf) = await ApiController.Get<List<ApiWerknemerIn>>($"werknemer/bedrijf/id/{_geselecteerdBedrijfs.Id}");
 			if (isValid) {
 				List<WerknemerDTO> werknemersDTOVanBedrijf = new();
-				werknemersVanGeselecteerdBedrijf.ForEach(w => {
-					WerknemerDTO werknemer = new(w.Id, w.Voornaam, w.Achternaam, w.WerknemerInfo);
+				werknemersVanGeselecteerdBedrijf.ForEach(api => {
+					List<WerknemerInfoDTO> werknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(_geselecteerdBedrijfs, w.Email, w.Functies)).ToList());
+					WerknemerDTO werknemer = new(api.Id, api.Voornaam, api.Achternaam, werknemerInfo);
 					werknemersDTOVanBedrijf.Add(werknemer);
 				});
 				LijstMetWerknemersVanGeselecteerdBedrijf = werknemersDTOVanBedrijf;
@@ -161,7 +163,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				BezoekerDTO bezoeker = new(Voornaam.Trim(), Achternaam.Trim(), Email.Trim(), Bedrijf.Trim());
 
 				if (werknemer.Id.HasValue) {
-					MaakNieuweAfspraak(_geselecteerdBedrijfsId.Value, werknemer.Id.Value, bezoeker);
+					MaakNieuweAfspraak(_geselecteerdBedrijfs.Id, werknemer.Id.Value, bezoeker);
 				}
 			} catch (Exception ex) {
 				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -177,7 +179,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			Bedrijf = string.Empty;
 
 			RegistratieWindow registratieWindow = (RegistratieWindow)Window.GetWindow(this);
-			registratieWindow.FrameControl.Navigate(KiesBedrijfPage.Instance);
+			registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
 		}
 
 		private async void MaakNieuweAfspraak(long bedrijfsId, long werknemerId, BezoekerDTO bezoeker) {
@@ -196,9 +198,9 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		private Border _selecteditem;
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
 			//Er is 2 keer geklikt
-			if (e.ClickCount == 2) {
-				return;
-			}
+			//if (e.ClickCount == 2) {
+			//	return;
+			//}
 
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
@@ -211,7 +213,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			Border border = (Border)listViewItem.Children[0];
 			border.Background = hightlightColor;
 			border.BorderThickness = new Thickness(0);
-			border.BorderBrush = Brushes.LightGray;
+			border.BorderBrush = Brushes.Black;
 			border.CornerRadius = new CornerRadius(20);
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;

@@ -111,7 +111,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 				MessageBox.Show("U bent afgemeld", "Joepi");
 
 				await Task.Delay(TimeSpan.FromSeconds(2));
-				((RegistratieWindow)((RegistratieWindow)Window.GetWindow(this)).DataContext).FrameControl.Navigate(KiesBedrijfPage.Instance);
+				((RegistratieWindow)((RegistratieWindow)Window.GetWindow(this)).DataContext).FrameControl.Content = KiesBedrijfPage.Instance;
 				((RegistratieWindow)((RegistratieWindow)Window.GetWindow(this)).DataContext).SideBar.AanmeldenTab.Tag = "Selected";
 				((RegistratieWindow)((RegistratieWindow)Window.GetWindow(this)).DataContext).SideBar.AfmeldenTab.Tag = "UnSelected";
 			} catch (Exception ex) {
