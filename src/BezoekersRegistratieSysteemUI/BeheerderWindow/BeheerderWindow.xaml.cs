@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Printing.IndexedProperties;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,14 +19,29 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 	/// <summary>
 	/// Interaction logic for AanOfUitMeldenScherm.xaml
 	/// </summary>
+	public delegate void GeselecteerdbedrijfChanged();
 	public partial class BeheerderWindow : Window, INotifyPropertyChanged {
 		#region Scaling
 		public double ScaleX { get; set; }
 		public double ScaleY { get; set; }
 		#endregion
 
+		#region GeselecteerdbedrijfChanged
+
+
+		// Declare the event.
+		public static event GeselecteerdbedrijfChanged UpdateGeselecteerdBedrijf;
+		#endregion
+
 		#region Public propperty
-		public static BedrijfDTO GeselecteerdBedrijf { get; private set; }
+		private static BedrijfDTO _geselecteerdBedrijf;
+		public static BedrijfDTO GeselecteerdBedrijf {
+			get => _geselecteerdBedrijf;
+			set {
+				_geselecteerdBedrijf = value;
+				UpdateGeselecteerdBedrijf?.Invoke();
+			}
+		}
 		#endregion
 
 		public BeheerderWindow() {
@@ -98,10 +114,6 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 					return;
 				}
 			}
-		}
-
-		public void ZetGeselecteerdBedrijf(BedrijfDTO bedrijf) {
-			GeselecteerdBedrijf = bedrijf;
 		}
 
 		#region ProppertyChanged

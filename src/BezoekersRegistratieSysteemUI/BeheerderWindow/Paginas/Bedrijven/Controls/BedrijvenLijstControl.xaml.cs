@@ -13,21 +13,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 	/// Interaction logic for BedrijvenLijstControl.xaml
 	/// </summary>
 	public partial class BedrijvenLijstControl : UserControl {
-		#region Bedrijven
-		public List<BedrijfDTO> _bedrijven;
-		#endregion
-
-		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
-		  nameof(ItemSource),
-		  typeof(ObservableCollection<BedrijfDTO>),
-		  typeof(BedrijvenLijstControl),
-		  new PropertyMetadata(new ObservableCollection<BedrijfDTO>()));
-
-		public ObservableCollection<BedrijfDTO> ItemSource {
-			get { return (ObservableCollection<BedrijfDTO>)GetValue(ItemSourceProperty); }
-			set { SetValue(ItemSourceProperty, value); }
-		}
-
 		public BedrijvenLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
@@ -62,22 +47,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 			BedrijfDTO bedrijf = (BedrijfDTO)b.CommandParameter;
 		}
 
-		#endregion
-
-		#region API Requests
-		private async void FetchAlleBedrijven() {
-			_bedrijven = new();
-			(bool isvalid, List<ApiBedrijfIN> bedrijven) = await ApiController.Get<List<ApiBedrijfIN>>("/bedrijf");
-
-			if (isvalid) {
-				bedrijven.ForEach((api) => {
-					_bedrijven.Add(new BedrijfDTO(api.Id, api.Naam, api.Btw, api.TelefoonNummer, api.Email, api.Adres));
-				});
-			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de bedrijven", "Error /bedrijf");
-			}
-			BedrijvenGrid.ItemsSource = _bedrijven;
-		}
 		#endregion
 	}
 }

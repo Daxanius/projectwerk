@@ -16,7 +16,6 @@
         HorizontalContentAlignment="Stretch"
         Background="Transparent"
         BorderBrush="Transparent"
-        ItemsSource="{Binding ItemSource}"
         ScrollViewer.CanContentScroll="False">
         <ListView.Style>
             <Style TargetType="ListView">
@@ -193,4 +192,5 @@
             </GridView>
         </ListView.View>
     </ListView>
+    <!--<DataGrid x:Name="BedrijvenGrid" />-->
 </UserControl>

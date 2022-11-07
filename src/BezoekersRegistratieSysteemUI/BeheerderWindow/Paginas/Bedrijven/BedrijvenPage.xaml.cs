@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 		}
 
 		public void LoadBedrijvenInList(List<BedrijfDTO> bedrijven) {
-			BedrijvenLijst.ItemSource = new(bedrijven);
+			BedrijvenLijst.BedrijvenGrid.ItemsSource = bedrijven;
 		}
 	}
 }
