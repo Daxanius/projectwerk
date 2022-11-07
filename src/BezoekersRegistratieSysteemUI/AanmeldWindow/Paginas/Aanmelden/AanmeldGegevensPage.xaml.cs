@@ -1,6 +1,5 @@
 ﻿using BezoekersRegistratieSysteemREST.Model.Output;
 using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Api.DTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.Exceptions;
 using Newtonsoft.Json;
@@ -65,6 +64,16 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
+		private BedrijfDTO _geselecteerdBedrijf;
+		public BedrijfDTO GeselecteerdBedrijf {
+			get { return _geselecteerdBedrijf; }
+			set {
+				if (value.Naam == _geselecteerdBedrijf?.Naam) return;
+				_geselecteerdBedrijf = value;
+				UpdatePropperty();
+			}
+		}
+
 		private List<WerknemerDTO> _lijstMetWerknemersVanGeselecteerdBedrijf;
 		public List<WerknemerDTO> LijstMetWerknemersVanGeselecteerdBedrijf {
 			get { return _lijstMetWerknemersVanGeselecteerdBedrijf; }
@@ -76,21 +85,15 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		#endregion
 
-		#region Private Fields
-
-		private BedrijfDTO _geselecteerdBedrijfs;
-
-		#endregion
-
 		public AanmeldGegevensPage() {
 			this.DataContext = this;
 			InitializeComponent();
 
-			_geselecteerdBedrijfs = RegistratieWindow.GeselecteerdBedrijf;
+			GeselecteerdBedrijf = RegistratieWindow.GeselecteerdBedrijf;
 
-			if (_geselecteerdBedrijfs is null) {
+			if (GeselecteerdBedrijf is null) {
 				MessageBox.Show("Bedrijf is niet gekozen", "Error");
-                ((RegistratieWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
+				((RegistratieWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
 				return;
 			}
 			FetchWerknemersVoorBedrijf();
@@ -99,11 +102,11 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		#region FetchWerknemers
 
 		private async void FetchWerknemersVoorBedrijf() {
-			(bool isValid, List<ApiWerknemerIn> werknemersVanGeselecteerdBedrijf) = await ApiController.Get<List<ApiWerknemerIn>>($"werknemer/bedrijf/id/{_geselecteerdBedrijfs.Id}");
+			(bool isValid, List<WerknemerOutputDTO> werknemersVanGeselecteerdBedrijf) = await ApiController.Get<List<WerknemerOutputDTO>>($"werknemer/bedrijf/id/{GeselecteerdBedrijf.Id}");
 			if (isValid) {
 				List<WerknemerDTO> werknemersDTOVanBedrijf = new();
 				werknemersVanGeselecteerdBedrijf.ForEach(api => {
-					List<WerknemerInfoDTO> werknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(_geselecteerdBedrijfs, w.Email, w.Functies)).ToList());
+					List<WerknemerInfoDTO> werknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(GeselecteerdBedrijf, w.Email, w.Functies)).ToList());
 					WerknemerDTO werknemer = new(api.Id, api.Voornaam, api.Achternaam, werknemerInfo);
 					werknemersDTOVanBedrijf.Add(werknemer);
 				});
@@ -163,7 +166,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				BezoekerDTO bezoeker = new(Voornaam.Trim(), Achternaam.Trim(), Email.Trim(), Bedrijf.Trim());
 
 				if (werknemer.Id.HasValue) {
-					MaakNieuweAfspraak(_geselecteerdBedrijfs.Id, werknemer.Id.Value, bezoeker);
+					MaakNieuweAfspraak(GeselecteerdBedrijf.Id, werknemer.Id.Value, bezoeker);
 				}
 			} catch (Exception ex) {
 				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);

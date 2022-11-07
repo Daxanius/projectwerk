@@ -1,5 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.Api.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO.Packaging;
 using System.Linq;
 

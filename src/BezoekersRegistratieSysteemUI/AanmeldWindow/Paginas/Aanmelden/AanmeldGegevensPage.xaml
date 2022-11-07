@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="AanmeldGegevensPage"
+    d:DataContext="{d:DesignInstance Type=local:AanmeldGegevensPage}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     FontFamily="{StaticResource Inter}"
@@ -21,21 +22,30 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="2*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Label
                 Grid.Row="0"
-                Margin="0,100,0,0"
+                Margin="0,50"
+                HorizontalAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="{Binding GeselecteerdBedrijf.Naam}"
+                FontSize="65"
+                FontWeight="Bold"
+                Foreground="{StaticResource GewoonBlauw}" />
+            <Label
+                Grid.Row="1"
                 HorizontalAlignment="Center"
                 VerticalContentAlignment="Center"
                 Content="Gelieve uw gegevens in te geven."
-                FontSize="48"
+                FontSize="40"
                 FontWeight="Bold"
                 Foreground="{StaticResource DonkerBlauw}" />
             <UniformGrid
-                Grid.Row="1"
-                Margin="0,50"
+                Grid.Row="2"
+                Margin="0,10,0,50"
                 Rows="2">
                 <Grid Margin="0,15,50,0">
                     <Grid.RowDefinitions>
@@ -94,14 +104,19 @@
                         Text="{Binding Bedrijf}" />
                 </Grid>
             </UniformGrid>
-            <Grid Grid.Row="2" Margin="0,0,0,20">
+            <Grid Grid.Row="3" Margin="0,0,0,20">
                 <GroupBox
                     Padding="15"
                     BorderBrush="{StaticResource LichtGrijsAccent}"
                     BorderThickness="2"
-                    FontSize="28"
-                    FontWeight="DemiBold"
-                    Header="Werknemer">
+                    FontWeight="DemiBold">
+                    <GroupBox.Header>
+                        <TextBlock
+                            FontSize="28"
+                            FontWeight="DemiBold"
+                            Foreground="{StaticResource DonkerBlauw}"
+                            Text="Medewerkers" />
+                    </GroupBox.Header>
                     <ListView
                         x:Name="WerknemersLijst"
                         HorizontalContentAlignment="Stretch"
@@ -231,7 +246,7 @@
                 </GroupBox>
             </Grid>
             <UniformGrid
-                Grid.Row="3"
+                Grid.Row="4"
                 Margin="0,10,0,20"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

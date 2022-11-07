@@ -1,5 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Api.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 
@@ -15,7 +15,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 
 		public BedrijfDTO(long id, string naam, string btw, string telefoonNummer, string email, string adres, List<WerknemerDTO> werknemers) {
 			Id = id;
-			Naam = naam;
+			if (naam.Length > 1) {
+				List<string> woorden = naam.Split(" ").ToList();
+				Naam = string.Join(" ", woorden.Select(w => w[0].ToString().ToUpper() + w[1..]));
+			} else
+				Naam = naam;
 			BTW = btw;
 			TelefoonNummer = telefoonNummer;
 			Email = email;
@@ -25,7 +29,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 
 		public BedrijfDTO(long id, string naam, string btw, string telefoonNummer, string email, string adres) {
 			Id = id;
-			Naam = naam;
+			if (naam.Length > 1) {
+				List<string> woorden = naam.Split(" ").ToList();
+				Naam = string.Join(" ", woorden.Select(w => w[0].ToString().ToUpper() + w[1..]));
+			} else
+				Naam = naam;
 			BTW = btw;
 			TelefoonNummer = telefoonNummer;
 			Email = email;
@@ -33,7 +41,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 		}
 
 		public BedrijfDTO(string naam, string btw, string telefoonNummer, string email, string adres) {
-			Naam = naam;
+			if (naam.Length > 1) {
+				List<string> woorden = naam.Split(" ").ToList();
+				Naam = string.Join(" ", woorden.Select(w => w[0].ToString().ToUpper() + w[1..]));
+			} else
+				Naam = naam;
 			BTW = btw;
 			TelefoonNummer = telefoonNummer;
 			Email = email;

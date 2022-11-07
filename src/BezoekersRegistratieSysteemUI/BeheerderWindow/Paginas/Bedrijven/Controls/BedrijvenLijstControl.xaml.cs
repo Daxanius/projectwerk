@@ -1,5 +1,4 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Api.DTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

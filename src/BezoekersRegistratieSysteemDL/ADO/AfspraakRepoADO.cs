@@ -94,7 +94,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
-                        query += " AND BezoekerId = (SELECT Id FROM Bezoeker WHERE Email = @mail)";
+                        query += " AND BezoekerId = (SELECT TOP(1) Id FROM Bezoeker WHERE Email = @mail ORDER BY Id DESC)";
                         cmd.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
                         cmd.Parameters["@mail"].Value = bezoekerMail;
                     } else {

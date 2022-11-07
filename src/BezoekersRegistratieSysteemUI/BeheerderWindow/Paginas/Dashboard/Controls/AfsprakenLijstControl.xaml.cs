@@ -1,5 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.Api.DTO;
-using BezoekersRegistratieSysteemUI.Api;
+﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using System;
@@ -75,7 +74,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await ApiController.Get<List<AfspraakOutputDTO>>("afspraak?dag=" + DateTime.Now.ToString("MM/dd/yyy"));
 			if (isvalid) {
 				apiAfspraken.ForEach((api) => {
-					
+
 				});
 			} else {
 				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de bedrijven", "Error /bedrijf");
