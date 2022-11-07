@@ -59,7 +59,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 		}
 
 		public void LoadBedrijvenInList(List<BedrijfDTO> bedrijven) {
-			BedrijvenLijst.BedrijvenGrid.ItemsSource = bedrijven;
+			BedrijvenLijst.BedrijvenGrid.DataContext = bedrijven;
 		}
 	}
 }
