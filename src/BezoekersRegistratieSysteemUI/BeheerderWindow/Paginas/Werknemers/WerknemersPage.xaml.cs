@@ -78,7 +78,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			if (isvalid) {
 				apiWerknemers.ForEach((api) => {
 					List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(BeheerderWindow.GeselecteerdBedrijf, w.Email, w.Functies)).ToList());
-					WerknemerInfoOutputDTO werknemerInfo = api.WerknemerInfo.First(w => w.BedrijfId == BeheerderWindow.GeselecteerdBedrijf.Id);
+					WerknemerInfoOutputDTO werknemerInfo = api.WerknemerInfo.First(w => w.Bedrijf.Id == BeheerderWindow.GeselecteerdBedrijf.Id);
 					WerknemerLijstControl.ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, true));
 				});
 			} else {

@@ -1,5 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Api.DTO;
+﻿using BezoekersRegistratieSysteemREST.Model.Output;
+using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
@@ -127,11 +127,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 		#region API Requests
 		private async void FetchAlleBedrijven() {
 			_bedrijven = new();
-			(bool isvalid, List<ApiBedrijfIN> bedrijven) = await ApiController.Get<List<ApiBedrijfIN>>("/bedrijf");
+			(bool isvalid, List<BedrijfOutputDTO> bedrijven) = await ApiController.Get<List<BedrijfOutputDTO>>("/bedrijf");
 
 			if (isvalid) {
 				bedrijven.ForEach((api) => {
-					_bedrijven.Add(new BedrijfDTO(api.Id, api.Naam, api.Btw, api.TelefoonNummer, api.Email, api.Adres));
+					_bedrijven.Add(new BedrijfDTO(api.Id, api.Naam, api.BTW, api.TelefoonNummer, api.Email, api.Adres));
 				});
 			} else {
 				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de bedrijven", "Error /bedrijf");

@@ -115,6 +115,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 				((RegistratieWindow)((RegistratieWindow)Window.GetWindow(this)).DataContext).SideBar.AanmeldenTab.Tag = "Selected";
 				((RegistratieWindow)((RegistratieWindow)Window.GetWindow(this)).DataContext).SideBar.AfmeldenTab.Tag = "UnSelected";
 			} catch (Exception ex) {
+				if (ex.Message.Contains("NotFound")) {
+					MessageBox.Show("Er is geen afspraak voor dit email adres");
+					return;
+				}
 				MessageBox.Show(ex.Message, "Error");
 			}
 		}
