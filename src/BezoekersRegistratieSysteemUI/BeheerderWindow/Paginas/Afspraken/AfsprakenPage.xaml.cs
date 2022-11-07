@@ -5,8 +5,10 @@ using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -24,8 +26,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 	/// <summary>
 	/// Interaction logic for DashBoardPage.xaml
 	/// </summary>
-	public partial class AfsprakenPage : Page {
-
+	public partial class AfsprakenPage : Page, INotifyPropertyChanged {
 		private static AfsprakenPage instance = null;
 		private static readonly object padlock = new object();
 
@@ -52,9 +53,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			get {
 				return _selectedDatum;
 			}
-			set => _selectedDatum = value;
+			set {
+				_selectedDatum = value;
+				UpdatePropperty();
+			}
 		}
-		public BedrijfDTO GeselecteerdBedrijf { get; set; }
+		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
 		public ObservableCollection<AfspraakDTO> HuidigeAfsprakenLijstData { get; set; } = new();
 		public ObservableCollection<WerknemerDTO> MedewerkersVanGeselecteerdBedrijf { get; set; } = new();
 		public ObservableCollection<AfspraakDTO> AfsprakenVanGeselecteerdeMedewerker { get; set; } = new();
@@ -62,13 +66,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		public ObservableCollection<AfspraakDTO> OpDatumLijstData { get; set; } = new();
 
 		public AfsprakenPage() {
-			GeselecteerdBedrijf = BeheerderWindow.GeselecteerdBedrijf;
-
 			AfsprakenVanGeselecteerdeMedewerker = new();
 
 			HuidigeAfsprakenLijstData = AfsprakenVanGeselecteerdeMedewerker;
 			BezoekersLijstData = AfsprakenVanGeselecteerdeMedewerker;
 			OpDatumLijstData = AfsprakenVanGeselecteerdeMedewerker;
+
+			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijfOpScherm;
 
 			this.DataContext = this;
 			InitializeComponent();
@@ -80,7 +84,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			OpDatumAfsprakenLijst.ItemSource = OpDatumLijstData;
 		}
 
+		private void UpdateGeselecteerdBedrijfOpScherm() {
+			UpdatePropperty(nameof(GeselecteerdBedrijf));
+		}
+
 		private readonly Regex _regex = new Regex("[^0-9./]+");
+
+
 		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
 			e.Handled = _regex.IsMatch(e.Text);
 		}
@@ -181,5 +191,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			textBox.Text = DateTime.Now.ToString();
 			ControleerInputOpDatum(textBox);
 		}
+
+		#region ProppertyChanged
+		public event PropertyChangedEventHandler? PropertyChanged;
+		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		#endregion ProppertyChanged
 	}
 }
