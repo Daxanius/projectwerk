@@ -3,6 +3,10 @@ using BezoekersRegistratieSysteemUI.Api.DTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,15 +16,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 	/// <summary>
 	/// Interaction logic for BedrijvenLijstControl.xaml
 	/// </summary>
-	public partial class BedrijvenLijstControl : UserControl {
+	public partial class BedrijvenLijstControl : UserControl, INotifyPropertyChanged {
+		bool isLijstOpgevult = false;
 		public BedrijvenLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
+			BedrijvenGrid.ItemsSource = new List<BedrijfDTO>();
 		}
 
 		#region Action Button
-
 		private Border _selecteditem;
+
+
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
 			//Er is 2 keer geklikt
 			if (e.ClickCount == 2) {
@@ -48,5 +55,24 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 		}
 
 		#endregion
+
+		private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+			if (isLijstOpgevult) return;
+
+
+			Task.Run(() => {
+				Dispatcher.Invoke(() => BedrijvenGrid.ItemsSource = (List<BedrijfDTO>)BedrijvenGrid.DataContext);
+				UpdatePropperty(nameof(BedrijvenGrid.ItemsSource));
+			});
+
+			isLijstOpgevult = true;
+		}
+
+		#region ProppertyChanged
+		public event PropertyChangedEventHandler? PropertyChanged;
+		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		#endregion ProppertyChanged
 	}
 }
