@@ -96,9 +96,13 @@ namespace BezoekersRegistratieSysteemBL.Managers
 			try
 			{
 				functie = Nutsvoorziening.VerwijderWhitespace(functie).ToLower();
+
+				// Voeg een functie toe aan de suggestielijst als de functie nog niet
+				// bestaat.
 				if (!_werknemerRepository.BestaatFunctie(functie)) {
 					VoegFunctieToe(functie);
 				}
+
 				_werknemerRepository.VoegWerknemerFunctieToe(werknemer, bedrijf, functie);
 			} catch (Exception ex)
 			{
