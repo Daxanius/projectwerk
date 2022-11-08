@@ -59,7 +59,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		public string Naam { get; set; }
 
 		/// <summary>
-		/// Email van bedrijf of bezoeker
+		/// Email van bedrijf of bezoeker.
 		/// </summary>
 		public string? Email { get; set; }
 
