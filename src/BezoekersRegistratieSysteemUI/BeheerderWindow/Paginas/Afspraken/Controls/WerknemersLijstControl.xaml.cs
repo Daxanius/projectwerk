@@ -42,7 +42,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		  typeof(WerknemerDTO),
 		  typeof(WerknemersLijstControl),
 		  new PropertyMetadata(null)
-	  );
+		);
 
 		public WerknemerDTO SelectedItem {
 			get { return (WerknemerDTO)GetValue(SelectedItemProperty); }
@@ -61,13 +61,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			//Zet de geselecteerde werknemer in de DataContext van de BeheerWindow
 		}
 
-		private Border _selecteditem;
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			//Er is 2 keer geklikt
-			if (e.ClickCount == 2) {
-				return;
-			}
+		public void SelectionChanged(object sender, SelectionChangedEventArgs e) {
+			if (SelectedItem is null) return;
+			WerknemerDTO werknemer = SelectedItem;
+			AfsprakenPage.Instance.GeselecteerdeWerknemer = werknemer;
+		}
 
+		private Border _selecteditem;
+		private void VeranderKleurRowOnKlik(object sender, MouseButtonEventArgs e) {
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
 				_selecteditem.BorderThickness = new Thickness(0);
