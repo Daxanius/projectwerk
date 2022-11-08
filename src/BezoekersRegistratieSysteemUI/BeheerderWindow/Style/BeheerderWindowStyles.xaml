@@ -417,8 +417,9 @@
                         Background="{StaticResource MainAchtergrond}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="5"
-                        CornerRadius="25"
-                        Cursor="Hand">
+                        CornerRadius="35"
+                        Cursor="Hand"
+                        Padding="15">
                         <Label
                             Name="ActionButtonLabel"
                             Padding="{TemplateBinding Padding}"

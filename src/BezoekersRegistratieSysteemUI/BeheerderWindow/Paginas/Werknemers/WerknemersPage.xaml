@@ -42,7 +42,7 @@
                                             Background="Transparent"
                                             BorderBrush="Transparent"
                                             BorderThickness="0"
-                                            FontSize="24"
+                                            FontSize="16"
                                             FontWeight="Bold"
                                             Foreground="{StaticResource DonkerGrijs}"
                                             Text="{TemplateBinding Text}" />
@@ -76,8 +76,7 @@
                         FontSize="45"
                         FontWeight="Bold"
                         Foreground="{StaticResource DonkerBlauw}"
-                        Text="{Binding GeselecteerdBedrijf.Naam}"
-                        TextDecorations="Underline" />
+                        Text="{Binding GeselecteerdBedrijf.Naam}"/>
                     <ComboBox
                         Height="50"
                         MinWidth="120"
@@ -85,7 +84,7 @@
                         Background="{StaticResource LichtGrijsAccent}"
                         Cursor="Hand"
                         DockPanel.Dock="Right"
-                        FontSize="26"
+                        FontSize="16"
                         FontWeight="Bold"
                         Foreground="{StaticResource DonkerBlauw}">
                         <ComboBoxItem Content="Vrij" />
