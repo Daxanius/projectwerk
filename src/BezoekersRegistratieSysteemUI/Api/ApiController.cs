@@ -450,12 +450,12 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
-		public static BedrijfOutputDTO? PostBedrijf(BedrijfInputDTO bedrijf) {
+		public static BedrijfDTO? PostBedrijf(BedrijfInputDTO bedrijf) {
 			return Task.Run(async () => {
 				string body = JsonConvert.SerializeObject(bedrijf);
-				(bool isvalid, BedrijfOutputDTO bedrijfOutput) = await Post<BedrijfOutputDTO>($"bedrijf/", body);
+				(bool isvalid, BedrijfOutputDTO apiBedrijf) = await Post<BedrijfOutputDTO>($"bedrijf/", body);
 				if (isvalid) {
-					return bedrijfOutput;
+					return new BedrijfDTO(apiBedrijf.Naam, apiBedrijf.BTW, apiBedrijf.TelefoonNummer, apiBedrijf.Email, apiBedrijf.Adres);
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
 				}
