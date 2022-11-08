@@ -243,7 +243,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static IEnumerable<WerknemerDTO> FetchWerknemersVanBedrijf(long bedrijfsId) {
 			return Task.Run(async () => {
 				List<WerknemerDTO> ItemSource = new();
-				(bool isvalid, List<WerknemerOutputDTO> apiWerknemers) = await Get<List<WerknemerOutputDTO>>($"werknemer/bedrijf/id/{bedrijfsId}");
+				(bool isvalid, List<WerknemerOutputDTO> apiWerknemers) = await Get<List<WerknemerOutputDTO>>($"werknemer/bedrijf/{bedrijfsId}");
 				if (isvalid) {
 					apiWerknemers.ForEach((api) => {
 						List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(BeheerderWindow.GeselecteerdBedrijf, w.Email, w.Functies)).ToList());
@@ -268,6 +268,22 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return ItemSource;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+				}
+			}).Result;
+		}
+
+		public static IEnumerable<AfspraakDTO> FetchBezoekerAfsprakenVanBedrijf(long bedrijfsId, BezoekerDTO bezoeker) {
+			return Task.Run(async () => {
+				List<AfspraakDTO> ItemSource = new();
+				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?bedrijfId={bedrijfsId}&openstaand=true");
+				if (isvalid) {
+					apiAfspraken.ForEach((api) => {
+						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
+						ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
+					});
+					return ItemSource;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
 				}
 			}).Result;
 		}

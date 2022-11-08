@@ -1,9 +1,12 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,6 +28,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 	/// </summary>
 	public partial class BezoekersLijstControl : UserControl {
 		public bool HeeftData { get; set; }
+		public BezoekerDTO GeselecteerdeBezoeker;
 
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
@@ -47,19 +51,21 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			Button? b = sender as Button;
 			BezoekerDTO? bezoeker = b?.CommandParameter as BezoekerDTO;
 
-			OpenAfspraakDetail(bezoeker);
+			OpenBezoekerDetail(bezoeker);
 		}
 
-		private void OpenAfspraakDetail(BezoekerDTO bezoeker) {
+		private void OpenBezoekerDetail(BezoekerDTO bezoeker) {
 
 		}
 
 		private Border _selecteditem;
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
+			if (BezoekerLijst.SelectedItem is null) return;
+
 			//Er is 2 keer geklikt
-			if (e.ClickCount == 2) {
-				return;
-			}
+			//if (e.ClickCount == 2) {
+			//	return;
+			//}
 
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
@@ -74,9 +80,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			border.CornerRadius = new CornerRadius(20);
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;
+
+			BezoekerDTO bezoeker = (BezoekerDTO)BezoekerLijst.SelectedValue;
+			AfsprakenPage.Instance.Geselecteerdebezoeker = bezoeker;
 		}
 
-		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
+		private void KlikOpBezoekerOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
 			BezoekerDTO bezoeker = (BezoekerDTO)b.CommandParameter;
 		}

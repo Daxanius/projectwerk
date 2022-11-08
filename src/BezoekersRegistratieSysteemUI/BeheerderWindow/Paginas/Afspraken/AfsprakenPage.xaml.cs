@@ -50,6 +50,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 		private static string _selectedDatum = DateTime.Now.ToString("dd/MM/yyyy");
 		private string _oudeValidDate = _selectedDatum;
+		private static BezoekerDTO _geselecteerdebezoeker;
 
 		public string Datum {
 			get {
@@ -61,6 +62,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			}
 		}
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
+		public BezoekerDTO Geselecteerdebezoeker {
+			get => _geselecteerdebezoeker; set {
+				if (_geselecteerdebezoeker?.Id == value.Id) return;
+				_geselecteerdebezoeker = value;
+				BezoekerAfsprakenLijst.ItemSource = new(ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, Geselecteerdebezoeker));
+				UpdatePropperty();
+			}
+		}
 		public ObservableCollection<AfspraakDTO> Afspraken { get; set; } = new ObservableCollection<AfspraakDTO>();
 
 		public AfsprakenPage() {

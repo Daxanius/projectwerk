@@ -96,25 +96,8 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				((RegistratieWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
 				return;
 			}
-			FetchWerknemersVoorBedrijf();
+			LijstMetWerknemersVanGeselecteerdBedrijf = ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf.Id).ToList();
 		}
-
-		#region FetchWerknemers
-
-		private async void FetchWerknemersVoorBedrijf() {
-			(bool isValid, List<WerknemerOutputDTO> werknemersVanGeselecteerdBedrijf) = await ApiController.Get<List<WerknemerOutputDTO>>($"werknemer/bedrijf/id/{GeselecteerdBedrijf.Id}");
-			if (isValid) {
-				List<WerknemerDTO> werknemersDTOVanBedrijf = new();
-				werknemersVanGeselecteerdBedrijf.ForEach(api => {
-					List<WerknemerInfoDTO> werknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(GeselecteerdBedrijf, w.Email, w.Functies)).ToList());
-					WerknemerDTO werknemer = new(api.Id, api.Voornaam, api.Achternaam, werknemerInfo);
-					werknemersDTOVanBedrijf.Add(werknemer);
-				});
-				LijstMetWerknemersVanGeselecteerdBedrijf = werknemersDTOVanBedrijf;
-			}
-		}
-
-		#endregion
 
 		#region Action Buttons
 

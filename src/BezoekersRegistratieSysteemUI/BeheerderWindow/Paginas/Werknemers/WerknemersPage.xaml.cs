@@ -45,10 +45,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 		/// ///////////////////////////////////////////////////
 		/// </summary>
 
-		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
-
 		public int FullWidth { get; set; }
 		public int FullHeight { get; set; }
+		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
 
 		public WerknemersPage() {
 			FullWidth = (int)SystemParameters.PrimaryScreenWidth;
@@ -59,33 +58,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			this.DataContext = this;
 			InitializeComponent();
 
-			FetchAlleWerknemers();
+			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf.Id));
 		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
 			UpdatePropperty(nameof(GeselecteerdBedrijf));
-			FetchAlleWerknemers();
+			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf.Id));
 		}
 
 		private void AddWerknemer(object sender, MouseButtonEventArgs e) {
 			WerknemersPopup.Visibility = Visibility.Visible;
 		}
-
-		#region API Requests
-		private async void FetchAlleWerknemers() {
-			WerknemerLijstControl.ItemSource.Clear();
-			(bool isvalid, List<WerknemerOutputDTO> apiWerknemers) = await ApiController.Get<List<WerknemerOutputDTO>>("werknemer/bedrijf/id/" + BeheerderWindow.GeselecteerdBedrijf.Id);
-			if (isvalid) {
-				apiWerknemers.ForEach((api) => {
-					List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(BeheerderWindow.GeselecteerdBedrijf, w.Email, w.Functies)).ToList());
-					WerknemerInfoOutputDTO werknemerInfo = api.WerknemerInfo.First(w => w.Bedrijf.Id == BeheerderWindow.GeselecteerdBedrijf.Id);
-					WerknemerLijstControl.ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, true));
-				});
-			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de werknemers", "Error werknemer/bedrijf/id/" + BeheerderWindow.GeselecteerdBedrijf.Id);
-			}
-		}
-		#endregion
 
 		#region ProppertyChanged
 		public event PropertyChangedEventHandler? PropertyChanged;
