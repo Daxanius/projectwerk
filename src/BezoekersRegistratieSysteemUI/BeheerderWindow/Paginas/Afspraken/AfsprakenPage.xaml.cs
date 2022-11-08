@@ -105,7 +105,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			opDatumAfsprakenLijstControl.HeeftData = false;
 
 			UpdatePropperty(nameof(GeselecteerdBedrijf));
-			//HuidigeAfsprakenLijst.ItemSource = ApiController.FetchAfsprakenVanBedrijf(GeselecteerdBedrijf.Id
+			foreach (AfspraakDTO afspraak in ApiController.FetchAfsprakenVanBedrijf(GeselecteerdBedrijf.Id)) {
+				HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
+			}
 		}
 
 		private void SelecteerFilterOpties(object sender, MouseButtonEventArgs e) {
