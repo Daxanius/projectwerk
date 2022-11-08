@@ -76,10 +76,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			InitializeComponent();
 		}
 
-		private void VoegNieuweFunctieToe(object sender, MouseButtonEventArgs e) {
-
-		}
-
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {
 			SluitOverlay();
 		}

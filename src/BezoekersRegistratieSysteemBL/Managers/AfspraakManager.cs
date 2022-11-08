@@ -299,12 +299,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bedrijf mag niet leeg zijn"</exception>
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - opvraag datum kan niet in de toekomst liggen"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
-		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(Bezoeker bezoeker, DateTime datum, Bedrijf bedrijf) {
-			if (bezoeker == null) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bezoeker mag niet leeg zijn");
+		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(long bezoekerId, DateTime datum, Bedrijf bedrijf) {
+			if (bezoekerId < 0) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bezoeker mag niet minder dan 0 zijn");
 			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bedrijf mag niet leeg zijn");
 			if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - opvraag datum kan niet in de toekomst liggen");
 			try {
-				return _afspraakRepository.GeefAfsprakenPerBezoekerOpDagPerBedrijf(bezoeker.Id, datum, bedrijf.Id);
+				return _afspraakRepository.GeefAfsprakenPerBezoekerOpDagPerBedrijf(bezoekerId, datum, bedrijf.Id);
 			} catch (Exception ex) {
 				throw new AfspraakManagerException(ex.Message);
 			}
@@ -313,7 +313,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <summary>
 		/// Stelt lijst van huidige afspraken samen met enkel lees rechten adhv bezoeker object en bedrijf object.
 		/// </summary>
-		/// <param name="bezoeker">Bezoeker object waar de afspraken van opgevraagd wensen te worden.</param>
+		/// <param name="bezoekerId">Bezoeker object waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijf">Bedrijf object waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>Gewenste afspraak object waar statuscode.</returns>
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefHuidigeAfspraakBezoekerPerBedrijf - bezoeker mag niet leeg zijn"</exception>

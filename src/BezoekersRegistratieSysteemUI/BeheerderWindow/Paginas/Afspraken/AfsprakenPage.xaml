@@ -57,7 +57,7 @@
                     Orientation="Horizontal">
                     <Border
                         Padding="20,0"
-                        MouseLeftButtonDown="SelecteerFilterOpties"
+                        MouseLeftButtonDown="NavigeerNaarTab"
                         Opacity="1"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
@@ -76,7 +76,7 @@
                     </Border>
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="SelecteerFilterOpties"
+                        MouseLeftButtonDown="NavigeerNaarTab"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
@@ -94,7 +94,7 @@
                     </Border>
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="SelecteerFilterOpties"
+                        MouseLeftButtonDown="NavigeerNaarTab"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
@@ -112,7 +112,7 @@
                     </Border>
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="SelecteerFilterOpties"
+                        MouseLeftButtonDown="NavigeerNaarTab"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
