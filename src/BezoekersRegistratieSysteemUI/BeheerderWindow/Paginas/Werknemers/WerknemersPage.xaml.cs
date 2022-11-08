@@ -58,12 +58,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			this.DataContext = this;
 			InitializeComponent();
 
-			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf.Id));
+			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
 		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
 			UpdatePropperty(nameof(GeselecteerdBedrijf));
-			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf.Id));
+			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
 		}
 
 		private void AddWerknemer(object sender, MouseButtonEventArgs e) {
