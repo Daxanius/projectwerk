@@ -73,22 +73,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Geeft alle werknemers van een bedrijf.
-		/// </summary>
-		/// <param name="bedrijfId"></param>
-		/// <returns>NotFound bij mislukking</returns>
-		[HttpGet("bedrijf/{bedrijfId}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemersPerBedrijf(long bedrijfId) {
-			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-
-				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager, _werknemerManager.GeefWerknemersPerBedrijf(bedrijf).AsEnumerable()));
-			} catch (Exception ex) {
-				return NotFound(ex.Message);
-			}
-		}
-
-		/// <summary>
 		/// Geeft alle vrije of bezette werknemers van een bedrijf.
 		/// </summary>
 		/// <param name="bedrijfId">De ID van het bedrijf</param>
@@ -164,54 +148,16 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Geeft een lijst met bedrijven en informatie van een werknemer.
-		/// </summary>
-		/// <param name="werknemerId"></param>
-		/// <returns>BadRequest bij mislukking</returns>
-		[HttpGet("info/{werknemerId}")]
-		public ActionResult<Dictionary<long, WerknemerInfoOutputDTO>> GeefBedrijvenEnFunctiesPerWerknemer(long werknemerId) {
-			try {
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
-				var bedrijven = werknemer.GeefBedrijvenEnFunctiesPerWerknemer();
-
-				// Een conversie naar de DTO
-				Dictionary<long, WerknemerInfoOutputDTO> output = new();
-				foreach (Bedrijf b in bedrijven.Keys) {
-					output.Add(b.Id, WerknemerInfoOutputDTO.NaarDTO(bedrijven[b]));
-				}
-
-				return Ok(output);
-			} catch (Exception ex) {
-				return BadRequest(ex.Message);
-			}
-		}
-
-		/// <summary>
-		/// Voegt een nieuwe algmene functie toe.
-		/// </summary>
-		/// <param name="naam">De naam van de functie</param>
-		/// <returns>BadRequest bij mislukking</returns>
-		[HttpPost("functie/{naam}")]
-		public IActionResult VoegFunctieToe(string naam) {
-			try {
-				_werknemerManager.VoegFunctieToe(naam);
-				return Ok();
-			} catch (Exception ex) {
-				return BadRequest(ex.Message);
-			}
-		}
-
-		/// <summary>
 		/// Voegt een functie toe aan een werknemer binnen een bedrijf.
 		/// </summary>
 		/// <param name="werknemerId">De ID van de werknemer</param>
-		/// <param name="bedrijfID">De ID van het bedrijf</param>
+		/// <param name="bedrijfId">De ID van het bedrijf</param>
 		/// <param name="naam">De naam van de functie</param>
 		/// <returns>BadRequest bij mislukking</returns>
 		[HttpPost("functie/{werknemerId}/{bedrijfId}/{naam}")]
-		public IActionResult VoegWerknemerFunctieToe(long werknemerId, long bedrijfID, string naam) {
+		public IActionResult VoegWerknemerFunctieToe(long werknemerId, long bedrijfId, string naam) {
 			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfID);
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
 				_werknemerManager.VoegWerknemerFunctieToe(werknemer, bedrijf, naam);
@@ -225,13 +171,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// Verwijdert een functie van een werknemer binnen een bedrijf.
 		/// </summary>
 		/// <param name="werknemerId">De ID van de werknemer</param>
-		/// <param name="bedrijfID">De ID van het bedrijf</param>
+		/// <param name="bedrijfId">De ID van het bedrijf</param>
 		/// <param name="naam">De naam van de functie</param>
 		/// <returns>NotFound bij mislukking</returns>
 		[HttpDelete("functie/{werknemerId}/{bedrijfId}/{naam}")]
-		public IActionResult VerwijderWerknemerFunctie(long werknemerId, long bedrijfID, string naam) {
+		public IActionResult VerwijderWerknemerFunctie(long werknemerId, long bedrijfId, string naam) {
 			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfID);
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
 				_werknemerManager.VerwijderWerknemerFunctie(werknemer, bedrijf, naam);
