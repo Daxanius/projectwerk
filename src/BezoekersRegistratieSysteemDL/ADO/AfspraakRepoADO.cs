@@ -607,7 +607,6 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 					Bedrijf bedrijf = null;
 					string functieNaam = "";
 					string werknemerMail = "";
-					long werknemerID = 0;
 					while (reader.Read()) {
 						//Afspraak portie
 						long afspraakId = (long)reader["AfspraakId"];
@@ -637,15 +636,14 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 							string werknemerVNaam = (string)reader["WerknemerVNaam"];
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						}
-						//functie portie
-						if (String.IsNullOrWhiteSpace(functieNaam) || functieNaam != (string)reader["FunctieNaam"] || werknemerID != werknemer.Id) {
-							werknemerID = werknemer.Id;
-							functieNaam = (string)reader["FunctieNaam"];
-							werknemerMail = (string)reader["WerknemerEmail"];
-							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-						}
+                        //functie portie
+                        if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
+                            functieNaam = (string)reader["FunctieNaam"];
+                            werknemerMail = (string)reader["WerknemerEmail"];
+                            werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                        }
 
-						afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+                        afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
 					}
 					return afspraken.AsReadOnly();
 				}
@@ -653,6 +651,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				exx.Data.Add("werknemerId", _werknemerId);
+				exx.Data.Add("bezoekerId", _bezoekerId);
 				throw exx;
 			} finally {
 				con.Close();
@@ -833,10 +832,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 					List<Afspraak> afspraken = new List<Afspraak>();
 					Werknemer werknemer = null;
 					Bedrijf bedrijf = null;
-
 					string functieNaam = "";
 					string werknemerMail = "";
-					long werknemerID = 0;
 
 					while (reader.Read()) {
 						//Afspraak portie
@@ -867,22 +864,25 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 							string werknemerVNaam = (string)reader["WerknemerVNaam"];
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						}
-						//functie portie
-
-						if (String.IsNullOrWhiteSpace(functieNaam) || functieNaam != (string)reader["FunctieNaam"] || werknemerID != werknemer.Id) {
-							werknemerID = werknemer.Id;
-							functieNaam = (string)reader["FunctieNaam"];
-							werknemerMail = (string)reader["WerknemerEmail"];
-							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-						}
-						afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+                        //functie portie
+                        if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
+                            functieNaam = (string)reader["FunctieNaam"];
+                            werknemerMail = (string)reader["WerknemerEmail"];
+                            werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                        }
+                        afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
 					}
 					return afspraken.AsReadOnly();
 				}
 			} catch (Exception ex) {
 				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-				exx.Data.Add("datum", _datum);
+				exx.Data.Add("bedrijfId", _bedrijfId);
 				exx.Data.Add("werknemerId", _werknemerId);
+				exx.Data.Add("bezoekerId", _bezoekerId);
+				exx.Data.Add("bezoekerVNaam", _bezoekerVNaam);
+				exx.Data.Add("bezoekerANaam", _bezoekerANaam);
+				exx.Data.Add("bezoekermail", _bezoekerMail);
+				exx.Data.Add("datum", _datum);
 				throw exx;
 			} finally {
 				con.Close();
