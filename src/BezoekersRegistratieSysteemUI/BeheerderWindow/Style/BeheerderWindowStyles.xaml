@@ -412,14 +412,14 @@
                 <ControlTemplate TargetType="Button">
                     <Border
                         Name="ActionButtonBorder"
+                        Padding="15"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Background="{StaticResource MainAchtergrond}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="5"
                         CornerRadius="35"
-                        Cursor="Hand"
-                        Padding="15">
+                        Cursor="Hand">
                         <Label
                             Name="ActionButtonLabel"
                             Padding="{TemplateBinding Padding}"
