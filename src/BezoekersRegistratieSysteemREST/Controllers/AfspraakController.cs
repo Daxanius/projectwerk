@@ -74,7 +74,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 
 					// Als je ook een dag meegeeft
 					if (dag != null) {
-						return Ok(_afspraakManager.GeefAfsprakenPerWerknemerOpDagPerBedrijf(werknemer, dag.Value, bedrijf));
+						return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerWerknemerOpDagPerBedrijf(werknemer, dag.Value, bedrijf)));
 					}
 
 					return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAlleAfsprakenPerWerknemerPerBedrijf(werknemer, bedrijf)));

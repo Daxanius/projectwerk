@@ -42,6 +42,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			set { SetValue(ItemSourceProperty, value); }
 		}
 
+		public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+		  nameof(SelectedItem),
+		  typeof(BezoekerDTO),
+		  typeof(BezoekersLijstControl),
+		  new PropertyMetadata(null)
+		);
+
+		public BezoekerDTO SelectedItem {
+			get { return (BezoekerDTO)GetValue(SelectedItemProperty); }
+			set { SetValue(SelectedItemProperty, value); }
+		}
+
 		public BezoekersLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
@@ -58,15 +70,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		}
 
+		public void SelectionChanged(object sender, SelectionChangedEventArgs e) {
+			if (SelectedItem is null) return;
+			BezoekerDTO bezoeker = SelectedItem;
+			AfsprakenPage.Instance.GeselecteerdeBezoeker = bezoeker;
+		}
+
 		private Border _selecteditem;
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			if (BezoekerLijst.SelectedItem is null) return;
-
-			//Er is 2 keer geklikt
-			//if (e.ClickCount == 2) {
-			//	return;
-			//}
-
+		private void VeranderKleurRowOnKlik(object sender, MouseButtonEventArgs e) {
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
 				_selecteditem.BorderThickness = new Thickness(0);
@@ -82,7 +93,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			_selecteditem = border;
 
 			BezoekerDTO bezoeker = (BezoekerDTO)BezoekerLijst.SelectedValue;
-			AfsprakenPage.Instance.Geselecteerdebezoeker = bezoeker;
+			AfsprakenPage.Instance.GeselecteerdeBezoeker = bezoeker;
 		}
 
 		private void KlikOpBezoekerOptions(object sender, RoutedEventArgs e) {
