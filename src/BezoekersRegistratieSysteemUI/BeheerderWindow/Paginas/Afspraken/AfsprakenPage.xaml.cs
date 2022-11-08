@@ -95,61 +95,86 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			bezoekersAfsprakenLijstControl = (HuidigeAfsprakenLijst)BezoekerAfsprakenLijst.DataContext;
 			opDatumAfsprakenLijstControl = (OpDatumLijstControl)OpDatumAfsprakenLijst.DataContext;
 
-			ApiController.FetchAfsprakenVanBedrijf(GeselecteerdBedrijf.Id);
+			UpdateGeselecteerdBedrijfOpScherm();
+
+			NavigeerNaarTab("Huidige Afspraken");
 		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
+			bezoekersAfsprakenLijstControl.ItemSource.Clear();
+			afsprakenAfsprakenLijstControl.ItemSource.Clear();
+			opDatumAfsprakenLijstControl.ItemSource.Clear();
+
+			ResetFilterSelection();
+
 			afsprakenAfsprakenLijstControl.HeeftData = false;
 			bezoekersAfsprakenLijstControl.HeeftData = false;
-			bezoekersAfsprakenLijstControl.ItemSource.Clear();
 			opDatumAfsprakenLijstControl.HeeftData = false;
 
+			NavigeerNaarTab("Huidige Afspraken");
+
 			UpdatePropperty(nameof(GeselecteerdBedrijf));
+
 			foreach (AfspraakDTO afspraak in ApiController.FetchAfsprakenVanBedrijf(GeselecteerdBedrijf.Id)) {
 				HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
 			}
 		}
 
-		private void SelecteerFilterOpties(object sender, MouseButtonEventArgs e) {
+		private void NavigeerNaarTab(object sender, MouseButtonEventArgs e) {
 			TextBlock textBlock = (TextBlock)((StackPanel)((Border)sender).Child).Children[1];
 
 			switch (textBlock.Text) {
 				case "Huidige Afspraken":
-				ResetFilterSelection();
-				FilterContainerHeaders.Children[0].Opacity = 1;
-				((Grid)FilterContainer.Children[0]).Children[0].Visibility = Visibility.Visible;
+				NavigeerNaarTab("Huidige Afspraken");
 				break;
 
 				case "Afspraken Werknemer":
+				NavigeerNaarTab("Afspraken Werknemer");
 				if (!afsprakenAfsprakenLijstControl.HeeftData) {
 					WerknemerLijst.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
 					afsprakenAfsprakenLijstControl.HeeftData = true;
 				}
 
-				ResetFilterSelection();
-				FilterContainerHeaders.Children[1].Opacity = 1;
-				((Grid)FilterContainer.Children[0]).Children[1].Visibility = Visibility.Visible;
 				break;
 
 				case "Afspraken Bezoeker":
+				NavigeerNaarTab("Afspraken Bezoeker");
 				if (!bezoekersAfsprakenLijstControl.HeeftData) {
 					ObservableCollection<BezoekerDTO> afspraken = new(ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Now));
 					BezoekerLijst.ItemSource = afspraken;
 					bezoekersAfsprakenLijstControl.HeeftData = true;
 				}
+				break;
 
+				case "Afspraak Op Datum":
+				NavigeerNaarTab("Afspraak Op Datum");
+				if (!opDatumAfsprakenLijstControl.HeeftData) {
+					//OpDatumAfsprakenLijst.ItemSource =
+					opDatumAfsprakenLijstControl.HeeftData = true;
+				}
+				break;
+			}
+		}
+
+		private void NavigeerNaarTab(string tabIndex) {
 				ResetFilterSelection();
+			switch (tabIndex) {
+				case "Huidige Afspraken":
+				FilterContainerHeaders.Children[0].Opacity = 1;
+				((Grid)FilterContainer.Children[0]).Children[0].Visibility = Visibility.Visible;
+				break;
+
+				case "Afspraken Werknemer":
+				FilterContainerHeaders.Children[1].Opacity = 1;
+				((Grid)FilterContainer.Children[0]).Children[1].Visibility = Visibility.Visible;
+				break;
+
+				case "Afspraken Bezoeker":
 				FilterContainerHeaders.Children[2].Opacity = 1;
 				((Grid)FilterContainer.Children[0]).Children[2].Visibility = Visibility.Visible;
 				break;
 
 				case "Afspraak Op Datum":
-				if (!opDatumAfsprakenLijstControl.HeeftData) {
-					//opDatumLijstControl.FetchData();
-					opDatumAfsprakenLijstControl.HeeftData = true;
-				}
-				//Lazy Loading
-				ResetFilterSelection();
 				FilterContainerHeaders.Children[3].Opacity = 1;
 				((Grid)FilterContainer.Children[0]).Children[3].Visibility = Visibility.Visible;
 				break;
@@ -176,7 +201,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		}
 
 		private readonly Regex _regex = new Regex("[^0-9./]+");
-
 
 		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
 			e.Handled = _regex.IsMatch(e.Text);

@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Api.Output;
+﻿using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.Exceptions;
@@ -11,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,6 +37,44 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				client.Timeout = _timeout;
 
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+				if (!response.IsSuccessStatusCode) {
+					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+				}
+
+				string responseBody = await response.Content.ReadAsStringAsync();
+
+				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
+
+				if (parsed is T) {
+					return (true, parsed);
+				} else {
+					return (false, parsed);
+				}
+			} catch (Exception ex) {
+				if (defaultFoutMelding != "")
+					throw new FetchApiException(defaultFoutMelding, ex);
+				throw new FetchApiException(ex.Message);
+			}
+		}
+		public static async Task<(bool, T?)> GetMetBody<T>(string url, string body, string defaultFoutMelding = "") {
+			try {
+				if (url.Length > 1 && url[0] == '/') {
+					url = url[1..];
+				}
+
+				string apiUrl = $"{_baseAddres}{url}";
+
+				using HttpClient client = new();
+				client.Timeout = _timeout;
+
+				var request = new HttpRequestMessage {
+					Method = HttpMethod.Get,
+					RequestUri = new Uri(apiUrl),
+					Content = new StringContent(body, Encoding.UTF8, "application/json"),
+				};
+
+				HttpResponseMessage response = await client.SendAsync(request);
 
 				if (!response.IsSuccessStatusCode) {
 					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
@@ -261,7 +301,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static IEnumerable<BezoekerDTO> FetchBezoekersVanBedrijf(long bedrijfsId, DateTime datum) {
 			return Task.Run(async () => {
 				List<BezoekerDTO> ItemSource = new();
-				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bezoekers/{bedrijfsId}?datum={datum.ToString("MM/dd/yyyy")}");
+				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bezoekers/{bedrijfsId}?datum={datum.ToString("M/dd/yyyy")}");
 				if (isvalid) {
 					apiBezoekers.ForEach((api) => {
 						ItemSource.Add(new BezoekerDTO(api.Id, api.Voornaam, api.Achternaam, api.Email, api.Bedrijf));
@@ -273,15 +313,20 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
-		public static IEnumerable<AfspraakDTO> FetchBezoekerAfsprakenVanBedrijf(long bedrijfsId, BezoekerDTO bezoeker) {
+		public static IEnumerable<AfspraakDTO> FetchBezoekerAfsprakenVanBedrijf(long bedrijfsId, BezoekerDTO bezoeker, DateTime? dag = null) {
 			return Task.Run(async () => {
+
 				List<AfspraakDTO> ItemSource = new();
-				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?bedrijfId={bedrijfsId}&openstaand=true");
+				string payload = JsonConvert.SerializeObject(bezoeker);
+				string dagString = (dag is not null ? dag.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")).ToString();
+				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await GetMetBody<List<AfspraakOutputDTO>>($"afspraak/bezoeker/all/{bedrijfsId}/{bezoeker.Id}?dag={dagString}", payload);
+
 				if (isvalid) {
 					apiAfspraken.ForEach((api) => {
 						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
 						ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
 					});
+
 					return ItemSource;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");

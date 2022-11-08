@@ -42,7 +42,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 		public BedrijvenGridControl() {
 			this.DataContext = this;
 			InitializeComponent();
-			//Acces current thread
 			FetchAlleBedrijven();
 		}
 
