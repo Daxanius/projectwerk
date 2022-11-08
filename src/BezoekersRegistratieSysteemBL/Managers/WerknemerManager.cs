@@ -30,13 +30,24 @@ namespace BezoekersRegistratieSysteemBL.Managers
 		/// <exception cref="WerknemerManagerException">ex.Message</exception>
 		public Werknemer VoegWerknemerToe(Werknemer werknemer)
 		{
-			if (werknemer == null)
-				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerToe - werknemer mag niet leeg zijn");
-			if (_werknemerRepository.BestaatWerknemer(werknemer))
-				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerToe - werknemer bestaat al");
-			try
+            try
 			{
-				return _werknemerRepository.VoegWerknemerToe(werknemer);
+			    if (werknemer == null)
+				    throw new WerknemerManagerException("WerknemerManager - VoegWerknemerToe - werknemer mag niet leeg zijn");
+                if (!_werknemerRepository.BestaatFunctie(werknemer.GeefBedrijvenEnFunctiesPerWerknemer().First().Value.GeefWerknemerFuncties().First()))
+                {
+                    _werknemerRepository.VoegFunctieToe(werknemer.GeefBedrijvenEnFunctiesPerWerknemer().First().Value.GeefWerknemerFuncties().First());
+                }
+                if (_werknemerRepository.BestaatWerknemer(werknemer))
+                {
+                    _werknemerRepository.GeefWerknemerId(werknemer);
+                    _werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemer.GeefBedrijvenEnFunctiesPerWerknemer().First().Value);
+                    return werknemer;
+                }
+                else
+                {
+				    return _werknemerRepository.VoegWerknemerToe(werknemer);
+                }
 			} catch (Exception ex)
 			{
 				throw new WerknemerManagerException(ex.Message);

@@ -579,7 +579,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@fNaam", SqlDbType.VarChar));
-                    cmd.Parameters["fNaam"].Value = functieNaam;
+                    cmd.Parameters["@fNaam"].Value = functieNaam;
                     int i = (int)cmd.ExecuteScalar();
                     return (i > 0);
                 }
@@ -606,7 +606,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@fNaam", SqlDbType.VarChar));
-                    cmd.Parameters["fNaam"].Value = functieNaam;
+                    cmd.Parameters["@fNaam"].Value = functieNaam;
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
@@ -739,6 +739,35 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
-
+        public void GeefWerknemerId(Werknemer werknemer)
+        {
+            SqlConnection con = GetConnection();
+            string query = "SELECT TOP(1) w.id " +
+                            "FROM Werknemer w " +
+                            "JOIN Werknemerbedrijf wb ON(w.Id = wb.WerknemerId) " +
+                            "WHERE wb.WerknemerEmail = @email";
+            try
+            {
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
+                    cmd.Parameters["@email"].Value = werknemer.GeefBedrijvenEnFunctiesPerWerknemer().First().Value.Email;
+                    long i = (long)cmd.ExecuteScalar();
+                    werknemer.ZetId(i);
+                }
+            }
+            catch (Exception ex)
+            {
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("werknemer", werknemer);
+                throw exx;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Input {
 				}
 			}
 
-			return new(Voornaam, Achternaam);
+			return werknemer;
 		}
 
 		/// <summary>

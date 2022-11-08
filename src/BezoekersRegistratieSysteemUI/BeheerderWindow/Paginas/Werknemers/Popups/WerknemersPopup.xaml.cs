@@ -79,10 +79,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
-			List<string> functies = new List<string>();
-            functies.Add(Functie);
-            WerknemerOutputDTO werknemer = ApiController.PostWerknemer(new WerknemerInputDTO(Voornaam, Achternaam));
-            ApiController.PostWerknemerInfo(werknemer.Id, new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, functies));
+			List<WerknemerInfoInputDTO> werknemerInfo = new();
+            werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new() { Functie }));
+            WerknemerOutputDTO werknemer = ApiController.PostWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
             SluitOverlay();
 		}
 
