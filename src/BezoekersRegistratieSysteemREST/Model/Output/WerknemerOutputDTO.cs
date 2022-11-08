@@ -45,7 +45,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			List<WerknemerOutputDTO> output = new();
 			foreach (Werknemer werknemer in werknemers)
 			{
-				output.Add(WerknemerOutputDTO.NaarDTO(werknemerManager, werknemer));
+				output.Add(NaarDTO(werknemerManager, werknemer));
 			}
 			return output;
 		}

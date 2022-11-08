@@ -164,29 +164,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Geeft een lijst met bedrijven en informatie van een werknemer.
-		/// </summary>
-		/// <param name="werknemerId"></param>
-		/// <returns>BadRequest bij mislukking</returns>
-		[HttpGet("info/{werknemerId}")]
-		public ActionResult<Dictionary<long, WerknemerInfoOutputDTO>> GeefBedrijvenEnFunctiesPerWerknemer(long werknemerId) {
-			try {
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
-				var bedrijven = werknemer.GeefBedrijvenEnFunctiesPerWerknemer();
-
-				// Een conversie naar de DTO
-				Dictionary<long, WerknemerInfoOutputDTO> output = new();
-				foreach (Bedrijf b in bedrijven.Keys) {
-					output.Add(b.Id, WerknemerInfoOutputDTO.NaarDTO(bedrijven[b]));
-				}
-
-				return Ok(output);
-			} catch (Exception ex) {
-				return BadRequest(ex.Message);
-			}
-		}
-
-		/// <summary>
 		/// Voegt een functie toe aan een werknemer binnen een bedrijf.
 		/// </summary>
 		/// <param name="werknemerId">De ID van de werknemer</param>

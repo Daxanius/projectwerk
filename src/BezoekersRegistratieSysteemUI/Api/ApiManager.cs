@@ -335,6 +335,62 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 		#endregion
 
+		#region Werknemer
+		public static WerknemerOutputDTO? FetchWerknemer(long werknemerId) {
+			return Task.Run(async () => {
+				(bool isvalid, WerknemerOutputDTO werknemer) = await Get<WerknemerOutputDTO>($"werknemer/{werknemerId}");
+				if (isvalid) {
+					return werknemer;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+				}
+			}).Result;
+		}
+
+		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersVanBedrijf(long bedrijfId, string naam, string achternaam) {
+			return Task.Run(async () => {
+				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/{bedrijfId}/{naam}/{achternaam}");
+				if (isvalid) {
+					return werknemers;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+				}
+			}).Result;
+		}
+
+		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersOpFunctie(long bedrijfId, string functie) {
+			return Task.Run(async () => {
+				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/{bedrijfId}/{functie}");
+				if (isvalid) {
+					return werknemers;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+				}
+			}).Result;
+		}
+
+		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersVanBedrijf(long bedrijfId) {
+			return Task.Run(async () => {
+				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/{bedrijfId}");
+				if (isvalid) {
+					return werknemers;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+				}
+			}).Result;
+		}
+
+		public static IEnumerable<WerknemerOutputDTO>? FetchVrijeWerknemersVanBedrijf(long bedrijfId) {
+			return Task.Run(async () => {
+				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/vb/{bedrijfId}");
+				if (isvalid) {
+					return werknemers;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+				}
+			}).Result;
+		}
+
 		public static WerknemerOutputDTO? PostWerknemer(WerknemerInputDTO werknemer) {
 			return Task.Run(async () => {
 				string body = JsonConvert.SerializeObject(werknemer);
@@ -379,5 +435,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			});
 		}
+		#endregion
 	}
 }
