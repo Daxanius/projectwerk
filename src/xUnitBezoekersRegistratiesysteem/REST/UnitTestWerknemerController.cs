@@ -42,14 +42,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_werknemerController = new(_werknemerManager, _bedrijfManager);
 
 			// Data
-			_w = new("werknemer", "werknemersen");
+			_w = new("werknemer", "werknemersen", new());
 			_b = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			_f = "functie";
 
 			_wi = new(0, "werknemer.werknemersen@email.com", new() { _f });
 
 			Bedrijf b = _b.NaarBusiness();
-			Werknemer w = _w.NaarBusiness();
+			Werknemer w = _w.NaarBusiness(_bedrijfManager);
 
 			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemerson@bedrijf.com", _f);
 
@@ -71,7 +71,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void VoegWerknemerToe_Invalid_WerknemerBestaatAl() {
-			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(_w.NaarBusiness())).Returns(true);
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(_w.NaarBusiness(_bedrijfManager))).Returns(true);
 			var result = _werknemerController.VoegWerknemerToe(_w);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
@@ -188,7 +188,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[Fact]
 		public void BewerkWerknemer_Invalid_WerknemerNietGewijzigd() {
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness());
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness(_bedrijfManager));
 			var result = _werknemerController.BewerkWerknemer(0, 0, _w);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
