@@ -548,12 +548,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 		#region UnitTest GeefAfsprakenPerBezoekerOpDagPerBedrijf
 		[Fact]
-		public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_WerknemerLeeg() {
+		public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_BezoekerIdNegatief() {
 			_mockRepo = new Mock<IAfspraakRepository>();
 			_afspraakManager = new AfspraakManager(_mockRepo.Object);
 
-			//"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bezoeker mag niet leeg zijn"
-			Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(null, _st, _bd));
+			//"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bezoekerId mag niet minder dan 0 zijn"
+			Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(-1, _st, _bd));
 		}
 
 		[Fact]
@@ -562,7 +562,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_afspraakManager = new AfspraakManager(_mockRepo.Object);
 
 			//"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - opvraag datum kan niet in de toekomst liggen"
-			Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b, _st.AddDays(1), _bd));
+			Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b.Id, _st.AddDays(1), _bd));
 		}
 
 		[Fact]
@@ -571,7 +571,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_afspraakManager = new AfspraakManager(_mockRepo.Object);
 
 			//"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bedrijf mag niet leeg zijn"
-			Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b, _st, null));
+			Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b.Id, _st, null));
 		}
 
 		[Fact]
@@ -581,7 +581,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			//"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - er zijn geen afspraken"
 			_mockRepo.Setup(x => x.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b.Id, _st, _bd.Id)).Returns(new List<Afspraak>());
-			var ex = _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b, _st, _bd);
+			var ex = _afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(_b.Id, _st, _bd);
 			Assert.Empty(ex);
 		}
 		#endregion
