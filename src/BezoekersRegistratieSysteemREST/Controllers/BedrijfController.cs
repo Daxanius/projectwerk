@@ -151,25 +151,5 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				return BadRequest(ex.Message);
 			}
 		}
-
-		/// <summary>
-		/// Voegt een werknemer toe aan een bedrijf.
-		/// </summary>
-		/// <param name="werknemerId">De ID van de werknemer</param>
-		/// <param name="werknemerInfo">De nieuwe info van de werknemer om toe te voegen</param>
-		/// <returns>BadRequest bij mislukking</returns>
-		[HttpPost("werknemer/{werknemerId}")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> VoegWerknemerToeAanBedrijf(long werknemerId, [FromBody] WerknemerInfoInputDTO werknemerInfo) {
-			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(werknemerInfo.BedrijfId);
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
-
-				// Deze implementatie in de BL is questionable
-				bedrijf.VoegWerknemerToeInBedrijf(werknemer, werknemerInfo.Email, werknemerInfo.Functies.First());
-				return Ok();
-			} catch (Exception ex) {
-				return BadRequest(ex.Message);
-			}
-		}
 	}
 }
