@@ -60,8 +60,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		private Border _selecteditem;
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			if (BezoekerLijst.SelectedItem is null) return;
-
 			//Er is 2 keer geklikt
 			//if (e.ClickCount == 2) {
 			//	return;
@@ -82,7 +80,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			_selecteditem = border;
 
 			BezoekerDTO bezoeker = (BezoekerDTO)BezoekerLijst.SelectedValue;
-			AfsprakenPage.Instance.Geselecteerdebezoeker = bezoeker;
+			AfsprakenPage.Instance.GeselecteerdeBezoeker = bezoeker;
 		}
 
 		private void KlikOpBezoekerOptions(object sender, RoutedEventArgs e) {
