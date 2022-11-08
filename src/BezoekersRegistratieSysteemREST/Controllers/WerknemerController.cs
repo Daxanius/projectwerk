@@ -119,7 +119,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpPost]
 		public ActionResult<WerknemerOutputDTO> VoegWerknemerToe([FromBody] WerknemerInputDTO werknemerData) {
 			try {
-				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager, _werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness())));
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager, _werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness(_bedrijfManager))));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
@@ -136,7 +136,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<WerknemerOutputDTO> BewerkWerknemer(long werknemerId, long bedrijfId, [FromBody] WerknemerInputDTO werknemerInput) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				Werknemer werknemer = werknemerInput.NaarBusiness();
+				Werknemer werknemer = werknemerInput.NaarBusiness(_bedrijfManager);
 				werknemer.ZetId(werknemerId);
 
 				// Waarom heeft dit een bedrijf nodig om werknemer te weizigen?

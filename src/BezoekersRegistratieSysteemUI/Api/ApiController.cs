@@ -442,7 +442,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
-		public static BedrijfDTO? PostAfspraak(BedrijfInputDTO bedrijf) {
+		public static BedrijfDTO? PostBedrijf(BedrijfInputDTO bedrijf) {
 			return Task.Run(async () => {
 				string body = JsonConvert.SerializeObject(bedrijf);
 				(bool isvalid, BedrijfOutputDTO apiBedrijf) = await Post<BedrijfOutputDTO>($"bedrijf/", body);
