@@ -42,7 +42,7 @@
                                             Background="Transparent"
                                             BorderBrush="Transparent"
                                             BorderThickness="0"
-                                            FontSize="24"
+                                            FontSize="16"
                                             FontWeight="Bold"
                                             Foreground="{StaticResource DonkerGrijs}"
                                             Text="{TemplateBinding Text}" />

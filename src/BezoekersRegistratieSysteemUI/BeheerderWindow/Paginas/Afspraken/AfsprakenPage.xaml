@@ -38,8 +38,7 @@
                         FontSize="45"
                         FontWeight="Bold"
                         Foreground="{StaticResource DonkerBlauw}"
-                        Text="{Binding GeselecteerdBedrijf.Naam}"
-                        TextDecorations="Underline" />
+                        Text="{Binding GeselecteerdBedrijf.Naam}"/>
                     <iconspresenter:Icon
                         CircleBackground="{StaticResource DonkerBlauw}"
                         Cursor="Hand"
@@ -203,7 +202,7 @@
                                                                         Background="Transparent"
                                                                         BorderBrush="Transparent"
                                                                         BorderThickness="0"
-                                                                        FontSize="24"
+                                                                        FontSize="16"
                                                                         FontWeight="Bold"
                                                                         Foreground="{StaticResource DonkerGrijs}"
                                                                         Text="{TemplateBinding Text}" />
@@ -248,7 +247,7 @@
                                                     Background="Transparent"
                                                     BorderBrush="Transparent"
                                                     BorderThickness="0"
-                                                    FontSize="20"
+                                                    FontSize="16"
                                                     FontWeight="DemiBold"
                                                     Foreground="{StaticResource DonkerBlauw}"
                                                     LostKeyboardFocus="ValideerDatum"
@@ -321,7 +320,7 @@
                                                                         Background="Transparent"
                                                                         BorderBrush="Transparent"
                                                                         BorderThickness="0"
-                                                                        FontSize="24"
+                                                                        FontSize="16"
                                                                         FontWeight="Bold"
                                                                         Foreground="{StaticResource DonkerGrijs}"
                                                                         Text="{TemplateBinding Text}" />
@@ -366,7 +365,7 @@
                                                     Background="Transparent"
                                                     BorderBrush="Transparent"
                                                     BorderThickness="0"
-                                                    FontSize="20"
+                                                    FontSize="16"
                                                     FontWeight="DemiBold"
                                                     Foreground="{StaticResource DonkerBlauw}"
                                                     LostKeyboardFocus="ValideerDatum"
@@ -418,7 +417,7 @@
                                                 Background="Transparent"
                                                 BorderBrush="Transparent"
                                                 BorderThickness="0"
-                                                FontSize="20"
+                                                FontSize="16"
                                                 FontWeight="DemiBold"
                                                 Foreground="{StaticResource DonkerBlauw}"
                                                 LostKeyboardFocus="ValideerDatum"
