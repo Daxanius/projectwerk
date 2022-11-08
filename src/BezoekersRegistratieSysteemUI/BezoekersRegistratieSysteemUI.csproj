@@ -100,7 +100,7 @@
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemersLijstControl.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
-		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\AfsprakenLijstControl.xaml.cs">
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\HuidigeAfsprakenLijst.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Update="BeheerderWindow\Paginas\Werknemers\Controls\WerknemersLijstControl.xaml.cs">
@@ -135,7 +135,7 @@
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
-		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\AfsprakenLijstControl.xaml">
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\HuidigeAfsprakenLijst.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>

@@ -1,4 +1,6 @@
-﻿using BezoekersRegistratieSysteemUI.Beheerder;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
@@ -59,33 +61,23 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			}
 		}
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
-		public ObservableCollection<AfspraakDTO> HuidigeAfsprakenLijstData { get; set; } = new();
-		public ObservableCollection<WerknemerDTO> MedewerkersVanGeselecteerdBedrijf { get; set; } = new();
-		public ObservableCollection<AfspraakDTO> AfsprakenVanGeselecteerdeMedewerker { get; set; } = new();
-		public ObservableCollection<AfspraakDTO> BezoekersLijstData { get; set; } = new();
-		public ObservableCollection<AfspraakDTO> OpDatumLijstData { get; set; } = new();
+		public ObservableCollection<AfspraakDTO> Afspraken { get; set; } = new ObservableCollection<AfspraakDTO>();
 
 		public AfsprakenPage() {
-			AfsprakenVanGeselecteerdeMedewerker = new();
-
-			HuidigeAfsprakenLijstData = AfsprakenVanGeselecteerdeMedewerker;
-			BezoekersLijstData = AfsprakenVanGeselecteerdeMedewerker;
-			OpDatumLijstData = AfsprakenVanGeselecteerdeMedewerker;
-
 			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijfOpScherm;
 
 			this.DataContext = this;
 			InitializeComponent();
 
-			HuidigeAfsprakenLijst.ItemSource = HuidigeAfsprakenLijstData;
-			WerknemerLijst.ItemSource = MedewerkersVanGeselecteerdBedrijf;
-			WerknemerAfsprakenLijst.ItemSource = AfsprakenVanGeselecteerdeMedewerker;
-			BezoekerAfsprakenLijst.ItemSource = BezoekersLijstData;
-			OpDatumAfsprakenLijst.ItemSource = OpDatumLijstData;
+			HuidigeAfsprakenLijst.ItemSource = Afspraken;
+			Afspraken.Clear();
+			ApiController.FetchAfsprakenVanBedrijf(GeselecteerdBedrijf.Id);
 		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
 			UpdatePropperty(nameof(GeselecteerdBedrijf));
+			Afspraken.Clear();
+			ApiController.FetchAfsprakenVanBedrijf(GeselecteerdBedrijf.Id);
 		}
 
 		private readonly Regex _regex = new Regex("[^0-9./]+");
@@ -114,22 +106,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		}
 
 		private void SelecteerFilterOpties(object sender, MouseButtonEventArgs e) {
-			Border border = (Border)sender;
-			StackPanel stackpanel = (StackPanel)border.Child;
-			TextBlock textBlock = (TextBlock)stackpanel.Children[1];
-			AfsprakenLijstControl afsprakenLijstControl;
-			AfsprakenLijstControl werknemersLijstControl;
+			TextBlock textBlock = (TextBlock)((StackPanel)((Border)sender).Child).Children[1];
+			HuidigeAfsprakenLijst afsprakenLijstControl;
+			HuidigeAfsprakenLijst werknemersLijstControl;
 			BezoekersLijstControl bezoekersLijstControl;
 			OpDatumLijstControl opDatumLijstControl;
 
 			switch (textBlock.Text) {
 				case "Huidige Afspraken":
 				//Lazy Loading
-				afsprakenLijstControl = (AfsprakenLijstControl)HuidigeAfsprakenLijst.DataContext;
-				if (!afsprakenLijstControl.HeeftData) {
-					afsprakenLijstControl.FetchData();
-				}
-
+				afsprakenLijstControl = (HuidigeAfsprakenLijst)HuidigeAfsprakenLijst.DataContext;
 				ResetFilterSelection();
 				FilterContainerHeaders.Children[0].Opacity = 1;
 				((Grid)FilterContainer.Children[0]).Children[0].Visibility = Visibility.Visible;
@@ -137,9 +123,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 				case "Afspraken Werknemer":
 				//Lazy Loading
-				afsprakenLijstControl = (AfsprakenLijstControl)WerknemerAfsprakenLijst.DataContext;
+				afsprakenLijstControl = (HuidigeAfsprakenLijst)WerknemerAfsprakenLijst.DataContext;
 				if (!afsprakenLijstControl.HeeftData) {
-					afsprakenLijstControl.FetchData();
+					WerknemerLijst.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf.Id));
 				}
 
 				ResetFilterSelection();
@@ -151,7 +137,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				//Lazy Loading
 				bezoekersLijstControl = (BezoekersLijstControl)BezoekerAfsprakenLijst.DataContext;
 				if (!bezoekersLijstControl.HeeftData) {
-					bezoekersLijstControl.FetchData();
+					BezoekerAfsprakenLijst.ItemSource = ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id);
 				}
 
 				ResetFilterSelection();
@@ -163,7 +149,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				//Lazy Loading
 				opDatumLijstControl = (OpDatumLijstControl)OpDatumAfsprakenLijst.DataContext;
 				if (!opDatumLijstControl.HeeftData) {
-					opDatumLijstControl.FetchData();
+					//opDatumLijstControl.FetchData();
 				}
 				//Lazy Loading
 				ResetFilterSelection();

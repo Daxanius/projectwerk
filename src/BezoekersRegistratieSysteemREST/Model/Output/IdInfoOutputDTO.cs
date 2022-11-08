@@ -13,7 +13,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// <param name="bedrijf"></param>
 		/// <returns></returns>
 		public static IdInfoOutputDTO NaarDTO(Bedrijf bedrijf) {
-			return new(bedrijf.Id, bedrijf.Naam);
+			return new(bedrijf.Id, bedrijf.Naam, bedrijf.Email, null);
 		}
 
 		/// <summary>
@@ -22,7 +22,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// <param name="werknemer"></param>
 		/// <returns></returns>
 		public static IdInfoOutputDTO NaarDTO(Werknemer werknemer) {
-			return new(werknemer.Id, $"{werknemer.Voornaam} {werknemer.Achternaam}");
+			return new(werknemer.Id, $"{werknemer.Voornaam};{werknemer.Achternaam}", null, null);
 		}
 
 		/// <summary>
@@ -31,7 +31,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// <param name="bezoeker"></param>
 		/// <returns></returns>
 		public static IdInfoOutputDTO NaarDTO(Bezoeker bezoeker) {
-			return new(bezoeker.Id, $"{bezoeker.Voornaam} {bezoeker.Achternaam}");
+			return new(bezoeker.Id, $"{bezoeker.Voornaam};{bezoeker.Achternaam}", bezoeker.Email, bezoeker.Bedrijf);
 		}
 
 		/// <summary>
@@ -39,9 +39,13 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <param name="naam"></param>
-		public IdInfoOutputDTO(long id, string naam) {
+		/// <param name="email"></param>
+		/// <param name="bezoekerBedrijf"></param>
+		public IdInfoOutputDTO(long id, string naam, string? email, string? bezoekerBedrijf) {
 			Id = id;
 			Naam = naam;
+			Email = email;
+			BezoekerBedrijf = bezoekerBedrijf;
 		}
 
 		/// <summary>
@@ -53,5 +57,15 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// De naam van de data.
 		/// </summary>
 		public string Naam { get; set; }
+
+		/// <summary>
+		/// Email van bedrijf of bezoeker
+		/// </summary>
+		public string? Email { get; set; }
+
+		/// <summary>
+		/// De naam van bedrijf van de bezoeker.
+		/// </summary>
+		public string? BezoekerBedrijf { get; set; }
 	}
 }

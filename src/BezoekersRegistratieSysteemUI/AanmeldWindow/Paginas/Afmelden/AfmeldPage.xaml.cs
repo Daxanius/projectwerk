@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemREST.Model.Output;
+﻿using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden;
 using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;

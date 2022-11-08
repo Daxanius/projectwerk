@@ -37,11 +37,21 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			set { SetValue(ItemSourceProperty, value); }
 		}
 
+		public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+		  nameof(SelectedItem),
+		  typeof(WerknemerDTO),
+		  typeof(WerknemersLijstControl),
+		  new PropertyMetadata(null)
+	  );
+
+		public WerknemerDTO SelectedItem {
+			get { return (WerknemerDTO)GetValue(SelectedItemProperty); }
+			set { SetValue(SelectedItemProperty, value); }
+		}
+
 		public WerknemersLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
-
-			if (!HeeftData) FetchData();
 		}
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
@@ -71,10 +81,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			border.CornerRadius = new CornerRadius(20);
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;
-		}
-
-		public void FetchData(string url = "", object body = null) {
-
 		}
 	}
 }

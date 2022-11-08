@@ -151,7 +151,7 @@
                                         Foreground="{StaticResource DonkerBlauw}"
                                         Text="Huidige Afspraken" />
                                 </Grid>
-                                <controls:AfsprakenLijstControl x:Name="HuidigeAfsprakenLijst" />
+                                <controls:HuidigeAfsprakenLijst x:Name="HuidigeAfsprakenLijst" />
                             </DockPanel>
                         </Border>
                     </DockPanel>
@@ -267,7 +267,7 @@
                                                 MouseLeftButtonDown="ResetDatumFilter" />
                                         </StackPanel>
                                     </Grid>
-                                    <controls:AfsprakenLijstControl x:Name="WerknemerAfsprakenLijst" />
+                                    <controls:HuidigeAfsprakenLijst x:Name="WerknemerAfsprakenLijst" />
                                 </DockPanel>
                             </Border>
                             <!--#endregion-->

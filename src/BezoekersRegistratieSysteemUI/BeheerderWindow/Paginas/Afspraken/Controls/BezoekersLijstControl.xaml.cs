@@ -41,8 +41,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public BezoekersLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
-
-			if (!HeeftData) FetchData();
 		}
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
@@ -81,10 +79,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
 			AfspraakDTO afspraak = (AfspraakDTO)b.CommandParameter;
-		}
-
-		public void FetchData(string url = "", object body = null) {
-
 		}
 	}
 }

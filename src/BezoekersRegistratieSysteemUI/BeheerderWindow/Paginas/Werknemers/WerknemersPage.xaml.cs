@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemREST.Model.Output;
+﻿using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
@@ -82,7 +82,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 					WerknemerLijstControl.ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, true));
 				});
 			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de bedrijven", "Error /bedrijf");
+				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de werknemers", "Error werknemer/bedrijf/id/" + BeheerderWindow.GeselecteerdBedrijf.Id);
 			}
 		}
 		#endregion
