@@ -187,31 +187,16 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Voegt een nieuwe algmene functie toe.
-		/// </summary>
-		/// <param name="naam">De naam van de functie</param>
-		/// <returns>BadRequest bij mislukking</returns>
-		[HttpPost("functie/{naam}")]
-		public IActionResult VoegFunctieToe(string naam) {
-			try {
-				_werknemerManager.VoegFunctieToe(naam);
-				return Ok();
-			} catch (Exception ex) {
-				return BadRequest(ex.Message);
-			}
-		}
-
-		/// <summary>
 		/// Voegt een functie toe aan een werknemer binnen een bedrijf.
 		/// </summary>
 		/// <param name="werknemerId">De ID van de werknemer</param>
-		/// <param name="bedrijfID">De ID van het bedrijf</param>
+		/// <param name="bedrijfId">De ID van het bedrijf</param>
 		/// <param name="naam">De naam van de functie</param>
 		/// <returns>BadRequest bij mislukking</returns>
 		[HttpPost("functie/{werknemerId}/{bedrijfId}/{naam}")]
-		public IActionResult VoegWerknemerFunctieToe(long werknemerId, long bedrijfID, string naam) {
+		public IActionResult VoegWerknemerFunctieToe(long werknemerId, long bedrijfId, string naam) {
 			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfID);
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
 				_werknemerManager.VoegWerknemerFunctieToe(werknemer, bedrijf, naam);
@@ -225,13 +210,13 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// Verwijdert een functie van een werknemer binnen een bedrijf.
 		/// </summary>
 		/// <param name="werknemerId">De ID van de werknemer</param>
-		/// <param name="bedrijfID">De ID van het bedrijf</param>
+		/// <param name="bedrijfId">De ID van het bedrijf</param>
 		/// <param name="naam">De naam van de functie</param>
 		/// <returns>NotFound bij mislukking</returns>
 		[HttpDelete("functie/{werknemerId}/{bedrijfId}/{naam}")]
-		public IActionResult VerwijderWerknemerFunctie(long werknemerId, long bedrijfID, string naam) {
+		public IActionResult VerwijderWerknemerFunctie(long werknemerId, long bedrijfId, string naam) {
 			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfID);
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
 				_werknemerManager.VerwijderWerknemerFunctie(werknemer, bedrijf, naam);

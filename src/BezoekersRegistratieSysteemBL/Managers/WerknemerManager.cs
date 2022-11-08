@@ -96,6 +96,9 @@ namespace BezoekersRegistratieSysteemBL.Managers
 			try
 			{
 				functie = Nutsvoorziening.VerwijderWhitespace(functie).ToLower();
+				if (!_werknemerRepository.BestaatFunctie(functie)) {
+					VoegFunctieToe(functie);
+				}
 				_werknemerRepository.VoegWerknemerFunctieToe(werknemer, bedrijf, functie);
 			} catch (Exception ex)
 			{

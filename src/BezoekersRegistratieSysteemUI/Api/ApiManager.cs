@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Api.Output;
+﻿using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.Exceptions;
@@ -219,6 +220,31 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}
 		}
 
+		public static async Task<bool> Post(string url, string json = "", string defaultFoutMelding = "") {
+			try {
+				if (url.Length > 1 && url[0] == '/') {
+					url = url[1..];
+				}
+
+				string apiUrl = $"{_baseAddres}{url}";
+
+				using HttpClient client = new();
+				client.Timeout = _timeout;
+
+				var response = await client.PostAsync(apiUrl, new StringContent(json, Encoding.UTF8, "application/json"));
+
+				if (!response.IsSuccessStatusCode) {
+					throw new FetchApiException($"De request is niet gelukt!\n\nError: {response.Content.ReadAsStringAsync().Result}\n\nStatuscode: " + response.StatusCode);
+				}
+
+				return true;
+			} catch (Exception ex) {
+				if (defaultFoutMelding != "")
+					throw new FetchApiException(defaultFoutMelding, ex);
+				throw new FetchApiException(ex.Message);
+			}
+		}
+
 		#endregion
 
 		#region Fetch Methods
@@ -289,5 +315,50 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		}
 
 		#endregion
+
+		public static WerknemerOutputDTO? PostWerknemer(WerknemerInputDTO werknemer) {
+			return Task.Run(async () => {
+				string body = JsonConvert.SerializeObject(werknemer);
+				(bool isvalid, WerknemerOutputDTO apiWerknemers) = await Post<WerknemerOutputDTO>($"werknemer/", body);
+				if (isvalid) {
+					return apiWerknemers;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+				}
+			}).Result;
+		}
+
+		public static BedrijfOutputDTO? PostBedrijf(BedrijfInputDTO bedrijf) {
+			return Task.Run(async () => {
+				string body = JsonConvert.SerializeObject(bedrijf);
+				(bool isvalid, BedrijfOutputDTO bedrijfOutput) = await Post<BedrijfOutputDTO>($"bedrijf/", body);
+				if (isvalid) {
+					return bedrijfOutput;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+				}
+			}).Result;
+		}
+
+		public static WerknemerOutputDTO? PostWerknemerInfo(long werknemerId, WerknemerInfoInputDTO werknemerInfo) {
+			return Task.Run(async () => {
+				string body = JsonConvert.SerializeObject(werknemerInfo);
+				(bool isvalid, WerknemerOutputDTO werknemerOutput) = await Post<WerknemerOutputDTO>($"werknemer/info/{werknemerId}", body);
+				if (isvalid) {
+					return werknemerOutput;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+				}
+			}).Result;
+		}
+
+		public static void VoegFunctieToeAanWerknemer(long werknemerId, long bedrijfId, string functie) {
+			Task.Run(async () => {
+				bool isvalid = await Post($"werknemer/functie/{werknemerId}/{bedrijfId}/{functie}");
+				if (!isvalid) {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+				}
+			});
+		}
 	}
 }
