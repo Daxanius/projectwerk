@@ -133,7 +133,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				//Lazy Loading
 				afsprakenAfsprakenLijstControl = (HuidigeAfsprakenLijst)WerknemerAfsprakenLijst.DataContext;
 				if (!afsprakenAfsprakenLijstControl.HeeftData) {
-					WerknemerLijst.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf.Id));
+					WerknemerLijst.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
 				}
 
 				ResetFilterSelection();
