@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Managers;
 
 namespace BezoekersRegistratieSysteemREST.Model.Input {
 	/// <summary>
@@ -9,7 +10,17 @@ namespace BezoekersRegistratieSysteemREST.Model.Input {
 		/// Zet de DTO om naar de business variant
 		/// </summary>
 		/// <returns>De business variant</returns>
-		public Werknemer NaarBusiness() {
+		public Werknemer NaarBusiness(BedrijfManager bedrijfManager) {
+			Werknemer werknemer = new(Voornaam, Achternaam);
+			
+			foreach(WerknemerInfoInputDTO info in WerknemerInfo) {
+				Bedrijf bedrijf = bedrijfManager.GeefBedrijf(info.BedrijfId);
+
+				foreach (string functie in info.Functies) {
+					werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, info.Email, functie);
+				}
+			}
+
 			return new(Voornaam, Achternaam);
 		}
 
@@ -18,9 +29,11 @@ namespace BezoekersRegistratieSysteemREST.Model.Input {
 		/// </summary>
 		/// <param name="voornaam"></param>
 		/// <param name="achternaam"></param>
-		public WerknemerInputDTO(string voornaam, string achternaam) {
+		/// <param name="werknemerInfo"></param>
+		public WerknemerInputDTO(string voornaam, string achternaam, List<WerknemerInfoInputDTO> werknemerInfo) {
 			Voornaam = voornaam;
 			Achternaam = achternaam;
+			WerknemerInfo = werknemerInfo;
 		}
 
 		/// <summary>
@@ -32,5 +45,10 @@ namespace BezoekersRegistratieSysteemREST.Model.Input {
 		/// De achternaam van de werknemer.
 		/// </summary>
 		public string Achternaam { get; set; }
+
+		/// <summary>
+		/// De initiele werknemerinfo
+		/// </summary>
+		public List<WerknemerInfoInputDTO> WerknemerInfo { get; set; } = new();
 	}
 }
