@@ -10,10 +10,10 @@ namespace BezoekersRegistratieSysteemUI.Api.Input {
 		/// </summary>
 		/// <param name="voornaam"></param>
 		/// <param name="achternaam"></param>
-		public WerknemerInputDTO(string voornaam, string achternaam, List<WerknemerInfoInputDTO> WerknemerInfo) {
+		public WerknemerInputDTO(string voornaam, string achternaam, List<WerknemerInfoInputDTO> werknemerInfo) {
 			Voornaam = voornaam;
 			Achternaam = achternaam;
-			WerknemerInfo = WerknemerInfo;
+			WerknemerInfo = werknemerInfo;
 		}
 
 		/// <summary>

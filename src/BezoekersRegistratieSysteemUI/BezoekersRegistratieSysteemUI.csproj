@@ -170,6 +170,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\BezoekersRegistratieSysteemREST\BezoekersRegistratieSysteemREST.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Resource Include="Fonts\Inter-Black.ttf">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>

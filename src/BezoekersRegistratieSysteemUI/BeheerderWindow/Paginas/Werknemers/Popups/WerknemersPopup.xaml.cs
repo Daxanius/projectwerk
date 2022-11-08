@@ -1,4 +1,8 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -75,8 +79,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
-			//...
-			SluitOverlay();
+			List<WerknemerInfoInputDTO> werknemerInfo = new();
+            werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new() { Functie }));
+            WerknemerOutputDTO werknemer = ApiController.PostWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
+            SluitOverlay();
 		}
 
 		private void SluitOverlay() {
