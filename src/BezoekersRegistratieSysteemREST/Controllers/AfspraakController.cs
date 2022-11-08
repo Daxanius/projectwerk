@@ -174,7 +174,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId">Het bedrijf waarbij de bezoeker zit</param>
 		/// <param name="datum">Datum van van welke dag je de bezoekers wil van het bedrijf met bedrijfsId</param>
 		/// <returns>NotFound bij mislukking</returns>
-		[HttpGet("bezoekers/{bedrijfId}")]
+		[HttpGet("bezoeker/{bedrijfId}")]
 		public ActionResult<BezoekerOutputDTO> GeefAfspraakOpBezoeker(long bedrijfId, [FromQuery] DateTime? datum) {
 			try {
 				if (!datum.HasValue)

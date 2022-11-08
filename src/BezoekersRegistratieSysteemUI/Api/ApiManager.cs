@@ -286,7 +286,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static IEnumerable<BezoekerDTO> FetchBezoekersVanBedrijf(long bedrijfsId, DateTime datum) {
 			return Task.Run(async () => {
 				List<BezoekerDTO> ItemSource = new();
-				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bezoekers/{bedrijfsId}?datum={datum.ToString("MM/dd/yyyy")}");
+				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bezoeker/{bedrijfsId}?datum={datum.ToString("MM/dd/yyyy")}");
 				if (isvalid) {
 					apiBezoekers.ForEach((api) => {
 						ItemSource.Add(new BezoekerDTO(api.Id, api.Voornaam, api.Achternaam, api.Email, api.Bedrijf));
