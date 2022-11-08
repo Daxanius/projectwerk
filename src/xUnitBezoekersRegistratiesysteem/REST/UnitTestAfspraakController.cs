@@ -503,15 +503,13 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		//#endregion
 
 		#region UnitTest GeefHuidigeAfspraakBezoekerPerBedrijf
-		//TODO: Deze test is niet meer relevant omdat er geen bezoeker wordt mee gegeven - 08/11/2022
-
-		//[Fact]
-		//public void GeefHuidigeAfspraakBezoekerPerBedrijf_Invalid_EmailLeeg() {
-		//	var result = _afspraakController.GeefAfspraakOpBezoeker(-34, 1);
-		//	Assert.NotNull(result.Result);
-		//	Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
-		//	Assert.Null(result.Value);
-		//}
+		[Fact]
+		public void GeefHuidigeAfspraakBezoekerPerBedrijf_Invalid_EmailLeeg() {
+			var result = _afspraakController.GeefAfspraakOpBezoeker(-34, 1);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+			Assert.Null(result.Value);
+		}
 
 		[Fact]
 		public void GeefHuidigeAfspraakBezoekerPerBedrijf_Invalid_GeenAfspraken() {
