@@ -263,7 +263,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bezoekers/{bedrijfsId}?datum={datum.ToString("MM/dd/yyyy")}");
 				if (isvalid) {
 					apiBezoekers.ForEach((api) => {
-						ItemSource.Add(new BezoekerDTO(api.))
+						ItemSource.Add(new BezoekerDTO(api.Id, api.Voornaam, api.Achternaam, api.Email, api.Bedrijf));
 					});
 					return ItemSource;
 				} else {

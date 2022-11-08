@@ -28,13 +28,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
-		  typeof(ObservableCollection<AfspraakDTO>),
+		  typeof(ObservableCollection<BezoekerDTO>),
 		  typeof(BezoekersLijstControl),
-		  new PropertyMetadata(new ObservableCollection<AfspraakDTO>())
+		  new PropertyMetadata(new ObservableCollection<BezoekerDTO>())
 		 );
 
-		public ObservableCollection<AfspraakDTO> ItemSource {
-			get { return (ObservableCollection<AfspraakDTO>)GetValue(ItemSourceProperty); }
+		public ObservableCollection<BezoekerDTO> ItemSource {
+			get { return (ObservableCollection<BezoekerDTO>)GetValue(ItemSourceProperty); }
 			set { SetValue(ItemSourceProperty, value); }
 		}
 
@@ -45,12 +45,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
 			Button? b = sender as Button;
-			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
+			BezoekerDTO? bezoeker = b?.CommandParameter as BezoekerDTO;
 
-			OpenAfspraakDetail(afspraak);
+			OpenAfspraakDetail(bezoeker);
 		}
 
-		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
+		private void OpenAfspraakDetail(BezoekerDTO bezoeker) {
 
 		}
 
@@ -78,7 +78,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
-			AfspraakDTO afspraak = (AfspraakDTO)b.CommandParameter;
+			BezoekerDTO bezoeker = (BezoekerDTO)b.CommandParameter;
 		}
 	}
 }

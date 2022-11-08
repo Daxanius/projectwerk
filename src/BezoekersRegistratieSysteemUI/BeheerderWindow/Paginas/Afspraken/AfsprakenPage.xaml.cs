@@ -107,15 +107,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 		private void SelecteerFilterOpties(object sender, MouseButtonEventArgs e) {
 			TextBlock textBlock = (TextBlock)((StackPanel)((Border)sender).Child).Children[1];
-			HuidigeAfsprakenLijst afsprakenLijstControl;
-			HuidigeAfsprakenLijst werknemersLijstControl;
-			BezoekersLijstControl bezoekersLijstControl;
-			OpDatumLijstControl opDatumLijstControl;
+			HuidigeAfsprakenLijst afsprakenAfsprakenLijstControl;
+			HuidigeAfsprakenLijst werknemersAfsprakenLijstControl;
+			HuidigeAfsprakenLijst bezoekersAfsprakenLijstControl;
+			OpDatumLijstControl opDatumAfsprakenLijstControl;
 
 			switch (textBlock.Text) {
 				case "Huidige Afspraken":
 				//Lazy Loading
-				afsprakenLijstControl = (HuidigeAfsprakenLijst)HuidigeAfsprakenLijst.DataContext;
 				ResetFilterSelection();
 				FilterContainerHeaders.Children[0].Opacity = 1;
 				((Grid)FilterContainer.Children[0]).Children[0].Visibility = Visibility.Visible;
@@ -123,8 +122,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 				case "Afspraken Werknemer":
 				//Lazy Loading
-				afsprakenLijstControl = (HuidigeAfsprakenLijst)WerknemerAfsprakenLijst.DataContext;
-				if (!afsprakenLijstControl.HeeftData) {
+				afsprakenAfsprakenLijstControl = (HuidigeAfsprakenLijst)WerknemerAfsprakenLijst.DataContext;
+				if (!afsprakenAfsprakenLijstControl.HeeftData) {
 					WerknemerLijst.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf.Id));
 				}
 
@@ -135,9 +134,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 				case "Afspraken Bezoeker":
 				//Lazy Loading
-				bezoekersLijstControl = (BezoekersLijstControl)BezoekerAfsprakenLijst.DataContext;
-				if (!bezoekersLijstControl.HeeftData) {
-					BezoekerAfsprakenLijst.ItemSource = ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id);
+				bezoekersAfsprakenLijstControl = (HuidigeAfsprakenLijst)BezoekerAfsprakenLijst.DataContext;
+				if (!bezoekersAfsprakenLijstControl.HeeftData) {
+					BezoekerLijst.ItemSource = new(ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Now));
 				}
 
 				ResetFilterSelection();
@@ -147,8 +146,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 				case "Afspraak Op Datum":
 				//Lazy Loading
-				opDatumLijstControl = (OpDatumLijstControl)OpDatumAfsprakenLijst.DataContext;
-				if (!opDatumLijstControl.HeeftData) {
+				opDatumAfsprakenLijstControl = (OpDatumLijstControl)OpDatumAfsprakenLijst.DataContext;
+				if (!opDatumAfsprakenLijstControl.HeeftData) {
 					//opDatumLijstControl.FetchData();
 				}
 				//Lazy Loading
