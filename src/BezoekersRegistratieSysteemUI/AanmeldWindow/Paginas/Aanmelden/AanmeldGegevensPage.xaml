@@ -107,8 +107,7 @@
             <Grid Grid.Row="3" Margin="0,0,0,20">
                 <GroupBox
                     Padding="15"
-                    BorderBrush="{StaticResource LichtGrijsAccent}"
-                    BorderThickness="2"
+                    BorderBrush="Transparent"
                     FontWeight="DemiBold">
                     <GroupBox.Header>
                         <TextBlock
@@ -197,7 +196,7 @@
                                     <GridViewColumn>
                                         <GridViewColumn.Header>
                                             <TextBlock
-                                                FontSize="26"
+                                                FontSize="16"
                                                 Foreground="{StaticResource LichtGrijs}"
                                                 Text="Naam" />
                                         </GridViewColumn.Header>
@@ -225,7 +224,7 @@
                                     <GridViewColumn>
                                         <GridViewColumn.Header>
                                             <TextBlock
-                                                FontSize="26"
+                                                FontSize="16"
                                                 Foreground="{StaticResource LichtGrijs}"
                                                 Text="Functie(s)" />
                                         </GridViewColumn.Header>
@@ -254,7 +253,7 @@
                 <Button
                     x:Name="AnnulerenButton"
                     Margin="10,10,50,10"
-                    Padding="15,5"
+                    Padding="15,0"
                     BorderBrush="{StaticResource DonkerRood}"
                     BorderThickness="5"
                     Click="AnnulerenKlik"
@@ -266,7 +265,7 @@
                 <Button
                     x:Name="BevestigenButton"
                     Margin="50,10,10,10"
-                    Padding="15,5"
+                    Padding="15,0"
                     BorderBrush="{StaticResource LichtGroen}"
                     BorderThickness="5"
                     Click="AanmeldenKlik"

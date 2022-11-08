@@ -113,20 +113,24 @@
                         <Button
                             x:Name="AnnulerenButton"
                             Margin="10,10,20,10"
+                            Padding="15,5"
                             BorderBrush="{StaticResource LichtRood}"
                             BorderThickness="2"
                             Click="AnnulerenButton_Click"
                             Content="Annuleren"
+                            FontSize="16"
                             Foreground="{StaticResource LichtRood}"
                             Style="{StaticResource ActionButtonPopup}"
                             Tag="Rood" />
                         <Button
                             x:Name="BevestigenButton"
                             Margin="20,10,10,10"
+                            Padding="15,5"
                             BorderBrush="{StaticResource LichtGroen}"
                             BorderThickness="2"
                             Click="BevestigenButton_Click"
                             Content="Bevestigen"
+                            FontSize="16"
                             Foreground="{StaticResource LichtGroen}"
                             Style="{StaticResource ActionButtonPopup}"
                             Tag="Groen" />
