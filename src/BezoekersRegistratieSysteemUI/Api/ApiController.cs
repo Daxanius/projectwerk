@@ -405,6 +405,31 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 		#endregion
 
+		#region Afspraak
+		public static AfspraakOutputDTO? FetchAfspraak(long afspraakId) {
+			return Task.Run(async () => {
+				(bool isvalid, AfspraakOutputDTO afspraakOutput) = await Get<AfspraakOutputDTO>($"afspraak/{afspraakId}");
+				if (isvalid) {
+					return afspraakOutput;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het bedrijf");
+				}
+			}).Result;
+		}
+
+		public static AfspraakOutputDTO? PostAfspraak(AfspraakInputDTO afspraak) {
+			return Task.Run(async () => {
+				string body = JsonConvert.SerializeObject(afspraak);
+				(bool isvalid, AfspraakOutputDTO afspraakOutput) = await Post<AfspraakOutputDTO>($"afspraak/", body);
+				if (isvalid) {
+					return afspraakOutput;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
+				}
+			}).Result;
+		}
+		#endregion
+
 		#region Bedrijf
 		public static BedrijfOutputDTO? FetchBedrijf(long bedrijfId) {
 			return Task.Run(async () => {
@@ -417,40 +442,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
-		public static BedrijfOutputDTO? FetchBedrijfOpNaam(string bedrijfNaam) {
-			return Task.Run(async () => {
-				(bool isvalid, BedrijfOutputDTO bedrijf) = await Get<BedrijfOutputDTO>($"bedrijf/naam/{bedrijfNaam}");
-				if (isvalid) {
-					return bedrijf;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het bedrijf");
-				}
-			}).Result;
-		}
-
-		public static IEnumerable<BedrijfOutputDTO>? FetchBedrijven() {
-			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<BedrijfOutputDTO> bedrijven) = await Get<IEnumerable<BedrijfOutputDTO>>($"bedrijf");
-				if (isvalid) {
-					return bedrijven;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de bedrijven");
-				}
-			}).Result;
-		}
-
-		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersVanBedrijf(long bedrijfId) {
-			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"bedrijf/werknemer/{bedrijfId}");
-				if (isvalid) {
-					return werknemers;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
-				}
-			}).Result;
-		}
-
-		public static BedrijfDTO? PostBedrijf(BedrijfInputDTO bedrijf) {
+		public static BedrijfDTO? PostAfspraak(BedrijfInputDTO bedrijf) {
 			return Task.Run(async () => {
 				string body = JsonConvert.SerializeObject(bedrijf);
 				(bool isvalid, BedrijfOutputDTO apiBedrijf) = await Post<BedrijfOutputDTO>($"bedrijf/", body);
