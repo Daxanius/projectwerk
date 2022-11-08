@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Managers;
 
 namespace BezoekersRegistratieSysteemREST.Model.Input
 {
@@ -34,5 +35,15 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 		/// De functies binnen het bedrijf van de werknemer.
 		/// </summary>
 		public List<string> Functies { get; set; } = new();
-	}
+
+        public WerknemerInfo NaarBusiness(BedrijfManager bedrijfManager)
+        {
+            WerknemerInfo werknemerinfo = new WerknemerInfo(bedrijfManager.GeefBedrijf(BedrijfId), Email);
+            foreach (string functie in Functies)
+            {
+                werknemerinfo.VoegWerknemerFunctieToe(functie);
+            }
+            return werknemerinfo;
+        }
+    }
 }

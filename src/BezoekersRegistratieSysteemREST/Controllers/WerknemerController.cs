@@ -147,25 +147,26 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			}
 		}
 
-		/// <summary>
-		/// Voegt een functie toe aan een werknemer binnen een bedrijf.
-		/// </summary>
-		/// <param name="werknemerId">De ID van de werknemer</param>
-		/// <param name="bedrijfId">De ID van het bedrijf</param>
-		/// <param name="naam">De naam van de functie</param>
-		/// <returns>BadRequest bij mislukking</returns>
-		[HttpPost("functie/{werknemerId}/{bedrijfId}/{naam}")]
-		public IActionResult VoegWerknemerFunctieToe(long werknemerId, long bedrijfId, string naam) {
-			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+		///// <summary>
+		///// Voegt een functie toe aan een werknemer binnen een bedrijf.
+		///// </summary>
+		///// <param name="werknemerId">De ID van de werknemer</param>
+		///// <param name="bedrijfId">De ID van het bedrijf</param>
+		///// <param name="naam">De naam van de functie</param>
+		///// <returns>BadRequest bij mislukking</returns>
+		//[HttpPost("functie/{werknemerId}/{bedrijfId}/{naam}")]
+		//public IActionResult VoegWerknemerFunctieToe(long werknemerId, long bedrijfId, string naam) {
+		//	try {
+		//		Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+  //              WerknemerInfo werknemerInfo = new WerknemerInfo(bedrijf, _werknemerManager.GeefWerknemer(werknemerId).GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].Email);
+  //              Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
-				_werknemerManager.VoegWerknemerFunctieToe(werknemer, bedrijf, naam);
-				return Ok();
-			} catch (Exception ex) {
-				return BadRequest(ex.Message);
-			}
-		}
+		//		_werknemerManager.VoegWerknemerFunctieToe(werknemer, werknemerInfo);
+		//		return Ok();
+		//	} catch (Exception ex) {
+		//		return BadRequest(ex.Message);
+		//	}
+		//}
 
 		/// <summary>
 		/// Verwijdert een functie van een werknemer binnen een bedrijf.
@@ -194,13 +195,14 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="info">De info om toe te voegen aan de werknemer</param>
 		/// <returns>BadRequest bij mislukking</returns>
 		[HttpPost("info/{werknemerId}")]
-		public ActionResult<WerknemerOutputDTO> VoegInfoToe(long werknemerId, [FromBody] WerknemerInfoInputDTO info) {
+		public ActionResult<WerknemerOutputDTO> VoegWerknemerFunctieToe(long werknemerId, [FromBody] WerknemerInfoInputDTO info) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(info.BedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+                WerknemerInfo werknemerInfo = info.NaarBusiness(_bedrijfManager);
 
 				// Dit is nogal een vreemde manier om functies toe te voegen, wat heeft Email hiermee te maken?
-				werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, info.Email, info.Functies.First());
+				_werknemerManager.VoegWerknemerFunctieToe(werknemer, werknemerInfo);
 				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager, werknemer));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);

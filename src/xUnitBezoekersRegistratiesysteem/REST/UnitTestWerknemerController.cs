@@ -102,38 +102,26 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		#region UnitTest VoegWerknemerFunctieToe
 		[Fact]
 		public void VoegWerknemerFunctieToe_Invalid_WerknemerNegatief() {
-			var result = _werknemerController.VoegWerknemerFunctieToe(-2, 0, _f);
-			Assert.NotNull(result);
-			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+			var result = _werknemerController.VoegWerknemerFunctieToe(-2, _wi);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 		}
 
 		[Fact]
-		public void VoegWerknemerFunctieToe_Invalid_BedrijfNegatief() {
-			var result = _werknemerController.VoegWerknemerFunctieToe(0, -2, _f);
-			Assert.NotNull(result);
-			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData("")]
-		[InlineData(" ")]
-		[InlineData("\n")]
-		[InlineData("\r")]
-		[InlineData("\t")]
-		[InlineData("\v")]
-		public void VoegWerknemerFunctieToe_Invalid_functieLeeg(string functie) {
-			var result = _werknemerController.VoegWerknemerFunctieToe(0, 0, functie);
-			Assert.NotNull(result);
-			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerInfoNull()
+		{
+			var result = _werknemerController.VoegWerknemerFunctieToe(0, null);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 		}
 
 		[Fact]
-		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet() {
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet()
+		{
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
-			var result = _werknemerController.VoegWerknemerFunctieToe(0, 0, _f);
-			Assert.NotNull(result);
-			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+			var result = _werknemerController.VoegWerknemerFunctieToe(0, _wi);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 		}
 		#endregion
 

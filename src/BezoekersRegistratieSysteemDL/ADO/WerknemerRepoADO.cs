@@ -384,7 +384,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <param name="functie">Functie die toegevoegd wenst te worden.</param>
         /// <exception cref="WerknemerADOException">Faalt werknemer functie toe te kennen voor specifiek bedrijf.</exception>
         /// <remarks>Voegt een entry toe aan de werknemer bedrijf tabel in de databank.</remarks>
-        public void VoegWerknemerFunctieToe(Werknemer werknemer, Bedrijf bedrijf, string functie) {
+        public void VoegWerknemerFunctieToe(Werknemer werknemer, WerknemerInfo werknemerInfo) {
             SqlConnection con = GetConnection();
             string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, WerknemerEmail, FunctieId) " +
                                  "VALUES(@bedrijfId,@werknemerId, @email,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
@@ -397,16 +397,15 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
                     cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
                     cmd.Parameters["@werknemerId"].Value = werknemer.Id;
-                    cmd.Parameters["@bedrijfId"].Value = bedrijf.Id;
-                    cmd.Parameters["@email"].Value = werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].Email;
-                    cmd.Parameters["@FunctieNaam"].Value = functie;
+                    cmd.Parameters["@bedrijfId"].Value = werknemerInfo.Bedrijf.Id;
+                    cmd.Parameters["@email"].Value = werknemerInfo.Email;
+                    cmd.Parameters["@FunctieNaam"].Value = werknemerInfo.GeefWerknemerFuncties().First();
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
                 WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("werknemer", werknemer);
-                exx.Data.Add("bedrijf", bedrijf);
-                exx.Data.Add("functie", functie);
+                exx.Data.Add("werknemerinfo", werknemerInfo);
                 throw exx;
             } finally {
                 con.Close();

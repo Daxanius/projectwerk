@@ -79,31 +79,28 @@ namespace BezoekersRegistratieSysteemBL.Managers
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerFunctieToe - werknemer niet werkzaam bij dit bedrijf"</exception>
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft deze functie al bij dit bedrijf"</exception>
 		/// <exception cref="WerknemerManagerException">ex.Message</exception>
-        public void VoegWerknemerFunctieToe(Werknemer werknemer, Bedrijf bedrijf, string functie)
+        public void VoegWerknemerFunctieToe(Werknemer werknemer, WerknemerInfo werknemerInfo)
 		{
 			if (werknemer == null)
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer mag niet leeg zijn");
-			if (bedrijf == null)
-				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - bedrijf mag niet leeg zijn");
-			if (string.IsNullOrWhiteSpace(functie))
-				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - functie mag niet leeg zijn");
+			if (werknemerInfo == null)
+				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemerinfo mag niet leeg zijn");
 			if (!_werknemerRepository.BestaatWerknemer(werknemer))
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer bestaat niet");
-            if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf))
+            if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(werknemerInfo.Bedrijf))
                 throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer niet werkzaam bij dit bedrijf");
-            if (_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(functie))
-				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft deze functie al bij dit bedrijf");
+            if (_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties().Contains(werknemerInfo.GeefWerknemerFuncties().First()))
+            throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft deze functie al bij dit bedrijf");
 			try
 			{
-				functie = Nutsvoorziening.VerwijderWhitespace(functie).ToLower();
-
 				// Voeg een functie toe aan de suggestielijst als de functie nog niet
 				// bestaat.
-				if (!_werknemerRepository.BestaatFunctie(functie)) {
-					VoegFunctieToe(functie);
+				if (!_werknemerRepository.BestaatFunctie(werknemerInfo.GeefWerknemerFuncties().First()))
+				{
+					VoegFunctieToe(werknemerInfo.GeefWerknemerFuncties().First());
 				}
 
-				_werknemerRepository.VoegWerknemerFunctieToe(werknemer, bedrijf, functie);
+				_werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo);
 			} catch (Exception ex)
 			{
 				throw new WerknemerManagerException(ex.Message);
