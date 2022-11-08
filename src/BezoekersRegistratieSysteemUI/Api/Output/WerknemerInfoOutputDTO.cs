@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BezoekersRegistratieSysteemREST.Model.Output {
+namespace BezoekersRegistratieSysteemUI.Api.Output {
 	/// <summary>
 	/// De DTO voor uitgaande werknemerinfo informatie.
 	/// </summary>

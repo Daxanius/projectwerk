@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BezoekersRegistratieSysteemREST.Model.Output {
+namespace BezoekersRegistratieSysteemUI.Api.Output {
 	/// <summary>
 	/// De DTO voor uitgaande afspraak informatie.
 	/// </summary>

@@ -1,5 +1,5 @@
 ﻿
-namespace BezoekersRegistratieSysteemREST.Model.Output {
+namespace BezoekersRegistratieSysteemUI.Api.Output {
 	/// <summary>
 	/// De DTO voor uitgaande bezoeker informatie.
 	/// </summary>

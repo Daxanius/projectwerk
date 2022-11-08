@@ -13,7 +13,8 @@
         Background="Transparent"
         BorderBrush="Transparent"
         ItemsSource="{Binding ItemSource}"
-        ScrollViewer.CanContentScroll="False">
+        ScrollViewer.CanContentScroll="False"
+        SelectedItem="{Binding SelectedItem}">
         <ListView.Style>
             <Style TargetType="ListView">
                 <Style.Triggers>
