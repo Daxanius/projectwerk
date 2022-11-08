@@ -27,13 +27,10 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		#endregion
 
 		#region GeselecteerdbedrijfChanged
-
-
-		// Declare the event.
 		public static event GeselecteerdbedrijfChanged UpdateGeselecteerdBedrijf;
 		#endregion
 
-		#region Public propperty
+		#region Public Propperty
 		private static BedrijfDTO _geselecteerdBedrijf;
 		public static BedrijfDTO GeselecteerdBedrijf {
 			get => _geselecteerdBedrijf;

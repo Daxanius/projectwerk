@@ -142,7 +142,7 @@
                             BorderThickness="3"
                             Click="AnnulerenButton_Click"
                             Content="Annuleren"
-                            FontSize="35"
+                            FontSize="16"
                             Foreground="{StaticResource DonkerRood}"
                             Style="{StaticResource ActionButtonPopup}"
                             Tag="Rood" />
@@ -154,7 +154,7 @@
                             BorderThickness="3"
                             Click="BevestigenButton_Click"
                             Content="Bevestigen"
-                            FontSize="35"
+                            FontSize="16"
                             Foreground="{StaticResource LichtGroen}"
                             Style="{StaticResource ActionButtonPopup}"
                             Tag="Groen" />

@@ -31,7 +31,7 @@
             <Button
                 x:Name="AfmeldenButton"
                 Margin="0,70,0,0"
-                Padding="15,5"
+                Padding="15,0"
                 BorderBrush="{StaticResource GewoonBlauw}"
                 BorderThickness="5"
                 Click="AfmeldenClick"

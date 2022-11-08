@@ -174,7 +174,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId">Het bedrijf waarbij de bezoeker zit</param>
 		/// <param name="datum">Datum van van welke dag je de bezoekers wil van het bedrijf met bedrijfsId</param>
 		/// <returns>NotFound bij mislukking</returns>
-		[HttpGet("bezoekers/{bedrijfId}")]
+		[HttpGet("bezoeker/{bedrijfId}")]
 		public ActionResult<BezoekerOutputDTO> GeefAfspraakOpBezoeker(long bedrijfId, [FromQuery] DateTime? datum) {
 			try {
 				if (!datum.HasValue)
@@ -201,28 +201,25 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			}
 		}
 
-		///// <summary>
-		///// Geeft alle afspraken per bezoeker op een bedrijf.
-		///// </summary>
-		///// <param name="bedrijfId">De ID van het bedrijf</param>
-		///// <param name="bezoekerInput">De bezoeker informatie</param>
-		///// <param name="dag">De dag waarop de afspraak plaatsvond</param>
-		///// <returns>NotFound bij mislukking</returns>
-		//[HttpGet("bezoeker/{bedrijfId}/{}")]
-		//public ActionResult<IEnumerable<AfspraakOutputDTO>> GeefAfsprakenOpBezoeker(long bedrijfId, [FromBody] BezoekerInputDTO bezoekerInput, [FromQuery] DateTime? dag) {
-		//	try {
-		//		Bezoeker bezoeker = bezoekerInput.NaarBusiness();
-		//		Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+		/// <summary>
+		/// Geeft alle afspraken per bezoeker op een bedrijf.
+		/// </summary>
+		/// <param name="bedrijfId">De ID van het bedrijf</param>
+		/// <param name="bezoekerId">De bezoeker informatie</param>
+		/// <param name="dag">De dag waarop de afspraak plaatsvond</param>
+		/// <returns>NotFound bij mislukking</returns>
+		[HttpGet("bezoeker/all/{bedrijfId}/{bezoekerId}")]
+		public ActionResult<IEnumerable<AfspraakOutputDTO>> GeefAfsprakenOpBezoeker(long bedrijfId, long bezoekerId, [FromQuery] DateTime dag) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 
-		//		if (dag != null) {
-		//			return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(bezoeker, dag ?? DateTime.Now, bedrijf)));
-		//		}
+				return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(bezoekerId, dag, bedrijf)));
+				//return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bedrijf)));
 
-		//		return Ok(AfspraakOutputDTO.NaarDTO(_afspraakManager.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(bezoeker.Voornaam, bezoeker.Achternaam, bezoeker.Email, bedrijf)));
-		//	} catch (Exception ex) {
-		//		return NotFound(ex.Message);
-		//	}
-		//}
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
 
 		/// <summary>
 		/// Geeft alle aanwezige bezoekers.

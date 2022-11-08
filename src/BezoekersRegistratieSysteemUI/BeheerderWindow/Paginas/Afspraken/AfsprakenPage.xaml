@@ -38,8 +38,7 @@
                         FontSize="45"
                         FontWeight="Bold"
                         Foreground="{StaticResource DonkerBlauw}"
-                        Text="{Binding GeselecteerdBedrijf.Naam}"
-                        TextDecorations="Underline" />
+                        Text="{Binding GeselecteerdBedrijf.Naam}"/>
                     <iconspresenter:Icon
                         CircleBackground="{StaticResource DonkerBlauw}"
                         Cursor="Hand"
@@ -58,7 +57,7 @@
                     Orientation="Horizontal">
                     <Border
                         Padding="20,0"
-                        MouseLeftButtonDown="SelecteerFilterOpties"
+                        MouseLeftButtonDown="NavigeerNaarTab"
                         Opacity="1"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
@@ -77,7 +76,7 @@
                     </Border>
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="SelecteerFilterOpties"
+                        MouseLeftButtonDown="NavigeerNaarTab"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
@@ -95,7 +94,7 @@
                     </Border>
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="SelecteerFilterOpties"
+                        MouseLeftButtonDown="NavigeerNaarTab"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
@@ -113,7 +112,7 @@
                     </Border>
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="SelecteerFilterOpties"
+                        MouseLeftButtonDown="NavigeerNaarTab"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
@@ -203,7 +202,7 @@
                                                                         Background="Transparent"
                                                                         BorderBrush="Transparent"
                                                                         BorderThickness="0"
-                                                                        FontSize="24"
+                                                                        FontSize="16"
                                                                         FontWeight="Bold"
                                                                         Foreground="{StaticResource DonkerGrijs}"
                                                                         Text="{TemplateBinding Text}" />
@@ -248,7 +247,7 @@
                                                     Background="Transparent"
                                                     BorderBrush="Transparent"
                                                     BorderThickness="0"
-                                                    FontSize="20"
+                                                    FontSize="16"
                                                     FontWeight="DemiBold"
                                                     Foreground="{StaticResource DonkerBlauw}"
                                                     LostKeyboardFocus="DatePickerInput_LostKeyboardFocus"
@@ -321,7 +320,7 @@
                                                                         Background="Transparent"
                                                                         BorderBrush="Transparent"
                                                                         BorderThickness="0"
-                                                                        FontSize="24"
+                                                                        FontSize="16"
                                                                         FontWeight="Bold"
                                                                         Foreground="{StaticResource DonkerGrijs}"
                                                                         Text="{TemplateBinding Text}" />
@@ -366,7 +365,7 @@
                                                     Background="Transparent"
                                                     BorderBrush="Transparent"
                                                     BorderThickness="0"
-                                                    FontSize="20"
+                                                    FontSize="16"
                                                     FontWeight="DemiBold"
                                                     Foreground="{StaticResource DonkerBlauw}"
                                                     LostKeyboardFocus="DatePickerInput_LostKeyboardFocus"
@@ -418,7 +417,7 @@
                                                 Background="Transparent"
                                                 BorderBrush="Transparent"
                                                 BorderThickness="0"
-                                                FontSize="20"
+                                                FontSize="16"
                                                 FontWeight="DemiBold"
                                                 Foreground="{StaticResource DonkerBlauw}"
                                                 LostKeyboardFocus="DatePickerInput_LostKeyboardFocus"
