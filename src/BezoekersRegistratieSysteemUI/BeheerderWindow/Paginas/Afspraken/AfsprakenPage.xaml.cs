@@ -50,8 +50,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 		private static string _selectedDatum = DateTime.Now.ToString("dd/MM/yyyy");
 		private string _oudeValidDate = _selectedDatum;
-		private static BezoekerDTO _geselecteerdeBezoeker;
-		private static WerknemerDTO _geselecteerdeWerknemer;
+		private static BezoekerDTO? _geselecteerdeBezoeker;
+		private static WerknemerDTO? _geselecteerdeWerknemer;
 
 		public string Datum {
 			get {
@@ -64,16 +64,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		}
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
 		public BezoekerDTO GeselecteerdeBezoeker {
-			get => _geselecteerdeBezoeker; set {
-				if (_geselecteerdeBezoeker is not null || _geselecteerdeBezoeker.Id == value.Id) return;
+			get => _geselecteerdeBezoeker; 
+			set {
+				if (value == null || _geselecteerdeBezoeker?.Id == value.Id) return;
 				_geselecteerdeBezoeker = value;
 				BezoekerAfsprakenLijst.ItemSource = new(ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeBezoeker));
 				UpdatePropperty();
 			}
 		}
 		public WerknemerDTO GeselecteerdeWerknemer {
-			get => _geselecteerdeWerknemer; set {
-				if (value == null || _geselecteerdeWerknemer is not null && _geselecteerdeWerknemer.Id == value.Id) return;
+			get => _geselecteerdeWerknemer; 
+			set {
+				if (value == null || _geselecteerdeWerknemer?.Id == value.Id) return;
 				_geselecteerdeWerknemer = value;
 				WerknemerAfsprakenLijst.ItemSource = new(ApiController.FetchWerknemerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeWerknemer));
 				UpdatePropperty();

@@ -14,7 +14,9 @@
         BorderBrush="Transparent"
         ItemsSource="{Binding ItemSource}"
         ScrollViewer.CanContentScroll="False"
-        SelectedItem="{Binding SelectedItem}">
+        SelectedItem="{Binding SelectedItem}"
+        SelectionChanged="SelectionChanged"
+        SelectionMode="Single">
         <ListView.Style>
             <Style TargetType="ListView">
                 <Style.Triggers>
@@ -34,7 +36,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListViewItem}">
-                            <StackPanel MouseLeftButtonDown="KlikOpRow">
+                            <StackPanel MouseLeftButtonDown="VeranderKleurRowOnKlik">
                                 <Border
                                     Background="Transparent"
                                     BorderBrush="Transparent"
