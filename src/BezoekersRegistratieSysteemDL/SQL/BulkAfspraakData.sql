@@ -3,8 +3,7 @@ Alle afspraken die nog lopend zijn krijgen status 2
 Er worden 500 Bezoekers toegevoegd
 Er worden 500 afspraken toegevoegd
 Elk afspraak heeft een random werknemer en startdatum is GETDATE()
-
-!NOTE: moest werknemer status 2 hebben krijgt hij nogsteeds een afspraak
+moest werknemer status 2 hebben krijgt hij GEEN afspraak
 */
 
 UPDATE Afspraak SET AfspraakStatusId = 2, EindTijd = GETDATE() WHERE AfspraakStatusId = 1;
