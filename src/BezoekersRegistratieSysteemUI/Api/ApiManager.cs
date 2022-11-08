@@ -249,7 +249,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		#endregion
 
 		#region Fetch Methods
-
 		public static IEnumerable<AfspraakDTO> FetchAfsprakenVanBedrijf(long bedrijfsId) {
 			return Task.Run(async () => {
 				List<AfspraakDTO> ItemSource = new();
@@ -270,7 +269,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static IEnumerable<WerknemerDTO> FetchWerknemersVanBedrijf(BedrijfDTO bedrijf) {
 			return Task.Run(async () => {
 				List<WerknemerDTO> ItemSource = new();
-				(bool isvalid, List<WerknemerOutputDTO> apiWerknemers) = await Get<List<WerknemerOutputDTO>>($"werknemer/bedrijf/{bedrijf.Id}");
+				(bool isvalid, List<WerknemerOutputDTO> apiWerknemers) = await Get<List<WerknemerOutputDTO>>($"bedrijf/werknemer/{bedrijf.Id}");
 				if (isvalid) {
 					apiWerknemers.ForEach((api) => {
 						List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(bedrijf, w.Email, w.Functies)).ToList());
@@ -335,6 +334,64 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 		#endregion
 
+		#region Bedrijf
+		public static BedrijfOutputDTO? FetchBedrijf(long bedrijfId) {
+			return Task.Run(async () => {
+				(bool isvalid, BedrijfOutputDTO bedrijf) = await Get<BedrijfOutputDTO>($"bedrijf/{bedrijfId}");
+				if (isvalid) {
+					return bedrijf;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het bedrijf");
+				}
+			}).Result;
+		}
+
+		public static BedrijfOutputDTO? FetchBedrijfOpNaam(string bedrijfNaam) {
+			return Task.Run(async () => {
+				(bool isvalid, BedrijfOutputDTO bedrijf) = await Get<BedrijfOutputDTO>($"bedrijf/naam/{bedrijfNaam}");
+				if (isvalid) {
+					return bedrijf;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het bedrijf");
+				}
+			}).Result;
+		}
+
+		public static IEnumerable<BedrijfOutputDTO>? FetchBedrijven() {
+			return Task.Run(async () => {
+				(bool isvalid, IEnumerable<BedrijfOutputDTO> bedrijven) = await Get<IEnumerable<BedrijfOutputDTO>>($"bedrijf");
+				if (isvalid) {
+					return bedrijven;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de bedrijven");
+				}
+			}).Result;
+		}
+
+		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersVanBedrijf(long bedrijfId) {
+			return Task.Run(async () => {
+				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"bedrijf/werknemer/{bedrijfId}");
+				if (isvalid) {
+					return werknemers;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+				}
+			}).Result;
+		}
+
+		public static BedrijfOutputDTO? PostBedrijf(BedrijfInputDTO bedrijf) {
+			return Task.Run(async () => {
+				string body = JsonConvert.SerializeObject(bedrijf);
+				(bool isvalid, BedrijfOutputDTO bedrijfOutput) = await Post<BedrijfOutputDTO>($"bedrijf/", body);
+				if (isvalid) {
+					return bedrijfOutput;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
+				}
+			}).Result;
+		}
+		#endregion
+
 		#region Werknemer
 		public static WerknemerOutputDTO? FetchWerknemer(long werknemerId) {
 			return Task.Run(async () => {
@@ -342,7 +399,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				if (isvalid) {
 					return werknemer;
 				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemer");
 				}
 			}).Result;
 		}
@@ -353,40 +410,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				if (isvalid) {
 					return werknemers;
 				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
-				}
-			}).Result;
-		}
-
-		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersOpFunctie(long bedrijfId, string functie) {
-			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/{bedrijfId}/{functie}");
-				if (isvalid) {
-					return werknemers;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
-				}
-			}).Result;
-		}
-
-		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersVanBedrijf(long bedrijfId) {
-			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/{bedrijfId}");
-				if (isvalid) {
-					return werknemers;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
-				}
-			}).Result;
-		}
-
-		public static IEnumerable<WerknemerOutputDTO>? FetchVrijeWerknemersVanBedrijf(long bedrijfId) {
-			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/vb/{bedrijfId}");
-				if (isvalid) {
-					return werknemers;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
 				}
 			}).Result;
 		}
@@ -403,12 +427,22 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
-		public static BedrijfOutputDTO? PostBedrijf(BedrijfInputDTO bedrijf) {
+		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersOpFunctie(long bedrijfId, string functie) {
 			return Task.Run(async () => {
-				string body = JsonConvert.SerializeObject(bedrijf);
-				(bool isvalid, BedrijfOutputDTO bedrijfOutput) = await Post<BedrijfOutputDTO>($"bedrijf/", body);
+				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/{bedrijfId}/{functie}");
 				if (isvalid) {
-					return bedrijfOutput;
+					return werknemers;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+				}
+			}).Result;
+		}
+
+		public static IEnumerable<WerknemerOutputDTO>? FetchVrijeWerknemersVanBedrijf(long bedrijfId) {
+			return Task.Run(async () => {
+				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/vb/{bedrijfId}");
+				if (isvalid) {
+					return werknemers;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
 				}
@@ -422,7 +456,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				if (isvalid) {
 					return werknemerOutput;
 				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van de werknemer");
 				}
 			}).Result;
 		}
@@ -431,7 +465,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			Task.Run(async () => {
 				bool isvalid = await Post($"werknemer/functie/{werknemerId}/{bedrijfId}/{functie}");
 				if (!isvalid) {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van de functie");
 				}
 			});
 		}
