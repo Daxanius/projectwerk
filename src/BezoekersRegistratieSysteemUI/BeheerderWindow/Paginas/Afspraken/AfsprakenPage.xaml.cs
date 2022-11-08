@@ -66,7 +66,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			get => _geselecteerdebezoeker; set {
 				if (_geselecteerdebezoeker?.Id == value.Id) return;
 				_geselecteerdebezoeker = value;
-				BezoekerAfsprakenLijst.ItemSource = new(ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, Geselecteerdebezoeker));
+				ObservableCollection<AfspraakDTO> result = new(ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, Geselecteerdebezoeker));
+				BezoekerAfsprakenLijst.ItemSource = result;
 				UpdatePropperty();
 			}
 		}
