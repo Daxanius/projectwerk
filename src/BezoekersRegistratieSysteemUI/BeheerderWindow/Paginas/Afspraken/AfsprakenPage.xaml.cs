@@ -50,7 +50,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 		private static string _selectedDatum = DateTime.Now.ToString("dd/MM/yyyy");
 		private string _oudeValidDate = _selectedDatum;
-		private static BezoekerDTO _geselecteerdebezoeker;
+		private static BezoekerDTO? _geselecteerdeBezoeker;
+		private static WerknemerDTO? _geselecteerdeWerknemer;
+		private HuidigeAfsprakenLijst afsprakenAfsprakenLijstControl;
+		private HuidigeAfsprakenLijst bezoekersAfsprakenLijstControl;
+		private OpDatumLijstControl opDatumAfsprakenLijstControl;
 
 		public string Datum {
 			get {
@@ -62,15 +66,24 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			}
 		}
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
-		public BezoekerDTO Geselecteerdebezoeker {
-			get => _geselecteerdebezoeker; set {
-				if (_geselecteerdebezoeker?.Id == value.Id) return;
-				_geselecteerdebezoeker = value;
-				BezoekerAfsprakenLijst.ItemSource = new(ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, Geselecteerdebezoeker));
+		public BezoekerDTO GeselecteerdeBezoeker {
+			get => _geselecteerdeBezoeker;
+			set {
+				if (value == null || _geselecteerdeBezoeker?.Id == value.Id) return;
+				_geselecteerdeBezoeker = value;
+				BezoekerAfsprakenLijst.ItemSource = new(ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeBezoeker));
 				UpdatePropperty();
 			}
 		}
-		public ObservableCollection<AfspraakDTO> Afspraken { get; set; } = new ObservableCollection<AfspraakDTO>();
+		public WerknemerDTO GeselecteerdeWerknemer {
+			get => _geselecteerdeWerknemer;
+			set {
+				if (value == null || _geselecteerdeWerknemer?.Id == value.Id) return;
+				_geselecteerdeWerknemer = value;
+				WerknemerAfsprakenLijst.ItemSource = new(ApiController.FetchWerknemerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeWerknemer));
+				UpdatePropperty();
+			}
+		}
 
 		public AfsprakenPage() {
 			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijfOpScherm;
@@ -78,62 +91,37 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			this.DataContext = this;
 			InitializeComponent();
 
-			HuidigeAfsprakenLijst.ItemSource = Afspraken;
-			Afspraken.Clear();
+			afsprakenAfsprakenLijstControl = (HuidigeAfsprakenLijst)WerknemerAfsprakenLijst.DataContext;
+			bezoekersAfsprakenLijstControl = (HuidigeAfsprakenLijst)BezoekerAfsprakenLijst.DataContext;
+			opDatumAfsprakenLijstControl = (OpDatumLijstControl)OpDatumAfsprakenLijst.DataContext;
+
 			ApiController.FetchAfsprakenVanBedrijf(GeselecteerdBedrijf.Id);
 		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
+			afsprakenAfsprakenLijstControl.HeeftData = false;
+			bezoekersAfsprakenLijstControl.HeeftData = false;
+			bezoekersAfsprakenLijstControl.ItemSource.Clear();
+			opDatumAfsprakenLijstControl.HeeftData = false;
+
 			UpdatePropperty(nameof(GeselecteerdBedrijf));
-			Afspraken.Clear();
-			ApiController.FetchAfsprakenVanBedrijf(GeselecteerdBedrijf.Id);
-		}
-
-		private readonly Regex _regex = new Regex("[^0-9./]+");
-
-
-		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
-			e.Handled = _regex.IsMatch(e.Text);
-		}
-
-		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) {
-			ControleerInputOpDatum(sender);
-		}
-
-		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
-			ControleerInputOpDatum(sender);
-		}
-
-		private void ControleerInputOpDatum(object sender) {
-			TextBox textBox = sender as TextBox;
-			if (DateTime.TryParse(textBox.Text, out DateTime dateTime)) {
-				textBox.Text = dateTime.ToString("dd/MM/yyyy");
-				_oudeValidDate = textBox.Text;
-			} else {
-				textBox.Text = _oudeValidDate;
-			}
+			//HuidigeAfsprakenLijst.ItemSource = ApiController.FetchAfsprakenVanBedrijf(GeselecteerdBedrijf.Id
 		}
 
 		private void SelecteerFilterOpties(object sender, MouseButtonEventArgs e) {
 			TextBlock textBlock = (TextBlock)((StackPanel)((Border)sender).Child).Children[1];
-			HuidigeAfsprakenLijst afsprakenAfsprakenLijstControl;
-			HuidigeAfsprakenLijst werknemersAfsprakenLijstControl;
-			HuidigeAfsprakenLijst bezoekersAfsprakenLijstControl;
-			OpDatumLijstControl opDatumAfsprakenLijstControl;
 
 			switch (textBlock.Text) {
 				case "Huidige Afspraken":
-				//Lazy Loading
 				ResetFilterSelection();
 				FilterContainerHeaders.Children[0].Opacity = 1;
 				((Grid)FilterContainer.Children[0]).Children[0].Visibility = Visibility.Visible;
 				break;
 
 				case "Afspraken Werknemer":
-				//Lazy Loading
-				afsprakenAfsprakenLijstControl = (HuidigeAfsprakenLijst)WerknemerAfsprakenLijst.DataContext;
 				if (!afsprakenAfsprakenLijstControl.HeeftData) {
 					WerknemerLijst.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
+					afsprakenAfsprakenLijstControl.HeeftData = true;
 				}
 
 				ResetFilterSelection();
@@ -142,10 +130,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				break;
 
 				case "Afspraken Bezoeker":
-				//Lazy Loading
-				bezoekersAfsprakenLijstControl = (HuidigeAfsprakenLijst)BezoekerAfsprakenLijst.DataContext;
 				if (!bezoekersAfsprakenLijstControl.HeeftData) {
-					BezoekerLijst.ItemSource = new(ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Now));
+					ObservableCollection<BezoekerDTO> afspraken = new(ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Now));
+					BezoekerLijst.ItemSource = afspraken;
+					bezoekersAfsprakenLijstControl.HeeftData = true;
 				}
 
 				ResetFilterSelection();
@@ -154,10 +142,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				break;
 
 				case "Afspraak Op Datum":
-				//Lazy Loading
-				opDatumAfsprakenLijstControl = (OpDatumLijstControl)OpDatumAfsprakenLijst.DataContext;
 				if (!opDatumAfsprakenLijstControl.HeeftData) {
 					//opDatumLijstControl.FetchData();
+					opDatumAfsprakenLijstControl.HeeftData = true;
 				}
 				//Lazy Loading
 				ResetFilterSelection();
@@ -184,6 +171,31 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			TextBox textBox = (TextBox)border.Child;
 			textBox.Text = DateTime.Now.ToString();
 			ControleerInputOpDatum(textBox);
+		}
+
+		private readonly Regex _regex = new Regex("[^0-9./]+");
+
+
+		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
+			e.Handled = _regex.IsMatch(e.Text);
+		}
+
+		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) {
+			ControleerInputOpDatum(sender);
+		}
+
+		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
+			ControleerInputOpDatum(sender);
+		}
+
+		private void ControleerInputOpDatum(object sender) {
+			TextBox textBox = sender as TextBox;
+			if (DateTime.TryParse(textBox.Text, out DateTime dateTime)) {
+				textBox.Text = dateTime.ToString("dd/MM/yyyy");
+				_oudeValidDate = textBox.Text;
+			} else {
+				textBox.Text = _oudeValidDate;
+			}
 		}
 
 		#region ProppertyChanged
