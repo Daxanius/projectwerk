@@ -1,6 +1,10 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -81,7 +85,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
-			//...
+			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(Naam, BtwNummer, TelefoonNummer, Email, Adres);
+			BedrijfDTO bedrijf = ApiController.PostBedrijf(nieuwBedrijf);
+			MessageBox.Show($"Bedrijf toegevoegd: Naam = {bedrijf.Naam}");
+			((ObservableCollection<BedrijfDTO>)BedrijvenPage.Instance.BedrijvenLijst.BedrijvenGrid.ItemsSource).Add(bedrijf);
 			SluitOverlay();
 		}
 

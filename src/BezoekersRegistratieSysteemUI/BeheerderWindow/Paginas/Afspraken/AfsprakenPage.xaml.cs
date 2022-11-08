@@ -47,11 +47,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		/// ////////////////////////////////////////////////////////////////////////////////
 		/// </summary>
 
-
 		private static string _selectedDatum = DateTime.Now.ToString("dd/MM/yyyy");
 		private string _oudeValidDate = _selectedDatum;
 		private static BezoekerDTO? _geselecteerdeBezoeker;
 		private static WerknemerDTO? _geselecteerdeWerknemer;
+
 		private HuidigeAfsprakenLijst afsprakenAfsprakenLijstControl;
 		private HuidigeAfsprakenLijst bezoekersAfsprakenLijstControl;
 		private OpDatumLijstControl opDatumAfsprakenLijstControl;
@@ -65,6 +65,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				UpdatePropperty();
 			}
 		}
+
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
 		public BezoekerDTO GeselecteerdeBezoeker {
 			get => _geselecteerdeBezoeker;
@@ -75,6 +76,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				UpdatePropperty();
 			}
 		}
+		
 		public WerknemerDTO GeselecteerdeWerknemer {
 			get => _geselecteerdeWerknemer;
 			set {
@@ -149,7 +151,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				case "Afspraak Op Datum":
 				NavigeerNaarTab("Afspraak Op Datum");
 				if (!opDatumAfsprakenLijstControl.HeeftData) {
-					//OpDatumAfsprakenLijst.ItemSource =
+					OpDatumAfsprakenLijst.ItemSource = new(ApiController.FetchAfsprakenOpDatumVanBedrijf(GeselecteerdBedrijf.Id, Datum));
 					opDatumAfsprakenLijstControl.HeeftData = true;
 				}
 				break;
@@ -157,7 +159,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		}
 
 		private void NavigeerNaarTab(string tabIndex) {
-				ResetFilterSelection();
+			ResetFilterSelection();
 			switch (tabIndex) {
 				case "Huidige Afspraken":
 				FilterContainerHeaders.Children[0].Opacity = 1;
@@ -206,11 +208,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			e.Handled = _regex.IsMatch(e.Text);
 		}
 
-		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) {
-			ControleerInputOpDatum(sender);
-		}
-
-		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
+		private void ValideerDatum(object sender, KeyboardFocusChangedEventArgs e) {
 			ControleerInputOpDatum(sender);
 		}
 

@@ -42,14 +42,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_werknemerController = new(_werknemerManager, _bedrijfManager);
 
 			// Data
-			_w = new("werknemer", "werknemersen");
+			_w = new("werknemer", "werknemersen", new());
 			_b = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			_f = "functie";
 
 			_wi = new(0, "werknemer.werknemersen@email.com", new() { _f });
 
 			Bedrijf b = _b.NaarBusiness();
-			Werknemer w = _w.NaarBusiness();
+			Werknemer w = _w.NaarBusiness(_bedrijfManager);
 
 			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemerson@bedrijf.com", _f);
 
@@ -71,7 +71,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void VoegWerknemerToe_Invalid_WerknemerBestaatAl() {
-			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(_w.NaarBusiness())).Returns(true);
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(_w.NaarBusiness(_bedrijfManager))).Returns(true);
 			var result = _werknemerController.VoegWerknemerToe(_w);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
@@ -102,38 +102,26 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		#region UnitTest VoegWerknemerFunctieToe
 		[Fact]
 		public void VoegWerknemerFunctieToe_Invalid_WerknemerNegatief() {
-			var result = _werknemerController.VoegWerknemerFunctieToe(-2, 0, _f);
-			Assert.NotNull(result);
-			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+			var result = _werknemerController.VoegWerknemerFunctieToe(-2, _wi);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 		}
 
 		[Fact]
-		public void VoegWerknemerFunctieToe_Invalid_BedrijfNegatief() {
-			var result = _werknemerController.VoegWerknemerFunctieToe(0, -2, _f);
-			Assert.NotNull(result);
-			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData("")]
-		[InlineData(" ")]
-		[InlineData("\n")]
-		[InlineData("\r")]
-		[InlineData("\t")]
-		[InlineData("\v")]
-		public void VoegWerknemerFunctieToe_Invalid_functieLeeg(string functie) {
-			var result = _werknemerController.VoegWerknemerFunctieToe(0, 0, functie);
-			Assert.NotNull(result);
-			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerInfoNull()
+		{
+			var result = _werknemerController.VoegWerknemerFunctieToe(0, null);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 		}
 
 		[Fact]
-		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet() {
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet()
+		{
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
-			var result = _werknemerController.VoegWerknemerFunctieToe(0, 0, _f);
-			Assert.NotNull(result);
-			Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
+			var result = _werknemerController.VoegWerknemerFunctieToe(0, _wi);
+			Assert.NotNull(result.Result);
+			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 		}
 		#endregion
 
@@ -200,7 +188,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[Fact]
 		public void BewerkWerknemer_Invalid_WerknemerNietGewijzigd() {
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness());
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness(_bedrijfManager));
 			var result = _werknemerController.BewerkWerknemer(0, 0, _w);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
