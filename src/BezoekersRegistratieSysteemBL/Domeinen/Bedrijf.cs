@@ -78,8 +78,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (string.IsNullOrWhiteSpace(naam))
 				throw new BedrijfException("Bedrijf - Zetnaam - naam mag niet leeg zijn");
-			Naam = naam.Trim();
-		}
+			naam = naam.Trim();
+			Naam = Nutsvoorziening.NaamOpmaak(naam);
+        }
 
         /// <summary>
         /// Controleert voorwaarden op geldigheid en stelt het btwnummer in.
