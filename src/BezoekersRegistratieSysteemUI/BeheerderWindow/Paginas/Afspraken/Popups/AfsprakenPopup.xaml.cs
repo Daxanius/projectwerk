@@ -117,6 +117,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
+			if (Werknemer is null) {
+				MessageBox.Show("Er is geen werknemer geselecteerd");
+				return;
+			}
 			WerknemerDTO werknemer = Werknemer;
 			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), null, null, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
 			AfspraakDTO afspraak = ApiController.PostAfspraak(payload);
