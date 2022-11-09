@@ -56,7 +56,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			try {
 				foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
 					foreach (var functie in kvpBedrijf.Value.GeefWerknemerFuncties()) {
-						string bewerkteFunctie = Nutsvoorziening.FunctieNaamOpmaak(functie);
+						string bewerkteFunctie = Nutsvoorziening.NaamOpmaak(functie);
 						if (!_werknemerRepository.BestaatFunctie(bewerkteFunctie)) {
 							VoegFunctieToe(bewerkteFunctie);
 						}
@@ -116,7 +116,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft geen extra functies gekregen");
 			try {
 				foreach (var functie in nieuweFuncties) {
-					string bewerkteFunctie = Nutsvoorziening.FunctieNaamOpmaak(functie);
+					string bewerkteFunctie = Nutsvoorziening.NaamOpmaak(functie);
 					if (!_werknemerRepository.BestaatFunctie(bewerkteFunctie)) {
 						VoegFunctieToe(bewerkteFunctie);
 					}
@@ -159,7 +159,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			if (_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Count() == 1)
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben");
 			try {
-				functie = Nutsvoorziening.FunctieNaamOpmaak(functie);
+				functie = Nutsvoorziening.NaamOpmaak(functie);
 				_werknemerRepository.VerwijderWerknemerFunctie(werknemer, bedrijf, functie);
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);
@@ -283,7 +283,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			if (_werknemerRepository.BestaatFunctie(functienaam))
 				throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie bestaat al");
 			try {
-				functienaam = Nutsvoorziening.FunctieNaamOpmaak(functienaam);
+				functienaam = Nutsvoorziening.NaamOpmaak(functienaam);
 				_werknemerRepository.VoegFunctieToe(functienaam);
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);

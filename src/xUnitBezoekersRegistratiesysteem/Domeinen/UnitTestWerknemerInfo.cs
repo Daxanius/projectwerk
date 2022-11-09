@@ -70,12 +70,12 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			w.VoegBedrijfEnFunctieToeAanWerknemer(_b, _e, "functie1");
 
 			Assert.Collection(w.GeefBedrijvenEnFunctiesPerWerknemer(),
-				item => Assert.Equal("functie1", item.Value.GeefWerknemerFuncties()[0]));
+				item => Assert.Equal("Functie1", item.Value.GeefWerknemerFuncties()[0]));
 
 			w.VoegBedrijfEnFunctieToeAanWerknemer(_b, _e, "functie2");
 			Assert.Collection(w.GeefBedrijvenEnFunctiesPerWerknemer(), item => {
-				Assert.Equal("functie1", item.Value.GeefWerknemerFuncties()[0]);
-				Assert.Equal("functie2", item.Value.GeefWerknemerFuncties()[1]);
+				Assert.Equal("Functie1", item.Value.GeefWerknemerFuncties()[0]);
+				Assert.Equal("Functie2", item.Value.GeefWerknemerFuncties()[1]);
 			});
 		}
 		#endregion
@@ -85,12 +85,12 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		public void VoegWerknemerFunctieToe_Valid() {
 			WerknemerInfo wi = new(_b, _e);
 			wi.VoegWerknemerFunctieToe("functie1");
-			Assert.Collection(wi.GeefWerknemerFuncties(), item => Assert.Equal("functie1", item));
+			Assert.Collection(wi.GeefWerknemerFuncties(), item => Assert.Equal("Functie1", item));
 
 			//CHECK: Meerdere functies
 			wi.VoegWerknemerFunctieToe("functie2");
-			Assert.Equal("functie1", wi.GeefWerknemerFuncties()[0]);
-			Assert.Equal("functie2", wi.GeefWerknemerFuncties()[1]);
+			Assert.Equal("Functie1", wi.GeefWerknemerFuncties()[0]);
+			Assert.Equal("Functie2", wi.GeefWerknemerFuncties()[1]);
 		}
 
 		[Theory]
@@ -113,7 +113,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			WerknemerInfo wi = new(_b, _e);
 			wi.VoegWerknemerFunctieToe("functie1");
 			wi.WijzigWerknemerFunctie("functie1", "functie2");
-			Assert.Collection(wi.GeefWerknemerFuncties(), item => Assert.Equal("functie2", item));
+			Assert.Collection(wi.GeefWerknemerFuncties(), item => Assert.Equal("Functie2", item));
 		}
 
 		[Theory]
@@ -148,7 +148,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 			wi.VoegWerknemerFunctieToe("functie1");
 			wi.VoegWerknemerFunctieToe("functie2");
 			wi.VerwijderWerknemerFunctie("functie1");
-			Assert.Collection(wi.GeefWerknemerFuncties(), item => Assert.Equal("functie2", item));
+			Assert.Collection(wi.GeefWerknemerFuncties(), item => Assert.Equal("Functie2", item));
 		}
 
 		[Theory]

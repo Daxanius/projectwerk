@@ -62,7 +62,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (string.IsNullOrWhiteSpace(voornaam))
 				throw new WerknemerException("Werknemer - ZetVoornaam - voornaam mag niet leeg zijn");
-			Voornaam = voornaam.Trim();
+			voornaam = voornaam.Trim();
+			Voornaam = Nutsvoorziening.NaamOpmaak(voornaam);
 		}
 
         /// <summary>
@@ -74,8 +75,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (string.IsNullOrWhiteSpace(achternaam))
 				throw new WerknemerException("Werknemer - ZetAchternaam - achternaam mag niet leeg zijn");
-			Achternaam = achternaam.Trim();
-		}
+            Achternaam = Nutsvoorziening.NaamOpmaak(achternaam);
+        }
 
         /// <summary>
         /// Controleert voorwaarden op geldigheid en voegt bedrijf toe aan werknemer.
@@ -99,20 +100,20 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 				throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - functie mag niet leeg zijn");
 			if (werknemerInfo.ContainsKey(bedrijf))
 			{
-				if (!werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie))
+				if (!werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(Nutsvoorziening.NaamOpmaak(functie)))
 				{
-					werknemerInfo[bedrijf].VoegWerknemerFunctieToe(functie);
+					werknemerInfo[bedrijf].VoegWerknemerFunctieToe(Nutsvoorziening.NaamOpmaak(functie));
 				} else
 					throw new WerknemerException("Werknemer - VoegBedrijfEnFunctieToeAanWerknemer - werknemer is in dit bedrijf al werkzaam onder deze functie");
 			} else
 			{
 				if (!bedrijf.GeefWerknemers().Contains(this))
 				{
-					bedrijf.VoegWerknemerToeInBedrijf(this, email, functie);
+					bedrijf.VoegWerknemerToeInBedrijf(this, email, Nutsvoorziening.NaamOpmaak(functie));
 				} else
 				{
 					werknemerInfo.Add(bedrijf, new WerknemerInfo(bedrijf, email));
-					werknemerInfo[bedrijf].VoegWerknemerFunctieToe(functie);
+					werknemerInfo[bedrijf].VoegWerknemerFunctieToe(Nutsvoorziening.NaamOpmaak(functie));
 				}
 			}
 		}
@@ -160,6 +161,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 				throw new WerknemerException("Werknemer - WijzigFunctie - nieuw functie mag niet leeg zijn");
 			if (!werknemerInfo.ContainsKey(bedrijf))
 				throw new WerknemerException("Werknemer - WijzigFunctie - bedrijf bevat deze werknemer niet");
+			oudeFunctie = Nutsvoorziening.NaamOpmaak(oudeFunctie);
+            nieuweFunctie = Nutsvoorziening.NaamOpmaak(nieuweFunctie);
 			if (!werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(oudeFunctie))
 				throw new WerknemerException("Werknemer - WijzigFunctie - werknemer is in dit bedrijf niet werkzaam onder deze functie");
 			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(nieuweFunctie))
@@ -187,6 +190,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 				throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf bevat deze werknemer niet");
 			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Count() == 1)
 				throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf werkzaam onder deze functie en kan niet verwijderd worden");
+			functie = Nutsvoorziening.NaamOpmaak(functie);
 			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie))
 			{
 				werknemerInfo[bedrijf].VerwijderWerknemerFunctie(functie);

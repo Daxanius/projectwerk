@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	/// <summary>
@@ -33,6 +34,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			Afspraken = new();
 			this.DataContext = this;
 			InitializeComponent();
+
+			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => Afspraken.Add(afspraak);
 
 			FetchAlleAfspraken();
 		}
@@ -78,9 +81,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 				apiAfspraken.ForEach((api) => {
 					WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
 					BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-					Afspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
+					Afspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bedrijf.Naam , werknemer, api.Starttijd, api.Eindtijd));
 				});
-			} else {
+            } else {
 				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de afspraaken", "Error /afspraak");
 			}
 		}
