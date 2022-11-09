@@ -45,9 +45,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 
 		#region UnitTest Naam
 		[Theory]
-		[InlineData("bedrijf", "bedrijf")]
-		[InlineData("     bedrijf", "bedrijf")]
-		[InlineData("bedrijf     ", "bedrijf")]
+		[InlineData("bedrijf", "Bedrijf")]
+		[InlineData("     bedrijf", "Bedrijf")]
+		[InlineData("bedrijf     ", "Bedrijf")]
 		public void ZetNaam_Valid(string naamIn, string naamUit)
 		{
 			Bedrijf b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
@@ -348,22 +348,22 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 
 		#region UnitTest Bedrijf Constructor
 		[Theory]
-		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 
-		[InlineData(10, "     bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-		[InlineData(10, "bedrijf     ", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "     bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "bedrijf     ", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 
-		[InlineData(10, "bedrijf", "     BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-		[InlineData(10, "bedrijf", "BE0676747521     ", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "bedrijf", "     BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "bedrijf", "BE0676747521     ", "012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 
-		[InlineData(10, "bedrijf", "BE0676747521", "     012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-		[InlineData(10, "bedrijf", "BE0676747521", "012345678     ", "bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "bedrijf", "BE0676747521", "     012345678", "bedrijf@email.com", "bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "bedrijf", "BE0676747521", "012345678     ", "bedrijf@email.com", "bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 
-		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "     bedrijf@email.com", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com     ", "bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "     bedrijf@email.com", "bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com     ", "bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 
-		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "     bedrijfstraat 10", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10     ", 10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "     bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
+		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10     ", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		public void ctor_Valid(long idIn, string naamIn, string btwNummerIn, string telefoonNummerIn, string emailIn, string adresIn, long idUit, string naamUit, string btwNummerUit, string telefoonNummerUit, string emailUit, string adresUit)
 		{
 			Bedrijf b = new(idIn, naamIn, btwNummerIn, true, telefoonNummerIn, emailIn, adresIn);

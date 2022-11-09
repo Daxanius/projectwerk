@@ -84,6 +84,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 				throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - oude functie mag niet leeg zijn");
 			if (string.IsNullOrWhiteSpace(nieuwefunctie))
 				throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - nieuwe functie mag niet leeg zijn");
+			oudefunctie = Nutsvoorziening.NaamOpmaak(oudefunctie);
+            nieuwefunctie = Nutsvoorziening.NaamOpmaak(nieuwefunctie);
 			if (!Functies.Contains(oudefunctie))
 				throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - werknemer heeft deze functie niet");
 			if (Functies.Contains(nieuwefunctie))
@@ -100,14 +102,16 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <exception cref="WerknemerInfoException">"WerknemerInfo - VerwijderWerknemerFunctie - werknemer heeft deze functie niet"</exception>
 		/// <exception cref="WerknemerInfoException">"WerknemerInfo - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben"</exception>
         public void VerwijderWerknemerFunctie(string functie) {
-			if (string.IsNullOrWhiteSpace(functie))
-				throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - functie mag niet leeg zijn");
-			if (!Functies.Contains(functie))
-				throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - werknemer heeft deze functie niet");
-			if (Functies.Count == 1)
-				throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben");
-			Functies.Remove(functie);
-		}
+            if (string.IsNullOrWhiteSpace(functie))
+                throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - functie mag niet leeg zijn");
+            functie = Nutsvoorziening.NaamOpmaak(functie);
+            if (!Functies.Contains(functie))
+                throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - werknemer heeft deze functie niet");
+            if (Functies.Count == 1)
+                throw new WerknemerInfoException("WerknemerInfo - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben");
+
+            Functies.Remove(functie);
+        }
 
         /// <summary>
         /// Controleert voorwaarden op geldigheid en properties op gelijkheid.
