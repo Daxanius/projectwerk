@@ -56,7 +56,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 		public long BedrijfId { get; set; }
 
 		/// <summary>
-		/// De starttijd van de Afspraak.
+		/// De starttijd van de Afspraak, is standaard DateTime.Now.
 		/// </summary>
 		public DateTime? Starttijd { get; set; }
 
