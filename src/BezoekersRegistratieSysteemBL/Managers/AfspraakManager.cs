@@ -28,12 +28,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - VoegAfspraakToe - afspraak bestaat al"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public Afspraak VoegAfspraakToe(Afspraak afspraak) {
-			if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - VoegAfspraakToe - afspraak mag niet leeg zijn");
-			if (_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - VoegAfspraakToe - er is nog een lopende afspraak voor dit email adres");
-			try {
+            try {
+				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn.");
+				if (_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("er is nog een lopende afspraak voor dit email adres.");
+				if (_afspraakRepository.HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(afspraak)) throw new AfspraakManagerException("deze werknemer heeft al een afspraak maar met een ander bedrijf.");
 				return _afspraakRepository.VoegAfspraakToe(afspraak);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
 			}
 		}
 
@@ -45,13 +46,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - VerwijderAfspraak - afspraak bestaat niet"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public void VerwijderAfspraak(Afspraak afspraak) {
-			if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - VerwijderAfspraak - afspraak mag niet leeg zijn");
-			if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - VerwijderAfspraak - afspraak bestaat niet");
 			try {
+				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
+				if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("afspraak bestaat niet");
 				_afspraakRepository.VerwijderAfspraak(afspraak.Id);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -63,14 +64,14 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - BewerkAfspraak - afspraak is niet gewijzigd"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public void BewerkAfspraak(Afspraak afspraak) {
-			if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BewerkAfspraak - afspraak mag niet leeg zijn");
-			if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - BewerkAfspraak - afspraak bestaat niet");
-			if (_afspraakRepository.GeefAfspraak(afspraak.Id).AfspraakIsGelijk(afspraak)) throw new AfspraakManagerException("AfspraakManager - BewerkAfspraak - afspraak is niet gewijzigd");
 			try {
+				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
+				if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("afspraak bestaat niet");
+				if (_afspraakRepository.GeefAfspraak(afspraak.Id).AfspraakIsGelijk(afspraak)) throw new AfspraakManagerException("afspraak is niet gewijzigd");
 				_afspraakRepository.BewerkAfspraak(afspraak);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -82,14 +83,14 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - BeeindigAfspraakBezoeker - afspraak bestaat niet"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public void BeeindigAfspraakBezoeker(Afspraak afspraak) {
-			if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakBezoeker - afspraak mag niet leeg zijn");
-			if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakBezoeker - afspraak is al beeindigd");
-			if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakBezoeker - afspraak bestaat niet");
 			try {
+				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
+				if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("afspraak is al beeindigd");
+				if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("afspraak bestaat niet");
 				_afspraakRepository.BeeindigAfspraakBezoeker(afspraak.Id);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -101,14 +102,14 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - BeeindigAfspraakSysteem - afspraak bestaat niet"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public void BeeindigAfspraakSysteem(Afspraak afspraak) {
-			if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakSysteem - afspraak mag niet leeg zijn");
-			if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakSysteem - afspraak is al beeindigd");
-			if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakSysteem - afspraak bestaat niet");
 			try {
+				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
+				if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("afspraak is al beeindigd");
+				if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("afspraak bestaat niet");
 				_afspraakRepository.BeeindigAfspraakSysteem(afspraak.Id);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -118,13 +119,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - BeeindigAfspraakOpEmail - email mag niet leeg zijn"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public void BeeindigAfspraakOpEmail(string email) {
-			if (string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - email mag niet leeg zijn");
-			if (!_afspraakRepository.BestaatAfspraak(email)) throw new AfspraakManagerException("AfspraakManager - BeeindigAfspraakOpEmail - afspraak bestaat niet");
 			try {
+				if (string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("email mag niet leeg zijn");
+				if (!_afspraakRepository.BestaatAfspraak(email)) throw new AfspraakManagerException("afspraak bestaat niet");
 				_afspraakRepository.BeeindigAfspraakOpEmail(email);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -135,12 +136,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - BestaatLopendeAfspraak - afspraak mag niet leeg zijn"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public bool BestaatLopendeAfspraak(Afspraak afspraak) {
-			if (afspraak == null) throw new AfspraakManagerException("AfspraakManager - BestaatLopendeAfspraak - afspraak mag niet leeg zijn");
 			try {
+				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
 				return _afspraakRepository.BestaatLopendeAfspraak(afspraak);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -151,12 +152,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefAfspraak - afspraak bestaat niet"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public Afspraak GeefAfspraak(long afspraakId) {
-			if (!_afspraakRepository.BestaatAfspraak(afspraakId)) throw new AfspraakManagerException("AfspraakManager - GeefAfspraak - afspraak bestaat niet");
 			try {
+				if (!_afspraakRepository.BestaatAfspraak(afspraakId)) throw new AfspraakManagerException("afspraak bestaat niet");
 				return _afspraakRepository.GeefAfspraak(afspraakId);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -168,8 +169,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			try {
 				return _afspraakRepository.GeefHuidigeAfspraken();
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -180,12 +181,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefHuidigeAfsprakenPerBedrijf - bedrijf mag niet leeg zijn"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(Bedrijf bedrijf) {
-			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerBedrijf - bedrijf mag niet leeg zijn");
 			try {
+				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
 				return _afspraakRepository.GeefHuidigeAfsprakenPerBedrijf(bedrijf.Id);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -198,13 +199,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefAfsprakenPerBedrijfOpDag - opvraag datum kan niet in de toekomst liggen"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(Bedrijf bedrijf, DateTime datum) {
-			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBedrijfOpDag - bedrijf mag niet leeg zijn");
-			if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBedrijfOpDag - opvraag datum kan niet in de toekomst liggen");
 			try {
+				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
+				if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("opvraag datum kan niet in de toekomst liggen");
 				return _afspraakRepository.GeefAfsprakenPerBedrijfOpDag(bedrijf.Id, datum);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -217,13 +218,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefHuidigeAfsprakenPerWerknemerPerBedrijf - bedrijf mag niet leeg zijn"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerPerBedrijf(Werknemer werknemer, Bedrijf bedrijf) {
-			if (werknemer == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerWerknemerPerBedrijf - werknemer mag niet leeg zijn");
-			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfsprakenPerWerknemerPerBedrijf - bedrijf mag niet leeg zijn");
 			try {
+				if (werknemer == null) throw new AfspraakManagerException("werknemer mag niet leeg zijn");
+				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
 				return _afspraakRepository.GeefHuidigeAfsprakenPerWerknemerPerBedrijf(werknemer.Id, bedrijf.Id);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -236,13 +237,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefAlleAfsprakenPerWerknemerPerBedrijf - bedrijf mag niet leeg zijn"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerPerBedrijf(Werknemer werknemer, Bedrijf bedrijf) {
-			if (werknemer == null) throw new AfspraakManagerException("AfspraakManager - GeefAlleAfsprakenPerWerknemerPerBedrijf - werknemer mag niet leeg zijn");
-			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefAlleAfsprakenPerWerknemerPerBedrijf - bedrijf mag niet leeg zijn");
 			try {
+				if (werknemer == null) throw new AfspraakManagerException("werknemer mag niet leeg zijn");
+				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
 				return _afspraakRepository.GeefAlleAfsprakenPerWerknemerPerBedrijf(werknemer.Id, bedrijf.Id);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -257,14 +258,14 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefAfsprakenPerWerknemerOpDagPerBedrijf - opvraag datum kan niet in de toekomst liggen"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagPerBedrijf(Werknemer werknemer, DateTime datum, Bedrijf bedrijf) {
-			if (werknemer == null) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerWerknemerOpDagPerBedrijf - werknemer mag niet leeg zijn");
-			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerWerknemerOpDagPerBedrijf - bedrijf mag niet leeg zijn");
-			if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerWerknemerOpDagPerBedrijf - opvraag datum kan niet in de toekomst liggen");
 			try {
+				if (werknemer == null) throw new AfspraakManagerException("werknemer mag niet leeg zijn");
+				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
+				if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("opvraag datum kan niet in de toekomst liggen");
 				return _afspraakRepository.GeefAfsprakenPerWerknemerOpDagPerBedrijf(werknemer.Id, datum, bedrijf.Id);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -279,13 +280,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf - bedrijf mag niet leeg zijn"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string voornaam, string achternaam, string email, Bedrijf bedrijf) {
-			if (string.IsNullOrWhiteSpace(voornaam) && (string.IsNullOrWhiteSpace(achternaam)) && string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf - naam of email mag niet leeg zijn");
-			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf - bedrijf mag niet leeg zijn");
 			try {
+				if (string.IsNullOrWhiteSpace(voornaam) && (string.IsNullOrWhiteSpace(achternaam)) && string.IsNullOrWhiteSpace(email)) throw new AfspraakManagerException("naam of email mag niet leeg zijn");
+				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
 				return _afspraakRepository.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(voornaam, achternaam, email, bedrijf.Id);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -300,14 +301,14 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - opvraag datum kan niet in de toekomst liggen"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(long bezoekerId, DateTime datum, Bedrijf bedrijf) {
-			if (bezoekerId < 0) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bezoeker mag niet minder dan 0 zijn");
-			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - bedrijf mag niet leeg zijn");
-			if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerBezoekerOpDagPerBedrijf - opvraag datum kan niet in de toekomst liggen");
 			try {
+				if (bezoekerId < 0) throw new AfspraakManagerException("bezoeker mag niet minder dan 0 zijn");
+				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
+				if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("opvraag datum kan niet in de toekomst liggen");
 				return _afspraakRepository.GeefAfsprakenPerBezoekerOpDagPerBedrijf(bezoekerId, datum, bedrijf.Id);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -320,13 +321,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefHuidigeAfspraakBezoekerPerBedrijf - bedrijf mag niet leeg zijn"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public Afspraak GeefHuidigeAfspraakBezoekerPerBedrijf(long bezoekerId, Bedrijf bedrijf) {
-			if (bezoekerId < 0) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfspraakBezoekerPerBedrijf - bezoeker id moet groter dan 0 zijn");
-			if (bedrijf == null) throw new AfspraakManagerException("AfspraakManager - GeefHuidigeAfspraakBezoekerPerBedrijf - bedrijf mag niet leeg zijn");
 			try {
+				if (bezoekerId < 0) throw new AfspraakManagerException("bezoeker id moet groter dan 0 zijn");
+				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
 				return _afspraakRepository.GeefHuidigeAfspraakBezoekerPerBerijf(bezoekerId, bedrijf.Id);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -337,12 +338,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - GeefAfsprakenPerDag - opvraag datum kan niet in de toekomst liggen"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
-			if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("AfspraakManager - GeefAfsprakenPerDag - opvraag datum kan niet in de toekomst liggen");
 			try {
+				if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("opvraag datum kan niet in de toekomst liggen");
 				return _afspraakRepository.GeefAfsprakenPerDag(datum);
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 
 		/// <summary>
@@ -354,8 +355,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			try {
 				return _afspraakRepository.GeefAanwezigeBezoekers();
 			} catch (Exception ex) {
-				throw new AfspraakManagerException(ex.Message);
-			}
+                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+            }
 		}
 	}
 }
