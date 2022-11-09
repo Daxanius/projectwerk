@@ -42,11 +42,11 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_werknemerController = new(_werknemerManager, _bedrijfManager);
 
 			// Data
-			_w = new("werknemer", "werknemersen", new());
+			_w = new("werknemer", "werknemersen", new List<WerknemerInfoInputDTO>());
 			_b = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			_f = "functie";
 
-			_wi = new(0, "werknemer.werknemersen@email.com", new() { _f });
+			_wi = new(0, "werknemer.werknemersen@email.com", new List<string>() { _f });
 
 			Bedrijf b = _b.NaarBusiness();
 			Werknemer w = _w.NaarBusiness(_bedrijfManager);
