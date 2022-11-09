@@ -34,19 +34,18 @@ namespace BezoekersRegistratieSysteemBL.Managers
 			{
 			    if (werknemer == null)
 				    throw new WerknemerManagerException("WerknemerManager - VoegWerknemerToe - werknemer mag niet leeg zijn");
-                if (!_werknemerRepository.BestaatFunctie(werknemer.GeefBedrijvenEnFunctiesPerWerknemer().First().Value.GeefWerknemerFuncties().First()))
-                {
-                    _werknemerRepository.VoegFunctieToe(werknemer.GeefBedrijvenEnFunctiesPerWerknemer().First().Value.GeefWerknemerFuncties().First());
-                }
+
                 if (_werknemerRepository.BestaatWerknemer(werknemer))
                 {
                     _werknemerRepository.GeefWerknemerId(werknemer);
-                    _werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemer.GeefBedrijvenEnFunctiesPerWerknemer().First().Value);
+                    VoegWerknemerBedrijfFunctiesToe(werknemer);
                     return werknemer;
                 }
                 else
                 {
-				    return _werknemerRepository.VoegWerknemerToe(werknemer);
+                    _werknemerRepository.VoegWerknemerToe(werknemer);
+                    VoegWerknemerBedrijfFunctiesToe(werknemer);
+                    return werknemer;
                 }
 			} catch (Exception ex)
 			{
@@ -54,6 +53,29 @@ namespace BezoekersRegistratieSysteemBL.Managers
 			}
 		}
 
+        /// <summary>
+        /// Voegt functies van werknemer per bedrijf toe.
+        /// </summary>
+        /// <param name="werknemer">Werknemer object dat toegevoegd wenst te worden.</param>
+        /// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerToe - werknemer mag niet leeg zijn"</exception>
+        /// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerToe - werknemer bestaat al"</exception>
+        /// <exception cref="WerknemerManagerException">ex.Message</exception>
+        private void VoegWerknemerBedrijfFunctiesToe(Werknemer werknemer) {
+            try {
+                foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
+                    foreach (var functie in kvpBedrijf.Value.GeefWerknemerFuncties()) {
+                        if (!_werknemerRepository.BestaatFunctie(functie)) {
+                            VoegFunctieToe(functie);
+                        }
+                        if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[kvpBedrijf.Key].GeefWerknemerFuncties().Contains(functie)) {
+                            _werknemerRepository.VoegWerknemerFunctieToe(werknemer, kvpBedrijf.Value, functie);
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                throw new WerknemerManagerException($"WerknemerManager - VoegWerknemerBedrijfFunctiesToe {ex.Message}");
+            }
+        }
         /// <summary>
         /// Verwijdert gewenste werknemer uit specifiek bedrijf.
         /// </summary>
@@ -81,8 +103,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
         /// Voegt gewenste functie toe aan werknemer uit specifiek bedrijf.
         /// </summary>
         /// <param name="werknemer">Werknemer object die functie toegewezen wenst te worden.</param>
-        /// <param name="bedrijf">Bedrijf object waar werknemer werkzaam.</param>
-        /// <param name="functie">Functie die toegevoegd wenst te worden.</param>
+        /// <param name="werknemerInfo">werknemerInfo object waar werknemer werkzaam.</param>
         /// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerFunctieToe - werknemer mag niet leeg zijn"</exception>
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerFunctieToe - bedrijf mag niet leeg zijn"</exception>
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerFunctieToe - functie mag niet leeg zijn"</exception>
@@ -104,14 +125,14 @@ namespace BezoekersRegistratieSysteemBL.Managers
             throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft deze functie al bij dit bedrijf");
 			try
 			{
-				// Voeg een functie toe aan de suggestielijst als de functie nog niet
-				// bestaat.
-				if (!_werknemerRepository.BestaatFunctie(werknemerInfo.GeefWerknemerFuncties().First()))
-				{
-					VoegFunctieToe(werknemerInfo.GeefWerknemerFuncties().First());
-				}
-
-				_werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo);
+                foreach (var functie in werknemerInfo.GeefWerknemerFuncties()) {
+                    if (!_werknemerRepository.BestaatFunctie(functie)) {
+                        VoegFunctieToe(functie);
+                    }
+                    if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties().Contains(functie)) {
+                        _werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo, functie);
+                    }
+                }
 			} catch (Exception ex)
 			{
 				throw new WerknemerManagerException(ex.Message);
@@ -280,7 +301,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
         /// <summary>
         /// Voegt functie toe adhv parameter functienaam.
         /// </summary>
-        /// <param name="functie">Functie die toegevoegd wenst te worden.</param>
+        /// <param name="functienaam">Functie die toegevoegd wenst te worden.</param>
         /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
         /// <exception cref="WerknemerManagerException">"WerknemerManager - VoegFunctieToe - functie mag niet leeg zijn"</exception>
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegFunctieToe - functie bestaat al"</exception>

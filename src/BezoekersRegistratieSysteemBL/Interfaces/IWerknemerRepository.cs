@@ -12,9 +12,8 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf);
 
 		//void VoegWerknemerFunctieToe(Werknemer werknemer, Bedrijf bedrijf, string functie);
-        void VoegWerknemerFunctieToe(Werknemer werknemer, WerknemerInfo werknemerInfo);
-
-		void VerwijderWerknemerFunctie(Werknemer werknemer, Bedrijf bedrijf, string functie);
+        void VoegWerknemerFunctieToe(Werknemer werknemer, WerknemerInfo value, string functie);
+        void VerwijderWerknemerFunctie(Werknemer werknemer, Bedrijf bedrijf, string functie);
 		void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf);
 
 		bool BestaatWerknemer(Werknemer werknemer);
@@ -29,5 +28,6 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
         IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long id);
         IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long id);
 		void GeefWerknemerId(Werknemer werknemer);
+
 	}
 }
