@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	/// <summary>
@@ -33,6 +34,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			Afspraken = new();
 			this.DataContext = this;
 			InitializeComponent();
+
+			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => Afspraken.Add(afspraak);
 
 			FetchAlleAfspraken();
 		}

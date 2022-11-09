@@ -1,23 +1,20 @@
 # Database Setup
-Om een server op te zetten, zult u eerst een database moeten hebben waar de
-server data kan opslaan en ophalen.
-
-In deze guide leggen wij stap voor stap uit hoe u dit kunt doen.
+In deze guide leggen we u stapsgewijs uit hoe u een database server kan opzetten.
 
 ## De Software
-U zal eerst databank software nodig hebben dat op de achtergrond zal draaien.
+Vooreerst zal u databank software nodig hebben die op de achtergrond actief zal zijn.
 
 * Installeer [Microsoft Express](https://www.microsoft.com/en-us/Download/details.aspx?id=101064)
 * Installeer [Microsoft SQL Server Managment Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
 
-Deze twee programmas zal u gebruiken om de database te beheren. 
+Deze software zal u gebruiken voor het beheren van uw data. 
 
-Microsoft Express is een database engine die T-SQL Querries accepteert om verscheidene database bewerkingen uit te voeren.
+Microsoft Express is een database engine die T-SQL Querries accepteert om zo verschillende database bewerkingen uit te voeren.
 
-Microsoft SQL Server Managment Studio is een grafische user interface dat het u gemakkelijk maakt om databanken aan te maken en bewerkingen uit te voeren.
+Microsoft SQL Server Managment Studio is een grafische user interface die het eenvoudig maakt om databanken aan te maken en bewerkingen uit te voeren.
 
 ## De Databank
-Voordat wij de structuur van onze databank kunnen inladen, moeten wij eerst een databank hebben waar wij mee kunnen werken.
+Voordat u de structuur van onze databank inlaad, moeten u eerst een databank hebben waar u mee kan gaan werken.
 
 De volgende stappen leggen uit hoe u een databank kunt aanmaken:
 
@@ -27,11 +24,11 @@ De volgende stappen leggen uit hoe u een databank kunt aanmaken:
 4. Klik op "new database" 
 5. Geef de database een naam en klik op OK
 
-U heeft nu een lege databank aangemaakt waarmee u kan werken. Hoera!
+:tada: U heeft nu een lege databank aangemaakt waar we mee aan de slag kunnen. Hoera!
 
 ## De Structuur
-We hebben onze databank aangemaakt, maar de databank bevat nog niet alle
-tabellen en informatie dat we nodig hebben om onze server te laten draaien.
+U heeft uw databank aangemaakt, maar de databank bevat nog niet alle
+informatie die we nodig hebben om onze server te doen draaien.
 
 Om de structuur aan te maken, bieden wij een SQL script aan dat u zal moeten uitvoeren op de databank. 
 
@@ -40,17 +37,17 @@ Om de structuur aan te maken, bieden wij een SQL script aan dat u zal moeten uit
 3. Paste de code van het `CreateTables.sql` bestand (in de repo) in de query
 4. Klik boven in de menubalk op "execute"
 
-Success! U heeft nu uw databank klaargezet voor gebruik.
+:thumbsup: Zie daar! U heeft succesvol uw databank klaargezet voor gebruik.
 
-## Connection String
-Om een connectie met uw databank aan te leggen zal u iets nodig hebben dat heet een connection string.
-Een connection string is simpelweg en lijn tekst dat zegt hoe uw computer of programma met een databank in
-verbinding moet komen.
+## Connectie String
+Om een connectie met uw databank te leggen zal u een connectie string nodig hebben.
+Een connectie string is simpelweg en lijn tekst die zegt hoe uw computer of programma met de databank in
+verbinding zal komen.
 
-Om de connection string te verkrijgen volgt u de volgende stappen:
+Om de connectie string te verkrijgen volgt u volgende stappen:
 
 1. Klik met rechtermuisknop op uw Databank in Microsoft SQL Server Managment Studio
 2. Selecteer "properties"
 3. Kopieëer de ConnectionString property
 
-U heeft nu uw connection string!
+:rocket: Gelukt?! Goed dan bent u helemaal klaar voor gebruik!
