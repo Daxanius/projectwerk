@@ -1,11 +1,8 @@
 # Database Setup
-Om een server op te zetten, zult u eerst een database moeten hebben waar de
-server data kan opslaan en ophalen.
-
-In deze guide leggen wij stap voor stap uit hoe u dit kunt doen.
+In deze guide leggen we u stapsgewijs uit hoe u een database server kan opzetten.
 
 ## De Software
-U zal eerst databank software nodig hebben dat op de achtergrond zal draaien.
+Vooreerst zal u databank software nodig hebben die op de achtergrond actief zal zijn.
 
 * Installeer [Microsoft Express](https://www.microsoft.com/en-us/Download/details.aspx?id=101064)
 * Installeer [Microsoft SQL Server Managment Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
