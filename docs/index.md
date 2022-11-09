@@ -1,5 +1,5 @@
 # **.inside**
-Een tool gemaakt door Wout, Bjorn, Stan & Balder in opdracht voor Allphi
+Een tool door Wout De Crop, Bjorn Galle, Stan Persoons & Balder Huybreghs in opdracht va AllPhi
 binnen het Graduaat Programmeren HoGent.
 
 ![Preview](images/inside.jpg)
