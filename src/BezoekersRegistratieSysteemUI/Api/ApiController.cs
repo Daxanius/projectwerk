@@ -305,6 +305,21 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
+		public static AfspraakDTO PostAfspraak(AfspraakInputDTO afspraak) {
+			return Task.Run(async () => {
+				string body = JsonConvert.SerializeObject(afspraak);
+
+				(bool isvalid, AfspraakOutputDTO apiAfspraken) = await Post<AfspraakOutputDTO>($"afspraak", body);
+				if (isvalid) {
+					WerknemerDTO werknemer = new WerknemerDTO(apiAfspraken.Werknemer.Id, apiAfspraken.Werknemer.Naam.Split(";")[0], apiAfspraken.Werknemer.Naam.Split(";")[1], null);
+					BezoekerDTO bezoeker = new BezoekerDTO(apiAfspraken.Bezoeker.Id, apiAfspraken.Bezoeker.Naam.Split(";")[0], apiAfspraken.Bezoeker.Naam.Split(";")[1], apiAfspraken.Bezoeker.Email, apiAfspraken.Bezoeker.BezoekerBedrijf);
+					return new AfspraakDTO(apiAfspraken.Id, bezoeker, apiAfspraken.Bezoeker.BezoekerBedrijf, werknemer, apiAfspraken.Starttijd, apiAfspraken.Eindtijd);
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
+				}
+			}).Result;
+		}
+
 		public static IEnumerable<WerknemerDTO> FetchWerknemersVanBedrijf(BedrijfDTO bedrijf) {
 			return Task.Run(async () => {
 				List<WerknemerDTO> ItemSource = new();
@@ -445,18 +460,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return bedrijf;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het bedrijf");
-				}
-			}).Result;
-		}
-
-		public static AfspraakOutputDTO? PostAfspraak(AfspraakInputDTO afspraak) {
-			return Task.Run(async () => {
-				string body = JsonConvert.SerializeObject(afspraak);
-				(bool isvalid, AfspraakOutputDTO afspraakOutput) = await Post<AfspraakOutputDTO>($"afspraak/", body);
-				if (isvalid) {
-					return afspraakOutput;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
 				}
 			}).Result;
 		}
