@@ -24,7 +24,7 @@ De volgende stappen leggen uit hoe u een databank kunt aanmaken:
 4. Klik op "new database" 
 5. Geef de database een naam en klik op OK
 
-U heeft nu een lege databank aangemaakt waarmee u kan werken. Hoera :tada:!
+:tada: U heeft nu een lege databank aangemaakt waar we mee aan de slag kunnen. Hoera!
 
 ## De Structuur
 U heeft uw databank aangemaakt, maar de databank bevat nog niet alle
@@ -37,7 +37,7 @@ Om de structuur aan te maken, bieden wij een SQL script aan dat u zal moeten uit
 3. Paste de code van het `CreateTables.sql` bestand (in de repo) in de query
 4. Klik boven in de menubalk op "execute"
 
-Zie daar! U heeft succesvol uw databank klaargezet voor gebruik :thumbsup:.
+:thumbsup: Zie daar! U heeft succesvol uw databank klaargezet voor gebruik.
 
 ## Connectie String
 Om een connectie met uw databank te leggen zal u een connectie string nodig hebben.
