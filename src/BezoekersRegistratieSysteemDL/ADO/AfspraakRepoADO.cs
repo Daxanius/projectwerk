@@ -164,14 +164,45 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 				con.Close();
 			}
 		}
+        /// <summary>
+        /// Gaat na of werknemer al een afspraak heeft bij een ander bedrijf
+        /// </summary>
+        /// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
+        /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
+        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+        public bool HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(Afspraak afspraak) {
+			SqlConnection con = GetConnection();
+            string query = "SElECT COUNT(*) " +
+						   "FROM Werknemerbedrijf wb " +
+						   "WHERE wb.WerknemerId = @werknemerId AND wb.BedrijfId != @bedrijfId " +
+						   "AND (SELECT COUNT(*) FROM Afspraak a WHERE wb.Id = a.WerknemerBedrijfId AND a.AfspraakStatusId = 1) >= 1";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+					cmd.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
+                    int i = (int)cmd.ExecuteScalar();
+                    return (i > 0);
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("afspraak", afspraak);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
 
-		/// <summary>
-		/// Gaat na of afspraak bestaat adhv een afspraak object.
-		/// </summary>
-		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
-		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
-		public bool BestaatAfspraak(Afspraak afspraak) {
+        /// <summary>
+        /// Gaat na of afspraak bestaat adhv een afspraak object.
+        /// </summary>
+        /// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
+        /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
+        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+        public bool BestaatAfspraak(Afspraak afspraak) {
 			try {
 				return BestaatAfspraak(afspraak, null, null, null);
 			} catch (Exception ex) {
