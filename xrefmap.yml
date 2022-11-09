@@ -2336,6 +2336,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemer
   nameWithType: IWerknemerRepository.GeefWerknemer
+- uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  name: GeefWerknemerId(Werknemer)
+  href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_GeefWerknemerId_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_
+  commentId: M:BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  nameWithType: IWerknemerRepository.GeefWerknemerId(Werknemer)
+- uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId*
+  name: GeefWerknemerId
+  href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_GeefWerknemerId_
+  commentId: Overload:BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId
+  nameWithType: IWerknemerRepository.GeefWerknemerId
 - uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemersOpFunctiePerBedrijf(System.String,System.Int64)
   name: GeefWerknemersOpFunctiePerBedrijf(String, Int64)
   href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_GeefWerknemersOpFunctiePerBedrijf_System_String_System_Int64_
@@ -2414,12 +2427,12 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.VoegFunctieToe
   nameWithType: IWerknemerRepository.VoegFunctieToe
-- uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,System.String)
-  name: VoegWerknemerFunctieToe(Werknemer, Bedrijf, String)
-  href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_VoegWerknemerFunctieToe_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_System_String_
-  commentId: M:BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,System.String)
-  fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer, BezoekersRegistratieSysteemBL.Domeinen.Bedrijf, System.String)
-  nameWithType: IWerknemerRepository.VoegWerknemerFunctieToe(Werknemer, Bedrijf, String)
+- uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo,System.String)
+  name: VoegWerknemerFunctieToe(Werknemer, WerknemerInfo, String)
+  href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_VoegWerknemerFunctieToe_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_WerknemerInfo_System_String_
+  commentId: M:BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo,System.String)
+  fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer, BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo, System.String)
+  nameWithType: IWerknemerRepository.VoegWerknemerFunctieToe(Werknemer, WerknemerInfo, String)
 - uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.VoegWerknemerFunctieToe*
   name: VoegWerknemerFunctieToe
   href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_VoegWerknemerFunctieToe_
@@ -2569,12 +2582,12 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBedrijfOpDag
   nameWithType: AfspraakManager.GeefAfsprakenPerBedrijfOpDag
-- uid: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker,DateTime,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
-  name: GeefAfsprakenPerBezoekerOpDagPerBedrijf(Bezoeker, DateTime, Bedrijf)
-  href: api/BezoekersRegistratieSysteemBL.Managers.AfspraakManager.html#BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefAfsprakenPerBezoekerOpDagPerBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_DateTime_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_
-  commentId: M:BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker,DateTime,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
-  fullName: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker, DateTime, BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
-  nameWithType: AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(Bezoeker, DateTime, Bedrijf)
+- uid: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(System.Int64,DateTime,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
+  name: GeefAfsprakenPerBezoekerOpDagPerBedrijf(Int64, DateTime, Bedrijf)
+  href: api/BezoekersRegistratieSysteemBL.Managers.AfspraakManager.html#BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefAfsprakenPerBezoekerOpDagPerBedrijf_System_Int64_DateTime_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_
+  commentId: M:BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(System.Int64,DateTime,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
+  fullName: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(System.Int64, DateTime, BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
+  nameWithType: AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(Int64, DateTime, Bedrijf)
 - uid: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf*
   name: GeefAfsprakenPerBezoekerOpDagPerBedrijf
   href: api/BezoekersRegistratieSysteemBL.Managers.AfspraakManager.html#BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefAfsprakenPerBezoekerOpDagPerBedrijf_
@@ -2634,12 +2647,12 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAlleAfsprakenPerWerknemerPerBedrijf
   nameWithType: AfspraakManager.GeefAlleAfsprakenPerWerknemerPerBedrijf
-- uid: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
-  name: GeefHuidigeAfspraakBezoekerPerBedrijf(Bezoeker, Bedrijf)
-  href: api/BezoekersRegistratieSysteemBL.Managers.AfspraakManager.html#BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefHuidigeAfspraakBezoekerPerBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_
-  commentId: M:BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
-  fullName: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker, BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
-  nameWithType: AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(Bezoeker, Bedrijf)
+- uid: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(System.Int64,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
+  name: GeefHuidigeAfspraakBezoekerPerBedrijf(Int64, Bedrijf)
+  href: api/BezoekersRegistratieSysteemBL.Managers.AfspraakManager.html#BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefHuidigeAfspraakBezoekerPerBedrijf_System_Int64_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_
+  commentId: M:BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(System.Int64,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
+  fullName: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(System.Int64, BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
+  nameWithType: AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(Int64, Bedrijf)
 - uid: BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf*
   name: GeefHuidigeAfspraakBezoekerPerBedrijf
   href: api/BezoekersRegistratieSysteemBL.Managers.AfspraakManager.html#BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefHuidigeAfspraakBezoekerPerBedrijf_
@@ -3009,12 +3022,12 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegFunctieToe
   nameWithType: WerknemerManager.VoegFunctieToe
-- uid: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,System.String)
-  name: VoegWerknemerFunctieToe(Werknemer, Bedrijf, String)
-  href: api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html#BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegWerknemerFunctieToe_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_System_String_
-  commentId: M:BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,System.String)
-  fullName: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer, BezoekersRegistratieSysteemBL.Domeinen.Bedrijf, System.String)
-  nameWithType: WerknemerManager.VoegWerknemerFunctieToe(Werknemer, Bedrijf, String)
+- uid: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo)
+  name: VoegWerknemerFunctieToe(Werknemer, WerknemerInfo)
+  href: api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html#BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegWerknemerFunctieToe_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_WerknemerInfo_
+  commentId: M:BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo)
+  fullName: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer, BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo)
+  nameWithType: WerknemerManager.VoegWerknemerFunctieToe(Werknemer, WerknemerInfo)
 - uid: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerFunctieToe*
   name: VoegWerknemerFunctieToe
   href: api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html#BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegWerknemerFunctieToe_
@@ -3054,6 +3067,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Nutsvoorziening.ControleerBTWNummer
   nameWithType: Nutsvoorziening.ControleerBTWNummer
+- uid: BezoekersRegistratieSysteemBL.Nutsvoorziening.FunctieNaamOpmaak(System.String)
+  name: FunctieNaamOpmaak(String)
+  href: api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html#BezoekersRegistratieSysteemBL_Nutsvoorziening_FunctieNaamOpmaak_System_String_
+  commentId: M:BezoekersRegistratieSysteemBL.Nutsvoorziening.FunctieNaamOpmaak(System.String)
+  fullName: BezoekersRegistratieSysteemBL.Nutsvoorziening.FunctieNaamOpmaak(System.String)
+  nameWithType: Nutsvoorziening.FunctieNaamOpmaak(String)
+- uid: BezoekersRegistratieSysteemBL.Nutsvoorziening.FunctieNaamOpmaak*
+  name: FunctieNaamOpmaak
+  href: api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html#BezoekersRegistratieSysteemBL_Nutsvoorziening_FunctieNaamOpmaak_
+  commentId: Overload:BezoekersRegistratieSysteemBL.Nutsvoorziening.FunctieNaamOpmaak
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemBL.Nutsvoorziening.FunctieNaamOpmaak
+  nameWithType: Nutsvoorziening.FunctieNaamOpmaak
 - uid: BezoekersRegistratieSysteemBL.Nutsvoorziening.GeefBTWInfo(System.String)
   name: GeefBTWInfo(String)
   href: api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html#BezoekersRegistratieSysteemBL_Nutsvoorziening_GeefBTWInfo_System_String_
@@ -3621,6 +3647,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemer
   nameWithType: WerknemerRepoADO.GeefWerknemer
+- uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  name: GeefWerknemerId(Werknemer)
+  href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_GeefWerknemerId_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_
+  commentId: M:BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  nameWithType: WerknemerRepoADO.GeefWerknemerId(Werknemer)
+- uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemerId*
+  name: GeefWerknemerId
+  href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_GeefWerknemerId_
+  commentId: Overload:BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemerId
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemerId
+  nameWithType: WerknemerRepoADO.GeefWerknemerId
 - uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.GeefWerknemersOpFunctiePerBedrijf(System.String,System.Int64)
   name: GeefWerknemersOpFunctiePerBedrijf(String, Int64)
   href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_GeefWerknemersOpFunctiePerBedrijf_System_String_System_Int64_
@@ -3699,12 +3738,12 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.VoegFunctieToe
   nameWithType: WerknemerRepoADO.VoegFunctieToe
-- uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,System.String)
-  name: VoegWerknemerFunctieToe(Werknemer, Bedrijf, String)
-  href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_VoegWerknemerFunctieToe_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_System_String_
-  commentId: M:BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,System.String)
-  fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer, BezoekersRegistratieSysteemBL.Domeinen.Bedrijf, System.String)
-  nameWithType: WerknemerRepoADO.VoegWerknemerFunctieToe(Werknemer, Bedrijf, String)
+- uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo,System.String)
+  name: VoegWerknemerFunctieToe(Werknemer, WerknemerInfo, String)
+  href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_VoegWerknemerFunctieToe_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_WerknemerInfo_System_String_
+  commentId: M:BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo,System.String)
+  fullName: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer, BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo, System.String)
+  nameWithType: WerknemerRepoADO.VoegWerknemerFunctieToe(Werknemer, WerknemerInfo, String)
 - uid: BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.VoegWerknemerFunctieToe*
   name: VoegWerknemerFunctieToe
   href: api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html#BezoekersRegistratieSysteemDL_ADO_WerknemerRepoADO_VoegWerknemerFunctieToe_
@@ -3880,11 +3919,11 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.AfspraakController
   nameWithType: AfspraakController.AfspraakController
-- uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.BewerkAfspraak(System.Int64,BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO)
+- uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.BewerkAfspraak(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO)
   name: BewerkAfspraak(Int64, AfspraakInputDTO)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_BewerkAfspraak_System_Int64_BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.AfspraakController.BewerkAfspraak(System.Int64,BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.BewerkAfspraak(System.Int64, BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_BewerkAfspraak_System_Int64_BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.AfspraakController.BewerkAfspraak(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.BewerkAfspraak(System.Int64, BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO)
   nameWithType: AfspraakController.BewerkAfspraak(Int64, AfspraakInputDTO)
 - uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.BewerkAfspraak*
   name: BewerkAfspraak
@@ -3932,12 +3971,21 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraak
   nameWithType: AfspraakController.GeefAfspraak
-- uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker(System.Int64,BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO)
-  name: GeefAfspraakOpBezoeker(Int64, BezoekerInputDTO)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_GeefAfspraakOpBezoeker_System_Int64_BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker(System.Int64,BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker(System.Int64, BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO)
-  nameWithType: AfspraakController.GeefAfspraakOpBezoeker(Int64, BezoekerInputDTO)
+- uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker(System.Int64,System.Int64)
+  name: GeefAfspraakOpBezoeker(Int64, Int64)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_GeefAfspraakOpBezoeker_System_Int64_System_Int64_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker(System.Int64,System.Int64)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker(System.Int64, System.Int64)
+  nameWithType: AfspraakController.GeefAfspraakOpBezoeker(Int64, Int64)
+- uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker(System.Int64,System.Nullable{DateTime})
+  name: GeefAfspraakOpBezoeker(Int64, Nullable<DateTime>)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_GeefAfspraakOpBezoeker_System_Int64_System_Nullable_DateTime__
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker(System.Int64,System.Nullable{DateTime})
+  name.vb: GeefAfspraakOpBezoeker(Int64, Nullable(Of DateTime))
+  fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker(System.Int64, System.Nullable<DateTime>)
+  fullName.vb: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker(System.Int64, System.Nullable(Of DateTime))
+  nameWithType: AfspraakController.GeefAfspraakOpBezoeker(Int64, Nullable<DateTime>)
+  nameWithType.vb: AfspraakController.GeefAfspraakOpBezoeker(Int64, Nullable(Of DateTime))
 - uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraakOpBezoeker*
   name: GeefAfspraakOpBezoeker
   href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_GeefAfspraakOpBezoeker_
@@ -3961,15 +4009,12 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfspraken
   nameWithType: AfspraakController.GeefAfspraken
-- uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfsprakenOpBezoeker(System.Int64,BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO,System.Nullable{DateTime})
-  name: GeefAfsprakenOpBezoeker(Int64, BezoekerInputDTO, Nullable<DateTime>)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_GeefAfsprakenOpBezoeker_System_Int64_BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_System_Nullable_DateTime__
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfsprakenOpBezoeker(System.Int64,BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO,System.Nullable{DateTime})
-  name.vb: GeefAfsprakenOpBezoeker(Int64, BezoekerInputDTO, Nullable(Of DateTime))
-  fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfsprakenOpBezoeker(System.Int64, BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO, System.Nullable<DateTime>)
-  fullName.vb: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfsprakenOpBezoeker(System.Int64, BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO, System.Nullable(Of DateTime))
-  nameWithType: AfspraakController.GeefAfsprakenOpBezoeker(Int64, BezoekerInputDTO, Nullable<DateTime>)
-  nameWithType.vb: AfspraakController.GeefAfsprakenOpBezoeker(Int64, BezoekerInputDTO, Nullable(Of DateTime))
+- uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfsprakenOpBezoeker(System.Int64,System.Int64,DateTime)
+  name: GeefAfsprakenOpBezoeker(Int64, Int64, DateTime)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_GeefAfsprakenOpBezoeker_System_Int64_System_Int64_DateTime_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfsprakenOpBezoeker(System.Int64,System.Int64,DateTime)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfsprakenOpBezoeker(System.Int64, System.Int64, DateTime)
+  nameWithType: AfspraakController.GeefAfsprakenOpBezoeker(Int64, Int64, DateTime)
 - uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfsprakenOpBezoeker*
   name: GeefAfsprakenOpBezoeker
   href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_GeefAfsprakenOpBezoeker_
@@ -3977,11 +4022,11 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.GeefAfsprakenOpBezoeker
   nameWithType: AfspraakController.GeefAfsprakenOpBezoeker
-- uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.MaakAfspraak(BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO)
+- uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.MaakAfspraak(BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO)
   name: MaakAfspraak(AfspraakInputDTO)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_MaakAfspraak_BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.AfspraakController.MaakAfspraak(BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.MaakAfspraak(BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html#BezoekersRegistratieSysteemREST_Controllers_AfspraakController_MaakAfspraak_BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.AfspraakController.MaakAfspraak(BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.MaakAfspraak(BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO)
   nameWithType: AfspraakController.MaakAfspraak(AfspraakInputDTO)
 - uid: BezoekersRegistratieSysteemREST.Controllers.AfspraakController.MaakAfspraak*
   name: MaakAfspraak
@@ -4022,11 +4067,11 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BedrijfController
   nameWithType: BedrijfController.BedrijfController
-- uid: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BewerkBedrijf(System.Int64,BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO)
+- uid: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BewerkBedrijf(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO)
   name: BewerkBedrijf(Int64, BedrijfInputDTO)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.BedrijfController.html#BezoekersRegistratieSysteemREST_Controllers_BedrijfController_BewerkBedrijf_System_Int64_BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BewerkBedrijf(System.Int64,BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BewerkBedrijf(System.Int64, BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.BedrijfController.html#BezoekersRegistratieSysteemREST_Controllers_BedrijfController_BewerkBedrijf_System_Int64_BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BewerkBedrijf(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BewerkBedrijf(System.Int64, BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO)
   nameWithType: BedrijfController.BewerkBedrijf(Int64, BedrijfInputDTO)
 - uid: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.BewerkBedrijf*
   name: BewerkBedrijf
@@ -4113,11 +4158,11 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VerwijderWerknemerUitBedrijf
   nameWithType: BedrijfController.VerwijderWerknemerUitBedrijf
-- uid: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe(BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO)
+- uid: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe(BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO)
   name: VoegBedrijfToe(BedrijfInputDTO)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.BedrijfController.html#BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VoegBedrijfToe_BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe(BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe(BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.BedrijfController.html#BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VoegBedrijfToe_BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe(BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe(BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO)
   nameWithType: BedrijfController.VoegBedrijfToe(BedrijfInputDTO)
 - uid: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe*
   name: VoegBedrijfToe
@@ -4126,19 +4171,6 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegBedrijfToe
   nameWithType: BedrijfController.VoegBedrijfToe
-- uid: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegWerknemerToeAanBedrijf(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)
-  name: VoegWerknemerToeAanBedrijf(Int64, WerknemerInfoInputDTO)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.BedrijfController.html#BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VoegWerknemerToeAanBedrijf_System_Int64_BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegWerknemerToeAanBedrijf(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegWerknemerToeAanBedrijf(System.Int64, BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)
-  nameWithType: BedrijfController.VoegWerknemerToeAanBedrijf(Int64, WerknemerInfoInputDTO)
-- uid: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegWerknemerToeAanBedrijf*
-  name: VoegWerknemerToeAanBedrijf
-  href: api/BezoekersRegistratieSysteemREST.Controllers.BedrijfController.html#BezoekersRegistratieSysteemREST_Controllers_BedrijfController_VoegWerknemerToeAanBedrijf_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegWerknemerToeAanBedrijf
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Controllers.BedrijfController.VoegWerknemerToeAanBedrijf
-  nameWithType: BedrijfController.VoegWerknemerToeAanBedrijf
 - uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController
   name: WerknemerController
   href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html
@@ -4171,11 +4203,11 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BewerkFunctie
   nameWithType: WerknemerController.BewerkFunctie
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BewerkWerknemer(System.Int64,System.Int64,BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO)
+- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BewerkWerknemer(System.Int64,System.Int64,BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO)
   name: BewerkWerknemer(Int64, Int64, WerknemerInputDTO)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_BewerkWerknemer_System_Int64_System_Int64_BezoekersRegistratieSysteemREST_Model_WerknemerInputDTO_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BewerkWerknemer(System.Int64,System.Int64,BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BewerkWerknemer(System.Int64, System.Int64, BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_BewerkWerknemer_System_Int64_System_Int64_BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BewerkWerknemer(System.Int64,System.Int64,BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BewerkWerknemer(System.Int64, System.Int64, BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO)
   nameWithType: WerknemerController.BewerkWerknemer(Int64, Int64, WerknemerInputDTO)
 - uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BewerkWerknemer*
   name: BewerkWerknemer
@@ -4184,19 +4216,6 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BewerkWerknemer
   nameWithType: WerknemerController.BewerkWerknemer
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefBedrijvenEnFunctiesPerWerknemer(System.Int64)
-  name: GeefBedrijvenEnFunctiesPerWerknemer(Int64)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_GeefBedrijvenEnFunctiesPerWerknemer_System_Int64_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefBedrijvenEnFunctiesPerWerknemer(System.Int64)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefBedrijvenEnFunctiesPerWerknemer(System.Int64)
-  nameWithType: WerknemerController.GeefBedrijvenEnFunctiesPerWerknemer(Int64)
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefBedrijvenEnFunctiesPerWerknemer*
-  name: GeefBedrijvenEnFunctiesPerWerknemer
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_GeefBedrijvenEnFunctiesPerWerknemer_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefBedrijvenEnFunctiesPerWerknemer
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefBedrijvenEnFunctiesPerWerknemer
-  nameWithType: WerknemerController.GeefBedrijvenEnFunctiesPerWerknemer
 - uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemerOpId(System.Int64)
   name: GeefWerknemerOpId(Int64)
   href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_GeefWerknemerOpId_System_Int64_
@@ -4236,19 +4255,6 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemersOpNaam
   nameWithType: WerknemerController.GeefWerknemersOpNaam
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemersPerBedrijf(System.Int64)
-  name: GeefWerknemersPerBedrijf(Int64)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_GeefWerknemersPerBedrijf_System_Int64_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemersPerBedrijf(System.Int64)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemersPerBedrijf(System.Int64)
-  nameWithType: WerknemerController.GeefWerknemersPerBedrijf(Int64)
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemersPerBedrijf*
-  name: GeefWerknemersPerBedrijf
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_GeefWerknemersPerBedrijf_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemersPerBedrijf
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemersPerBedrijf
-  nameWithType: WerknemerController.GeefWerknemersPerBedrijf
 - uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemersPerBedrijfVrijOfBezet(System.Int64,System.Boolean)
   name: GeefWerknemersPerBedrijfVrijOfBezet(Int64, Boolean)
   href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_GeefWerknemersPerBedrijfVrijOfBezet_System_Int64_System_Boolean_
@@ -4262,19 +4268,6 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.GeefWerknemersPerBedrijfVrijOfBezet
   nameWithType: WerknemerController.GeefWerknemersPerBedrijfVrijOfBezet
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderWerknemer(System.Int64,System.Int64)
-  name: VerwijderWerknemer(Int64, Int64)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VerwijderWerknemer_System_Int64_System_Int64_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderWerknemer(System.Int64,System.Int64)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderWerknemer(System.Int64, System.Int64)
-  nameWithType: WerknemerController.VerwijderWerknemer(Int64, Int64)
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderWerknemer*
-  name: VerwijderWerknemer
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VerwijderWerknemer_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderWerknemer
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderWerknemer
-  nameWithType: WerknemerController.VerwijderWerknemer
 - uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderWerknemerFunctie(System.Int64,System.Int64,System.String)
   name: VerwijderWerknemerFunctie(Int64, Int64, String)
   href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VerwijderWerknemerFunctie_System_Int64_System_Int64_System_String_
@@ -4288,38 +4281,12 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VerwijderWerknemerFunctie
   nameWithType: WerknemerController.VerwijderWerknemerFunctie
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegFunctieToe(System.String)
-  name: VoegFunctieToe(String)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VoegFunctieToe_System_String_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegFunctieToe(System.String)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegFunctieToe(System.String)
-  nameWithType: WerknemerController.VoegFunctieToe(String)
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegFunctieToe*
-  name: VoegFunctieToe
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VoegFunctieToe_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegFunctieToe
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegFunctieToe
-  nameWithType: WerknemerController.VoegFunctieToe
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegInfoToe(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)
-  name: VoegInfoToe(Int64, WerknemerInfoInputDTO)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VoegInfoToe_System_Int64_BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegInfoToe(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegInfoToe(System.Int64, BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)
-  nameWithType: WerknemerController.VoegInfoToe(Int64, WerknemerInfoInputDTO)
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegInfoToe*
-  name: VoegInfoToe
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VoegInfoToe_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegInfoToe
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegInfoToe
-  nameWithType: WerknemerController.VoegInfoToe
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerFunctieToe(System.Int64,System.Int64,System.String)
-  name: VoegWerknemerFunctieToe(Int64, Int64, String)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VoegWerknemerFunctieToe_System_Int64_System_Int64_System_String_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerFunctieToe(System.Int64,System.Int64,System.String)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerFunctieToe(System.Int64, System.Int64, System.String)
-  nameWithType: WerknemerController.VoegWerknemerFunctieToe(Int64, Int64, String)
+- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerFunctieToe(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)
+  name: VoegWerknemerFunctieToe(Int64, WerknemerInfoInputDTO)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VoegWerknemerFunctieToe_System_Int64_BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerFunctieToe(System.Int64,BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerFunctieToe(System.Int64, BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO)
+  nameWithType: WerknemerController.VoegWerknemerFunctieToe(Int64, WerknemerInfoInputDTO)
 - uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerFunctieToe*
   name: VoegWerknemerFunctieToe
   href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VoegWerknemerFunctieToe_
@@ -4327,11 +4294,11 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerFunctieToe
   nameWithType: WerknemerController.VoegWerknemerFunctieToe
-- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerToe(BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO)
+- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerToe(BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO)
   name: VoegWerknemerToe(WerknemerInputDTO)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VoegWerknemerToe_BezoekersRegistratieSysteemREST_Model_WerknemerInputDTO_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerToe(BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerToe(BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_VoegWerknemerToe_BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerToe(BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerToe(BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO)
   nameWithType: WerknemerController.VoegWerknemerToe(WerknemerInputDTO)
 - uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerToe*
   name: VoegWerknemerToe
@@ -4340,285 +4307,279 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.VoegWerknemerToe
   nameWithType: WerknemerController.VoegWerknemerToe
-- uid: BezoekersRegistratieSysteemREST.Model
-  name: BezoekersRegistratieSysteemREST.Model
-  href: api/BezoekersRegistratieSysteemREST.Model.html
-  commentId: N:BezoekersRegistratieSysteemREST.Model
-  fullName: BezoekersRegistratieSysteemREST.Model
-  nameWithType: BezoekersRegistratieSysteemREST.Model
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO
-  name: AfspraakInputDTO
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html
-  commentId: T:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO
-  nameWithType: AfspraakInputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.#ctor(BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO,System.Int64,System.Int64)
-  name: AfspraakInputDTO(BezoekerInputDTO, Int64, Int64)
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO__ctor_BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_System_Int64_System_Int64_
-  commentId: M:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.#ctor(BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO,System.Int64,System.Int64)
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.AfspraakInputDTO(BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO, System.Int64, System.Int64)
-  nameWithType: AfspraakInputDTO.AfspraakInputDTO(BezoekerInputDTO, Int64, Int64)
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.#ctor*
-  name: AfspraakInputDTO
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO__ctor_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.#ctor
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.AfspraakInputDTO
-  nameWithType: AfspraakInputDTO.AfspraakInputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.BedrijfId
-  name: BedrijfId
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO_BedrijfId
-  commentId: P:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.BedrijfId
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.BedrijfId
-  nameWithType: AfspraakInputDTO.BedrijfId
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.BedrijfId*
-  name: BedrijfId
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO_BedrijfId_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.BedrijfId
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.BedrijfId
-  nameWithType: AfspraakInputDTO.BedrijfId
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.Bezoeker
-  name: Bezoeker
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO_Bezoeker
-  commentId: P:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.Bezoeker
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.Bezoeker
-  nameWithType: AfspraakInputDTO.Bezoeker
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.Bezoeker*
-  name: Bezoeker
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO_Bezoeker_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.Bezoeker
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.Bezoeker
-  nameWithType: AfspraakInputDTO.Bezoeker
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.WerknemerManager,BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
-  name: NaarBusiness(WerknemerManager, BedrijfManager)
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO_NaarBusiness_BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BezoekersRegistratieSysteemBL_Managers_BedrijfManager_
-  commentId: M:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.WerknemerManager,BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.WerknemerManager, BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
-  nameWithType: AfspraakInputDTO.NaarBusiness(WerknemerManager, BedrijfManager)
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.NaarBusiness*
-  name: NaarBusiness
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO_NaarBusiness_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.NaarBusiness
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.NaarBusiness
-  nameWithType: AfspraakInputDTO.NaarBusiness
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.WerknemerId
-  name: WerknemerId
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO_WerknemerId
-  commentId: P:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.WerknemerId
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.WerknemerId
-  nameWithType: AfspraakInputDTO.WerknemerId
-- uid: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.WerknemerId*
-  name: WerknemerId
-  href: api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_AfspraakInputDTO_WerknemerId_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.WerknemerId
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.WerknemerId
-  nameWithType: AfspraakInputDTO.WerknemerId
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO
-  name: BedrijfInputDTO
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html
-  commentId: T:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO
-  nameWithType: BedrijfInputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.#ctor(System.String,System.String,System.String,System.String,System.String)
-  name: BedrijfInputDTO(String, String, String, String, String)
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO__ctor_System_String_System_String_System_String_System_String_System_String_
-  commentId: M:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.#ctor(System.String,System.String,System.String,System.String,System.String)
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.BedrijfInputDTO(System.String, System.String, System.String, System.String, System.String)
-  nameWithType: BedrijfInputDTO.BedrijfInputDTO(String, String, String, String, String)
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.#ctor*
-  name: BedrijfInputDTO
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO__ctor_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.#ctor
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.BedrijfInputDTO
-  nameWithType: BedrijfInputDTO.BedrijfInputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Adres
-  name: Adres
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_Adres
-  commentId: P:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Adres
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Adres
-  nameWithType: BedrijfInputDTO.Adres
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Adres*
-  name: Adres
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_Adres_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Adres
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Adres
-  nameWithType: BedrijfInputDTO.Adres
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.BTW
-  name: BTW
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_BTW
-  commentId: P:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.BTW
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.BTW
-  nameWithType: BedrijfInputDTO.BTW
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.BTW*
-  name: BTW
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_BTW_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.BTW
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.BTW
-  nameWithType: BedrijfInputDTO.BTW
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Email
-  name: Email
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_Email
-  commentId: P:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Email
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Email
-  nameWithType: BedrijfInputDTO.Email
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Email*
-  name: Email
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_Email_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Email
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Email
-  nameWithType: BedrijfInputDTO.Email
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Naam
-  name: Naam
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_Naam
-  commentId: P:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Naam
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Naam
-  nameWithType: BedrijfInputDTO.Naam
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Naam*
-  name: Naam
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_Naam_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Naam
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.Naam
-  nameWithType: BedrijfInputDTO.Naam
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.NaarBusiness
-  name: NaarBusiness()
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_NaarBusiness
-  commentId: M:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.NaarBusiness
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.NaarBusiness()
-  nameWithType: BedrijfInputDTO.NaarBusiness()
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.NaarBusiness*
-  name: NaarBusiness
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_NaarBusiness_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.NaarBusiness
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.NaarBusiness
-  nameWithType: BedrijfInputDTO.NaarBusiness
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.TelefoonNummer
-  name: TelefoonNummer
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_TelefoonNummer
-  commentId: P:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.TelefoonNummer
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.TelefoonNummer
-  nameWithType: BedrijfInputDTO.TelefoonNummer
-- uid: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.TelefoonNummer*
-  name: TelefoonNummer
-  href: api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_BedrijfInputDTO_TelefoonNummer_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.TelefoonNummer
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.TelefoonNummer
-  nameWithType: BedrijfInputDTO.TelefoonNummer
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO
-  name: BezoekerInputDTO
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html
-  commentId: T:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO
-  nameWithType: BezoekerInputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.#ctor(System.String,System.String,System.String,System.String)
-  name: BezoekerInputDTO(String, String, String, String)
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO__ctor_System_String_System_String_System_String_System_String_
-  commentId: M:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.#ctor(System.String,System.String,System.String,System.String)
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.BezoekerInputDTO(System.String, System.String, System.String, System.String)
-  nameWithType: BezoekerInputDTO.BezoekerInputDTO(String, String, String, String)
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.#ctor*
-  name: BezoekerInputDTO
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO__ctor_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.#ctor
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.BezoekerInputDTO
-  nameWithType: BezoekerInputDTO.BezoekerInputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Achternaam
-  name: Achternaam
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_Achternaam
-  commentId: P:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Achternaam
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Achternaam
-  nameWithType: BezoekerInputDTO.Achternaam
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Achternaam*
-  name: Achternaam
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_Achternaam_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Achternaam
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Achternaam
-  nameWithType: BezoekerInputDTO.Achternaam
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Bedrijf
-  name: Bedrijf
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_Bedrijf
-  commentId: P:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Bedrijf
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Bedrijf
-  nameWithType: BezoekerInputDTO.Bedrijf
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Bedrijf*
-  name: Bedrijf
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_Bedrijf_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Bedrijf
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Bedrijf
-  nameWithType: BezoekerInputDTO.Bedrijf
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Email
-  name: Email
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_Email
-  commentId: P:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Email
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Email
-  nameWithType: BezoekerInputDTO.Email
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Email*
-  name: Email
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_Email_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Email
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Email
-  nameWithType: BezoekerInputDTO.Email
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.NaarBusiness
-  name: NaarBusiness()
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_NaarBusiness
-  commentId: M:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.NaarBusiness
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.NaarBusiness()
-  nameWithType: BezoekerInputDTO.NaarBusiness()
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.NaarBusiness*
-  name: NaarBusiness
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_NaarBusiness_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.NaarBusiness
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.NaarBusiness
-  nameWithType: BezoekerInputDTO.NaarBusiness
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Voornaam
-  name: Voornaam
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_Voornaam
-  commentId: P:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Voornaam
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Voornaam
-  nameWithType: BezoekerInputDTO.Voornaam
-- uid: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Voornaam*
-  name: Voornaam
-  href: api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_BezoekerInputDTO_Voornaam_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Voornaam
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.Voornaam
-  nameWithType: BezoekerInputDTO.Voornaam
 - uid: BezoekersRegistratieSysteemREST.Model.Input
   name: BezoekersRegistratieSysteemREST.Model.Input
   href: api/BezoekersRegistratieSysteemREST.Model.Input.html
   commentId: N:BezoekersRegistratieSysteemREST.Model.Input
   fullName: BezoekersRegistratieSysteemREST.Model.Input
   nameWithType: BezoekersRegistratieSysteemREST.Model.Input
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO
+  name: AfspraakInputDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html
+  commentId: T:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO
+  nameWithType: AfspraakInputDTO
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.#ctor(BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO,System.Int64,System.Int64)
+  name: AfspraakInputDTO(BezoekerInputDTO, Int64, Int64)
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO__ctor_BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_System_Int64_System_Int64_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.#ctor(BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO,System.Int64,System.Int64)
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.AfspraakInputDTO(BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO, System.Int64, System.Int64)
+  nameWithType: AfspraakInputDTO.AfspraakInputDTO(BezoekerInputDTO, Int64, Int64)
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.#ctor*
+  name: AfspraakInputDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO__ctor_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.#ctor
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.AfspraakInputDTO
+  nameWithType: AfspraakInputDTO.AfspraakInputDTO
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.BedrijfId
+  name: BedrijfId
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_BedrijfId
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.BedrijfId
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.BedrijfId
+  nameWithType: AfspraakInputDTO.BedrijfId
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.BedrijfId*
+  name: BedrijfId
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_BedrijfId_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.BedrijfId
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.BedrijfId
+  nameWithType: AfspraakInputDTO.BedrijfId
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Bezoeker
+  name: Bezoeker
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_Bezoeker
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Bezoeker
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Bezoeker
+  nameWithType: AfspraakInputDTO.Bezoeker
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Bezoeker*
+  name: Bezoeker
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_Bezoeker_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Bezoeker
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Bezoeker
+  nameWithType: AfspraakInputDTO.Bezoeker
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.WerknemerManager,BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
+  name: NaarBusiness(WerknemerManager, BedrijfManager)
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_NaarBusiness_BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BezoekersRegistratieSysteemBL_Managers_BedrijfManager_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.WerknemerManager,BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.WerknemerManager, BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
+  nameWithType: AfspraakInputDTO.NaarBusiness(WerknemerManager, BedrijfManager)
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.NaarBusiness*
+  name: NaarBusiness
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_NaarBusiness_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.NaarBusiness
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.NaarBusiness
+  nameWithType: AfspraakInputDTO.NaarBusiness
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.WerknemerId
+  name: WerknemerId
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_WerknemerId
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.WerknemerId
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.WerknemerId
+  nameWithType: AfspraakInputDTO.WerknemerId
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.WerknemerId*
+  name: WerknemerId
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_WerknemerId_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.WerknemerId
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.WerknemerId
+  nameWithType: AfspraakInputDTO.WerknemerId
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO
+  name: BedrijfInputDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html
+  commentId: T:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO
+  nameWithType: BedrijfInputDTO
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.#ctor(System.String,System.String,System.String,System.String,System.String)
+  name: BedrijfInputDTO(String, String, String, String, String)
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO__ctor_System_String_System_String_System_String_System_String_System_String_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.#ctor(System.String,System.String,System.String,System.String,System.String)
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.BedrijfInputDTO(System.String, System.String, System.String, System.String, System.String)
+  nameWithType: BedrijfInputDTO.BedrijfInputDTO(String, String, String, String, String)
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.#ctor*
+  name: BedrijfInputDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO__ctor_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.#ctor
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.BedrijfInputDTO
+  nameWithType: BedrijfInputDTO.BedrijfInputDTO
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Adres
+  name: Adres
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_Adres
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Adres
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Adres
+  nameWithType: BedrijfInputDTO.Adres
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Adres*
+  name: Adres
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_Adres_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Adres
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Adres
+  nameWithType: BedrijfInputDTO.Adres
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.BTW
+  name: BTW
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_BTW
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.BTW
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.BTW
+  nameWithType: BedrijfInputDTO.BTW
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.BTW*
+  name: BTW
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_BTW_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.BTW
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.BTW
+  nameWithType: BedrijfInputDTO.BTW
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Email
+  name: Email
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_Email
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Email
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Email
+  nameWithType: BedrijfInputDTO.Email
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Email*
+  name: Email
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_Email_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Email
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Email
+  nameWithType: BedrijfInputDTO.Email
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Naam
+  name: Naam
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_Naam
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Naam
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Naam
+  nameWithType: BedrijfInputDTO.Naam
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Naam*
+  name: Naam
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_Naam_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Naam
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.Naam
+  nameWithType: BedrijfInputDTO.Naam
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.NaarBusiness
+  name: NaarBusiness()
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_NaarBusiness
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.NaarBusiness
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.NaarBusiness()
+  nameWithType: BedrijfInputDTO.NaarBusiness()
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.NaarBusiness*
+  name: NaarBusiness
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_NaarBusiness_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.NaarBusiness
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.NaarBusiness
+  nameWithType: BedrijfInputDTO.NaarBusiness
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.TelefoonNummer
+  name: TelefoonNummer
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_TelefoonNummer
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.TelefoonNummer
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.TelefoonNummer
+  nameWithType: BedrijfInputDTO.TelefoonNummer
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.TelefoonNummer*
+  name: TelefoonNummer
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BedrijfInputDTO_TelefoonNummer_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.TelefoonNummer
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.TelefoonNummer
+  nameWithType: BedrijfInputDTO.TelefoonNummer
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO
+  name: BezoekerInputDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html
+  commentId: T:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO
+  nameWithType: BezoekerInputDTO
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.#ctor(System.String,System.String,System.String,System.String)
+  name: BezoekerInputDTO(String, String, String, String)
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO__ctor_System_String_System_String_System_String_System_String_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.#ctor(System.String,System.String,System.String,System.String)
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.BezoekerInputDTO(System.String, System.String, System.String, System.String)
+  nameWithType: BezoekerInputDTO.BezoekerInputDTO(String, String, String, String)
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.#ctor*
+  name: BezoekerInputDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO__ctor_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.#ctor
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.BezoekerInputDTO
+  nameWithType: BezoekerInputDTO.BezoekerInputDTO
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Achternaam
+  name: Achternaam
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_Achternaam
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Achternaam
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Achternaam
+  nameWithType: BezoekerInputDTO.Achternaam
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Achternaam*
+  name: Achternaam
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_Achternaam_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Achternaam
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Achternaam
+  nameWithType: BezoekerInputDTO.Achternaam
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Bedrijf
+  name: Bedrijf
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_Bedrijf
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Bedrijf
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Bedrijf
+  nameWithType: BezoekerInputDTO.Bedrijf
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Bedrijf*
+  name: Bedrijf
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_Bedrijf_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Bedrijf
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Bedrijf
+  nameWithType: BezoekerInputDTO.Bedrijf
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Email
+  name: Email
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_Email
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Email
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Email
+  nameWithType: BezoekerInputDTO.Email
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Email*
+  name: Email
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_Email_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Email
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Email
+  nameWithType: BezoekerInputDTO.Email
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.NaarBusiness
+  name: NaarBusiness()
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_NaarBusiness
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.NaarBusiness
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.NaarBusiness()
+  nameWithType: BezoekerInputDTO.NaarBusiness()
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.NaarBusiness*
+  name: NaarBusiness
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_NaarBusiness_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.NaarBusiness
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.NaarBusiness
+  nameWithType: BezoekerInputDTO.NaarBusiness
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Voornaam
+  name: Voornaam
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_Voornaam
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Voornaam
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Voornaam
+  nameWithType: BezoekerInputDTO.Voornaam
+- uid: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Voornaam*
+  name: Voornaam
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_Voornaam_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Voornaam
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.Voornaam
+  nameWithType: BezoekerInputDTO.Voornaam
 - uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO
   name: WerknemerInfoInputDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html
   commentId: T:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO
   fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO
   nameWithType: WerknemerInfoInputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.#ctor(System.Int64,System.String,List{System.String})
-  name: WerknemerInfoInputDTO(Int64, String, List<String>)
-  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO__ctor_System_Int64_System_String_List_System_String__
-  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.#ctor(System.Int64,System.String,List{System.String})
-  name.vb: WerknemerInfoInputDTO(Int64, String, List(Of String))
-  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.WerknemerInfoInputDTO(System.Int64, System.String, List<System.String>)
-  fullName.vb: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.WerknemerInfoInputDTO(System.Int64, System.String, List(Of System.String))
-  nameWithType: WerknemerInfoInputDTO.WerknemerInfoInputDTO(Int64, String, List<String>)
-  nameWithType.vb: WerknemerInfoInputDTO.WerknemerInfoInputDTO(Int64, String, List(Of String))
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.#ctor(System.Int64,System.String,IEnumerable{System.String})
+  name: WerknemerInfoInputDTO(Int64, String, IEnumerable<String>)
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO__ctor_System_Int64_System_String_IEnumerable_System_String__
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.#ctor(System.Int64,System.String,IEnumerable{System.String})
+  name.vb: WerknemerInfoInputDTO(Int64, String, IEnumerable(Of String))
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.WerknemerInfoInputDTO(System.Int64, System.String, IEnumerable<System.String>)
+  fullName.vb: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.WerknemerInfoInputDTO(System.Int64, System.String, IEnumerable(Of System.String))
+  nameWithType: WerknemerInfoInputDTO.WerknemerInfoInputDTO(Int64, String, IEnumerable<String>)
+  nameWithType.vb: WerknemerInfoInputDTO.WerknemerInfoInputDTO(Int64, String, IEnumerable(Of String))
 - uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.#ctor*
   name: WerknemerInfoInputDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO__ctor_
@@ -4665,6 +4626,93 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.Functies
   nameWithType: WerknemerInfoInputDTO.Functies
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
+  name: NaarBusiness(BedrijfManager)
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO_NaarBusiness_BezoekersRegistratieSysteemBL_Managers_BedrijfManager_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
+  nameWithType: WerknemerInfoInputDTO.NaarBusiness(BedrijfManager)
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.NaarBusiness*
+  name: NaarBusiness
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO_NaarBusiness_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.NaarBusiness
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.NaarBusiness
+  nameWithType: WerknemerInfoInputDTO.NaarBusiness
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO
+  name: WerknemerInputDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html
+  commentId: T:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO
+  nameWithType: WerknemerInputDTO
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.#ctor(System.String,System.String,IEnumerable{BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO})
+  name: WerknemerInputDTO(String, String, IEnumerable<WerknemerInfoInputDTO>)
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO__ctor_System_String_System_String_IEnumerable_BezoekersRegistratieSysteemREST_Model_Input_WerknemerInfoInputDTO__
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.#ctor(System.String,System.String,IEnumerable{BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO})
+  name.vb: WerknemerInputDTO(String, String, IEnumerable(Of WerknemerInfoInputDTO))
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.WerknemerInputDTO(System.String, System.String, IEnumerable<BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO>)
+  fullName.vb: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.WerknemerInputDTO(System.String, System.String, IEnumerable(Of BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO))
+  nameWithType: WerknemerInputDTO.WerknemerInputDTO(String, String, IEnumerable<WerknemerInfoInputDTO>)
+  nameWithType.vb: WerknemerInputDTO.WerknemerInputDTO(String, String, IEnumerable(Of WerknemerInfoInputDTO))
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.#ctor*
+  name: WerknemerInputDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO__ctor_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.#ctor
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.WerknemerInputDTO
+  nameWithType: WerknemerInputDTO.WerknemerInputDTO
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Achternaam
+  name: Achternaam
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO_Achternaam
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Achternaam
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Achternaam
+  nameWithType: WerknemerInputDTO.Achternaam
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Achternaam*
+  name: Achternaam
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO_Achternaam_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Achternaam
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Achternaam
+  nameWithType: WerknemerInputDTO.Achternaam
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
+  name: NaarBusiness(BedrijfManager)
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO_NaarBusiness_BezoekersRegistratieSysteemBL_Managers_BedrijfManager_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
+  nameWithType: WerknemerInputDTO.NaarBusiness(BedrijfManager)
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.NaarBusiness*
+  name: NaarBusiness
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO_NaarBusiness_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.NaarBusiness
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.NaarBusiness
+  nameWithType: WerknemerInputDTO.NaarBusiness
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Voornaam
+  name: Voornaam
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO_Voornaam
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Voornaam
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Voornaam
+  nameWithType: WerknemerInputDTO.Voornaam
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Voornaam*
+  name: Voornaam
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO_Voornaam_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Voornaam
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.Voornaam
+  nameWithType: WerknemerInputDTO.Voornaam
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.WerknemerInfo
+  name: WerknemerInfo
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO_WerknemerInfo
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.WerknemerInfo
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.WerknemerInfo
+  nameWithType: WerknemerInputDTO.WerknemerInfo
+- uid: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.WerknemerInfo*
+  name: WerknemerInfo
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_WerknemerInputDTO_WerknemerInfo_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.WerknemerInfo
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.WerknemerInfo
+  nameWithType: WerknemerInputDTO.WerknemerInfo
 - uid: BezoekersRegistratieSysteemREST.Model.Output
   name: BezoekersRegistratieSysteemREST.Model.Output
   href: api/BezoekersRegistratieSysteemREST.Model.Output.html
@@ -4677,15 +4725,15 @@ references:
   commentId: T:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO
   fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO
   nameWithType: AfspraakOutputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.#ctor(System.Int64,DateTime,System.Nullable{DateTime},System.Int64,System.Int64,System.Int64)
-  name: AfspraakOutputDTO(Int64, DateTime, Nullable<DateTime>, Int64, Int64, Int64)
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO__ctor_System_Int64_DateTime_System_Nullable_DateTime__System_Int64_System_Int64_System_Int64_
-  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.#ctor(System.Int64,DateTime,System.Nullable{DateTime},System.Int64,System.Int64,System.Int64)
-  name.vb: AfspraakOutputDTO(Int64, DateTime, Nullable(Of DateTime), Int64, Int64, Int64)
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.AfspraakOutputDTO(System.Int64, DateTime, System.Nullable<DateTime>, System.Int64, System.Int64, System.Int64)
-  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.AfspraakOutputDTO(System.Int64, DateTime, System.Nullable(Of DateTime), System.Int64, System.Int64, System.Int64)
-  nameWithType: AfspraakOutputDTO.AfspraakOutputDTO(Int64, DateTime, Nullable<DateTime>, Int64, Int64, Int64)
-  nameWithType.vb: AfspraakOutputDTO.AfspraakOutputDTO(Int64, DateTime, Nullable(Of DateTime), Int64, Int64, Int64)
+- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.#ctor(System.Int64,DateTime,System.Nullable{DateTime},BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO,BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO,BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO)
+  name: AfspraakOutputDTO(Int64, DateTime, Nullable<DateTime>, IdInfoOutputDTO, IdInfoOutputDTO, IdInfoOutputDTO)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO__ctor_System_Int64_DateTime_System_Nullable_DateTime__BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.#ctor(System.Int64,DateTime,System.Nullable{DateTime},BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO,BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO,BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO)
+  name.vb: AfspraakOutputDTO(Int64, DateTime, Nullable(Of DateTime), IdInfoOutputDTO, IdInfoOutputDTO, IdInfoOutputDTO)
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.AfspraakOutputDTO(System.Int64, DateTime, System.Nullable<DateTime>, BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO, BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO, BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO)
+  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.AfspraakOutputDTO(System.Int64, DateTime, System.Nullable(Of DateTime), BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO, BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO, BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO)
+  nameWithType: AfspraakOutputDTO.AfspraakOutputDTO(Int64, DateTime, Nullable<DateTime>, IdInfoOutputDTO, IdInfoOutputDTO, IdInfoOutputDTO)
+  nameWithType.vb: AfspraakOutputDTO.AfspraakOutputDTO(Int64, DateTime, Nullable(Of DateTime), IdInfoOutputDTO, IdInfoOutputDTO, IdInfoOutputDTO)
 - uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.#ctor*
   name: AfspraakOutputDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO__ctor_
@@ -4693,32 +4741,32 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.AfspraakOutputDTO
   nameWithType: AfspraakOutputDTO.AfspraakOutputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BedrijfId
-  name: BedrijfId
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_BedrijfId
-  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BedrijfId
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BedrijfId
-  nameWithType: AfspraakOutputDTO.BedrijfId
-- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BedrijfId*
-  name: BedrijfId
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_BedrijfId_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BedrijfId
+- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bedrijf
+  name: Bedrijf
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_Bedrijf
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bedrijf
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bedrijf
+  nameWithType: AfspraakOutputDTO.Bedrijf
+- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bedrijf*
+  name: Bedrijf
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_Bedrijf_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bedrijf
   isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BedrijfId
-  nameWithType: AfspraakOutputDTO.BedrijfId
-- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BezoekerId
-  name: BezoekerId
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_BezoekerId
-  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BezoekerId
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BezoekerId
-  nameWithType: AfspraakOutputDTO.BezoekerId
-- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BezoekerId*
-  name: BezoekerId
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_BezoekerId_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BezoekerId
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bedrijf
+  nameWithType: AfspraakOutputDTO.Bedrijf
+- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bezoeker
+  name: Bezoeker
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_Bezoeker
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bezoeker
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bezoeker
+  nameWithType: AfspraakOutputDTO.Bezoeker
+- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bezoeker*
+  name: Bezoeker
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_Bezoeker_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bezoeker
   isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.BezoekerId
-  nameWithType: AfspraakOutputDTO.BezoekerId
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Bezoeker
+  nameWithType: AfspraakOutputDTO.Bezoeker
 - uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Eindtijd
   name: Eindtijd
   href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_Eindtijd
@@ -4780,34 +4828,34 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Starttijd
   nameWithType: AfspraakOutputDTO.Starttijd
-- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.WerknemerId
-  name: WerknemerId
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_WerknemerId
-  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.WerknemerId
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.WerknemerId
-  nameWithType: AfspraakOutputDTO.WerknemerId
-- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.WerknemerId*
-  name: WerknemerId
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_WerknemerId_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.WerknemerId
+- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Werknemer
+  name: Werknemer
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_Werknemer
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Werknemer
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Werknemer
+  nameWithType: AfspraakOutputDTO.Werknemer
+- uid: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Werknemer*
+  name: Werknemer
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_AfspraakOutputDTO_Werknemer_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Werknemer
   isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.WerknemerId
-  nameWithType: AfspraakOutputDTO.WerknemerId
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.Werknemer
+  nameWithType: AfspraakOutputDTO.Werknemer
 - uid: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO
   name: BedrijfOutputDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html
   commentId: T:BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO
   fullName: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO
   nameWithType: BedrijfOutputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.#ctor(System.Int64,System.String,System.String,System.Boolean,System.String,System.String,System.String,List{System.Int64})
-  name: BedrijfOutputDTO(Int64, String, String, Boolean, String, String, String, List<Int64>)
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO__ctor_System_Int64_System_String_System_String_System_Boolean_System_String_System_String_System_String_List_System_Int64__
-  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.#ctor(System.Int64,System.String,System.String,System.Boolean,System.String,System.String,System.String,List{System.Int64})
-  name.vb: BedrijfOutputDTO(Int64, String, String, Boolean, String, String, String, List(Of Int64))
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.BedrijfOutputDTO(System.Int64, System.String, System.String, System.Boolean, System.String, System.String, System.String, List<System.Int64>)
-  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.BedrijfOutputDTO(System.Int64, System.String, System.String, System.Boolean, System.String, System.String, System.String, List(Of System.Int64))
-  nameWithType: BedrijfOutputDTO.BedrijfOutputDTO(Int64, String, String, Boolean, String, String, String, List<Int64>)
-  nameWithType.vb: BedrijfOutputDTO.BedrijfOutputDTO(Int64, String, String, Boolean, String, String, String, List(Of Int64))
+- uid: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.#ctor(System.Int64,System.String,System.String,System.Boolean,System.String,System.String,System.String,IEnumerable{BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO})
+  name: BedrijfOutputDTO(Int64, String, String, Boolean, String, String, String, IEnumerable<IdInfoOutputDTO>)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO__ctor_System_Int64_System_String_System_String_System_Boolean_System_String_System_String_System_String_IEnumerable_BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO__
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.#ctor(System.Int64,System.String,System.String,System.Boolean,System.String,System.String,System.String,IEnumerable{BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO})
+  name.vb: BedrijfOutputDTO(Int64, String, String, Boolean, String, String, String, IEnumerable(Of IdInfoOutputDTO))
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.BedrijfOutputDTO(System.Int64, System.String, System.String, System.Boolean, System.String, System.String, System.String, IEnumerable<BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO>)
+  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.BedrijfOutputDTO(System.Int64, System.String, System.String, System.Boolean, System.String, System.String, System.String, IEnumerable(Of BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO))
+  nameWithType: BedrijfOutputDTO.BedrijfOutputDTO(Int64, String, String, Boolean, String, String, String, IEnumerable<IdInfoOutputDTO>)
+  nameWithType.vb: BedrijfOutputDTO.BedrijfOutputDTO(Int64, String, String, Boolean, String, String, String, IEnumerable(Of IdInfoOutputDTO))
 - uid: BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.#ctor*
   name: BedrijfOutputDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO__ctor_
@@ -5047,21 +5095,120 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Output.BezoekerOutputDTO.Voornaam
   nameWithType: BezoekerOutputDTO.Voornaam
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO
+  name: IdInfoOutputDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html
+  commentId: T:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO
+  nameWithType: IdInfoOutputDTO
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.#ctor(System.Int64,System.String,System.Nullable{System.String},System.Nullable{System.String})
+  name: IdInfoOutputDTO(Int64, String, Nullable<String>, Nullable<String>)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO__ctor_System_Int64_System_String_System_Nullable_System_String__System_Nullable_System_String__
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.#ctor(System.Int64,System.String,System.Nullable{System.String},System.Nullable{System.String})
+  name.vb: IdInfoOutputDTO(Int64, String, Nullable(Of String), Nullable(Of String))
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.IdInfoOutputDTO(System.Int64, System.String, System.Nullable<System.String>, System.Nullable<System.String>)
+  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.IdInfoOutputDTO(System.Int64, System.String, System.Nullable(Of System.String), System.Nullable(Of System.String))
+  nameWithType: IdInfoOutputDTO.IdInfoOutputDTO(Int64, String, Nullable<String>, Nullable<String>)
+  nameWithType.vb: IdInfoOutputDTO.IdInfoOutputDTO(Int64, String, Nullable(Of String), Nullable(Of String))
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.#ctor*
+  name: IdInfoOutputDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO__ctor_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.#ctor
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.IdInfoOutputDTO
+  nameWithType: IdInfoOutputDTO.IdInfoOutputDTO
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.BezoekerBedrijf
+  name: BezoekerBedrijf
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_BezoekerBedrijf
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.BezoekerBedrijf
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.BezoekerBedrijf
+  nameWithType: IdInfoOutputDTO.BezoekerBedrijf
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.BezoekerBedrijf*
+  name: BezoekerBedrijf
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_BezoekerBedrijf_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.BezoekerBedrijf
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.BezoekerBedrijf
+  nameWithType: IdInfoOutputDTO.BezoekerBedrijf
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Email
+  name: Email
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_Email
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Email
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Email
+  nameWithType: IdInfoOutputDTO.Email
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Email*
+  name: Email
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_Email_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Email
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Email
+  nameWithType: IdInfoOutputDTO.Email
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Id
+  name: Id
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_Id
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Id
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Id
+  nameWithType: IdInfoOutputDTO.Id
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Id*
+  name: Id
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_Id_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Id
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Id
+  nameWithType: IdInfoOutputDTO.Id
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Naam
+  name: Naam
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_Naam
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Naam
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Naam
+  nameWithType: IdInfoOutputDTO.Naam
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Naam*
+  name: Naam
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_Naam_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Naam
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.Naam
+  nameWithType: IdInfoOutputDTO.Naam
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
+  name: NaarDTO(Bedrijf)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_NaarDTO_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
+  nameWithType: IdInfoOutputDTO.NaarDTO(Bedrijf)
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker)
+  name: NaarDTO(Bezoeker)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_NaarDTO_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker)
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker)
+  nameWithType: IdInfoOutputDTO.NaarDTO(Bezoeker)
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  name: NaarDTO(Werknemer)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_NaarDTO_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  nameWithType: IdInfoOutputDTO.NaarDTO(Werknemer)
+- uid: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO*
+  name: NaarDTO
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_NaarDTO_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.NaarDTO
+  nameWithType: IdInfoOutputDTO.NaarDTO
 - uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO
   name: WerknemerInfoOutputDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html
   commentId: T:BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO
   fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO
   nameWithType: WerknemerInfoOutputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.#ctor(System.Int64,System.String,List{System.String})
-  name: WerknemerInfoOutputDTO(Int64, String, List<String>)
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO__ctor_System_Int64_System_String_List_System_String__
-  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.#ctor(System.Int64,System.String,List{System.String})
-  name.vb: WerknemerInfoOutputDTO(Int64, String, List(Of String))
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.WerknemerInfoOutputDTO(System.Int64, System.String, List<System.String>)
-  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.WerknemerInfoOutputDTO(System.Int64, System.String, List(Of System.String))
-  nameWithType: WerknemerInfoOutputDTO.WerknemerInfoOutputDTO(Int64, String, List<String>)
-  nameWithType.vb: WerknemerInfoOutputDTO.WerknemerInfoOutputDTO(Int64, String, List(Of String))
+- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.#ctor(BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO,System.String,IEnumerable{System.String})
+  name: WerknemerInfoOutputDTO(IdInfoOutputDTO, String, IEnumerable<String>)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO__ctor_BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO_System_String_IEnumerable_System_String__
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.#ctor(BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO,System.String,IEnumerable{System.String})
+  name.vb: WerknemerInfoOutputDTO(IdInfoOutputDTO, String, IEnumerable(Of String))
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.WerknemerInfoOutputDTO(BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO, System.String, IEnumerable<System.String>)
+  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.WerknemerInfoOutputDTO(BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO, System.String, IEnumerable(Of System.String))
+  nameWithType: WerknemerInfoOutputDTO.WerknemerInfoOutputDTO(IdInfoOutputDTO, String, IEnumerable<String>)
+  nameWithType.vb: WerknemerInfoOutputDTO.WerknemerInfoOutputDTO(IdInfoOutputDTO, String, IEnumerable(Of String))
 - uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.#ctor*
   name: WerknemerInfoOutputDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO__ctor_
@@ -5069,19 +5216,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.WerknemerInfoOutputDTO
   nameWithType: WerknemerInfoOutputDTO.WerknemerInfoOutputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.BedrijfId
-  name: BedrijfId
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO_BedrijfId
-  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.BedrijfId
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.BedrijfId
-  nameWithType: WerknemerInfoOutputDTO.BedrijfId
-- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.BedrijfId*
-  name: BedrijfId
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO_BedrijfId_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.BedrijfId
+- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.Bedrijf
+  name: Bedrijf
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO_Bedrijf
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.Bedrijf
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.Bedrijf
+  nameWithType: WerknemerInfoOutputDTO.Bedrijf
+- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.Bedrijf*
+  name: Bedrijf
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO_Bedrijf_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.Bedrijf
   isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.BedrijfId
-  nameWithType: WerknemerInfoOutputDTO.BedrijfId
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.Bedrijf
+  nameWithType: WerknemerInfoOutputDTO.Bedrijf
 - uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.Email
   name: Email
   href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO_Email
@@ -5136,15 +5283,15 @@ references:
   commentId: T:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO
   fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO
   nameWithType: WerknemerOutputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.#ctor(System.Int64,System.String,System.String,List{BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO})
-  name: WerknemerOutputDTO(Int64, String, String, List<WerknemerInfoOutputDTO>)
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO__ctor_System_Int64_System_String_System_String_List_BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO__
-  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.#ctor(System.Int64,System.String,System.String,List{BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO})
-  name.vb: WerknemerOutputDTO(Int64, String, String, List(Of WerknemerInfoOutputDTO))
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.WerknemerOutputDTO(System.Int64, System.String, System.String, List<BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO>)
-  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.WerknemerOutputDTO(System.Int64, System.String, System.String, List(Of BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO))
-  nameWithType: WerknemerOutputDTO.WerknemerOutputDTO(Int64, String, String, List<WerknemerInfoOutputDTO>)
-  nameWithType.vb: WerknemerOutputDTO.WerknemerOutputDTO(Int64, String, String, List(Of WerknemerInfoOutputDTO))
+- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.#ctor(System.Int64,System.String,System.String,IEnumerable{BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO},System.Boolean)
+  name: WerknemerOutputDTO(Int64, String, String, IEnumerable<WerknemerInfoOutputDTO>, Boolean)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO__ctor_System_Int64_System_String_System_String_IEnumerable_BezoekersRegistratieSysteemREST_Model_Output_WerknemerInfoOutputDTO__System_Boolean_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.#ctor(System.Int64,System.String,System.String,IEnumerable{BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO},System.Boolean)
+  name.vb: WerknemerOutputDTO(Int64, String, String, IEnumerable(Of WerknemerInfoOutputDTO), Boolean)
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.WerknemerOutputDTO(System.Int64, System.String, System.String, IEnumerable<BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO>, System.Boolean)
+  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.WerknemerOutputDTO(System.Int64, System.String, System.String, IEnumerable(Of BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO), System.Boolean)
+  nameWithType: WerknemerOutputDTO.WerknemerOutputDTO(Int64, String, String, IEnumerable<WerknemerInfoOutputDTO>, Boolean)
+  nameWithType.vb: WerknemerOutputDTO.WerknemerOutputDTO(Int64, String, String, IEnumerable(Of WerknemerInfoOutputDTO), Boolean)
 - uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.#ctor*
   name: WerknemerOutputDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO__ctor_
@@ -5165,6 +5312,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.Achternaam
   nameWithType: WerknemerOutputDTO.Achternaam
+- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.Bezet
+  name: Bezet
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO_Bezet
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.Bezet
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.Bezet
+  nameWithType: WerknemerOutputDTO.Bezet
+- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.Bezet*
+  name: Bezet
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO_Bezet_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.Bezet
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.Bezet
+  nameWithType: WerknemerOutputDTO.Bezet
 - uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.Id
   name: Id
   href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO_Id
@@ -5178,21 +5338,21 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.Id
   nameWithType: WerknemerOutputDTO.Id
-- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  name: NaarDTO(Werknemer)
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO_NaarDTO_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_
-  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  nameWithType: WerknemerOutputDTO.NaarDTO(Werknemer)
-- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(IEnumerable{BezoekersRegistratieSysteemBL.Domeinen.Werknemer})
-  name: NaarDTO(IEnumerable<Werknemer>)
-  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO_NaarDTO_IEnumerable_BezoekersRegistratieSysteemBL_Domeinen_Werknemer__
-  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(IEnumerable{BezoekersRegistratieSysteemBL.Domeinen.Werknemer})
-  name.vb: NaarDTO(IEnumerable(Of Werknemer))
-  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(IEnumerable<BezoekersRegistratieSysteemBL.Domeinen.Werknemer>)
-  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(IEnumerable(Of BezoekersRegistratieSysteemBL.Domeinen.Werknemer))
-  nameWithType: WerknemerOutputDTO.NaarDTO(IEnumerable<Werknemer>)
-  nameWithType.vb: WerknemerOutputDTO.NaarDTO(IEnumerable(Of Werknemer))
+- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Managers.WerknemerManager,BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  name: NaarDTO(WerknemerManager, Werknemer)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO_NaarDTO_BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Managers.WerknemerManager,BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Managers.WerknemerManager, BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  nameWithType: WerknemerOutputDTO.NaarDTO(WerknemerManager, Werknemer)
+- uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Managers.WerknemerManager,IEnumerable{BezoekersRegistratieSysteemBL.Domeinen.Werknemer})
+  name: NaarDTO(WerknemerManager, IEnumerable<Werknemer>)
+  href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO_NaarDTO_BezoekersRegistratieSysteemBL_Managers_WerknemerManager_IEnumerable_BezoekersRegistratieSysteemBL_Domeinen_Werknemer__
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Managers.WerknemerManager,IEnumerable{BezoekersRegistratieSysteemBL.Domeinen.Werknemer})
+  name.vb: NaarDTO(WerknemerManager, IEnumerable(Of Werknemer))
+  fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Managers.WerknemerManager, IEnumerable<BezoekersRegistratieSysteemBL.Domeinen.Werknemer>)
+  fullName.vb: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO(BezoekersRegistratieSysteemBL.Managers.WerknemerManager, IEnumerable(Of BezoekersRegistratieSysteemBL.Domeinen.Werknemer))
+  nameWithType: WerknemerOutputDTO.NaarDTO(WerknemerManager, IEnumerable<Werknemer>)
+  nameWithType.vb: WerknemerOutputDTO.NaarDTO(WerknemerManager, IEnumerable(Of Werknemer))
 - uid: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.NaarDTO*
   name: NaarDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html#BezoekersRegistratieSysteemREST_Model_Output_WerknemerOutputDTO_NaarDTO_
@@ -5226,61 +5386,3 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.WerknemerInfo
   nameWithType: WerknemerOutputDTO.WerknemerInfo
-- uid: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO
-  name: WerknemerInputDTO
-  href: api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html
-  commentId: T:BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO
-  fullName: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO
-  nameWithType: WerknemerInputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.#ctor(System.String,System.String)
-  name: WerknemerInputDTO(String, String)
-  href: api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_WerknemerInputDTO__ctor_System_String_System_String_
-  commentId: M:BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.#ctor(System.String,System.String)
-  fullName: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.WerknemerInputDTO(System.String, System.String)
-  nameWithType: WerknemerInputDTO.WerknemerInputDTO(String, String)
-- uid: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.#ctor*
-  name: WerknemerInputDTO
-  href: api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_WerknemerInputDTO__ctor_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.#ctor
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.WerknemerInputDTO
-  nameWithType: WerknemerInputDTO.WerknemerInputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Achternaam
-  name: Achternaam
-  href: api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_WerknemerInputDTO_Achternaam
-  commentId: P:BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Achternaam
-  fullName: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Achternaam
-  nameWithType: WerknemerInputDTO.Achternaam
-- uid: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Achternaam*
-  name: Achternaam
-  href: api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_WerknemerInputDTO_Achternaam_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Achternaam
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Achternaam
-  nameWithType: WerknemerInputDTO.Achternaam
-- uid: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.NaarBusiness
-  name: NaarBusiness()
-  href: api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_WerknemerInputDTO_NaarBusiness
-  commentId: M:BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.NaarBusiness
-  fullName: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.NaarBusiness()
-  nameWithType: WerknemerInputDTO.NaarBusiness()
-- uid: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.NaarBusiness*
-  name: NaarBusiness
-  href: api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_WerknemerInputDTO_NaarBusiness_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.NaarBusiness
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.NaarBusiness
-  nameWithType: WerknemerInputDTO.NaarBusiness
-- uid: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Voornaam
-  name: Voornaam
-  href: api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_WerknemerInputDTO_Voornaam
-  commentId: P:BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Voornaam
-  fullName: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Voornaam
-  nameWithType: WerknemerInputDTO.Voornaam
-- uid: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Voornaam*
-  name: Voornaam
-  href: api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html#BezoekersRegistratieSysteemREST_Model_WerknemerInputDTO_Voornaam_
-  commentId: Overload:BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Voornaam
-  isSpec: "True"
-  fullName: BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.Voornaam
-  nameWithType: WerknemerInputDTO.Voornaam

@@ -651,19 +651,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefAfsprakenPerBezoekerOpDagPerBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_DateTime_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker%2CDateTime%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefAfsprakenPerBezoekerOpDagPerBedrijf_System_Int64_DateTime_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(System.Int64%2CDateTime%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/AfspraakManager.cs/#L302">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefAfsprakenPerBezoekerOpDagPerBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf*"></a>
-  <h4 id="BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefAfsprakenPerBezoekerOpDagPerBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_DateTime_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker,DateTime,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">GeefAfsprakenPerBezoekerOpDagPerBedrijf(Bezoeker, DateTime, Bedrijf)</h4>
+  <h4 id="BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefAfsprakenPerBezoekerOpDagPerBedrijf_System_Int64_DateTime_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefAfsprakenPerBezoekerOpDagPerBedrijf(System.Int64,DateTime,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">GeefAfsprakenPerBezoekerOpDagPerBedrijf(Int64, DateTime, Bedrijf)</h4>
   <div class="markdown level1 summary"><p>Stelt lijst van huidige afspraken samen met enkel lees rechten adhv bezoeker object, bedrijf object en parameter datum.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;Afspraak&gt; GeefAfsprakenPerBezoekerOpDagPerBedrijf(Bezoeker bezoeker, DateTime datum, Bedrijf bedrijf)</code></pre>
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;Afspraak&gt; GeefAfsprakenPerBezoekerOpDagPerBedrijf(long bezoekerId, DateTime datum, Bedrijf bedrijf)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -676,10 +676,9 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.html">Bezoeker</a></td>
-        <td><span class="parametername">bezoeker</span></td>
-        <td><p>Bezoeker object waar de afspraken van opgevraagd wensen te worden.</p>
-</td>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">bezoekerId</span></td>
+        <td></td>
       </tr>
       <tr>
         <td><span class="xref">DateTime</span></td>
@@ -1084,19 +1083,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefHuidigeAfspraakBezoekerPerBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefHuidigeAfspraakBezoekerPerBedrijf_System_Int64_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(System.Int64%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/AfspraakManager.cs/#L322">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefHuidigeAfspraakBezoekerPerBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf*"></a>
-  <h4 id="BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefHuidigeAfspraakBezoekerPerBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bezoeker,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">GeefHuidigeAfspraakBezoekerPerBedrijf(Bezoeker, Bedrijf)</h4>
+  <h4 id="BezoekersRegistratieSysteemBL_Managers_AfspraakManager_GeefHuidigeAfspraakBezoekerPerBedrijf_System_Int64_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.AfspraakManager.GeefHuidigeAfspraakBezoekerPerBedrijf(System.Int64,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">GeefHuidigeAfspraakBezoekerPerBedrijf(Int64, Bedrijf)</h4>
   <div class="markdown level1 summary"><p>Stelt lijst van huidige afspraken samen met enkel lees rechten adhv bezoeker object en bedrijf object.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Afspraak GeefHuidigeAfspraakBezoekerPerBedrijf(Bezoeker bezoeker, Bedrijf bedrijf)</code></pre>
+    <pre><code class="lang-csharp hljs">public Afspraak GeefHuidigeAfspraakBezoekerPerBedrijf(long bezoekerId, Bedrijf bedrijf)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1109,8 +1108,8 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Bezoeker.html">Bezoeker</a></td>
-        <td><span class="parametername">bezoeker</span></td>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">bezoekerId</span></td>
         <td><p>Bezoeker object waar de afspraken van opgevraagd wensen te worden.</p>
 </td>
       </tr>

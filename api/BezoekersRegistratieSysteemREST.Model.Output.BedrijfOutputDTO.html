@@ -91,19 +91,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO__ctor_System_Int64_System_String_System_String_System_Boolean_System_String_System_String_System_String_List_System_Int64__.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.%23ctor(System.Int64%2CSystem.String%2CSystem.String%2CSystem.Boolean%2CSystem.String%2CSystem.String%2CSystem.String%2CList%7BSystem.Int64%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO__ctor_System_Int64_System_String_System_String_System_Boolean_System_String_System_String_System_String_IEnumerable_BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO__.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.%23ctor(System.Int64%2CSystem.String%2CSystem.String%2CSystem.Boolean%2CSystem.String%2CSystem.String%2CSystem.String%2CIEnumerable%7BBezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemREST/Model/Output/BedrijfOutputDTO.cs/#L93">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO__ctor_" data-uid="BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.#ctor*"></a>
-  <h4 id="BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO__ctor_System_Int64_System_String_System_String_System_Boolean_System_String_System_String_System_String_List_System_Int64__" data-uid="BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.#ctor(System.Int64,System.String,System.String,System.Boolean,System.String,System.String,System.String,List{System.Int64})">BedrijfOutputDTO(Int64, String, String, Boolean, String, String, String, List&lt;Int64&gt;)</h4>
-  <div class="markdown level1 summary"><p>De constructor</p>
+  <h4 id="BezoekersRegistratieSysteemREST_Model_Output_BedrijfOutputDTO__ctor_System_Int64_System_String_System_String_System_Boolean_System_String_System_String_System_String_IEnumerable_BezoekersRegistratieSysteemREST_Model_Output_IdInfoOutputDTO__" data-uid="BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.#ctor(System.Int64,System.String,System.String,System.Boolean,System.String,System.String,System.String,IEnumerable{BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO})">BedrijfOutputDTO(Int64, String, String, Boolean, String, String, String, IEnumerable&lt;IdInfoOutputDTO&gt;)</h4>
+  <div class="markdown level1 summary"><p>De constructor.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public BedrijfOutputDTO(long id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, List&lt;long&gt; werknemers)</code></pre>
+    <pre><code class="lang-csharp hljs">public BedrijfOutputDTO(long id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, IEnumerable&lt;IdInfoOutputDTO&gt; werknemers)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -151,7 +151,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">List</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html">IdInfoOutputDTO</a>&gt;</td>
         <td><span class="parametername">werknemers</span></td>
         <td></td>
       </tr>
@@ -390,7 +390,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;long&gt; Werknemers { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;IdInfoOutputDTO&gt; Werknemers { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -402,7 +402,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">List</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html">IdInfoOutputDTO</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>

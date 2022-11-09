@@ -321,7 +321,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html",
-          "hash": "q0q9P2oBEYpg1nZ2i6dHOQ=="
+          "hash": "xm+8CdEigbb42AKGZ4zBGg=="
         }
       },
       "is_incremental": false,
@@ -345,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemBL.Managers.AfspraakManager.html",
-          "hash": "fXq/LWVcVy4BSV0T6AfXYg=="
+          "hash": "rdhOU1d6aMiqY23POpE8dg=="
         }
       },
       "is_incremental": false,
@@ -381,7 +381,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html",
-          "hash": "mu33ZDtXs6+qG9WOugE2gg=="
+          "hash": "FTGJvBKJQX5pMe+JVXz75g=="
         }
       },
       "is_incremental": false,
@@ -405,7 +405,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemBL.Nutsvoorziening.html",
-          "hash": "8Ygv8cYBnPt8wqUqR7s3jQ=="
+          "hash": "e5Es1n/dObZUfZS3isQrNw=="
         }
       },
       "is_incremental": false,
@@ -429,7 +429,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemDL.ADO.AfspraakRepoADO.html",
-          "hash": "BMct3EgRh3SWkn+p032mcA=="
+          "hash": "1wMRVz5FchsFLu+uBoUutg=="
         }
       },
       "is_incremental": false,
@@ -453,7 +453,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemDL.ADO.WerknemerRepoADO.html",
-          "hash": "je5B6D6Crmn5DE64G6zKwg=="
+          "hash": "MrPNrPu3u67PHO9yE0CMJQ=="
         }
       },
       "is_incremental": false,
@@ -537,7 +537,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.AfspraakController.html",
-          "hash": "QSVUswvH0JDbYkzvhqztMw=="
+          "hash": "waWi+Xf2zLDpkTOjhSJW0Q=="
         }
       },
       "is_incremental": false,
@@ -549,7 +549,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.BedrijfController.html",
-          "hash": "Jg85Nt7SrDITlR+hUVnGKg=="
+          "hash": "93VkhcYcU2ezu3uKA2+W+w=="
         }
       },
       "is_incremental": false,
@@ -561,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html",
-          "hash": "2ZACKZiuE3Z07WrGRaaASQ=="
+          "hash": "kE6S260Otd/RXAAGvQF6ww=="
         }
       },
       "is_incremental": false,
@@ -581,11 +581,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.yml",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.AfspraakInputDTO.html",
-          "hash": "rxKV0e180t+bL/dy7lp0Gg=="
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html",
+          "hash": "N9OKlFoba4qm1FPB1oQF+g=="
         }
       },
       "is_incremental": false,
@@ -593,11 +593,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.yml",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.BedrijfInputDTO.html",
-          "hash": "N8YA40e7vgAE7czc33u8Mg=="
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html",
+          "hash": "SHkuQYpRuBPFwqGNDY7AYA=="
         }
       },
       "is_incremental": false,
@@ -605,11 +605,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.yml",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.BezoekerInputDTO.html",
-          "hash": "Xl8Nv1tM6Y4LX+p535YE0A=="
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html",
+          "hash": "LUtJFU1zTQl5lzc5nlY0qg=="
         }
       },
       "is_incremental": false,
@@ -621,7 +621,19 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html",
-          "hash": "VYyepjbMFac0xOpV4jhucg=="
+          "hash": "20kofCodeJmrOb+wvnhAmw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html",
+          "hash": "rtIb9NN8HHirxTGkPND0Qg=="
         }
       },
       "is_incremental": false,
@@ -633,7 +645,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Input.html",
-          "hash": "LoiIbBsHFCcfEHSX99xbAA=="
+          "hash": "peDp9pZ/evQccKQIU/+jiQ=="
         }
       },
       "is_incremental": false,
@@ -645,7 +657,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.AfspraakOutputDTO.html",
-          "hash": "G+3fy+Xj2k8dVugXNqob5w=="
+          "hash": "XSxjRxsLO2DmX/QQLDILpQ=="
         }
       },
       "is_incremental": false,
@@ -657,7 +669,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.BedrijfOutputDTO.html",
-          "hash": "SnM5WSjozwjVDu9dCo6yGw=="
+          "hash": "qbv/25YdC2C+icg/ygMPNw=="
         }
       },
       "is_incremental": false,
@@ -677,11 +689,23 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.IdInfoOutputDTO.html",
+          "hash": "swkNjeXP691UMyvSTm30uQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.yml",
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerInfoOutputDTO.html",
-          "hash": "igEGww+fGQsKBi5b7j6Esg=="
+          "hash": "/EXVG8WnnnW6ZftCdM5w3Q=="
         }
       },
       "is_incremental": false,
@@ -693,7 +717,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.WerknemerOutputDTO.html",
-          "hash": "PZcx3CpzQ8T0wD1PbuqGHw=="
+          "hash": "4jjz8uSFAZWEyttV2IXe/g=="
         }
       },
       "is_incremental": false,
@@ -705,31 +729,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Model.Output.html",
-          "hash": "r+Pz07r+NNfmuU87mkCtFA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.WerknemerInputDTO.html",
-          "hash": "PyMvJ65W0Ig85EvcG+AYig=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/BezoekersRegistratieSysteemREST.Model.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/BezoekersRegistratieSysteemREST.Model.html",
-          "hash": "4IuWZHbOE/jpCltrvuJdnA=="
+          "hash": "0lRhZorpzcT24DKjUxvx1g=="
         }
       },
       "is_incremental": false,
@@ -741,7 +741,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "Coxi4riFBqDdiJRpG1usXA=="
+          "hash": "iwIkizUUSQVAQIrD280BeQ=="
         }
       },
       "is_incremental": false,
@@ -753,7 +753,31 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "uWRmrgzWUql+Z/c+ulqoBQ=="
+          "hash": "zqkHS5S3GbZmSPL8emSKUA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/client_setup.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/client_setup.html",
+          "hash": "0sGbtNRFDxk0YYnGQO+yPA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/db_setup.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/db_setup.html",
+          "hash": "9NH4fOpdOd557h/Q7Dyt7w=="
         }
       },
       "is_incremental": false,
@@ -765,7 +789,31 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "/PSbybCjcG5BI2zfA8VI+Q=="
+          "hash": "dII44NlfjHFENxX4vqiDuA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/manual.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/manual.html",
+          "hash": "8hhXq/wrYuKxJWTOGBUxkw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/server_setup.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/server_setup.html",
+          "hash": "iD2sCJd0jwbcKuB3Cp7zOw=="
         }
       },
       "is_incremental": false,
@@ -777,7 +825,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "gB8AESyvNru97tzIZofEEg=="
+          "hash": "mJRfPSibPpA/pbiXVe3KrQ=="
         }
       },
       "is_incremental": false,
@@ -811,7 +859,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "nI72OXWKbrvVblsZxkeTNg=="
+          "hash": "g8Kmo+Mf+9Dxc7j/epv4OA=="
         }
       },
       "is_incremental": false,
@@ -834,7 +882,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "+rHUkRZHZRi5gd1aTU6lJA=="
+          "hash": "ez6Soj1saqIRhjoz+F9yaw=="
         }
       },
       "is_incremental": false,
@@ -855,7 +903,7 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 3,
+          "total_file_count": 7,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {

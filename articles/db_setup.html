@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace BezoekersRegistratieSysteemREST.Model.Input
-   </title>
+    <title>Database Setup </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace BezoekersRegistratieSysteemREST.Model.Input
-   ">
+    <meta name="title" content="Database Setup ">
     <meta name="generator" content="docfx 2.56.7.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -68,30 +66,54 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="BezoekersRegistratieSysteemREST.Model.Input">
-  
-  <h1 id="BezoekersRegistratieSysteemREST_Model_Input" data-uid="BezoekersRegistratieSysteemREST.Model.Input" class="text-break">Namespace BezoekersRegistratieSysteemREST.Model.Input
-  </h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
-      <h4><a class="xref" href="BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html">AfspraakInputDTO</a></h4>
-      <section><p>De DTO voor inkomende afspraak informatie</p>
-</section>
-      <h4><a class="xref" href="BezoekersRegistratieSysteemREST.Model.Input.BedrijfInputDTO.html">BedrijfInputDTO</a></h4>
-      <section><p>De DTO voor inkomende bedrijf informatie</p>
-</section>
-      <h4><a class="xref" href="BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO.html">BezoekerInputDTO</a></h4>
-      <section><p>De DTO voor inkomende bezoeker informatie</p>
-</section>
-      <h4><a class="xref" href="BezoekersRegistratieSysteemREST.Model.Input.WerknemerInfoInputDTO.html">WerknemerInfoInputDTO</a></h4>
-      <section><p>De DTO voor inkomende werknemer informatie</p>
-</section>
-      <h4><a class="xref" href="BezoekersRegistratieSysteemREST.Model.Input.WerknemerInputDTO.html">WerknemerInputDTO</a></h4>
-      <section><p>De DTO voor inkomende werknemer informatie</p>
-</section>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="database-setup">Database Setup</h1>
+
+<p>Om een server op te zetten, zult u eerst een database moeten hebben waar de
+server data kan opslaan en ophalen.</p>
+<p>In deze guide leggen wij stap voor stap uit hoe u dit kunt doen.</p>
+<h2 id="de-software">De Software</h2>
+<p>U zal eerst databank software nodig hebben dat op de achtergrond zal draaien.</p>
+<ul>
+<li>Installeer <a href="https://www.microsoft.com/en-us/Download/details.aspx?id=101064">Microsoft Express</a></li>
+<li>Installeer <a href="https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16">Microsoft SQL Server Managment Studio</a></li>
+</ul>
+<p>Deze twee programmas zal u gebruiken om de database te beheren.</p>
+<p>Microsoft Express is een database engine die T-SQL Querries accepteert om verscheidene database bewerkingen uit te voeren.</p>
+<p>Microsoft SQL Server Managment Studio is een grafische user interface dat het u gemakkelijk maakt om databanken aan te maken en bewerkingen uit te voeren.</p>
+<h2 id="de-databank">De Databank</h2>
+<p>Voordat wij de structuur van onze databank kunnen inladen, moeten wij eerst een databank hebben waar wij mee kunnen werken.</p>
+<p>De volgende stappen leggen uit hoe u een databank kunt aanmaken:</p>
+<ol>
+<li>Start Microsoft SQL Server Managment Studio op</li>
+<li>Klik op &quot;connect&quot;</li>
+<li>Klik met rechtermuisknop op de Databases folder</li>
+<li>Klik op &quot;new database&quot;</li>
+<li>Geef de database een naam en klik op OK</li>
+</ol>
+<p>U heeft nu een lege databank aangemaakt waarmee u kan werken. Hoera!</p>
+<h2 id="de-structuur">De Structuur</h2>
+<p>We hebben onze databank aangemaakt, maar de databank bevat nog niet alle
+tabellen en informatie dat we nodig hebben om onze server te laten draaien.</p>
+<p>Om de structuur aan te maken, bieden wij een SQL script aan dat u zal moeten uitvoeren op de databank.</p>
+<ol>
+<li>Selecteer uw nieuw aangemaakte Databank</li>
+<li>Klik boven in de menubalk op &quot;new query&quot;</li>
+<li>Paste de code van het <code>CreateTables.sql</code> bestand (in de repo) in de query</li>
+<li>Klik boven in de menubalk op &quot;execute&quot;</li>
+</ol>
+<p>Success! U heeft nu uw databank klaargezet voor gebruik.</p>
+<h2 id="connection-string">Connection String</h2>
+<p>Om een connectie met uw databank aan te leggen zal u iets nodig hebben dat heet een connection string.
+Een connection string is simpelweg en lijn tekst dat zegt hoe uw computer of programma met een databank in
+verbinding moet komen.</p>
+<p>Om de connection string te verkrijgen volgt u de volgende stappen:</p>
+<ol>
+<li>Klik met rechtermuisknop op uw Databank in Microsoft SQL Server Managment Studio</li>
+<li>Selecteer &quot;properties&quot;</li>
+<li>Kopieëer de ConnectionString property</li>
+</ol>
+<p>U heeft nu uw connection string!</p>
 </article>
           </div>
           
@@ -99,6 +121,9 @@
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Daxanius/projectwerk/blob/develop/docs/articles/db_setup.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
