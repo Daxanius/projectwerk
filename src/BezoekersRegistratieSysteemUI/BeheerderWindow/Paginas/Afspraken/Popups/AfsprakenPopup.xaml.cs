@@ -12,10 +12,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups {
-	public delegate void NieuweAfspraak(AfspraakDTO afspraak);
 	public partial class AfsprakenPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
-		public event NieuweAfspraak AfspraakToegevoegd;
+		public delegate void AfspraakToegevoegdEvent(AfspraakDTO afspraak);
+		public static event AfspraakToegevoegdEvent NieuweAfspraakToegevoegd;
 
 		#region Bind Propperties
 		private WerknemerDTO _werknemer;
@@ -121,7 +121,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), null, null, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
 			AfspraakDTO afspraak = ApiController.PostAfspraak(payload);
 
-			AfspraakToegevoegd?.Invoke(afspraak);
+			NieuweAfspraakToegevoegd?.Invoke(afspraak);
 
 			SluitOverlay();
 		}
