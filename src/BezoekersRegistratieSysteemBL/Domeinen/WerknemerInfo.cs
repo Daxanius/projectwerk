@@ -64,7 +64,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public void VoegWerknemerFunctieToe(string functie) {
 			if (string.IsNullOrWhiteSpace(functie))
 				throw new WerknemerInfoException("WerknemerInfo - VoegWerknemerFunctieToe - functie mag niet leeg zijn");
-			if (Functies.Contains(functie))
+			functie = Nutsvoorziening.NaamOpmaak(functie);
+            if (Functies.Contains(functie))
 				throw new WerknemerInfoException("WerknemerInfo - VoegWerknemerFunctieToe - werknemer heeft deze functie al");
 			Functies.Add(functie);
 		}

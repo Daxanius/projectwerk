@@ -44,7 +44,7 @@ namespace BezoekersRegistratieSysteemBL {
         /// </summary>
         /// <param name="input"></param>
         /// <returns>Opgemaakte tekst</returns>
-        public static string FunctieNaamOpmaak(string input) {
+        public static string NaamOpmaak(string input) {
 			string functie = RegexWhitespace.Replace(input, " ").Trim();
             return $"{char.ToUpper(functie[0])}{functie.Substring(1).ToLower()}";
         }

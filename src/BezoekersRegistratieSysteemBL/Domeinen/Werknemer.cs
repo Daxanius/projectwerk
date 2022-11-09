@@ -62,7 +62,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (string.IsNullOrWhiteSpace(voornaam))
 				throw new WerknemerException("Werknemer - ZetVoornaam - voornaam mag niet leeg zijn");
-			Voornaam = voornaam.Trim();
+			voornaam = voornaam.Trim();
+			Voornaam = Nutsvoorziening.NaamOpmaak(voornaam);
 		}
 
         /// <summary>
@@ -74,8 +75,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		{
 			if (string.IsNullOrWhiteSpace(achternaam))
 				throw new WerknemerException("Werknemer - ZetAchternaam - achternaam mag niet leeg zijn");
-			Achternaam = achternaam.Trim();
-		}
+            Achternaam = Nutsvoorziening.NaamOpmaak(achternaam);
+        }
 
         /// <summary>
         /// Controleert voorwaarden op geldigheid en voegt bedrijf toe aan werknemer.
