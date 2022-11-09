@@ -30,7 +30,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Input {
 		/// <param name="voornaam"></param>
 		/// <param name="achternaam"></param>
 		/// <param name="werknemerInfo"></param>
-		public WerknemerInputDTO(string voornaam, string achternaam, List<WerknemerInfoInputDTO> werknemerInfo) {
+		public WerknemerInputDTO(string voornaam, string achternaam, IEnumerable<WerknemerInfoInputDTO> werknemerInfo) {
 			Voornaam = voornaam;
 			Achternaam = achternaam;
 			WerknemerInfo = werknemerInfo;
@@ -49,6 +49,6 @@ namespace BezoekersRegistratieSysteemREST.Model.Input {
 		/// <summary>
 		/// De initiele werknemerinfo
 		/// </summary>
-		public List<WerknemerInfoInputDTO> WerknemerInfo { get; set; } = new();
+		public IEnumerable<WerknemerInfoInputDTO> WerknemerInfo { get; set; }
 	}
 }
