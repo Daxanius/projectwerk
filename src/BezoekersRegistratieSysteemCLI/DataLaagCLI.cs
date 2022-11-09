@@ -1,10 +1,5 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemDL;
-using BezoekersRegistratieSysteemDL.ADO;
+﻿using BezoekersRegistratieSysteemDL.ADO;
 using Newtonsoft.Json;
-using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace BezoekersRegistratieSysteemCLI {
 	public class DataLaagCLI {

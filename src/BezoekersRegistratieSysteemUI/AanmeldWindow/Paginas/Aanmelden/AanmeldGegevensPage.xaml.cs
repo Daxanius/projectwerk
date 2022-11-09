@@ -1,7 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
-using BezoekersRegistratieSysteemUI.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

@@ -1,15 +1,12 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
-using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
 	public partial class WerknemersPopup : UserControl, INotifyPropertyChanged {
