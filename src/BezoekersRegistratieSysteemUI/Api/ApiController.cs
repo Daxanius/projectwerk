@@ -438,24 +438,37 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		#endregion
 
 		#region Bedrijf
-		public static BedrijfDTO FetchBedrijf(long bedrijfId) {
+		public static BedrijfOutputDTO? FetchBedrijf(long bedrijfId) {
 			return Task.Run(async () => {
-				(bool isvalid, BedrijfDTO apiBedrijf) = await Get<BedrijfDTO>($"bedrijf/{bedrijfId}");
+				(bool isvalid, BedrijfOutputDTO bedrijf) = await Get<BedrijfOutputDTO>($"bedrijf/{bedrijfId}");
 				if (isvalid) {
-					return new BedrijfDTO(apiBedrijf.Naam, apiBedrijf.BTW, apiBedrijf.TelefoonNummer, apiBedrijf.Email, apiBedrijf.Adres);
+					return bedrijf;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het bedrijf");
 				}
 			}).Result;
 		}
 
-		public static BedrijfOutputDTO? FetchBedrijfOpNaam(string bedrijfNaam) {
+		public static AfspraakOutputDTO? PostAfspraak(AfspraakInputDTO afspraak) {
 			return Task.Run(async () => {
-				(bool isvalid, BedrijfOutputDTO bedrijf) = await Get<BedrijfOutputDTO>($"bedrijf/naam/{bedrijfNaam}");
+				string body = JsonConvert.SerializeObject(afspraak);
+				(bool isvalid, AfspraakOutputDTO afspraakOutput) = await Post<AfspraakOutputDTO>($"afspraak/", body);
 				if (isvalid) {
-					return bedrijf;
+					return afspraakOutput;
 				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het bedrijf");
+					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
+				}
+			}).Result;
+		}
+		#endregion
+
+		public static IEnumerable<BedrijfOutputDTO>? FetchBedrijven() {
+			return Task.Run(async () => {
+				(bool isvalid, IEnumerable<BedrijfOutputDTO> bedrijven) = await Get<IEnumerable<BedrijfOutputDTO>>($"bedrijf");
+				if (isvalid) {
+					return bedrijven;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de bedrijven");
 				}
 			}).Result;
 		}

@@ -55,14 +55,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_et = _st.AddHours(2);
 
 			_b = new("bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-			_w = new("werknemer", "werknemersen");
+			_w = new("werknemer", "werknemersen", new());
 
 			_bd = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 
 			_a = new(_b, 0, 0);
 
 			Bedrijf b = _bd.NaarBusiness();
-			Werknemer w = _w.NaarBusiness();
+			Werknemer w = _w.NaarBusiness(_bedrijfManager);
 
 			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemersen@bedrijf.com", "nietsen");
 
