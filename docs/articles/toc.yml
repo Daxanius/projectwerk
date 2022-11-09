@@ -1,2 +1,10 @@
-- name: Introduction
+- name: Introductie
   href: intro.md
+- name: Gebruikersaanwijzingen
+  href: manual.md
+- name: Database Setup
+  href: db_setup.md
+- name: Server Setup
+  href: server_setup.md
+- name: Client Setup
+  href: client_setup.md
