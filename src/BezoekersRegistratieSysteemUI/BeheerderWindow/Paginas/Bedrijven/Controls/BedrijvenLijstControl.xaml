@@ -8,16 +8,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Loaded="UserControl_Loaded"
     mc:Ignorable="d">
     <ListView
-        Name="BedrijvenGrid"
         Padding="0,5,0,0"
         HorizontalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
         Background="Transparent"
         BorderBrush="Transparent"
-        Loaded="UserControl_Loaded"
+        ItemsSource="{Binding ItemSource}"
         ScrollViewer.CanContentScroll="False">
         <ListView.Style>
             <Style TargetType="ListView">
@@ -194,5 +192,4 @@
             </GridView>
         </ListView.View>
     </ListView>
-    <!--<DataGrid x:Name="BedrijvenGrid" />-->
 </UserControl>

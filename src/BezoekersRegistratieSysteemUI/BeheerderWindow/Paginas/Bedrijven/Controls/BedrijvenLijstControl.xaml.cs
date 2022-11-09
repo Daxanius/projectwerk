@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,35 +14,26 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Controls {
-	/// <summary>
-	/// Interaction logic for BedrijvenLijstControl.xaml
-	/// </summary>
 	public partial class BedrijvenLijstControl : UserControl, INotifyPropertyChanged {
-		bool isLijstOpgevult = false;
+		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
+		  nameof(ItemSource),
+		  typeof(ObservableCollection<BedrijfDTO>),
+		  typeof(BedrijvenLijstControl),
+		  new PropertyMetadata(new ObservableCollection<BedrijfDTO>())
+		);
+
+		public ObservableCollection<BedrijfDTO> ItemSource {
+			get { return (ObservableCollection<BedrijfDTO>)GetValue(ItemSourceProperty); }
+			set { SetValue(ItemSourceProperty, value); }
+		}
+
 		public BedrijvenLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
-
-			BedrijvenGrid.ItemsSource = new List<BedrijfDTO>();
-
-			BedrijvenPopup.UpdateBedrijfLijst += UpdateLijstMetNieuwToegeVoegdBedrijf;
 		}
 
-		private void UpdateLijstMetNieuwToegeVoegdBedrijf(BedrijfDTO bedrijf) {
-			((List<BedrijfDTO>)BedrijvenGrid.ItemsSource).Add(bedrijf);
-			UpdatePropperty(nameof(BedrijvenGrid.ItemsSource));
-		}
-
-		#region Action Button
 		private Border _selecteditem;
-
-
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			//Er is 2 keer geklikt
-			if (e.ClickCount == 2) {
-				return;
-			}
-
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
 				_selecteditem.BorderThickness = new Thickness(0);
@@ -60,22 +52,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 		private void KlikOpBedrijfOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
 			BedrijfDTO bedrijf = (BedrijfDTO)b.CommandParameter;
-		}
-
-		#endregion
-
-		private void UserControl_Loaded(object sender, RoutedEventArgs e) {
-			if (isLijstOpgevult) return;
-
-			Task.Run(() => {
-				Dispatcher.Invoke(() => {
-					List<BedrijfDTO> bedrijven = (List<BedrijfDTO>)BedrijvenGrid.DataContext;
-					BedrijvenGrid.ItemsSource = bedrijven;
-				});
-				UpdatePropperty(nameof(BedrijvenGrid.ItemsSource));
-			});
-
-			isLijstOpgevult = true;
 		}
 
 		#region ProppertyChanged

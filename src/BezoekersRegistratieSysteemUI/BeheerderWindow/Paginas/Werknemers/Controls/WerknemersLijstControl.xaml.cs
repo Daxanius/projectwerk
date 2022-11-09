@@ -19,9 +19,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Controls {
-	/// <summary>
-	/// Interaction logic for BedrijvenLijstControl.xaml
-	/// </summary>
 	public partial class WerknemersLijstControl : UserControl {
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
