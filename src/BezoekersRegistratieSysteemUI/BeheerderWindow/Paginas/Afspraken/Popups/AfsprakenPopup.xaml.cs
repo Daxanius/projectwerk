@@ -136,6 +136,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.FetchWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
 		}
 
+		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
+		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) {
+			e.Handled = regexGeenCijfers.IsMatch(e.Text);
+		}
+
 		private void SluitOverlay() {
 			Werknemer = null;
 
