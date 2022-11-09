@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,13 +18,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 	/// </summary>
 	public partial class AfsprakenLijstControl : UserControl {
 		#region Afspraken
-		private ObservableCollection<AfspraakDTO> _afspraken;
-		public ObservableCollection<AfspraakDTO> Afspraken {
-			get => _afspraken; set {
-				_afspraken = value;
-				_afspraken.OrderBy(a => a.StartTijd);
-			}
-		}
+		public ObservableCollection<AfspraakDTO> Afspraken { get; set; }
 		#endregion
 
 		public AfsprakenLijstControl() {
@@ -32,7 +27,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			this.DataContext = this;
 			InitializeComponent();
 
-			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => Afspraken.Add(afspraak);
+			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
+				Task.Run(() => {
+					Dispatcher.Invoke(() => {
+						Afspraken.Add(afspraak);
+						List<AfspraakDTO> afspraken = Afspraken.ToList();
+						Afspraken.Clear();
+						afspraken.OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam).ToList().ForEach(a => Afspraken.Add(a));
+					});
+				});
+			};
 
 			FetchAlleAfspraken();
 		}
@@ -78,9 +82,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 				apiAfspraken.ForEach((api) => {
 					WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
 					BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-					Afspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bedrijf.Naam , werknemer, api.Starttijd, api.Eindtijd));
+					Afspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bedrijf.Naam, werknemer, api.Starttijd, api.Eindtijd));
 				});
-            } else {
+			} else {
 				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de afspraaken", "Error /afspraak");
 			}
 		}
