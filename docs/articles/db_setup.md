@@ -37,7 +37,7 @@ Om de structuur aan te maken, bieden wij een SQL script aan dat u zal moeten uit
 
 1. Selecteer uw nieuw aangemaakte Databank
 2. Klik boven in de menubalk op "new query"
-3. Paste de code van [dit](../../sql/CreateTables.sql) bestand in de query
+3. Paste de code van het `CreateTables.sql` bestand (in de repo) in de query
 4. Klik boven in de menubalk op "execute"
 
 Success! U heeft nu uw databank klaargezet voor gebruik.
