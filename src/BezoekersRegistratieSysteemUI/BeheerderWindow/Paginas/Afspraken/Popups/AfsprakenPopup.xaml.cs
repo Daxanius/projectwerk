@@ -118,7 +118,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			WerknemerDTO werknemer = Werknemer;
-			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
+			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), null, null, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
 			AfspraakDTO afspraak = ApiController.PostAfspraak(payload);
 
 			AfspraakToegevoegd?.Invoke(afspraak);

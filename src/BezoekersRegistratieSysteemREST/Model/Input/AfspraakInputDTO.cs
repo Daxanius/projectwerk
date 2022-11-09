@@ -19,20 +19,25 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 			Werknemer werknemer = werknemerManager.GeefWerknemer(WerknemerId);
 			Bezoeker bezoeker = Bezoeker.NaarBusiness();
 			Bedrijf bedrijf = bedrijfManager.GeefBedrijf(BedrijfId);
-			return new(DateTime.Now, bedrijf, bezoeker, werknemer);
+
+			return new(1, Starttijd ?? DateTime.Now, Eindtijd, bedrijf, bezoeker, werknemer);
 		}
 
 		/// <summary>
 		/// De constructor.
 		/// </summary>
 		/// <param name="bezoeker"></param>
+		/// <param name="starttijd"></param>
+		/// <param name="eindtijd"></param>
 		/// <param name="werknemerId"></param>
 		/// <param name="bedrijfId"></param>
-		public AfspraakInputDTO(BezoekerInputDTO bezoeker, long werknemerId, long bedrijfId)
+		public AfspraakInputDTO(BezoekerInputDTO bezoeker, DateTime? starttijd, DateTime? eindtijd, long werknemerId, long bedrijfId)
 		{
 			WerknemerId = werknemerId;
 			Bezoeker = bezoeker;
 			BedrijfId = bedrijfId;
+			Starttijd = starttijd;
+			Eindtijd = eindtijd;
 		}
 
 		/// <summary>
@@ -49,5 +54,15 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 		/// Het bedrijf waarbinnen de afspraak is gemaakt.
 		/// </summary>
 		public long BedrijfId { get; set; }
+
+		/// <summary>
+		/// De starttijd van de Afspraak, is standaard DateTime.Now.
+		/// </summary>
+		public DateTime? Starttijd { get; set; }
+
+		/// <summary>
+		/// De eindtijd van de afpsraak.
+		/// </summary>
+		public DateTime? Eindtijd { get; set; }
 	}
 }
