@@ -99,10 +99,14 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         query += "WHERE wn.id = @id";
                         cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
                         cmd.Parameters["@id"].Value = werknemerId;
+
                     }
-                    cmd.CommandText = query;
-                    int i = (int)cmd.ExecuteScalar();
-                    return (i > 0);
+                    //if (werknemerId.HasValue || (werknemer is not null && werknemer.Id != 0)) {
+                        cmd.CommandText = query;
+                        int i = (int)cmd.ExecuteScalar();
+                        return (i > 0);
+                    //}
+                    
                 }
             } catch (Exception ex) {
                 WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
@@ -739,6 +743,11 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
+        /// <summary>
+        /// Stelt id van werknemer in in het werknemer object.
+        /// </summary>
+        /// <param name="werknemer">werknemer object dat id moet krijgen.</param>
+        /// <exception cref="WerknemerADOException">Faalt om id van werknemer te zetten.</exception>
         public void GeefWerknemerId(Werknemer werknemer)
         {
             SqlConnection con = GetConnection();

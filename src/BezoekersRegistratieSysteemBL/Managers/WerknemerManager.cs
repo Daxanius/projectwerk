@@ -1,6 +1,8 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace BezoekersRegistratieSysteemBL.Managers
 {
@@ -64,11 +66,12 @@ namespace BezoekersRegistratieSysteemBL.Managers
             try {
                 foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
                     foreach (var functie in kvpBedrijf.Value.GeefWerknemerFuncties()) {
-                        if (!_werknemerRepository.BestaatFunctie(functie)) {
-                            VoegFunctieToe(functie);
-                        }
-                        if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[kvpBedrijf.Key].GeefWerknemerFuncties().Contains(functie)) {
-                            _werknemerRepository.VoegWerknemerFunctieToe(werknemer, kvpBedrijf.Value, functie);
+                        string bewerkteFunctie = Nutsvoorziening.FunctieNaamOpmaak(functie);
+                        if (!_werknemerRepository.BestaatFunctie(bewerkteFunctie)) {
+                            VoegFunctieToe(bewerkteFunctie);
+                        }                      
+                        if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(kvpBedrijf.Key) || !_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[kvpBedrijf.Key].GeefWerknemerFuncties().Contains(bewerkteFunctie)) {
+                            _werknemerRepository.VoegWerknemerFunctieToe(werknemer, kvpBedrijf.Value, bewerkteFunctie);
                         }
                     }
                 }
@@ -121,16 +124,19 @@ namespace BezoekersRegistratieSysteemBL.Managers
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer bestaat niet");
             if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(werknemerInfo.Bedrijf))
                 throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer niet werkzaam bij dit bedrijf");
-            if (_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties().Contains(werknemerInfo.GeefWerknemerFuncties().First()))
-            throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft deze functie al bij dit bedrijf");
+            var dbWerknemer = _werknemerRepository.GeefWerknemer(werknemer.Id);            
+            var nieuweFuncties = werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties().Except(dbWerknemer.GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties());
+            if (nieuweFuncties.Count() == 0)
+                throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft geen extra functies gekregen");
 			try
 			{
-                foreach (var functie in werknemerInfo.GeefWerknemerFuncties()) {
-                    if (!_werknemerRepository.BestaatFunctie(functie)) {
-                        VoegFunctieToe(functie);
+                foreach (var functie in nieuweFuncties) {
+                    string bewerkteFunctie = Nutsvoorziening.FunctieNaamOpmaak(functie);
+                    if (!_werknemerRepository.BestaatFunctie(bewerkteFunctie)) {
+                        VoegFunctieToe(bewerkteFunctie);
                     }
-                    if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties().Contains(functie)) {
-                        _werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo, functie);
+                    if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties().Contains(bewerkteFunctie)) {
+                        _werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo, bewerkteFunctie);
                     }
                 }
 			} catch (Exception ex)
@@ -171,7 +177,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben");
 			try
 			{
-				functie = Nutsvoorziening.VerwijderWhitespace(functie).ToLower();
+				functie = Nutsvoorziening.FunctieNaamOpmaak(functie);
 				_werknemerRepository.VerwijderWerknemerFunctie(werknemer, bedrijf, functie);
 			} catch (Exception ex)
 			{
@@ -314,7 +320,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
                 throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie bestaat al");
             try
             {
-                functienaam = Nutsvoorziening.VerwijderWhitespace(functienaam).ToLower();
+                functienaam = Nutsvoorziening.FunctieNaamOpmaak(functienaam);
 				_werknemerRepository.VoegFunctieToe(functienaam);
             }
             catch (Exception ex)
