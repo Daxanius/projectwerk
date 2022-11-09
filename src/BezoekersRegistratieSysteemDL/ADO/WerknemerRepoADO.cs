@@ -380,11 +380,11 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// Voegt gewenste functie toe aan werknemer uit specifiek bedrijf.
         /// </summary>
         /// <param name="werknemer">Werknemer object die functie toegewezen wenst te worden.</param>
-        /// <param name="bedrijf">Bedrijf object waar werknemer werkzaam.</param>
+        /// <param name="werknemerInfo">WerknemerInfo object object waar werknemer werkzaam.</param>
         /// <param name="functie">Functie die toegevoegd wenst te worden.</param>
         /// <exception cref="WerknemerADOException">Faalt werknemer functie toe te kennen voor specifiek bedrijf.</exception>
         /// <remarks>Voegt een entry toe aan de werknemer bedrijf tabel in de databank.</remarks>
-        public void VoegWerknemerFunctieToe(Werknemer werknemer, WerknemerInfo werknemerInfo) {
+        public void VoegWerknemerFunctieToe(Werknemer werknemer, WerknemerInfo werknemerInfo, string functie) {
             SqlConnection con = GetConnection();
             string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, WerknemerEmail, FunctieId) " +
                                  "VALUES(@bedrijfId,@werknemerId, @email,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
@@ -399,7 +399,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.Parameters["@werknemerId"].Value = werknemer.Id;
                     cmd.Parameters["@bedrijfId"].Value = werknemerInfo.Bedrijf.Id;
                     cmd.Parameters["@email"].Value = werknemerInfo.Email;
-                    cmd.Parameters["@FunctieNaam"].Value = werknemerInfo.GeefWerknemerFuncties().First();
+                    cmd.Parameters["@FunctieNaam"].Value = functie;
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
@@ -431,8 +431,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                     cmd.Parameters["@ANaam"].Value = werknemer.Achternaam;
                     long i = (long)cmd.ExecuteScalar();
                     werknemer.ZetId(i);
-                    //Dit voegt de bedrijven/functie toe aan uw werknemer in de DB
-                    VoegFunctieToeAanWerknemer(werknemer);
+                    ////Dit voegt de bedrijven/functie toe aan uw werknemer in de DB
+                    //VoegFunctieToeAanWerknemer(werknemer);
                     return werknemer;
                 }
             } catch (Exception ex) {
@@ -444,73 +444,73 @@ namespace BezoekersRegistratieSysteemDL.ADO {
             }
         }
 
-        /// <summary>
-        /// voegt functie toe aan werknemer voor een specifiek bedrijf.
-        /// </summary>
-        /// <param name="werknemer">Werknemer object die functie toegewezen wenst te worden voor een bedrijf.</param>
-        /// <exception cref="WerknemerADOException">Faalt werknemer functie toe te kennen voor specifiek bedrijf.</exception>
-        private void VoegFunctieToeAanWerknemer(Werknemer werknemer) {
+        ///// <summary>
+        ///// voegt functie toe aan werknemer voor een specifiek bedrijf.
+        ///// </summary>
+        ///// <param name="werknemer">Werknemer object die functie toegewezen wenst te worden voor een bedrijf.</param>
+        ///// <exception cref="WerknemerADOException">Faalt werknemer functie toe te kennen voor specifiek bedrijf.</exception>
+        //private void VoegFunctieToeAanWerknemer(Werknemer werknemer) {
 
-            bool bestaatJob = false;
+        //    bool bestaatJob = false;
 
-            SqlConnection con = GetConnection();
-            string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, WerknemerEmail, FunctieId) " +
-                                 "VALUES(@bedrijfId,@werknemerId, @email,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
-            try {
-                using (SqlCommand cmdCheck = con.CreateCommand())
-                using (SqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
-                        foreach (var functieNaam in kvpBedrijf.Value.GeefWerknemerFuncties()) {
-                            string queryDoesJobExist = "SELECT COUNT(*) " +
-                                                       "FROM WerknemerBedrijf " +
-                                                       "WHERE WerknemerId = @werknemerId " +
-                                                       "AND bedrijfId = @bedrijfId " +
-                                                       "AND FunctieId = (SELECT Id FROM Functie WHERE FunctieNaam = @functieNaam) " +
-                                                       "AND Status = 1";
+        //    SqlConnection con = GetConnection();
+        //    string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, WerknemerEmail, FunctieId) " +
+        //                         "VALUES(@bedrijfId,@werknemerId, @email,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
+        //    try {
+        //        using (SqlCommand cmdCheck = con.CreateCommand())
+        //        using (SqlCommand cmd = con.CreateCommand()) {
+        //            con.Open();
+        //            foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
+        //                foreach (var functieNaam in kvpBedrijf.Value.GeefWerknemerFuncties()) {
+        //                    string queryDoesJobExist = "SELECT COUNT(*) " +
+        //                                               "FROM WerknemerBedrijf " +
+        //                                               "WHERE WerknemerId = @werknemerId " +
+        //                                               "AND bedrijfId = @bedrijfId " +
+        //                                               "AND FunctieId = (SELECT Id FROM Functie WHERE FunctieNaam = @functieNaam) " +
+        //                                               "AND Status = 1";
 
-                            cmdCheck.CommandText = queryDoesJobExist;
+        //                    cmdCheck.CommandText = queryDoesJobExist;
 
-                            if (!bestaatJob) {
-                                cmdCheck.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-                                cmdCheck.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-                                cmdCheck.Parameters.Add(new SqlParameter("@functieNaam", SqlDbType.VarChar));
-                            }
+        //                    if (!bestaatJob) {
+        //                        cmdCheck.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+        //                        cmdCheck.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+        //                        cmdCheck.Parameters.Add(new SqlParameter("@functieNaam", SqlDbType.VarChar));
+        //                    }
 
-                            cmdCheck.Parameters["@werknemerId"].Value = werknemer.Id;
-                            cmdCheck.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
-                            cmdCheck.Parameters["@functieNaam"].Value = functieNaam;
+        //                    cmdCheck.Parameters["@werknemerId"].Value = werknemer.Id;
+        //                    cmdCheck.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
+        //                    cmdCheck.Parameters["@functieNaam"].Value = functieNaam;
 
-                            int i = (int)cmdCheck.ExecuteScalar();
-                            if (i == 0) {
-                                cmd.CommandText = queryInsert;
+        //                    int i = (int)cmdCheck.ExecuteScalar();
+        //                    if (i == 0) {
+        //                        cmd.CommandText = queryInsert;
 
-                                if (!bestaatJob) {
-                                    cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-                                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-                                    cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
-                                    cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
+        //                        if (!bestaatJob) {
+        //                            cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+        //                            cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+        //                            cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
+        //                            cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
 
-                                    bestaatJob = true;
-                                }
+        //                            bestaatJob = true;
+        //                        }
 
-                                cmd.Parameters["@werknemerId"].Value = werknemer.Id;
-                                cmd.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
-                                cmd.Parameters["@email"].Value = kvpBedrijf.Value.Email;
-                                cmd.Parameters["@FunctieNaam"].Value = functieNaam;
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-                    }
-                }
-            } catch (Exception ex) {
-                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-                exx.Data.Add("werknemer", werknemer);
-                throw exx;
-            } finally {
-                con.Close();
-            }
-        }
+        //                        cmd.Parameters["@werknemerId"].Value = werknemer.Id;
+        //                        cmd.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
+        //                        cmd.Parameters["@email"].Value = kvpBedrijf.Value.Email;
+        //                        cmd.Parameters["@FunctieNaam"].Value = functieNaam;
+        //                        cmd.ExecuteNonQuery();
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    } catch (Exception ex) {
+        //        WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+        //        exx.Data.Add("werknemer", werknemer);
+        //        throw exx;
+        //    } finally {
+        //        con.Close();
+        //    }
+        //}
 
         /// <summary>
         /// Bewerkt gegevens van een werknemer adhv werknemer object en bedrijf object.
