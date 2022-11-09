@@ -1,8 +1,11 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.ConvertedClasses;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -133,21 +136,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
 			KiesMedewerkerEiland.Visibility = Visibility.Visible;
-
-			// Test Data Werknemers
-
-			MedewerkersLijstVanBedrijf.ItemsSource = new List<WerknemerDTO>() {
-			new WerknemerDTO(1, "Stan", "Persoons","Stan@gmail.com", false),
-			new WerknemerDTO(2, "Stan1", "Persoons1","Stan@gmail.com", false),
-			new WerknemerDTO(3, "Stan2", "Persoons2","Stan@gmail.com", true),
-			new WerknemerDTO(4, "Stan3", "Persoons3","Stan@gmail.com", true),
-			new WerknemerDTO(5, "Stan4", "Persoons4","Stan@gmail.com", false),
-			new WerknemerDTO(6, "Stan5", "Persoons5","Stan@gmail.com", false)
-			};
-
+			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.FetchWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
 		}
-
-		// Einde Test Data
 
 		private void SluitOverlay() {
 			Werknemer = null;

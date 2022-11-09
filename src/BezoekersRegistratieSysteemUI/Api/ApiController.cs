@@ -462,17 +462,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		}
 		#endregion
 
-		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersVanBedrijf(long bedrijfId) {
-			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"bedrijf/werknemer/{bedrijfId}");
-				if (isvalid) {
-					return werknemers;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
-				}
-			}).Result;
-		}
-
 		public static BedrijfDTO PostBedrijf(BedrijfInputDTO bedrijf) {
 			return Task.Run(async () => {
 				string body = JsonConvert.SerializeObject(bedrijf);

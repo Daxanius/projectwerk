@@ -97,7 +97,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 
 			MessageBox.Show($"Bedrijf toegevoegd: Naam = {bedrijf.Naam}");
 
-			Task.Run(() => UpdateBedrijfLijst?.Invoke(bedrijf));
+			UpdateBedrijfLijst?.Invoke(bedrijf);
 
 			SluitOverlay();
 		}
