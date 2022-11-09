@@ -15,9 +15,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
-	/// <summary>
-	/// Interaction logic for DashBoardPage.xaml
-	/// </summary>
 	public partial class DashBoardPage : Page {
 		private static DashBoardPage instance = null;
 		private static readonly object padlock = new object();
@@ -32,10 +29,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 				}
 			}
 		}
-
-		/// <summary>
-		/// ///////////////////////////////////////////////////
-		/// </summary>
 
 		#region Public Propperty
 		public string Datum {

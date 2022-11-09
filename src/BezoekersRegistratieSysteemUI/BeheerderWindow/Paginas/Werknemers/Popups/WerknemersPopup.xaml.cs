@@ -10,9 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
-	/// <summary>
-	/// Interaction logic for WerknemersPopup.xaml
-	/// </summary>
 	public partial class WerknemersPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -58,10 +55,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 		public WerknemersPopup() {
 			this.DataContext = this;
 			InitializeComponent();
-		}
-
-		private void VoegNieuweFunctieToe(object sender, MouseButtonEventArgs e) {
-
 		}
 
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {

@@ -91,6 +91,18 @@
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\AfsprakenPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\BezoekersAfsprakenLijst.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\BezoekersAfsprakenLijst.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemerAfsprakenLijst.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemersAfsprakenLijst.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\OpDatumLijstControl.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
@@ -120,6 +132,22 @@
 		  <SubType>Designer</SubType>
 		</Page>
 		<Page Update="BeheerderWindow\Paginas\Afspraken\AfsprakenPage.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\BezoekersAfsprakenLijst.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\BezoekersAfsprakenLijst.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemerAfsprakenLijst.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemersAfsprakenLijst.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>

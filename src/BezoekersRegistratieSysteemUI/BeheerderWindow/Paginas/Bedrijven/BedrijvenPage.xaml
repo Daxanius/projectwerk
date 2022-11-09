@@ -77,11 +77,11 @@
                 Background="{StaticResource LichtGrijsAccent}"
                 CornerRadius="25"
                 DockPanel.Dock="Bottom">
-                <controls:BedrijvenLijstControl x:Name="BedrijvenLijst" />
+                <controls:BedrijvenLijstControl x:Name="BedrijvenLijstControl" />
             </Border>
         </DockPanel>
         <popups:BedrijvenPopup
-            x:Name="BedrijvenPopup"
+            x:Name="bedrijvenPopup"
             Grid.Row="0"
             Visibility="Collapsed" />
     </Grid>

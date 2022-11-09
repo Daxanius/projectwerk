@@ -76,7 +76,7 @@
                         FontSize="45"
                         FontWeight="Bold"
                         Foreground="{StaticResource DonkerBlauw}"
-                        Text="{Binding GeselecteerdBedrijf.Naam}"/>
+                        Text="{Binding GeselecteerdBedrijf.Naam}" />
                     <ComboBox
                         Height="50"
                         MinWidth="120"
