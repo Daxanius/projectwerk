@@ -40,16 +40,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VoegWerknemerToe(null));
 		}
 
-		[Fact]
-		public void VoegWerknemerToe_Invalid_WerknemerBestaatAl() {
-			_mockRepo = new Mock<IWerknemerRepository>();
-			_werknemerManager = new WerknemerManager(_mockRepo.Object);
-
-			//"BedrijfManager - VoegWerknemerToe - werknemer bestaat al"
-			_mockRepo.Setup(x => x.BestaatWerknemer(_w)).Returns(false);
-			var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VoegWerknemerToe(_w));
-			Assert.Equal("WerknemerManager - VoegWerknemerToe - werknemer bestaat al", ex.Message);
-		}
         #endregion
 
         #region UnitTest VerwijderWerknemer
