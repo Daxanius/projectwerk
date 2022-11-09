@@ -73,10 +73,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
+			Naam = Naam.Trim();
+			BtwNummer = BtwNummer.Trim();
+			TelefoonNummer = TelefoonNummer.Trim();
+			Email = Email.Trim();
+			Adres = Adres.Trim();
+
 			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(Naam, BtwNummer, TelefoonNummer, Email, Adres);
 			BedrijfDTO bedrijf = ApiController.PostBedrijf(nieuwBedrijf);
 
-			MessageBox.Show($"Bedrijf toegevoegd: Naam = {bedrijf.Naam}");
+			MessageBox.Show($"{Naam} successvol toegevoegd", "Bedrijf toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
 
 			UpdateBedrijfLijst?.Invoke(bedrijf);
 

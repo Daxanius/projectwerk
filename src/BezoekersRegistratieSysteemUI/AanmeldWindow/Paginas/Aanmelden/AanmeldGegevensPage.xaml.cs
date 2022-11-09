@@ -144,10 +144,16 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 					return;
 				}
 
-				BezoekerDTO bezoeker = new(Voornaam.Trim(), Achternaam.Trim(), Email.Trim(), Bedrijf.Trim());
+				Voornaam = Voornaam.Trim();
+				Achternaam = Achternaam.Trim();
+				Email = Email.Trim();
+				Bedrijf = Bedrijf.Trim();
+
+				BezoekerDTO bezoeker = new(Voornaam, Achternaam, Email, Bedrijf);
 
 				if (werknemer.Id.HasValue) {
-					MessageBoxResult result = MessageBox.Show("Bent u zeker ?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
+					MessageBoxResult result = MessageBox.Show($"Zijn ingevoerde gegevens correct?" +
+						$"\n\nNaam: {Voornaam} {Achternaam}\nEmail: {Email}\nBedrijf: {Bedrijf}", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
 					if (result == MessageBoxResult.Yes)
 						MaakNieuweAfspraak(GeselecteerdBedrijf.Id, werknemer.Id.Value, bezoeker);
 					else return;
