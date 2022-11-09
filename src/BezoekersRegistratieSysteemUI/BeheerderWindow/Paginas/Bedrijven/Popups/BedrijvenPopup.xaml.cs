@@ -79,6 +79,31 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			Email = Email.Trim();
 			Adres = Adres.Trim();
 
+			if (string.IsNullOrWhiteSpace(Naam)) {
+				MessageBox.Show("Naam is verplicht");
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(BtwNummer)) {
+				MessageBox.Show("BtwNummer is verplicht");
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(TelefoonNummer)) {
+				MessageBox.Show("TelefoonNummer is verplicht");
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(Email)) {
+				MessageBox.Show("Email is verplicht");
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(Adres)) {
+				MessageBox.Show("Adres is verplicht");
+				return;
+			}
+
 			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(Naam, BtwNummer, TelefoonNummer, Email, Adres);
 			BedrijfDTO bedrijf = ApiController.PostBedrijf(nieuwBedrijf);
 
