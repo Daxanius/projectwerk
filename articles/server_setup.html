@@ -71,26 +71,26 @@
 
 <p>In deze guide leggen wij u uit hoe u de server voor .inside kunt opzetten. De server bied een centrale
 plek voor de data en controles aan voor de applicatie.</p>
-<p>Hier gaan wij ervan uit dat u al een database klaar heeft staan (<a href="db_setup.html">Database Setup</a>)</p>
+<p>⚠️ We gaan hier verder op de <a href="db_setup.html">Database Setup</a> guide.</p>
 <h2 id="omgevingsvariabelen">Omgevingsvariabelen</h2>
-<p>Om de server te runnen moet de server uw database connection string weten. Deze hebben wij verkregen
+<p>Om de server te runnen moet de server uw database connectie string meekrijgen. Deze hebben wij verkregen
 in <a href="db_setup.html">deze</a> guide.</p>
-<p>Om de connection string aan onze server te geven, gaan wij een omgevingsvariabele instellen.
+<p>Om de connection string aan onze server mee te geven, gaan wij een omgevingsvariabele instellen.
 Het instellen van een omgevingsvariablen:</p>
 <ol>
-<li>Ga naar uw Windows zoekbalk en tik in &quot;omgevingsvariabelen&quot;</li>
+<li>Ga naar de Windows zoekbalk en tik in &quot;omgevingsvariabelen&quot;</li>
 <li>Selecteer &quot;De omgevingsvariabelen van het systeem bewerken&quot;</li>
-<li>Klik vanonder op &quot;omgevingsvariabelen&quot;</li>
+<li>Klik onderaan op &quot;omgevingsvariabelen&quot;</li>
 <li>Klik op &quot;nieuw&quot;</li>
-<li>Geef het de naam <code>BRS_CONNECTION_STRING</code> met de waarde van uw connection string</li>
+<li>Geef het de naam <code>BRS_CONNECTION_STRING</code> met de waarde van uw connectie string</li>
 </ol>
-<p>Joepie! De omgevingsvariabele is succesvol ingesteld.</p>
+<p>🏆 De omgevingsvariabele is succesvol ingesteld!</p>
 <h2 id="configuratie">Configuratie</h2>
-<p>Als u onze applicatie heeft gedownload ziet u dat er een Appsettings.json bestand in zit. In dit bestand
+<p>Als u onze applicatie heeft gedownload ziet u een Appsettings.json bestand. In dit bestand
 kunt u bepaalde configuratie instellingen aanpassen zoals het logniveau.</p>
 <h2 id="starten">Starten</h2>
 <p>Dubbelklik op het .exe bestand voor de server. Als u een console ziet met groene tekst dan
-weet u dat het werkt. Er kunnen nu clients API requests naar de server maken.</p>
+weet u dat het werkt. Er kunnen nu clients API requests naar de server gemaakt worden.</p>
 <p>De volgende stap is om uw eerste <a href="client_setup.html">client op te zetten</a>.</p>
 </article>
           </div>

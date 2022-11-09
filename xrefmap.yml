@@ -31,6 +31,15 @@ references:
   commentId: M:BezoekersRegistratieSysteemBL.Domeinen.Afspraak.#ctor(DateTime,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,BezoekersRegistratieSysteemBL.Domeinen.Bezoeker,BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
   fullName: BezoekersRegistratieSysteemBL.Domeinen.Afspraak.Afspraak(DateTime, BezoekersRegistratieSysteemBL.Domeinen.Bedrijf, BezoekersRegistratieSysteemBL.Domeinen.Bezoeker, BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
   nameWithType: Afspraak.Afspraak(DateTime, Bedrijf, Bezoeker, Werknemer)
+- uid: BezoekersRegistratieSysteemBL.Domeinen.Afspraak.#ctor(DateTime,System.Nullable{DateTime},BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,BezoekersRegistratieSysteemBL.Domeinen.Bezoeker,BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  name: Afspraak(DateTime, Nullable<DateTime>, Bedrijf, Bezoeker, Werknemer)
+  href: api/BezoekersRegistratieSysteemBL.Domeinen.Afspraak.html#BezoekersRegistratieSysteemBL_Domeinen_Afspraak__ctor_DateTime_System_Nullable_DateTime__BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_
+  commentId: M:BezoekersRegistratieSysteemBL.Domeinen.Afspraak.#ctor(DateTime,System.Nullable{DateTime},BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,BezoekersRegistratieSysteemBL.Domeinen.Bezoeker,BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  name.vb: Afspraak(DateTime, Nullable(Of DateTime), Bedrijf, Bezoeker, Werknemer)
+  fullName: BezoekersRegistratieSysteemBL.Domeinen.Afspraak.Afspraak(DateTime, System.Nullable<DateTime>, BezoekersRegistratieSysteemBL.Domeinen.Bedrijf, BezoekersRegistratieSysteemBL.Domeinen.Bezoeker, BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  fullName.vb: BezoekersRegistratieSysteemBL.Domeinen.Afspraak.Afspraak(DateTime, System.Nullable(Of DateTime), BezoekersRegistratieSysteemBL.Domeinen.Bedrijf, BezoekersRegistratieSysteemBL.Domeinen.Bezoeker, BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
+  nameWithType: Afspraak.Afspraak(DateTime, Nullable<DateTime>, Bedrijf, Bezoeker, Werknemer)
+  nameWithType.vb: Afspraak.Afspraak(DateTime, Nullable(Of DateTime), Bedrijf, Bezoeker, Werknemer)
 - uid: BezoekersRegistratieSysteemBL.Domeinen.Afspraak.#ctor(System.Int64,DateTime,System.Nullable{DateTime},BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,BezoekersRegistratieSysteemBL.Domeinen.Bezoeker,BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
   name: Afspraak(Int64, DateTime, Nullable<DateTime>, Bedrijf, Bezoeker, Werknemer)
   href: api/BezoekersRegistratieSysteemBL.Domeinen.Afspraak.html#BezoekersRegistratieSysteemBL_Domeinen_Afspraak__ctor_System_Int64_DateTime_System_Nullable_DateTime__BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bezoeker_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_
@@ -4319,12 +4328,15 @@ references:
   commentId: T:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO
   fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO
   nameWithType: AfspraakInputDTO
-- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.#ctor(BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO,System.Int64,System.Int64)
-  name: AfspraakInputDTO(BezoekerInputDTO, Int64, Int64)
-  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO__ctor_BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_System_Int64_System_Int64_
-  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.#ctor(BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO,System.Int64,System.Int64)
-  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.AfspraakInputDTO(BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO, System.Int64, System.Int64)
-  nameWithType: AfspraakInputDTO.AfspraakInputDTO(BezoekerInputDTO, Int64, Int64)
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.#ctor(BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO,System.Nullable{DateTime},System.Nullable{DateTime},System.Int64,System.Int64)
+  name: AfspraakInputDTO(BezoekerInputDTO, Nullable<DateTime>, Nullable<DateTime>, Int64, Int64)
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO__ctor_BezoekersRegistratieSysteemREST_Model_Input_BezoekerInputDTO_System_Nullable_DateTime__System_Nullable_DateTime__System_Int64_System_Int64_
+  commentId: M:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.#ctor(BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO,System.Nullable{DateTime},System.Nullable{DateTime},System.Int64,System.Int64)
+  name.vb: AfspraakInputDTO(BezoekerInputDTO, Nullable(Of DateTime), Nullable(Of DateTime), Int64, Int64)
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.AfspraakInputDTO(BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO, System.Nullable<DateTime>, System.Nullable<DateTime>, System.Int64, System.Int64)
+  fullName.vb: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.AfspraakInputDTO(BezoekersRegistratieSysteemREST.Model.Input.BezoekerInputDTO, System.Nullable(Of DateTime), System.Nullable(Of DateTime), System.Int64, System.Int64)
+  nameWithType: AfspraakInputDTO.AfspraakInputDTO(BezoekerInputDTO, Nullable<DateTime>, Nullable<DateTime>, Int64, Int64)
+  nameWithType.vb: AfspraakInputDTO.AfspraakInputDTO(BezoekerInputDTO, Nullable(Of DateTime), Nullable(Of DateTime), Int64, Int64)
 - uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.#ctor*
   name: AfspraakInputDTO
   href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO__ctor_
@@ -4358,6 +4370,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Bezoeker
   nameWithType: AfspraakInputDTO.Bezoeker
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Eindtijd
+  name: Eindtijd
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_Eindtijd
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Eindtijd
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Eindtijd
+  nameWithType: AfspraakInputDTO.Eindtijd
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Eindtijd*
+  name: Eindtijd
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_Eindtijd_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Eindtijd
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Eindtijd
+  nameWithType: AfspraakInputDTO.Eindtijd
 - uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.NaarBusiness(BezoekersRegistratieSysteemBL.Managers.WerknemerManager,BezoekersRegistratieSysteemBL.Managers.BedrijfManager)
   name: NaarBusiness(WerknemerManager, BedrijfManager)
   href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_NaarBusiness_BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BezoekersRegistratieSysteemBL_Managers_BedrijfManager_
@@ -4371,6 +4396,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.NaarBusiness
   nameWithType: AfspraakInputDTO.NaarBusiness
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Starttijd
+  name: Starttijd
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_Starttijd
+  commentId: P:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Starttijd
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Starttijd
+  nameWithType: AfspraakInputDTO.Starttijd
+- uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Starttijd*
+  name: Starttijd
+  href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_Starttijd_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Starttijd
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.Starttijd
+  nameWithType: AfspraakInputDTO.Starttijd
 - uid: BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.WerknemerId
   name: WerknemerId
   href: api/BezoekersRegistratieSysteemREST.Model.Input.AfspraakInputDTO.html#BezoekersRegistratieSysteemREST_Model_Input_AfspraakInputDTO_WerknemerId

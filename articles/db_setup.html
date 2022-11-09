@@ -69,20 +69,18 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="database-setup">Database Setup</h1>
 
-<p>Om een server op te zetten, zult u eerst een database moeten hebben waar de
-server data kan opslaan en ophalen.</p>
-<p>In deze guide leggen wij stap voor stap uit hoe u dit kunt doen.</p>
+<p>In deze guide leggen we u stapsgewijs uit hoe u een database server kan opzetten.</p>
 <h2 id="de-software">De Software</h2>
-<p>U zal eerst databank software nodig hebben dat op de achtergrond zal draaien.</p>
+<p>Vooreerst zal u databank software nodig hebben die op de achtergrond actief zal zijn.</p>
 <ul>
 <li>Installeer <a href="https://www.microsoft.com/en-us/Download/details.aspx?id=101064">Microsoft Express</a></li>
 <li>Installeer <a href="https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16">Microsoft SQL Server Managment Studio</a></li>
 </ul>
-<p>Deze twee programmas zal u gebruiken om de database te beheren.</p>
-<p>Microsoft Express is een database engine die T-SQL Querries accepteert om verscheidene database bewerkingen uit te voeren.</p>
-<p>Microsoft SQL Server Managment Studio is een grafische user interface dat het u gemakkelijk maakt om databanken aan te maken en bewerkingen uit te voeren.</p>
+<p>Deze software zal u gebruiken voor het beheren van uw data.</p>
+<p>Microsoft Express is een database engine die T-SQL Querries accepteert om zo verschillende database bewerkingen uit te voeren.</p>
+<p>Microsoft SQL Server Managment Studio is een grafische user interface die het eenvoudig maakt om databanken aan te maken en bewerkingen uit te voeren.</p>
 <h2 id="de-databank">De Databank</h2>
-<p>Voordat wij de structuur van onze databank kunnen inladen, moeten wij eerst een databank hebben waar wij mee kunnen werken.</p>
+<p>Voordat u de structuur van onze databank inlaad, moeten u eerst een databank hebben waar u mee kan gaan werken.</p>
 <p>De volgende stappen leggen uit hoe u een databank kunt aanmaken:</p>
 <ol>
 <li>Start Microsoft SQL Server Managment Studio op</li>
@@ -91,10 +89,10 @@ server data kan opslaan en ophalen.</p>
 <li>Klik op &quot;new database&quot;</li>
 <li>Geef de database een naam en klik op OK</li>
 </ol>
-<p>U heeft nu een lege databank aangemaakt waarmee u kan werken. Hoera!</p>
+<p>🎉 U heeft nu een lege databank aangemaakt waar we mee aan de slag kunnen. Hoera!</p>
 <h2 id="de-structuur">De Structuur</h2>
-<p>We hebben onze databank aangemaakt, maar de databank bevat nog niet alle
-tabellen en informatie dat we nodig hebben om onze server te laten draaien.</p>
+<p>U heeft uw databank aangemaakt, maar de databank bevat nog niet alle
+informatie die we nodig hebben om onze server te doen draaien.</p>
 <p>Om de structuur aan te maken, bieden wij een SQL script aan dat u zal moeten uitvoeren op de databank.</p>
 <ol>
 <li>Selecteer uw nieuw aangemaakte Databank</li>
@@ -102,18 +100,18 @@ tabellen en informatie dat we nodig hebben om onze server te laten draaien.</p>
 <li>Paste de code van het <code>CreateTables.sql</code> bestand (in de repo) in de query</li>
 <li>Klik boven in de menubalk op &quot;execute&quot;</li>
 </ol>
-<p>Success! U heeft nu uw databank klaargezet voor gebruik.</p>
-<h2 id="connection-string">Connection String</h2>
-<p>Om een connectie met uw databank aan te leggen zal u iets nodig hebben dat heet een connection string.
-Een connection string is simpelweg en lijn tekst dat zegt hoe uw computer of programma met een databank in
-verbinding moet komen.</p>
-<p>Om de connection string te verkrijgen volgt u de volgende stappen:</p>
+<p>👍 Zie daar! U heeft succesvol uw databank klaargezet voor gebruik.</p>
+<h2 id="connectie-string">Connectie String</h2>
+<p>Om een connectie met uw databank te leggen zal u een connectie string nodig hebben.
+Een connectie string is simpelweg en lijn tekst die zegt hoe uw computer of programma met de databank in
+verbinding zal komen.</p>
+<p>Om de connectie string te verkrijgen volgt u volgende stappen:</p>
 <ol>
 <li>Klik met rechtermuisknop op uw Databank in Microsoft SQL Server Managment Studio</li>
 <li>Selecteer &quot;properties&quot;</li>
 <li>Kopieëer de ConnectionString property</li>
 </ol>
-<p>U heeft nu uw connection string!</p>
+<p>🚀 Gelukt?! Goed dan bent u helemaal klaar voor gebruik!</p>
 </article>
           </div>
           
