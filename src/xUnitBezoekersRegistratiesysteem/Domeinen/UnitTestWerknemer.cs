@@ -1,3 +1,4 @@
+using BezoekersRegistratieSysteemBL;
 using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
@@ -51,7 +52,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
 			w.ZetVoornaam("werknemer");
-			Assert.Equal("werknemer", w.Voornaam);
+			Assert.Equal("Werknemer", w.Voornaam);
 		}
 
 		[Theory]
@@ -75,7 +76,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		{
 			Werknemer w = new(10, "werknemer", "werknemersen");
 			w.ZetAchternaam("werknemersen");
-			Assert.Equal("werknemersen", w.Achternaam);
+			Assert.Equal("Werknemersen", w.Achternaam);
 		}
 
 		[Theory]
@@ -106,7 +107,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 					Assert.Equal(_b1, expected.Key);
 					Assert.Equal(_e, expected.Value.Email);
 					Assert.Collection(expected.Value.GeefWerknemerFuncties(),
-						item => Assert.Equal(_nf, item));
+						item => Assert.Equal(Nutsvoorziening.NaamOpmaak(_nf), item));
 				});
 
 			//meerdere functies check
@@ -118,8 +119,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 					Assert.Equal(_b1, expected.Key);
 					Assert.Equal(_e, expected.Value.Email);
 					Assert.Collection(expected.Value.GeefWerknemerFuncties(),
-						item => Assert.Equal(_nf, item),
-						item => Assert.Equal(_of, item));
+						item => Assert.Equal(Nutsvoorziening.NaamOpmaak(_nf), item),
+						item => Assert.Equal(Nutsvoorziening.NaamOpmaak(_of), item));
 				});
 		}
 
@@ -190,7 +191,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 					Assert.Equal(_b2, expected.Key);
 					Assert.Equal(_e, expected.Value.Email);
 					Assert.Collection(expected.Value.GeefWerknemerFuncties(),
-						item => Assert.Equal(_nf, item));
+						item => Assert.Equal(Nutsvoorziening.NaamOpmaak(_nf), item));
 				});
 		}
 
@@ -225,7 +226,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 					Assert.Equal(_b1, expected.Key);
 					Assert.Equal(_e, expected.Value.Email);
 					Assert.Collection(expected.Value.GeefWerknemerFuncties(),
-						item => Assert.Equal(_nf, item));
+						item => Assert.Equal(Nutsvoorziening.NaamOpmaak(_nf), item));
 				});
 		}
 
@@ -297,7 +298,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 					Assert.Equal(_b1, expected.Key);
 					Assert.Equal(_e, expected.Value.Email);
 					Assert.Collection(expected.Value.GeefWerknemerFuncties(),
-						item => Assert.Equal(_nf, item));
+						item => Assert.Equal(Nutsvoorziening.NaamOpmaak(_nf), item));
 				});
 		}
 
@@ -347,7 +348,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 					Assert.Equal(_b1, expected.Key);
 					Assert.Equal(_e, expected.Value.Email);
 					Assert.Collection(expected.Value.GeefWerknemerFuncties(),
-						functie => Assert.Equal(_nf, functie));
+						functie => Assert.Equal(Nutsvoorziening.NaamOpmaak(_nf), functie));
 				});
 
 			//meerdere functies check
@@ -358,8 +359,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 				{
 					Assert.Equal(_b1, expected.Key);
 					Assert.Collection(expected.Value.GeefWerknemerFuncties(),
-						functie => Assert.Equal(_nf, functie),
-						functie => Assert.Equal(_of, functie));
+						functie => Assert.Equal(Nutsvoorziening.NaamOpmaak(_nf), functie),
+						functie => Assert.Equal(Nutsvoorziening.NaamOpmaak(_of), functie));
 				});
 		}
 		#endregion
@@ -386,13 +387,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 
 		#region UnitTest Werknemer ctor
 		[Theory]
-		[InlineData(10, "werknemer", "werknemersen", 10, "werknemer", "werknemersen")]
-
-		[InlineData(10, "     werknemer", "werknemersen", 10, "werknemer", "werknemersen")]
-		[InlineData(10, "werknemer     ", "werknemersen", 10, "werknemer", "werknemersen")]
-
-		[InlineData(10, "werknemer", "     werknemersen", 10, "werknemer", "werknemersen")]
-		[InlineData(10, "werknemer", "werknemersen     ", 10, "werknemer", "werknemersen")]
+		[InlineData(10, "werknemer", "werknemersen", 10, "Werknemer", "Werknemersen")]
+		[InlineData(10, "     werknemer", "werknemersen", 10, "Werknemer", "Werknemersen")]
+		[InlineData(10, "werknemer     ", "werknemersen", 10, "Werknemer", "Werknemersen")]
+		[InlineData(10, "werknemer", "     werknemersen", 10, "Werknemer", "Werknemersen")]
+		[InlineData(10, "werknemer", "werknemersen     ", 10, "Werknemer", "Werknemersen")]
 		public void ctor_Valid(long idIn, string voornaamIn, string achternaamIn, long idUit, string voornaamUit, string achternaamUit)
 		{
 			Werknemer w = new(idIn, voornaamIn, achternaamIn);
@@ -404,7 +403,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		[Theory]
 		[InlineData(0, "werknemer", "werknemersen")]
         [InlineData(-1, "werknemer", "werknemersen")]
-
         [InlineData(10, null, "werknemersen")]
 		[InlineData(10, "", "werknemersen")]
 		[InlineData(10, " ", "werknemersen")]
@@ -412,7 +410,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		[InlineData(10, "\r", "werknemersen")]
 		[InlineData(10, "\t", "werknemersen")]
 		[InlineData(10, "\v", "werknemersen")]
-
 		[InlineData(10, "werknemer", null)]
 		[InlineData(10, "werknemer", "")]
 		[InlineData(10, "werknemer", " ")]
