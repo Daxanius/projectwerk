@@ -19,6 +19,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 	/// <summary>
@@ -55,13 +57,15 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			InitializeComponent();
 
 			if (_bedrijven is null) {
-				FetchAlleBedrijven();
+				_bedrijven = ApiController.FetchBedrijven().ToList();
+				SpawnBedrijvenGrid();
 			}
 		}
 
 		#region Fetch Bedrijven
 
 		private void SpawnBedrijvenGrid() {
+			gridContainer.Children.Clear();
 			int rowCount = 0;
 			int columnCount = 0;
 
@@ -134,23 +138,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			registratieWindow.FrameControl.Content = new AanmeldGegevensPage();
 		}
 
-		#endregion
-
-		#region API Requests
-		private async void FetchAlleBedrijven() {
-			_bedrijven = new();
-			(bool isvalid, List<BedrijfOutputDTO> bedrijven) = await ApiController.Get<List<BedrijfOutputDTO>>("/bedrijf");
-
-			if (isvalid) {
-				bedrijven.ForEach((api) => {
-					_bedrijven.Add(new BedrijfDTO(api.Id, api.Naam, api.BTW, api.TelefoonNummer, api.Email, api.Adres));
-				});
-			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de bedrijven", "Error /bedrijf");
-				return;
-			}
-			SpawnBedrijvenGrid();
-		}
 		#endregion
 	}
 }

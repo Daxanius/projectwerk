@@ -1,37 +1,30 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.ConvertedClasses;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemREST.Model.Output;
+using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups {
-	/// <summary>
-	/// Interaction logic for WerknemersPopup.xaml
-	/// </summary>
+	public delegate void NieuweAfspraak(AfspraakDTO afspraak);
 	public partial class AfsprakenPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
+		public event NieuweAfspraak AfspraakToegevoegd;
 
 		#region Bind Propperties
-		private static WerknemerDTO _werknemer;
-		public static WerknemerDTO Werknemer {
+		private WerknemerDTO _werknemer;
+		public WerknemerDTO Werknemer {
 			get { return _werknemer; }
 			set {
-				if (value is null || value != _werknemer) return;
+				if (value is null || value == _werknemer) return;
 				_werknemer = value;
 			}
 		}
@@ -71,7 +64,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				UpdatePropperty();
 			}
 		}
-		private string _startTijd = string.Empty;
+		private string _startTijd = DateTime.Today.ToString("MM/dd/yyyy");
 		public string StartTijd {
 			get { return _startTijd; }
 			set {
@@ -126,28 +119,20 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
-			//...
+			WerknemerDTO werknemer = Werknemer;
+			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
+			AfspraakDTO afspraak = ApiController.PostAfspraak(payload);
+
+			AfspraakToegevoegd?.Invoke(afspraak);
+
 			SluitOverlay();
 		}
 
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
 			KiesMedewerkerEiland.Visibility = Visibility.Visible;
-
-			// Test Data Werknemers
-
-			MedewerkersLijstVanBedrijf.ItemsSource = new List<WerknemerDTO>() {
-			new WerknemerDTO(1, "Stan", "Persoons","Stan@gmail.com", false),
-			new WerknemerDTO(2, "Stan1", "Persoons1","Stan@gmail.com", false),
-			new WerknemerDTO(3, "Stan2", "Persoons2","Stan@gmail.com", true),
-			new WerknemerDTO(4, "Stan3", "Persoons3","Stan@gmail.com", true),
-			new WerknemerDTO(5, "Stan4", "Persoons4","Stan@gmail.com", false),
-			new WerknemerDTO(6, "Stan5", "Persoons5","Stan@gmail.com", false)
-			};
-
+			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.FetchWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
 		}
-
-		// Einde Test Data
 
 		private void SluitOverlay() {
 			Werknemer = null;

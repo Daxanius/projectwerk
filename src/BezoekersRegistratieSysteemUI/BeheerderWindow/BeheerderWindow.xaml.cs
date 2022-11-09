@@ -16,9 +16,6 @@ using System.Windows.Controls;
 
 namespace BezoekersRegistratieSysteemUI.Beheerder {
 
-	/// <summary>
-	/// Interaction logic for AanOfUitMeldenScherm.xaml
-	/// </summary>
 	public delegate void GeselecteerdbedrijfChanged();
 	public partial class BeheerderWindow : Window, INotifyPropertyChanged {
 		#region Scaling
