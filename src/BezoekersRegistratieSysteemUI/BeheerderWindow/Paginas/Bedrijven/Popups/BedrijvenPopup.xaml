@@ -80,7 +80,7 @@
                             </Grid.ColumnDefinitions>
                             <Label
                                 Grid.Column="0"
-                                Content="Telefoon Nummer"
+                                Content="Telefoonnummer"
                                 Style="{StaticResource InputLabelStyle}" />
                             <TextBox
                                 Grid.Column="0"
@@ -88,7 +88,7 @@
                                 Text="{Binding TelefoonNummer}" />
                             <Label
                                 Grid.Column="2"
-                                Content="Btw Nummer"
+                                Content="Btwnummer"
                                 Style="{StaticResource InputLabelStyle}" />
                             <TextBox
                                 Grid.Column="2"
