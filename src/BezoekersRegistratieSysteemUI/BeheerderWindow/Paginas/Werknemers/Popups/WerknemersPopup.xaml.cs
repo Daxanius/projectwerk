@@ -96,7 +96,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			WerknemerDTO werknemer = ApiController.PostWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
 			NieuweWerknemerToegevoegd?.Invoke(werknemer);
 
-			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Voornaam} is toegevoegd");
+			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd");
 			SluitOverlay();
 		}
 
