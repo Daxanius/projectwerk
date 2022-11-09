@@ -122,11 +122,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="bedrijfId">De ID van het bedrijf</param>
 		/// <returns>BadRequest bij mislukking</returns>
-		[HttpGet("werknemer/{bedrijfId}")]
+		[HttpGet("{bedrijfId}/werknemer")]
 		public ActionResult<IEnumerable<WerknemerOutputDTO>> GetWerknemers(long bedrijfId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-
+				
 				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager, bedrijf.GeefWerknemers()));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
@@ -139,7 +139,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId">De ID van het bedrijf</param>
 		/// <param name="werknemerId">De ID van de werknemer om te verwijderen</param>
 		/// <returns>BadRequest bij mislukking</returns>
-		[HttpDelete("werknemer/{bedrijfId}/{werknemerId}")]
+		[HttpDelete("{bedrijfId}/werknemer/{werknemerId}")]
 		public ActionResult<IEnumerable<WerknemerOutputDTO>> VerwijderWerknemerUitBedrijf(long bedrijfId, long werknemerId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);

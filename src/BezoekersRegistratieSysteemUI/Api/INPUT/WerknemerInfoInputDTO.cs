@@ -12,7 +12,7 @@ namespace BezoekersRegistratieSysteemUI.Api.Input {
 		/// <param name="bedrijfId"></param>
 		/// <param name="email"></param>
 		/// <param name="functies"></param>
-		public WerknemerInfoInputDTO(long bedrijfId, string email, List<string> functies)
+		public WerknemerInfoInputDTO(long bedrijfId, string email, IEnumerable<string> functies)
 		{
 			BedrijfId = bedrijfId;
 			Email = email;
@@ -32,6 +32,6 @@ namespace BezoekersRegistratieSysteemUI.Api.Input {
 		/// <summary>
 		/// De functies binnen het bedrijf van de werknemer.
 		/// </summary>
-		public List<string> Functies { get; set; } = new();
+		public IEnumerable<string> Functies { get; set; }
 	}
 }

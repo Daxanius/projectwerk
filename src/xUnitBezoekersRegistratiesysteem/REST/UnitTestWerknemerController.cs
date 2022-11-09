@@ -42,11 +42,11 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_werknemerController = new(_werknemerManager, _bedrijfManager);
 
 			// Data
-			_w = new("werknemer", "werknemersen", new());
+			_w = new("werknemer", "werknemersen", new List<WerknemerInfoInputDTO>());
 			_b = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			_f = "functie";
 
-			_wi = new(0, "werknemer.werknemersen@email.com", new() { _f });
+			_wi = new(0, "werknemer.werknemersen@email.com", new List<string>() { _f });
 
 			Bedrijf b = _b.NaarBusiness();
 			Werknemer w = _w.NaarBusiness(_bedrijfManager);
@@ -69,34 +69,6 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			Assert.Null(result.Value);
 		}
 
-		[Fact]
-		public void VoegWerknemerToe_Invalid_WerknemerBestaatAl() {
-			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(_w.NaarBusiness(_bedrijfManager))).Returns(true);
-			var result = _werknemerController.VoegWerknemerToe(_w);
-			Assert.NotNull(result.Result);
-			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
-			Assert.Null(result.Value);
-		}
-		#endregion
-
-		#region UnitTest VerwijderWerknemer
-		[Theory]
-		[InlineData(0, -1)]
-		[InlineData(-1, 0)]
-		[InlineData(-1, -1)]
-		public void VerwijderWerknemer_Invalid(long bedrijfId, long werknemerId) {
-			var result = _werknemerController.VerwijderWerknemer(bedrijfId, werknemerId);
-			Assert.NotNull(result);
-			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
-		}
-
-		[Fact]
-		public void VerwijderWerknemer_Invalid_WerknemerBestaatNiet() {
-			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
-			var result = _werknemerController.VerwijderWerknemer(0, 0);
-			Assert.NotNull(result);
-			Assert.Equal(typeof(NotFoundObjectResult), result.GetType());
-		}
 		#endregion
 
 		#region UnitTest VoegWerknemerFunctieToe
