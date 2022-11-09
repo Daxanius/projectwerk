@@ -1,16 +1,13 @@
-﻿using BezoekersRegistratieSysteemUI.Api.Output;
-using BezoekersRegistratieSysteemUI.Api;
+﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
 using System.Linq;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 

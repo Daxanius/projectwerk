@@ -1,11 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers.Controls {
 	public partial class BezoekersLijstControl : UserControl {

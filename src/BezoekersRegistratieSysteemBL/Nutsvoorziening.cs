@@ -1,8 +1,5 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.DTO;
+﻿using BezoekersRegistratieSysteemBL.DTO;
 using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
-using BezoekersRegistratieSysteemBL.Interfaces;
-using BezoekersRegistratieSysteemBL.Managers;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
