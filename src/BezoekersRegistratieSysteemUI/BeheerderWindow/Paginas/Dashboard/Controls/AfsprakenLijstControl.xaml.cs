@@ -1,24 +1,15 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using BezoekersRegistratieSysteemUI.Api.Output;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	/// <summary>
@@ -26,7 +17,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 	/// </summary>
 	public partial class AfsprakenLijstControl : UserControl {
 		#region Afspraken
-		public ObservableCollection<AfspraakDTO> Afspraken { get; set; }
+		private ObservableCollection<AfspraakDTO> _afspraken;
+		public ObservableCollection<AfspraakDTO> Afspraken {
+			get => _afspraken; set {
+				_afspraken = value;
+				_afspraken.OrderBy(a => a.StartTijd);
+			}
+		}
 		#endregion
 
 		public AfsprakenLijstControl() {

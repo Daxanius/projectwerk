@@ -549,6 +549,21 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
+
+		public static IEnumerable<BezoekerDTO> GeefAanwezigeBezoekers() {
+			return Task.Run(async () => {
+				List<BezoekerDTO> ItemSource = new();
+				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>("afspraak/aanwezig");
+				if (isvalid) {
+					apiBezoekers.ForEach((api) => {
+						ItemSource.Add(new BezoekerDTO(api.Id, api.Voornaam, api.Achternaam, api.Email, api.Bedrijf));
+					});
+					return ItemSource;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+				}
+			}).Result;
+		}
 		#endregion
 	}
 }

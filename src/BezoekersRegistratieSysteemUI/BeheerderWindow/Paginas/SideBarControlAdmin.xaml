@@ -125,7 +125,7 @@
                 Background="{StaticResource MainAchtergrond}"
                 CornerRadius="20"
                 Cursor="Hand"
-                MouseLeftButtonDown="ToggleAanwezigeBezoekersAchtergrond">
+                MouseLeftButtonDown="ToonBezoekersPage">
                 <StackPanel
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"

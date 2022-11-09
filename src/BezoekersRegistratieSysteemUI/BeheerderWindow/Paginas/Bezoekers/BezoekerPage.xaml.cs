@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,33 +15,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
-	public partial class DashBoardPage : Page {
-		#region Public Propperty
-		public string Datum {
-			get {
-				return DateTime.Now.ToString("dd.MM");
-			}
-		}
-		#endregion
-
-		public DashBoardPage() {
+namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers {
+	public partial class BezoekerPage : Page {
+		public BezoekerPage() {
 			this.DataContext = this;
 			InitializeComponent();
-
-			//this.NavigationService.Navigate()
-			//TODO: :-)
+			List<BezoekerDTO> aanwezigeBezoekers = ApiController.GeefAanwezigeBezoekers().ToList();
+			BezoekersLijstControl.ItemSource.Clear();
+			aanwezigeBezoekers.ForEach(b => BezoekersLijstControl.ItemSource.Add(b));
 		}
 
 		#region Singleton
-		private static DashBoardPage instance = null;
+		private static BezoekerPage instance = null;
 		private static readonly object padlock = new object();
 
-		public static DashBoardPage Instance {
+		public static BezoekerPage Instance {
 			get {
 				lock (padlock) {
 					if (instance == null) {
-						instance = new DashBoardPage();
+						instance = new BezoekerPage();
 					}
 					return instance;
 				}
