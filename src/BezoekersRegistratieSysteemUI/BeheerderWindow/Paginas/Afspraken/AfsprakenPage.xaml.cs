@@ -6,9 +6,12 @@ using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -98,9 +101,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			// Als de afspraak nog bezig is voegen we hem toe aan de huidige
 			// afspraken lijst
 			if (string.IsNullOrWhiteSpace(afspraak.EindTijd)) {
-				HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
+				Task.Run(() => {
+					Dispatcher.Invoke(() => {
+						HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
+						List<AfspraakDTO> afspraken = HuidigeAfsprakenLijst.ItemSource.ToList();
+						HuidigeAfsprakenLijst.ItemSource.Clear();
+						afspraken.OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam).ToList().ForEach(a => HuidigeAfsprakenLijst.ItemSource.Add(a));
+					});
+				});
 			}
-		} 
+		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
 			bezoekersAfsprakenLijstControl.ItemSource.Clear();

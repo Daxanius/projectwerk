@@ -2,6 +2,7 @@
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
@@ -21,38 +22,29 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
-	/// <summary>
-	/// Interaction logic for SideBarDashboard.xaml
-	/// </summary>
 	public partial class SideBarControlAdmin : UserControl {
 		public SideBarControlAdmin() {
 			InitializeComponent();
 
 			foreach (Border border in BorderContainer.Children) {
-				((Icon)((StackPanel)border.Child).Children[0]).Opacity = .6;
+				StackPanel stackPanel = (StackPanel)border.Child;
+				Icon icon = (Icon)stackPanel.Children[0];
+				icon.Opacity = .6;
 			}
 		}
 
 		private void VeranderTab(object sender, MouseButtonEventArgs e) {
-			string tab = ((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).Text;
+			Border border = (Border)sender;
+			StackPanel stackPanel = (StackPanel)border.Child;
+			TextBlock textBlock = (TextBlock)stackPanel.Children[1];
+			string tab = textBlock.Text;
 
-			foreach (Border border in BorderContainer.Children) {
-				border.Tag = "UnSelected";
-				((TextBlock)((StackPanel)(border).Child).Children[1]).FontWeight = FontWeights.Medium;
-				if (((TextBlock)((StackPanel)(border).Child).Children[1]).IsEnabled)
-					((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).Opacity = 1;
-				((Icon)((StackPanel)border.Child).Children[0]).Opacity = .6;
-			}
-
-			((Border)sender).Tag = "Selected";
-			((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).FontWeight = FontWeights.Bold;
-			if (((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).IsEnabled)
-				((TextBlock)((StackPanel)((Border)sender).Child).Children[1]).Opacity = 1;
-			((Icon)((StackPanel)((Border)sender).Child).Children[0]).Opacity = 1;
-
+			ResetSelectedTabs(border);
 
 			Window window = Window.GetWindow(this);
 			BeheerderWindow beheerderWindow = (BeheerderWindow)window.DataContext;
+
+			ToggleAanwezigeBezoekersAchtergrond(aanOfUit: false);
 
 			switch (tab) {
 				case "Dashboard":
@@ -70,19 +62,55 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			}
 		}
 
-		private bool _isAanwezigeBezoekersPressed;
-		private void ToggleAanwezigeBezoekersAchtergrond(object sender, MouseButtonEventArgs e) {
-			if (!_isAanwezigeBezoekersPressed) {
+		private void ResetSelectedTabs(Border? nieuweActiveTabBorder = null) {
+			foreach (Border border in BorderContainer.Children) {
+				StackPanel stackPanel = (StackPanel)border.Child;
+				TextBlock textBlock = (TextBlock)stackPanel.Children[1];
+				Icon icon = (Icon)stackPanel.Children[0];
+
+				border.Tag = "UnSelected";
+				textBlock.FontWeight = FontWeights.Medium;
+				icon.Opacity = .6;
+				if (textBlock.IsEnabled)
+					textBlock.Opacity = 1;
+			}
+
+			if (nieuweActiveTabBorder is not null) {
+				StackPanel stackPanel = (StackPanel)nieuweActiveTabBorder.Child;
+				TextBlock textBlock = (TextBlock)stackPanel.Children[1];
+				Icon icon = (Icon)stackPanel.Children[0];
+
+				nieuweActiveTabBorder.Tag = "Selected";
+				textBlock.FontWeight = FontWeights.Bold;
+				icon.Opacity = 1;
+				if (textBlock.IsEnabled)
+					textBlock.Opacity = 1;
+			}
+		}
+
+		#region Bezoekers pagina knop
+		private void ToonBezoekersPage(object sender, MouseButtonEventArgs e) {
+			Window window = Window.GetWindow(this);
+			BeheerderWindow beheerderWindow = (BeheerderWindow)window.DataContext;
+
+			ToggleAanwezigeBezoekersAchtergrond(aanOfUit: true);
+
+			ResetSelectedTabs();
+
+			beheerderWindow.FrameControl.Content = new BezoekerPage();
+		}
+
+		private void ToggleAanwezigeBezoekersAchtergrond(bool aanOfUit = false) {
+			if (aanOfUit) {
 				ToonAanwezigenText.Foreground = Application.Current.Resources["MainAchtergrond"] as SolidColorBrush;
 				ToonAanwezigenContainer.Background = Application.Current.Resources["GewoonBlauw"] as SolidColorBrush;
 				ToonAanwezigenIcon.IconSource = "../WitLijstIcon.xaml";
-				_isAanwezigeBezoekersPressed = true;
 			} else {
 				ToonAanwezigenText.Foreground = Application.Current.Resources["MainBlack"] as SolidColorBrush;
 				ToonAanwezigenContainer.Background = Application.Current.Resources["MainAchtergrond"] as SolidColorBrush;
 				ToonAanwezigenIcon.IconSource = "../LijstIcon.xaml";
-				_isAanwezigeBezoekersPressed = false;
 			}
 		}
+		#endregion
 	}
 }

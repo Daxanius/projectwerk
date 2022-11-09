@@ -242,20 +242,24 @@
                         <Button
                             x:Name="MedewerkerTerugButton"
                             Margin="10,10,20,10"
+                            Padding="15,5"
                             BorderBrush="{StaticResource LichtRood}"
                             BorderThickness="2"
                             Click="GaTerugNaarVoegMedewerkerEiland"
-                            Content="Terug"
+                            Content="Annuleren"
+                            FontSize="16"
                             Foreground="{StaticResource LichtRood}"
                             Style="{StaticResource ActionButtonPopup}"
                             Tag="Rood" />
                         <Button
                             x:Name="MedewerkerKiesButton"
                             Margin="20,10,10,10"
+                            Padding="15,5"
                             BorderBrush="{StaticResource LichtGroen}"
                             BorderThickness="2"
                             Click="KiesMedeWerkerClick"
-                            Content="Kies"
+                            Content="Bevestigen"
+                            FontSize="16"
                             Foreground="{StaticResource LichtGroen}"
                             Style="{StaticResource ActionButtonPopup}"
                             Tag="Groen" />
