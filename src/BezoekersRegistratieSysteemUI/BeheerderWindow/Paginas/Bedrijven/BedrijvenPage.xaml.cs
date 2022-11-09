@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Controls;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
 using System;
 using System.Collections.Generic;
@@ -33,14 +34,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 		public BedrijvenPage() {
 			this.DataContext = this;
 			InitializeComponent();
+
+			BedrijvenPopup.UpdateBedrijfLijst += UpdateBedrijvenLijst;
+		}
+
+		private void UpdateBedrijvenLijst(BedrijfDTO bedrijf) {
+			BedrijvenLijstControl.ItemSource.Add(bedrijf);
 		}
 
 		private void VoegBedrijfToe(object sender, MouseButtonEventArgs e) {
-			BedrijvenPopup.Visibility = Visibility.Visible;
+			bedrijvenPopup.Visibility = Visibility.Visible;
 		}
 
 		public void LoadBedrijvenInList(List<BedrijfDTO> bedrijven) {
-			BedrijvenLijst.BedrijvenGrid.DataContext = bedrijven;
+			foreach (var bedrijf in bedrijven) {
+				BedrijvenLijstControl.ItemSource.Add(bedrijf);
+			}
 		}
 
 

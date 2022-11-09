@@ -23,28 +23,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
-	/// <summary>
-	/// Interaction logic for DashBoardPage.xaml
-	/// </summary>
 	public partial class WerknemersPage : Page, INotifyPropertyChanged {
-		private static WerknemersPage instance = null;
-		private static readonly object padlock = new object();
-
-		public static WerknemersPage Instance {
-			get {
-				lock (padlock) {
-					if (instance == null) {
-						instance = new WerknemersPage();
-					}
-					return instance;
-				}
-			}
-		}
-
-		/// <summary>
-		/// ///////////////////////////////////////////////////
-		/// </summary>
-
 		public int FullWidth { get; set; }
 		public int FullHeight { get; set; }
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
@@ -69,6 +48,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 		private void AddWerknemer(object sender, MouseButtonEventArgs e) {
 			WerknemersPopup.Visibility = Visibility.Visible;
 		}
+
+		#region Singleton
+		private static WerknemersPage instance = null;
+		private static readonly object padlock = new object();
+
+		public static WerknemersPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new WerknemersPage();
+					}
+					return instance;
+				}
+			}
+		}
+		#endregion
 
 		#region ProppertyChanged
 		public event PropertyChangedEventHandler? PropertyChanged;

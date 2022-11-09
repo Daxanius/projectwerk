@@ -23,10 +23,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups {
-	/// <summary>
-	/// Interaction logic for WerknemersPopup.xaml
-	/// </summary>
-	public delegate void NieuwBedrijfToegevoegdVanuitUi(BedrijfDTO bedrijf);
 	public partial class BedrijvenPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -79,6 +75,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		#endregion
 
 		#region NieuwBedrijfToegevoegdVanuitUi Event
+		public delegate void NieuwBedrijfToegevoegdVanuitUi(BedrijfDTO bedrijf);
 		public static event NieuwBedrijfToegevoegdVanuitUi UpdateBedrijfLijst;
 		#endregion
 
@@ -108,8 +105,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			BtwNummer = string.Empty;
 			Email = string.Empty;
 			Adres = string.Empty;
-			BedrijvenPage bedrijvenPage = BedrijvenPage.Instance;
-			bedrijvenPage.BedrijvenPopup.Visibility = Visibility.Hidden;
+			Visibility = Visibility.Hidden;
 		}
 
 		#region ProppertyChanged

@@ -115,15 +115,6 @@
                                     FontSize="20"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding Functie}" />
-                                <iconspresenter:Icon
-                                    Grid.Column="1"
-                                    CircleBackground="{StaticResource DonkerBlauw}"
-                                    CircleSize="30"
-                                    Cursor="Hand"
-                                    IconPadding="0, 0, 4, 4"
-                                    IconSize="60"
-                                    IconSource="../PlusIcon.xaml"
-                                    MouseLeftButtonDown="VoegNieuweFunctieToe" />
                             </Grid>
                         </Grid>
                     </Grid>

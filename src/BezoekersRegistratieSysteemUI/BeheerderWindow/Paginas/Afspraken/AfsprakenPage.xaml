@@ -38,7 +38,7 @@
                         FontSize="45"
                         FontWeight="Bold"
                         Foreground="{StaticResource DonkerBlauw}"
-                        Text="{Binding GeselecteerdBedrijf.Naam}"/>
+                        Text="{Binding GeselecteerdBedrijf.Naam}" />
                     <iconspresenter:Icon
                         CircleBackground="{StaticResource DonkerBlauw}"
                         Cursor="Hand"
@@ -266,7 +266,7 @@
                                                 MouseLeftButtonDown="ResetDatumFilter" />
                                         </StackPanel>
                                     </Grid>
-                                    <controls:HuidigeAfsprakenLijst x:Name="WerknemerAfsprakenLijst" />
+                                    <controls:WerknemerAfsprakenLijst x:Name="GeselecteerdeWerknemerAfsprakenLijst" />
                                 </DockPanel>
                             </Border>
                             <!--#endregion-->
@@ -297,7 +297,7 @@
                                             FontSize="24"
                                             FontWeight="Bold"
                                             Foreground="{StaticResource DonkerBlauw}"
-                                            Text="Werknemers" />
+                                            Text="Bezoekers" />
                                         <StackPanel Grid.Column="1">
                                             <StackPanel HorizontalAlignment="Right">
                                                 <TextBox DockPanel.Dock="Left">
@@ -354,7 +354,7 @@
                                             FontSize="26"
                                             FontWeight="Bold"
                                             Foreground="{StaticResource DonkerBlauw}"
-                                            Text="Bezoeker Afspraken" />
+                                            Text="Werknemer Afspraken" />
                                         <StackPanel
                                             Grid.Column="1"
                                             HorizontalAlignment="Right"
@@ -384,7 +384,7 @@
                                                 MouseLeftButtonDown="ResetDatumFilter" />
                                         </StackPanel>
                                     </Grid>
-                                    <controls:HuidigeAfsprakenLijst x:Name="BezoekerAfsprakenLijst" />
+                                    <controls:BezoekersAfsprakenLijst x:Name="GeselecteerdeBezoekerAfsprakenLijst" />
                                 </DockPanel>
                             </Border>
                             <!--#endregion-->
