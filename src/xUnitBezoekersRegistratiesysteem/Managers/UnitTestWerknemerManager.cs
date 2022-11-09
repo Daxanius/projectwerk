@@ -46,7 +46,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
 
 			//"BedrijfManager - VoegWerknemerToe - werknemer bestaat al"
-			_mockRepo.Setup(x => x.BestaatWerknemer(_w)).Returns(true);
+			_mockRepo.Setup(x => x.BestaatWerknemer(_w)).Returns(false);
 			var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VoegWerknemerToe(_w));
 			Assert.Equal("WerknemerManager - VoegWerknemerToe - werknemer bestaat al", ex.Message);
 		}

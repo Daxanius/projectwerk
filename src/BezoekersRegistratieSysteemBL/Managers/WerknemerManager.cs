@@ -35,12 +35,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (_werknemerRepository.BestaatWerknemer(werknemer)) {
 					_werknemerRepository.GeefWerknemerId(werknemer);
 					VoegWerknemerBedrijfFunctiesToe(werknemer);
-					return werknemer;
 				} else {
 					_werknemerRepository.VoegWerknemerToe(werknemer);
 					VoegWerknemerBedrijfFunctiesToe(werknemer);
-					return werknemer;
 				}
+				return werknemer;
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);
 			}

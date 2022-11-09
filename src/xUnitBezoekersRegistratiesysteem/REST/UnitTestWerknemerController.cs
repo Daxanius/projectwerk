@@ -71,7 +71,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void VoegWerknemerToe_Invalid_WerknemerBestaatAl() {
-			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(_w.NaarBusiness(_bedrijfManager))).Returns(true);
+			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(_w.NaarBusiness(_bedrijfManager))).Returns(false);
 			var result = _werknemerController.VoegWerknemerToe(_w);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
