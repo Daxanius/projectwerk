@@ -11,6 +11,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Linq;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	/// <summary>
@@ -31,21 +33,28 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			}
 		}
 
-		/// <summary>
-		/// ///////////////////////////////////////////////////
-		/// </summary>
-		///
-
 		private const int MAX_COLUMN_COUNT = 4;
-
 		private List<BedrijfDTO> _bedrijven;
+
 		public BedrijvenGridControl() {
 			this.DataContext = this;
 			InitializeComponent();
-			FetchAlleBedrijven();
+
+			BedrijvenPopup.UpdateBedrijfLijst += UpdateListMetBedrijf;
+
+			_bedrijven = ApiController.FetchBedrijven().ToList();
+
+			SpawnBedrijvenGrid();
+			BedrijvenPage.Instance.LoadBedrijvenInList(_bedrijven);
+		}
+
+		private void UpdateListMetBedrijf(BedrijfDTO bedrijf) {
+			_bedrijven.Add(bedrijf);
+			SpawnBedrijvenGrid();
 		}
 
 		private void SpawnBedrijvenGrid() {
+			gridContainer.Children.Clear();
 			int rowCount = 0;
 			int columnCount = 0;
 
@@ -122,23 +131,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			((TextBlock)((StackPanel)beheerderWindow.SideBar.WerknemersTab.Child).Children[1]).Opacity = 1;
 			((Icon)((StackPanel)beheerderWindow.SideBar.WerknemersTab.Child).Children[0]).Opacity = 1;
 		}
-
-		#region API Requests
-		private async void FetchAlleBedrijven() {
-			_bedrijven = new();
-			(bool isvalid, List<BedrijfOutputDTO> bedrijven) = await ApiController.Get<List<BedrijfOutputDTO>>("/bedrijf");
-
-			if (isvalid) {
-				bedrijven.ForEach((api) => {
-					_bedrijven.Add(new BedrijfDTO(api.Id, api.Naam, api.BTW, api.TelefoonNummer, api.Email, api.Adres));
-				});
-			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de bedrijven", "Error /bedrijf");
-			}
-
-			SpawnBedrijvenGrid();
-			BedrijvenPage.Instance.LoadBedrijvenInList(_bedrijven);
-		}
-		#endregion
 	}
 }

@@ -103,7 +103,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Verwijdert een afspraak op ID
+		/// Verwijdert een afspraak op ID.
 		/// </summary>
 		/// <param name="afspraakId"></param>
 		/// <returns>NotFound bij mislukking</returns>
@@ -169,12 +169,12 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
-		/// Geef alle bezoekers die een afpsraak hebben bij een bedrijf
+		/// Geef alle afspraken binnen een bedrijf.
 		/// </summary>
 		/// <param name="bedrijfId">Het bedrijf waarbij de bezoeker zit</param>
 		/// <param name="datum">Datum van van welke dag je de bezoekers wil van het bedrijf met bedrijfsId</param>
 		/// <returns>NotFound bij mislukking</returns>
-		[HttpGet("bezoeker/{bedrijfId}")]
+		[HttpGet("bedrijf/{bedrijfId}")]
 		public ActionResult<BezoekerOutputDTO> GeefAfspraakOpBezoeker(long bedrijfId, [FromQuery] DateTime? datum) {
 			try {
 				if (!datum.HasValue)
@@ -191,7 +191,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId">Het bedrijf waarbij de bezoeker zit</param>
 		/// <param name="bezoekerId">De bezoeker informatie</param>
 		/// <returns>NotFound bij mislukking</returns>
-		[HttpGet("bezoeker/{bedrijfId}/{bezoekerId}")]
+		[HttpGet("bedrijf/{bedrijfId}/bezoeker/{bezoekerId}")]
 		public ActionResult<AfspraakOutputDTO> GeefAfspraakOpBezoeker(long bedrijfId, long bezoekerId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
@@ -208,7 +208,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bezoekerId">De bezoeker informatie</param>
 		/// <param name="dag">De dag waarop de afspraak plaatsvond</param>
 		/// <returns>NotFound bij mislukking</returns>
-		[HttpGet("bezoeker/all/{bedrijfId}/{bezoekerId}")]
+		[HttpGet("bedrijf/{bedrijfId}/bezoeker/{bezoekerId}/all")]
 		public ActionResult<IEnumerable<AfspraakOutputDTO>> GeefAfsprakenOpBezoeker(long bedrijfId, long bezoekerId, [FromQuery] DateTime dag) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
@@ -225,7 +225,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// Geeft alle aanwezige bezoekers.
 		/// </summary>
 		/// <returns>NotFound bij mislukking</returns>
-		[HttpGet("bezoeker/aanwezig")]
+		[HttpGet("aanwezig")]
 		public ActionResult<IEnumerable<BezoekerOutputDTO>> GeefAanwezigeBezoekers() {
 			try {
 				return Ok(BezoekerOutputDTO.NaarDTO(_afspraakManager.GeefAanwezigeBezoekers()));

@@ -22,25 +22,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 	/// Interaction logic for DashBoardPage.xaml
 	/// </summary>
 	public partial class BedrijvenPage : Page {
-		private static BedrijvenPage instance = null;
-		private static readonly object padlock = new object();
-
-		public static BedrijvenPage Instance {
-			get {
-				lock (padlock) {
-					if (instance == null) {
-						instance = new BedrijvenPage();
-					}
-					return instance;
-				}
-			}
-		}
-
-		/// <summary>
-		/// ///////////////////////////////////////////////////
-		/// </summary>
-
-
 		#region Public Propperty
 		public string Datum {
 			get {
@@ -61,5 +42,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 		public void LoadBedrijvenInList(List<BedrijfDTO> bedrijven) {
 			BedrijvenLijst.BedrijvenGrid.DataContext = bedrijven;
 		}
+
+
+		#region Singleton
+		private static BedrijvenPage instance = null;
+		private static readonly object padlock = new object();
+
+		public static BedrijvenPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new BedrijvenPage();
+					}
+					return instance;
+				}
+			}
+		}
+		#endregion
 	}
 }

@@ -2,22 +2,12 @@
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
 	/// <summary>
@@ -80,9 +70,26 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			List<WerknemerInfoInputDTO> werknemerInfo = new();
-            werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new() { Functie }));
-            WerknemerOutputDTO werknemer = ApiController.PostWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
-            SluitOverlay();
+			if (string.IsNullOrWhiteSpace(Voornaam)) {
+				MessageBox.Show("Voornaam mag niet leeg zijn");
+				return;
+			};
+			if (string.IsNullOrWhiteSpace(Achternaam)) {
+				MessageBox.Show("Achternaam mag niet leeg zijn");
+				return;
+			};
+			if (string.IsNullOrWhiteSpace(Email)) {
+				MessageBox.Show("Email mag niet leeg zijn");
+				return;
+			};
+			if (string.IsNullOrWhiteSpace(Functie)) {
+				MessageBox.Show("Functie mag niet leeg zijn");
+				return;
+			};
+
+			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
+			WerknemerOutputDTO werknemer = ApiController.PostWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
+			SluitOverlay();
 		}
 
 		private void SluitOverlay() {

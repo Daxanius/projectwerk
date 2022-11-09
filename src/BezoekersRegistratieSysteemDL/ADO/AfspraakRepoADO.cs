@@ -447,7 +447,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 
 			string queryAfspraak = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, BezoekerId) " +
 								   "output INSERTED.ID " +
-								   "VALUES(@start,@eind,@werknemerId,@bezoekerId)";
+								   "VALUES(@start,@eind,(SELECT Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId),@bezoekerId)";
 			con.Open();
 			SqlTransaction trans = con.BeginTransaction();
 			try {

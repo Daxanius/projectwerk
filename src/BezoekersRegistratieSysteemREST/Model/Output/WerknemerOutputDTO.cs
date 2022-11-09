@@ -17,12 +17,12 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		public static WerknemerOutputDTO NaarDTO(WerknemerManager werknemerManager, Werknemer werknemer)
 		{
 			var functies = werknemer.GeefBedrijvenEnFunctiesPerWerknemer();
-			Dictionary<long, WerknemerInfoOutputDTO> info = new();
+			List<WerknemerInfoOutputDTO> info = new();
 			bool bezet = false;
 
 			foreach (Bedrijf b in functies.Keys)
 			{
-				info.Add(b.Id, WerknemerInfoOutputDTO.NaarDTO(functies[b]));
+				info.Add(WerknemerInfoOutputDTO.NaarDTO(functies[b]));
 
 				// Om te kijken of de werknemer bezet is, deze oplossing is tijdelijk en zal nog
 				// moeten geimplementeerd worde in de business
@@ -30,7 +30,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 				bezet = bezet || werknemerManager.GeefBezetteWerknemersOpDitMomentVoorBedrijf(b).Contains(werknemer);
 			}
 
-			return new(werknemer.Id, werknemer.Voornaam, werknemer.Achternaam, info.Values.ToList(), bezet);
+			return new(werknemer.Id, werknemer.Voornaam, werknemer.Achternaam, info, bezet);
 		}
 
 		/// <summary>
@@ -57,7 +57,8 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <param name="voornaam"></param>
 		/// <param name="achternaam"></param>
 		/// <param name="werknemerInfo"></param>
-		public WerknemerOutputDTO(long id, string voornaam, string achternaam, List<WerknemerInfoOutputDTO> werknemerInfo, bool bezet)
+		/// <param name="bezet"></param>
+		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo, bool bezet)
 		{
 			Id = id;
 			Voornaam = voornaam;
@@ -84,7 +85,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <summary>
 		/// Alle bedrijven waarbij de werknemer werkt.
 		/// </summary>
-		public List<WerknemerInfoOutputDTO> WerknemerInfo { get; set; } = new();
+		public IEnumerable<WerknemerInfoOutputDTO> WerknemerInfo { get; set; }
 
 		/// <summary>
 		/// Of de werknemer bezet of vrij is.

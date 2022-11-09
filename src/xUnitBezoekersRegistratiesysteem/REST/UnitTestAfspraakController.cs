@@ -55,7 +55,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_et = _st.AddHours(2);
 
 			_b = new("bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-			_w = new("werknemer", "werknemersen", new());
+			_w = new("werknemer", "werknemersen", new List<WerknemerInfoInputDTO>());
 
 			_bd = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 
