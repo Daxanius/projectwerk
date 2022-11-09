@@ -50,4 +50,4 @@ Om de connectie string te verkrijgen volgt u volgende stappen:
 2. Selecteer "properties"
 3. Kopieëer de ConnectionString property
 
-Gelukt?! Goed dan bent u helemaal klaar voor gebruik!
+:rocket: Gelukt?! Goed dan bent u helemaal klaar voor gebruik!
