@@ -34,7 +34,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			List<BedrijfOutputDTO> output = new();
 			foreach (Bedrijf bedrijf in bedrijven)
 			{
-				output.Add(BedrijfOutputDTO.NaarDTO(bedrijf));
+				output.Add(NaarDTO(bedrijf));
 			}
 			return output;
 		}
@@ -77,7 +77,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <summary>
 		/// De werknemers van het bedrijf.
 		/// </summary>
-		public List<IdInfoOutputDTO> Werknemers { get; set; } = new();
+		public IEnumerable<IdInfoOutputDTO> Werknemers { get; set; }
 
 		/// <summary>
 		/// De constructor.
@@ -90,7 +90,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <param name="email"></param>
 		/// <param name="adres"></param>
 		/// <param name="werknemers"></param>
-		public BedrijfOutputDTO(long id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, List<IdInfoOutputDTO> werknemers)
+		public BedrijfOutputDTO(long id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, IEnumerable<IdInfoOutputDTO> werknemers)
 		{
 			Id = id;
 			Naam = naam;
@@ -99,7 +99,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			TelefoonNummer = telefoonNummer;
 			Email = email;
 			Adres = adres;
-			this.Werknemers = werknemers;
+			Werknemers = werknemers;
 		}
 	}
 }
