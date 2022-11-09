@@ -14,7 +14,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 		/// <param name="bedrijfId"></param>
 		/// <param name="email"></param>
 		/// <param name="functies"></param>
-		public WerknemerInfoInputDTO(long bedrijfId, string email, List<string> functies)
+		public WerknemerInfoInputDTO(long bedrijfId, string email, IEnumerable<string> functies)
 		{
 			BedrijfId = bedrijfId;
 			Email = email;
@@ -34,11 +34,16 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 		/// <summary>
 		/// De functies binnen het bedrijf van de werknemer.
 		/// </summary>
-		public List<string> Functies { get; set; } = new();
+		public IEnumerable<string> Functies { get; set; }
 
+		/// <summary>
+		/// Zet de DTO om naar de business variant.
+		/// </summary>
+		/// <param name="bedrijfManager"></param>
+		/// <returns></returns>
         public WerknemerInfo NaarBusiness(BedrijfManager bedrijfManager)
         {
-            WerknemerInfo werknemerinfo = new WerknemerInfo(bedrijfManager.GeefBedrijf(BedrijfId), Email);
+            WerknemerInfo werknemerinfo = new(bedrijfManager.GeefBedrijf(BedrijfId), Email);
             foreach (string functie in Functies)
             {
                 werknemerinfo.VoegWerknemerFunctieToe(functie);

@@ -10,7 +10,7 @@ namespace BezoekersRegistratieSysteemUI.Api.Input {
 		/// </summary>
 		/// <param name="voornaam"></param>
 		/// <param name="achternaam"></param>
-		public WerknemerInputDTO(string voornaam, string achternaam, List<WerknemerInfoInputDTO> werknemerInfo) {
+		public WerknemerInputDTO(string voornaam, string achternaam, IEnumerable<WerknemerInfoInputDTO> werknemerInfo) {
 			Voornaam = voornaam;
 			Achternaam = achternaam;
 			WerknemerInfo = werknemerInfo;
@@ -29,6 +29,6 @@ namespace BezoekersRegistratieSysteemUI.Api.Input {
 		/// <summary>
 		/// Werknemerinfo
 		/// </summary>
-		public List<WerknemerInfoInputDTO> WerknemerInfo { get; set; } = new();
+		public IEnumerable<WerknemerInfoInputDTO> WerknemerInfo { get; set; }
 	}
 }

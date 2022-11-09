@@ -3,6 +3,7 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
 using BezoekersRegistratieSysteemREST.Model.Input;
+using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -41,7 +42,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			// Data
 			_b = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-			_w = new("werknemer", "werknemersen", new());
+			_w = new("werknemer", "werknemersen", new List<WerknemerInfoInputDTO>());
 
 			Bedrijf b = _b.NaarBusiness();
 			Werknemer w = _w.NaarBusiness(_bedrijfManager);

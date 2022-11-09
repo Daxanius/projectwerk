@@ -12,7 +12,7 @@ namespace BezoekersRegistratieSysteemUI.Api.Output {
 		/// <param name="voornaam"></param>
 		/// <param name="achternaam"></param>
 		/// <param name="werknemerInfo"></param>
-		public WerknemerOutputDTO(long id, string voornaam, string achternaam, List<WerknemerInfoOutputDTO> werknemerInfo, bool bezet) {
+		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo, bool bezet) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
@@ -38,7 +38,7 @@ namespace BezoekersRegistratieSysteemUI.Api.Output {
 		/// <summary>
 		/// Alle bedrijven waarbij de werknemer werkt.
 		/// </summary>
-		public List<WerknemerInfoOutputDTO> WerknemerInfo { get; set; } = new();
+		public IEnumerable<WerknemerInfoOutputDTO> WerknemerInfo { get; set; }
 
 		/// <summary>
 		/// Of de werknemer bezet of vrij is.

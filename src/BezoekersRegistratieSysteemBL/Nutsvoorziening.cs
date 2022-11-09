@@ -34,17 +34,26 @@ namespace BezoekersRegistratieSysteemBL {
 		/// Verwijdert alle whitespace van een string.
 		/// </summary>
 		/// <param name="input"></param>
-		/// <returns></returns>
+		/// <returns>Opgemaakte tekst</returns>
 		public static string VerwijderWhitespace(string input) {
 			return RegexWhitespace.Replace(input, string.Empty);
 		}
 
-		/// <summary>
-		/// Controleert een BTW nummer op notatie.
-		/// </summary>
-		/// <param name="btwNummer"></param>
-		/// <returns></returns>
-		public static bool ControleerBTWNummer(string btwNummer) {
+        /// <summary>
+        /// Verwijdert buitenstaande whitespaces en spaties die teveel zijn tussen woorden.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>Opgemaakte tekst</returns>
+        public static string FunctieNaamOpmaak(string input) {
+			string functie = RegexWhitespace.Replace(input, " ").Trim();
+            return $"{char.ToUpper(functie[0])}{functie.Substring(1).ToLower()}";
+        }
+        /// <summary>
+        /// Controleert een BTW nummer op notatie.
+        /// </summary>
+        /// <param name="btwNummer"></param>
+        /// <returns></returns>
+        public static bool ControleerBTWNummer(string btwNummer) {
 			if (string.IsNullOrWhiteSpace(btwNummer)) {
 				return false;
 			}
