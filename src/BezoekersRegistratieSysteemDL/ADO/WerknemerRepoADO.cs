@@ -70,6 +70,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
         /// <param name="werknemerId">Optioneel: Id van de werknemer die gecontroleerd wenst te worden.</param>
         /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
         /// <exception cref="WerknemerADOException">Faalt om bestaan werknemer te verifiëren op basis van werknemer id of werknemer object.</exception>
+        /// <exception cref="WerknemerADOException">Als het email pad neemt en naam wijkt af is er exception.</exception>
         private bool BestaatWerknemer(Werknemer? werknemer, long? werknemerId) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
@@ -87,11 +88,12 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                                      "WHERE wb.werknemerEmail IN(";
                             int mailCount = 0;
                             foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
-                                query += $"@mail{mailCount}";
+                                query += $"@mail{mailCount},";
                                 cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
                                 cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
                                 mailCount++;
                             }
+                            query = query.Substring(0, query.Length - 1);
                             query += ")";
                         }
                     }
@@ -101,11 +103,37 @@ namespace BezoekersRegistratieSysteemDL.ADO {
                         cmd.Parameters["@id"].Value = werknemerId;
 
                     }
-                    //if (werknemerId.HasValue || (werknemer is not null && werknemer.Id != 0)) {
-                        cmd.CommandText = query;
-                        int i = (int)cmd.ExecuteScalar();
-                        return (i > 0);
-                    //}
+                    cmd.CommandText = query;
+                    int i = (int)cmd.ExecuteScalar();
+
+                    //Kan uitgecomment worden als voor moest werknemer naam niet uitmaken wnr email bestaat
+                    if (werknemer is not null && i > 0 && werknemer.Id == 0) {
+                        using (SqlCommand cmdWerknemerNaam = con.CreateCommand()) {
+                            string queryWerknemerNaam = "SELECT COUNT(*) " +
+                                                        "FROM Werknemer wn " +
+                                                        "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId)" +
+                                                        "WHERE wn.ANaam = @Anaam AND wn.VNaam = @Vnaam AND wb.werknemerEmail IN(";
+                            int mailCount = 0;
+                            foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
+                                queryWerknemerNaam += $"@mail{mailCount},";
+                                cmdWerknemerNaam.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                                cmdWerknemerNaam.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
+                                mailCount++;
+                            }
+                            queryWerknemerNaam = queryWerknemerNaam.Substring(0, queryWerknemerNaam.Length - 1);
+                            queryWerknemerNaam += ")";
+                            cmdWerknemerNaam.CommandText = queryWerknemerNaam;
+                            cmdWerknemerNaam.Parameters.Add(new SqlParameter("@Anaam", SqlDbType.VarChar));
+                            cmdWerknemerNaam.Parameters.Add(new SqlParameter("@Vnaam", SqlDbType.VarChar));
+                            cmdWerknemerNaam.Parameters["@Anaam"].Value = werknemer.Achternaam;
+                            cmdWerknemerNaam.Parameters["@Vnaam"].Value = werknemer.Voornaam;
+                            int j = (int)cmdWerknemerNaam.ExecuteScalar();
+                            if (j == 0) {
+                                throw new Exception("Werknemer mail is niet aan deze werknemer naam gelinked");
+                            }
+                        }
+                    }
+                    return (i > 0);
                     
                 }
             } catch (Exception ex) {
