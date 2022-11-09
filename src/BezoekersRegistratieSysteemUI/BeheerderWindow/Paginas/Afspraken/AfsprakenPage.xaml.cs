@@ -52,9 +52,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		private static BezoekerDTO? _geselecteerdeBezoeker;
 		private static WerknemerDTO? _geselecteerdeWerknemer;
 
-		private HuidigeAfsprakenLijst afsprakenAfsprakenLijstControl;
-		private HuidigeAfsprakenLijst bezoekersAfsprakenLijstControl;
-		private OpDatumLijstControl opDatumAfsprakenLijstControl;
+		private HuidigeAfsprakenLijst afsprakenAfsprakenLijstControl = new();
+		private BezoekersAfsprakenLijst bezoekersAfsprakenLijstControl = new();
+		private WerknemerAfsprakenLijst werknemersLijstControl = new();
+		private OpDatumLijstControl opDatumAfsprakenLijstControl = new();
 
 		public string Datum {
 			get {
@@ -72,17 +73,26 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			set {
 				if (value == null || _geselecteerdeBezoeker?.Id == value.Id) return;
 				_geselecteerdeBezoeker = value;
-				BezoekerAfsprakenLijst.ItemSource = new(ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeBezoeker));
+
+				GeselecteerdeBezoekerAfsprakenLijst.ItemSource.Clear();
+				foreach (AfspraakDTO afspraak in ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeBezoeker)) {
+					GeselecteerdeBezoekerAfsprakenLijst.ItemSource.Add(afspraak);
+				}
 				UpdatePropperty();
 			}
 		}
-		
+
 		public WerknemerDTO GeselecteerdeWerknemer {
 			get => _geselecteerdeWerknemer;
 			set {
 				if (value == null || _geselecteerdeWerknemer?.Id == value.Id) return;
 				_geselecteerdeWerknemer = value;
-				WerknemerAfsprakenLijst.ItemSource = new(ApiController.FetchWerknemerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeWerknemer));
+
+				GeselecteerdeWerknemerAfsprakenLijst.ItemSource.Clear();
+				foreach (AfspraakDTO afspraak in ApiController.FetchWerknemerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeWerknemer)) {
+					GeselecteerdeWerknemerAfsprakenLijst.ItemSource.Add(afspraak);
+				}
+
 				UpdatePropperty();
 			}
 		}
@@ -92,10 +102,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 			this.DataContext = this;
 			InitializeComponent();
-
-			afsprakenAfsprakenLijstControl = (HuidigeAfsprakenLijst)WerknemerAfsprakenLijst.DataContext;
-			bezoekersAfsprakenLijstControl = (HuidigeAfsprakenLijst)BezoekerAfsprakenLijst.DataContext;
-			opDatumAfsprakenLijstControl = (OpDatumLijstControl)OpDatumAfsprakenLijst.DataContext;
 
 			UpdateGeselecteerdBedrijfOpScherm();
 
@@ -132,18 +138,26 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 				case "Afspraken Werknemer":
 				NavigeerNaarTab("Afspraken Werknemer");
-				if (!afsprakenAfsprakenLijstControl.HeeftData) {
-					WerknemerLijst.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
+				if (!werknemersLijstControl.HeeftData) {
+					foreach (WerknemerDTO werknemer in ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf)) {
+						WerknemerLijst.ItemSource.Add(werknemer);
+					}
 					afsprakenAfsprakenLijstControl.HeeftData = true;
+				} else {
 				}
-
 				break;
 
 				case "Afspraken Bezoeker":
 				NavigeerNaarTab("Afspraken Bezoeker");
+				//if (GeselecteerdeBezoekerAfsprakenLijst.ItemSource is null) GeselecteerdeBezoekerAfsprakenLijst.ItemSource = new ObservableCollection<AfspraakDTO>(ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeBezoeker));
+				//GeselecteerdeBezoekerAfsprakenLijst.ItemSource.Clear();
+				//GeselecteerdeBezoekerAfsprakenLijst.AfsprakenLijst.SelectedItem = null;
+
 				if (!bezoekersAfsprakenLijstControl.HeeftData) {
-					ObservableCollection<BezoekerDTO> afspraken = new(ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Now));
-					BezoekerLijst.ItemSource = afspraken;
+					BezoekerLijst.ItemSource.Clear();
+					foreach (BezoekerDTO bezoeker in ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Now)) {
+						BezoekerLijst.ItemSource.Add(bezoeker);
+					}
 					bezoekersAfsprakenLijstControl.HeeftData = true;
 				}
 				break;
