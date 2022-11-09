@@ -66,18 +66,27 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			List<WerknemerInfoInputDTO> werknemerInfo = new();
+
+			Voornaam = Voornaam.Trim();
+			Achternaam = Achternaam.Trim();
+			Email = Email.Trim();
+			Functie = Functie.Trim();
+
 			if (string.IsNullOrWhiteSpace(Voornaam)) {
 				MessageBox.Show("Voornaam mag niet leeg zijn");
 				return;
 			};
+
 			if (string.IsNullOrWhiteSpace(Achternaam)) {
 				MessageBox.Show("Achternaam mag niet leeg zijn");
 				return;
 			};
+
 			if (string.IsNullOrWhiteSpace(Email)) {
 				MessageBox.Show("Email mag niet leeg zijn");
 				return;
 			};
+
 			if (string.IsNullOrWhiteSpace(Functie)) {
 				MessageBox.Show("Functie mag niet leeg zijn");
 				return;
