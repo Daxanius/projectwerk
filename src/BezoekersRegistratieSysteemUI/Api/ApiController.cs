@@ -337,6 +337,21 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
+		public static IEnumerable<BedrijfDTO> FetchBedrijven() {
+			return Task.Run(async () => {
+				List<BedrijfDTO> _bedrijven = new();
+				(bool isvalid, List<BedrijfOutputDTO> apiBedrijven) = await Get<List<BedrijfOutputDTO>>($"bedrijf");
+				if (isvalid) {
+					apiBedrijven.ForEach(api => {
+						_bedrijven.Add(new BedrijfDTO(api.Id, api.Naam, api.BTW, api.TelefoonNummer, api.Email, api.Adres));
+					});
+					return _bedrijven;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de bedrijven");
+				}
+			}).Result;
+		}
+
 		public static IEnumerable<AfspraakDTO> FetchBezoekerAfsprakenVanBedrijf(long bedrijfsId, BezoekerDTO bezoeker, DateTime? dag = null) {
 			return Task.Run(async () => {
 
@@ -403,14 +418,31 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
+		public static IEnumerable<AfspraakDTO> FetchAfspraken() {
+			return Task.Run(async () => {
+				List<AfspraakDTO> alleAfspraken = new();
+
+				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>("afspraak?dag=" + DateTime.Now.ToString("MM/dd/yyy"));
+				if (isvalid) {
+					apiAfspraken.ForEach((api) => {
+						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
+						BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
+						alleAfspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
+					});
+					return alleAfspraken;
+				} else
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van alle afspraaken");
+			}).Result;
+		}
+
 		#endregion
 
 		#region Bedrijf
-		public static BedrijfOutputDTO? FetchBedrijf(long bedrijfId) {
+		public static BedrijfDTO FetchBedrijf(long bedrijfId) {
 			return Task.Run(async () => {
-				(bool isvalid, BedrijfOutputDTO bedrijf) = await Get<BedrijfOutputDTO>($"bedrijf/{bedrijfId}");
+				(bool isvalid, BedrijfDTO apiBedrijf) = await Get<BedrijfDTO>($"bedrijf/{bedrijfId}");
 				if (isvalid) {
-					return bedrijf;
+					return new BedrijfDTO(apiBedrijf.Naam, apiBedrijf.BTW, apiBedrijf.TelefoonNummer, apiBedrijf.Email, apiBedrijf.Adres);
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het bedrijf");
 				}
@@ -428,17 +460,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
-		public static IEnumerable<BedrijfOutputDTO>? FetchBedrijven() {
-			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<BedrijfOutputDTO> bedrijven) = await Get<IEnumerable<BedrijfOutputDTO>>($"bedrijf");
-				if (isvalid) {
-					return bedrijven;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de bedrijven");
-				}
-			}).Result;
-		}
-
 		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersVanBedrijf(long bedrijfId) {
 			return Task.Run(async () => {
 				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"bedrijf/werknemer/{bedrijfId}");
@@ -450,12 +471,12 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
-		public static BedrijfDTO? PostBedrijf(BedrijfInputDTO bedrijf) {
+		public static BedrijfDTO PostBedrijf(BedrijfInputDTO bedrijf) {
 			return Task.Run(async () => {
 				string body = JsonConvert.SerializeObject(bedrijf);
 				(bool isvalid, BedrijfOutputDTO apiBedrijf) = await Post<BedrijfOutputDTO>($"bedrijf/", body);
 				if (isvalid) {
-					return new BedrijfDTO(apiBedrijf.Naam, apiBedrijf.BTW, apiBedrijf.TelefoonNummer, apiBedrijf.Email, apiBedrijf.Adres);
+					return new BedrijfDTO(apiBedrijf.Id, apiBedrijf.Naam, apiBedrijf.BTW, apiBedrijf.TelefoonNummer, apiBedrijf.Email, apiBedrijf.Adres);
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
 				}

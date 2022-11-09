@@ -1,7 +1,9 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +26,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 	/// <summary>
 	/// Interaction logic for WerknemersPopup.xaml
 	/// </summary>
+	public delegate void NieuwBedrijfToegevoegdVanuitUi(BedrijfDTO bedrijf);
 	public partial class BedrijvenPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -75,6 +78,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 		#endregion
 
+		#region NieuwBedrijfToegevoegdVanuitUi Event
+		public static event NieuwBedrijfToegevoegdVanuitUi UpdateBedrijfLijst;
+		#endregion
+
 		public BedrijvenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
@@ -87,8 +94,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(Naam, BtwNummer, TelefoonNummer, Email, Adres);
 			BedrijfDTO bedrijf = ApiController.PostBedrijf(nieuwBedrijf);
+
 			MessageBox.Show($"Bedrijf toegevoegd: Naam = {bedrijf.Naam}");
-			((ObservableCollection<BedrijfDTO>)BedrijvenPage.Instance.BedrijvenLijst.BedrijvenGrid.ItemsSource).Add(bedrijf);
+
+			Task.Run(() => UpdateBedrijfLijst?.Invoke(bedrijf));
+
 			SluitOverlay();
 		}
 

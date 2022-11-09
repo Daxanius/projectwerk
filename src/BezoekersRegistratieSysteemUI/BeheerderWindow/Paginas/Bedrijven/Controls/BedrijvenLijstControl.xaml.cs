@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -20,7 +21,15 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 		public BedrijvenLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
+
 			BedrijvenGrid.ItemsSource = new List<BedrijfDTO>();
+
+			BedrijvenPopup.UpdateBedrijfLijst += UpdateLijstMetNieuwToegeVoegdBedrijf;
+		}
+
+		private void UpdateLijstMetNieuwToegeVoegdBedrijf(BedrijfDTO bedrijf) {
+			((List<BedrijfDTO>)BedrijvenGrid.ItemsSource).Add(bedrijf);
+			UpdatePropperty(nameof(BedrijvenGrid.ItemsSource));
 		}
 
 		#region Action Button
@@ -58,9 +67,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 		private void UserControl_Loaded(object sender, RoutedEventArgs e) {
 			if (isLijstOpgevult) return;
 
-
 			Task.Run(() => {
-				Dispatcher.Invoke(() => BedrijvenGrid.ItemsSource = (List<BedrijfDTO>)BedrijvenGrid.DataContext);
+				Dispatcher.Invoke(() => {
+					List<BedrijfDTO> bedrijven = (List<BedrijfDTO>)BedrijvenGrid.DataContext;
+					BedrijvenGrid.ItemsSource = bedrijven;
+				});
 				UpdatePropperty(nameof(BedrijvenGrid.ItemsSource));
 			});
 
