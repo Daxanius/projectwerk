@@ -782,13 +782,20 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 			string query = "SELECT TOP(1) w.id " +
 							"FROM Werknemer w " +
 							"JOIN Werknemerbedrijf wb ON(w.Id = wb.WerknemerId) " +
-							"WHERE wb.WerknemerEmail = @email";
+							"WHERE wb.WerknemerEmail IN(";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
-					cmd.Parameters["@email"].Value = werknemer.GeefBedrijvenEnFunctiesPerWerknemer().First().Value.Email;
+					con.Open();							
+                    int mailCount = 0;
+                    foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
+                        query += $"@mail{mailCount},";
+                        cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                        cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
+                        mailCount++;
+                    }
+                    query = query.Substring(0, query.Length - 1);
+                    query += ")";
+                    cmd.CommandText = query;
 					long i = (long)cmd.ExecuteScalar();
 					werknemer.ZetId(i);
 				}
