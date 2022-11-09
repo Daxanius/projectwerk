@@ -20,7 +20,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 			Bezoeker bezoeker = Bezoeker.NaarBusiness();
 			Bedrijf bedrijf = bedrijfManager.GeefBedrijf(BedrijfId);
 
-			return new(1, Starttijd ?? DateTime.Now, Eindtijd, bedrijf, bezoeker, werknemer);
+			return new(Starttijd ?? DateTime.Now, Eindtijd, bedrijf, bezoeker, werknemer);
 		}
 
 		/// <summary>

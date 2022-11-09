@@ -95,8 +95,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		}
 
 		private void UpdateAfsprakenOpScherm(AfspraakDTO afspraak) {
-			GeselecteerdeWerknemerAfsprakenLijst.ItemSource.Add(afspraak);
-			GeselecteerdeBezoekerAfsprakenLijst.ItemSource.Add(afspraak);
+			// Als de afspraak nog bezig is voegen we hem toe aan de huidige
+			// afspraken lijst
+			if (string.IsNullOrWhiteSpace(afspraak.EindTijd)) {
+				HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
+			}
 		} 
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
