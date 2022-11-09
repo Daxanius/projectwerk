@@ -1,6 +1,12 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,9 +23,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups {
-	/// <summary>
-	/// Interaction logic for WerknemersPopup.xaml
-	/// </summary>
 	public partial class BedrijvenPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -71,13 +74,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 		#endregion
 
+		#region NieuwBedrijfToegevoegdVanuitUi Event
+		public delegate void NieuwBedrijfToegevoegdVanuitUi(BedrijfDTO bedrijf);
+		public static event NieuwBedrijfToegevoegdVanuitUi UpdateBedrijfLijst;
+		#endregion
+
 		public BedrijvenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
-		}
-
-		private void VoegNieuweFunctieToe(object sender, MouseButtonEventArgs e) {
-
 		}
 
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {
@@ -85,7 +89,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
-			//...
+			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(Naam, BtwNummer, TelefoonNummer, Email, Adres);
+			BedrijfDTO bedrijf = ApiController.PostBedrijf(nieuwBedrijf);
+
+			MessageBox.Show($"Bedrijf toegevoegd: Naam = {bedrijf.Naam}");
+
+			UpdateBedrijfLijst?.Invoke(bedrijf);
+
 			SluitOverlay();
 		}
 
@@ -95,8 +105,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			BtwNummer = string.Empty;
 			Email = string.Empty;
 			Adres = string.Empty;
-			BedrijvenPage bedrijvenPage = BedrijvenPage.Instance;
-			bedrijvenPage.BedrijvenPopup.Visibility = Visibility.Hidden;
+			Visibility = Visibility.Hidden;
 		}
 
 		#region ProppertyChanged

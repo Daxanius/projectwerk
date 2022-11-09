@@ -183,7 +183,6 @@
         <Style.Triggers>
             <Trigger Property="Tag" Value="Selected">
                 <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
-                <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
             </Trigger>
             <Trigger Property="Tag" Value="UnSelected">
                 <Setter Property="Background" Value="Transparent" />
@@ -413,12 +412,13 @@
                 <ControlTemplate TargetType="Button">
                     <Border
                         Name="ActionButtonBorder"
+                        Padding="15"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Background="{StaticResource MainAchtergrond}"
                         BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="2"
-                        CornerRadius="25"
+                        BorderThickness="5"
+                        CornerRadius="35"
                         Cursor="Hand">
                         <Label
                             Name="ActionButtonLabel"
@@ -432,7 +432,7 @@
                             FontWeight="Bold"
                             Foreground="{TemplateBinding Foreground}" />
                     </Border>
-                    <ControlTemplate.Triggers>
+                    <!--<ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
@@ -450,12 +450,23 @@
                                 <Condition Property="Tag" Value="Rood" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource LichtRood}" />
+                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource DonkerRood}" />
                                 <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
                                 <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-                    </ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="Tag" Value="Blauw" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource GewoonBlauw}" />
+                                <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
+                                <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -475,7 +486,7 @@
                             Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="0"
-                            FontSize="26"
+                            FontSize="24"
                             FontWeight="Medium"
                             Foreground="{StaticResource DonkerBlauw}"
                             Text="{Binding Path=Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />

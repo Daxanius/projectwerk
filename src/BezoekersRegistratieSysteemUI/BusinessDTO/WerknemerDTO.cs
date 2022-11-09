@@ -1,5 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Api.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
@@ -8,48 +8,42 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 		public long? Id { get; set; }
 		public string Voornaam { get; set; }
 		public string Achternaam { get; set; }
+		public string Email { get; set; }
+		private string? _functie = null;
 		public string Functie {
 			get {
+				if (_functie is not null) {
+					return _functie;
+				}
 				var lijstVanFuncties = WerknemerInfoLijst.Select(w => string.Join(", ", w.Functies));
 				return string.Join(", ", string.Join(", ", lijstVanFuncties));
 			}
 		}
 		public bool Status { get; set; } = false;
 
-		public List<ApiWerknemerInfoIn> WerknemerInfoLijst { get; set; } = new();
+		public IEnumerable<WerknemerInfoDTO> WerknemerInfoLijst { get; set; }
 
-		public WerknemerDTO(long id, string voornaam, string achternaam, bool isWerknemerVrij, List<ApiWerknemerInfoIn> werknemerinfoLijst) {
-			Id = id;
-			Voornaam = voornaam;
-			Achternaam = achternaam;
-			Status = isWerknemerVrij;
-			WerknemerInfoLijst = werknemerinfoLijst;
-		}
-
-		public WerknemerDTO(long id, string voornaam, string achternaam, List<ApiWerknemerInfoIn> werknemerinfoLijst) {
+		public WerknemerDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoDTO> werknemerinfoLijst) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
 			WerknemerInfoLijst = werknemerinfoLijst;
 		}
 
-		public WerknemerDTO(long id, string voornaam, string achternaam, bool isWerknemerVrij) {
+		public WerknemerDTO(long id, string voornaam, string achternaam, string email, bool isWerknemerVrij) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
+			Email = email;
 			Status = isWerknemerVrij;
 		}
 
-		public WerknemerDTO(string voornaam, string achternaam, bool isWerknemerVrij, List<ApiWerknemerInfoIn> werknemerinfoLijst) {
+		public WerknemerDTO(long id, string voornaam, string achternaam, string email, IEnumerable<string> functie, bool isWerknemerVrij) {
+			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
-			Status = isWerknemerVrij;
-			WerknemerInfoLijst = werknemerinfoLijst;
-		}
-
-		public WerknemerDTO(string voornaam, string achternaam, bool isWerknemerVrij) {
-			Voornaam = voornaam;
-			Achternaam = achternaam;
+			Email = email;
+			_functie = string.Join(", ", functie);
 			Status = isWerknemerVrij;
 		}
 

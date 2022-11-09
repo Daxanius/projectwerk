@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitBezoekersRegistratieSy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteemUI", "BezoekersRegistratieSysteemUI\BezoekersRegistratieSysteemUI.csproj", "{1ED373CB-7E22-4F68-A3E9-BE75C07A52DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BezoekersRegistratieSysteemCLI", "BezoekersRegistratieSysteemCLI\BezoekersRegistratieSysteemCLI.csproj", "{4411B6DC-2EBB-4682-909E-1A969102D137}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteemCLI", "BezoekersRegistratieSysteemCLI\BezoekersRegistratieSysteemCLI.csproj", "{4411B6DC-2EBB-4682-909E-1A969102D137}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

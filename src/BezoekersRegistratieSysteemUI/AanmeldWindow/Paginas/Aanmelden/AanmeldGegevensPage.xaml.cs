@@ -1,12 +1,12 @@
-﻿using BezoekersRegistratieSysteemREST.Model.Output;
+﻿using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Api.DTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -64,6 +64,16 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
+		private BedrijfDTO _geselecteerdBedrijf;
+		public BedrijfDTO GeselecteerdBedrijf {
+			get { return _geselecteerdBedrijf; }
+			set {
+				if (value.Naam == _geselecteerdBedrijf?.Naam) return;
+				_geselecteerdBedrijf = value;
+				UpdatePropperty();
+			}
+		}
+
 		private List<WerknemerDTO> _lijstMetWerknemersVanGeselecteerdBedrijf;
 		public List<WerknemerDTO> LijstMetWerknemersVanGeselecteerdBedrijf {
 			get { return _lijstMetWerknemersVanGeselecteerdBedrijf; }
@@ -75,41 +85,19 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		#endregion
 
-		#region Private Fields
-
-		private long? _geselecteerdBedrijfsId;
-
-		#endregion
-
 		public AanmeldGegevensPage() {
 			this.DataContext = this;
 			InitializeComponent();
 
-			_geselecteerdBedrijfsId = RegistratieWindow.GeselecteerdBedrijf.Id;
+			GeselecteerdBedrijf = RegistratieWindow.GeselecteerdBedrijf;
 
-			if (!_geselecteerdBedrijfsId.HasValue) {
+			if (GeselecteerdBedrijf is null) {
 				MessageBox.Show("Bedrijf is niet gekozen", "Error");
-				((RegistratieWindow)Window.GetWindow(this)).FrameControl.Navigate(KiesBedrijfPage.Instance);
+				((RegistratieWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
 				return;
 			}
-			FetchWerknemersVoorBedrijf();
+			LijstMetWerknemersVanGeselecteerdBedrijf = ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf).ToList();
 		}
-
-		#region FetchWerknemers
-
-		private async void FetchWerknemersVoorBedrijf() {
-			(bool isValid, List<ApiWerknemerIn> werknemersVanGeselecteerdBedrijf) = await ApiController.Get<List<ApiWerknemerIn>>($"werknemer/bedrijf/id/{_geselecteerdBedrijfsId.Value}");
-			if (isValid) {
-				List<WerknemerDTO> werknemersDTOVanBedrijf = new();
-				werknemersVanGeselecteerdBedrijf.ForEach(w => {
-					WerknemerDTO werknemer = new(w.Id, w.Voornaam, w.Achternaam, w.WerknemerInfo);
-					werknemersDTOVanBedrijf.Add(werknemer);
-				});
-				LijstMetWerknemersVanGeselecteerdBedrijf = werknemersDTOVanBedrijf;
-			}
-		}
-
-		#endregion
 
 		#region Action Buttons
 
@@ -161,7 +149,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				BezoekerDTO bezoeker = new(Voornaam.Trim(), Achternaam.Trim(), Email.Trim(), Bedrijf.Trim());
 
 				if (werknemer.Id.HasValue) {
-					MaakNieuweAfspraak(_geselecteerdBedrijfsId.Value, werknemer.Id.Value, bezoeker);
+					MessageBoxResult result = MessageBox.Show("Bent u zeker ?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
+					if (result == MessageBoxResult.Yes)
+						MaakNieuweAfspraak(GeselecteerdBedrijf.Id, werknemer.Id.Value, bezoeker);
+					else return;
 				}
 			} catch (Exception ex) {
 				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -177,7 +168,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			Bedrijf = string.Empty;
 
 			RegistratieWindow registratieWindow = (RegistratieWindow)Window.GetWindow(this);
-			registratieWindow.FrameControl.Navigate(KiesBedrijfPage.Instance);
+			registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
 		}
 
 		private async void MaakNieuweAfspraak(long bedrijfsId, long werknemerId, BezoekerDTO bezoeker) {
@@ -196,9 +187,9 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		private Border _selecteditem;
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
 			//Er is 2 keer geklikt
-			if (e.ClickCount == 2) {
-				return;
-			}
+			//if (e.ClickCount == 2) {
+			//	return;
+			//}
 
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
@@ -211,7 +202,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			Border border = (Border)listViewItem.Children[0];
 			border.Background = hightlightColor;
 			border.BorderThickness = new Thickness(0);
-			border.BorderBrush = Brushes.LightGray;
+			border.BorderBrush = Brushes.Black;
 			border.CornerRadius = new CornerRadius(20);
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;

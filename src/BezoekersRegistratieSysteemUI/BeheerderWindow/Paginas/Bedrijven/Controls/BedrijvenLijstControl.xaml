@@ -15,7 +15,7 @@
         HorizontalContentAlignment="Stretch"
         Background="Transparent"
         BorderBrush="Transparent"
-        ItemsSource="{Binding Bedrijven}"
+        ItemsSource="{Binding ItemSource}"
         ScrollViewer.CanContentScroll="False">
         <ListView.Style>
             <Style TargetType="ListView">

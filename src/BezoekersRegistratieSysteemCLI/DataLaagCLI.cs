@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 
 namespace BezoekersRegistratieSysteemCLI {
 	public class DataLaagCLI {
-		private const string sqlServerHost = @"";
-		private const string database = "";
+		private const string sqlServerHost = @"ST-PC";
+		private const string database = "ProjectWerk";
 		private const string connectionString = $"Data Source={sqlServerHost};Initial Catalog={database};Integrated Security=True";
 		static void Main() {
 			if (sqlServerHost == "" || database == "") {
@@ -27,14 +27,13 @@ namespace BezoekersRegistratieSysteemCLI {
 
 
 			#region GeefHuidigeAfspraken()
-			//try
-			//{
-			//	result = afspraakRepo.GeefHuidigeAfspraken();
-			//	Print(result, "GeefHuidigeAfspraken");
-			//} catch (Exception ex) {
-			//Error(ex);
-			//return;
-			//}
+			try {
+				result = afspraakRepo.GeefHuidigeAfspraken();
+				Print(result, "GeefHuidigeAfspraken");
+			} catch (Exception ex) {
+				Error(ex);
+				return;
+			}
 			#endregion
 
 			#region GeefHuidigeAfsprakenPerBedrijf(long bedrijfId)
@@ -416,7 +415,7 @@ namespace BezoekersRegistratieSysteemCLI {
 			//	string achternaam = "Balder";
 			//	Werknemer werknemer = new Werknemer(voornaam, achternaam);
 			//	Bedrijf bedrijf = new Bedrijf("Hogent", "BE0676747521", "0476687215", "stan@gmail.com", "kerkstraat 164");
-				
+
 			//	bedrijfRepo.VoegBedrijfToe(bedrijf);
 			//	werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, "stan@gmail.com", "CFO");
 			//	werknemerRepo.VoegWerknemerToe(werknemer);

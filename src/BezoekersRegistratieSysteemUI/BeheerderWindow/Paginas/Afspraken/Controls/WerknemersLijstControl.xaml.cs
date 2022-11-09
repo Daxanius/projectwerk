@@ -37,11 +37,21 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			set { SetValue(ItemSourceProperty, value); }
 		}
 
+		public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+		  nameof(SelectedItem),
+		  typeof(WerknemerDTO),
+		  typeof(WerknemersLijstControl),
+		  new PropertyMetadata(null)
+		);
+
+		public WerknemerDTO SelectedItem {
+			get { return (WerknemerDTO)GetValue(SelectedItemProperty); }
+			set { SetValue(SelectedItemProperty, value); }
+		}
+
 		public WerknemersLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
-
-			if (!HeeftData) FetchData();
 		}
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
@@ -51,13 +61,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			//Zet de geselecteerde werknemer in de DataContext van de BeheerWindow
 		}
 
-		private Border _selecteditem;
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			//Er is 2 keer geklikt
-			if (e.ClickCount == 2) {
-				return;
-			}
+		public void SelectionChanged(object sender, SelectionChangedEventArgs e) {
+			if (SelectedItem is null) return;
+			WerknemerDTO werknemer = SelectedItem;
+			AfsprakenPage.Instance.GeselecteerdeWerknemer = werknemer;
+		}
 
+		private Border _selecteditem;
+		private void VeranderKleurRowOnKlik(object sender, MouseButtonEventArgs e) {
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
 				_selecteditem.BorderThickness = new Thickness(0);
@@ -71,10 +82,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			border.CornerRadius = new CornerRadius(20);
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;
-		}
-
-		public void FetchData(string url = "", object body = null) {
-
 		}
 	}
 }

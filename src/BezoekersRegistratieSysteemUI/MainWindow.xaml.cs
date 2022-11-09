@@ -1,6 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.Controlls;
 using System.Windows;
 
 namespace BezoekersRegistratieSysteemUI {

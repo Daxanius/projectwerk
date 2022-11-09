@@ -1,4 +1,7 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,9 +19,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Controls {
-	/// <summary>
-	/// Interaction logic for BedrijvenLijstControl.xaml
-	/// </summary>
 	public partial class WerknemersLijstControl : UserControl {
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),

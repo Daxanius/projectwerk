@@ -1,9 +1,8 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
-using BezoekersRegistratieSysteemREST.Model;
+using BezoekersRegistratieSysteemREST.Model.Input;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -56,14 +55,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_et = _st.AddHours(2);
 
 			_b = new("bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-			_w = new("werknemer", "werknemersen");
+			_w = new("werknemer", "werknemersen", new List<WerknemerInfoInputDTO>());
 
 			_bd = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 
 			_a = new(_b, 0, 0);
 
 			Bedrijf b = _bd.NaarBusiness();
-			Werknemer w = _w.NaarBusiness();
+			Werknemer w = _w.NaarBusiness(_bedrijfManager);
 
 			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemersen@bedrijf.com", "nietsen");
 
@@ -312,201 +311,201 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		}
 		#endregion
 
-		#region UnitTest GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf
-		[Fact]
-		public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_BedrijfLeeg() {
-			var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, null);
-			Assert.NotNull(result.Result);
-			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
-			Assert.Null(result.Value);
-		}
+		//#region UnitTest GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf
+		//[Fact]
+		//public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_BedrijfLeeg() {
+		//	var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, null);
+		//	Assert.NotNull(result.Result);
+		//	Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+		//	Assert.Null(result.Value);
+		//}
 
-		[Theory]
-		[InlineData(null, null, null)]
+		//[Theory]
+		//[InlineData(null, null, null)]
 
-		[InlineData(null, "", "")]
-		[InlineData(null, " ", "")]
-		[InlineData(null, "\n", "")]
-		[InlineData(null, "\r", "")]
-		[InlineData(null, "\t", "")]
-		[InlineData(null, "\v", "")]
+		//[InlineData(null, "", "")]
+		//[InlineData(null, " ", "")]
+		//[InlineData(null, "\n", "")]
+		//[InlineData(null, "\r", "")]
+		//[InlineData(null, "\t", "")]
+		//[InlineData(null, "\v", "")]
 
-		[InlineData(null, "", " ")]
-		[InlineData(null, " ", " ")]
-		[InlineData(null, "\n", " ")]
-		[InlineData(null, "\r", " ")]
-		[InlineData(null, "\t", " ")]
-		[InlineData(null, "\v", " ")]
+		//[InlineData(null, "", " ")]
+		//[InlineData(null, " ", " ")]
+		//[InlineData(null, "\n", " ")]
+		//[InlineData(null, "\r", " ")]
+		//[InlineData(null, "\t", " ")]
+		//[InlineData(null, "\v", " ")]
 
-		[InlineData(null, "", "\n")]
-		[InlineData(null, " ", "\n")]
-		[InlineData(null, "\n", "\n")]
-		[InlineData(null, "\r", "\n")]
-		[InlineData(null, "\t", "\n")]
-		[InlineData(null, "\v", "\n")]
+		//[InlineData(null, "", "\n")]
+		//[InlineData(null, " ", "\n")]
+		//[InlineData(null, "\n", "\n")]
+		//[InlineData(null, "\r", "\n")]
+		//[InlineData(null, "\t", "\n")]
+		//[InlineData(null, "\v", "\n")]
 
-		[InlineData(null, "", "\r")]
-		[InlineData(null, " ", "\r")]
-		[InlineData(null, "\n", "\r")]
-		[InlineData(null, "\r", "\r")]
-		[InlineData(null, "\t", "\r")]
-		[InlineData(null, "\v", "\r")]
+		//[InlineData(null, "", "\r")]
+		//[InlineData(null, " ", "\r")]
+		//[InlineData(null, "\n", "\r")]
+		//[InlineData(null, "\r", "\r")]
+		//[InlineData(null, "\t", "\r")]
+		//[InlineData(null, "\v", "\r")]
 
-		[InlineData(null, "", "\t")]
-		[InlineData(null, " ", "\t")]
-		[InlineData(null, "\n", "\t")]
-		[InlineData(null, "\r", "\t")]
-		[InlineData(null, "\t", "\t")]
-		[InlineData(null, "\v", "\t")]
+		//[InlineData(null, "", "\t")]
+		//[InlineData(null, " ", "\t")]
+		//[InlineData(null, "\n", "\t")]
+		//[InlineData(null, "\r", "\t")]
+		//[InlineData(null, "\t", "\t")]
+		//[InlineData(null, "\v", "\t")]
 
-		[InlineData(null, "", "\v")]
-		[InlineData(null, " ", "\v")]
-		[InlineData(null, "\n", "\v")]
-		[InlineData(null, "\r", "\v")]
-		[InlineData(null, "\t", "\v")]
-		[InlineData(null, "\v", "\v")]
+		//[InlineData(null, "", "\v")]
+		//[InlineData(null, " ", "\v")]
+		//[InlineData(null, "\n", "\v")]
+		//[InlineData(null, "\r", "\v")]
+		//[InlineData(null, "\t", "\v")]
+		//[InlineData(null, "\v", "\v")]
 
-		[InlineData("", null, null)]
-		[InlineData(" ", null, "")]
-		[InlineData("\n", null, "")]
-		[InlineData("\r", null, "")]
-		[InlineData("\t", null, "")]
-		[InlineData("\v", null, "")]
+		//[InlineData("", null, null)]
+		//[InlineData(" ", null, "")]
+		//[InlineData("\n", null, "")]
+		//[InlineData("\r", null, "")]
+		//[InlineData("\t", null, "")]
+		//[InlineData("\v", null, "")]
 
-		[InlineData(" ", null, " ")]
-		[InlineData("\n", null, " ")]
-		[InlineData("\r", null, " ")]
-		[InlineData("\t", null, " ")]
-		[InlineData("\v", null, " ")]
+		//[InlineData(" ", null, " ")]
+		//[InlineData("\n", null, " ")]
+		//[InlineData("\r", null, " ")]
+		//[InlineData("\t", null, " ")]
+		//[InlineData("\v", null, " ")]
 
-		[InlineData(" ", null, "\n")]
-		[InlineData("\n", null, "\n")]
-		[InlineData("\r", null, "\n")]
-		[InlineData("\t", null, "\n")]
-		[InlineData("\v", null, "\n")]
+		//[InlineData(" ", null, "\n")]
+		//[InlineData("\n", null, "\n")]
+		//[InlineData("\r", null, "\n")]
+		//[InlineData("\t", null, "\n")]
+		//[InlineData("\v", null, "\n")]
 
-		[InlineData(" ", null, "\r")]
-		[InlineData("\n", null, "\r")]
-		[InlineData("\r", null, "\r")]
-		[InlineData("\t", null, "\r")]
-		[InlineData("\v", null, "\r")]
+		//[InlineData(" ", null, "\r")]
+		//[InlineData("\n", null, "\r")]
+		//[InlineData("\r", null, "\r")]
+		//[InlineData("\t", null, "\r")]
+		//[InlineData("\v", null, "\r")]
 
-		[InlineData(" ", null, "\t")]
-		[InlineData("\n", null, "\t")]
-		[InlineData("\r", null, "\t")]
-		[InlineData("\t", null, "\t")]
-		[InlineData("\v", null, "\t")]
+		//[InlineData(" ", null, "\t")]
+		//[InlineData("\n", null, "\t")]
+		//[InlineData("\r", null, "\t")]
+		//[InlineData("\t", null, "\t")]
+		//[InlineData("\v", null, "\t")]
 
-		[InlineData(" ", null, "\v")]
-		[InlineData("\n", null, "\v")]
-		[InlineData("\r", null, "\v")]
-		[InlineData("\t", null, "\v")]
-		[InlineData("\v", null, "\v")]
+		//[InlineData(" ", null, "\v")]
+		//[InlineData("\n", null, "\v")]
+		//[InlineData("\r", null, "\v")]
+		//[InlineData("\t", null, "\v")]
+		//[InlineData("\v", null, "\v")]
 
-		[InlineData("", "", null)]
-		[InlineData(" ", "", null)]
-		[InlineData("\n", "", null)]
-		[InlineData("\r", "", null)]
-		[InlineData("\t", "", null)]
-		[InlineData("\v", "", null)]
+		//[InlineData("", "", null)]
+		//[InlineData(" ", "", null)]
+		//[InlineData("\n", "", null)]
+		//[InlineData("\r", "", null)]
+		//[InlineData("\t", "", null)]
+		//[InlineData("\v", "", null)]
 
-		[InlineData("", " ", null)]
-		[InlineData(" ", " ", null)]
-		[InlineData("\n", " ", null)]
-		[InlineData("\r", " ", null)]
-		[InlineData("\t", " ", null)]
-		[InlineData("\v", " ", null)]
+		//[InlineData("", " ", null)]
+		//[InlineData(" ", " ", null)]
+		//[InlineData("\n", " ", null)]
+		//[InlineData("\r", " ", null)]
+		//[InlineData("\t", " ", null)]
+		//[InlineData("\v", " ", null)]
 
-		[InlineData("", "\n", null)]
-		[InlineData(" ", "\n", null)]
-		[InlineData("\n", "\n", null)]
-		[InlineData("\r", "\n", null)]
-		[InlineData("\t", "\n", null)]
-		[InlineData("\v", "\n", null)]
+		//[InlineData("", "\n", null)]
+		//[InlineData(" ", "\n", null)]
+		//[InlineData("\n", "\n", null)]
+		//[InlineData("\r", "\n", null)]
+		//[InlineData("\t", "\n", null)]
+		//[InlineData("\v", "\n", null)]
 
-		[InlineData("", "\r", null)]
-		[InlineData(" ", "\r", null)]
-		[InlineData("\n", "\r", null)]
-		[InlineData("\r", "\r", null)]
-		[InlineData("\t", "\r", null)]
-		[InlineData("\v", "\r", null)]
+		//[InlineData("", "\r", null)]
+		//[InlineData(" ", "\r", null)]
+		//[InlineData("\n", "\r", null)]
+		//[InlineData("\r", "\r", null)]
+		//[InlineData("\t", "\r", null)]
+		//[InlineData("\v", "\r", null)]
 
-		[InlineData("", "\t", null)]
-		[InlineData(" ", "\t", null)]
-		[InlineData("\n", "\t", null)]
-		[InlineData("\r", "\t", null)]
-		[InlineData("\t", "\t", null)]
-		[InlineData("\v", "\t", null)]
+		//[InlineData("", "\t", null)]
+		//[InlineData(" ", "\t", null)]
+		//[InlineData("\n", "\t", null)]
+		//[InlineData("\r", "\t", null)]
+		//[InlineData("\t", "\t", null)]
+		//[InlineData("\v", "\t", null)]
 
-		[InlineData("", "\v", null)]
-		[InlineData(" ", "\v", null)]
-		[InlineData("\n", "\v", null)]
-		[InlineData("\r", "\v", null)]
-		[InlineData("\t", "\v", null)]
-		[InlineData("\v", "\v", null)]
-		public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_NaamOfEmailLeeg(string voornaam, string achternaam, string email) {
-			BezoekerInputDTO b = new(voornaam, achternaam, email, "");
-			var result1 = _afspraakController.GeefAfsprakenOpBezoeker(0, b, null);
-			var result2 = _afspraakController.GeefAfsprakenOpBezoeker(-2, b, null);
+		//[InlineData("", "\v", null)]
+		//[InlineData(" ", "\v", null)]
+		//[InlineData("\n", "\v", null)]
+		//[InlineData("\r", "\v", null)]
+		//[InlineData("\t", "\v", null)]
+		//[InlineData("\v", "\v", null)]
+		//public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_NaamOfEmailLeeg(string voornaam, string achternaam, string email) {
+		//	BezoekerInputDTO b = new(voornaam, achternaam, email, "");
+		//	var result1 = _afspraakController.GeefAfsprakenOpBezoeker(0, b, null);
+		//	var result2 = _afspraakController.GeefAfsprakenOpBezoeker(-2, b, null);
 
-			Assert.NotNull(result1.Result);
-			Assert.Equal(typeof(NotFoundObjectResult), result1.Result.GetType());
-			Assert.Null(result1.Value);
+		//	Assert.NotNull(result1.Result);
+		//	Assert.Equal(typeof(NotFoundObjectResult), result1.Result.GetType());
+		//	Assert.Null(result1.Value);
 
-			Assert.NotNull(result1.Result);
-			Assert.Equal(typeof(NotFoundObjectResult), result1.Result.GetType());
-			Assert.Null(result1.Value);
-		}
+		//	Assert.NotNull(result1.Result);
+		//	Assert.Equal(typeof(NotFoundObjectResult), result1.Result.GetType());
+		//	Assert.Null(result1.Value);
+		//}
 
-		[Fact]
-		public void GeefAfsprakenPerBezoekerOpNaamOfEmail_Invalid_GeenAfspraken() {
-			_mockRepoAfspraak.Setup(x => x.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(_b.Voornaam, _b.Achternaam, _b.Email, 0)).Returns(new List<Afspraak>());
-			var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, null);
-			Assert.NotNull(result.Result);
-			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
-			Assert.Null(result.Value);
-		}
-		#endregion
+		//[Fact]
+		//public void GeefAfsprakenPerBezoekerOpNaamOfEmail_Invalid_GeenAfspraken() {
+		//	_mockRepoAfspraak.Setup(x => x.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(_b.Voornaam, _b.Achternaam, _b.Email, 0)).Returns(new List<Afspraak>());
+		//	var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, null);
+		//	Assert.NotNull(result.Result);
+		//	Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+		//	Assert.Null(result.Value);
+		//}
+		//#endregion
 
-		#region UnitTest GeefAfsprakenPerBezoekerOpDagPerBedrijf
-		[Fact]
-		public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_WerknemerLeeg() {
-			var result = _afspraakController.GeefAfsprakenOpBezoeker(0, null, _st);
-			Assert.NotNull(result.Result);
-			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
-			Assert.Null(result.Value);
-		}
+		//#region UnitTest GeefAfsprakenPerBezoekerOpDagPerBedrijf
+		//[Fact]
+		//public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_WerknemerLeeg() {
+		//	var result = _afspraakController.GeefAfsprakenOpBezoeker(0, null, _st);
+		//	Assert.NotNull(result.Result);
+		//	Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+		//	Assert.Null(result.Value);
+		//}
 
-		[Fact]
-		public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_DatumInToekomst() {
-			var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, _st.AddDays(1));
-			Assert.NotNull(result.Result);
-			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
-			Assert.Null(result.Value);
-		}
+		//[Fact]
+		//public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_DatumInToekomst() {
+		//	var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, _st.AddDays(1));
+		//	Assert.NotNull(result.Result);
+		//	Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+		//	Assert.Null(result.Value);
+		//}
 
-		[Fact]
-		public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_BedrijfNegatief() {
-			var result = _afspraakController.GeefAfsprakenOpBezoeker(-23, _b, _st.AddDays(1));
-			Assert.NotNull(result.Result);
-			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
-			Assert.Null(result.Value);
-		}
+		//[Fact]
+		//public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_BedrijfNegatief() {
+		//	var result = _afspraakController.GeefAfsprakenOpBezoeker(-23, _b, _st.AddDays(1));
+		//	Assert.NotNull(result.Result);
+		//	Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
+		//	Assert.Null(result.Value);
+		//}
 
-		[Fact]
-		public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_GeenAfspraken() {
-			_mockRepoAfspraak.Setup(x => x.GeefAfsprakenPerBezoekerOpDagPerBedrijf(0, _st, 0)).Returns(new List<Afspraak>());
-			var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, _st);
-			Assert.NotNull(result.Result);
-			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
-			Assert.Null(result.Value);
-		}
-		#endregion
+		//[Fact]
+		//public void GeefAfsprakenPerBezoekerOpDagPerBedrijf_Invalid_GeenAfspraken() {
+		//	_mockRepoAfspraak.Setup(x => x.GeefAfsprakenPerBezoekerOpDagPerBedrijf(0, _st, 0)).Returns(new List<Afspraak>());
+		//	var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, _st);
+		//	Assert.NotNull(result.Result);
+		//	Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
+		//	Assert.Null(result.Value);
+		//}
+		//#endregion
 
 		#region UnitTest GeefHuidigeAfspraakBezoekerPerBedrijf
 		[Fact]
 		public void GeefHuidigeAfspraakBezoekerPerBedrijf_Invalid_EmailLeeg() {
-			var result = _afspraakController.GeefAfspraakOpBezoeker(-34, _b);
+			var result = _afspraakController.GeefAfspraakOpBezoeker(-34, 1);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(NotFoundObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
@@ -515,7 +514,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[Fact]
 		public void GeefHuidigeAfspraakBezoekerPerBedrijf_Invalid_GeenAfspraken() {
 			_mockRepoAfspraak.Setup(x => x.GeefHuidigeAfspraakBezoekerPerBerijf(0, 0)).Returns(_a.NaarBusiness(_werknemerManger, _bedrijfManager));
-			var result = _afspraakController.GeefAfspraakOpBezoeker(0, _b);
+			var result = _afspraakController.GeefAfspraakOpBezoeker(0, 0);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);

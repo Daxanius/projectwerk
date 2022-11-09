@@ -1,5 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Api.DTO;
+﻿using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
@@ -19,6 +19,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 	/// <summary>
@@ -46,7 +48,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		#region Private Fields
 
 		private const int MAX_COLUMN_COUNT = 3;
-		private List<BedrijfDTO> _bedrijven;
+		public List<BedrijfDTO> _bedrijven;
 
 		#endregion
 
@@ -55,13 +57,15 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			InitializeComponent();
 
 			if (_bedrijven is null) {
-				FetchAlleBedrijven();
+				_bedrijven = ApiController.FetchBedrijven().ToList();
+				SpawnBedrijvenGrid();
 			}
 		}
 
 		#region Fetch Bedrijven
 
 		private void SpawnBedrijvenGrid() {
+			gridContainer.Children.Clear();
 			int rowCount = 0;
 			int columnCount = 0;
 
@@ -131,25 +135,9 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			RegistratieWindow registratieWindow = (RegistratieWindow)window.DataContext;
 
 			RegistratieWindow.GeselecteerdBedrijf = geselecteerdbedrijf;
-			registratieWindow.FrameControl.Navigate(new AanmeldGegevensPage());
+			registratieWindow.FrameControl.Content = new AanmeldGegevensPage();
 		}
 
-		#endregion
-
-		#region API Requests
-		private async void FetchAlleBedrijven() {
-			_bedrijven = new();
-			(bool isvalid, List<ApiBedrijfIN> bedrijven) = await ApiController.Get<List<ApiBedrijfIN>>("/bedrijf");
-
-			if (isvalid) {
-				bedrijven.ForEach((api) => {
-					_bedrijven.Add(new BedrijfDTO(api.Id, api.Naam, api.Btw, api.TelefoonNummer, api.Email, api.Adres));
-				});
-			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de bedrijven", "Error /bedrijf");
-			}
-			SpawnBedrijvenGrid();
-		}
 		#endregion
 	}
 }

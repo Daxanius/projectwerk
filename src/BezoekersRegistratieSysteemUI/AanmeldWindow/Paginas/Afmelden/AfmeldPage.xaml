@@ -31,15 +31,15 @@
             <Button
                 x:Name="AfmeldenButton"
                 Margin="0,70,0,0"
-                Padding="15,5"
+                Padding="15,0"
                 BorderBrush="{StaticResource GewoonBlauw}"
-                BorderThickness="3"
+                BorderThickness="5"
                 Click="AfmeldenClick"
                 Content="afmelden"
-                FontSize="35"
+                FontSize="28"
                 Foreground="{StaticResource GewoonBlauw}"
                 Style="{StaticResource ActionButtonPopup}"
-                Tag="Rood" />
+                Tag="Blauw" />
         </StackPanel>
     </Grid>
 </Page>

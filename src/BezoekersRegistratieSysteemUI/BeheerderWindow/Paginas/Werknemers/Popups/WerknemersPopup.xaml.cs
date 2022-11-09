@@ -1,24 +1,15 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.Beheerder;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
-	/// <summary>
-	/// Interaction logic for WerknemersPopup.xaml
-	/// </summary>
 	public partial class WerknemersPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -66,16 +57,31 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			InitializeComponent();
 		}
 
-		private void VoegNieuweFunctieToe(object sender, MouseButtonEventArgs e) {
-
-		}
-
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {
 			SluitOverlay();
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
-			//...
+			List<WerknemerInfoInputDTO> werknemerInfo = new();
+			if (string.IsNullOrWhiteSpace(Voornaam)) {
+				MessageBox.Show("Voornaam mag niet leeg zijn");
+				return;
+			};
+			if (string.IsNullOrWhiteSpace(Achternaam)) {
+				MessageBox.Show("Achternaam mag niet leeg zijn");
+				return;
+			};
+			if (string.IsNullOrWhiteSpace(Email)) {
+				MessageBox.Show("Email mag niet leeg zijn");
+				return;
+			};
+			if (string.IsNullOrWhiteSpace(Functie)) {
+				MessageBox.Show("Functie mag niet leeg zijn");
+				return;
+			};
+
+			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
+			WerknemerOutputDTO werknemer = ApiController.PostWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
 			SluitOverlay();
 		}
 

@@ -2,13 +2,27 @@
 
 namespace BezoekersRegistratieSysteemREST.Model.Output
 {
+	/// <summary>
+	/// De DTO voor uitgaande werknemerinfo informatie.
+	/// </summary>
 	public class WerknemerInfoOutputDTO
 	{
+		/// <summary>
+		/// Zet de business variant om naar de DTO.
+		/// </summary>
+		/// <param name="info"></param>
+		/// <returns>De DTO variant.</returns>
 		public static WerknemerInfoOutputDTO NaarDTO(WerknemerInfo info)
 		{
-			return new(info.Bedrijf.Id, info.Email, info.GeefWerknemerFuncties().ToList());
+			return new(IdInfoOutputDTO.NaarDTO(info.Bedrijf), info.Email, info.GeefWerknemerFuncties().ToList());
 		}
 
+		/// <summary>
+		/// Zet een lijst van business variant instanties
+		/// om naar een lijst van DTO instanties.
+		/// </summary>
+		/// <param name="werknemers"></param>
+		/// <returns>Een lijst van de DTO variant.</returns>
 		public static IEnumerable<WerknemerInfoOutputDTO> NaarDTO(IEnumerable<WerknemerInfo> werknemers)
 		{
 			List<WerknemerInfoOutputDTO> output = new();
@@ -19,15 +33,32 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			return output;
 		}
 
-		public WerknemerInfoOutputDTO(long bedrijfId, string email, List<string> functies)
+		/// <summary>
+		/// De constructor.
+		/// </summary>
+		/// <param name="bedrijf"></param>
+		/// <param name="email"></param>
+		/// <param name="functies"></param>
+		public WerknemerInfoOutputDTO(IdInfoOutputDTO bedrijf, string email, IEnumerable<string> functies)
 		{
-			BedrijfId = bedrijfId;
+			Bedrijf = bedrijf;
 			Email = email;
 			Functies = functies;
 		}
 
-		public long BedrijfId { get; set; }
+		/// <summary>
+		/// Het bedrijf van de info.
+		/// </summary>
+		public IdInfoOutputDTO Bedrijf { get; set; }
+
+		/// <summary>
+		/// De bedrijfsmail van de werknemer binnen dit bedrijf.
+		/// </summary>
 		public string Email { get; set; }
-		public List<string> Functies { get; set; } = new();
+
+		/// <summary>
+		/// De functies van de werknemer binnen dit bedrijf.
+		/// </summary>
+		public IEnumerable<string> Functies { get; set; }
 	}
 }

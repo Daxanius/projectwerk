@@ -115,15 +115,6 @@
                                     FontSize="20"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding Functie}" />
-                                <iconspresenter:Icon
-                                    Grid.Column="1"
-                                    CircleBackground="{StaticResource DonkerBlauw}"
-                                    CircleSize="30"
-                                    Cursor="Hand"
-                                    IconPadding="0, 0, 4, 4"
-                                    IconSize="60"
-                                    IconSource="../PlusIcon.xaml"
-                                    MouseLeftButtonDown="VoegNieuweFunctieToe" />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -133,23 +124,28 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Columns="2">
+
                         <Button
                             x:Name="AnnulerenButton"
-                            Margin="10,10,20,10"
-                            BorderBrush="{StaticResource LichtRood}"
-                            BorderThickness="2"
+                            Margin="10,10,50,10"
+                            Padding="15,5"
+                            BorderBrush="{StaticResource DonkerRood}"
+                            BorderThickness="3"
                             Click="AnnulerenButton_Click"
                             Content="Annuleren"
-                            Foreground="{StaticResource LichtRood}"
+                            FontSize="16"
+                            Foreground="{StaticResource DonkerRood}"
                             Style="{StaticResource ActionButtonPopup}"
                             Tag="Rood" />
                         <Button
                             x:Name="BevestigenButton"
-                            Margin="20,10,10,10"
+                            Margin="50,10,10,10"
+                            Padding="15,5"
                             BorderBrush="{StaticResource LichtGroen}"
-                            BorderThickness="2"
+                            BorderThickness="3"
                             Click="BevestigenButton_Click"
                             Content="Bevestigen"
+                            FontSize="16"
                             Foreground="{StaticResource LichtGroen}"
                             Style="{StaticResource ActionButtonPopup}"
                             Tag="Groen" />

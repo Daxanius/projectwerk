@@ -42,7 +42,7 @@
                                             Background="Transparent"
                                             BorderBrush="Transparent"
                                             BorderThickness="0"
-                                            FontSize="24"
+                                            FontSize="16"
                                             FontWeight="Bold"
                                             Foreground="{StaticResource DonkerGrijs}"
                                             Text="{TemplateBinding Text}" />
@@ -69,21 +69,6 @@
                         FontWeight="Bold"
                         Foreground="{StaticResource DonkerGrijs}"
                         Text="Bedrijven" />
-                    <ComboBox
-                        Height="50"
-                        MinWidth="120"
-                        MaxWidth="350"
-                        Background="{StaticResource LichtGrijsAccent}"
-                        Cursor="Hand"
-                        DockPanel.Dock="Right"
-                        FontSize="26"
-                        FontWeight="Bold"
-                        Foreground="{StaticResource DonkerBlauw}">
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                        <ComboBoxItem Content="Hogent" />
-                    </ComboBox>
                     <StackPanel />
                 </DockPanel>
             </Grid>
@@ -92,11 +77,11 @@
                 Background="{StaticResource LichtGrijsAccent}"
                 CornerRadius="25"
                 DockPanel.Dock="Bottom">
-                <controls:BedrijvenLijstControl />
+                <controls:BedrijvenLijstControl x:Name="BedrijvenLijstControl" />
             </Border>
         </DockPanel>
         <popups:BedrijvenPopup
-            x:Name="BedrijvenPopup"
+            x:Name="bedrijvenPopup"
             Grid.Row="0"
             Visibility="Collapsed" />
     </Grid>

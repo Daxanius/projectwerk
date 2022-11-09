@@ -1,4 +1,7 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
@@ -23,13 +26,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 	/// <summary>
 	/// Interaction logic for AfsprakenLijstControl.xaml
 	/// </summary>
-	public partial class AfsprakenLijstControl : UserControl {
+	public partial class WerknemerAfsprakenLijst : UserControl {
 		public bool HeeftData { get; set; }
 
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
 		  typeof(ObservableCollection<AfspraakDTO>),
-		  typeof(AfsprakenLijstControl),
+		  typeof(WerknemerAfsprakenLijst),
 		  new PropertyMetadata(new ObservableCollection<AfspraakDTO>())
 		 );
 
@@ -38,11 +41,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			set { SetValue(ItemSourceProperty, value); }
 		}
 
-		public AfsprakenLijstControl() {
+		public WerknemerAfsprakenLijst() {
 			this.DataContext = this;
 			InitializeComponent();
-
-			if (!HeeftData) FetchData();
 		}
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
@@ -59,9 +60,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		private Border _selecteditem;
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
 			//Er is 2 keer geklikt
-			if (e.ClickCount == 2) {
-				return;
-			}
+			//if (e.ClickCount == 2) {
+			//	return;
+			//}
 
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
@@ -81,10 +82,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
 			AfspraakDTO afspraak = (AfspraakDTO)b.CommandParameter;
-		}
-
-		public void FetchData(string url = "", object body = null) {
-
 		}
 	}
 }

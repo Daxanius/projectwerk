@@ -19,6 +19,7 @@
 	  <None Remove="Fonts\Inter-Regular.ttf" />
 	  <None Remove="Fonts\Inter-SemiBold.ttf" />
 	  <None Remove="Fonts\Inter-Thin.ttf" />
+	  <None Remove="LoadingAnimation.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,6 +40,7 @@
 	  <Page Remove="Icons\WerknemerAfspraakIcon.xaml" />
 	  <Page Remove="Icons\WerknemerIcon.xaml" />
 	  <Page Remove="Icons\WitLijstIcon.xaml" />
+	  <Page Remove="LoadingAnimation.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -74,16 +76,31 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
 	  <Resource Include="Icons\WerknemerIcon.xaml" />
+	  <Resource Include="LoadingAnimation.svg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="LoadingAnimation.xaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml.cs">
-			<SubType>Code</SubType>
-		</Compile>
 		<Compile Update="AanmeldWindow\Paginas\Afmelden\AfmeldPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\AfsprakenPage.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\BezoekersAfsprakenLijst.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\BezoekersAfsprakenLijst.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemerAfsprakenLijst.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemersAfsprakenLijst.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\OpDatumLijstControl.xaml.cs">
@@ -95,7 +112,7 @@
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemersLijstControl.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
-		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\AfsprakenLijstControl.xaml.cs">
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\HuidigeAfsprakenLijst.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Update="BeheerderWindow\Paginas\Werknemers\Controls\WerknemersLijstControl.xaml.cs">
@@ -110,19 +127,27 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Page Update="AanmeldenOfAfmeldenWindow\Afmelden\Controlls\AfmeldControl.xaml">
-			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="AanmeldenOfAfmeldenWindow\Afmelden\Style\AfmeldStyle.xaml">
-			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-			<SubType>Designer</SubType>
-		</Page>
 		<Page Update="AanmeldWindow\Paginas\Afmelden\AfmeldPage.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
 		<Page Update="BeheerderWindow\Paginas\Afspraken\AfsprakenPage.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\BezoekersAfsprakenLijst.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\BezoekersAfsprakenLijst.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemerAfsprakenLijst.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemersAfsprakenLijst.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
@@ -138,7 +163,7 @@
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
-		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\AfsprakenLijstControl.xaml">
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\HuidigeAfsprakenLijst.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>

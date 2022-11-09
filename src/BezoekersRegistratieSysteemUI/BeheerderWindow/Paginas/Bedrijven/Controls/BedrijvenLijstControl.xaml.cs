@@ -1,81 +1,39 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
-using System;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Controls {
-	/// <summary>
-	/// Interaction logic for BedrijvenLijstControl.xaml
-	/// </summary>
-	public partial class BedrijvenLijstControl : UserControl {
-		#region Bedrijven
-		public ObservableCollection<BedrijfDTO> Bedrijven { get; set; }
-		#endregion
+	public partial class BedrijvenLijstControl : UserControl, INotifyPropertyChanged {
+		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
+		  nameof(ItemSource),
+		  typeof(ObservableCollection<BedrijfDTO>),
+		  typeof(BedrijvenLijstControl),
+		  new PropertyMetadata(new ObservableCollection<BedrijfDTO>())
+		);
+
+		public ObservableCollection<BedrijfDTO> ItemSource {
+			get { return (ObservableCollection<BedrijfDTO>)GetValue(ItemSourceProperty); }
+			set { SetValue(ItemSourceProperty, value); }
+		}
 
 		public BedrijvenLijstControl() {
-			Bedrijven = new() {
-			new BedrijfDTO(1, "Hogent", "BE0676747521", "04926349246", "Hogent@gmail.com", "Kerkstraat 101", null),
-			new BedrijfDTO(2, "Odice", "BE0676747521", "04926349246", "Odice@gmail.com", "Kerkstraat 102", null),
-			new BedrijfDTO(3, "Artevelde", "BE0676747521", "04926349246", "Artevelde@gmail.com", "Kerkstraat 103", null),
-			new BedrijfDTO(4, "Allphi", "BE0676747521", "04926349246", "Allphi@gmail.com", "Kerkstraat 104", null),
-			new BedrijfDTO(5, "Scheppers", "BE0676747521", "04926349246", "Scheppers@gmail.com", "Kerkstraat 105", null),
-			new BedrijfDTO(6, "Artevelde", "BE0676747521", "04926349246", "Artevelde@gmail.com", "Kerkstraat 106", null),
-			new BedrijfDTO(7, "De Bolster", "BE0676747521", "04926349246", "DeBolster@gmail.com", "Kerkstraat 108", null),
-			new BedrijfDTO(8, "Brauzz", "BE0676747521", "04926349246", "Brauzz@gmail.com", "Kerkstraat 111", null),
-			new BedrijfDTO(9, "Apple", "BE0676747521", "04926349246", "Apple@gmail.com", "Kerkstraat 121", null),
-			new BedrijfDTO(1, "Hogent", "BE0676747521", "04926349246", "Hogent@gmail.com", "Kerkstraat 101", null),
-			new BedrijfDTO(2, "Odice", "BE0676747521", "04926349246", "Odice@gmail.com", "Kerkstraat 102", null),
-			new BedrijfDTO(3, "Artevelde", "BE0676747521", "04926349246", "Artevelde@gmail.com", "Kerkstraat 103", null),
-			new BedrijfDTO(4, "Allphi", "BE0676747521", "04926349246", "Allphi@gmail.com", "Kerkstraat 104", null),
-			new BedrijfDTO(5, "Scheppers", "BE0676747521", "04926349246", "Scheppers@gmail.com", "Kerkstraat 105", null),
-			new BedrijfDTO(6, "Artevelde", "BE0676747521", "04926349246", "Artevelde@gmail.com", "Kerkstraat 106", null),
-			new BedrijfDTO(7, "De Bolster", "BE0676747521", "04926349246", "DeBolster@gmail.com", "Kerkstraat 108", null),
-			new BedrijfDTO(8, "Brauzz", "BE0676747521", "04926349246", "Brauzz@gmail.com", "Kerkstraat 111", null),
-			new BedrijfDTO(9, "Apple", "BE0676747521", "04926349246", "Apple@gmail.com", "Kerkstraat 121", null),
-			new BedrijfDTO(1, "Hogent", "BE0676747521", "04926349246", "Hogent@gmail.com", "Kerkstraat 101", null),
-			new BedrijfDTO(2, "Odice", "BE0676747521", "04926349246", "Odice@gmail.com", "Kerkstraat 102", null),
-			new BedrijfDTO(3, "Artevelde", "BE0676747521", "04926349246", "Artevelde@gmail.com", "Kerkstraat 103", null),
-			new BedrijfDTO(4, "Allphi", "BE0676747521", "04926349246", "Allphi@gmail.com", "Kerkstraat 104", null),
-			new BedrijfDTO(5, "Scheppers", "BE0676747521", "04926349246", "Scheppers@gmail.com", "Kerkstraat 105", null),
-			new BedrijfDTO(6, "Artevelde", "BE0676747521", "04926349246", "Artevelde@gmail.com", "Kerkstraat 106", null),
-			new BedrijfDTO(7, "De Bolster", "BE0676747521", "04926349246", "DeBolster@gmail.com", "Kerkstraat 108", null),
-			new BedrijfDTO(8, "Brauzz", "BE0676747521", "04926349246", "Brauzz@gmail.com", "Kerkstraat 111", null),
-			new BedrijfDTO(9, "Apple", "BE0676747521", "04926349246", "Apple@gmail.com", "Kerkstraat 121", null),
-			new BedrijfDTO(1, "Hogent", "BE0676747521", "04926349246", "Hogent@gmail.com", "Kerkstraat 101", null),
-			new BedrijfDTO(2, "Odice", "BE0676747521", "04926349246", "Odice@gmail.com", "Kerkstraat 102", null),
-			new BedrijfDTO(3, "Artevelde", "BE0676747521", "04926349246", "Artevelde@gmail.com", "Kerkstraat 103", null),
-			new BedrijfDTO(4, "Allphi", "BE0676747521", "04926349246", "Allphi@gmail.com", "Kerkstraat 104", null),
-			new BedrijfDTO(5, "Scheppers", "BE0676747521", "04926349246", "Scheppers@gmail.com", "Kerkstraat 105", null),
-			new BedrijfDTO(6, "Artevelde", "BE0676747521", "04926349246", "Artevelde@gmail.com", "Kerkstraat 106", null),
-			new BedrijfDTO(7, "De Bolster", "BE0676747521", "04926349246", "DeBolster@gmail.com", "Kerkstraat 108", null),
-			new BedrijfDTO(8, "Brauzz", "BE0676747521", "04926349246", "Brauzz@gmail.com", "Kerkstraat 111", null),
-			new BedrijfDTO(9, "Apple", "BE0676747521", "04926349246", "Apple@gmail.com", "Kerkstraat 121", null),
-			};
-
 			this.DataContext = this;
 			InitializeComponent();
 		}
 
 		private Border _selecteditem;
-
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			//Er is 2 keer geklikt
-			if (e.ClickCount == 2) {
-				return;
-			}
-
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
 				_selecteditem.BorderThickness = new Thickness(0);
@@ -95,5 +53,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 			Button b = (Button)sender;
 			BedrijfDTO bedrijf = (BedrijfDTO)b.CommandParameter;
 		}
+
+		#region ProppertyChanged
+		public event PropertyChangedEventHandler? PropertyChanged;
+		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		#endregion ProppertyChanged
 	}
 }

@@ -1,15 +1,35 @@
 ﻿using System.Collections.Generic;
 
-namespace BezoekersRegistratieSysteemREST.Model.Output {
+namespace BezoekersRegistratieSysteemUI.Api.Output {
+	/// <summary>
+	/// De DTO voor uitgaande werknemerinfo informatie.
+	/// </summary>
 	public class WerknemerInfoOutputDTO {
-		public WerknemerInfoOutputDTO(long bedrijfId, string email, List<string> functies) {
-			BedrijfId = bedrijfId;
+		/// <summary>
+		/// De constructor.
+		/// </summary>
+		/// <param name="bedrijf"></param>
+		/// <param name="email"></param>
+		/// <param name="functies"></param>
+		public WerknemerInfoOutputDTO(IdInfoOutputDTO bedrijf, string email, IEnumerable<string> functies) {
+			Bedrijf = bedrijf;
 			Email = email;
 			Functies = functies;
 		}
 
-		public long BedrijfId { get; set; }
+		/// <summary>
+		/// Het bedrijf van de info.
+		/// </summary>
+		public IdInfoOutputDTO Bedrijf { get; set; }
+
+		/// <summary>
+		/// De bedrijfsmail van de werknemer binnen dit bedrijf.
+		/// </summary>
 		public string Email { get; set; }
-		public List<string> Functies { get; set; } = new();
+
+		/// <summary>
+		/// De functies van de werknemer binnen dit bedrijf.
+		/// </summary>
+		public IEnumerable<string> Functies { get; set; }
 	}
 }

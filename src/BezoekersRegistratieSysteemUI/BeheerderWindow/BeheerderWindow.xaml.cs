@@ -1,4 +1,7 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
@@ -6,22 +9,33 @@ using System.ComponentModel;
 using System.Printing.IndexedProperties;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace BezoekersRegistratieSysteemUI.Beheerder {
 
-	/// <summary>
-	/// Interaction logic for AanOfUitMeldenScherm.xaml
-	/// </summary>
+	public delegate void GeselecteerdbedrijfChanged();
 	public partial class BeheerderWindow : Window, INotifyPropertyChanged {
 		#region Scaling
 		public double ScaleX { get; set; }
 		public double ScaleY { get; set; }
 		#endregion
 
-		#region Public propperty
-		public static BedrijfDTO GeselecteerdBedrijf { get; private set; }
+		#region GeselecteerdbedrijfChanged
+		public static event GeselecteerdbedrijfChanged UpdateGeselecteerdBedrijf;
+		#endregion
+
+		#region Public Propperty
+		private static BedrijfDTO _geselecteerdBedrijf;
+		public static BedrijfDTO GeselecteerdBedrijf {
+			get => _geselecteerdBedrijf;
+			set {
+				_geselecteerdBedrijf = value;
+				UpdateGeselecteerdBedrijf?.Invoke();
+			}
+		}
 		#endregion
 
 		public BeheerderWindow() {
@@ -41,6 +55,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 			this.DataContext = this;
 			InitializeComponent();
 
+			FrameControl.Navigate(DashBoardPage.Instance);
 			FrameControl.Navigating += OnPageNavigation;
 		}
 
@@ -93,10 +108,6 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 					return;
 				}
 			}
-		}
-
-		public void ZetGeselecteerdBedrijf(BedrijfDTO bedrijf) {
-			GeselecteerdBedrijf = bedrijf;
 		}
 
 		#region ProppertyChanged
