@@ -2,8 +2,10 @@
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +14,8 @@ using System.Windows.Input;
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
 	public partial class WerknemersPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
+		public delegate void NieuweWerknemerToegevoegdEvent(WerknemerDTO werknemer);
+		public static event NieuweWerknemerToegevoegdEvent NieuweWerknemerToegevoegd;
 
 		#region Bind Propperties
 		private string _voornaam = string.Empty;
@@ -81,7 +85,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			};
 
 			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new() { Functie }));
-			WerknemerOutputDTO werknemer = ApiController.PostWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
+			WerknemerDTO werknemer = ApiController.PostWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
+			NieuweWerknemerToegevoegd?.Invoke(werknemer);
+
+			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Voornaam} is toegevoegd");
 			SluitOverlay();
 		}
 

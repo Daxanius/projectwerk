@@ -19,7 +19,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 				return string.Join(", ", string.Join(", ", lijstVanFuncties));
 			}
 		}
-		public bool Status { get; set; } = false;
+		public bool Status { get; set; } = true;
 
 		public List<WerknemerInfoDTO> WerknemerInfoLijst { get; set; } = new();
 

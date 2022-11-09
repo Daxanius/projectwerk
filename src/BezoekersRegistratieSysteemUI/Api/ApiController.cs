@@ -468,7 +468,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static BedrijfDTO PostBedrijf(BedrijfInputDTO bedrijf) {
 			return Task.Run(async () => {
 				string body = JsonConvert.SerializeObject(bedrijf);
-				(bool isvalid, BedrijfOutputDTO apiBedrijf) = await Post<BedrijfOutputDTO>($"bedrijf/", body);
+				(bool isvalid, BedrijfOutputDTO apiBedrijf) = await Post<BedrijfOutputDTO>($"bedrijf", body);
 				if (isvalid) {
 					return new BedrijfDTO(apiBedrijf.Id, apiBedrijf.Naam, apiBedrijf.BTW, apiBedrijf.TelefoonNummer, apiBedrijf.Email, apiBedrijf.Adres);
 				} else {
@@ -500,12 +500,16 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}).Result;
 		}
 
-		public static WerknemerOutputDTO? PostWerknemer(WerknemerInputDTO werknemer) {
+		public static WerknemerDTO PostWerknemer(WerknemerInputDTO werknemer) {
 			return Task.Run(async () => {
 				string body = JsonConvert.SerializeObject(werknemer);
-				(bool isvalid, WerknemerOutputDTO apiWerknemers) = await Post<WerknemerOutputDTO>($"werknemer/", body);
+				(bool isvalid, WerknemerOutputDTO apiWerknemer) = await Post<WerknemerOutputDTO>($"werknemer", body);
 				if (isvalid) {
-					return apiWerknemers;
+					List<WerknemerInfoDTO> lijstWerknemerInfo = apiWerknemer.WerknemerInfo.Select(w => new WerknemerInfoDTO(BeheerderWindow.GeselecteerdBedrijf, w.Email, w.Functies)).ToList();
+					string emailVanGeselecteerdBedrijf = lijstWerknemerInfo.First(w => w.Bedrijf.Id == BeheerderWindow.GeselecteerdBedrijf.Id).Email;
+					WerknemerDTO werknemer = new WerknemerDTO(apiWerknemer.Id, apiWerknemer.Voornaam, apiWerknemer.Achternaam, lijstWerknemerInfo);
+					werknemer.Email = emailVanGeselecteerdBedrijf;
+					return werknemer;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
 				}
