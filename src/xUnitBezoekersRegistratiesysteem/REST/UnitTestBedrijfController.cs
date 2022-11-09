@@ -3,7 +3,6 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Controllers;
 using BezoekersRegistratieSysteemREST.Model.Input;
-using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 

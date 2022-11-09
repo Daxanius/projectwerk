@@ -108,10 +108,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			}
 		}
 
-		private void VoegNieuweFunctieToe(object sender, MouseButtonEventArgs e) {
-
-		}
-
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {
 			SluitOverlay();
 		}
@@ -134,6 +130,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
 			KiesMedewerkerEiland.Visibility = Visibility.Visible;
 			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.FetchWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
+		}
+
+		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
+		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) {
+			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}
 
 		private void SluitOverlay() {

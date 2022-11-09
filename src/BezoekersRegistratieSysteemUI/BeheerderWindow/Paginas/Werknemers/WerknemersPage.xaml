@@ -10,6 +10,7 @@
     Title="WerknemersPage"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    Loaded="Page_Loaded"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>

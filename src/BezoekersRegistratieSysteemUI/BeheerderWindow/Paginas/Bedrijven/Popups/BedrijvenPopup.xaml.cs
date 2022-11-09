@@ -1,26 +1,10 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
-using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups {
 	public partial class BedrijvenPopup : UserControl, INotifyPropertyChanged {
@@ -89,10 +73,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
+			Naam = Naam.Trim();
+			BtwNummer = BtwNummer.Trim();
+			TelefoonNummer = TelefoonNummer.Trim();
+			Email = Email.Trim();
+			Adres = Adres.Trim();
+
 			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(Naam, BtwNummer, TelefoonNummer, Email, Adres);
 			BedrijfDTO bedrijf = ApiController.PostBedrijf(nieuwBedrijf);
 
-			MessageBox.Show($"Bedrijf toegevoegd: Naam = {bedrijf.Naam}");
+			MessageBox.Show($"{Naam} successvol toegevoegd", "Bedrijf toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
 
 			UpdateBedrijfLijst?.Invoke(bedrijf);
 

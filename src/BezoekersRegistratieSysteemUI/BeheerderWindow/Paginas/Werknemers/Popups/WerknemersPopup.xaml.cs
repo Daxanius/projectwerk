@@ -1,12 +1,11 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
-using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -90,6 +89,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Voornaam} is toegevoegd");
 			SluitOverlay();
+		}
+
+		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
+		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) {
+			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}
 
 		private void SluitOverlay() {
