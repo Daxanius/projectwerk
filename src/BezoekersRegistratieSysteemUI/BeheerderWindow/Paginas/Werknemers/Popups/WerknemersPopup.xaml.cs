@@ -5,8 +5,10 @@ using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
 	public partial class WerknemersPopup : UserControl, INotifyPropertyChanged {
@@ -87,6 +89,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Voornaam} is toegevoegd");
 			SluitOverlay();
+		}
+
+		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
+		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) {
+			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}
 
 		private void SluitOverlay() {

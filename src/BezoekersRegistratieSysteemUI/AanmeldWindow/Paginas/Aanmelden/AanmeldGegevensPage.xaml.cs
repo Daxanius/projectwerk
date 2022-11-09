@@ -99,7 +99,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		}
 
 		#region Action Buttons
-
 		private void AnnulerenKlik(object sender, RoutedEventArgs e) {
 			GaTerugNaarKiesBedrijf();
 		}
@@ -185,11 +184,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		private Border _selecteditem;
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			//Er is 2 keer geklikt
-			//if (e.ClickCount == 2) {
-			//	return;
-			//}
-
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
 				_selecteditem.BorderThickness = new Thickness(0);
@@ -207,6 +201,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			_selecteditem = border;
 		}
 
+		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
+		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
+			e.Handled = regexGeenCijfers.IsMatch(e.Text);
+		}
 		#endregion
 
 		#region ProppertyChanged

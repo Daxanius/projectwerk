@@ -25,8 +25,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			InitializeComponent();
 
 			WerknemersPopup.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => WerknemerLijstControl.ItemSource.Add(werknemer);
-			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
-
 			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
 		}
 
@@ -37,6 +35,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 		private void AddWerknemer(object sender, MouseButtonEventArgs e) {
 			WerknemersPopup.Visibility = Visibility.Visible;
+		}
+		private void Page_Loaded(object sender, RoutedEventArgs e) {
+			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
 		}
 
 		#region Singleton
@@ -61,5 +62,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged
+
 	}
 }

@@ -79,6 +79,7 @@
                                 Style="{StaticResource InputLabelStyle}" />
                             <TextBox
                                 Grid.Column="0"
+                                PreviewTextInput="IsInputGeldigZonderCijfers"
                                 Style="{StaticResource PopupInputStyle}"
                                 Text="{Binding Voornaam}" />
                             <Label
@@ -87,6 +88,7 @@
                                 Style="{StaticResource InputLabelStyle}" />
                             <TextBox
                                 Grid.Column="2"
+                                PreviewTextInput="IsInputGeldigZonderCijfers"
                                 Style="{StaticResource PopupInputStyle}"
                                 Text="{Binding Achternaam}" />
                         </Grid>
@@ -113,6 +115,7 @@
                                     VerticalContentAlignment="Center"
                                     Background="Transparent"
                                     FontSize="20"
+                                    PreviewTextInput="IsInputGeldigZonderCijfers"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding Functie}" />
                             </Grid>
@@ -124,7 +127,6 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Columns="2">
-
                         <Button
                             x:Name="AnnulerenButton"
                             Margin="10,10,50,10"

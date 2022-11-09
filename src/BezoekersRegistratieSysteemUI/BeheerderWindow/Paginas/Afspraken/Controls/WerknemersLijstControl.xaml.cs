@@ -44,8 +44,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
 			Button? b = sender as Button;
 			WerknemerDTO? werknemer = b?.CommandParameter as WerknemerDTO;
-
-			//Zet de geselecteerde werknemer in de DataContext van de BeheerWindow
 		}
 
 		public void SelectionChanged(object sender, SelectionChangedEventArgs e) {

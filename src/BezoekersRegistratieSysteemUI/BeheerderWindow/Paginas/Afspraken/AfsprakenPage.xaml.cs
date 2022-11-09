@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 		private HuidigeAfsprakenLijst afsprakenAfsprakenLijstControl = new();
 		private BezoekersAfsprakenLijst bezoekersAfsprakenLijstControl = new();
-		private WerknemerAfsprakenLijst werknemersLijstControl = new();
+		private WerknemerAfsprakenLijst werknemersAfsprakenLijstControl = new();
 		private OpDatumLijstControl opDatumAfsprakenLijstControl = new();
 
 		public string Datum {
@@ -115,12 +115,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		private void UpdateGeselecteerdBedrijfOpScherm() {
 			bezoekersAfsprakenLijstControl.ItemSource.Clear();
 			afsprakenAfsprakenLijstControl.ItemSource.Clear();
+			werknemersAfsprakenLijstControl.ItemSource.Clear();
 			opDatumAfsprakenLijstControl.ItemSource.Clear();
+
+			BezoekerLijst.ItemSource.Clear();
+			WerknemerLijst.ItemSource.Clear();
+			OpDatumAfsprakenLijst.ItemSource.Clear();
 
 			ResetFilterSelection();
 
 			afsprakenAfsprakenLijstControl.HeeftData = false;
 			bezoekersAfsprakenLijstControl.HeeftData = false;
+			werknemersAfsprakenLijstControl.HeeftData = false;
 			opDatumAfsprakenLijstControl.HeeftData = false;
 
 			NavigeerNaarTab("Huidige Afspraken");
@@ -142,11 +148,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 				case "Afspraken Werknemer":
 				NavigeerNaarTab("Afspraken Werknemer");
-				if (!werknemersLijstControl.HeeftData) {
+				if (!werknemersAfsprakenLijstControl.HeeftData) {
 					foreach (WerknemerDTO werknemer in ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf)) {
 						WerknemerLijst.ItemSource.Add(werknemer);
 					}
-					werknemersLijstControl.HeeftData = true;
+					werknemersAfsprakenLijstControl.HeeftData = true;
 				} else {
 				}
 				break;
@@ -155,7 +161,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				NavigeerNaarTab("Afspraken Bezoeker");
 
 				if (!bezoekersAfsprakenLijstControl.HeeftData) {
-					BezoekerLijst.ItemSource.Clear();
 					foreach (BezoekerDTO bezoeker in ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Now)) {
 						BezoekerLijst.ItemSource.Add(bezoeker);
 					}

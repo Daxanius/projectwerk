@@ -135,6 +135,7 @@
                                     Style="{StaticResource InputLabelStyle}" />
                                 <TextBox
                                     Grid.Column="0"
+                                    PreviewTextInput="IsInputGeldigZonderCijfers"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding BezoekerVoornaam}" />
                                 <Label
@@ -143,6 +144,7 @@
                                     Style="{StaticResource InputLabelStyle}" />
                                 <TextBox
                                     Grid.Column="2"
+                                    PreviewTextInput="IsInputGeldigZonderCijfers"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding BezoekerAchternaam}" />
                             </Grid>
@@ -166,6 +168,7 @@
                                     Style="{StaticResource InputLabelStyle}" />
                                 <TextBox
                                     Grid.Column="2"
+                                    PreviewTextInput="IsInputGeldigZonderCijfers"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding BezoekerBedrijf}" />
                             </Grid>
