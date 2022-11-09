@@ -19,7 +19,8 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 			Werknemer werknemer = werknemerManager.GeefWerknemer(WerknemerId);
 			Bezoeker bezoeker = Bezoeker.NaarBusiness();
 			Bedrijf bedrijf = bedrijfManager.GeefBedrijf(BedrijfId);
-			return new(DateTime.Now, bedrijf, bezoeker, werknemer);
+
+			return new(0, Starttijd ?? DateTime.Now, Eindtijd, bedrijf, bezoeker, werknemer);
 		}
 
 		/// <summary>
@@ -49,5 +50,15 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 		/// Het bedrijf waarbinnen de afspraak is gemaakt.
 		/// </summary>
 		public long BedrijfId { get; set; }
+
+		/// <summary>
+		/// De starttijd van de Afspraak.
+		/// </summary>
+		public DateTime? Starttijd { get; set; }
+
+		/// <summary>
+		/// De eindtijd van de afpsraak.
+		/// </summary>
+		public DateTime? Eindtijd { get; set; }
 	}
 }
