@@ -149,7 +149,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				BezoekerDTO bezoeker = new(Voornaam.Trim(), Achternaam.Trim(), Email.Trim(), Bedrijf.Trim());
 
 				if (werknemer.Id.HasValue) {
-					MessageBoxResult result = MessageBox.Show("Bent u zeker ?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
+					MessageBoxResult result = MessageBox.Show($"Zijn uw ingevoerde gegevens correct?\n\n{Voornaam} {Achternaam}\n{Email}\n{Bedrijf}", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
 					if (result == MessageBoxResult.Yes)
 						MaakNieuweAfspraak(GeselecteerdBedrijf.Id, werknemer.Id.Value, bezoeker);
 					else return;
@@ -178,9 +178,9 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			(bool isvalid, AfspraakOutputDTO afspraak) = await ApiController.Post<AfspraakOutputDTO>("/afspraak", json);
 
 			if (isvalid) {
-				MessageBox.Show($"U registratie is goed ontvangen met als startijd: {afspraak.Starttijd.ToString("HH:mm - dd/MM/yyyy")}");
+				MessageBox.Show($"Uw registratie werd goed ontvangen");
 			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
+				MessageBox.Show("Er ging iets fout bij het registreren,\n probeer het opnieuw.", "Error /");
 			}
 		}
 
