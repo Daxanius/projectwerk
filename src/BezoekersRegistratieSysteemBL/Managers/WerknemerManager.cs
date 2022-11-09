@@ -1,6 +1,8 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
 	public class WerknemerManager {
@@ -33,62 +35,46 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (_werknemerRepository.BestaatWerknemer(werknemer)) {
 					_werknemerRepository.GeefWerknemerId(werknemer);
 					VoegWerknemerBedrijfFunctiesToe(werknemer);
-					return werknemer;
 				} else {
 					_werknemerRepository.VoegWerknemerToe(werknemer);
 					VoegWerknemerBedrijfFunctiesToe(werknemer);
-					return werknemer;
 				}
+				return werknemer;
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);
 			}
 		}
 
-		/// <summary>
-		/// Voegt functies van werknemer per bedrijf toe.
-		/// </summary>
-		/// <param name="werknemer">Werknemer object dat toegevoegd wenst te worden.</param>
-		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerToe - werknemer mag niet leeg zijn"</exception>
-		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerToe - werknemer bestaat al"</exception>
-		/// <exception cref="WerknemerManagerException">ex.Message</exception>
-		private void VoegWerknemerBedrijfFunctiesToe(Werknemer werknemer) {
-			try {
-				foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
-					foreach (var functie in kvpBedrijf.Value.GeefWerknemerFuncties()) {
-						if (!_werknemerRepository.BestaatFunctie(functie)) {
-							VoegFunctieToe(functie);
-						}
-						Werknemer werknemer1 = _werknemerRepository.GeefWerknemer(werknemer.Id);
-						Dictionary<Bedrijf, WerknemerInfo> werknemerInfo = new(werknemer1.GeefBedrijvenEnFunctiesPerWerknemer());
-						WerknemerInfo werknemerInfo_;
-						bool err = false;
-						try {
-							werknemerInfo_ = werknemerInfo[kvpBedrijf.Key];
-							List<string>? functies = werknemerInfo_.GeefWerknemerFuncties().ToList();
-
-							if (!functies.Contains(functie.ToLower())) {
-								_werknemerRepository.VoegWerknemerFunctieToe(werknemer, kvpBedrijf.Value, functie);
-							} else {
-								err = true;
-								throw new WerknemerManagerException($"Werknemer heeft deze functie al");
-							}
-						} catch (Exception ex) {
-							if (!err)
-								_werknemerRepository.VoegWerknemerFunctieToe(werknemer, kvpBedrijf.Value, functie);
-							else throw new WerknemerManagerException(ex.Message);
-						}
-					}
-				}
-			} catch (Exception ex) {
-				throw new WerknemerManagerException($"WerknemerManager - VoegWerknemerBedrijfFunctiesToe {ex.Message}");
-			}
-		}
-		/// <summary>
-		/// Verwijdert gewenste werknemer uit specifiek bedrijf.
-		/// </summary>
-		/// <param name="werknemer">Werknemer object dat verwijderd wenst te worden.</param>
-		/// <param name="bedrijf">Bedrijf object waaruit werknemer verwijderd wenst te worden.</param>
-		/// <exception cref="WerknemerManagerException">"WerknemerManager - VerwijderWerknemer - werknemer mag niet leeg zijn"</exception>
+        /// <summary>
+        /// Voegt functies van werknemer per bedrijf toe.
+        /// </summary>
+        /// <param name="werknemer">Werknemer object dat toegevoegd wenst te worden.</param>
+        /// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerToe - werknemer mag niet leeg zijn"</exception>
+        /// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerToe - werknemer bestaat al"</exception>
+        /// <exception cref="WerknemerManagerException">ex.Message</exception>
+        private void VoegWerknemerBedrijfFunctiesToe(Werknemer werknemer) {
+            try {
+                foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
+                    foreach (var functie in kvpBedrijf.Value.GeefWerknemerFuncties()) {
+                        string bewerkteFunctie = Nutsvoorziening.FunctieNaamOpmaak(functie);
+                        if (!_werknemerRepository.BestaatFunctie(bewerkteFunctie)) {
+                            VoegFunctieToe(bewerkteFunctie);
+                        }                      
+                        if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(kvpBedrijf.Key) || !_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[kvpBedrijf.Key].GeefWerknemerFuncties().Contains(bewerkteFunctie)) {
+                            _werknemerRepository.VoegWerknemerFunctieToe(werknemer, kvpBedrijf.Value, bewerkteFunctie);
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                throw new WerknemerManagerException($"WerknemerManager - VoegWerknemerBedrijfFunctiesToe {ex.Message}");
+            }
+        }
+        /// <summary>
+        /// Verwijdert gewenste werknemer uit specifiek bedrijf.
+        /// </summary>
+        /// <param name="werknemer">Werknemer object dat verwijderd wenst te worden.</param>
+        /// <param name="bedrijf">Bedrijf object waaruit werknemer verwijderd wenst te worden.</param>
+        /// <exception cref="WerknemerManagerException">"WerknemerManager - VerwijderWerknemer - werknemer mag niet leeg zijn"</exception>
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - VerwijderWerknemer - werknemer bestaat niet"</exception>
 		/// <exception cref="WerknemerManagerException">ex.Message</exception>
 		public void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf) {
@@ -122,20 +108,25 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemerinfo mag niet leeg zijn");
 			if (!_werknemerRepository.BestaatWerknemer(werknemer))
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer bestaat niet");
-			if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(werknemerInfo.Bedrijf))
-				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer niet werkzaam bij dit bedrijf");
-			if (_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties().Contains(werknemerInfo.GeefWerknemerFuncties().First()))
-				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft deze functie al bij dit bedrijf");
-			try {
-				foreach (var functie in werknemerInfo.GeefWerknemerFuncties()) {
-					if (!_werknemerRepository.BestaatFunctie(functie)) {
-						VoegFunctieToe(functie);
-					}
-					if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties().Contains(functie)) {
-						_werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo, functie);
-					}
-				}
-			} catch (Exception ex) {
+            if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(werknemerInfo.Bedrijf))
+                throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer niet werkzaam bij dit bedrijf");
+            var dbWerknemer = _werknemerRepository.GeefWerknemer(werknemer.Id);            
+            var nieuweFuncties = werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties().Except(dbWerknemer.GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties());
+            if (nieuweFuncties.Count() == 0)
+                throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer heeft geen extra functies gekregen");
+			try
+			{
+                foreach (var functie in nieuweFuncties) {
+                    string bewerkteFunctie = Nutsvoorziening.FunctieNaamOpmaak(functie);
+                    if (!_werknemerRepository.BestaatFunctie(bewerkteFunctie)) {
+                        VoegFunctieToe(bewerkteFunctie);
+                    }
+                    if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[werknemerInfo.Bedrijf].GeefWerknemerFuncties().Contains(bewerkteFunctie)) {
+                        _werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo, bewerkteFunctie);
+                    }
+                }
+			} catch (Exception ex)
+			{
 				throw new WerknemerManagerException(ex.Message);
 			}
 		}
@@ -169,8 +160,9 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer heeft geen functie bij dit bedrijf");
 			if (_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Count() == 1)
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben");
-			try {
-				functie = Nutsvoorziening.VerwijderWhitespace(functie).ToLower();
+			try
+			{
+				functie = Nutsvoorziening.FunctieNaamOpmaak(functie);
 				_werknemerRepository.VerwijderWerknemerFunctie(werknemer, bedrijf, functie);
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);
@@ -288,13 +280,15 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegFunctieToe - functie mag niet leeg zijn"</exception>
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegFunctieToe - functie bestaat al"</exception>
 		/// <exception cref="WerknemerManagerException">ex.Message</exception>
-		public void VoegFunctieToe(string functienaam) {
-			if (string.IsNullOrWhiteSpace(functienaam))
-				throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie mag niet leeg zijn");
-			if (_werknemerRepository.BestaatFunctie(functienaam))
-				throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie bestaat al");
-			try {
-				functienaam = Nutsvoorziening.VerwijderWhitespace(functienaam).ToLower();
+        public void VoegFunctieToe(string functienaam)
+		{
+            if (string.IsNullOrWhiteSpace(functienaam))
+                throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie mag niet leeg zijn");
+            if (_werknemerRepository.BestaatFunctie(functienaam))
+                throw new WerknemerManagerException("WerknemerManager - VoegFunctieToe - functie bestaat al");
+            try
+            {
+                functienaam = Nutsvoorziening.FunctieNaamOpmaak(functienaam);
 				_werknemerRepository.VoegFunctieToe(functienaam);
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);
