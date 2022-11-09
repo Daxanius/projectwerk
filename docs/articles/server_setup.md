@@ -2,7 +2,7 @@
 In deze guide leggen wij u uit hoe u de server voor .inside kunt opzetten. De server bied een centrale
 plek voor de data en controles aan voor de applicatie.
 
-Hier gaan wij ervan uit dat u al een database klaar heeft staan ([Database Setup](db_setup.md))
+:warning: We gaan hier verder op de ([Database Setup](db_setup.md)) guide.
 
 ## Omgevingsvariabelen
 Om de server te runnen moet de server uw database connection string weten. Deze hebben wij verkregen
