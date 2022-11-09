@@ -3,6 +3,7 @@ using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
 using System.Collections.Generic;
@@ -25,9 +26,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
-	/// <summary>
-	/// Interaction logic for DashBoardPage.xaml
-	/// </summary>
 	public partial class AfsprakenPage : Page, INotifyPropertyChanged {
 		private static AfsprakenPage instance = null;
 		private static readonly object padlock = new object();
@@ -42,10 +40,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				}
 			}
 		}
-
-		/// <summary>
-		/// ////////////////////////////////////////////////////////////////////////////////
-		/// </summary>
 
 		private static string _selectedDatum = DateTime.Now.ToString("dd/MM/yyyy");
 		private string _oudeValidDate = _selectedDatum;
@@ -103,6 +97,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			this.DataContext = this;
 			InitializeComponent();
 
+			//Voeg nieuwe werknemer toe aan lijst met werknemers van bedrijf
+			WerknemersPopup.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => WerknemerLijst.ItemSource.Add(werknemer);
+
 			UpdateGeselecteerdBedrijfOpScherm();
 
 			NavigeerNaarTab("Huidige Afspraken");
@@ -142,16 +139,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 					foreach (WerknemerDTO werknemer in ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf)) {
 						WerknemerLijst.ItemSource.Add(werknemer);
 					}
-					afsprakenAfsprakenLijstControl.HeeftData = true;
+					werknemersLijstControl.HeeftData = true;
 				} else {
 				}
 				break;
 
 				case "Afspraken Bezoeker":
 				NavigeerNaarTab("Afspraken Bezoeker");
-				//if (GeselecteerdeBezoekerAfsprakenLijst.ItemSource is null) GeselecteerdeBezoekerAfsprakenLijst.ItemSource = new ObservableCollection<AfspraakDTO>(ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeBezoeker));
-				//GeselecteerdeBezoekerAfsprakenLijst.ItemSource.Clear();
-				//GeselecteerdeBezoekerAfsprakenLijst.AfsprakenLijst.SelectedItem = null;
 
 				if (!bezoekersAfsprakenLijstControl.HeeftData) {
 					BezoekerLijst.ItemSource.Clear();
