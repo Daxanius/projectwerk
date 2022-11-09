@@ -462,17 +462,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		}
 		#endregion
 
-		public static IEnumerable<BedrijfOutputDTO>? FetchBedrijven() {
-			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<BedrijfOutputDTO> bedrijven) = await Get<IEnumerable<BedrijfOutputDTO>>($"bedrijf");
-				if (isvalid) {
-					return bedrijven;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de bedrijven");
-				}
-			}).Result;
-		}
-
 		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersVanBedrijf(long bedrijfId) {
 			return Task.Run(async () => {
 				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"bedrijf/werknemer/{bedrijfId}");
@@ -495,7 +484,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-		#endregion
 
 		#region Werknemer
 		public static WerknemerOutputDTO? FetchWerknemer(long werknemerId) {
