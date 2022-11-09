@@ -323,7 +323,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static IEnumerable<WerknemerDTO> FetchWerknemersVanBedrijf(BedrijfDTO bedrijf) {
 			return Task.Run(async () => {
 				List<WerknemerDTO> ItemSource = new();
-				(bool isvalid, List<WerknemerOutputDTO> apiWerknemers) = await Get<List<WerknemerOutputDTO>>($"bedrijf/werknemer/{bedrijf.Id}");
+				(bool isvalid, List<WerknemerOutputDTO> apiWerknemers) = await Get<List<WerknemerOutputDTO>>($"bedrijf/{bedrijf.Id}/werknemer");
 				if (isvalid) {
 					apiWerknemers.ForEach((api) => {
 						List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(bedrijf, w.Email, w.Functies)).ToList());
@@ -340,7 +340,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static IEnumerable<BezoekerDTO> FetchBezoekersVanBedrijf(long bedrijfsId, DateTime datum) {
 			return Task.Run(async () => {
 				List<BezoekerDTO> ItemSource = new();
-				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bezoeker/{bedrijfsId}?datum={datum.ToString("M/dd/yyyy")}");
+				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bedrijf/{bedrijfsId}?datum={datum.ToString("M/dd/yyyy")}");
 				if (isvalid) {
 					apiBezoekers.ForEach((api) => {
 						ItemSource.Add(new BezoekerDTO(api.Id, api.Voornaam, api.Achternaam, api.Email, api.Bedrijf));
@@ -373,7 +373,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				List<AfspraakDTO> ItemSource = new();
 				string payload = JsonConvert.SerializeObject(bezoeker);
 				string dagString = (dag is not null ? dag.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")).ToString();
-				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await GetMetBody<List<AfspraakOutputDTO>>($"afspraak/bezoeker/all/{bedrijfsId}/{bezoeker.Id}?dag={dagString}", payload);
+				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await GetMetBody<List<AfspraakOutputDTO>>($"afspraak/bedrijf/{bedrijfsId}/bezoeker/{bezoeker.Id}/all?dag={dagString}", payload);
 
 				if (isvalid) {
 					apiAfspraken.ForEach((api) => {
@@ -463,7 +463,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-		#endregion
 
 		public static BedrijfDTO PostBedrijf(BedrijfInputDTO bedrijf) {
 			return Task.Run(async () => {
@@ -476,6 +475,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
+		#endregion
 
 		#region Werknemer
 		public static WerknemerOutputDTO? FetchWerknemer(long werknemerId) {
@@ -491,7 +491,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersVanBedrijf(long bedrijfId, string naam, string achternaam) {
 			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/{bedrijfId}/{naam}/{achternaam}");
+				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/{naam}/{achternaam}/bedrijf/{bedrijfId}");
 				if (isvalid) {
 					return werknemers;
 				} else {
@@ -514,7 +514,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 		public static IEnumerable<WerknemerOutputDTO>? FetchWerknemersOpFunctie(long bedrijfId, string functie) {
 			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/{bedrijfId}/{functie}");
+				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/bedrijf/{bedrijfId}/functie/{functie}");
 				if (isvalid) {
 					return werknemers;
 				} else {
@@ -525,7 +525,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 		public static IEnumerable<WerknemerOutputDTO>? FetchVrijeWerknemersVanBedrijf(long bedrijfId) {
 			return Task.Run(async () => {
-				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/vb/{bedrijfId}");
+				(bool isvalid, IEnumerable<WerknemerOutputDTO> werknemers) = await Get<IEnumerable<WerknemerOutputDTO>>($"werknemer/bedrijf/vb/{bedrijfId}");
 				if (isvalid) {
 					return werknemers;
 				} else {
@@ -537,22 +537,13 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static WerknemerOutputDTO? PostWerknemerInfo(long werknemerId, WerknemerInfoInputDTO werknemerInfo) {
 			return Task.Run(async () => {
 				string body = JsonConvert.SerializeObject(werknemerInfo);
-				(bool isvalid, WerknemerOutputDTO werknemerOutput) = await Post<WerknemerOutputDTO>($"werknemer/info/{werknemerId}", body);
+				(bool isvalid, WerknemerOutputDTO werknemerOutput) = await Post<WerknemerOutputDTO>($"werknemer/{werknemerId}/info", body);
 				if (isvalid) {
 					return werknemerOutput;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van de werknemer");
 				}
 			}).Result;
-		}
-
-		public static void VoegFunctieToeAanWerknemer(long werknemerId, long bedrijfId, string functie) {
-			Task.Run(async () => {
-				bool isvalid = await Post($"werknemer/functie/{werknemerId}/{bedrijfId}/{functie}");
-				if (!isvalid) {
-					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van de functie");
-				}
-			});
 		}
 		#endregion
 	}
