@@ -78,7 +78,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 				apiAfspraken.ForEach((api) => {
 					WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
 					BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-					Afspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
+					Afspraken.Add(new AfspraakDTO(api.Id, bezoeker, $"{char.ToUpper(api.Bedrijf.Naam[0])}{api.Bedrijf.Naam.Substring(1).ToLower()}", werknemer, api.Starttijd, api.Eindtijd));
 				});
 			} else {
 				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de afspraaken", "Error /afspraak");
