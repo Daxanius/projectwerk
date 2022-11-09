@@ -1,12 +1,11 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
-using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -67,18 +66,27 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			List<WerknemerInfoInputDTO> werknemerInfo = new();
+
+			Voornaam = Voornaam.Trim();
+			Achternaam = Achternaam.Trim();
+			Email = Email.Trim();
+			Functie = Functie.Trim();
+
 			if (string.IsNullOrWhiteSpace(Voornaam)) {
 				MessageBox.Show("Voornaam mag niet leeg zijn");
 				return;
 			};
+
 			if (string.IsNullOrWhiteSpace(Achternaam)) {
 				MessageBox.Show("Achternaam mag niet leeg zijn");
 				return;
 			};
+
 			if (string.IsNullOrWhiteSpace(Email)) {
 				MessageBox.Show("Email mag niet leeg zijn");
 				return;
 			};
+
 			if (string.IsNullOrWhiteSpace(Functie)) {
 				MessageBox.Show("Functie mag niet leeg zijn");
 				return;
@@ -88,8 +96,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			WerknemerDTO werknemer = ApiController.PostWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
 			NieuweWerknemerToegevoegd?.Invoke(werknemer);
 
-			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Voornaam} is toegevoegd");
+			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd");
 			SluitOverlay();
+		}
+
+		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
+		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) {
+			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}
 
 		private void SluitOverlay() {

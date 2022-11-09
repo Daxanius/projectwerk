@@ -1,7 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
-using BezoekersRegistratieSysteemUI.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -100,7 +99,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		}
 
 		#region Action Buttons
-
 		private void AnnulerenKlik(object sender, RoutedEventArgs e) {
 			GaTerugNaarKiesBedrijf();
 		}
@@ -146,10 +144,16 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 					return;
 				}
 
-				BezoekerDTO bezoeker = new(Voornaam.Trim(), Achternaam.Trim(), Email.Trim(), Bedrijf.Trim());
+				Voornaam = Voornaam.Trim();
+				Achternaam = Achternaam.Trim();
+				Email = Email.Trim();
+				Bedrijf = Bedrijf.Trim();
+
+				BezoekerDTO bezoeker = new(Voornaam, Achternaam, Email, Bedrijf);
 
 				if (werknemer.Id.HasValue) {
-					MessageBoxResult result = MessageBox.Show("Bent u zeker ?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
+					MessageBoxResult result = MessageBox.Show($"Zijn ingevoerde gegevens correct?" +
+						$"\n\nNaam: {Voornaam} {Achternaam}\nEmail: {Email}\nBedrijf: {Bedrijf}", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
 					if (result == MessageBoxResult.Yes)
 						MaakNieuweAfspraak(GeselecteerdBedrijf.Id, werknemer.Id.Value, bezoeker);
 					else return;
@@ -186,11 +190,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		private Border _selecteditem;
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			//Er is 2 keer geklikt
-			//if (e.ClickCount == 2) {
-			//	return;
-			//}
-
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
 				_selecteditem.BorderThickness = new Thickness(0);
@@ -208,6 +207,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			_selecteditem = border;
 		}
 
+		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
+		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
+			e.Handled = regexGeenCijfers.IsMatch(e.Text);
+		}
 		#endregion
 
 		#region ProppertyChanged

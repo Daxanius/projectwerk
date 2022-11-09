@@ -5,18 +5,12 @@ using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.Exceptions;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace BezoekersRegistratieSysteemUI.Api {
 	public static class ApiController {
@@ -313,7 +307,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				if (isvalid) {
 					WerknemerDTO werknemer = new WerknemerDTO(apiAfspraken.Werknemer.Id, apiAfspraken.Werknemer.Naam.Split(";")[0], apiAfspraken.Werknemer.Naam.Split(";")[1], null);
 					BezoekerDTO bezoeker = new BezoekerDTO(apiAfspraken.Bezoeker.Id, apiAfspraken.Bezoeker.Naam.Split(";")[0], apiAfspraken.Bezoeker.Naam.Split(";")[1], apiAfspraken.Bezoeker.Email, apiAfspraken.Bezoeker.BezoekerBedrijf);
-					return new AfspraakDTO(apiAfspraken.Id, bezoeker, apiAfspraken.Bezoeker.BezoekerBedrijf, werknemer, apiAfspraken.Starttijd, apiAfspraken.Eindtijd);
+					return new AfspraakDTO(apiAfspraken.Id, bezoeker, BeheerderWindow.GeselecteerdBedrijf.Naam, werknemer, apiAfspraken.Starttijd, apiAfspraken.Eindtijd);
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
 				}
@@ -328,7 +322,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					apiWerknemers.ForEach((api) => {
 						List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(bedrijf, w.Email, w.Functies)).ToList());
 						WerknemerInfoOutputDTO werknemerInfo = api.WerknemerInfo.First(w => w.Bedrijf.Id == bedrijf.Id);
-						ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, true));
+						ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, api.Bezet));
 					});
 					return ItemSource;
 				} else {
@@ -546,6 +540,21 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return werknemerOutput;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van de werknemer");
+				}
+			}).Result;
+		}
+
+		public static IEnumerable<BezoekerDTO> GeefAanwezigeBezoekers() {
+			return Task.Run(async () => {
+				List<BezoekerDTO> ItemSource = new();
+				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>("afspraak/aanwezig");
+				if (isvalid) {
+					apiBezoekers.ForEach((api) => {
+						ItemSource.Add(new BezoekerDTO(api.Id, api.Voornaam, api.Achternaam, api.Email, api.Bedrijf));
+					});
+					return ItemSource;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
 				}
 			}).Result;
 		}

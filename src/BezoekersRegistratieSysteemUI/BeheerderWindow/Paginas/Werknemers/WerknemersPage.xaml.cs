@@ -1,26 +1,13 @@
-﻿using BezoekersRegistratieSysteemUI.Api.Output;
-using BezoekersRegistratieSysteemUI.Api;
+﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 	public partial class WerknemersPage : Page, INotifyPropertyChanged {
@@ -37,13 +24,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			this.DataContext = this;
 			InitializeComponent();
 
-			WerknemersPopup.NieuweWerknemerToegevoegd += UpdateWerknemersOpScherm;
-
+			WerknemersPopup.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => WerknemerLijstControl.ItemSource.Add(werknemer);
 			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
-		}
-
-		private void UpdateWerknemersOpScherm(WerknemerDTO werknemer) {
-			WerknemerLijstControl.ItemSource.Add(werknemer);
 		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
@@ -53,6 +35,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 		private void AddWerknemer(object sender, MouseButtonEventArgs e) {
 			WerknemersPopup.Visibility = Visibility.Visible;
+		}
+		private void Page_Loaded(object sender, RoutedEventArgs e) {
+			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
 		}
 
 		#region Singleton
@@ -77,5 +62,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged
+
 	}
 }

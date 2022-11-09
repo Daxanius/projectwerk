@@ -1,8 +1,6 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
 using BezoekersRegistratieSysteemBL.Interfaces;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
 	public class WerknemerManager {
