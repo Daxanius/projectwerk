@@ -21,9 +21,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 		}
 		public bool Status { get; set; } = false;
 
-		public List<WerknemerInfoDTO> WerknemerInfoLijst { get; set; } = new();
+		public IEnumerable<WerknemerInfoDTO> WerknemerInfoLijst { get; set; }
 
-		public WerknemerDTO(long id, string voornaam, string achternaam, List<WerknemerInfoDTO> werknemerinfoLijst) {
+		public WerknemerDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoDTO> werknemerinfoLijst) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
@@ -38,7 +38,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 			Status = isWerknemerVrij;
 		}
 
-		public WerknemerDTO(long id, string voornaam, string achternaam, string email, List<string> functie, bool isWerknemerVrij) {
+		public WerknemerDTO(long id, string voornaam, string achternaam, string email, IEnumerable<string> functie, bool isWerknemerVrij) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;

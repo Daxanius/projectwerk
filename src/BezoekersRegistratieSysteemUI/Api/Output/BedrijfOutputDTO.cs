@@ -43,7 +43,7 @@ namespace BezoekersRegistratieSysteemUI.Api.Output {
 		/// <summary>
 		/// De werknemers van het bedrijf.
 		/// </summary>
-		public List<IdInfoOutputDTO> Werknemers { get; set; } = new();
+		public IEnumerable<IdInfoOutputDTO> Werknemers { get; set; }
 
 		/// <summary>
 		/// De constructor.
@@ -56,7 +56,7 @@ namespace BezoekersRegistratieSysteemUI.Api.Output {
 		/// <param name="email"></param>
 		/// <param name="adres"></param>
 		/// <param name="werknemers"></param>
-		public BedrijfOutputDTO(long id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, List<IdInfoOutputDTO> werknemers) {
+		public BedrijfOutputDTO(long id, string naam, string bTW, bool isGecontroleert, string telefoonNummer, string email, string adres, IEnumerable<IdInfoOutputDTO> werknemers) {
 			Id = id;
 			Naam = naam;
 			BTW = bTW;
