@@ -37,7 +37,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			this.DataContext = this;
 			InitializeComponent();
 
+			WerknemersPopup.NieuweWerknemerToegevoegd += UpdateWerknemersOpScherm;
+
 			WerknemerLijstControl.ItemSource = new(ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf));
+		}
+
+		private void UpdateWerknemersOpScherm(WerknemerDTO werknemer) {
+			WerknemerLijstControl.ItemSource.Add(werknemer);
 		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {

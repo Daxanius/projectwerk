@@ -32,6 +32,22 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		}
 
 		/// <summary>
+		/// Maak een nieuwe afspraak met een starttijd en een eindtijd
+		/// </summary>
+		/// <param name="starttijd"></param>
+		/// <param name="eindtijd"></param>
+		/// <param name="bedrijf"></param>
+		/// <param name="bezoeker"></param>
+		/// <param name="werknemer"></param>
+		public Afspraak(DateTime starttijd, DateTime? eindtijd, Bedrijf bedrijf, Bezoeker bezoeker, Werknemer werknemer) {
+			ZetStarttijd(starttijd);
+			ZetBezoeker(bezoeker);
+			ZetWerknemer(werknemer);
+			ZetBedrijfEnWerknemer(bedrijf, werknemer);
+			ZetEindtijd(eindtijd);
+		}
+
+		/// <summary>
 		/// Constructor voor het ophalen van een afspraak.
 		/// </summary>
 		/// <param name="id"></param>

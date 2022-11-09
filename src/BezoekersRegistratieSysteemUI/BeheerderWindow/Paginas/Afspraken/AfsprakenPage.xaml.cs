@@ -1,33 +1,19 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
-	/// <summary>
-	/// Interaction logic for DashBoardPage.xaml
-	/// </summary>
 	public partial class AfsprakenPage : Page, INotifyPropertyChanged {
 		private static AfsprakenPage instance = null;
 		private static readonly object padlock = new object();
@@ -42,10 +28,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				}
 			}
 		}
-
-		/// <summary>
-		/// ////////////////////////////////////////////////////////////////////////////////
-		/// </summary>
 
 		private static string _selectedDatum = DateTime.Now.ToString("dd/MM/yyyy");
 		private string _oudeValidDate = _selectedDatum;
@@ -103,10 +85,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			this.DataContext = this;
 			InitializeComponent();
 
+			//Voeg nieuwe werknemer toe aan lijst met werknemers van bedrijf
+			WerknemersPopup.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => WerknemerLijst.ItemSource.Add(werknemer);
+			AfsprakenPopup.NieuweAfspraakToegevoegd += UpdateAfsprakenOpScherm;
+
 			UpdateGeselecteerdBedrijfOpScherm();
 
 			NavigeerNaarTab("Huidige Afspraken");
 		}
+
+		private void UpdateAfsprakenOpScherm(AfspraakDTO afspraak) {
+			// Als de afspraak nog bezig is voegen we hem toe aan de huidige
+			// afspraken lijst
+			if (string.IsNullOrWhiteSpace(afspraak.EindTijd)) {
+				HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
+			}
+		} 
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
 			bezoekersAfsprakenLijstControl.ItemSource.Clear();
@@ -142,16 +136,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 					foreach (WerknemerDTO werknemer in ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf)) {
 						WerknemerLijst.ItemSource.Add(werknemer);
 					}
-					afsprakenAfsprakenLijstControl.HeeftData = true;
+					werknemersLijstControl.HeeftData = true;
 				} else {
 				}
 				break;
 
 				case "Afspraken Bezoeker":
 				NavigeerNaarTab("Afspraken Bezoeker");
-				//if (GeselecteerdeBezoekerAfsprakenLijst.ItemSource is null) GeselecteerdeBezoekerAfsprakenLijst.ItemSource = new ObservableCollection<AfspraakDTO>(ApiController.FetchBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeBezoeker));
-				//GeselecteerdeBezoekerAfsprakenLijst.ItemSource.Clear();
-				//GeselecteerdeBezoekerAfsprakenLijst.AfsprakenLijst.SelectedItem = null;
 
 				if (!bezoekersAfsprakenLijstControl.HeeftData) {
 					BezoekerLijst.ItemSource.Clear();

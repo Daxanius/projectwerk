@@ -59,7 +59,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			_bd = new("bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 
-			_a = new(_b, 0, 0);
+			_a = new(_b, null, null, 0, 0);
 
 			Bedrijf b = _bd.NaarBusiness();
 			Werknemer w = _w.NaarBusiness(_bedrijfManager);
