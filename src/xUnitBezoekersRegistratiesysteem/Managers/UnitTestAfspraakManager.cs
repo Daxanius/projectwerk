@@ -59,7 +59,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			//"AfspraakManager - VoegAfspraakToe - afspraak bestaat al"
 			_mockRepo.Setup(x => x.BestaatAfspraak(_ia)).Returns(true);
 			var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VoegAfspraakToe(_ia));
-			Assert.Equal("AfspraakManager - VoegAfspraakToe - er is nog een lopende afspraak voor dit email adres", ex.Message);
+			Assert.Equal("BezoekersRegistratieSysteemBL.Managers.AfspraakManager: VoegAfspraakToe: er is nog een lopende afspraak voor dit email adres.", ex.Message);
 		}
 		#endregion
 
@@ -81,7 +81,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			//"AfspraakManager - VerwijderAfspraak - afspraak bestaat al"
 			_mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
 			var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.VerwijderAfspraak(_oa));
-			Assert.Equal("AfspraakManager - VerwijderAfspraak - afspraak bestaat niet", ex.Message);
+			Assert.Equal("BezoekersRegistratieSysteemBL.Managers.AfspraakManager: VerwijderAfspraak: afspraak bestaat niet", ex.Message);
 		}
 		#endregion
 
@@ -103,7 +103,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			//"AfspraakManager - BewerkAfspraak - afspraak bestaat niet"
 			_mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
 			var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
-			Assert.Equal("AfspraakManager - BewerkAfspraak - afspraak bestaat niet", ex.Message);
+			Assert.Equal("BezoekersRegistratieSysteemBL.Managers.AfspraakManager: BewerkAfspraak: afspraak bestaat niet", ex.Message);
 		}
 
 		[Fact]
@@ -115,7 +115,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(true);
 			_mockRepo.Setup(x => x.GeefAfspraak(_oa.Id)).Returns(_oa);
 			var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BewerkAfspraak(_oa));
-			Assert.Equal("AfspraakManager - BewerkAfspraak - afspraak is niet gewijzigd", ex.Message);
+			Assert.Equal("BezoekersRegistratieSysteemBL.Managers.AfspraakManager: BewerkAfspraak: afspraak is niet gewijzigd", ex.Message);
 		}
 		#endregion
 
@@ -146,7 +146,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			//"AfspraakManager - BeeindigAfspraakBezoeker - afspraak bestaat al"
 			_mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
 			var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakBezoeker(_oa));
-			Assert.Equal("AfspraakManager - BeeindigAfspraakBezoeker - afspraak is al beeindigd", ex.Message);
+			Assert.Equal("BezoekersRegistratieSysteemBL.Managers.AfspraakManager: BeeindigAfspraakBezoeker: afspraak is al beeindigd", ex.Message);
 		}
 		#endregion
 
@@ -177,7 +177,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			//"AfspraakManager - BeeindigAfspraakSysteem - afspraak is al beeindigd"
 			_mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
 			var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakSysteem(_oa));
-			Assert.Equal("AfspraakManager - BeeindigAfspraakSysteem - afspraak is al beeindigd", ex.Message);
+			Assert.Equal("BezoekersRegistratieSysteemBL.Managers.AfspraakManager: BeeindigAfspraakSysteem: afspraak is al beeindigd", ex.Message);
 		}
 		#endregion
 
@@ -219,7 +219,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			//"AfspraakManager - GeefAfspraak - afspraak bestaat niet"
 			_mockRepo.Setup(x => x.BestaatAfspraak(_oa.Id)).Returns(false);
 			var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.GeefAfspraak(_oa.Id));
-			Assert.Equal("AfspraakManager - GeefAfspraak - afspraak bestaat niet", ex.Message);
+			Assert.Equal("BezoekersRegistratieSysteemBL.Managers.AfspraakManager: GeefAfspraak: afspraak bestaat niet", ex.Message);
 		}
 		#endregion
 

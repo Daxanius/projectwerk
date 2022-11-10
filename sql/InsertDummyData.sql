@@ -4,8 +4,8 @@ DUMMY DATA FOR GROUPSWORK IN TSQL
 
 INSERT INTO Functie
 	(FunctieNaam)
-	VALUES('CEO'),
-		  ('CFO'),
+	VALUES('Ceo'),
+		  ('Cfo'),
 		  ('Sanitair medewerker'),
 		  ('Administratief medewerker'),
 		  ('Logistiek'),
@@ -258,5 +258,5 @@ VALUES(14, 1, 2, 'RubyTucker@linak.cn'),
 INSERT INTO Afspraak
 	(StartTijd, WerknemerBedrijfId, BezoekerId)
 	VALUES(GETDATE(), 1, 1),
-		  (GETDATE(), 2, 2),
+		  (GETDATE(), 30, 2),
 		  (GETDATE(), 3, 3)
