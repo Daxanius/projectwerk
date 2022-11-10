@@ -4,8 +4,8 @@ DUMMY DATA FOR GROUPSWORK IN TSQL
 
 INSERT INTO Functie
 	(FunctieNaam)
-	VALUES('CEO'),
-		  ('CFO'),
+	VALUES('Ceo'),
+		  ('Cfo'),
 		  ('Sanitair medewerker'),
 		  ('Administratief medewerker'),
 		  ('Logistiek'),
