@@ -41,5 +41,6 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
         //
 
 		IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers();
+		bool HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(Afspraak afspraak);
 	}
 }
