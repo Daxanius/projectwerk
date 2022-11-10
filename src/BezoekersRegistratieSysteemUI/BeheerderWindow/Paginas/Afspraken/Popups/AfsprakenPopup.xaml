@@ -258,7 +258,6 @@
                             x:Name="MedewerkerKiesButton"
                             Padding="15,5"
                             Margin="20,10,10,10"
-                            Padding="15,5"
                             BorderBrush="{StaticResource LichtGroen}"
                             BorderThickness="2"
                             Click="KiesMedeWerkerClick"
