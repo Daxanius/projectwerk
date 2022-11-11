@@ -102,7 +102,6 @@
                         Style="{StaticResource AanmeldenLabelStyle}" />
                     <TextBox
                         Grid.Row="1"
-                        PreviewTextInput="IsDatePickerGeldigeText"
                         Style="{StaticResource AanmeldenInputStyle}"
                         Text="{Binding Bedrijf}" />
                 </Grid>
