@@ -6,13 +6,13 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow {
 	/// Interaction logic for RegistratieWindow.xaml
 	/// </summary>
 	public partial class RegistratieWindow : Window {
-		#region Public Static Propperties
-		public static BedrijfDTO GeselecteerdBedrijf { get; set; }
-		#endregion
-
 		#region Scaling
 		public double ScaleX { get; set; }
 		public double ScaleY { get; set; }
+		#endregion
+
+		#region Variabelen
+		public static BedrijfDTO GeselecteerdBedrijf { get; set; }
 		#endregion
 
 		public RegistratieWindow() {

@@ -13,15 +13,18 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
-	/// <summary>
-	/// Interaction logic for AanmeldGegevensPage.xaml
-	/// </summary>
 	public partial class AanmeldGegevensPage : Page, INotifyPropertyChanged {
+
+		#region Events
+
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		#region Binding Propperties
+		#endregion
+
+		#region Variabelen
 
 		private string _voornaam;
 		public string Voornaam {
@@ -54,7 +57,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
-		private string _bedrijf;
+		private string _bedrijf = "";
 		public string Bedrijf {
 			get { return _bedrijf; }
 			set {
@@ -96,10 +99,11 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				((RegistratieWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
 				return;
 			}
+
 			LijstMetWerknemersVanGeselecteerdBedrijf = ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf).ToList();
 		}
 
-		#region Action Buttons
+		#region Functies
 		private void AnnulerenKlik(object sender, RoutedEventArgs e) {
 			GaTerugNaarKiesBedrijf();
 		}
@@ -110,32 +114,16 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				Voornaam = Voornaam.Trim();
 				Achternaam = Achternaam.Trim();
 				Email = Email.Trim();
-				Bedrijf = Bedrijf?.Trim();
+				Bedrijf = Bedrijf.Trim();
 
 				if (RegistratieWindow.GeselecteerdBedrijf is null) {
 					MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 
-				if (string.IsNullOrWhiteSpace(Voornaam)) {
-					MessageBox.Show("Voornaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
-					return;
-				}
+				ValideerInput.IsLeeg(new Dictionary<string, string?>() { { "Voornaam", Voornaam }, { "Achternaam", Achternaam }, { "Email", Email } });
 
-				if (string.IsNullOrWhiteSpace(Achternaam)) {
-					MessageBox.Show("Achternaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
-					return;
-				}
-
-				if (string.IsNullOrWhiteSpace(Email)) {
-					MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
-					return;
-				}
-
-				string email = Email.Trim();
-				Regex regexEmail = new(@"^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$", RegexOptions.IgnoreCase);
-
-				if (!regexEmail.IsMatch(email)) {
+				if (!Email.IsEmailGeldig()) {
 					MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
@@ -171,10 +159,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		}
 
 		private void GaTerugNaarKiesBedrijf() {
-			Voornaam = string.Empty;
-			Achternaam = string.Empty;
-			Email = string.Empty;
-			Bedrijf = string.Empty;
+			Voornaam = Voornaam.ZetLeeg();
+			Achternaam = Achternaam.ZetLeeg();
+			Email = Email.ZetLeeg();
+			Bedrijf = Bedrijf.ZetLeeg();
 
 			RegistratieWindow registratieWindow = (RegistratieWindow)Window.GetWindow(this);
 			registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
@@ -187,7 +175,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			(bool isvalid, AfspraakOutputDTO afspraak) = await ApiController.Post<AfspraakOutputDTO>("/afspraak", json);
 
 			if (isvalid) {
-				MessageBox.Show($"U registratie is goed ontvangen met als startijd: {afspraak.Starttijd.ToString("HH:mm - dd/MM/yyyy")}");
+				MessageBox.Show($"U registratie is goed ontvangen met als startijd: {afspraak.Starttijd:HH:mm - dd/MM/yyyy}");
 			} else {
 				MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
 			}

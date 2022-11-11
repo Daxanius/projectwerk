@@ -8,32 +8,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
-	/// <summary>
-	/// Interaction logic for KiesBedrijfPage.xaml
-	/// </summary>
 	public partial class KiesBedrijfPage : Page {
-		#region Singleton
 
-		private static KiesBedrijfPage instance = null;
-		private static readonly object padlock = new object();
-
-		public static KiesBedrijfPage Instance {
-			get {
-				lock (padlock) {
-					if (instance == null) {
-						instance = new KiesBedrijfPage();
-					}
-					return instance;
-				}
-			}
-		}
-
-		#endregion
-
-		#region Private Fields
+		#region Variabelen
 
 		private const int MAX_COLUMN_COUNT = 3;
-		public List<BedrijfDTO> _bedrijven;
+
+		public List<BedrijfDTO> Bedrijven;
 
 		#endregion
 
@@ -41,13 +22,13 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			this.DataContext = this;
 			InitializeComponent();
 
-			if (_bedrijven is null) {
-				_bedrijven = ApiController.FetchBedrijven().ToList();
+			if (Bedrijven is null) {
+				Bedrijven = ApiController.FetchBedrijven().ToList();
 				SpawnBedrijvenGrid();
 			}
 		}
 
-		#region Fetch Bedrijven
+		#region Funcities
 
 		private void SpawnBedrijvenGrid() {
 			gridContainer.Children.Clear();
@@ -56,14 +37,14 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 			gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
-			for (int i = 0; i < _bedrijven?.Count; i++) {
+			for (int i = 0; i < Bedrijven?.Count; i++) {
 				Border border = new Border();
 				border.Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style;
 				border.Height = 85;
 				border.MinWidth = 350;
 				border.Margin = new Thickness(10);
 				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab;
-				border.DataContext = _bedrijven[i];
+				border.DataContext = Bedrijven[i];
 
 				StackPanel container = new();
 				container.Margin = new Thickness(5);
@@ -72,7 +53,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				container.VerticalAlignment = VerticalAlignment.Center;
 
 				TextBlock bedrijfNaam = new() {
-					Text = _bedrijven[i].Naam,
+					Text = Bedrijven[i].Naam,
 					FontSize = 24,
 					FontWeight = FontWeights.Bold,
 					TextAlignment = TextAlignment.Center,
@@ -109,10 +90,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
-		#endregion
-
-		#region Navigate
-
 		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
 			BedrijfDTO geselecteerdbedrijf = (BedrijfDTO)((Border)sender).DataContext;
 
@@ -123,6 +100,22 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			registratieWindow.FrameControl.Content = new AanmeldGegevensPage();
 		}
 
+		#endregion
+
+		#region Singleton
+		private static KiesBedrijfPage instance = null;
+		private static readonly object padlock = new object();
+
+		public static KiesBedrijfPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new KiesBedrijfPage();
+					}
+					return instance;
+				}
+			}
+		}
 		#endregion
 	}
 }

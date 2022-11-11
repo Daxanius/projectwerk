@@ -8,6 +8,7 @@ namespace BezoekersRegistratieSysteemUI {
 	public partial class ParkeerWindow : Window {
 
 		public ParkeerWindow() {
+			this.DataContext = this;
 			InitializeComponent();
 		}
 	}

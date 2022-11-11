@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden;
 using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,32 +10,13 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
-	/// <summary>
-	/// Interaction logic for KiesBedrijfPage.xaml
-	/// </summary>
 	public partial class AfmeldPage : Page, INotifyPropertyChanged {
-		private static AfmeldPage instance = null;
-		private static readonly object padlock = new object();
+		#region Scaling
+		public double ScaleX { get; set; }
+		public double ScaleY { get; set; }
+		#endregion
 
-		public static AfmeldPage Instance {
-			get {
-				lock (padlock) {
-					if (instance == null) {
-						instance = new AfmeldPage();
-					}
-					return instance;
-				}
-			}
-		}
-
-		/// <summary>
-		/// ///////////////////////////////////////////////////
-		/// </summary>
-		/// 
-
-		#region Binding Propperties
-
-		public event PropertyChangedEventHandler? PropertyChanged;
+		#region Variabelen
 
 		private string _email;
 
@@ -48,11 +30,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 			}
 		}
 
-		#endregion
-
-		#region Scaling
-		public double ScaleX { get; set; }
-		public double ScaleY { get; set; }
 		#endregion
 
 		public AfmeldPage() {
@@ -73,34 +50,34 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 			InitializeComponent();
 		}
 
-		#region ProppertyChanged
-		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-		#endregion ProppertyChanged
-
+		#region Functies
 		private async void AfmeldenClick(object sender, RoutedEventArgs e) {
 			try {
-				if (Email is null) return;
-				string email = Email.Trim();
-
-				Regex regexEmail = new(@"^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$", RegexOptions.IgnoreCase);
-
-				if (!regexEmail.IsMatch(email)) {
+				if (!Email.IsEmailGeldig()) {
 					MessageBox.Show("Email is niet geldig!", "Error");
 					return;
 				}
 
-				await ApiController.Put<object>($"/afspraak/end?email={email}");
+				if (Email.IsLeeg()) {
+					MessageBox.Show("Email is leeg!", "Error");
+					return;
+				}
 
-				Email = string.Empty;
+				await ApiController.Put<object>($"/afspraak/end?email={Email}");
+
+				Email = Email.ZetLeeg();
 
 				MessageBox.Show("U bent afgemeld", "Joepi");
 
 				await Task.Delay(TimeSpan.FromSeconds(2));
-				((RegistratieWindow)((RegistratieWindow)Window.GetWindow(this)).DataContext).FrameControl.Content = KiesBedrijfPage.Instance;
-				((RegistratieWindow)((RegistratieWindow)Window.GetWindow(this)).DataContext).SideBar.AanmeldenTab.Tag = "Selected";
-				((RegistratieWindow)((RegistratieWindow)Window.GetWindow(this)).DataContext).SideBar.AfmeldenTab.Tag = "UnSelected";
+
+				RegistratieWindow registratieWindow = (RegistratieWindow)Window.GetWindow(this);
+				registratieWindow = (RegistratieWindow)registratieWindow.DataContext;
+
+				registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
+				registratieWindow.SideBar.AanmeldenTab.Tag = "Selected";
+				registratieWindow.SideBar.AfmeldenTab.Tag = "UnSelected";
+
 			} catch (Exception ex) {
 				if (ex.Message.Contains("NotFound")) {
 					MessageBox.Show("Er is geen afspraak voor dit email adres");
@@ -109,5 +86,29 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 				MessageBox.Show(ex.Message, "Error");
 			}
 		}
+		#endregion
+
+		#region ProppertyChanged
+		public event PropertyChangedEventHandler? PropertyChanged;
+		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		#endregion ProppertyChanged
+
+		#region Singleton
+		private static AfmeldPage instance = null;
+		private static readonly object padlock = new object();
+
+		public static AfmeldPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new AfmeldPage();
+					}
+					return instance;
+				}
+			}
+		}
+		#endregion
 	}
 }
