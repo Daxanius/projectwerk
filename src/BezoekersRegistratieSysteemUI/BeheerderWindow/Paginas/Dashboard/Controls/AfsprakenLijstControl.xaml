@@ -87,6 +87,7 @@
                                     Padding="8,15,0,15"
                                     Content="{Binding StartTijd}"
                                     FontSize="15"
+                                    FontWeight="DemiBold"
                                     Foreground="{StaticResource LichtGrijs}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

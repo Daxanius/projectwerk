@@ -168,7 +168,6 @@
                                     Style="{StaticResource InputLabelStyle}" />
                                 <TextBox
                                     Grid.Column="2"
-                                    PreviewTextInput="IsInputGeldigZonderCijfers"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding BezoekerBedrijf}" />
                             </Grid>

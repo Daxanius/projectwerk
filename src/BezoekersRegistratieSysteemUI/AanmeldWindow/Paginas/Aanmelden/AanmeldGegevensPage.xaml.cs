@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using BezoekersRegistratieSysteemUI.Beheerder;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 	/// <summary>
@@ -106,19 +107,28 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		private void AanmeldenKlik(object sender, RoutedEventArgs e) {
 			try {
 				#region Controle Input
+				Voornaam = Voornaam.Trim();
+				Achternaam = Achternaam.Trim();
+				Email = Email.Trim();
+				Bedrijf = Bedrijf.Trim();
+
+				if (RegistratieWindow.GeselecteerdBedrijf is null) {
+					MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
 
 				if (string.IsNullOrWhiteSpace(Voornaam)) {
-					MessageBox.Show("Voornaam is niet geldig!", "Error");
+					MessageBox.Show("Voornaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 
 				if (string.IsNullOrWhiteSpace(Achternaam)) {
-					MessageBox.Show("Achternaam is niet geldig!", "Error");
+					MessageBox.Show("Achternaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 
 				if (string.IsNullOrWhiteSpace(Email)) {
-					MessageBox.Show("Email is niet geldig!", "Error");
+					MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 
@@ -126,28 +136,23 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				Regex regexEmail = new(@"^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$", RegexOptions.IgnoreCase);
 
 				if (!regexEmail.IsMatch(email)) {
-					MessageBox.Show("Email is niet geldig!", "Error");
+					MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
-
-				if (string.IsNullOrWhiteSpace(Bedrijf)) {
-					MessageBox.Show("Bedrijf is niet geldig!", "Error");
-					return;
-				}
-
-				#endregion
 
 				WerknemerDTO? werknemer = (WerknemerDTO)WerknemersLijst.SelectedValue;
 
-				if (werknemer == null) {
+				if (werknemer is null) {
 					MessageBox.Show("Gelieve een werknemer te kiezen", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 
-				Voornaam = Voornaam.Trim();
-				Achternaam = Achternaam.Trim();
-				Email = Email.Trim();
-				Bedrijf = Bedrijf.Trim();
+				if (werknemer.Id is null) {
+					MessageBox.Show("Werknemer id is null, gelieve het aanmeldscherm te herstarten", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+
+				#endregion
 
 				BezoekerDTO bezoeker = new(Voornaam, Achternaam, Email, Bedrijf);
 
