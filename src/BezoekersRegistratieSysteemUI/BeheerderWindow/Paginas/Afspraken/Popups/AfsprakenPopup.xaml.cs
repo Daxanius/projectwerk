@@ -53,7 +53,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				UpdatePropperty();
 			}
 		}
-		private string _bezoekerBedrijf;
+		private string _bezoekerBedrijf = string.Empty;
 		public string BezoekerBedrijf {
 			get { return _bezoekerBedrijf; }
 			set {
@@ -163,6 +163,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), null, null, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
 			AfspraakDTO afspraak = ApiController.PostAfspraak(payload);
+
+			MessageBox.Show($"Afspraak toegevoegd", "Success");
 
 			NieuweAfspraakToegevoegd?.Invoke(afspraak);
 

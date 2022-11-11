@@ -110,7 +110,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				Voornaam = Voornaam.Trim();
 				Achternaam = Achternaam.Trim();
 				Email = Email.Trim();
-				Bedrijf = Bedrijf.Trim();
+				Bedrijf = Bedrijf?.Trim();
 
 				if (RegistratieWindow.GeselecteerdBedrijf is null) {
 					MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
