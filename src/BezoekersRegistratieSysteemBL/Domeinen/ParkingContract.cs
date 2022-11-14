@@ -3,7 +3,9 @@
 namespace BezoekersRegistratieSysteemBL.Domeinen {
 
 	public class ParkingContract {
-		public DateTime Starttijd { get; private set; }
+        
+        public Bedrijf Bedrijf { get; private set; }
+        public DateTime Starttijd { get; private set; }
 		public DateTime? Eindtijd { get; private set; }
 		public int AantalPlaatsen { get; private set; }
 
@@ -17,7 +19,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		/// <param name="starttijd"></param>
 		/// <param name="aantalPlaatsen"></param>
-		public ParkingContract(DateTime starttijd, int aantalPlaatsen) {
+		public ParkingContract(Bedrijf bedrijf, DateTime starttijd, int aantalPlaatsen) {
+			ZetBedrijf(bedrijf);
 			ZetStarttijd(starttijd);
 			ZetAantalPlaatsen(aantalPlaatsen);
 		}
@@ -28,18 +31,30 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="starttijd"></param>
 		/// <param name="eindtijd"></param>
 		/// <param name="aantalPlaatsen"></param>
-		public ParkingContract(DateTime starttijd, DateTime? eindtijd, int aantalPlaatsen) {
+		public ParkingContract(Bedrijf bedrijf, DateTime starttijd, DateTime? eindtijd, int aantalPlaatsen) {
+			ZetBedrijf(bedrijf);
 			ZetStarttijd(starttijd);
 			ZetEindtijd(eindtijd);
 			ZetAantalPlaatsen(aantalPlaatsen);
 		}
 
-		/// <summary>
-		/// Zet starttijd.
-		/// </summary>
-		/// <param name="starttijd"></param>
-		/// <exception cref="ParkingContractException"></exception>
-		public void ZetStarttijd(DateTime starttijd) {
+        /// <summary>
+        /// Zet Bedrijf.
+        /// </summary>
+        /// <param name="bedrijf"></param>
+        /// <exception cref="ParkingContractException"></exception>
+        public void ZetBedrijf(Bedrijf bedrijf)
+        {
+            if (Bedrijf == null) throw new ParkingContractException("ParkingContract - ZetBedrijf - Bedrijf mag niet leeg zijn");
+			Bedrijf = bedrijf;
+        }
+
+        /// <summary>
+        /// Zet starttijd.
+        /// </summary>
+        /// <param name="starttijd"></param>
+        /// <exception cref="ParkingContractException"></exception>
+        public void ZetStarttijd(DateTime starttijd) {
 			if (Eindtijd is not null)
 				throw new ParkingContractException("ParkingContract - ZetStarttijd - Parking is al afgelopen");
 			Starttijd = starttijd;
