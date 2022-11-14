@@ -3,10 +3,6 @@ using BezoekersRegistratieSysteemUI.Beheerder;
 using System.Windows;
 
 namespace BezoekersRegistratieSysteemUI {
-
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
 	public partial class MainWindow : Window {
 		public double ScaleX { get; set; }
 
@@ -19,8 +15,11 @@ namespace BezoekersRegistratieSysteemUI {
 			double defaultResHeight = 1080.0;
 			double defaultResWidth = 1920.0;
 
+			double aspectratio = schermResolutieWidth / schermResolutieHeight;
+			double change = aspectratio > 2 ? 0.3 : aspectratio > 1.5 ? 0 : aspectratio > 1 ? -0.05 : -0.3;
+
 			ScaleX = (schermResolutieWidth / defaultResWidth);
-			ScaleY = (schermResolutieHeight / defaultResHeight);
+			ScaleY = (schermResolutieHeight / defaultResHeight) + change;
 
 			this.DataContext = this;
 			InitializeComponent();

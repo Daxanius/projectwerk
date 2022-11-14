@@ -80,6 +80,7 @@
                                 FontWeight="DemiBold"
                                 Foreground="{StaticResource DonkerBlauw}"
                                 LostKeyboardFocus="DatePickerInput_LostKeyboardFocus"
+                                MaxLength="20"
                                 PreviewTextInput="IsDatePickerGeldigeText"
                                 Style="{StaticResource DefaultTextBoxStyle}"
                                 Text="{Binding StartTijd}" />
@@ -95,6 +96,7 @@
                                 FontWeight="DemiBold"
                                 Foreground="{StaticResource DonkerBlauw}"
                                 LostKeyboardFocus="DatePickerInput_LostKeyboardFocus"
+                                MaxLength="20"
                                 PreviewTextInput="IsDatePickerGeldigeText"
                                 Style="{StaticResource DefaultTextBoxStyle}"
                                 Text="{Binding EindTijd}" />
@@ -135,6 +137,7 @@
                                     Style="{StaticResource InputLabelStyle}" />
                                 <TextBox
                                     Grid.Column="0"
+                                    MaxLength="{Binding MaxLengthBezoekerVoornaam}"
                                     PreviewTextInput="IsInputGeldigZonderCijfers"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding BezoekerVoornaam}" />
@@ -144,6 +147,7 @@
                                     Style="{StaticResource InputLabelStyle}" />
                                 <TextBox
                                     Grid.Column="2"
+                                    MaxLength="{Binding MaxLengthBezoekerAchternaam}"
                                     PreviewTextInput="IsInputGeldigZonderCijfers"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding BezoekerAchternaam}" />
@@ -160,6 +164,7 @@
                                     Style="{StaticResource InputLabelStyle}" />
                                 <TextBox
                                     Grid.Column="0"
+                                    MaxLength="{Binding MaxLengthBezoekerEmail}"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding BezoekerEmail}" />
                                 <Label
@@ -168,6 +173,7 @@
                                     Style="{StaticResource InputLabelStyle}" />
                                 <TextBox
                                     Grid.Column="2"
+                                    MaxLength="{Binding MaxLengthBezoekerBedrijf}"
                                     Style="{StaticResource PopupInputStyle}"
                                     Text="{Binding BezoekerBedrijf}" />
                             </Grid>

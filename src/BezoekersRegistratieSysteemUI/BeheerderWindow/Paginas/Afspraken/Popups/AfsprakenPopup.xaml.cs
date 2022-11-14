@@ -2,9 +2,12 @@
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -13,11 +16,15 @@ using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups {
 	public partial class AfsprakenPopup : UserControl, INotifyPropertyChanged {
-		public event PropertyChangedEventHandler? PropertyChanged;
+
+		#region Event
+
 		public delegate void AfspraakToegevoegdEvent(AfspraakDTO afspraak);
 		public static event AfspraakToegevoegdEvent NieuweAfspraakToegevoegd;
 
-		#region Bind Propperties
+		#endregion
+
+		#region Variabelen
 		private WerknemerDTO _werknemer;
 		public WerknemerDTO Werknemer {
 			get { return _werknemer; }
@@ -53,7 +60,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				UpdatePropperty();
 			}
 		}
-		private string _bezoekerBedrijf = string.Empty;
+		private string _bezoekerBedrijf = "";
 		public string BezoekerBedrijf {
 			get { return _bezoekerBedrijf; }
 			set {
@@ -88,18 +95,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		}
 
 		#region VoegMedeWerkerToeEiland
-		private readonly Regex _regex = new Regex("[^0-9./]+");
 		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
-			e.Handled = _regex.IsMatch(e.Text);
+			e.Handled = e.Text.Any(char.IsDigit);
 		}
 
-		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) {
-			ControleerInputOpDatum(sender);
-		}
+		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) => ControleerInputOpDatum(sender);
 
-		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
-			ControleerInputOpDatum(sender);
-		}
+		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => ControleerInputOpDatum(sender);
 
 		private void ControleerInputOpDatum(object sender) {
 			TextBox textBox = sender as TextBox;
@@ -108,12 +110,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			}
 		}
 
-		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {
-			SluitOverlay();
-		}
+		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) => SluitOverlay();
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			#region Controle Input
+
 			BezoekerVoornaam = BezoekerVoornaam.Trim();
 			BezoekerAchternaam = BezoekerAchternaam.Trim();
 			BezoekerEmail = BezoekerEmail.Trim();
@@ -124,25 +125,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(BezoekerVoornaam)) {
-				MessageBox.Show("Voornaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
+			ValideerInput.IsLeeg(new Dictionary<string, string?>() { { "Voornaam", BezoekerVoornaam }, { "Achternaam", BezoekerAchternaam }, { "Email", BezoekerEmail } });
 
-			if (string.IsNullOrWhiteSpace(BezoekerAchternaam)) {
-				MessageBox.Show("Achternaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
-
-			if (string.IsNullOrWhiteSpace(BezoekerEmail)) {
-				MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
-
-			string email = BezoekerEmail.Trim();
-			Regex regexEmail = new(@"^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$", RegexOptions.IgnoreCase);
-
-			if (!regexEmail.IsMatch(email)) {
+			if (!BezoekerEmail.IsEmailGeldig()) {
 				MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
@@ -174,23 +159,25 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
 			KiesMedewerkerEiland.Visibility = Visibility.Visible;
+
 			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.FetchWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
 		}
 
-		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
 		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) {
-			e.Handled = regexGeenCijfers.IsMatch(e.Text);
+			e.Handled = e.Text.Any(char.IsDigit);
 		}
 
 		private void SluitOverlay() {
 			Werknemer = null;
 
 			KiesWerknemerTextBlock.Text = "Kies Werknemer";
-			BezoekerVoornaam = string.Empty;
-			BezoekerAchternaam = string.Empty;
-			BezoekerEmail = string.Empty;
-			BezoekerBedrijf = string.Empty;
-			StartTijd = string.Empty;
+
+			BezoekerVoornaam = BezoekerVoornaam.ZetLeeg();
+			BezoekerAchternaam = BezoekerAchternaam.ZetLeeg();
+			BezoekerEmail = BezoekerEmail.ZetLeeg();
+			BezoekerBedrijf = BezoekerBedrijf.ZetLeeg();
+			StartTijd = StartTijd.ZetLeeg();
+
 			EindTijd = null;
 
 			AfsprakenPage afsprakenPage = AfsprakenPage.Instance;
@@ -217,6 +204,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 		#region ProppertyChanged
 
+		public event PropertyChangedEventHandler? PropertyChanged;
 		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}

@@ -76,10 +76,10 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
 	  <Resource Include="Icons\WerknemerIcon.xaml" />
-	  <Resource Include="LoadingAnimation.svg">
+	  <Resource Include="Images\LoadingAnimation.svg">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="LoadingAnimation.xaml">
+	  <Resource Include="Images\LoadingAnimation.xaml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
 	</ItemGroup>
@@ -193,7 +193,6 @@
 
 	<ItemGroup>
 		<Folder Include="BeheerderWindow\Paginas\Werknemers\Converter\" />
-		<Folder Include="BeheerderWindow\Style\" />
 	</ItemGroup>
 
 	<ItemGroup>

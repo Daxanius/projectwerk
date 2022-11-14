@@ -2,6 +2,7 @@
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,11 +16,12 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		public double ScaleY { get; set; }
 		#endregion
 
-		#region GeselecteerdbedrijfChanged
+		#region Event
 		public static event GeselecteerdbedrijfChanged UpdateGeselecteerdBedrijf;
 		#endregion
 
-		#region Public Propperty
+		#region Variabelen
+
 		private static BedrijfDTO _geselecteerdBedrijf;
 		public static BedrijfDTO GeselecteerdBedrijf {
 			get => _geselecteerdBedrijf;
@@ -28,6 +30,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 				UpdateGeselecteerdBedrijf?.Invoke();
 			}
 		}
+
 		#endregion
 
 		public BeheerderWindow() {
@@ -51,6 +54,8 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 			FrameControl.Navigating += OnPageNavigation;
 		}
 
+		#region Functies
+
 		private void OnPageNavigation(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e) {
 			string path = e.Content.GetType().Name;
 			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Bezoekers", "Dashboard", "Werknemers" };
@@ -66,41 +71,72 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 			foreach (string folder in pathFolders) {
 				if (path.Contains(folder)) {
 
+					StackPanel? stackPanel;
+					TextBlock? textBlock;
+					Icon? icon;
+
 					foreach (Border border in SideBar.BorderContainer.Children) {
 						border.Tag = "UnSelected";
-						((TextBlock)((StackPanel)border.Child).Children[1]).FontWeight = FontWeights.Medium;
-						((Icon)((StackPanel)border.Child).Children[0]).Opacity = .6;
+
+						stackPanel = (StackPanel)border.Child;
+						textBlock = (TextBlock)stackPanel.Children[1];
+						icon = (Icon)stackPanel.Children[0];
+
+						textBlock.FontWeight = FontWeights.Medium;
+						icon.Opacity = .6;
 					}
 
 					switch (folder) {
 						case "Dashboard":
 						SideBar.DashboardTab.Tag = "Selected";
-						((Icon)((StackPanel)SideBar.DashboardTab.Child).Children[0]).Opacity = 1;
-						((TextBlock)((StackPanel)SideBar.DashboardTab.Child).Children[1]).FontWeight = FontWeights.Bold;
+
+						stackPanel = (StackPanel)SideBar.DashboardTab.Child;
+						textBlock = (TextBlock)stackPanel.Children[1];
+						icon = (Icon)stackPanel.Children[0];
+
+						textBlock.FontWeight = FontWeights.Bold;
+						icon.Opacity = 1;
 						break;
 
 						case "Bedrijven":
 						SideBar.BedrijvenTab.Tag = "Selected";
-						((Icon)((StackPanel)SideBar.BedrijvenTab.Child).Children[0]).Opacity = 1;
-						((TextBlock)((StackPanel)SideBar.BedrijvenTab.Child).Children[1]).FontWeight = FontWeights.Bold;
+
+						stackPanel = (StackPanel)SideBar.BedrijvenTab.Child;
+						textBlock = (TextBlock)stackPanel.Children[1];
+						icon = (Icon)stackPanel.Children[0];
+
+						textBlock.FontWeight = FontWeights.Bold;
+						icon.Opacity = 1;
 						break;
 
 						case "Afspraken":
 						SideBar.AfsprakenTab.Tag = "Selected";
-						((Icon)((StackPanel)SideBar.AfsprakenTab.Child).Children[0]).Opacity = 1; ;
-						((TextBlock)((StackPanel)SideBar.AfsprakenTab.Child).Children[1]).FontWeight = FontWeights.Bold;
+
+						stackPanel = (StackPanel)SideBar.AfsprakenTab.Child;
+						textBlock = (TextBlock)stackPanel.Children[1];
+						icon = (Icon)stackPanel.Children[0];
+
+						textBlock.FontWeight = FontWeights.Bold;
+						icon.Opacity = 1;
 						break;
 
 						case "Werknemers":
 						SideBar.WerknemersTab.Tag = "Selected";
-						((Icon)((StackPanel)SideBar.WerknemersTab.Child).Children[0]).Opacity = 1;
-						((TextBlock)((StackPanel)SideBar.WerknemersTab.Child).Children[1]).FontWeight = FontWeights.Bold;
+
+						stackPanel = (StackPanel)SideBar.WerknemersTab.Child;
+						textBlock = (TextBlock)stackPanel.Children[1];
+						icon = (Icon)stackPanel.Children[0];
+
+						textBlock.FontWeight = FontWeights.Bold;
+						icon.Opacity = 1;
 						break;
 					}
 					return;
 				}
 			}
 		}
+
+		#endregion
 
 		#region ProppertyChanged
 

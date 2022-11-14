@@ -16,7 +16,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 	public static class ApiController {
 		private static TimeSpan _timeout = TimeSpan.FromSeconds(500d);
 
-		public const string _baseAddres = "http://localhost:5049/api/";
+		public const string BaseAddres = "http://localhost:5049/api/";
+
 		#region Request Methods
 
 		public static async Task<(bool, T?)> Get<T>(string url, string defaultFoutMelding = "") {
@@ -25,7 +26,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{_baseAddres}{url}";
+				string apiUrl = $"{BaseAddres}{url}";
 
 				using HttpClient client = new();
 				client.Timeout = _timeout;
@@ -57,7 +58,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{_baseAddres}{url}";
+				string apiUrl = $"{BaseAddres}{url}";
 
 				using HttpClient client = new();
 				client.Timeout = _timeout;
@@ -95,7 +96,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{_baseAddres}{url}";
+				string apiUrl = $"{BaseAddres}{url}";
 
 				using HttpClient client = new();
 				client.Timeout = _timeout;
@@ -118,7 +119,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{_baseAddres}{url}";
+				string apiUrl = $"{BaseAddres}{url}";
 
 				using HttpClient client = new();
 				client.Timeout = _timeout;
@@ -150,7 +151,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{_baseAddres}{url}";
+				string apiUrl = $"{BaseAddres}{url}";
 
 				using HttpClient client = new();
 				client.Timeout = _timeout;
@@ -182,7 +183,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{_baseAddres}{url}";
+				string apiUrl = $"{BaseAddres}{url}";
 
 				using HttpClient client = new();
 				client.Timeout = _timeout;
@@ -204,7 +205,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{_baseAddres}{url}";
+				string apiUrl = $"{BaseAddres}{url}";
 
 				using HttpClient client = new();
 				client.Timeout = _timeout;
@@ -227,7 +228,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{_baseAddres}{url}";
+				string apiUrl = $"{BaseAddres}{url}";
 
 				using HttpClient client = new();
 				client.Timeout = _timeout;
@@ -260,7 +261,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{_baseAddres}{url}";
+				string apiUrl = $"{BaseAddres}{url}";
 
 				using HttpClient client = new();
 				client.Timeout = _timeout;
