@@ -11,7 +11,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public string Email { get; private set; }
 		public string Adres { get; private set; }
 
-		private readonly List<Werknemer> _werknemers = new List<Werknemer>();
+		private readonly List<Werknemer> _werknemers = new();
 
 		/// <summary>
 		/// Constructor REST
@@ -211,24 +211,23 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="bedrijf">Te vergelijken bedrijf.</param>
 		/// <returns>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</returns>
 		public bool BedrijfIsGelijk(Bedrijf bedrijf) {
-			if (bedrijf == null)
+			bool gelijk = bedrijf is not null &&
+				Id == bedrijf.Id &&
+				Naam == bedrijf.Naam &&
+				BTW == bedrijf.BTW &&
+				TelefoonNummer == bedrijf.TelefoonNummer &&
+				Email == bedrijf.Email &&
+				Adres == bedrijf.Adres;
+
+			if (!gelijk) {
 				return false;
-			if (Id != bedrijf.Id)
-				return false;
-			if (Naam != bedrijf.Naam)
-				return false;
-			if (BTW != bedrijf.BTW)
-				return false;
-			if (TelefoonNummer != bedrijf.TelefoonNummer)
-				return false;
-			if (Email != bedrijf.Email)
-				return false;
-			if (Adres != bedrijf.Adres)
-				return false;
+			}
+
 			foreach (Werknemer werknemer in _werknemers) {
 				if (!bedrijf._werknemers.Contains(werknemer))
 					return false;
 			}
+
 			return true;
 		}
 

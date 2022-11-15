@@ -6,7 +6,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public Bedrijf Bedrijf { get; private set; }
 		public string Email { get; private set; }
 
-		private List<string> Functies = new();
+		private readonly List<string> Functies = new();
 
 		public WerknemerInfo() {
 		}
@@ -25,9 +25,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="bedrijf">Mag geen Null waarde zijn.</param>
 		/// <exception cref="WerknemerInfoException">"WerknemerInfo - ZetBedrijf - bedrijf mag niet leeg zijn"</exception>
 		public void ZetBedrijf(Bedrijf bedrijf) {
-			if (bedrijf == null)
-				throw new WerknemerInfoException("WerknemerInfo - ZetBedrijf - bedrijf mag niet leeg zijn");
-			Bedrijf = bedrijf;
+			Bedrijf = bedrijf ?? throw new WerknemerInfoException("WerknemerInfo - ZetBedrijf - bedrijf mag niet leeg zijn");
 		}
 
 		/// <summary>
@@ -118,12 +116,14 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="werknemerinfo">Te vergelijken werknemerInfo.</param>
 		/// <returns>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</returns>
 		public bool WerknemerInfoIsGelijk(WerknemerInfo werknemerinfo) {
-			if (werknemerinfo is null)
+			bool gelijk = werknemerinfo is not null &&
+				werknemerinfo.Bedrijf == Bedrijf &&
+				werknemerinfo.Email == Email;
+
+			if (!gelijk) {
 				return false;
-			if (werknemerinfo.Bedrijf != Bedrijf)
-				return false;
-			if (werknemerinfo.Email != Email)
-				return false;
+			}
+			
 			foreach (string functie in Functies) {
 				if (!werknemerinfo.Functies.Contains(functie))
 					return false;

@@ -115,7 +115,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public void VerwijderBedrijfVanWerknemer(Bedrijf bedrijf) {
 			if (bedrijf == null)
 				throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf mag niet leeg zijn");
-			if (!werknemerInfo.Keys.Contains(bedrijf))
+			if (!werknemerInfo.ContainsKey(bedrijf))
 				throw new WerknemerException("Werknemer - VerwijderBedrijfVanWerknemer - bedrijf bevat deze werknemer niet");
 			// Dit word gebruikt als we een werknemer uit bedrijf halen
 			// hierdoor is Bedrijf nullable.
@@ -208,24 +208,26 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="werknemer">Te vergelijken werknemer.</param>
 		/// <returns>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</returns>
 		public bool WerknemerIsGelijk(Werknemer werknemer) {
-			if (werknemer == null)
+			bool gelijk = werknemer is not null &&
+				werknemer.Id == Id &&
+				werknemer.Voornaam == Voornaam &&
+				werknemer.Achternaam == Achternaam;
+
+			if (!gelijk) {
 				return false;
-			if (werknemer.Id != Id)
-				return false;
-			if (werknemer.Voornaam != Voornaam)
-				return false;
-			if (werknemer.Achternaam != Achternaam)
-				return false;
+			}
+
 			foreach (Bedrijf bedrijf in werknemerInfo.Keys) {
-				if (!werknemer.werknemerInfo.ContainsKey(bedrijf))
+				if (!werknemer.werknemerInfo.ContainsKey(bedrijf) ||
+					werknemerInfo[bedrijf].GeefWerknemerFuncties().Count != werknemer.werknemerInfo[bedrijf].GeefWerknemerFuncties().Count)
 					return false;
-				if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Count() != werknemer.werknemerInfo[bedrijf].GeefWerknemerFuncties().Count())
-					return false;
+
 				foreach (string functie in werknemerInfo[bedrijf].GeefWerknemerFuncties()) {
 					if (!werknemer.werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie))
 						return false;
 				}
 			}
+
 			return true;
 		}
 
