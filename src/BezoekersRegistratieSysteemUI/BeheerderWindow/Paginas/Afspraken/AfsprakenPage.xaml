@@ -182,35 +182,33 @@
                                             Text="Werknemers" />
                                         <StackPanel Grid.Column="1">
                                             <StackPanel HorizontalAlignment="Right">
-                                                <TextBox DockPanel.Dock="Left">
-                                                    <TextBox.Template>
-                                                        <ControlTemplate TargetType="TextBox">
-                                                            <Border Background="{StaticResource MainAchtergrond}" CornerRadius="25">
-                                                                <StackPanel
-                                                                    HorizontalAlignment="Center"
-                                                                    VerticalAlignment="Center"
-                                                                    Orientation="Horizontal">
-                                                                    <iconspresenter:Icon
-                                                                        CircleBackground="Transparent"
-                                                                        IconSize="50"
-                                                                        IconSource="../VergrootGlasIcon.xaml" />
-                                                                    <TextBox
-                                                                        MinWidth="200"
-                                                                        MaxWidth="400"
-                                                                        Padding="0,0,15,0"
-                                                                        VerticalAlignment="Center"
-                                                                        Background="Transparent"
-                                                                        BorderBrush="Transparent"
-                                                                        BorderThickness="0"
-                                                                        FontSize="16"
-                                                                        FontWeight="Bold"
-                                                                        Foreground="{StaticResource DonkerGrijs}"
-                                                                        Text="{TemplateBinding Text}" />
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </TextBox.Template>
-                                                </TextBox>
+                                                <Border
+                                                    Background="{StaticResource MainAchtergrond}"
+                                                    CornerRadius="25"
+                                                    DockPanel.Dock="Left">
+                                                    <StackPanel
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                                        <iconspresenter:Icon
+                                                            CircleBackground="Transparent"
+                                                            IconSize="50"
+                                                            IconSource="../VergrootGlasIcon.xaml" />
+                                                        <TextBox
+                                                            x:Name="ZoekTermTextBoxWerknemers"
+                                                            MinWidth="200"
+                                                            MaxWidth="400"
+                                                            Padding="0,0,15,0"
+                                                            VerticalAlignment="Center"
+                                                            Background="Transparent"
+                                                            BorderBrush="Transparent"
+                                                            BorderThickness="0"
+                                                            FontSize="16"
+                                                            FontWeight="Bold"
+                                                            Foreground="{StaticResource DonkerGrijs}"
+                                                            TextChanged="ZoekTermChangedWerknemers" />
+                                                    </StackPanel>
+                                                </Border>
                                             </StackPanel>
                                         </StackPanel>
                                     </Grid>
@@ -300,35 +298,33 @@
                                             Text="Bezoekers" />
                                         <StackPanel Grid.Column="1">
                                             <StackPanel HorizontalAlignment="Right">
-                                                <TextBox DockPanel.Dock="Left">
-                                                    <TextBox.Template>
-                                                        <ControlTemplate TargetType="TextBox">
-                                                            <Border Background="{StaticResource MainAchtergrond}" CornerRadius="25">
-                                                                <StackPanel
-                                                                    HorizontalAlignment="Center"
-                                                                    VerticalAlignment="Center"
-                                                                    Orientation="Horizontal">
-                                                                    <iconspresenter:Icon
-                                                                        CircleBackground="Transparent"
-                                                                        IconSize="50"
-                                                                        IconSource="../VergrootGlasIcon.xaml" />
-                                                                    <TextBox
-                                                                        MinWidth="200"
-                                                                        MaxWidth="400"
-                                                                        Padding="0,0,15,0"
-                                                                        VerticalAlignment="Center"
-                                                                        Background="Transparent"
-                                                                        BorderBrush="Transparent"
-                                                                        BorderThickness="0"
-                                                                        FontSize="16"
-                                                                        FontWeight="Bold"
-                                                                        Foreground="{StaticResource DonkerGrijs}"
-                                                                        Text="{TemplateBinding Text}" />
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </TextBox.Template>
-                                                </TextBox>
+                                                <Border
+                                                    Background="{StaticResource MainAchtergrond}"
+                                                    CornerRadius="25"
+                                                    DockPanel.Dock="Left">
+                                                    <StackPanel
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                                        <iconspresenter:Icon
+                                                            CircleBackground="Transparent"
+                                                            IconSize="50"
+                                                            IconSource="../VergrootGlasIcon.xaml" />
+                                                        <TextBox
+                                                            x:Name="ZoekTermTextBoxBezoekers"
+                                                            MinWidth="200"
+                                                            MaxWidth="400"
+                                                            Padding="0,0,15,0"
+                                                            VerticalAlignment="Center"
+                                                            Background="Transparent"
+                                                            BorderBrush="Transparent"
+                                                            BorderThickness="0"
+                                                            FontSize="16"
+                                                            FontWeight="Bold"
+                                                            Foreground="{StaticResource DonkerGrijs}"
+                                                            TextChanged="ZoekTermChangedBezoekers" />
+                                                    </StackPanel>
+                                                </Border>
                                             </StackPanel>
                                         </StackPanel>
                                     </Grid>

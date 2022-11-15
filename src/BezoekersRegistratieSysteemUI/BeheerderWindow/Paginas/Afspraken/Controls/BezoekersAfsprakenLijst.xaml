@@ -201,27 +201,6 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn>
-                        <GridViewColumn.Header>
-                            <TextBlock Padding="5,0" Text="" />
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button
-                                    Background="Transparent"
-                                    BorderBrush="Transparent"
-                                    BorderThickness="0"
-                                    Click="KlikOpAfspraakOptions"
-                                    CommandParameter="{Binding}"
-                                    Style="{StaticResource DotsButtonStyle}">
-                                    <iconspresenter:Icon
-                                        CircleBackground="Transparent"
-                                        FontSize="20"
-                                        IconSource="../DotsIcon.xaml" />
-                                </Button>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
                 </GridView.Columns>
             </GridView>
         </ListView.View>
