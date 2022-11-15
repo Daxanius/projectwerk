@@ -40,7 +40,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			_bedrijven = ApiController.FetchBedrijven().ToList();
 
 			SpawnBedrijvenGrid();
-			BedrijvenPage.LoadBedrijvenInList(_bedrijven);
+			BedrijvenPage.Instance.LoadBedrijvenInList(_bedrijven);
 		}
 
 		private void UpdateListMetBedrijf(BedrijfDTO bedrijf) {

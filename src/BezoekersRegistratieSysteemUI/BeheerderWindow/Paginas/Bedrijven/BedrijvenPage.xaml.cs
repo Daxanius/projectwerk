@@ -35,7 +35,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 			bedrijvenPopup.Visibility = Visibility.Visible;
 		}
 
-		public static void LoadBedrijvenInList(List<BedrijfDTO> bedrijven) {
+		public void LoadBedrijvenInList(List<BedrijfDTO> bedrijven) {
 			foreach (var bedrijf in bedrijven) {
 				BedrijvenLijstControl.ItemSource.Add(bedrijf);
 			}
