@@ -89,7 +89,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="8,15,0,15"
-                                    Content="{Binding Naam}"
+                                    Content="{Binding Naam, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>
@@ -107,7 +107,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
-                                    Content="{Binding TelefoonNummer}"
+                                    Content="{Binding TelefoonNummer, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>
@@ -125,7 +125,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
-                                    Content="{Binding Email}"
+                                    Content="{Binding Email, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>
@@ -143,7 +143,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
-                                    Content="{Binding BTW}"
+                                    Content="{Binding BTW, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>
@@ -161,7 +161,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
-                                    Content="{Binding Adres}"
+                                    Content="{Binding Adres, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>

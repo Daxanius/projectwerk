@@ -4,10 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
-    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
     mc:Ignorable="d">
     <ListView
         x:Name="AfsprakenLijst"
@@ -124,8 +121,11 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="Werknemer.Voornaam" />
-                                                    <Binding Path="Werknemer.Achternaam" />
+                                                    <Binding Converter="{StaticResource ElipsisConverter}" Path="Werknemer.Voornaam" />
+                                                    <Binding
+                                                        Converter="{StaticResource ElipsisConverter}"
+                                                        ConverterParameter="10"
+                                                        Path="Werknemer.Achternaam" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -152,8 +152,14 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="Bezoeker.Voornaam" />
-                                                    <Binding Path="Bezoeker.Achternaam" />
+                                                    <Binding
+                                                        Converter="{StaticResource ElipsisConverter}"
+                                                        ConverterParameter="15"
+                                                        Path="Bezoeker.Voornaam" />
+                                                    <Binding
+                                                        Converter="{StaticResource ElipsisConverter}"
+                                                        ConverterParameter="10"
+                                                        Path="Bezoeker.Achternaam" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -177,7 +183,7 @@
                                     FontSize="15"
                                     FontWeight="DemiBold">
                                     <Label.Content>
-                                        <TextBlock Text="{Binding Bezoeker.Email}" />
+                                        <TextBlock Text="{Binding Bezoeker.Email, Converter={StaticResource ElipsisConverter}}" />
                                     </Label.Content>
                                 </Label>
                             </DataTemplate>
@@ -194,8 +200,8 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Label
-                                    Padding="0,15,0,15"
-                                    Content="{Binding WerknemerBedrijf}"
+                                    Padding="0,15,5,15"
+                                    Content="{Binding Bezoeker.Bedrijf, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>

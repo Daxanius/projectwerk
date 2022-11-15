@@ -12,24 +12,7 @@ using System.Linq;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
-	/// <summary>
-	/// Interaction logic for BedrijvenGridControl.xaml
-	/// </summary>
 	public partial class BedrijvenGridControl : UserControl {
-		private static BedrijvenGridControl instance = null;
-		private static readonly object padlock = new object();
-
-		public static BedrijvenGridControl Instance {
-			get {
-				lock (padlock) {
-					if (instance == null) {
-						instance = new BedrijvenGridControl();
-					}
-					return instance;
-				}
-			}
-		}
-
 		private const int MAX_COLUMN_COUNT = 4;
 		private List<BedrijfDTO> _bedrijven;
 
@@ -128,5 +111,21 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			((TextBlock)((StackPanel)beheerderWindow.SideBar.WerknemersTab.Child).Children[1]).Opacity = 1;
 			((Icon)((StackPanel)beheerderWindow.SideBar.WerknemersTab.Child).Children[0]).Opacity = 1;
 		}
+
+		#region Singleton
+		private static BedrijvenGridControl instance = null;
+		private static readonly object padlock = new object();
+
+		public static BedrijvenGridControl Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new BedrijvenGridControl();
+					}
+					return instance;
+				}
+			}
+		}
+		#endregion
 	}
 }

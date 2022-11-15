@@ -1,7 +1,11 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter">
+    xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.ConvertedClasses">
+
+    <local:ElipsisConverter x:Key="ElipsisConverter" />
+
     <!--#region Colors-->
 
     <SolidColorBrush x:Key="MainAchtergrond" Color="#FFFFFF" />
