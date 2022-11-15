@@ -100,7 +100,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			SluitOverlay();
 		}
 
-		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
+		private readonly Regex regexGeenCijfers = new("[^a-zA-Z]+");
 		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) {
 			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}

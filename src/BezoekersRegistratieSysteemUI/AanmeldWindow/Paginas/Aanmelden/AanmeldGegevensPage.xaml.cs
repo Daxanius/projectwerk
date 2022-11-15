@@ -167,8 +167,8 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
 		}
 
-		private async void MaakNieuweAfspraak(long bedrijfsId, long werknemerId, BezoekerDTO bezoeker) {
-			var rawBody = new { werknemerId = werknemerId, bedrijfId = bedrijfsId, bezoeker };
+		private static async void MaakNieuweAfspraak(long bedrijfsId, long werknemerId, BezoekerDTO bezoeker) {
+			var rawBody = new { werknemerId, bedrijfId = bedrijfsId, bezoeker };
 			string json = JsonConvert.SerializeObject(rawBody);
 
 			(bool isvalid, AfspraakOutputDTO afspraak) = await ApiController.Post<AfspraakOutputDTO>("/afspraak", json);
@@ -199,7 +199,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			_selecteditem = border;
 		}
 
-		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
+		private readonly Regex regexGeenCijfers = new("[^a-zA-Z]+");
 		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
 			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}

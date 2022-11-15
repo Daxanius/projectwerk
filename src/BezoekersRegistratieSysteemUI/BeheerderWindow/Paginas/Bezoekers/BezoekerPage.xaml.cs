@@ -16,14 +16,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers {
 
 		#region Singleton
 		private static BezoekerPage instance = null;
-		private static readonly object padlock = new object();
+		private static readonly object padlock = new();
 
 		public static BezoekerPage Instance {
 			get {
 				lock (padlock) {
-					if (instance == null) {
-						instance = new BezoekerPage();
-					}
+					instance ??= new BezoekerPage();
 					return instance;
 				}
 			}

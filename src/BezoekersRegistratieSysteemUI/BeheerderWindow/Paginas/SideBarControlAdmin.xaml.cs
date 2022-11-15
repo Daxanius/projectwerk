@@ -50,7 +50,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			}
 		}
 
-		private void ResetSelectedTabs(Border? nieuweActiveTabBorder = null) {
+		private static void ResetSelectedTabs(Border? nieuweActiveTabBorder = null) {
 			foreach (Border border in BorderContainer.Children) {
 				StackPanel stackPanel = (StackPanel)border.Child;
 				TextBlock textBlock = (TextBlock)stackPanel.Children[1];
@@ -88,7 +88,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			beheerderWindow.FrameControl.Content = new BezoekerPage();
 		}
 
-		private void ToggleAanwezigeBezoekersAchtergrond(bool aanOfUit = false) {
+		private static void ToggleAanwezigeBezoekersAchtergrond(bool aanOfUit = false) {
 			if (aanOfUit) {
 				ToonAanwezigenText.Foreground = Application.Current.Resources["MainAchtergrond"] as SolidColorBrush;
 				ToonAanwezigenContainer.Background = Application.Current.Resources["GewoonBlauw"] as SolidColorBrush;

@@ -12,7 +12,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 	public partial class WerknemersPage : Page, INotifyPropertyChanged {
 		public int FullWidth { get; set; }
 		public int FullHeight { get; set; }
-		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
+		public static BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
 
 		public WerknemersPage() {
 			FullWidth = (int)SystemParameters.PrimaryScreenWidth;
@@ -41,14 +41,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 		#region Singleton
 		private static WerknemersPage instance = null;
-		private static readonly object padlock = new object();
+		private static readonly object padlock = new();
 
 		public static WerknemersPage Instance {
 			get {
 				lock (padlock) {
-					if (instance == null) {
-						instance = new WerknemersPage();
-					}
+					instance ??= new WerknemersPage();
 					return instance;
 				}
 			}

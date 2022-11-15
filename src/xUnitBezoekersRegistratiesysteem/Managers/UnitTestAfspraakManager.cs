@@ -13,15 +13,15 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		#endregion
 
 		#region Valid Info
-		private DateTime _st;
-		private DateTime _et;
-		private Bezoeker _b;
-		private Werknemer _w;
+		private readonly DateTime _st;
+		private readonly DateTime _et;
+		private readonly Bezoeker _b;
+		private readonly Werknemer _w;
 
-		private Bedrijf _bd;
+		private readonly Bedrijf _bd;
 
-		private Afspraak _ia;
-		private Afspraak _oa;
+		private readonly Afspraak _ia;
+		private readonly Afspraak _oa;
 		#endregion
 
 		#region Initialiseren

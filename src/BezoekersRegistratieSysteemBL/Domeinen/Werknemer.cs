@@ -7,7 +7,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public string Voornaam { get; private set; }
 		public string Achternaam { get; private set; }
 
-		private Dictionary<Bedrijf, WerknemerInfo> werknemerInfo = new();
+		private readonly Dictionary<Bedrijf, WerknemerInfo> werknemerInfo = new();
 
 		/// <summary>
 		/// Constructor REST
@@ -172,7 +172,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 				throw new WerknemerException("Werknemer - VerwijderFunctie - functie mag niet leeg zijn");
 			if (!werknemerInfo.ContainsKey(bedrijf))
 				throw new WerknemerException("Werknemer - VerwijderFunctie - bedrijf bevat deze werknemer niet");
-			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Count() == 1)
+			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Count == 1)
 				throw new WerknemerException("Werknemer - VerwijderFunctie - werknemer is in dit bedrijf werkzaam onder deze functie en kan niet verwijderd worden");
 			functie = Nutsvoorziening.NaamOpmaak(functie);
 			if (werknemerInfo[bedrijf].GeefWerknemerFuncties().Contains(functie)) {

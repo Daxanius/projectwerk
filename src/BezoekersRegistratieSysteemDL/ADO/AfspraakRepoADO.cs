@@ -10,7 +10,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <summary>
 		/// Private lokale variabele connectiestring
 		/// </summary>
-		private string _connectieString;
+		private readonly string _connectieString;
 
 		/// <summary>
 		/// AfspraakRepoADO constructor krijgt connectie string als parameter.
@@ -85,26 +85,25 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 						   "EindTijd = @Eindtijd " +
 						   "WHERE AfspraakStatusId = 1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
-						query += " AND BezoekerId = (SELECT TOP(1) Id FROM Bezoeker WHERE Email = @mail ORDER BY Id DESC)";
-						cmd.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
-						cmd.Parameters["@mail"].Value = bezoekerMail;
-					} else {
-						query += " AND id = @afspraakId";
-						cmd.Parameters.Add(new SqlParameter("@afspraakId", SqlDbType.BigInt));
-						cmd.Parameters["@afspraakId"].Value = afspraakId.Value;
-					}
-					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
-					cmd.Parameters.Add(new SqlParameter("@Eindtijd", SqlDbType.DateTime));
-					cmd.Parameters["@statusId"].Value = statusId;
-					cmd.Parameters["@Eindtijd"].Value = DateTime.Now;
-					cmd.ExecuteNonQuery();
+				using SqlCommand cmd = con.CreateCommand();
+				con.Open();
+				if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
+					query += " AND BezoekerId = (SELECT TOP(1) Id FROM Bezoeker WHERE Email = @mail ORDER BY Id DESC)";
+					cmd.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
+					cmd.Parameters["@mail"].Value = bezoekerMail;
+				} else {
+					query += " AND id = @afspraakId";
+					cmd.Parameters.Add(new SqlParameter("@afspraakId", SqlDbType.BigInt));
+					cmd.Parameters["@afspraakId"].Value = afspraakId.Value;
 				}
+				cmd.CommandText = query;
+				cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+				cmd.Parameters.Add(new SqlParameter("@Eindtijd", SqlDbType.DateTime));
+				cmd.Parameters["@statusId"].Value = statusId;
+				cmd.Parameters["@Eindtijd"].Value = DateTime.Now;
+				cmd.ExecuteNonQuery();
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("mail", bezoekerMail);
 				exx.Data.Add("afspraakId", afspraakId);
 				exx.Data.Add("statusId", statusId);
@@ -140,17 +139,16 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 						   "SET AfspraakStatusId = @statusId " +
 						   "WHERE Id = @afspraakid";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
-					cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
-					cmd.Parameters["@afspraakid"].Value = afspraakId;
-					cmd.Parameters["@statusId"].Value = statusId;
-					cmd.ExecuteNonQuery();
-				}
+				using SqlCommand cmd = con.CreateCommand();
+				con.Open();
+				cmd.CommandText = query;
+				cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+				cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+				cmd.Parameters["@afspraakid"].Value = afspraakId;
+				cmd.Parameters["@statusId"].Value = statusId;
+				cmd.ExecuteNonQuery();
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraakId", afspraakId);
 				exx.Data.Add("statusId", statusId);
 				throw exx;
@@ -171,18 +169,17 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 						   "WHERE wb.WerknemerId = @werknemerId AND wb.BedrijfId != @bedrijfId " +
 						   "AND (SELECT COUNT(*) FROM Afspraak a WHERE wb.Id = a.WerknemerBedrijfId AND a.AfspraakStatusId = 1) >= 1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
-					cmd.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
-					int i = (int)cmd.ExecuteScalar();
-					return (i > 0);
-				}
+				using SqlCommand cmd = con.CreateCommand();
+				con.Open();
+				cmd.CommandText = query;
+				cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+				cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+				cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+				cmd.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
+				int i = (int)cmd.ExecuteScalar();
+				return (i > 0);
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				throw exx;
 			} finally {
@@ -261,46 +258,45 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 			string query = "SELECT COUNT(*) " +
 						   "FROM Afspraak a ";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					//Afspraak object
-					if (afspraak is not null) {
-						if (afspraak.Id != 0) {
-							query += "WHERE a.Id = @id";
-							cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
-							cmd.Parameters["@id"].Value = afspraak.Id;
-						} else {
-							query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
-									 "WHERE bz.Email = @bmail AND a.eindTijd is null";
-							cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));
-							cmd.Parameters["@bmail"].Value = afspraak.Bezoeker.Email;
-						}
-					}
-					//Afspraak Id
-					if (afspraakid.HasValue) {
+				using SqlCommand cmd = con.CreateCommand();
+				con.Open();
+				//Afspraak object
+				if (afspraak is not null) {
+					if (afspraak.Id != 0) {
 						query += "WHERE a.Id = @id";
 						cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
-						cmd.Parameters["@id"].Value = afspraakid.Value;
-					}
-					//Bezoeker mail
-					if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
+						cmd.Parameters["@id"].Value = afspraak.Id;
+					} else {
 						query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 								 "WHERE bz.Email = @bmail AND a.eindTijd is null";
 						cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));
-						cmd.Parameters["@bmail"].Value = bezoekerMail;
+						cmd.Parameters["@bmail"].Value = afspraak.Bezoeker.Email;
 					}
-					//Status Id
-					if (afspraakStatus.HasValue) {
-						query += " AND a.AfspraakStatusId = @statusId";
-						cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
-						cmd.Parameters["@statusId"].Value = afspraakStatus.Value;
-					}
-					cmd.CommandText = query;
-					int i = (int)cmd.ExecuteScalar();
-					return (i > 0);
 				}
+				//Afspraak Id
+				if (afspraakid.HasValue) {
+					query += "WHERE a.Id = @id";
+					cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+					cmd.Parameters["@id"].Value = afspraakid.Value;
+				}
+				//Bezoeker mail
+				if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
+					query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
+							 "WHERE bz.Email = @bmail AND a.eindTijd is null";
+					cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));
+					cmd.Parameters["@bmail"].Value = bezoekerMail;
+				}
+				//Status Id
+				if (afspraakStatus.HasValue) {
+					query += " AND a.AfspraakStatusId = @statusId";
+					cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+					cmd.Parameters["@statusId"].Value = afspraakStatus.Value;
+				}
+				cmd.CommandText = query;
+				int i = (int)cmd.ExecuteScalar();
+				return (i > 0);
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				exx.Data.Add("afspraakId", afspraakid);
 				exx.Data.Add("bezoekerMail", bezoekerMail);
@@ -339,39 +335,38 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 								  "AfspraakstatusId = @afspraakstatusId  " +
 								  "WHERE Id = @afspraakid";
 			try {
-				using (SqlCommand cmdSelect = con.CreateCommand())
-				using (SqlCommand cmdUpdate = con.CreateCommand()) {
-					con.Open();
-					//Geeft de statusID van de afspraak die gevraagd werd.
-					cmdSelect.CommandText = querySelect;
-					cmdSelect.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
-					cmdSelect.Parameters["@afspraakid"].Value = afspraak.Id;
-					int currentAfspraakStatusId = (int)cmdSelect.ExecuteScalar();
-					//Bewerkt de gevraagde afspraak.
-					cmdUpdate.CommandText = queryUpdate;
-					cmdUpdate.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
-					cmdUpdate.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
-					cmdUpdate.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new SqlParameter("@afspraakstatusId", SqlDbType.Int));
-					cmdUpdate.Parameters.Add(new SqlParameter("@functienaam", SqlDbType.VarChar));
-					cmdUpdate.Parameters["@afspraakid"].Value = afspraak.Id;
-					cmdUpdate.Parameters["@start"].Value = afspraak.Starttijd;
-					cmdUpdate.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
-					cmdUpdate.Parameters["@afspraakstatusId"].Value = afspraak.Eindtijd is not null && currentAfspraakStatusId == 1 ? 5 : afspraak.Eindtijd is not null && currentAfspraakStatusId != 1 ? currentAfspraakStatusId : 1;
-					//FUNCTIE GETBEDRIJF
-					var bedrijf = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Keys.First();
-					var functie = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values.First().GeefWerknemerFuncties().First();
-					cmdUpdate.Parameters["@bedrijfId"].Value = bedrijf.Id;
-					cmdUpdate.Parameters["@functienaam"].Value = functie;
-					cmdUpdate.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
-					cmdUpdate.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
-					cmdUpdate.ExecuteNonQuery();
-				}
+				using SqlCommand cmdSelect = con.CreateCommand();
+				using SqlCommand cmdUpdate = con.CreateCommand();
+				con.Open();
+				//Geeft de statusID van de afspraak die gevraagd werd.
+				cmdSelect.CommandText = querySelect;
+				cmdSelect.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+				cmdSelect.Parameters["@afspraakid"].Value = afspraak.Id;
+				int currentAfspraakStatusId = (int)cmdSelect.ExecuteScalar();
+				//Bewerkt de gevraagde afspraak.
+				cmdUpdate.CommandText = queryUpdate;
+				cmdUpdate.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+				cmdUpdate.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
+				cmdUpdate.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
+				cmdUpdate.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+				cmdUpdate.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+				cmdUpdate.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+				cmdUpdate.Parameters.Add(new SqlParameter("@afspraakstatusId", SqlDbType.Int));
+				cmdUpdate.Parameters.Add(new SqlParameter("@functienaam", SqlDbType.VarChar));
+				cmdUpdate.Parameters["@afspraakid"].Value = afspraak.Id;
+				cmdUpdate.Parameters["@start"].Value = afspraak.Starttijd;
+				cmdUpdate.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+				cmdUpdate.Parameters["@afspraakstatusId"].Value = afspraak.Eindtijd is not null && currentAfspraakStatusId == 1 ? 5 : afspraak.Eindtijd is not null && currentAfspraakStatusId != 1 ? currentAfspraakStatusId : 1;
+				//FUNCTIE GETBEDRIJF
+				var bedrijf = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Keys.First();
+				var functie = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values.First().GeefWerknemerFuncties()[0];
+				cmdUpdate.Parameters["@bedrijfId"].Value = bedrijf.Id;
+				cmdUpdate.Parameters["@functienaam"].Value = functie;
+				cmdUpdate.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+				cmdUpdate.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
+				cmdUpdate.ExecuteNonQuery();
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				throw exx;
 			} finally {
@@ -408,47 +403,46 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
 						   "WHERE a.Id = @afspraakid";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
-					cmd.Parameters["@afspraakid"].Value = afspraakId;
-					IDataReader reader = cmd.ExecuteReader();
-					Afspraak afspraak = null;
-					while (reader.Read()) {
-						//Afspraak portie
-						DateTime start = (DateTime)reader["StartTijd"];
-						DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
-						//bezoeker portie
-						long bezoekerId = (long)reader["BezoekerId"];
-						string bezoekerAnaam = (string)reader["BezoekerANaam"];
-						string bezoekerVnaam = (string)reader["BezoekerVNaam"];
-						string bezoekerMail = (string)reader["BezoekerMail"];
-						string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
-						//bedrijf portie
-						long bedrijfId = (long)reader["BedrijfId"];
-						string bedrijfNaam = (string)reader["BedrijfNaam"];
-						string bedrijfBTWNr = (string)reader["BTWNr"];
-						string bedrijfTeleNr = (string)reader["TeleNr"];
-						string bedrijfMail = (string)reader["BedrijfEmail"];
-						string bedrijfAdres = (string)reader["BedrijfAdres"];
-						bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-						//werknemer portie
-						long werknemerId = (long)reader["WerknemerId"];
-						string werknemerANaam = (string)reader["WerknemerANaam"];
-						string werknemerVNaam = (string)reader["WerknemerVNaam"];
-						string werknemerMail = (string)reader["WerknemerEmail"];
-						//functie portie
-						string functieNaam = (string)reader["FunctieNaam"];
-						Werknemer werknemer = new(werknemerId, werknemerVNaam, werknemerANaam);
-						Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
-						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-						afspraak = new Afspraak(afspraakId, start, eind, bedrijf, new(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
-					}
-					return afspraak;
+				using SqlCommand cmd = con.CreateCommand();
+				con.Open();
+				cmd.CommandText = query;
+				cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+				cmd.Parameters["@afspraakid"].Value = afspraakId;
+				IDataReader reader = cmd.ExecuteReader();
+				Afspraak afspraak = null;
+				while (reader.Read()) {
+					//Afspraak portie
+					DateTime start = (DateTime)reader["StartTijd"];
+					DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
+					//bezoeker portie
+					long bezoekerId = (long)reader["BezoekerId"];
+					string bezoekerAnaam = (string)reader["BezoekerANaam"];
+					string bezoekerVnaam = (string)reader["BezoekerVNaam"];
+					string bezoekerMail = (string)reader["BezoekerMail"];
+					string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
+					//bedrijf portie
+					long bedrijfId = (long)reader["BedrijfId"];
+					string bedrijfNaam = (string)reader["BedrijfNaam"];
+					string bedrijfBTWNr = (string)reader["BTWNr"];
+					string bedrijfTeleNr = (string)reader["TeleNr"];
+					string bedrijfMail = (string)reader["BedrijfEmail"];
+					string bedrijfAdres = (string)reader["BedrijfAdres"];
+					bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+					//werknemer portie
+					long werknemerId = (long)reader["WerknemerId"];
+					string werknemerANaam = (string)reader["WerknemerANaam"];
+					string werknemerVNaam = (string)reader["WerknemerVNaam"];
+					string werknemerMail = (string)reader["WerknemerEmail"];
+					//functie portie
+					string functieNaam = (string)reader["FunctieNaam"];
+					Werknemer werknemer = new(werknemerId, werknemerVNaam, werknemerANaam);
+					Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+					werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+					afspraak = new Afspraak(afspraakId, start, eind, bedrijf, new(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
 				}
+				return afspraak;
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraakId", afspraakId);
 				throw exx;
 			} finally {
@@ -476,41 +470,40 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 			con.Open();
 			SqlTransaction trans = con.BeginTransaction();
 			try {
-				using (SqlCommand cmdBezoeker = con.CreateCommand())
-				using (SqlCommand cmdAfspraak = con.CreateCommand()) {
-					//Bezoeker portie
-					cmdBezoeker.Transaction = trans;
-					cmdBezoeker.CommandText = queryBezoeker;
-					cmdBezoeker.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
-					cmdBezoeker.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
-					cmdBezoeker.Parameters.Add(new SqlParameter("@EMail", SqlDbType.VarChar));
-					cmdBezoeker.Parameters.Add(new SqlParameter("@EigenBedrijf", SqlDbType.VarChar));
-					cmdBezoeker.Parameters["@ANaam"].Value = afspraak.Bezoeker.Achternaam;
-					cmdBezoeker.Parameters["@VNaam"].Value = afspraak.Bezoeker.Voornaam;
-					cmdBezoeker.Parameters["@EMail"].Value = afspraak.Bezoeker.Email;
-					cmdBezoeker.Parameters["@EigenBedrijf"].Value = afspraak.Bezoeker.Bedrijf;
-					long bezoekerId = (long)cmdBezoeker.ExecuteScalar();
-					//Afspraak portie
-					cmdAfspraak.Transaction = trans;
-					cmdAfspraak.CommandText = queryAfspraak;
-					cmdAfspraak.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
-					cmdAfspraak.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
-					cmdAfspraak.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmdAfspraak.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmdAfspraak.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-					cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
-					cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
-					cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
-					cmdAfspraak.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
-					cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
-					long i = (long)cmdAfspraak.ExecuteScalar();
-					afspraak.ZetId(i);
-					afspraak.Bezoeker.ZetId(bezoekerId);
-					trans.Commit();
-					return afspraak;
-				}
+				using SqlCommand cmdBezoeker = con.CreateCommand();
+				using SqlCommand cmdAfspraak = con.CreateCommand();
+				//Bezoeker portie
+				cmdBezoeker.Transaction = trans;
+				cmdBezoeker.CommandText = queryBezoeker;
+				cmdBezoeker.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+				cmdBezoeker.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+				cmdBezoeker.Parameters.Add(new SqlParameter("@EMail", SqlDbType.VarChar));
+				cmdBezoeker.Parameters.Add(new SqlParameter("@EigenBedrijf", SqlDbType.VarChar));
+				cmdBezoeker.Parameters["@ANaam"].Value = afspraak.Bezoeker.Achternaam;
+				cmdBezoeker.Parameters["@VNaam"].Value = afspraak.Bezoeker.Voornaam;
+				cmdBezoeker.Parameters["@EMail"].Value = afspraak.Bezoeker.Email;
+				cmdBezoeker.Parameters["@EigenBedrijf"].Value = afspraak.Bezoeker.Bedrijf;
+				long bezoekerId = (long)cmdBezoeker.ExecuteScalar();
+				//Afspraak portie
+				cmdAfspraak.Transaction = trans;
+				cmdAfspraak.CommandText = queryAfspraak;
+				cmdAfspraak.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
+				cmdAfspraak.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
+				cmdAfspraak.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+				cmdAfspraak.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+				cmdAfspraak.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+				cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
+				cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+				cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+				cmdAfspraak.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
+				cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
+				long i = (long)cmdAfspraak.ExecuteScalar();
+				afspraak.ZetId(i);
+				afspraak.Bezoeker.ZetId(bezoekerId);
+				trans.Commit();
+				return afspraak;
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				trans.Rollback();
 				throw exx;
@@ -557,7 +550,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van het bezoeker id en bedrijf id.</exception>
 		public Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long bezoekerId, long bedrijfId) {
 			try {
-				return GeefHuidigeAfspraken(bedrijfId, null, bezoekerId).First();
+				return GeefHuidigeAfspraken(bedrijfId, null, bezoekerId)[0];
 			} catch (Exception ex) {
 				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
@@ -609,73 +602,72 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
 						   "WHERE a.AfspraakStatusId = 1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					if (_bedrijfId.HasValue) {
-						query += " AND b.id = @bedrijfId";
-						cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-						cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
-					}
-					if (_werknemerId.HasValue) {
-						query += " AND w.id = @werknemerId";
-						cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-						cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
-					}
-					if (_bezoekerId.HasValue) {
-						query += " AND bz.id = @bezoekerId";
-						cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-						cmd.Parameters["@bezoekerId"].Value = _bezoekerId.Value;
-					}
-					query += " ORDER BY b.id, w.id, f.FunctieNaam";
-					cmd.CommandText = query;
-					IDataReader reader = cmd.ExecuteReader();
-					List<Afspraak> afspraken = new List<Afspraak>();
-					Werknemer werknemer = null;
-					Bedrijf bedrijf = null;
-					string functieNaam = "";
-					string werknemerMail = "";
-					while (reader.Read()) {
-						//Afspraak portie
-						long afspraakId = (long)reader["AfspraakId"];
-						DateTime start = (DateTime)reader["StartTijd"];
-						DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
-						//bezoeker portie
-						long bezoekerId = (long)reader["BezoekerId"];
-						string bezoekerAnaam = (string)reader["BezoekerANaam"];
-						string bezoekerVnaam = (string)reader["BezoekerVNaam"];
-						string bezoekerMail = (string)reader["BezoekerMail"];
-						string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
-						//bedrijf portie
-						if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
-							long bedrijfId = (long)reader["BedrijfId"];
-							string bedrijfNaam = (string)reader["BedrijfNaam"];
-							string bedrijfBTWNr = (string)reader["BTWNr"];
-							string bedrijfTeleNr = (string)reader["TeleNr"];
-							string bedrijfMail = (string)reader["BedrijfEmail"];
-							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
-						}
-						//werknemer portie
-						if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
-							long werknemerId = (long)reader["WerknemerId"];
-							string werknemerANaam = (string)reader["WerknemerANaam"];
-							string werknemerVNaam = (string)reader["WerknemerVNaam"];
-							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-						}
-						//functie portie
-						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
-							functieNaam = (string)reader["FunctieNaam"];
-							werknemerMail = (string)reader["WerknemerEmail"];
-							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-						}
-
-						afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
-					}
-					return afspraken.AsReadOnly();
+				using SqlCommand cmd = con.CreateCommand();
+				con.Open();
+				if (_bedrijfId.HasValue) {
+					query += " AND b.id = @bedrijfId";
+					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
 				}
+				if (_werknemerId.HasValue) {
+					query += " AND w.id = @werknemerId";
+					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
+				}
+				if (_bezoekerId.HasValue) {
+					query += " AND bz.id = @bezoekerId";
+					cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+					cmd.Parameters["@bezoekerId"].Value = _bezoekerId.Value;
+				}
+				query += " ORDER BY b.id, w.id, f.FunctieNaam";
+				cmd.CommandText = query;
+				IDataReader reader = cmd.ExecuteReader();
+				List<Afspraak> afspraken = new();
+				Werknemer werknemer = null;
+				Bedrijf bedrijf = null;
+				string functieNaam = "";
+				string werknemerMail = "";
+				while (reader.Read()) {
+					//Afspraak portie
+					long afspraakId = (long)reader["AfspraakId"];
+					DateTime start = (DateTime)reader["StartTijd"];
+					DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
+					//bezoeker portie
+					long bezoekerId = (long)reader["BezoekerId"];
+					string bezoekerAnaam = (string)reader["BezoekerANaam"];
+					string bezoekerVnaam = (string)reader["BezoekerVNaam"];
+					string bezoekerMail = (string)reader["BezoekerMail"];
+					string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
+					//bedrijf portie
+					if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
+						long bedrijfId = (long)reader["BedrijfId"];
+						string bedrijfNaam = (string)reader["BedrijfNaam"];
+						string bedrijfBTWNr = (string)reader["BTWNr"];
+						string bedrijfTeleNr = (string)reader["TeleNr"];
+						string bedrijfMail = (string)reader["BedrijfEmail"];
+						string bedrijfAdres = (string)reader["BedrijfAdres"];
+						bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+						bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+					}
+					//werknemer portie
+					if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
+						long werknemerId = (long)reader["WerknemerId"];
+						string werknemerANaam = (string)reader["WerknemerANaam"];
+						string werknemerVNaam = (string)reader["WerknemerVNaam"];
+						werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
+					}
+					//functie portie
+					if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
+						functieNaam = (string)reader["FunctieNaam"];
+						werknemerMail = (string)reader["WerknemerEmail"];
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+					}
+
+					afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+				}
+				return afspraken.AsReadOnly();
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				exx.Data.Add("werknemerId", _werknemerId);
 				exx.Data.Add("bezoekerId", _bezoekerId);
@@ -816,93 +808,92 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
 						   "WHERE 1=1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					if (_bedrijfId.HasValue) {
-						query += " AND b.id = @bedrijfId";
-						cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-						cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
-					}
-					if (_werknemerId.HasValue) {
-						query += " AND w.id = @werknemerId";
-						cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-						cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
-					}
-					if (_bezoekerId.HasValue) {
-						query += " AND bz.id = @bezoekerId";
-						cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-						cmd.Parameters["@bezoekerId"].Value = _bezoekerId.Value;
-					}
-					if (!String.IsNullOrWhiteSpace(_bezoekerVNaam)) {
-						query += " AND bz.VNaam LIKE @VNaam";
-						cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
-						cmd.Parameters["@VNaam"].Value = $"%{_bezoekerVNaam}%";
-					}
-					if (!String.IsNullOrWhiteSpace(_bezoekerANaam)) {
-						query += " AND bz.ANaam LIKE @ANaam";
-						cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
-						cmd.Parameters["@ANaam"].Value = $"%{_bezoekerANaam}%";
-					}
-					if (!String.IsNullOrWhiteSpace(_bezoekerMail)) {
-						query += " AND bz.Email LIKE @Email";
-						cmd.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar));
-						cmd.Parameters["@Email"].Value = $"%{_bezoekerMail}%";
-					}
-					if (_datum.HasValue) {
-						query += " AND CONVERT(DATE, a.StartTijd) = @date";
-						cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
-						cmd.Parameters["@date"].Value = _datum.Value.Date;
-					}
-					query += " ORDER BY a.StartTijd DESC, b.id, w.id, f.FunctieNaam";
-					cmd.CommandText = query;
-					IDataReader reader = cmd.ExecuteReader();
-					List<Afspraak> afspraken = new List<Afspraak>();
-					Werknemer werknemer = null;
-					Bedrijf bedrijf = null;
-					string functieNaam = "";
-					string werknemerMail = "";
-
-					while (reader.Read()) {
-						//Afspraak portie
-						long afspraakId = (long)reader["AfspraakId"];
-						DateTime start = (DateTime)reader["StartTijd"];
-						DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
-						//bezoeker portie
-						long bezoekerId = (long)reader["BezoekerId"];
-						string bezoekerAnaam = (string)reader["BezoekerANaam"];
-						string bezoekerVnaam = (string)reader["BezoekerVNaam"];
-						string bezoekerMail = (string)reader["BezoekerMail"];
-						string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
-						//bedrijf portie
-						if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
-							long bedrijfId = (long)reader["BedrijfId"];
-							string bedrijfNaam = (string)reader["BedrijfNaam"];
-							string bedrijfBTWNr = (string)reader["BTWNr"];
-							string bedrijfTeleNr = (string)reader["TeleNr"];
-							string bedrijfMail = (string)reader["BedrijfEmail"];
-							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
-						}
-						//werknemer portie
-						if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
-							long werknemerId = (long)reader["WerknemerId"];
-							string werknemerANaam = (string)reader["WerknemerANaam"];
-							string werknemerVNaam = (string)reader["WerknemerVNaam"];
-							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
-						}
-						//functie portie
-						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
-							functieNaam = (string)reader["FunctieNaam"];
-							werknemerMail = (string)reader["WerknemerEmail"];
-							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-						}
-						afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
-					}
-					return afspraken.AsReadOnly();
+				using SqlCommand cmd = con.CreateCommand();
+				con.Open();
+				if (_bedrijfId.HasValue) {
+					query += " AND b.id = @bedrijfId";
+					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
 				}
+				if (_werknemerId.HasValue) {
+					query += " AND w.id = @werknemerId";
+					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
+				}
+				if (_bezoekerId.HasValue) {
+					query += " AND bz.id = @bezoekerId";
+					cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+					cmd.Parameters["@bezoekerId"].Value = _bezoekerId.Value;
+				}
+				if (!String.IsNullOrWhiteSpace(_bezoekerVNaam)) {
+					query += " AND bz.VNaam LIKE @VNaam";
+					cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+					cmd.Parameters["@VNaam"].Value = $"%{_bezoekerVNaam}%";
+				}
+				if (!String.IsNullOrWhiteSpace(_bezoekerANaam)) {
+					query += " AND bz.ANaam LIKE @ANaam";
+					cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+					cmd.Parameters["@ANaam"].Value = $"%{_bezoekerANaam}%";
+				}
+				if (!String.IsNullOrWhiteSpace(_bezoekerMail)) {
+					query += " AND bz.Email LIKE @Email";
+					cmd.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar));
+					cmd.Parameters["@Email"].Value = $"%{_bezoekerMail}%";
+				}
+				if (_datum.HasValue) {
+					query += " AND CONVERT(DATE, a.StartTijd) = @date";
+					cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
+					cmd.Parameters["@date"].Value = _datum.Value.Date;
+				}
+				query += " ORDER BY a.StartTijd DESC, b.id, w.id, f.FunctieNaam";
+				cmd.CommandText = query;
+				IDataReader reader = cmd.ExecuteReader();
+				List<Afspraak> afspraken = new();
+				Werknemer werknemer = null;
+				Bedrijf bedrijf = null;
+				string functieNaam = "";
+				string werknemerMail = "";
+
+				while (reader.Read()) {
+					//Afspraak portie
+					long afspraakId = (long)reader["AfspraakId"];
+					DateTime start = (DateTime)reader["StartTijd"];
+					DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
+					//bezoeker portie
+					long bezoekerId = (long)reader["BezoekerId"];
+					string bezoekerAnaam = (string)reader["BezoekerANaam"];
+					string bezoekerVnaam = (string)reader["BezoekerVNaam"];
+					string bezoekerMail = (string)reader["BezoekerMail"];
+					string bezoekerBedrijf = (string)reader["BezoekerBedrijf"];
+					//bedrijf portie
+					if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
+						long bedrijfId = (long)reader["BedrijfId"];
+						string bedrijfNaam = (string)reader["BedrijfNaam"];
+						string bedrijfBTWNr = (string)reader["BTWNr"];
+						string bedrijfTeleNr = (string)reader["TeleNr"];
+						string bedrijfMail = (string)reader["BedrijfEmail"];
+						string bedrijfAdres = (string)reader["BedrijfAdres"];
+						bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+						bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+					}
+					//werknemer portie
+					if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
+						long werknemerId = (long)reader["WerknemerId"];
+						string werknemerANaam = (string)reader["WerknemerANaam"];
+						string werknemerVNaam = (string)reader["WerknemerVNaam"];
+						werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
+					}
+					//functie portie
+					if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
+						functieNaam = (string)reader["FunctieNaam"];
+						werknemerMail = (string)reader["WerknemerEmail"];
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+					}
+					afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+				}
+				return afspraken.AsReadOnly();
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				exx.Data.Add("werknemerId", _werknemerId);
 				exx.Data.Add("bezoekerId", _bezoekerId);
@@ -932,21 +923,20 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 						   "WHERE a.AfspraakStatusId = 1 AND a.EindTijd IS NULL " +
 						   "ORDER BY b.Vnaam, b.ANaam";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					cmd.CommandText = query;
-					IDataReader reader = cmd.ExecuteReader();
-					List<Bezoeker> bezoekers = new List<Bezoeker>();
-					while (reader.Read()) {
-						long bezoekerId = (long)reader["Id"];
-						string bezoekerVNaam = (string)reader["VNaam"];
-						string bezoekerANaam = (string)reader["ANaam"];
-						string bezoekerMail = (string)reader["Email"];
-						string bezoekerBedrijf = (string)reader["EigenBedrijf"];
-						bezoekers.Add(new Bezoeker(bezoekerId, bezoekerVNaam, bezoekerANaam, bezoekerMail, bezoekerBedrijf));
-					}
-					return bezoekers.AsReadOnly();
+				using SqlCommand cmd = con.CreateCommand();
+				con.Open();
+				cmd.CommandText = query;
+				IDataReader reader = cmd.ExecuteReader();
+				List<Bezoeker> bezoekers = new();
+				while (reader.Read()) {
+					long bezoekerId = (long)reader["Id"];
+					string bezoekerVNaam = (string)reader["VNaam"];
+					string bezoekerANaam = (string)reader["ANaam"];
+					string bezoekerMail = (string)reader["Email"];
+					string bezoekerBedrijf = (string)reader["EigenBedrijf"];
+					bezoekers.Add(new Bezoeker(bezoekerId, bezoekerVNaam, bezoekerANaam, bezoekerMail, bezoekerBedrijf));
 				}
+				return bezoekers.AsReadOnly();
 			} catch (Exception ex) {
 				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}", ex);
 			} finally {

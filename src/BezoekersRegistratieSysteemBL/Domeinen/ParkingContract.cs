@@ -46,7 +46,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		}
 
 		/// <summary>
-		/// Controleert & zet eindtijd.
+		/// Controleert en zet eindtijd.
 		/// </summary>
 		/// <param name="eindtijd"></param>
 		/// <exception cref="ParkingContractException"></exception>

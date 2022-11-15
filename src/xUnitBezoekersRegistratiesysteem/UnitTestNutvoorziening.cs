@@ -62,7 +62,6 @@ namespace xUnitBezoekersRegistratiesysteem {
 		[InlineData("   BE0676747521    ")]
 		[InlineData("BE    0676747521")]
 		public void ControleerBTWNummer_Valid(string btw) {
-			(bool valid, DTOBtwInfo? info) = Nutsvoorziening.GeefBTWInfo(btw);
 			Assert.True(Nutsvoorziening.ControleerBTWNummer(btw));
 		}
 

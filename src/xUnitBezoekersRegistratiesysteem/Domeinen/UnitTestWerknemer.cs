@@ -7,11 +7,11 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		//AF
 
 		#region Valid Info
-		private Bedrijf _b1;
-		private Bedrijf _b2;
-		private string _of;
-		private string _nf;
-		private string _e;
+		private readonly Bedrijf _b1;
+		private readonly Bedrijf _b2;
+		private readonly string _of;
+		private readonly string _nf;
+		private readonly string _e;
 		#endregion
 
 		#region Initialiseren
@@ -357,7 +357,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "werknemer     ", "werknemersen", 10, "Werknemer", "Werknemersen")]
 		[InlineData(10, "werknemer", "     werknemersen", 10, "Werknemer", "Werknemersen")]
 		[InlineData(10, "werknemer", "werknemersen     ", 10, "Werknemer", "Werknemersen")]
-		public void ctor_Valid(long idIn, string voornaamIn, string achternaamIn, long idUit, string voornaamUit, string achternaamUit) {
+		public void Ctor_Valid(long idIn, string voornaamIn, string achternaamIn, long idUit, string voornaamUit, string achternaamUit) {
 			Werknemer w = new(idIn, voornaamIn, achternaamIn);
 			Assert.Equal(idUit, w.Id);
 			Assert.Equal(voornaamUit, w.Voornaam);
@@ -381,7 +381,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "werknemer", "\r")]
 		[InlineData(10, "werknemer", "\t")]
 		[InlineData(10, "werknemer", "\v")]
-		public void ctor_Invalid(long id, string voornaam, string achternaam) {
+		public void Ctor_Invalid(long id, string voornaam, string achternaam) {
 			Assert.Throws<WerknemerException>(() => new Werknemer(id, voornaam, achternaam));
 		}
 		#endregion

@@ -145,7 +145,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			#endregion
 
-			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), null, null, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
+			AfspraakInputDTO payload = new(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), null, null, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
 			AfspraakDTO afspraak = ApiController.PostAfspraak(payload);
 
 			MessageBox.Show($"Afspraak toegevoegd", "Success");

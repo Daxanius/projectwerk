@@ -38,19 +38,21 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
 			for (int i = 0; i < Bedrijven?.Count; i++) {
-				Border border = new Border();
-				border.Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style;
-				border.Height = 85;
-				border.MinWidth = 350;
-				border.Margin = new Thickness(10);
+				Border border = new() {
+					Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style,
+					Height = 85,
+					MinWidth = 350,
+					Margin = new Thickness(10)
+				};
 				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab;
 				border.DataContext = Bedrijven[i];
 
-				StackPanel container = new();
-				container.Margin = new Thickness(5);
-				container.Orientation = Orientation.Horizontal;
-				container.HorizontalAlignment = HorizontalAlignment.Left;
-				container.VerticalAlignment = VerticalAlignment.Center;
+				StackPanel container = new() {
+					Margin = new Thickness(5),
+					Orientation = Orientation.Horizontal,
+					HorizontalAlignment = HorizontalAlignment.Left,
+					VerticalAlignment = VerticalAlignment.Center
+				};
 
 				TextBlock bedrijfNaam = new() {
 					Text = Bedrijven[i].Naam,
@@ -104,14 +106,12 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		#region Singleton
 		private static KiesBedrijfPage instance = null;
-		private static readonly object padlock = new object();
+		private static readonly object padlock = new();
 
 		public static KiesBedrijfPage Instance {
 			get {
 				lock (padlock) {
-					if (instance == null) {
-						instance = new KiesBedrijfPage();
-					}
+					instance ??= new KiesBedrijfPage();
 					return instance;
 				}
 			}

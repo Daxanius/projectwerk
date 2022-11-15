@@ -96,14 +96,12 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 
 		#region Singleton
 		private static AfmeldPage instance = null;
-		private static readonly object padlock = new object();
+		private static readonly object padlock = new();
 
 		public static AfmeldPage Instance {
 			get {
 				lock (padlock) {
-					if (instance == null) {
-						instance = new AfmeldPage();
-					}
+					instance ??= new AfmeldPage();
 					return instance;
 				}
 			}

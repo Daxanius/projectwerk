@@ -13,7 +13,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 	/// </summary>
 	public partial class BedrijvenPage : Page {
 		#region Public Propperty
-		public string Datum {
+		public static string Datum {
 			get {
 				return DateTime.Now.ToString("dd.MM");
 			}
@@ -35,7 +35,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 			bedrijvenPopup.Visibility = Visibility.Visible;
 		}
 
-		public void LoadBedrijvenInList(List<BedrijfDTO> bedrijven) {
+		public static void LoadBedrijvenInList(List<BedrijfDTO> bedrijven) {
 			foreach (var bedrijf in bedrijven) {
 				BedrijvenLijstControl.ItemSource.Add(bedrijf);
 			}
@@ -44,14 +44,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 
 		#region Singleton
 		private static BedrijvenPage instance = null;
-		private static readonly object padlock = new object();
+		private static readonly object padlock = new();
 
 		public static BedrijvenPage Instance {
 			get {
 				lock (padlock) {
-					if (instance == null) {
-						instance = new BedrijvenPage();
-					}
+					instance ??= new BedrijvenPage();
 					return instance;
 				}
 			}

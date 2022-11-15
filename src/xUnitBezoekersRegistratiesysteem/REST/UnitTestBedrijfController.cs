@@ -10,20 +10,20 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 	public class UnitTestBedrijfController {
 		#region MOQ
 		// Moq repos
-		private Mock<IBedrijfRepository> _mockRepoBedrijf;
-		private Mock<IWerknemerRepository> _mockRepoWerknemer;
+		private readonly Mock<IBedrijfRepository> _mockRepoBedrijf;
+		private readonly Mock<IWerknemerRepository> _mockRepoWerknemer;
 
 		// Managers
-		private BedrijfManager _bedrijfManager;
-		private WerknemerManager _werknemerManger;
+		private readonly BedrijfManager _bedrijfManager;
+		private readonly WerknemerManager _werknemerManger;
 
 		// Controllers
-		private BedrijfController _bedrijfController;
+		private readonly BedrijfController _bedrijfController;
 		#endregion
 
 		#region Valid Info
-		private WerknemerInputDTO _w;
-		private BedrijfInputDTO _b;
+		private readonly WerknemerInputDTO _w;
+		private readonly BedrijfInputDTO _b;
 		#endregion
 
 		#region Initialiseren

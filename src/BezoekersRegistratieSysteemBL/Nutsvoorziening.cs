@@ -43,7 +43,7 @@ namespace BezoekersRegistratieSysteemBL {
 		/// <returns>Opgemaakte tekst</returns>
 		public static string NaamOpmaak(string input) {
 			string functie = RegexWhitespace.Replace(input, " ").Trim();
-			return $"{char.ToUpper(functie[0])}{functie.Substring(1).ToLower()}";
+			return $"{char.ToUpper(functie[0])}{functie[1..].ToLower()}";
 		}
 		/// <summary>
 		/// Controleert een BTW nummer op notatie.

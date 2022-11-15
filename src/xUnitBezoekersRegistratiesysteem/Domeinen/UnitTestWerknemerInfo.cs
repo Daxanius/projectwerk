@@ -6,8 +6,8 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		// AF
 
 		#region Valid Info
-		private Bedrijf _b;
-		private string _e;
+		private readonly Bedrijf _b;
+		private readonly string _e;
 		#endregion
 
 		#region Initialiseren
@@ -192,14 +192,14 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 
 		#region UnitTest WerknemerInfo ctor
 		[Fact]
-		public void ctor_Valid() {
+		public void Ctor_Valid() {
 			WerknemerInfo wi = new(_b, _e);
 			Assert.Equal(_b, wi.Bedrijf);
 			Assert.Equal(_e, wi.Email);
 		}
 
 		[Fact]
-		public void ctor_Invalid_BedrijfLeeg() {
+		public void Ctor_Invalid_BedrijfLeeg() {
 			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(null, _e));
 		}
 
@@ -219,12 +219,12 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData("werknemer.werknemersen")]
 		[InlineData("werknemer.werknemersen@.")]
 		[InlineData("werknemer.werknemersen.com")]
-		public void ctor_InvalidEmailFoutief(string email) {
+		public void Ctor_InvalidEmailFoutief(string email) {
 			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(_b, email));
 		}
 
 		[Fact]
-		public void ctor_Invalid_ctorLeeg() {
+		public void Ctor_Invalid_ctorLeeg() {
 			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(null, null));
 		}
 		#endregion

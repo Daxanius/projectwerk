@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemUI.Api {
 	public static class ApiController {
-		private static TimeSpan _timeout = TimeSpan.FromSeconds(500d);
+		private static readonly TimeSpan _timeout = TimeSpan.FromSeconds(500d);
 
 		public const string BaseAddres = "http://localhost:5049/api/";
 
@@ -41,7 +41,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
 
-				if (parsed is T) {
+				if (parsed is not null && parsed.GetType() is T) {
 					return (true, parsed);
 				} else {
 					return (false, parsed);
@@ -79,7 +79,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
 
-				if (parsed is T) {
+				if (parsed is not null && parsed.GetType() is T) {
 					return (true, parsed);
 				} else {
 					return (false, parsed);
@@ -134,7 +134,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
 
-				if (parsed is T) {
+				if (parsed is not null && parsed.GetType() is T) {
 					return (true, parsed);
 				} else {
 					return (false, parsed);
@@ -166,7 +166,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
 
-				if (parsed is T) {
+				if (parsed is not null && parsed.GetType() is T) {
 					return (true, parsed);
 				} else {
 					return (false, parsed);
@@ -243,7 +243,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
 
-				if (parsed is T) {
+				if (parsed is not null && parsed.GetType() is T) {
 					return (true, parsed);
 				} else {
 					return (false, parsed);
@@ -289,8 +289,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?bedrijfId={bedrijfsId}&openstaand=true");
 				if (isvalid) {
 					apiAfspraken.ForEach((api) => {
-						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
-						BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
+						WerknemerDTO werknemer = new(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
+						BezoekerDTO bezoeker = new(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
 						ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
 					});
 					return ItemSource;
@@ -306,8 +306,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				(bool isvalid, AfspraakOutputDTO apiAfspraken) = await Post<AfspraakOutputDTO>($"afspraak", body);
 				if (isvalid) {
-					WerknemerDTO werknemer = new WerknemerDTO(apiAfspraken.Werknemer.Id, apiAfspraken.Werknemer.Naam.Split(";")[0], apiAfspraken.Werknemer.Naam.Split(";")[1], null);
-					BezoekerDTO bezoeker = new BezoekerDTO(apiAfspraken.Bezoeker.Id, apiAfspraken.Bezoeker.Naam.Split(";")[0], apiAfspraken.Bezoeker.Naam.Split(";")[1], apiAfspraken.Bezoeker.Email, apiAfspraken.Bezoeker.BezoekerBedrijf);
+					WerknemerDTO werknemer = new(apiAfspraken.Werknemer.Id, apiAfspraken.Werknemer.Naam.Split(";")[0], apiAfspraken.Werknemer.Naam.Split(";")[1], null);
+					BezoekerDTO bezoeker = new(apiAfspraken.Bezoeker.Id, apiAfspraken.Bezoeker.Naam.Split(";")[0], apiAfspraken.Bezoeker.Naam.Split(";")[1], apiAfspraken.Bezoeker.Email, apiAfspraken.Bezoeker.BezoekerBedrijf);
 					return new AfspraakDTO(apiAfspraken.Id, bezoeker, BeheerderWindow.GeselecteerdBedrijf.Naam, werknemer, apiAfspraken.Starttijd, apiAfspraken.Eindtijd);
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
@@ -335,7 +335,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static IEnumerable<BezoekerDTO> FetchBezoekersVanBedrijf(long bedrijfsId, DateTime datum) {
 			return Task.Run(async () => {
 				List<BezoekerDTO> ItemSource = new();
-				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bedrijf/{bedrijfsId}?datum={datum.ToString("M/dd/yyyy")}");
+				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bedrijf/{bedrijfsId}?datum={datum:M/dd/yyyy}");
 				if (isvalid) {
 					apiBezoekers.ForEach((api) => {
 						ItemSource.Add(new BezoekerDTO(api.Id, api.Voornaam, api.Achternaam, api.Email, api.Bedrijf));
@@ -372,7 +372,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				if (isvalid) {
 					apiAfspraken.ForEach((api) => {
-						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
+						WerknemerDTO werknemer = new(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
 						ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
 					});
 
@@ -390,11 +390,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				if (!datum.HasValue)
 					datum = DateTime.Now;
 
-				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?dag={datum.Value.ToString("MM/dd/yyyy")}&werknemerId={werknemer.Id}&bedrijfId={bedrijfsId}&openstaand={alleenLopendeAfspraken}");
+				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?dag={datum.Value:MM/dd/yyyy}&werknemerId={werknemer.Id}&bedrijfId={bedrijfsId}&openstaand={alleenLopendeAfspraken}");
 
 				if (isvalid) {
 					apiAfspraken.ForEach((api) => {
-						BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
+						BezoekerDTO bezoeker = new(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
 						ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
 					});
 					return ItemSource;
@@ -417,8 +417,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				if (isvalid) {
 					apiAfspraken.ForEach((api) => {
-						BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
+						BezoekerDTO bezoeker = new(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
+						WerknemerDTO werknemer = new(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
 						ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
 					});
 					return ItemSource;
@@ -435,8 +435,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>("afspraak?dag=" + DateTime.Now.ToString("MM/dd/yyy"));
 				if (isvalid) {
 					apiAfspraken.ForEach((api) => {
-						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
-						BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
+						WerknemerDTO werknemer = new(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
+						BezoekerDTO bezoeker = new(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
 						alleAfspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
 					});
 					return alleAfspraken;
@@ -502,8 +502,9 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				if (isvalid) {
 					List<WerknemerInfoDTO> lijstWerknemerInfo = apiWerknemer.WerknemerInfo.Select(w => new WerknemerInfoDTO(BeheerderWindow.GeselecteerdBedrijf, w.Email, w.Functies)).ToList();
 					string emailVanGeselecteerdBedrijf = lijstWerknemerInfo.First(w => w.Bedrijf.Id == BeheerderWindow.GeselecteerdBedrijf.Id).Email;
-					WerknemerDTO werknemer = new WerknemerDTO(apiWerknemer.Id, apiWerknemer.Voornaam, apiWerknemer.Achternaam, lijstWerknemerInfo);
-					werknemer.Email = emailVanGeselecteerdBedrijf;
+					WerknemerDTO werknemer = new(apiWerknemer.Id, apiWerknemer.Voornaam, apiWerknemer.Achternaam, lijstWerknemerInfo) {
+						Email = emailVanGeselecteerdBedrijf
+					};
 					return werknemer;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");

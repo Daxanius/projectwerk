@@ -14,9 +14,9 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		#endregion
 
 		#region Valid Info
-		private Werknemer _w;
-		private Bedrijf _unb;
-		private Bedrijf _vb;
+		private readonly Werknemer _w;
+		private readonly Bedrijf _unb;
+		private readonly Bedrijf _vb;
 		#endregion
 
 		#region Initialiseren

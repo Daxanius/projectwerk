@@ -19,14 +19,12 @@ using System.Windows.Input;
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 	public partial class AfsprakenPage : Page, INotifyPropertyChanged {
 		private static AfsprakenPage instance = null;
-		private static readonly object padlock = new object();
+		private static readonly object padlock = new();
 
 		public static AfsprakenPage Instance {
 			get {
 				lock (padlock) {
-					if (instance == null) {
-						instance = new AfsprakenPage();
-					}
+					instance ??= new AfsprakenPage();
 					return instance;
 				}
 			}
@@ -37,10 +35,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		private static BezoekerDTO? _geselecteerdeBezoeker;
 		private static WerknemerDTO? _geselecteerdeWerknemer;
 
-		private HuidigeAfsprakenLijst afsprakenAfsprakenLijstControl = new();
-		private BezoekersAfsprakenLijst bezoekersAfsprakenLijstControl = new();
-		private WerknemerAfsprakenLijst werknemersAfsprakenLijstControl = new();
-		private OpDatumLijstControl opDatumAfsprakenLijstControl = new();
+		private readonly HuidigeAfsprakenLijst afsprakenAfsprakenLijstControl = new();
+		private readonly BezoekersAfsprakenLijst bezoekersAfsprakenLijstControl = new();
+		private readonly WerknemerAfsprakenLijst werknemersAfsprakenLijstControl = new();
+		private readonly OpDatumLijstControl opDatumAfsprakenLijstControl = new();
 
 		public string Datum {
 			get {
@@ -52,7 +50,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			}
 		}
 
-		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
+		public static BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
 		public BezoekerDTO GeselecteerdeBezoeker {
 			get => _geselecteerdeBezoeker;
 			set {
@@ -222,7 +220,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			ControleerInputOpDatum(textBox);
 		}
 
-		private readonly Regex _regex = new Regex("[^0-9./]+");
+		private readonly Regex _regex = new("[^0-9./]+");
 
 		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
 			e.Handled = _regex.IsMatch(e.Text);

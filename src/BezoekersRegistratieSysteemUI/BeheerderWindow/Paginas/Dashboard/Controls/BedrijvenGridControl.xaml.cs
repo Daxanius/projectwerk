@@ -17,21 +17,19 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 	/// </summary>
 	public partial class BedrijvenGridControl : UserControl {
 		private static BedrijvenGridControl instance = null;
-		private static readonly object padlock = new object();
+		private static readonly object padlock = new();
 
 		public static BedrijvenGridControl Instance {
 			get {
 				lock (padlock) {
-					if (instance == null) {
-						instance = new BedrijvenGridControl();
-					}
+					instance ??= new BedrijvenGridControl();
 					return instance;
 				}
 			}
 		}
 
 		private const int MAX_COLUMN_COUNT = 4;
-		private List<BedrijfDTO> _bedrijven;
+		private readonly List<BedrijfDTO> _bedrijven;
 
 		public BedrijvenGridControl() {
 			this.DataContext = this;
@@ -42,7 +40,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			_bedrijven = ApiController.FetchBedrijven().ToList();
 
 			SpawnBedrijvenGrid();
-			BedrijvenPage.Instance.LoadBedrijvenInList(_bedrijven);
+			BedrijvenPage.LoadBedrijvenInList(_bedrijven);
 		}
 
 		private void UpdateListMetBedrijf(BedrijfDTO bedrijf) {
@@ -58,19 +56,21 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
 			for (int i = 0; i < _bedrijven.Count; i++) {
-				Border border = new Border();
-				border.Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style;
-				border.Height = 85;
-				border.MinWidth = 300;
-				border.Margin = new Thickness(10);
+				Border border = new() {
+					Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style,
+					Height = 85,
+					MinWidth = 300,
+					Margin = new Thickness(10)
+				};
 				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab;
 				border.DataContext = _bedrijven[i];
 
-				StackPanel container = new();
-				container.Margin = new Thickness(5);
-				container.Orientation = Orientation.Horizontal;
-				container.HorizontalAlignment = HorizontalAlignment.Left;
-				container.VerticalAlignment = VerticalAlignment.Center;
+				StackPanel container = new() {
+					Margin = new Thickness(5),
+					Orientation = Orientation.Horizontal,
+					HorizontalAlignment = HorizontalAlignment.Left,
+					VerticalAlignment = VerticalAlignment.Center
+				};
 
 				TextBlock bedrijfNaam = new() {
 					Text = _bedrijven[i].Naam,

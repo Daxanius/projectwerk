@@ -8,7 +8,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 		public string Voornaam { get; set; }
 		public string Achternaam { get; set; }
 		public string Email { get; set; }
-		private string? _functie = null;
+		private readonly string? _functie = null;
 		public string Functie {
 			get {
 				if (_functie is not null) {

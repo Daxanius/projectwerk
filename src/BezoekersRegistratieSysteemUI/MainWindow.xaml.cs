@@ -26,19 +26,19 @@ namespace BezoekersRegistratieSysteemUI {
 		}
 
 		private void ParkeerButton_Click(object sender, RoutedEventArgs e) {
-			ParkeerWindow parkeerWindow = new ParkeerWindow();
+			ParkeerWindow parkeerWindow = new();
 			this.Close();
 			parkeerWindow.ShowDialog();
 		}
 
 		private void AanmeldButton_Click(object sender, RoutedEventArgs e) {
-			RegistratieWindow registratieWindow = new RegistratieWindow();
+			RegistratieWindow registratieWindow = new();
 			this.Close();
 			registratieWindow.ShowDialog();
 		}
 
 		private void AdminButton_Click(object sender, RoutedEventArgs e) {
-			BeheerderWindow parkeerWindow = new BeheerderWindow();
+			BeheerderWindow parkeerWindow = new();
 			this.Close();
 			parkeerWindow.ShowDialog();
 		}

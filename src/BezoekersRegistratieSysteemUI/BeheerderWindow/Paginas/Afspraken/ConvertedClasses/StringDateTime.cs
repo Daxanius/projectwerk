@@ -6,7 +6,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Convert
 			_dateTime = dateTime;
 		}
 
-		private DateTime _dateTime;
+		private readonly DateTime _dateTime;
 		public string Date { get => _dateTime.ToString("dd/MM/yyyy - HH:mm"); }
 
 		public override string ToString() {

@@ -292,7 +292,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <summary>
 		/// Stelt lijst van huidige afspraken samen met enkel lees rechten adhv bezoeker object, bedrijf object en parameter datum.
 		/// </summary>
-		/// <param name="bezoeker">Bezoeker object waar de afspraken van opgevraagd wensen te worden.</param>
+		/// <param name="bezoekerId">Bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="datum">Datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijf">Bedrijf object waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten.</returns>

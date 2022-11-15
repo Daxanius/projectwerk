@@ -6,17 +6,17 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		//AF
 
 		#region Valid Info
-		private Bezoeker _b;
-		private Werknemer _w;
-		private Bedrijf _bd;
-		private DateTime _st;
-		private DateTime _et;
+		private readonly Bezoeker _b;
+		private readonly Werknemer _w;
+		private readonly Bedrijf _bd;
+		private readonly DateTime _st;
+		private readonly DateTime _et;
 		#endregion
 
 		#region Invalid Info
-		private Bezoeker _ivb;
-		private Werknemer _ivw;
-		private Bedrijf _ivbd;
+		private readonly Bezoeker _ivb;
+		private readonly Werknemer _ivw;
+		private readonly Bedrijf _ivbd;
 		#endregion
 
 		#region Initialiseren

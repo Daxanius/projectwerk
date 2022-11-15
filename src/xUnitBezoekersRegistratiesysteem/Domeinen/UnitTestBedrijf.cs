@@ -6,10 +6,10 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		//AF
 
 		#region Valid Info
-		private Werknemer _w;
-		private string _f1;
-		private string _f2;
-		private string _e;
+		private readonly Werknemer _w;
+		private readonly string _f1;
+		private readonly string _f2;
+		private readonly string _e;
 		#endregion
 
 		#region Initialiseren
@@ -335,7 +335,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "     bedrijfstraat 10", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10     ", 10, "Bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "bedrijfstraat 10")]
-		public void ctor_Valid(long idIn, string naamIn, string btwNummerIn, string telefoonNummerIn, string emailIn, string adresIn, long idUit, string naamUit, string btwNummerUit, string telefoonNummerUit, string emailUit, string adresUit) {
+		public void Ctor_Valid(long idIn, string naamIn, string btwNummerIn, string telefoonNummerIn, string emailIn, string adresIn, long idUit, string naamUit, string btwNummerUit, string telefoonNummerUit, string emailUit, string adresUit) {
 			Bedrijf b = new(idIn, naamIn, btwNummerIn, true, telefoonNummerIn, emailIn, adresIn);
 			Assert.Equal(idUit, b.Id);
 			Assert.Equal(naamUit, b.Naam);
@@ -400,9 +400,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		[InlineData(10, "bedrijf", "BE0676747521", "012345678", "bedrijf@email.com", "\v")]
 
 		[InlineData(10, null, null, null, null, null)]
-		public void ctor_Invalid(long id, string naam, string btwNummer, string telefoonNummer, string email, string adres) {
+		public void Ctor_Invalid(long id, string naam, string btwNummer, string telefoonNummer, string email, string adres) {
 			Assert.Throws<BedrijfException>(() => {
-				Bedrijf b = new Bedrijf(id, naam, btwNummer, true, telefoonNummer, email, adres);
+				Bedrijf b = new(id, naam, btwNummer, true, telefoonNummer, email, adres);
 				b.ZetBTWControle(btwNummer);
 			});
 
