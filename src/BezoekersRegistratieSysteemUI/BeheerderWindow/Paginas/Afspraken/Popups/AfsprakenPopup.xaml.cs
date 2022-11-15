@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups {
 	public partial class AfsprakenPopup : UserControl, INotifyPropertyChanged {
@@ -69,7 +70,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				UpdatePropperty();
 			}
 		}
-		private string _startTijd = DateTime.Today.ToString("MM/dd/yyyy");
+		private string _startTijd = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 		public string StartTijd {
 			get { return _startTijd; }
 			set {
@@ -95,22 +96,29 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		}
 
 		#region VoegMedeWerkerToeEiland
-		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
-			e.Handled = e.Text.Any(char.IsDigit);
-		}
-
 		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) => ControleerInputOpDatum(sender);
 
 		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => ControleerInputOpDatum(sender);
 
 		private void ControleerInputOpDatum(object sender) {
 			TextBox textBox = sender as TextBox;
-			if (DateTime.TryParse(textBox.Text.Trim('-'), out DateTime dateTime)) {
-				textBox.Text = dateTime.ToString("dd/MM/yyyy - HH:mm");
+			if (DateTime.TryParse(textBox.Text.Replace("-", ""), out DateTime dateTime)) {
+				textBox.Text = dateTime.ToString("dd/MM/yyyy HH:mm");
+				textBox.Background = Brushes.Transparent;
+			} else {
+				if (textBox.Name == "EindTijdTimeTextBox" && EindTijdTimeTextBox.Text.Trim() == "") {
+					textBox.Background = Brushes.Transparent;
+					return;
+				}
+				textBox.Background = Brushes.LightSalmon;
 			}
 		}
 
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) => SluitOverlay();
+
+		private void DatePickerInput_LostKeyboardFocus(object sender, RoutedEventArgs e) {
+			ControleerInputOpDatum(sender);
+		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			#region Controle Input
@@ -210,5 +218,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		}
 
 		#endregion ProppertyChanged
+
 	}
 }
