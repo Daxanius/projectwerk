@@ -154,8 +154,15 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 					Dispatcher.Invoke(() => {
 						HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
 						List<AfspraakDTO> afspraken = HuidigeAfsprakenLijst.ItemSource.ToList();
+						
 						HuidigeAfsprakenLijst.ItemSource.Clear();
 						afspraken.OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam).ToList().ForEach(a => HuidigeAfsprakenLijst.ItemSource.Add(a));
+
+						BezoekerLijst.ItemSource.Clear();
+						foreach (BezoekerDTO bezoeker in ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Now)) {
+							BezoekerLijst.ItemSource.Add(bezoeker);
+						}
+						initieleBezoekers = BezoekerLijst.ItemSource.ToList();
 					});
 				});
 			}
