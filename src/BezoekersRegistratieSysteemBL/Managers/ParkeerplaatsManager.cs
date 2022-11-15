@@ -70,7 +70,14 @@ namespace BezoekersRegistratieSysteemBL.Managers
                 throw new ParkeerManagerException("ParkeerManager - GeefNummerplatenPerBedrijf - mag niet leeg zijn");
             if (!_nummerplaten.ContainsKey(bedrijf))
                 throw new ParkeerManagerException("ParkeerManager - GeefNummerplatenPerBedrijf - Bedrijf bestaat niet");
-            return _nummerplaten[bedrijf].AsReadOnly();
+            try
+            {
+                return _parkeerplaatsRepository.GeefNummerplatenPerBedrijf(bedrijf);
+            }
+            catch (Exception ex)
+            {
+                throw new ParkeerplaatsManagerException(ex.Message);
+            }
         }
 
         public void VoegParkingContractBedrijfToe(ParkingContract parkingContract)

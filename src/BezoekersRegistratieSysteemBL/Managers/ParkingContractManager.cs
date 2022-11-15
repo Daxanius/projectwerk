@@ -14,10 +14,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         private readonly IParkingContractRepository _parkingContractRepository;
 
         /// <summary>
-        /// BedrijfManager constructor krijgt een instantie van de IBedrijfRepository interface als parameter.
+        /// ParkingContractManager constructor krijgt een instantie van de IParkingContractRepository interface als parameter.
         /// </summary>
         /// <param name="parkingContractRepository">Interface</param>
-        /// <remarks>Deze constructor stelt de lokale variabele [_bedrijfRepository] gelijk aan een instantie van de IBedrijfRepository.</remarks>
+        /// <remarks>Deze constructor stelt de lokale variabele [_parkingContractRepository] gelijk aan een instantie van de IParkingContractRepository.</remarks>
         public ParkingContractManager(IParkingContractRepository parkingContractRepository)
         {
             this._parkingContractRepository = parkingContractRepository;

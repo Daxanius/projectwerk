@@ -7,5 +7,6 @@ namespace BezoekersRegistratieSysteemBL.Interfaces
         bool BestaatNummerplaat(string nummerplaat);
         void CheckNummerplaatIn(Parkeerplaats parkeerplaats);
         void CheckNummerplaatUit(string nummerplaat);
+        IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf);
     }
 }
