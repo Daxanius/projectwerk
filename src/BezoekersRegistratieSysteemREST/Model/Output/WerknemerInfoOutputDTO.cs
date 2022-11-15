@@ -1,19 +1,16 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemREST.Model.Output
-{
+namespace BezoekersRegistratieSysteemREST.Model.Output {
 	/// <summary>
 	/// De DTO voor uitgaande werknemerinfo informatie.
 	/// </summary>
-	public class WerknemerInfoOutputDTO
-	{
+	public class WerknemerInfoOutputDTO {
 		/// <summary>
 		/// Zet de business variant om naar de DTO.
 		/// </summary>
 		/// <param name="info"></param>
 		/// <returns>De DTO variant.</returns>
-		public static WerknemerInfoOutputDTO NaarDTO(WerknemerInfo info)
-		{
+		public static WerknemerInfoOutputDTO NaarDTO(WerknemerInfo info) {
 			return new(IdInfoOutputDTO.NaarDTO(info.Bedrijf), info.Email, info.GeefWerknemerFuncties().ToList());
 		}
 
@@ -23,11 +20,9 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// </summary>
 		/// <param name="werknemers"></param>
 		/// <returns>Een lijst van de DTO variant.</returns>
-		public static IEnumerable<WerknemerInfoOutputDTO> NaarDTO(IEnumerable<WerknemerInfo> werknemers)
-		{
+		public static IEnumerable<WerknemerInfoOutputDTO> NaarDTO(IEnumerable<WerknemerInfo> werknemers) {
 			List<WerknemerInfoOutputDTO> output = new();
-			foreach (WerknemerInfo info in werknemers)
-			{
+			foreach (WerknemerInfo info in werknemers) {
 				output.Add(WerknemerInfoOutputDTO.NaarDTO(info));
 			}
 			return output;
@@ -39,8 +34,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <param name="bedrijf"></param>
 		/// <param name="email"></param>
 		/// <param name="functies"></param>
-		public WerknemerInfoOutputDTO(IdInfoOutputDTO bedrijf, string email, IEnumerable<string> functies)
-		{
+		public WerknemerInfoOutputDTO(IdInfoOutputDTO bedrijf, string email, IEnumerable<string> functies) {
 			Bedrijf = bedrijf;
 			Email = email;
 			Functies = functies;

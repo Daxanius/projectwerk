@@ -126,7 +126,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<IEnumerable<WerknemerOutputDTO>> GetWerknemers(long bedrijfId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				
+
 				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager, bedrijf.GeefWerknemers()));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);

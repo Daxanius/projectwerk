@@ -38,11 +38,11 @@ namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.Pagi
 
 			switch (tab) {
 				case "Aanmelden":
-				registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
-				break;
+					registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
+					break;
 				case "Afmelden":
-				registratieWindow.FrameControl.Content = AfmeldPage.Instance;
-				break;
+					registratieWindow.FrameControl.Content = AfmeldPage.Instance;
+					break;
 			}
 		}
 

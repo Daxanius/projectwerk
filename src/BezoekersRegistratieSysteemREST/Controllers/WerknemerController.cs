@@ -160,7 +160,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(info.BedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
-                WerknemerInfo werknemerInfo = info.NaarBusiness(_bedrijfManager);
+				WerknemerInfo werknemerInfo = info.NaarBusiness(_bedrijfManager);
 
 				// Dit is nogal een vreemde manier om functies toe te voegen, wat heeft Email hiermee te maken?
 				_werknemerManager.VoegWerknemerFunctieToe(werknemer, werknemerInfo);

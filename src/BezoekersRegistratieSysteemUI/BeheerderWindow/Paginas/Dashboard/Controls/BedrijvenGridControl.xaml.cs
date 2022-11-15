@@ -3,13 +3,13 @@ using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Linq;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	/// <summary>

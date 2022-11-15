@@ -4,7 +4,6 @@ using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;

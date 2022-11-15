@@ -1,27 +1,23 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 
-namespace BezoekersRegistratieSysteemREST.Model.Output
-{
+namespace BezoekersRegistratieSysteemREST.Model.Output {
 	/// <summary>
 	/// De DTO voor uitgaande werknemer informatie.
 	/// </summary>
-	public class WerknemerOutputDTO
-	{
+	public class WerknemerOutputDTO {
 		/// <summary>
 		/// Zet de business variant om naar de DTO.
 		/// </summary>
 		/// <param name="werknemer"></param>
 		/// <param name="werknemerManager"></param>
 		/// <returns></returns>
-		public static WerknemerOutputDTO NaarDTO(WerknemerManager werknemerManager, Werknemer werknemer)
-		{
+		public static WerknemerOutputDTO NaarDTO(WerknemerManager werknemerManager, Werknemer werknemer) {
 			var functies = werknemer.GeefBedrijvenEnFunctiesPerWerknemer();
 			List<WerknemerInfoOutputDTO> info = new();
 			bool bezet = false;
 
-			foreach (Bedrijf b in functies.Keys)
-			{
+			foreach (Bedrijf b in functies.Keys) {
 				info.Add(WerknemerInfoOutputDTO.NaarDTO(functies[b]));
 
 				// Om te kijken of de werknemer bezet is, deze oplossing is tijdelijk en zal nog
@@ -40,11 +36,9 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <param name="werknemers"></param>
 		/// <param name="werknemerManager"></param>
 		/// <returns>Een lijst van de DTO variant.</returns>
-		public static IEnumerable<WerknemerOutputDTO> NaarDTO(WerknemerManager werknemerManager, IEnumerable<Werknemer> werknemers)
-		{
+		public static IEnumerable<WerknemerOutputDTO> NaarDTO(WerknemerManager werknemerManager, IEnumerable<Werknemer> werknemers) {
 			List<WerknemerOutputDTO> output = new();
-			foreach (Werknemer werknemer in werknemers)
-			{
+			foreach (Werknemer werknemer in werknemers) {
 				output.Add(NaarDTO(werknemerManager, werknemer));
 			}
 			return output;
@@ -58,8 +52,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <param name="achternaam"></param>
 		/// <param name="werknemerInfo"></param>
 		/// <param name="bezet"></param>
-		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo, bool bezet)
-		{
+		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo, bool bezet) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;

@@ -28,7 +28,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="AfspraakManagerException">"AfspraakManager - VoegAfspraakToe - afspraak bestaat al"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
 		public Afspraak VoegAfspraakToe(Afspraak afspraak) {
-            try {
+			try {
 				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn.");
 				if (_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("er is nog een lopende afspraak voor dit email adres.");
 				if (_afspraakRepository.HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(afspraak)) throw new AfspraakManagerException("deze werknemer heeft al een afspraak maar met een ander bedrijf.");
@@ -51,8 +51,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("afspraak bestaat niet");
 				_afspraakRepository.VerwijderAfspraak(afspraak.Id);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -70,8 +70,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (_afspraakRepository.GeefAfspraak(afspraak.Id).AfspraakIsGelijk(afspraak)) throw new AfspraakManagerException("afspraak is niet gewijzigd");
 				_afspraakRepository.BewerkAfspraak(afspraak);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -89,8 +89,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("afspraak bestaat niet");
 				_afspraakRepository.BeeindigAfspraakBezoeker(afspraak.Id);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -108,8 +108,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("afspraak bestaat niet");
 				_afspraakRepository.BeeindigAfspraakSysteem(afspraak.Id);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -124,8 +124,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (!_afspraakRepository.BestaatAfspraak(email)) throw new AfspraakManagerException("afspraak bestaat niet");
 				_afspraakRepository.BeeindigAfspraakOpEmail(email);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -140,8 +140,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
 				return _afspraakRepository.BestaatLopendeAfspraak(afspraak);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -156,8 +156,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (!_afspraakRepository.BestaatAfspraak(afspraakId)) throw new AfspraakManagerException("afspraak bestaat niet");
 				return _afspraakRepository.GeefAfspraak(afspraakId);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -169,8 +169,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			try {
 				return _afspraakRepository.GeefHuidigeAfspraken();
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -185,8 +185,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
 				return _afspraakRepository.GeefHuidigeAfsprakenPerBedrijf(bedrijf.Id);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -204,8 +204,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("opvraag datum kan niet in de toekomst liggen");
 				return _afspraakRepository.GeefAfsprakenPerBedrijfOpDag(bedrijf.Id, datum);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -223,8 +223,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
 				return _afspraakRepository.GeefHuidigeAfsprakenPerWerknemerPerBedrijf(werknemer.Id, bedrijf.Id);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -242,8 +242,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
 				return _afspraakRepository.GeefAlleAfsprakenPerWerknemerPerBedrijf(werknemer.Id, bedrijf.Id);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -264,8 +264,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("opvraag datum kan niet in de toekomst liggen");
 				return _afspraakRepository.GeefAfsprakenPerWerknemerOpDagPerBedrijf(werknemer.Id, datum, bedrijf.Id);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -285,8 +285,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
 				return _afspraakRepository.GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(voornaam, achternaam, email, bedrijf.Id);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -307,8 +307,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("opvraag datum kan niet in de toekomst liggen");
 				return _afspraakRepository.GeefAfsprakenPerBezoekerOpDagPerBedrijf(bezoekerId, datum, bedrijf.Id);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -326,8 +326,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (bedrijf == null) throw new AfspraakManagerException("bedrijf mag niet leeg zijn");
 				return _afspraakRepository.GeefHuidigeAfspraakBezoekerPerBerijf(bezoekerId, bedrijf.Id);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -342,8 +342,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (datum.Date > DateTime.Now.Date) throw new AfspraakManagerException("opvraag datum kan niet in de toekomst liggen");
 				return _afspraakRepository.GeefAfsprakenPerDag(datum);
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 
 		/// <summary>
@@ -355,8 +355,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			try {
 				return _afspraakRepository.GeefAanwezigeBezoekers();
 			} catch (Exception ex) {
-                throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
-            }
+				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
+			}
 		}
 	}
 }

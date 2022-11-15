@@ -80,16 +80,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		}
 
 		[Fact]
-		public void VoegWerknemerFunctieToe_Invalid_WerknemerInfoNull()
-		{
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerInfoNull() {
 			var result = _werknemerController.VoegWerknemerFunctieToe(0, null);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 		}
 
 		[Fact]
-		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet()
-		{
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet() {
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
 			var result = _werknemerController.VoegWerknemerFunctieToe(0, _wi);
 			Assert.NotNull(result.Result);

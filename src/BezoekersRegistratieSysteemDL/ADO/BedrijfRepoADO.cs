@@ -1,8 +1,8 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace BezoekersRegistratieSysteemDL.ADO {
 
