@@ -192,7 +192,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="BeheerderWindow\Paginas\Werknemers\Converter\" />
+		<Folder Include="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\" />
 	</ItemGroup>
 
 	<ItemGroup>

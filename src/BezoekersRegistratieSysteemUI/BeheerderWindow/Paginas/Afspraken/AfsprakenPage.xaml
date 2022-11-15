@@ -8,8 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:popups="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups"
     Title="AfsprakenPage"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -253,6 +251,10 @@
                                                     Style="{StaticResource DefaultTextBoxStyle}"
                                                     Text="{Binding Datum}"
                                                     TextAlignment="Center" />
+                                                <!--<DatePicker
+                                                    Focusable="False"
+                                                    IsTodayHighlighted="True"
+                                                    SelectedDate="{Binding Datum}" />-->
                                             </Border>
                                             <iconspresenter:Icon
                                                 CircleBackground="{StaticResource DonkerBlauw}"

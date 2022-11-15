@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Converter {
+namespace BezoekersRegistratieSysteemUI.Converter {
 	public class StatusConverter : IValueConverter {
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
 			return (bool)value ? "Vrij" : "Bezet";

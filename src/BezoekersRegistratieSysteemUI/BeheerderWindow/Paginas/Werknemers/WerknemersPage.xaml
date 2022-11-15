@@ -77,6 +77,7 @@
                         Foreground="{StaticResource DonkerBlauw}"
                         Text="{Binding GeselecteerdBedrijf.Naam}" />
                     <ComboBox
+                        x:Name="FilterComboBox"
                         Height="50"
                         MinWidth="120"
                         MaxWidth="350"
@@ -85,7 +86,9 @@
                         DockPanel.Dock="Right"
                         FontSize="16"
                         FontWeight="Bold"
-                        Foreground="{StaticResource DonkerBlauw}">
+                        Foreground="{StaticResource DonkerBlauw}"
+                        SelectionChanged="ComboBox_SelectionChanged">
+                        <ComboBoxItem Content="Alles" IsSelected="True" />
                         <ComboBoxItem Content="Vrij" />
                         <ComboBoxItem Content="Bezet" />
                     </ComboBox>

@@ -11,7 +11,7 @@
     <ListView
         Background="Transparent"
         BorderBrush="Transparent"
-        ItemsSource="{Binding Afspraken}"
+        ItemsSource="{Binding ItemSource}"
         ScrollViewer.CanContentScroll="False">
         <ListView.Style>
             <Style TargetType="ListView">
@@ -110,8 +110,8 @@
                                         <TextBlock Foreground="{StaticResource MainBlack}">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="Bezoeker.Voornaam" />
-                                                    <Binding Path="Bezoeker.Achternaam" />
+                                                    <Binding Converter="{StaticResource ElipsisConverter}" Path="Bezoeker.Voornaam" />
+                                                    <Binding Converter="{StaticResource ElipsisConverter}" Path="Bezoeker.Achternaam" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -138,8 +138,8 @@
                                         <TextBlock Foreground="{StaticResource MainBlack}">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="Werknemer.Voornaam" />
-                                                    <Binding Path="Werknemer.Achternaam" />
+                                                    <Binding Converter="{StaticResource ElipsisConverter}" Path="Werknemer.Voornaam" />
+                                                    <Binding Converter="{StaticResource ElipsisConverter}" Path="Werknemer.Achternaam" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -160,7 +160,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
-                                    Content="{Binding WerknemerBedrijf}"
+                                    Content="{Binding WerknemerBedrijf, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold"
                                     Foreground="{StaticResource MainBlack}" />

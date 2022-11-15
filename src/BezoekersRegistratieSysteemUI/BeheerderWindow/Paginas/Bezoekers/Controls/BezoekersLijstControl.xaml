@@ -87,7 +87,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="8,15,0,15"
-                                    Content="{Binding Voornaam}"
+                                    Content="{Binding Voornaam, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>
@@ -105,7 +105,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
-                                    Content="{Binding Achternaam}"
+                                    Content="{Binding Achternaam, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>
@@ -123,7 +123,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
-                                    Content="{Binding Email}"
+                                    Content="{Binding Email, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>
@@ -141,7 +141,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
-                                    Content="{Binding Bedrijf}"
+                                    Content="{Binding Bedrijf, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>

@@ -125,8 +125,8 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="Werknemer.Voornaam" />
-                                                    <Binding Path="Werknemer.Achternaam" />
+                                                    <Binding Converter="{StaticResource ElipsisConverter}" Path="Werknemer.Voornaam" />
+                                                    <Binding Converter="{StaticResource ElipsisConverter}" Path="Werknemer.Achternaam" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -153,8 +153,8 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="Bezoeker.Voornaam" />
-                                                    <Binding Path="Bezoeker.Achternaam" />
+                                                    <Binding Converter="{StaticResource ElipsisConverter}" Path="Bezoeker.Voornaam" />
+                                                    <Binding Converter="{StaticResource ElipsisConverter}" Path="Bezoeker.Achternaam" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -178,7 +178,7 @@
                                     FontSize="15"
                                     FontWeight="DemiBold">
                                     <Label.Content>
-                                        <TextBlock Text="{Binding Bezoeker.Email}" />
+                                        <TextBlock Text="{Binding Bezoeker.Email, Converter={StaticResource ElipsisConverter}}" />
                                     </Label.Content>
                                 </Label>
                             </DataTemplate>
@@ -196,7 +196,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="0,15,0,15"
-                                    Content="{Binding Bezoeker.Bedrijf}"
+                                    Content="{Binding Bezoeker.Bedrijf, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>

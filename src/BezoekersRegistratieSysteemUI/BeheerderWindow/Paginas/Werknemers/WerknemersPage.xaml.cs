@@ -1,8 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Controls;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,11 +14,13 @@ using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 	public partial class WerknemersPage : Page, INotifyPropertyChanged {
+		#region Variabelen
 		public int FullWidth { get; set; }
 		public int FullHeight { get; set; }
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
 
-		private List<WerknemerDTO> initieleWerknemers;
+		private List<WerknemerDTO> initieleZoekTermWerknemers;
+		private List<WerknemerDTO> huidigeFilterAfspraken;
 		private string _zoekText;
 		public string ZoekText {
 			get => _zoekText;
@@ -27,9 +28,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 				if (!string.IsNullOrWhiteSpace(value)) {
 					_zoekText = value;
 
-					List<WerknemerDTO> result = initieleWerknemers.Where(w => w.Voornaam.Contains(_zoekText) ||
+					List<WerknemerDTO> result = initieleZoekTermWerknemers.Where(w => w.Voornaam.Contains(_zoekText) ||
 					w.Achternaam.Contains(_zoekText) ||
-					w.Email.Contains(_zoekText) || 
+					w.Email.Contains(_zoekText) ||
 					w.Functie.Contains(_zoekText) ||
 					w.Status.ToString().Contains(_zoekText)).ToList();
 
@@ -41,12 +42,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 				} else if (value.Length == 0) {
 					WerknemerLijstControl.ItemSource.Clear();
-					foreach (WerknemerDTO bedrijf in initieleWerknemers) {
+					foreach (WerknemerDTO bedrijf in initieleZoekTermWerknemers) {
 						WerknemerLijstControl.ItemSource.Add(bedrijf);
 					}
 				}
 			}
 		}
+		#endregion
 
 		public WerknemersPage() {
 			FullWidth = (int)SystemParameters.PrimaryScreenWidth;
@@ -74,7 +76,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 				WerknemerLijstControl.ItemSource.Add(werknemer);
 			}
 
-			initieleWerknemers = new(WerknemerLijstControl.ItemSource);
+			initieleZoekTermWerknemers = new(WerknemerLijstControl.ItemSource);
+		}
+		private void ZoekTermChanged(object sender, TextChangedEventArgs e) {
+			Task.Run(() => Dispatcher.Invoke(() => ZoekText = ZoekTextTextbox.Text));
 		}
 
 		private void AddWerknemer(object sender, MouseButtonEventArgs e) {
@@ -83,6 +88,30 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 		private void Page_Loaded(object sender, RoutedEventArgs e) {
 			LaadWerknemersVanDatabase();
+			FilterComboBox.SelectedIndex = 0;
+		}
+
+		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+			if (WerknemerLijstControl is null) return;
+			if (huidigeFilterAfspraken is null) huidigeFilterAfspraken = WerknemerLijstControl.ItemSource.ToList();
+
+			ComboBox combobox = (sender as ComboBox);
+			if (combobox.SelectedValue is null) return;
+
+			string selected = ((ComboBoxItem)combobox.SelectedValue).Content.ToString();
+
+			List<WerknemerDTO> filtered = huidigeFilterAfspraken;
+			if (combobox.SelectedIndex != 0) {
+				if (selected == "Vrij")
+					filtered = huidigeFilterAfspraken.Where(x => x.Status == true).ToList();
+				else
+					filtered = huidigeFilterAfspraken.Where(x => x.Status == false).ToList();
+			}
+
+			WerknemerLijstControl.ItemSource.Clear();
+			foreach (WerknemerDTO afspraak in filtered) {
+				WerknemerLijstControl.ItemSource.Add(afspraak);
+			}
 		}
 
 		#region Singleton
@@ -107,9 +136,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged
-
-		private void ZoekTermChanged(object sender, TextChangedEventArgs e) {
-			Task.Run(() => Dispatcher.Invoke(() => ZoekText = ZoekTextTextbox.Text));
-		}
 	}
 }

@@ -129,6 +129,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 		public AfsprakenPage() {
 			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijfOpScherm;
+			AfsprakenPopup.NieuweAfspraakToegevoegd += UpdateAfsprakenOpScherm;
 
 			this.DataContext = this;
 			InitializeComponent();
@@ -138,8 +139,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				WerknemerLijst.ItemSource.Add(werknemer);
 				initieleWerknemers.Add(werknemer);
 			};
-
-			AfsprakenPopup.NieuweAfspraakToegevoegd += UpdateAfsprakenOpScherm;
 
 			UpdateGeselecteerdBedrijfOpScherm();
 
@@ -154,18 +153,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 					Dispatcher.Invoke(() => {
 						HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
 						List<AfspraakDTO> afspraken = HuidigeAfsprakenLijst.ItemSource.ToList();
-						
+
 						HuidigeAfsprakenLijst.ItemSource.Clear();
 						afspraken.OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam).ToList().ForEach(a => HuidigeAfsprakenLijst.ItemSource.Add(a));
-
-						BezoekerLijst.ItemSource.Clear();
-						foreach (BezoekerDTO bezoeker in ApiController.FetchBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Now)) {
-							BezoekerLijst.ItemSource.Add(bezoeker);
-						}
-						initieleBezoekers = BezoekerLijst.ItemSource.ToList();
 					});
 				});
 			}
+
+			BezoekerLijst.ItemSource.Add(afspraak.Bezoeker);
+			initieleBezoekers = BezoekerLijst.ItemSource.ToList();
+
+			OpDatumAfsprakenLijst.ItemSource.Add(afspraak);
 		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
@@ -229,7 +227,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				case "Afspraak Op Datum":
 				NavigeerNaarTab("Afspraak Op Datum");
 				if (!opDatumAfsprakenLijstControl.HeeftData) {
-					OpDatumAfsprakenLijst.ItemSource = new(ApiController.FetchAfsprakenOpDatumVanBedrijf(GeselecteerdBedrijf.Id, Datum));
+					foreach (AfspraakDTO afspraak in ApiController.FetchAfsprakenOpDatumVanBedrijf(GeselecteerdBedrijf.Id, Datum)) {
+						OpDatumAfsprakenLijst.ItemSource.Add(afspraak);
+					}
 					opDatumAfsprakenLijstControl.HeeftData = true;
 				}
 				break;
@@ -289,7 +289,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		private void ZoekTermChangedWerknemers(object sender, TextChangedEventArgs e) {
 			Task.Run(() => Dispatcher.Invoke(() => ZoekTextWerknemers = ZoekTermTextBoxWerknemers.Text));
 		}
-		
+
 		private void ZoekTermChangedBezoekers(object sender, TextChangedEventArgs e) {
 			Task.Run(() => Dispatcher.Invoke(() => ZoekTextBezoekers = ZoekTermTextBoxBezoekers.Text));
 		}
