@@ -149,21 +149,13 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="afspraak">Te vergelijken afspraak.</param>
 		/// <returns>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</returns>
 		public bool AfspraakIsGelijk(Afspraak afspraak) {
-			if (afspraak is null)
-				return false;
-			if (afspraak.Id != Id)
-				return false;
-			if (afspraak.Starttijd != Starttijd)
-				return false;
-			if (afspraak.Eindtijd != Eindtijd)
-				return false;
-			if (afspraak.Bezoeker != Bezoeker)
-				return false;
-			if (afspraak.Werknemer != Werknemer)
-				return false;
-			if (afspraak.Bedrijf != Bedrijf)
-				return false;
-			return true;
+			return afspraak is not null &&
+				afspraak.Id == Id &&
+				afspraak.Starttijd == Starttijd &&
+				afspraak.Eindtijd == Eindtijd &&
+				afspraak.Bezoeker == Bezoeker &&
+				afspraak.Werknemer == Werknemer &&
+				afspraak.Bedrijf == Bedrijf;
 		}
 	}
 }
