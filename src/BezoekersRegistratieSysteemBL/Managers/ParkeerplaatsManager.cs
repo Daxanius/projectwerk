@@ -12,6 +12,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
     public class ParkeerplaatsManager
     {
         private readonly Dictionary<Bedrijf, List<string>> _nummerplaten = new();
+        private ParkingContractManager _parkingContractManager;
 
         /// <summary>
         /// Private lokale Interface variabele.
@@ -36,6 +37,8 @@ namespace BezoekersRegistratieSysteemBL.Managers
                 throw new ParkeerManagerException("ParkeerManager - VoegNummerplaatToe - Bedrijf heeft geen parking contract");
             if (_nummerplaten[parkeerplaats.Bedrijf].Contains(parkeerplaats.Nummerplaat))
                 throw new ParkeerManagerException("ParkeerManager - VoegNummerplaatToe - Nummerplaat bestaat al");
+            if (_parkingContractManager.GeefParkingContract(parkeerplaats.Bedrijf).AantalPlaatsen == _nummerplaten[parkeerplaats.Bedrijf].Count)
+                throw new ParkeerManagerException("ParkeerManager - VoegNummerplaatToe - Parking is vol");
             try
             {
                 _parkeerplaatsRepository.CheckNummerplaatIn(parkeerplaats);
