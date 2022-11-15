@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Exceptions.ManagerException;
+using BezoekersRegistratieSysteemBL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,26 +13,55 @@ namespace BezoekersRegistratieSysteemBL.Managers
     {
         private readonly Dictionary<Bedrijf, List<string>> _nummerplaten = new();
 
-        public void VoegNummerplaatToe(Bedrijf bedrijf, string parkeerplaats)
+        /// <summary>
+        /// Private lokale Interface variabele.
+        /// </summary>
+        private readonly IParkeerplaatsRepository _parkeerplaatsRepository;
+
+        /// <summary>
+        /// ParkeerplaatsManager constructor krijgt een instantie van de IParkeerplaatRepository interface als parameter.
+        /// </summary>
+        /// <param name="parkeerplaatsRepository">Interface</param>
+        /// <remarks>Deze constructor stelt de lokale variabele [_parkeerplaatsRepository] gelijk aan een instantie van de IParkeerplaatRepository.</remarks>
+        public ParkeerplaatsManager(IParkeerplaatsRepository parkeerplaatsRepository)
         {
-            if (bedrijf == null)
-                throw new ParkeerManagerException("ParkeerManager - VoegNummerplaatToe - Bedrijf mag niet leeg zijn");
-            if (string.IsNullOrWhiteSpace(parkeerplaats))
-                throw new ParkeerManagerException("ParkeerManager - VoegNummerplaatToe - Parkeerplaats mag niet leeg zijn");
-            if (!_nummerplaten.ContainsKey(bedrijf))
-                throw new ParkeerManagerException("ParkeerManager - VoegNummerplaatToe - Bedrijf bestaat niet");
-            _nummerplaten[bedrijf].Add(parkeerplaats);
+            this._parkeerplaatsRepository = parkeerplaatsRepository;
         }
 
-        public void VerwijderNummerplaat(Bedrijf bedrijf, string parkeerplaats)
+        public void CheckNummerplaatIn(Parkeerplaats parkeerplaats)
         {
-            if (bedrijf == null)
-                throw new ParkeerManagerException("ParkeerManager - VerwijderNummerplaat - Bedrijf mag niet leeg zijn");
-            if (string.IsNullOrWhiteSpace(parkeerplaats))
-                throw new ParkeerManagerException("ParkeerManager - VerwijderNummerplaat - Parkeerplaats mag niet leeg zijn");
-            if (!_nummerplaten.ContainsKey(bedrijf))
-                throw new ParkeerManagerException("ParkeerManager - VerwijderNummerplaat - Bedrijf bestaat niet");
-            _nummerplaten[bedrijf].Remove(parkeerplaats);
+            if (parkeerplaats == null)
+                throw new ParkeerManagerException("ParkeerManager - VoegNummerplaatToe - Bedrijf mag niet leeg zijn");
+            if (!_nummerplaten.ContainsKey(parkeerplaats.Bedrijf))
+                throw new ParkeerManagerException("ParkeerManager - VoegNummerplaatToe - Bedrijf heeft geen parking contract");
+            if (_nummerplaten[parkeerplaats.Bedrijf].Contains(parkeerplaats.Nummerplaat))
+                throw new ParkeerManagerException("ParkeerManager - VoegNummerplaatToe - Nummerplaat bestaat al");
+            try
+            {
+                _parkeerplaatsRepository.CheckNummerplaatIn(parkeerplaats);
+                _nummerplaten[parkeerplaats.Bedrijf].Add(parkeerplaats.Nummerplaat);
+            }
+            catch (Exception ex)
+            {
+                throw new ParkeerplaatsManagerException(ex.Message);
+            }
+        }
+
+        public void CheckNummerplaatUit(string nummerplaat)
+        {
+            if (string.IsNullOrWhiteSpace(nummerplaat))
+                throw new ParkeerManagerException("ParkeerManager - VerwijderNummerplaat - Nummerplaat mag niet leeg zijn");
+            if (!_parkeerplaatsRepository.BestaatNummerplaat(nummerplaat))
+                throw new ParkeerManagerException("ParkeerManager - VerwijderNummerplaat - Nummerplaat bestaat niet");
+            try
+            {
+                _parkeerplaatsRepository.CheckNummerplaatUit(nummerplaat);
+                _nummerplaten.Values.Where(n => n.Equals(nummerplaat)).Select(n => n.Remove(nummerplaat));
+            }
+            catch (Exception ex)
+            {
+                throw new ParkeerplaatsManagerException(ex.Message);
+            }
         }
 
         public IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf)
@@ -43,16 +73,24 @@ namespace BezoekersRegistratieSysteemBL.Managers
             return _nummerplaten[bedrijf].AsReadOnly();
         }
 
-        public Bedrijf? GeefBedrijfPerNummerplaat(string nummerplaat)
+        public void VoegParkingContractBedrijfToe(ParkingContract parkingContract)
         {
-            if (string.IsNullOrWhiteSpace(nummerplaat))
-                throw new ParkeerManagerException("ParkeerManager - GeefBedrijfPerNummerplaat - Nummerplaat mag niet leeg zijn");
-            foreach (KeyValuePair<Bedrijf, List<string>> nummerplaatPerBedrijf in _nummerplaten)
-            {
-                if (nummerplaatPerBedrijf.Value.Contains(nummerplaat))
-                    return nummerplaatPerBedrijf.Key;
-            }
-            return null;
+            if (parkingContract == null)
+                throw new ParkeerManagerException("ParkeerManager - VoegBedrijfToe - ParkingContract mag niet leeg zijn");
+            if (_nummerplaten.ContainsKey(parkingContract.Bedrijf))
+                throw new ParkeerManagerException("ParkeerManager - VoegBedrijfToe - Bedrijf bestaat al");
+            _nummerplaten.Add(parkingContract.Bedrijf, new List<string>());
+        }
+        
+        public void VerwijderParkingContractBedrijf(ParkingContract parkingContract)
+        {
+            if (parkingContract == null)
+                throw new ParkeerManagerException("ParkeerManager - VerwijderBedrijf - ParkingContract mag niet leeg zijn");
+            if (!_nummerplaten.ContainsKey(parkingContract.Bedrijf))
+                throw new ParkeerManagerException("ParkeerManager - VerwijderBedrijf - Bedrijf bestaat niet");
+            if (!_nummerplaten[parkingContract.Bedrijf].Any())
+                throw new ParkeerManagerException("ParkeerManager - VerwijderBedrijf - Er zijn nog geparkeerden bij dit bedrijf");
+            _nummerplaten.Remove(parkingContract.Bedrijf);
         }
     }
 }

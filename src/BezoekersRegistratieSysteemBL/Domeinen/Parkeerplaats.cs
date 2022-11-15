@@ -57,8 +57,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         {
             if (string.IsNullOrWhiteSpace(nummerplaat))
                 throw new ParkeerplaatsException("Parkeerplaats - ZetNummerplaat - Nummerplaat mag niet leeg zijn");
-            if (Nutsvoorziening.IsNummerplaatGeldig(nummerplaat))
-                throw new ParkeerplaatsException("Parkeerplaats - ZetNummerplaat - Nummerplaat is niet geldig");
+            //if (Nutsvoorziening.IsNummerplaatGeldig(nummerplaat))
+            //throw new ParkeerplaatsException("Parkeerplaats - ZetNummerplaat - Nummerplaat is niet geldig");
+            if (nummerplaat.Length > 9)
+                throw new ParkeerplaatsException("Parkeerplaats - ZetNummerplaat - Nummerplaat mag niet langer zijn dan 9 karakters");
             Nummerplaat = nummerplaat.Trim();
         }
     }
