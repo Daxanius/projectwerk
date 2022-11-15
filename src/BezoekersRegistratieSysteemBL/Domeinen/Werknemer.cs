@@ -208,21 +208,6 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		}
 
         /// <summary>
-        /// Haalt een bedrijf object adhv parameter bedrijf id.
-        /// </summary>
-		/// <param name="id"></param>
-        /// <returns>Bedrijf van werknemer op basis van bedrijf id.</returns>
-        public Bedrijf HaalBedrijfOp(long id)
-		{
-			foreach (var bedrijf in werknemerInfo.Keys)
-			{
-				if (bedrijf.Id == id)
-					return bedrijf;
-			}
-			return null;
-		}
-
-        /// <summary>
         /// Controleert voorwaarden op geldigheid en properties op gelijkheid.
         /// </summary>
         /// <param name="werknemer">Te vergelijken werknemer.</param>
