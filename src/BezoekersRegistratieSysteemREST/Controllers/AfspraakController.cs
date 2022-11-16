@@ -58,7 +58,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				Bedrijf? bedrijf = null;
 
 				if (werknemerId != null) {
-					werknemer = _werknemerManager.GeefWerknemer(werknemerId ?? 0);
+					werknemer = _werknemerManager.GeefWerknemer(werknemerId ?? 0).GeefWerknemerObject();
 				}
 
 				if (bedrijfId != null) {

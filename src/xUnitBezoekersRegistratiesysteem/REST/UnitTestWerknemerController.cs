@@ -56,7 +56,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(true);
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
 			_mockRepoBedrijf.Setup(x => x.GeefBedrijf(0)).Returns(b);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(w);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0).GeefWerknemerObject()).Returns(w);
 		}
 		#endregion
 
@@ -160,7 +160,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[Fact]
 		public void BewerkWerknemer_Invalid_WerknemerNietGewijzigd() {
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness(_bedrijfManager));
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0).GeefWerknemerObject()).Returns(_w.NaarBusiness(_bedrijfManager));
 			var result = _werknemerController.BewerkWerknemer(0, 0, _w);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
