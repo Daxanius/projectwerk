@@ -150,6 +150,28 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
+		/// Beëindigt alle lopende afspraken.
+		/// </summary>
+		/// <returns></returns>
+		[HttpPut("end/lopend")]
+		public IActionResult End() {
+			try {
+				// Haal alle lopende afspraken op
+				List<Afspraak> afspraken = _afspraakManager.GeefHuidigeAfspraken().ToList();
+
+				// Beeindig elke afspraak van alle dagen voorgaan vandaag
+				foreach (var afspraak in afspraken) {
+					if (afspraak.Starttijd.Date < DateTime.Today) {
+						_afspraakManager.BeeindigAfspraakSysteem(afspraak);
+					}
+				}
+				return Ok();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
 		/// Bewerkt een afspraak op ID.
 		/// </summary>
 		/// <param name="afspraakId">De ID van de afspraak</param>
