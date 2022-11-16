@@ -161,7 +161,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 
 				// Beeindig elke afspraak
 				foreach (var afspraak in afspraken) {
-					_afspraakManager.BeeindigAfspraakSysteem(afspraak);
+					if (afspraak.Starttijd.Date < DateTime.Today) {
+						_afspraakManager.BeeindigAfspraakSysteem(afspraak);
+					}
 				}
 				return Ok();
 			} catch (Exception ex) {
