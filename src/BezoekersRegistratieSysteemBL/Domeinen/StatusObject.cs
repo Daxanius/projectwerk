@@ -38,7 +38,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
             }
             else
             {
-                throw new StatusObjectException("Object is geen werknemer");
+                throw new StatusObjectException("Object is geen bedrijf");
             }
         }
 
@@ -50,7 +50,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
             }
             else
             {
-                throw new StatusObjectException("Object is geen werknemer");
+                throw new StatusObjectException("Object is geen afspraak");
             }
         }
     }
