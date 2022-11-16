@@ -58,15 +58,17 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 		private void OnPageNavigation(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e) {
 			string path = e.Content.GetType().Name;
-			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Bezoekers", "Dashboard", "Werknemers" };
+			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Dashboard", "Werknemers", "Parking" };
 
 			if (GeselecteerdBedrijf is not null) {
 				SideBar.AfsprakenTab.IsEnabled = true;
 				SideBar.WerknemersTab.IsEnabled = true;
+				SideBar.ParkingTab.IsEnabled = true;
 			} else {
 				SideBar.AfsprakenTab.IsEnabled = false;
 				SideBar.WerknemersTab.IsEnabled = false;
-			}
+                SideBar.ParkingTab.IsEnabled = false;
+            }
 
 			foreach (string folder in pathFolders) {
 				if (path.Contains(folder)) {
@@ -130,7 +132,18 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 						textBlock.FontWeight = FontWeights.Bold;
 						icon.Opacity = 1;
 						break;
-					}
+
+                        case "Parking":
+                        SideBar.ParkingTab.Tag = "Selected";
+
+                        stackPanel = (StackPanel)SideBar.ParkingTab.Child;
+                        textBlock = (TextBlock)stackPanel.Children[1];
+                        icon = (Icon)stackPanel.Children[0];
+
+                        textBlock.FontWeight = FontWeights.Bold;
+                        icon.Opacity = 1;
+                        break;
+                    }
 					return;
 				}
 			}

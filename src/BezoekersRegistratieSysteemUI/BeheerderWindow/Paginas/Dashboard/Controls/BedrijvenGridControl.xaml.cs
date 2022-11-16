@@ -110,7 +110,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 
 			((TextBlock)((StackPanel)beheerderWindow.SideBar.WerknemersTab.Child).Children[1]).Opacity = 1;
 			((Icon)((StackPanel)beheerderWindow.SideBar.WerknemersTab.Child).Children[0]).Opacity = 1;
-		}
+
+            ((TextBlock)((StackPanel)beheerderWindow.SideBar.ParkingTab.Child).Children[1]).Opacity = 1;
+            ((Icon)((StackPanel)beheerderWindow.SideBar.ParkingTab.Child).Children[0]).Opacity = 1;
+        }
 
 		#region Singleton
 		private static BedrijvenGridControl instance = null;

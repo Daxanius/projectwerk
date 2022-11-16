@@ -114,6 +114,30 @@
                             Text="Werknemers" />
                     </StackPanel>
                 </Border>
+                <Border
+                    Name="ParkingTab"
+                    Padding="30,5,0,5"
+                    CornerRadius="25 0 0 25"
+                    Cursor="Hand"
+                    IsEnabled="False"
+                    MouseLeftButtonDown="VeranderTab"
+                    Style="{StaticResource SideBarBorderNavSelect}"
+                    Tag="UnSelected">
+                    <StackPanel Orientation="Horizontal">
+                        <iconspresenter:Icon
+                            Margin="-10,0,0,0"
+                            Padding="0,0,0,5"
+                            CircleBackground="{x:Null}"
+                            IconSource="../ParkingIcon.xaml" />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Foreground="{StaticResource DonkerBlauw}"
+                            Opacity=".2"
+                            Text="Parking" />
+                    </StackPanel>
+                </Border>
             </StackPanel>
             <Border
                 x:Name="ToonAanwezigenContainer"
