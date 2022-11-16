@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers;
@@ -47,7 +48,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 				case "Werknemers":
 				beheerderWindow.FrameControl.Content = WerknemersPage.Instance;
 				break;
-			}
+                case "Parking":
+                beheerderWindow.FrameControl.Content = ParkingPage.Instance;
+                break;
+            }
 		}
 
 		private void ResetSelectedTabs(Border? nieuweActiveTabBorder = null) {

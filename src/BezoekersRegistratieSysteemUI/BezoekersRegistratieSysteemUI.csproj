@@ -193,6 +193,7 @@
 
 	<ItemGroup>
 		<Folder Include="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\" />
+		<Folder Include="BeheerderWindow\Paginas\Parking\Controls\" />
 	</ItemGroup>
 
 	<ItemGroup>
