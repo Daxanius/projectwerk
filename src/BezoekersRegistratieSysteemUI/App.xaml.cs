@@ -12,6 +12,9 @@ namespace BezoekersRegistratieSysteemUI {
 			RefreshTimer.Start();
 
 			BeeindigAlleOnAfgeslotenAfspraken();
+
+			System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("fr-FR");
+			System.Threading.Thread.CurrentThread.CurrentCulture = ci;
 		}
 
 		private void BeeindigAlleOnAfgeslotenAfspraken() {
