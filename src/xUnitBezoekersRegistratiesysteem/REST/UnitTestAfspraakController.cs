@@ -69,7 +69,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(true);
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
 			_mockRepoBedrijf.Setup(x => x.GeefBedrijf(0)).Returns(b);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(w);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0).GeefWerknemerObject()).Returns(w);
 		}
 		#endregion
 
