@@ -507,8 +507,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			return Task.Run(async () => {
 				List<AfspraakDTO> ItemSource = new();
 
-				System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("fr-FR");
-				System.Threading.Thread.CurrentThread.CurrentCulture = ci;
+				//System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("fr-FR");
+				//System.Threading.Thread.CurrentThread.CurrentCulture = ci
 
 				if (string.IsNullOrWhiteSpace(datum))
 					datum = DateTime.Now.ToString("MM/dd/yyyy");
