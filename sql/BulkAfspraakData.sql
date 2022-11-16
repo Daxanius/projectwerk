@@ -3,7 +3,7 @@ Alle afspraken die nog lopend zijn krijgen status 2
 Er worden 500 Bezoekers toegevoegd
 Er worden 500 afspraken toegevoegd
 Elk afspraak heeft een random werknemer en startdatum is GETDATE()
-Moest werknemer status 2 hebben krijgt hij GEEN afspraak
+moest werknemer status 2 hebben krijgt hij GEEN afspraak
 Moest werknemer bij meerdere bedrijven werken krijgt hij een afspraak bij waar hij al een afspraak heeft
 */
 
@@ -518,6 +518,7 @@ VALUES
   DECLARE @MemTotal INT;
   DECLARE @ModifiedTotal INT;
   DECLARE @WerknemerBedrijfId INT;
+  DECLARE @WerknemerId INT;
   SET @MemTotal = (SELECT COUNT(*) FROM Bezoeker);
   SET @ModifiedTotal = @MemTotal - 500;
   
@@ -528,15 +529,16 @@ VALUES
 		BEGIN
 			CONTINUE;
 		END	
+	SET @WerknemerId = (SELECT wb.WerknemerId FROM Werknemerbedrijf wb WHERE wb.Id = @WerknemerBedrijfId);
 	IF((SELECT COUNT(DISTINCT wb.WerknemerEmail)
 		FROM Werknemerbedrijf wb
 		JOIN Werknemerbedrijf wbb ON(wb.Id != wbb.Id)
-		WHERE wb.WerknemerId = wbb.WerknemerId AND wb.WerknemerId = @WerknemerBedrijfId) > 1)
+		WHERE wb.WerknemerId = wbb.WerknemerId AND wb.WerknemerId = @WerknemerId) > 1)
 		BEGIN
 			SET @WerknemerBedrijfId =  (SELECT TOP(1) wb.Id
 										FROM Werknemerbedrijf wb
 										JOIN Werknemerbedrijf wbb ON(wb.Id != wbb.Id)
-										WHERE wb.WerknemerId = wbb.WerknemerId AND wb.WerknemerId = @WerknemerBedrijfId
+										WHERE wb.WerknemerId = wbb.WerknemerId AND wb.WerknemerId = @WerknemerId
 										ORDER BY (SELECT COUNT(*) FROM Afspraak a WHERE wb.Id = a.WerknemerBedrijfId AND a.AfspraakStatusId = 1) DESC)
 		END	
 	INSERT INTO Afspraak(StartTijd,WerknemerBedrijfId,BezoekerId )  VALUES(GETDATE(), @WerknemerBedrijfId, @ModifiedTotal);
