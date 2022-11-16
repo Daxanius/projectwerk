@@ -23,8 +23,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			this.DataContext = this;
 			InitializeComponent();
 
-			App.RefreshTimer.Tick += (object? sender, EventArgs e) => FetchAlleAfspraken();
-
 			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
 				Task.Run(() => {
 					Dispatcher.Invoke(() => {
@@ -35,8 +33,24 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 					});
 				});
 			};
-			
-			FetchAlleAfspraken();
+
+			UpdateAfsprakenOpSchermMetNieuweData(HaalAlleAfspraken());
+		}
+
+		public void AutoUpdateIntervalAfspraken() {
+			UpdateAfsprakenOpSchermMetNieuweData(HaalAlleAfspraken());
+		}
+
+		public void UpdateAfsprakenOpSchermMetNieuweData(List<AfspraakDTO> afspraken) {
+			ItemSource.Clear();
+			foreach (AfspraakDTO afspraak in afspraken) {
+				ItemSource.Add(afspraak);
+			}
+		}
+
+		public List<AfspraakDTO> HaalAlleAfspraken() {
+			List<AfspraakDTO> afspraken = ApiController.GeefAfspraken().ToList();
+			return afspraken;
 		}
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
@@ -72,23 +86,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;
 		}
-
-		#region API Requests
-		private async void FetchAlleAfspraken() {
-			(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await ApiController.Get<List<AfspraakOutputDTO>>("afspraak?dag=" + DateTime.Now.ToString("MM/dd/yyy"));
-			
-			ItemSource.Clear();
-			
-			if (isvalid) {
-				apiAfspraken.ForEach((api) => {
-					WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
-					BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-					ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bedrijf.Naam, werknemer, api.Starttijd, api.Eindtijd));
-				});
-			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de afspraaken", "Error /afspraak");
-			}
-		}
-		#endregion
 	}
 }

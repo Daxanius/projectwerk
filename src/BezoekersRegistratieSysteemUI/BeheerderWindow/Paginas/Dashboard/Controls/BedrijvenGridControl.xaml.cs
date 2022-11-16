@@ -22,7 +22,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 
 			BedrijvenPopup.UpdateBedrijfLijst += UpdateListMetBedrijf;
 
-			_bedrijven = ApiController.FetchBedrijven().ToList();
+			_bedrijven = ApiController.GeefBedrijven().ToList();
 
 			SpawnBedrijvenGrid();
 			BedrijvenPage.Instance.LoadBedrijvenInList(_bedrijven);

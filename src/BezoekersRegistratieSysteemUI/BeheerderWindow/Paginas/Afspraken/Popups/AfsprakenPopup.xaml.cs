@@ -2,6 +2,7 @@
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,20 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		#endregion
 
 		#region Variabelen
+		private Border? _selecteditem = null;
+
+		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
+		  nameof(ItemSource),
+		  typeof(ObservableCollection<WerknemerDTO>),
+		  typeof(AfsprakenPopup),
+		  new PropertyMetadata(new ObservableCollection<WerknemerDTO>())
+		 );
+
+		public ObservableCollection<WerknemerDTO> ItemSource {
+			get { return (ObservableCollection<WerknemerDTO>)GetValue(ItemSourceProperty); }
+			set { SetValue(ItemSourceProperty, value); }
+		}
+
 		private WerknemerDTO _werknemer;
 		public WerknemerDTO Werknemer {
 			get { return _werknemer; }
@@ -95,6 +110,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			InitializeComponent();
 		}
 
+		#region Functies
 		#region VoegMedeWerkerToeEiland
 		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) => ControleerInputOpDatum(sender);
 		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => ControleerInputOpDatum(sender);
@@ -167,7 +183,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			#endregion
 
 			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), DateTime.Parse(StartTijd), eindTijdDatum, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
-			AfspraakDTO afspraak = ApiController.PostAfspraak(payload);
+			AfspraakDTO afspraak = ApiController.MaakAfspraak(payload);
 
 			MessageBox.Show($"Afspraak toegevoegd", "Success");
 
@@ -179,7 +195,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
 			KiesMedewerkerEiland.Visibility = Visibility.Visible;
 
-			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.FetchWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
+			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.GeefWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
 		}
 		private void SluitOverlay() {
 			Werknemer = null;
@@ -196,6 +212,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			AfsprakenPage afsprakenPage = AfsprakenPage.Instance;
 			afsprakenPage.AfsprakenPopup.Visibility = Visibility.Hidden;
+		}
+		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
+			if (_selecteditem is not null) {
+				_selecteditem.Background = Brushes.Transparent;
+			}
+			StackPanel? listViewItem = sender as StackPanel;
+
+			Border border = (Border)listViewItem.Children[0];
+			border.Background = Brushes.White;
+			border.CornerRadius = new CornerRadius(20);
+			border.Margin = new Thickness(0);
+			_selecteditem = border;
 		}
 		#endregion
 
@@ -215,6 +243,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			KiesMedewerkerEiland.Visibility = Visibility.Collapsed;
 		}
 		#endregion
+		#endregion
 
 		#region ProppertyChanged
 
@@ -224,6 +253,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		}
 
 		#endregion ProppertyChanged
-
 	}
 }

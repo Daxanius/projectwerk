@@ -100,7 +100,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				return;
 			}
 
-			LijstMetWerknemersVanGeselecteerdBedrijf = ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf).ToList();
+			LijstMetWerknemersVanGeselecteerdBedrijf = ApiController.GeefWerknemersVanBedrijf(GeselecteerdBedrijf).ToList();
 		}
 
 		#region Functies
