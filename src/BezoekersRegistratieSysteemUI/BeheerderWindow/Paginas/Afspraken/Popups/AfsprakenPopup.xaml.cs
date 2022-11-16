@@ -167,7 +167,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			#endregion
 
 			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), DateTime.Parse(StartTijd), eindTijdDatum, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
-			AfspraakDTO afspraak = ApiController.PostAfspraak(payload);
+			AfspraakDTO afspraak = ApiController.MaakAfspraak(payload);
 
 			MessageBox.Show($"Afspraak toegevoegd", "Success");
 
@@ -179,7 +179,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
 			KiesMedewerkerEiland.Visibility = Visibility.Visible;
 
-			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.FetchWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
+			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.GeefWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
 		}
 		private void SluitOverlay() {
 			Werknemer = null;

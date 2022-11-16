@@ -61,16 +61,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 			WerknemersPopup.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => WerknemerLijstControl.ItemSource.Add(werknemer);
 
-			LaadWerknemersVanDatabase();
+			UpdateWerknamersMetNieuweDataOpScherm();
 		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
 			UpdatePropperty(nameof(GeselecteerdBedrijf));
-			LaadWerknemersVanDatabase();
+			UpdateWerknamersMetNieuweDataOpScherm();
 		}
 
-		private void LaadWerknemersVanDatabase() {
-			List<WerknemerDTO> werknemers = ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf).ToList();
+		private void UpdateWerknamersMetNieuweDataOpScherm() {
+			List<WerknemerDTO> werknemers = ApiController.GeefWerknemersVanBedrijf(GeselecteerdBedrijf).ToList();
 			WerknemerLijstControl.ItemSource.Clear();
 			foreach (WerknemerDTO werknemer in werknemers) {
 				WerknemerLijstControl.ItemSource.Add(werknemer);
@@ -87,7 +87,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e) {
-			LaadWerknemersVanDatabase();
+			UpdateWerknamersMetNieuweDataOpScherm();
 			FilterComboBox.SelectedIndex = 0;
 		}
 

@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 					
 				} else if (value.Length == 0) {
 					BedrijvenLijstControl.ItemSource.Clear();
-					foreach (BedrijfDTO bedrijf in ApiController.FetchBedrijven()) {
+					foreach (BedrijfDTO bedrijf in ApiController.GeefBedrijven()) {
 						BedrijvenLijstControl.ItemSource.Add(bedrijf);
 					}
 				}
