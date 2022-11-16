@@ -6,6 +6,7 @@ using BezoekersRegistratieSysteemUI.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -507,13 +508,12 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			return Task.Run(async () => {
 				List<AfspraakDTO> ItemSource = new();
 
-				System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("fr-FR");
-				System.Threading.Thread.CurrentThread.CurrentCulture = ci;
+				CultureInfo ci = CultureInfo.InvariantCulture;
 
 				if (string.IsNullOrWhiteSpace(datum))
 					datum = DateTime.Now.ToString("MM/dd/yyyy");
 				else
-					datum = DateTime.Parse(datum).ToString("MM/dd/yyyy");
+					datum = DateTime.Parse(datum, ci).ToString("MM/dd/yyyy");
 
 				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?dag={datum}&bedrijfId={bedrijfsId}");
 
