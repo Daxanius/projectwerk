@@ -65,7 +65,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public void SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			if (SelectedItem is null) return;
 			BezoekerDTO bezoeker = SelectedItem;
-			AfsprakenPage.Instance.GeselecteerdeBezoeker = bezoeker;
+			//AfsprakenPage.Instance.GeselecteerdeBezoeker = bezoeker;
 		}
 
 		private void KlikOpBezoekerOptions(object sender, RoutedEventArgs e) {

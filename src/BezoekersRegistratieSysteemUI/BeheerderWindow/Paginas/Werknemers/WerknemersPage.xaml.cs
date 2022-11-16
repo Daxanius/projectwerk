@@ -26,13 +26,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			get => _zoekText;
 			set {
 				if (!string.IsNullOrWhiteSpace(value)) {
-					_zoekText = value;
+					_zoekText = value.ToLower();
 
-					List<WerknemerDTO> result = initieleZoekTermWerknemers.Where(w => w.Voornaam.Contains(_zoekText) ||
-					w.Achternaam.Contains(_zoekText) ||
-					w.Email.Contains(_zoekText) ||
-					w.Functie.Contains(_zoekText) ||
-					w.Status.ToString().Contains(_zoekText)).ToList();
+					List<WerknemerDTO> result = initieleZoekTermWerknemers.Where(w => w.Voornaam.ToLower().Contains(_zoekText) ||
+					w.Achternaam.ToLower().Contains(_zoekText) ||
+					w.Email.ToLower().Contains(_zoekText) ||
+					w.Functie.ToLower().Contains(_zoekText) ||
+					w.Status.ToString().ToLower().Contains(_zoekText)).ToList();
 
 					WerknemerLijstControl.ItemSource.Clear();
 

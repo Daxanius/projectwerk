@@ -90,7 +90,7 @@
                                 TextAlignment="Center" />
                         </StackPanel>
                     </Border>
-                    <Border
+                    <!--<Border
                         Padding="15,0"
                         MouseLeftButtonDown="Navigeer_Click"
                         Style="{StaticResource FilterTabLijstStyle}">
@@ -107,7 +107,7 @@
                                 Text="Afspraken Bezoeker"
                                 TextAlignment="Center" />
                         </StackPanel>
-                    </Border>
+                    </Border>-->
                     <Border
                         Padding="15,0"
                         MouseLeftButtonDown="Navigeer_Click"
@@ -268,14 +268,16 @@
                             <!--#endregion-->
                         </Grid>
                     </DockPanel>
-                    <DockPanel Name="BezoekerAfsprakenTab" Visibility="Collapsed">
+                    <!--<DockPanel Name="BezoekerAfsprakenTab" Visibility="Collapsed">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height=".1*" />
                                 <RowDefinition Height="1.5*" />
                             </Grid.RowDefinitions>
-                            <!--#region BezoekerLijst-->
+                    -->
+                    <!--#region BezoekerLijst-->
+                    <!--
                             <Border
                                 Grid.Row="0"
                                 Padding="20"
@@ -329,8 +331,10 @@
                                     <controls:BezoekersLijstControl x:Name="BezoekerLijst" />
                                 </DockPanel>
                             </Border>
-                            <!--#endregion-->
-                            <!--#region Bezoeker Afspraken Lijst-->
+                    -->
+                    <!--#endregion-->
+                    <!--#region Bezoeker Afspraken Lijst-->
+                    <!--
                             <Border
                                 Grid.Row="2"
                                 Padding="20"
@@ -381,9 +385,11 @@
                                     <controls:BezoekersAfsprakenLijst x:Name="GeselecteerdeBezoekerAfsprakenLijst" />
                                 </DockPanel>
                             </Border>
-                            <!--#endregion-->
+                    -->
+                    <!--#endregion-->
+                    <!--
                         </Grid>
-                    </DockPanel>
+                    </DockPanel>-->
                     <DockPanel Name="OpDatumAfsprakenTab" Visibility="Collapsed">
                         <Border
                             Padding="20"
@@ -406,7 +412,8 @@
                                         HorizontalAlignment="Right"
                                         Orientation="Horizontal">
                                         <Border CornerRadius="15">
-                                            <TextBox
+                                            <!--<TextBox
+                                                x:Name="DatumFilterTextBox"
                                                 Padding="10"
                                                 Background="Transparent"
                                                 BorderBrush="Transparent"
@@ -414,11 +421,13 @@
                                                 FontSize="16"
                                                 FontWeight="DemiBold"
                                                 Foreground="{StaticResource DonkerBlauw}"
+                                                KeyDown="TextBox_KeyDown"
                                                 LostKeyboardFocus="ValideerDatum"
                                                 PreviewTextInput="IsDatePickerGeldigeText"
                                                 Style="{StaticResource DefaultTextBoxStyle}"
                                                 Text="{Binding Datum}"
-                                                TextAlignment="Center" />
+                                                TextAlignment="Center" />-->
+                                            <DatePicker x:Name="DatumFilterTextBox" SelectedDateChanged="DatumFilterTextBox_SelectedDateChanged" />
                                         </Border>
                                         <iconspresenter:Icon
                                             CircleBackground="{StaticResource DonkerBlauw}"
