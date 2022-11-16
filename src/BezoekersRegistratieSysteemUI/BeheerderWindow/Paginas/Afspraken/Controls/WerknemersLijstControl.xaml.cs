@@ -35,6 +35,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			get { return (WerknemerDTO)GetValue(SelectedItemProperty); }
 			set { SetValue(SelectedItemProperty, value); }
 		}
+		
+		public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
+		  nameof(SelectedIndex),
+		  typeof(int),
+		  typeof(WerknemersLijstControl),
+		  new PropertyMetadata(-1)
+		);
+
+		public int SelectedIndex {
+			get { return (int)GetValue(SelectedIndexProperty); }
+			set { SetValue(SelectedIndexProperty, value); }
+		}
 
 		public WerknemersLijstControl() {
 			this.DataContext = this;

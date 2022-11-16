@@ -6,9 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls {
-	/// <summary>
-	/// Interaction logic for AfsprakenLijstControl.xaml
-	/// </summary>
 	public partial class WerknemerAfsprakenLijst : UserControl {
 		public bool HeeftData { get; set; }
 
@@ -22,6 +19,30 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public ObservableCollection<AfspraakDTO> ItemSource {
 			get { return (ObservableCollection<AfspraakDTO>)GetValue(ItemSourceProperty); }
 			set { SetValue(ItemSourceProperty, value); }
+		}
+
+		public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
+		  nameof(SelectedIndex),
+		  typeof(int),
+		  typeof(WerknemerAfsprakenLijst),
+		  new PropertyMetadata(-1)
+		);
+		
+		public int SelectedIndex {
+			get { return (int)GetValue(SelectedIndexProperty); }
+			set { SetValue(SelectedIndexProperty, value); }
+		}
+
+		public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+		  nameof(SelectedItem),
+		  typeof(AfspraakDTO),
+		  typeof(WerknemerAfsprakenLijst),
+		  new PropertyMetadata(null)
+		);
+
+		public AfspraakDTO SelectedItem {
+			get { return (AfspraakDTO)GetValue(SelectedItemProperty); }
+			set { SetValue(SelectedItemProperty, value); }
 		}
 
 		public WerknemerAfsprakenLijst() {
@@ -38,28 +59,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
 
-		}
-
-		private Border _selecteditem;
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			//Er is 2 keer geklikt
-			//if (e.ClickCount == 2) {
-			//	return;
-			//}
-
-			if (_selecteditem is not null) {
-				_selecteditem.Background = Brushes.Transparent;
-				_selecteditem.BorderThickness = new Thickness(0);
-			}
-			StackPanel? listViewItem = sender as StackPanel;
-
-			Border border = (Border)listViewItem.Children[0];
-			border.Background = Brushes.White;
-			border.BorderThickness = new Thickness(1);
-			border.BorderBrush = Brushes.WhiteSmoke;
-			border.CornerRadius = new CornerRadius(20);
-			border.Margin = new Thickness(0, 0, 20, 0);
-			_selecteditem = border;
 		}
 
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {

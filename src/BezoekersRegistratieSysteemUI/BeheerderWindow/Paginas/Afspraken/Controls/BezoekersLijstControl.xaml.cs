@@ -6,9 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls {
-	/// <summary>
-	/// Interaction logic for AfsprakenLijstControl.xaml
-	/// </summary>
 	public partial class BezoekersLijstControl : UserControl {
 		public bool HeeftData { get; set; }
 		public BezoekerDTO GeselecteerdeBezoeker;
@@ -36,6 +33,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			get { return (BezoekerDTO)GetValue(SelectedItemProperty); }
 			set { SetValue(SelectedItemProperty, value); }
 		}
+		
+		public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
+		  nameof(SelectedIndex),
+		  typeof(int),
+		  typeof(BezoekersLijstControl),
+		  new PropertyMetadata(-1)
+		);
+
+		public int SelectedIndex {
+			get { return (int)GetValue(SelectedIndexProperty); }
+			set { SetValue(SelectedIndexProperty, value); }
+		}
 
 		public BezoekersLijstControl() {
 			this.DataContext = this;
@@ -56,26 +65,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public void SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			if (SelectedItem is null) return;
 			BezoekerDTO bezoeker = SelectedItem;
-			AfsprakenPage.Instance.GeselecteerdeBezoeker = bezoeker;
-		}
-
-		private Border _selecteditem;
-		private void VeranderKleurRowOnKlik(object sender, MouseButtonEventArgs e) {
-			if (_selecteditem is not null) {
-				_selecteditem.Background = Brushes.Transparent;
-				_selecteditem.BorderThickness = new Thickness(0);
-			}
-			StackPanel? listViewItem = sender as StackPanel;
-
-			Border border = (Border)listViewItem.Children[0];
-			border.Background = Brushes.White;
-			border.BorderThickness = new Thickness(1);
-			border.BorderBrush = Brushes.WhiteSmoke;
-			border.CornerRadius = new CornerRadius(20);
-			border.Margin = new Thickness(0, 0, 20, 0);
-			_selecteditem = border;
-
-			BezoekerDTO bezoeker = (BezoekerDTO)BezoekerLijst.SelectedValue;
 			AfsprakenPage.Instance.GeselecteerdeBezoeker = bezoeker;
 		}
 
