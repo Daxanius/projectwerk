@@ -10,6 +10,12 @@ namespace BezoekersRegistratieSysteemUI {
 		public App() {
 			RefreshTimer.Interval = TimeSpan.FromSeconds(5);
 			RefreshTimer.Start();
+
+			BeeindigAlleOnAfgeslotenAfspraken();
+		}
+
+		private void BeeindigAlleOnAfgeslotenAfspraken() {
+
 		}
 
 		private void VangOntsnapteExceptions(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {

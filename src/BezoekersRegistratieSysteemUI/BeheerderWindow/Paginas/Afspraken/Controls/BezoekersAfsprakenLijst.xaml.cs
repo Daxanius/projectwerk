@@ -7,7 +7,9 @@ using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls {
 	public partial class BezoekersAfsprakenLijst : UserControl {
+		#region Variabelen
 		public bool HeeftData { get; set; }
+		private Border _selecteditem;
 
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
@@ -20,12 +22,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			get { return (ObservableCollection<AfspraakDTO>)GetValue(ItemSourceProperty); }
 			set { SetValue(ItemSourceProperty, value); }
 		}
+		#endregion
 
 		public BezoekersAfsprakenLijst() {
 			this.DataContext = this;
 			InitializeComponent();
 		}
 
+		#region Functies
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
 			Button? b = sender as Button;
 			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
@@ -37,13 +41,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		}
 
-		private Border _selecteditem;
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			//Er is 2 keer geklikt
-			//if (e.ClickCount == 2) {
-			//	return;
-			//}
-
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
 				_selecteditem.BorderThickness = new Thickness(0);
@@ -63,5 +61,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			Button b = (Button)sender;
 			AfspraakDTO afspraak = (AfspraakDTO)b.CommandParameter;
 		}
+		#endregion
 	}
 }

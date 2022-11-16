@@ -67,7 +67,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			}
 		}
 
-		private List<WerknemerDTO> initieleZoekBalkWerknemers;
+		private List<WerknemerDTO> initieleZoekBalkWerknemers = new();
 		private string _zoekTextWerknemers;
 		public string ZoekTextWerknemers {
 			get => _zoekTextWerknemers;
