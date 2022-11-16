@@ -61,15 +61,15 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 			WerknemersPopup.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => WerknemerLijstControl.ItemSource.Add(werknemer);
 
-			UpdateWerknamersMetNieuweDataOpScherm();
+			UpdateWerknemersMetNieuweDataOpScherm();
 		}
 
 		private void UpdateGeselecteerdBedrijfOpScherm() {
 			UpdatePropperty(nameof(GeselecteerdBedrijf));
-			UpdateWerknamersMetNieuweDataOpScherm();
+			UpdateWerknemersMetNieuweDataOpScherm();
 		}
 
-		private void UpdateWerknamersMetNieuweDataOpScherm() {
+		private void UpdateWerknemersMetNieuweDataOpScherm() {
 			List<WerknemerDTO> werknemers = ApiController.GeefWerknemersVanBedrijf(GeselecteerdBedrijf).ToList();
 			WerknemerLijstControl.ItemSource.Clear();
 			foreach (WerknemerDTO werknemer in werknemers) {
@@ -87,7 +87,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e) {
-			UpdateWerknamersMetNieuweDataOpScherm();
+			UpdateWerknemersMetNieuweDataOpScherm();
 			FilterComboBox.SelectedIndex = 0;
 		}
 
@@ -103,9 +103,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			List<WerknemerDTO> filtered = huidigeFilterAfspraken;
 			if (combobox.SelectedIndex != 0) {
 				if (selected == "Vrij")
-					filtered = huidigeFilterAfspraken.Where(x => x.Status == true).ToList();
+					filtered = huidigeFilterAfspraken.Where(x => x.Status == "Vrij").ToList();
 				else
-					filtered = huidigeFilterAfspraken.Where(x => x.Status == false).ToList();
+					filtered = huidigeFilterAfspraken.Where(x => x.Status == "Bezet").ToList();
 			}
 
 			WerknemerLijstControl.ItemSource.Clear();

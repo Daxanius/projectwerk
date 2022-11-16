@@ -442,7 +442,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					apiWerknemers.ForEach((api) => {
 						List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(bedrijf, w.Email, w.Functies)).ToList());
 						WerknemerInfoOutputDTO werknemerInfo = api.WerknemerInfo.First(w => w.Bedrijf.Id == bedrijf.Id);
-						ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, api.Bezet));
+						ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, api.StatusNaam ?? ""));
 					});
 					return ItemSource;
 				} else {

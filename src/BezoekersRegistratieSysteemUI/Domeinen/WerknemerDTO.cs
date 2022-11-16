@@ -18,7 +18,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 				return string.Join(", ", string.Join(", ", lijstVanFuncties));
 			}
 		}
-		public bool Status { get; set; } = true;
+		public string Status { get; set; }
 
 		public IEnumerable<WerknemerInfoDTO> WerknemerInfoLijst { get; set; }
 
@@ -29,7 +29,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 			WerknemerInfoLijst = werknemerinfoLijst;
 		}
 
-		public WerknemerDTO(long id, string voornaam, string achternaam, string email, bool isWerknemerVrij) {
+		public WerknemerDTO(long id, string voornaam, string achternaam, string email, string isWerknemerVrij) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
@@ -37,7 +37,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 			Status = isWerknemerVrij;
 		}
 
-		public WerknemerDTO(long id, string voornaam, string achternaam, string email, IEnumerable<string> functie, bool isWerknemerVrij) {
+		public WerknemerDTO(long id, string voornaam, string achternaam, string email, IEnumerable<string> functie, string isWerknemerVrij) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
