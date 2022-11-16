@@ -37,6 +37,7 @@
                         </TextBlock.Text>
                     </TextBlock>
                     <ComboBox
+                        x:Name="FilterAfsprakenComboBox"
                         Height="50"
                         MinWidth="120"
                         MaxWidth="350"

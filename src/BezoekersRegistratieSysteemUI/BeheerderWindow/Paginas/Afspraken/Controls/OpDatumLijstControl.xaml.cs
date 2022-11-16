@@ -6,9 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls {
-	/// <summary>
-	/// Interaction logic for AfsprakenLijstControl.xaml
-	/// </summary>
 	public partial class OpDatumLijstControl : UserControl {
 		public bool HeeftData { get; set; }
 
@@ -22,6 +19,30 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public ObservableCollection<AfspraakDTO> ItemSource {
 			get { return (ObservableCollection<AfspraakDTO>)GetValue(ItemSourceProperty); }
 			set { SetValue(ItemSourceProperty, value); }
+		}
+
+		public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+		  nameof(SelectedItem),
+		  typeof(AfspraakDTO),
+		  typeof(OpDatumLijstControl),
+		  new PropertyMetadata(null)
+		);
+
+		public AfspraakDTO SelectedItem {
+			get { return (AfspraakDTO)GetValue(SelectedItemProperty); }
+			set { SetValue(SelectedItemProperty, value); }
+		}
+
+		public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
+		  nameof(SelectedIndex),
+		  typeof(int),
+		  typeof(OpDatumLijstControl),
+		  new PropertyMetadata(-1)
+		);
+
+		public int SelectedIndex {
+			get { return (int)GetValue(SelectedIndexProperty); }
+			set { SetValue(SelectedIndexProperty, value); }
 		}
 
 		public OpDatumLijstControl() {

@@ -15,6 +15,8 @@
         FontFamily="Inter"
         ItemsSource="{Binding ItemSource}"
         ScrollViewer.CanContentScroll="False"
+        SelectedIndex="{Binding SelectedIndex}"
+        SelectedItem="{Binding SelectedItem}"
         SelectionMode="Single">
         <ListView.Style>
             <Style TargetType="ListView">
@@ -35,11 +37,13 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListViewItem}">
-                            <StackPanel MouseLeftButtonDown="KlikOpRow">
+                            <StackPanel>
                                 <Border
-                                    Background="Transparent"
+                                    Margin="0,0,20,0"
+                                    Background="{TemplateBinding Background}"
                                     BorderBrush="Transparent"
-                                    BorderThickness="0,0,0,1">
+                                    BorderThickness="0,0,0,1"
+                                    CornerRadius="20">
                                     <GridViewRowPresenter
                                         Width="Auto"
                                         Margin="0"
@@ -55,6 +59,12 @@
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Cursor" Value="Hand" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="False">
+                        <Setter Property="Background" Value="Transparent" />
                     </Trigger>
                 </Style.Triggers>
             </Style>

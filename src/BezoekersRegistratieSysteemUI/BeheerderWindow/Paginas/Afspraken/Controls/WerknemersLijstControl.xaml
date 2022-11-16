@@ -14,6 +14,7 @@
         BorderBrush="Transparent"
         ItemsSource="{Binding ItemSource}"
         ScrollViewer.CanContentScroll="False"
+        SelectedIndex="{Binding SelectedIndex}"
         SelectedItem="{Binding SelectedItem}"
         SelectionChanged="SelectionChanged"
         SelectionMode="Single">

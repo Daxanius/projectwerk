@@ -22,14 +22,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 			get => _zoekText;
 			set {
 				if (!string.IsNullOrWhiteSpace(value)) {
-					_zoekText = value;
+					_zoekText = value.ToLower();
 
 					List<BedrijfDTO> result = initieleBedrijven.Where(b => 
-					b.Naam.Contains(_zoekText) || 
-					b.TelefoonNummer.Contains(_zoekText) || 
-					b.Adres.Contains(_zoekText) || 
-					b.Email.Contains(_zoekText) || 
-					b.BTW.Contains(_zoekText)).ToList();
+					b.Naam.ToLower().Contains(_zoekText) || 
+					b.TelefoonNummer.ToLower().Contains(_zoekText) || 
+					b.Adres.ToLower().Contains(_zoekText) || 
+					b.Email.ToLower().Contains(_zoekText) || 
+					b.BTW.ToLower().Contains(_zoekText)).ToList();
 
 					BedrijvenLijstControl.ItemSource.Clear();
 
@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 					
 				} else if (value.Length == 0) {
 					BedrijvenLijstControl.ItemSource.Clear();
-					foreach (BedrijfDTO bedrijf in ApiController.FetchBedrijven()) {
+					foreach (BedrijfDTO bedrijf in ApiController.GeefBedrijven()) {
 						BedrijvenLijstControl.ItemSource.Add(bedrijf);
 					}
 				}
