@@ -3,7 +3,8 @@ Alle afspraken die nog lopend zijn krijgen status 2
 Er worden 500 Bezoekers toegevoegd
 Er worden 500 afspraken toegevoegd
 Elk afspraak heeft een random werknemer en startdatum is GETDATE()
-moest werknemer status 2 hebben krijgt hij GEEN afspraak
+Moest werknemer status 2 hebben krijgt hij GEEN afspraak
+Moest werknemer bij meerdere bedrijven werken krijgt hij een afspraak bij waar hij al een afspraak heeft
 */
 
 UPDATE Afspraak SET AfspraakStatusId = 2, EindTijd = GETDATE() WHERE AfspraakStatusId = 1;
@@ -516,16 +517,28 @@ VALUES
 
   DECLARE @MemTotal INT;
   DECLARE @ModifiedTotal INT;
-  DECLARE @WerknemerId INT;
+  DECLARE @WerknemerBedrijfId INT;
   SET @MemTotal = (SELECT COUNT(*) FROM Bezoeker);
   SET @ModifiedTotal = @MemTotal - 500;
   
   WHILE (@ModifiedTotal < @MemTotal)
   BEGIN
-	SET @WerknemerId = FLOOR(RAND()*((SELECT COUNT(*) FROM WerknemerBedrijf))+1);
-	IF((SELECT COUNT(*) FROM werknemerBedrijf WHERE Id = @WerknemerId AND Status = 1) > 0)
+	SET @WerknemerBedrijfId = FLOOR(RAND()*((SELECT COUNT(*) FROM WerknemerBedrijf))+1);
+	IF((SELECT COUNT(*) FROM werknemerBedrijf WHERE Id = @WerknemerBedrijfId AND Status = 1) = 0)
 		BEGIN
-			INSERT INTO Afspraak(StartTijd,WerknemerBedrijfId,BezoekerId )  VALUES(GETDATE(), @WerknemerId, @ModifiedTotal);
-			SET @ModifiedTotal = @ModifiedTotal + 1;
+			CONTINUE;
 		END	
+	IF((SELECT COUNT(DISTINCT wb.WerknemerEmail)
+		FROM Werknemerbedrijf wb
+		JOIN Werknemerbedrijf wbb ON(wb.Id != wbb.Id)
+		WHERE wb.WerknemerId = wbb.WerknemerId AND wb.WerknemerId = @WerknemerBedrijfId) > 1)
+		BEGIN
+			SET @WerknemerBedrijfId =  (SELECT TOP(1) wb.Id
+										FROM Werknemerbedrijf wb
+										JOIN Werknemerbedrijf wbb ON(wb.Id != wbb.Id)
+										WHERE wb.WerknemerId = wbb.WerknemerId AND wb.WerknemerId = @WerknemerBedrijfId
+										ORDER BY (SELECT COUNT(*) FROM Afspraak a WHERE wb.Id = a.WerknemerBedrijfId AND a.AfspraakStatusId = 1) DESC)
+		END	
+	INSERT INTO Afspraak(StartTijd,WerknemerBedrijfId,BezoekerId )  VALUES(GETDATE(), @WerknemerBedrijfId, @ModifiedTotal);
+	SET @ModifiedTotal = @ModifiedTotal + 1;
   END
