@@ -22,6 +22,30 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			get { return (ObservableCollection<AfspraakDTO>)GetValue(ItemSourceProperty); }
 			set { SetValue(ItemSourceProperty, value); }
 		}
+
+		public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+		  nameof(AfspraakDTO),
+		  typeof(AfspraakDTO),
+		  typeof(BezoekersAfsprakenLijst),
+		  new PropertyMetadata(null)
+		);
+
+		public AfspraakDTO SelectedItem {
+			get { return (AfspraakDTO)GetValue(SelectedItemProperty); }
+			set { SetValue(SelectedItemProperty, value); }
+		}
+
+		public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
+		  nameof(SelectedIndex),
+		  typeof(int),
+		  typeof(BezoekersAfsprakenLijst),
+		  new PropertyMetadata(-1)
+		);
+
+		public int SelectedIndex {
+			get { return (int)GetValue(SelectedIndexProperty); }
+			set { SetValue(SelectedIndexProperty, value); }
+		}
 		#endregion
 
 		public BezoekersAfsprakenLijst() {

@@ -507,6 +507,9 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			return Task.Run(async () => {
 				List<AfspraakDTO> ItemSource = new();
 
+				System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("fr-FR");
+				System.Threading.Thread.CurrentThread.CurrentCulture = ci;
+
 				if (string.IsNullOrWhiteSpace(datum))
 					datum = DateTime.Now.ToString("MM/dd/yyyy");
 				else
@@ -535,7 +538,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					apiAfspraken.ForEach((api) => {
 						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
 						BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-						alleAfspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd));
+						alleAfspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bedrijf.Naam, werknemer, api.Starttijd, api.Eindtijd));
 					});
 					return alleAfspraken;
 				} else

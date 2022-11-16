@@ -251,10 +251,6 @@
                                                     Style="{StaticResource DefaultTextBoxStyle}"
                                                     Text="{Binding Datum}"
                                                     TextAlignment="Center" />
-                                                <!--<DatePicker
-                                                    Focusable="False"
-                                                    IsTodayHighlighted="True"
-                                                    SelectedDate="{Binding Datum}" />-->
                                             </Border>
                                             <iconspresenter:Icon
                                                 CircleBackground="{StaticResource DonkerBlauw}"
@@ -352,7 +348,7 @@
                                             FontSize="26"
                                             FontWeight="Bold"
                                             Foreground="{StaticResource DonkerBlauw}"
-                                            Text="Werknemer Afspraken" />
+                                            Text="Bezoeker Afspraken" />
                                         <StackPanel
                                             Grid.Column="1"
                                             HorizontalAlignment="Right"
