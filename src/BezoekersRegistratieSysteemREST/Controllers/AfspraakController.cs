@@ -58,7 +58,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				Bedrijf? bedrijf = null;
 
 				if (werknemerId != null) {
-					werknemer = _werknemerManager.GeefWerknemer(werknemerId ?? 0);
+					werknemer = _werknemerManager.GeefWerknemer(werknemerId ?? 0).GeefWerknemerObject();
 				}
 
 				if (bedrijfId != null) {
@@ -143,6 +143,28 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public IActionResult End([FromQuery] string email) {
 			try {
 				_afspraakManager.BeeindigAfspraakOpEmail(email);
+				return Ok();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Beëindigt alle lopende afspraken.
+		/// </summary>
+		/// <returns></returns>
+		[HttpPut("end/lopend")]
+		public IActionResult End() {
+			try {
+				// Haal alle lopende afspraken op
+				List<Afspraak> afspraken = _afspraakManager.GeefHuidigeAfspraken().ToList();
+
+				// Beeindig elke afspraak van alle dagen voorgaan vandaag
+				foreach (var afspraak in afspraken) {
+					if (afspraak.Starttijd.Date < DateTime.Today) {
+						_afspraakManager.BeeindigAfspraakSysteem(afspraak);
+					}
+				}
 				return Ok();
 			} catch (Exception ex) {
 				return NotFound(ex.Message);

@@ -118,20 +118,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 			b.ZetBedrijf(bedrijfIn);
 			Assert.Equal(bedrijfUit, b.Bedrijf);
 		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData("")]
-		[InlineData("	")]
-		[InlineData("\n")]
-		[InlineData("\r")]
-		[InlineData("\f")]
-		[InlineData("\v")]
-		public void ZetBedrijf_Invalid(string bedrijf)
-		{
-			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-			Assert.Throws<BezoekerException>(() => b.ZetBedrijf(bedrijf));
-		}
 		#endregion
 
 		#region UnitTest Bezoeker is gelijk
@@ -216,14 +202,6 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@.", "bezoekerbedrijf")]
 		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen.com", "bezoekerbedrijf")]
-
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", null)]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", " ")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\n")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\r")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\t")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "\v")]
 		public void ctor_Invalid(long id, string voornaam, string achternaam, string email, string bedrijf)
 		{
 			Assert.Throws<BezoekerException>(() => new Bezoeker(id, voornaam, achternaam, email, bedrijf));
