@@ -159,7 +159,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				// Haal alle lopende afspraken op
 				List<Afspraak> afspraken = _afspraakManager.GeefHuidigeAfspraken().ToList();
 
-				// Beeindig elke afspraak
+				// Beeindig elke afspraak van alle dagen voorgaan vandaag
 				foreach (var afspraak in afspraken) {
 					if (afspraak.Starttijd.Date < DateTime.Today) {
 						_afspraakManager.BeeindigAfspraakSysteem(afspraak);
