@@ -123,7 +123,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="bedrijfId">De ID van het bedrijf</param>
 		/// <returns>BadRequest bij mislukking</returns>
 		[HttpGet("{bedrijfId}/werknemer")]
-		public ActionResult<IEnumerable<WerknemerOutputDTO>> GetWerknemers(long bedrijfId) {
+		public ActionResult<IEnumerable<WerknemerOutputDTO>> GeefWerknemers(long bedrijfId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				
