@@ -147,31 +147,39 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_werknemerId">Id van de gewenste werknemer.</param>
 		/// <returns>Gewenst werknemer object</returns>
 		/// <exception cref="WerknemerADOException">Faalt om werknemer object op te halen op basis van het id.</exception>
-		public Werknemer GeefWerknemer(long _werknemerId) {
+		public StatusObject GeefWerknemer(long _werknemerId) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.Vnaam as WerknemerVnaam, wn.Anaam as WerknemerAnaam, wb.WerknemerEmail, " +
 						   "b.id as BedrijfId, b.naam as BedrijfNaam, b.btwnr as bedrijfBTW, b.telenr as bedrijfTele, b.email as BedrijfMail, b.adres as BedrijfAdres, b.BTWChecked, " +
-						   "f.functienaam " +
+						   "f.functienaam, (SELECT COUNT(*) " +
+										   "FROM Afspraak a " +
+										   "JOIN Werknemerbedrijf wbb ON wbb.Id = a.WerknemerBedrijfId " +
+										   "WHERE wbb.WerknemerId = wn.Id " +
+										   "AND a.AfspraakStatusId = 1) AS HuidigeAfsprakenAantal " +
 						   "FROM Werknemer wn " +
 						   "LEFT JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) AND wb.Status = 1 " +
 						   "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
 						   "LEFT JOIN functie f ON(f.id = wb.functieid) " +
-						   "WHERE wn.id = @werknemerId";
-			try {
+                           "WHERE wn.id = @werknemerId";
+            try {
 				using (SqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
 					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
 					cmd.Parameters["@werknemerId"].Value = _werknemerId;
 					IDataReader reader = cmd.ExecuteReader();
+					StatusObject statusObject = null;
 					Werknemer werknemer = null;
 					Bedrijf bedrijf = null;
 					while (reader.Read()) {
-						if (werknemer is null) {
+						if (statusObject is null) {
 							string werknemerVnaam = (string)reader["WerknemerVnaam"];
 							string werknemerAnaam = (string)reader["WerknemerAnaam"];
+							string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
 							werknemer = new Werknemer(_werknemerId, werknemerVnaam, werknemerAnaam);
+                            statusObject = new StatusObject(statusNaam, werknemer);
 						}
+						//TODO: Deze ordinal check mag waars weg
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail"))) {
 							if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
 								long bedrijfId = (long)reader["BedrijfId"];
@@ -188,7 +196,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
 						}
 					}
-					return werknemer;
+					return statusObject;
 				}
 			} catch (Exception ex) {
 				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
