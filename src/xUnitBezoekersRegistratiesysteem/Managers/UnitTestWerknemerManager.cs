@@ -356,7 +356,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
 
 			//"WerknemerManager - GeefWerknemersOpNaam - er zijn geen werknemers"
-			_mockRepo.Setup(x => x.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, _b.Id)).Returns(new List<Werknemer>());
+			_mockRepo.Setup(x => x.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, _b.Id)).Returns(new List<StatusObject>());
 			var ex = _werknemerManager.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, _b);
 			Assert.Empty(ex);
 		}
