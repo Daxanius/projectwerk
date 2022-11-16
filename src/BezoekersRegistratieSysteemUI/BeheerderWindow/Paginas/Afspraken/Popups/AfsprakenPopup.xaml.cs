@@ -41,11 +41,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			set { SetValue(ItemSourceProperty, value); }
 		}
 
-		private WerknemerDTO _werknemer;
-		public WerknemerDTO Werknemer {
+		private WerknemerDTO? _werknemer;
+		public WerknemerDTO? Werknemer {
 			get { return _werknemer; }
 			set {
-				if (value is null || value == _werknemer) return;
+				if (value == _werknemer) return;
 				_werknemer = value;
 			}
 		}
@@ -137,31 +137,37 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			#region Controle Input
 
-			BezoekerVoornaam = BezoekerVoornaam.Trim();
-			BezoekerAchternaam = BezoekerAchternaam.Trim();
-			BezoekerEmail = BezoekerEmail.Trim();
-			BezoekerBedrijf = BezoekerBedrijf.Trim();
-
 			if (BeheerderWindow.GeselecteerdBedrijf is null) {
 				MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
-			ValideerInput.IsLeeg(new Dictionary<string, string?>() { { "Voornaam", BezoekerVoornaam }, { "Achternaam", BezoekerAchternaam }, { "Email", BezoekerEmail } });
+			if (BezoekerVoornaam.IsLeeg()) {
+				MessageBox.Show("Voornaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			if (BezoekerAchternaam.IsLeeg()) {
+				MessageBox.Show("Achternaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			if (BezoekerEmail.IsLeeg()) {
+				MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
 
 			if (!BezoekerEmail.IsEmailGeldig()) {
 				MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
-			WerknemerDTO werknemer = Werknemer;
-
-			if (werknemer is null) {
+			if (Werknemer is null) {
 				MessageBox.Show("Gelieve een werknemer te kiezen", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
-			if (werknemer.Id is null) {
+			if (Werknemer.Id is null) {
 				MessageBox.Show("Werknemer id is null, gelieve het dashboard te herstarten", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
@@ -182,14 +188,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			#endregion
 
-			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), DateTime.Parse(StartTijd), eindTijdDatum, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
+			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), DateTime.Parse(StartTijd), eindTijdDatum, Werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
 			AfspraakDTO afspraak = ApiController.MaakAfspraak(payload);
-
-			MessageBox.Show($"Afspraak toegevoegd", "Success");
-
-			NieuweAfspraakToegevoegd?.Invoke(afspraak);
+			afspraak.Status = "Lopend";
 
 			SluitOverlay();
+			NieuweAfspraakToegevoegd?.Invoke(afspraak);
+
+			MessageBox.Show($"Afspraak toegevoegd", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 		}
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
