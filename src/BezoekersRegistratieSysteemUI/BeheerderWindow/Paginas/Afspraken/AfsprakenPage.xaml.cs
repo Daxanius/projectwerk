@@ -128,22 +128,26 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		#endregion
 
 		public AfsprakenPage() {
-			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijfOpScherm;
-			AfsprakenPopup.NieuweAfspraakToegevoegd += UpdateAfsprakenOpScherm;
-
 			this.DataContext = this;
 			InitializeComponent();
 
+			UpdateGeselecteerdBedrijfOpScherm();
+			NavigeerNaarTab("Huidige Afspraken");
+
+			//Events
+			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijfOpScherm;
+			AfsprakenPopup.NieuweAfspraakToegevoegd += UpdateAfsprakenOpScherm;
 			//Voeg nieuwe werknemer toe aan lijst met werknemers van bedrijf
 			WerknemersPopup.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => {
 				WerknemerLijst.ItemSource.Add(werknemer);
 				initieleWerknemers.Add(werknemer);
 			};
-
-			UpdateGeselecteerdBedrijfOpScherm();
-
-			NavigeerNaarTab("Huidige Afspraken");
 		}
+
+		#region Functies
+		private void ZoekTermChangedWerknemers(object sender, TextChangedEventArgs e) => Task.Run(() => Dispatcher.Invoke(() => ZoekTextWerknemers = ZoekTermTextBoxWerknemers.Text));
+		private void ZoekTermChangedBezoekers(object sender, TextChangedEventArgs e) => Task.Run(() => Dispatcher.Invoke(() => ZoekTextBezoekers = ZoekTermTextBoxBezoekers.Text));
+		private void ValideerDatum(object sender, KeyboardFocusChangedEventArgs e) => ControleerInputOpDatum(sender);
 
 		private void UpdateAfsprakenOpScherm(AfspraakDTO afspraak) {
 			// Als de afspraak nog bezig is voegen we hem toe aan de huidige
@@ -165,7 +169,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 			OpDatumAfsprakenLijst.ItemSource.Add(afspraak);
 		}
-
 		private void UpdateGeselecteerdBedrijfOpScherm() {
 			bezoekersAfsprakenLijstControl.ItemSource.Clear();
 			afsprakenAfsprakenLijstControl.ItemSource.Clear();
@@ -191,8 +194,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
 			}
 		}
-
-		private void NavigeerNaarTab(object sender, MouseButtonEventArgs e) {
+		private void Navigeer_Click(object sender, MouseButtonEventArgs e) {
 			TextBlock textBlock = (TextBlock)((StackPanel)((Border)sender).Child).Children[1];
 
 			switch (textBlock.Text) {
@@ -235,7 +237,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				break;
 			}
 		}
-
 		private void NavigeerNaarTab(string tabIndex) {
 			ResetFilterSelection();
 			switch (tabIndex) {
@@ -260,18 +261,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				break;
 			}
 		}
-
 		private void ResetFilterSelection() {
 			for (int i = 0; i < FilterContainerHeaders.Children.Count; i++) {
 				FilterContainerHeaders.Children[i].Opacity = .6;
 				((Grid)FilterContainer.Children[0]).Children[i].Visibility = Visibility.Collapsed;
 			}
 		}
-
-		private void OpenAfsprakenPopup(object sender, MouseButtonEventArgs e) {
+		private void OpenAfsprakenPopup_Click(object sender, MouseButtonEventArgs e) {
+			AfsprakenPopup.StartTijd = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 			AfsprakenPopup.Visibility = Visibility.Visible;
 		}
-
 		private void ResetDatumFilter(object sender, MouseButtonEventArgs e) {
 			StackPanel parent = (StackPanel)((Icon)sender).Parent;
 			Border border = (Border)parent.Children[0];
@@ -279,25 +278,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			textBox.Text = DateTime.Now.ToString();
 			ControleerInputOpDatum(textBox);
 		}
-
-		private readonly Regex _regex = new Regex("[^0-9./]+");
-
 		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
+			Regex _regex = new Regex("[^0-9./]+");
 			e.Handled = _regex.IsMatch(e.Text);
 		}
-
-		private void ZoekTermChangedWerknemers(object sender, TextChangedEventArgs e) {
-			Task.Run(() => Dispatcher.Invoke(() => ZoekTextWerknemers = ZoekTermTextBoxWerknemers.Text));
-		}
-
-		private void ZoekTermChangedBezoekers(object sender, TextChangedEventArgs e) {
-			Task.Run(() => Dispatcher.Invoke(() => ZoekTextBezoekers = ZoekTermTextBoxBezoekers.Text));
-		}
-
-		private void ValideerDatum(object sender, KeyboardFocusChangedEventArgs e) {
-			ControleerInputOpDatum(sender);
-		}
-
 		private void ControleerInputOpDatum(object sender) {
 			TextBox textBox = sender as TextBox;
 			if (DateTime.TryParse(textBox.Text, out DateTime dateTime)) {
@@ -307,6 +291,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				textBox.Text = _oudeValidDate;
 			}
 		}
+		#endregion
 
 		#region ProppertyChanged
 		public event PropertyChangedEventHandler? PropertyChanged;

@@ -44,7 +44,7 @@
                         IconPadding="0, 0, 4.5, 4"
                         IconSize="50"
                         IconSource="../PlusIcon.xaml"
-                        MouseLeftButtonDown="OpenAfsprakenPopup" />
+                        MouseLeftButtonDown="OpenAfsprakenPopup_Click" />
                     <StackPanel />
                 </DockPanel>
                 <StackPanel
@@ -55,7 +55,7 @@
                     Orientation="Horizontal">
                     <Border
                         Padding="20,0"
-                        MouseLeftButtonDown="NavigeerNaarTab"
+                        MouseLeftButtonDown="Navigeer_Click"
                         Opacity="1"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
@@ -74,7 +74,7 @@
                     </Border>
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="NavigeerNaarTab"
+                        MouseLeftButtonDown="Navigeer_Click"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
@@ -92,7 +92,7 @@
                     </Border>
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="NavigeerNaarTab"
+                        MouseLeftButtonDown="Navigeer_Click"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
@@ -110,7 +110,7 @@
                     </Border>
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="NavigeerNaarTab"
+                        MouseLeftButtonDown="Navigeer_Click"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
