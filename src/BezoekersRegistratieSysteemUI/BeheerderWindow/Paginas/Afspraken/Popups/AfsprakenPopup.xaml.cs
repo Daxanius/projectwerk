@@ -72,7 +72,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		}
 		private string _startTijd = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 		public string StartTijd {
-			get { return _startTijd; }
+			get => _startTijd;
 			set {
 				if (value == _startTijd) return;
 				_startTijd = value;
@@ -97,29 +97,27 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 		#region VoegMedeWerkerToeEiland
 		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) => ControleerInputOpDatum(sender);
-
 		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => ControleerInputOpDatum(sender);
+		private void DatePickerInput_LostKeyboardFocus(object sender, RoutedEventArgs e) => ControleerInputOpDatum(sender);
+		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) => SluitOverlay();
+		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) => e.Handled = e.Text.Any(char.IsDigit);
 
 		private void ControleerInputOpDatum(object sender) {
 			TextBox textBox = sender as TextBox;
-			if (DateTime.TryParse(textBox.Text.Replace("-", ""), out DateTime dateTime)) {
+			if (DateTime.TryParse(textBox.Text, out DateTime dateTime)) {
 				textBox.Text = dateTime.ToString("dd/MM/yyyy HH:mm");
-				textBox.Background = Brushes.Transparent;
+				textBox.BorderBrush = Brushes.Transparent;
+				textBox.BorderThickness = new Thickness(0);
 			} else {
-				if (textBox.Name == "EindTijdTimeTextBox" && EindTijdTimeTextBox.Text.Trim() == "") {
-					textBox.Background = Brushes.Transparent;
+				if (textBox.Name == "EindTijdTextBox" && string.IsNullOrWhiteSpace(EindTijdTextBox.Text)) {
+					textBox.BorderBrush = Brushes.Transparent;
+					textBox.BorderThickness = new Thickness(0);
 					return;
 				}
-				textBox.Background = Brushes.LightSalmon;
+				textBox.BorderBrush = Brushes.LightSalmon;
+				textBox.BorderThickness = new Thickness(1);
 			}
 		}
-
-		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) => SluitOverlay();
-
-		private void DatePickerInput_LostKeyboardFocus(object sender, RoutedEventArgs e) {
-			ControleerInputOpDatum(sender);
-		}
-
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			#region Controle Input
 
@@ -152,9 +150,23 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				return;
 			}
 
+			if (string.IsNullOrEmpty(StartTijd.Trim())) {
+				MessageBox.Show("StartTijd is verplicht !", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			DateTime? eindTijdDatum = null;
+			if (EindTijd is not null && !DateTime.TryParse(EindTijd.Trim(), out DateTime dateTime) && !string.IsNullOrWhiteSpace(EindTijd)) {
+				MessageBox.Show("EindTijd is niet geldig !", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			} else {
+				if (EindTijd is not null && !string.IsNullOrWhiteSpace(EindTijd.Trim()))
+					eindTijdDatum = DateTime.Parse(EindTijd.Trim());
+			}
+
 			#endregion
 
-			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), null, null, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
+			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), DateTime.Parse(StartTijd), eindTijdDatum, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
 			AfspraakDTO afspraak = ApiController.PostAfspraak(payload);
 
 			MessageBox.Show($"Afspraak toegevoegd", "Success");
@@ -163,18 +175,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			SluitOverlay();
 		}
-
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
 			KiesMedewerkerEiland.Visibility = Visibility.Visible;
 
 			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.FetchWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
 		}
-
-		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) {
-			e.Handled = e.Text.Any(char.IsDigit);
-		}
-
 		private void SluitOverlay() {
 			Werknemer = null;
 
