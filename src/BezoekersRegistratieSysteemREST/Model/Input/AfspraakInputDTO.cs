@@ -16,7 +16,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 		/// <returns>De Business variant</returns>
 		public Afspraak NaarBusiness(WerknemerManager werknemerManager, BedrijfManager bedrijfManager)
 		{
-			Werknemer werknemer = werknemerManager.GeefWerknemer(WerknemerId);
+			Werknemer werknemer = werknemerManager.GeefWerknemer(WerknemerId).GeefWerknemerObject();
 			Bezoeker bezoeker = Bezoeker.NaarBusiness();
 			Bedrijf bedrijf = bedrijfManager.GeefBedrijf(BedrijfId);
 
