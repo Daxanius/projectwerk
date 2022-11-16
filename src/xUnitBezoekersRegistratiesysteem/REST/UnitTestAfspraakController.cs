@@ -63,13 +63,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			Bedrijf b = _bd.NaarBusiness();
 			Werknemer w = _w.NaarBusiness(_bedrijfManager);
+			StatusObject ws = new("Plopkoek", _w.NaarBusiness(_bedrijfManager));
 
 			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemersen@bedrijf.com", "nietsen");
 
 			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(true);
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
 			_mockRepoBedrijf.Setup(x => x.GeefBedrijf(0)).Returns(b);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0).GeefWerknemerObject()).Returns(w);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(ws);
 		}
 		#endregion
 
@@ -311,7 +312,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		}
 		#endregion
 
-		//#region UnitTest GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf
+		#region UnitTest GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf
 		//[Fact]
 		//public void GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf_Invalid_BedrijfLeeg() {
 		//	var result = _afspraakController.GeefAfsprakenOpBezoeker(0, _b, null);
@@ -500,7 +501,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		//	Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
 		//	Assert.Null(result.Value);
 		//}
-		//#endregion
+		#endregion
 
 		#region UnitTest GeefHuidigeAfspraakBezoekerPerBedrijf
 		[Fact]
