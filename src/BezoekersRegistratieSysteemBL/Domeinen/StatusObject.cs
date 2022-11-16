@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,37 +20,37 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 
         public Werknemer GeefWerknemerObject()
         {
-            if (Obj.GetType() == typeof(Werknemer))
+            if (Obj is Werknemer werknemer)
             {
-                return (Werknemer)Obj;
+                return werknemer;
             }
             else
             {
-                throw new Exception("Object is geen werknemer");
+                throw new StatusObjectException("Object is geen werknemer");
             }
         }
 
         public Bedrijf GeefBedrijfObject()
         {
-            if (Obj.GetType() == typeof(Bedrijf))
+            if (Obj is Bedrijf bedrijf)
             {
-                return (Bedrijf)Obj;
+                return bedrijf;
             }
             else
             {
-                throw new Exception("Object is geen bedrijf");
+                throw new StatusObjectException("Object is geen werknemer");
             }
         }
 
         public Afspraak GeefAfspraakObject()
         {
-            if (Obj.GetType() == typeof(Afspraak))
+            if (Obj is Afspraak afspraak)
             {
-                return (Afspraak)Obj;
+                return afspraak;
             }
             else
             {
-                throw new Exception("Object is geen afspraak");
+                throw new StatusObjectException("Object is geen werknemer");
             }
         }
     }
