@@ -108,7 +108,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			//"BedrijfManager - VoegWerknemerFunctieToe - bedrijf bestaat niet"
 
-			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
+			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_so);
 			Assert.DoesNotContain(_b, _w.GeefBedrijvenEnFunctiesPerWerknemer().Keys);
 		}
         #endregion
@@ -163,7 +163,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			//"BedrijfManager - VerwijderWerknemerFunctie - werknemer niet werkzaam bij dit bedrijf"
 
-			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
+			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_so);
 			Assert.DoesNotContain(_b, _w.GeefBedrijvenEnFunctiesPerWerknemer().Keys);
 		}
 
@@ -174,7 +174,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			//"WerknemerManager - VerwijderWerknemerFunctie - werknemer heeft geen functie bij dit bedrijf"
 
-			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
+			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_so);
 			Assert.Empty(_w.GeefBedrijvenEnFunctiesPerWerknemer().Values);
 		}
 
@@ -185,7 +185,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			//"WerknemerManager - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben"
 
-			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
+			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_so);
 			Assert.True(_w.GeefBedrijvenEnFunctiesPerWerknemer().Values.Count() < 1);
 		}
         #endregion
@@ -225,7 +225,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
             //"WerknemerManager - BewerkWerknemer - werknemer is niet gewijzigd"
             _mockRepo.Setup(x => x.BestaatWerknemer(_w.Id)).Returns(true);
-            _mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
+            _mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_so);
 			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.BewerkWerknemer(_w, _b));
         }
         #endregion
