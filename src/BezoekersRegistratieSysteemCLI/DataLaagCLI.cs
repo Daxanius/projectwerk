@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemDL.ADO;
+﻿using BezoekersRegistratieSysteemDL.ADOMS;
 using Newtonsoft.Json;
 
 namespace BezoekersRegistratieSysteemCLI {
@@ -14,9 +14,9 @@ namespace BezoekersRegistratieSysteemCLI {
 
 			object result;
 
-			AfspraakRepoADO afspraakRepo = new(connectionString);
-			BedrijfRepoADO bedrijfRepo = new BedrijfRepoADO(connectionString);
-			WerknemerRepoADO werknemerRepo = new WerknemerRepoADO(connectionString);
+			AfspraakRepoADOMS afspraakRepo = new(connectionString);
+			BedrijfRepoADOMS bedrijfRepo = new BedrijfRepoADOMS(connectionString);
+			WerknemerRepoADOMS werknemerRepo = new WerknemerRepoADOMS(connectionString);
 
 			#region AfspraakRepo
 

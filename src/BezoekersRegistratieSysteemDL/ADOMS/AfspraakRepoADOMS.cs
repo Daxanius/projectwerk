@@ -4,8 +4,8 @@ using BezoekersRegistratieSysteemDL.Exceptions;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace BezoekersRegistratieSysteemDL.ADO {
-	public class AfspraakRepoADO : IAfspraakRepository {
+namespace BezoekersRegistratieSysteemDL.ADOMS {
+	public class AfspraakRepoADOMS : IAfspraakRepository {
 
 		/// <summary>
 		/// Private lokale variabele connectiestring
@@ -17,7 +17,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// </summary>
 		/// <param name="connectieString">Connectie string database</param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-		public AfspraakRepoADO(string connectieString) {
+		public AfspraakRepoADOMS(string connectieString) {
 			_connectieString = connectieString;
 		}
 

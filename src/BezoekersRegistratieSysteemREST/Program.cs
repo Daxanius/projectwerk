@@ -1,5 +1,5 @@
 using BezoekersRegistratieSysteemBL.Managers;
-using BezoekersRegistratieSysteemDL.ADO;
+using BezoekersRegistratieSysteemDL.ADOMS;
 
 const string ENV_SQL_CONNECTION = "BRS_CONNECTION_STRING";
 
@@ -26,9 +26,9 @@ connectionstring = connectionstring.Replace("\\\\", "\\");
 // Alle managers als singleton toevoegen
 // dit omdat de API interract met de managers
 // WAARCHUWING: DE REPOS ZIJN TIJDELIJK, MOETEN VERVANGEN WORDEN DOOR DB
-BedrijfManager bedrijfManager = new(new BedrijfRepoADO(connectionstring));
-AfspraakManager afspraakManager = new(new AfspraakRepoADO(connectionstring));
-WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring));
+BedrijfManager bedrijfManager = new(new BedrijfRepoADOMS(connectionstring));
+AfspraakManager afspraakManager = new(new AfspraakRepoADOMS(connectionstring));
+WerknemerManager werknemerManager = new(new WerknemerRepoADOMS(connectionstring));
 
 builder.Services.AddSingleton(bedrijfManager);
 builder.Services.AddSingleton(afspraakManager);
