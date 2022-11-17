@@ -173,8 +173,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					while (reader.Read()) {
 						if (werknemer is null) {
 							string werknemerVnaam = (string)reader["WerknemerVnaam"];
-							string werknemerAnaam = (string)reader["WerknemerAnaam"];
-							string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+							string werknemerAnaam = (string)reader["WerknemerAnaam"];							
 							werknemer = new Werknemer(_werknemerId, werknemerVnaam, werknemerAnaam);
 						}
 						//TODO: Deze ordinal check mag waars weg
@@ -192,6 +191,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							string werknemerMail = (string)reader["WerknemerEmail"];
 							string functieNaam = (string)reader["functienaam"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                            string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+                            werknemer.ZetStatusNaamPerBedrijf(bedrijf, statusNaam);
 						}
 					}
 					return werknemer;
@@ -307,7 +308,6 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							long werknemerId = (long)reader["WerknemerId"];
 							string werknemerVNaam = (string)reader["WerknemerVNaam"];
 							string werknemerAnaam = (string)reader["WerknemerAnaam"];
-                            string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
                             werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
 							werknemers.Add(werknemer);
 						}
@@ -325,6 +325,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							string werknemerMail = (string)reader["WerknemerEmail"];
 							string functieNaam = (string)reader["functienaam"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                            string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+							werknemer.ZetStatusNaamPerBedrijf(bedrijf, statusNaam);
 						}
 					}
 					return werknemers;
@@ -709,7 +711,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						string werknemerMail = (string)reader["WerknemerEmail"];
 						string functieNaam = (string)reader["FunctieNaam"];
 						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-					}
+                        werknemer.ZetStatusNaamPerBedrijf(bedrijf, "Vrij");
+                    }
 					return werknemers.AsReadOnly();
 				}
 			} catch (Exception ex) {
@@ -773,7 +776,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						string werknemerMail = (string)reader["WerknemerEmail"];
 						string functieNaam = (string)reader["FunctieNaam"];
 						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-					}
+                        werknemer.ZetStatusNaamPerBedrijf(bedrijf, "Bezet");
+                    }
 					return werknemers.AsReadOnly();
 				}
 			} catch (Exception ex) {
