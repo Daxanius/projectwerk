@@ -260,3 +260,25 @@ INSERT INTO Afspraak
 	VALUES(GETDATE(), 1, 1),
 		  (GETDATE(), 30, 2),
 		  (GETDATE(), 3, 3)
+
+/*Voegt een parkingcontract met 50 plaatsen toe aan een bedrijf die status 1 heeft*/
+DECLARE @AantalBedrijven INT;
+DECLARE @i INT;
+
+SET @AantalBedrijven = (SELECT COUNT(*) FROM Bedrijf WHERE Status = 1);
+SET @i = 0;
+
+WHILE(@i < @AantalBedrijven)
+BEGIN
+	INSERT INTO ParkingContract(StartTijd, EindTijd, BedrijfId, AantalPlaatsen) 
+			VALUES(CONVERT(date, GETDATE()), 
+			DATEADD(year, 1, CONVERT(date, GETDATE())), 
+			(SELECT id
+			FROM Bedrijf
+			WHERE STATUS = 1
+			ORDER BY Id
+			OFFSET @i ROWS
+			FETCH NEXT 1 ROWS ONLY), 
+			50);
+	SET @i = @i + 1;
+END
