@@ -52,7 +52,7 @@ CREATE TABLE [dbo].[Bezoeker](
 	[ANaam] VARCHAR(255) NOT NULL,
 	[VNaam] VARCHAR(255) NOT NULL,
 	[Email] VARCHAR(255) NOT NULL,
-	[EigenBedrijf] VARCHAR(255) NOT NULL
+	[EigenBedrijf] VARCHAR(255) NULL
 )
 
 CREATE TABLE [dbo].[Afspraak](
@@ -65,4 +65,22 @@ CREATE TABLE [dbo].[Afspraak](
 	CONSTRAINT [FK_Afspraak_WerknemerBedrijf_Id] FOREIGN KEY ([WerknemerBedrijfId]) REFERENCES [dbo].[Werknemerbedrijf](Id),
 	CONSTRAINT [FK_Afspraak_AfspraakStatus_Id] FOREIGN KEY ([AfspraakStatusId]) REFERENCES [dbo].[AfspraakStatus](Id),
 	CONSTRAINT [FK_Afspraak_Bezoeker_Id] FOREIGN KEY ([BezoekerId]) REFERENCES [dbo].[Bezoeker](Id)
+)
+
+CREATE TABLE [dbo].[ParkingContract](
+	[StartTijd] DATE NOT NULL,
+	[EindTijd] DATE NOT NULL,
+	[BedrijfId] BIGINT NOT NULL,
+	[AantalPlaatsen] INT NOT NULL,
+	CONSTRAINT [FK_ParkingContract_Bedrijf_Id] FOREIGN KEY ([BedrijfId]) REFERENCES [dbo].[Bedrijf](Id),
+	CONSTRAINT [UN_Start_Eind_Bedrijf] UNIQUE ([StartTijd], [EindTijd], [BedrijfId])
+)
+
+CREATE TABLE [dbo].[ParkingPlaatsen](
+	[NummerPlaat] VARCHAR(20) NOT NULL,
+	[StartTijd] DATETIME NOT NULL,
+	[EindTijd] DATETIME NULL,
+	[BedrijfId] BIGINT NOT NULL,
+	CONSTRAINT [FK_ParkingPlaatsen_Bedrijf_Id] FOREIGN KEY ([BedrijfId]) REFERENCES [dbo].[Bedrijf](Id),
+	CONSTRAINT [UN_NummerPlaat_Start] UNIQUE ([NummerPlaat], [StartTijd])
 )
