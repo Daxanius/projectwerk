@@ -16,7 +16,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             throw new NotImplementedException();
         }
 
-        public ParkingContract GeefParkingContract(long id) {
+        public ParkingContract GeefParkingContract(long bedrijfId) {
             throw new NotImplementedException();
         }
 
