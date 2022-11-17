@@ -1,4 +1,7 @@
-﻿using BezoekersRegistratieSysteemBL.Managers;
+﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Managers;
+using BezoekersRegistratieSysteemREST.Model.Input;
+using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -9,17 +12,97 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ParkeerplaatsController : ControllerBase {
+		private readonly ParkingContractManager _parkingContractManager;
 		private readonly ParkeerplaatsManager _parkeerplaatsManager;
 		private readonly BedrijfManager _bedrijfManager;
 
 		/// <summary>
 		/// De constructor.
 		/// </summary>
+		/// <param name="parkingContractManager"></param>
 		/// <param name="parkeerplaatsManager"></param>
 		/// <param name="bedrijfManager"></param>
-		public ParkeerplaatsController(ParkeerplaatsManager parkeerplaatsManager, BedrijfManager bedrijfManager) {
+		public ParkeerplaatsController(ParkingContractManager parkingContractManager, ParkeerplaatsManager parkeerplaatsManager, BedrijfManager bedrijfManager) {
+			_parkingContractManager = parkingContractManager;
 			_parkeerplaatsManager = parkeerplaatsManager;
 			_bedrijfManager = bedrijfManager;	
+		}
+
+		/// <summary>
+		/// Geef de nummerplaten van een bedrijf.
+		/// </summary>
+		/// <param name="bedrijfId"></param>
+		/// <returns></returns>
+		[HttpGet("bedrijf/{bedrijfId}")]
+		public ActionResult<IEnumerable<string>> GeefNummerplaten(long bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				return Ok(_parkeerplaatsManager.GeefNummerplatenPerBedrijf(bedrijf));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Voegt een contract toe.
+		/// </summary>
+		/// <param name="contractData"></param>
+		/// <returns></returns>
+		[HttpPost]
+		public IActionResult VoegParkingContractToe([FromBody] ParkingContractInputDTO contractData) {
+			try {
+				_parkeerplaatsManager.VoegParkingContractBedrijfToe(contractData.NaarBusiness(_bedrijfManager));
+				return Ok();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Check een parking in.
+		/// </summary>
+		/// <param name="parkeerplaats"></param>
+		/// <returns></returns>
+		[HttpPost("checkin")]
+		public IActionResult CheckNummerplaatIn([FromBody] ParkeerplaatsInputDTO parkeerplaats) {
+			try {
+				_parkeerplaatsManager.CheckNummerplaatIn(parkeerplaats.NaarBusiness(_bedrijfManager));
+				return Ok();
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Check een parking uit.
+		/// </summary>
+		/// <param name="nummerplaat"></param>
+		/// <returns></returns>
+		[HttpPost("checkout")]
+		public IActionResult CheckNummerplaatIn([FromQuery] string nummerplaat) {
+			try {
+				_parkeerplaatsManager.CheckNummerplaatUit(nummerplaat);
+				return Ok();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Verwijdert een contract van een bedrijf.
+		/// </summary>
+		/// <param name="bedrijfId"></param>
+		/// <returns></returns>
+		[HttpDelete("bedrijf/{bedrijfId}")]
+		public IActionResult VerwijderParkingContract(long bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				ParkingContract contract = _parkingContractManager.GeefParkingContract(bedrijf);
+				_parkeerplaatsManager.VerwijderParkingContractBedrijf(contract);
+				return Ok();
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
 		}
 	}
 }
