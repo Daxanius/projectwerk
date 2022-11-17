@@ -28,7 +28,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			List<WerknemerInfoOutputDTO> output = new();
 			foreach (WerknemerInfo info in werknemers)
 			{
-				output.Add(WerknemerInfoOutputDTO.NaarDTO(info));
+				output.Add(NaarDTO(info));
 			}
 			return output;
 		}
