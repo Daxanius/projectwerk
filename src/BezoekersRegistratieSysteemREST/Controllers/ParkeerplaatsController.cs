@@ -1,5 +1,4 @@
 ﻿using BezoekersRegistratieSysteemBL.Managers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
