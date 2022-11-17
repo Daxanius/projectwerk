@@ -30,9 +30,16 @@ BedrijfManager bedrijfManager = new(new BedrijfRepoADO(connectionstring));
 AfspraakManager afspraakManager = new(new AfspraakRepoADO(connectionstring));
 WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring));
 
+// TODO voor Bjorn: De REPO implementeren
+ParkingContractManager parkingContractManager = new();
+ParkeerplaatsManager parkeerplaatsManager = new();
+
 builder.Services.AddSingleton(bedrijfManager);
 builder.Services.AddSingleton(afspraakManager);
 builder.Services.AddSingleton(werknemerManager);
+builder.Services.AddSingleton(parkingContractManager);
+builder.Services.AddSingleton(parkeerplaatsManager);
+
 
 // Wij hebben liever lowercase URLs voor onze Aapie
 builder.Services.AddRouting(options => options.LowercaseUrls = true);

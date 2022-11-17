@@ -1,4 +1,6 @@
-﻿using BezoekersRegistratieSysteemBL.Managers;
+﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Managers;
+using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -20,6 +22,20 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ParkingContractController(ParkingContractManager parkingContractManager, BedrijfManager bedrijfManager) {
 			_parkingContractManager = parkingContractManager;
 			_bedrijfManager = bedrijfManager;
+		}
+
+		/// <summary>
+		/// Geef een parking contract van een bedrijf
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet("bedrijf/{bedrijfId}")]
+		public ActionResult<ParkingContractOutputDTO> GeefParkingContract(long bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				return Ok(_parkingContractManager.GeefParkingContract(bedrijf));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
 		}
 	}
 }
