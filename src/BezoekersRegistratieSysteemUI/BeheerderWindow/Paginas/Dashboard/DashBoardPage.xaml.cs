@@ -1,25 +1,27 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 	public partial class DashBoardPage : Page {
 		#region Variabele
-		private List<AfspraakDTO>? huidigeFilterAfspraken;
+		private List<AfspraakDTO>? huidigeFilterAfspraken = ApiController.GeefAfspraken().ToList();
 		public string Datum => DateTime.Now.ToString("dd.MM");
 		#endregion
 
 		public DashBoardPage() {
 			this.DataContext = this;
 			InitializeComponent();
-
-			huidigeFilterAfspraken = ApiController.GeefAfspraken().ToList();
 
 			App.RefreshTimer.Tick += AutoUpdateIntervalAfspraken_Event;
 			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
@@ -32,12 +34,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 		}
 
 		private void AutoUpdateIntervalAfspraken_Event(object? sender, EventArgs e) {
-			Task.Run(() => {
-				Dispatcher.Invoke(() => {
-					AfsprakenLijstControl.AutoUpdateIntervalAfspraken();
-					huidigeFilterAfspraken = new(AfsprakenLijstControl.ItemSource);
-					ComboBox_SelectionChanged(FilterAfsprakenComboBox, null);
-				});
+			NavigationService? navigating = NavigationService.GetNavigationService(this);
+			if (navigating is null || navigating.Content is not DashBoardPage) return;
+
+			Dispatcher.Invoke(() => {
+				AfsprakenLijstControl.AutoUpdateIntervalAfspraken();
+				huidigeFilterAfspraken = new(AfsprakenLijstControl.ItemSource);
+				ComboBox_SelectionChanged(FilterAfsprakenComboBox, null);
 			});
 		}
 
