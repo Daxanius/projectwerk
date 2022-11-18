@@ -131,6 +131,12 @@
 		<Compile Update="BeheerderWindow\Paginas\Bedrijven\BedrijvenPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
+		<Compile Update="MessageBoxes\InformationMessageBox.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
+		<Compile Update="MessageBoxes\QuestionMessageBox.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
