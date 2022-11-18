@@ -181,25 +181,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
-		private Border _selecteditem;
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			if (_selecteditem is not null) {
-				_selecteditem.Background = Brushes.Transparent;
-				_selecteditem.BorderThickness = new Thickness(0);
-			}
-			StackPanel? listViewItem = sender as StackPanel;
-
-			SolidColorBrush hightlightColor = (SolidColorBrush)Application.Current.Resources["LichtGrijsAccent"];
-
-			Border border = (Border)listViewItem.Children[0];
-			border.Background = hightlightColor;
-			border.BorderThickness = new Thickness(0);
-			border.BorderBrush = Brushes.Black;
-			border.CornerRadius = new CornerRadius(20);
-			border.Margin = new Thickness(0, 0, 20, 0);
-			_selecteditem = border;
-		}
-
 		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
 		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
 			e.Handled = regexGeenCijfers.IsMatch(e.Text);

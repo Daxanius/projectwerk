@@ -529,6 +529,7 @@ VALUES
 		BEGIN
 			CONTINUE;
 		END	
+    
 	SET @WerknemerId = (SELECT wb.WerknemerId FROM Werknemerbedrijf wb WHERE wb.Id = @WerknemerBedrijfId);
 	IF((SELECT COUNT(DISTINCT wb.WerknemerEmail)
 		FROM Werknemerbedrijf wb
@@ -541,6 +542,7 @@ VALUES
 										WHERE wb.WerknemerId = wbb.WerknemerId AND wb.WerknemerId = @WerknemerId
 										ORDER BY (SELECT COUNT(*) FROM Afspraak a WHERE wb.Id = a.WerknemerBedrijfId AND a.AfspraakStatusId = 1) DESC)
 		END	
+    
 	INSERT INTO Afspraak(StartTijd,WerknemerBedrijfId,BezoekerId )  VALUES(GETDATE(), @WerknemerBedrijfId, @ModifiedTotal);
 	SET @ModifiedTotal = @ModifiedTotal + 1;
   END
