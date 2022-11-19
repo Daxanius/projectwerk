@@ -10,6 +10,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\**" />
+	  <EmbeddedResource Remove="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\**" />
+	  <None Remove="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\**" />
+	  <Page Remove="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Fonts\Inter-Black.ttf" />
 	  <None Remove="Fonts\Inter-Bold.ttf" />
 	  <None Remove="Fonts\Inter-ExtraBold.ttf" />
@@ -198,7 +205,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\" />
 		<Folder Include="BeheerderWindow\Paginas\Parking\Controls\" />
 	</ItemGroup>
 
