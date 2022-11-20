@@ -119,6 +119,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// <summary>
         /// Kijkt of een bedrijf al een overlapende contract heeft
         /// </summary>
+        /// <param name="parkingContract">ParkingContract die gecontroleerd moet worden</param>
         /// <returns>True = bestaat | False = bestaat NIET</returns>
         public bool IsOverLappend(ParkingContract parkingContract) {
             SqlConnection con = GetConnection();

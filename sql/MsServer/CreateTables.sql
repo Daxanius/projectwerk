@@ -73,6 +73,7 @@ CREATE TABLE [dbo].[ParkingContract](
 	[EindTijd] DATE NOT NULL,
 	[BedrijfId] BIGINT NOT NULL,
 	[AantalPlaatsen] INT NOT NULL,
+	[StatusId] INT NOT NULL DEFAULT 1,
 	CONSTRAINT [FK_ParkingContract_Bedrijf_Id] FOREIGN KEY ([BedrijfId]) REFERENCES [dbo].[Bedrijf](Id),
 	CONSTRAINT [UN_Start_Eind_Bedrijf] UNIQUE ([StartTijd], [EindTijd], [BedrijfId])
 )
@@ -82,6 +83,7 @@ CREATE TABLE [dbo].[ParkingPlaatsen](
 	[StartTijd] DATETIME NOT NULL,
 	[EindTijd] DATETIME NULL,
 	[BedrijfId] BIGINT NOT NULL,
+	[StatusId] INT NOT NULL DEFAULT 1,
 	CONSTRAINT [FK_ParkingPlaatsen_Bedrijf_Id] FOREIGN KEY ([BedrijfId]) REFERENCES [dbo].[Bedrijf](Id),
 	CONSTRAINT [UN_NummerPlaat_Start] UNIQUE ([NummerPlaat], [StartTijd])
 )
