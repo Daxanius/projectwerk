@@ -11,6 +11,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         #region MOQ
         private BedrijfManager _bedrijfManager;
         private Mock<IBedrijfRepository> _mockRepo;
+        private Mock<IAfspraakRepository> _mockRepoAfspraak;
         #endregion
 
         #region Valid Info
@@ -33,7 +34,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void VoegBedrijfToe_Invalid_BedrijfLeeg()
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
             Assert.Throws<BedrijfManagerException>(() => _bedrijfManager.VoegBedrijfToe(null));
         }
 
@@ -41,7 +42,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void VoegBedrijfToe_Invalid_BedrijfBestaatAl()
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
 
             //"BedrijfManager - VoegBedrijfToe - bedrijf bestaat al"
             _mockRepo.Setup(x => x.BestaatBedrijf(_unb)).Returns(true);
@@ -55,7 +56,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void VerwijderBedrijf_Invalid_BedrijfLeeg()
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
             Assert.Throws<BedrijfManagerException>(() => _bedrijfManager.VerwijderBedrijf(null));
         }
 
@@ -63,7 +64,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void VerwijderBedrijf_Invalid_BedrijfBestaatNiet()
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
 
             //"BedrijfManager - VerwijderBedrijf - bedrijf bestaat niet"
             _mockRepo.Setup(x => x.BestaatBedrijf(_vb)).Returns(false);
@@ -77,7 +78,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void BewerkBedrijf_Invalid_BedrijfLeeg()
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
             Assert.Throws<BedrijfManagerException>(() => _bedrijfManager.BewerkBedrijf(null));
         }
 
@@ -85,7 +86,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void BewerkBedrijf_Invalid_BedrijfBestaatNiet()
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
 
             //"BedrijfManager - BewerkBedrijf - bedrijf bestaat niet"
             _mockRepo.Setup(x => x.BestaatBedrijf(_vb)).Returns(false);
@@ -97,7 +98,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void BewerkBedrijf_Invalid_BedrijfNietGewijzigd()
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
 
             //"BedrijfManager - BewerkBedrijf - bedrijf is niet gewijzigd"
             _mockRepo.Setup(x => x.BestaatBedrijf(_vb)).Returns(true);
@@ -112,7 +113,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void GeefBedrijfOpId_Invalid_BedrijfBestaatNiet()
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
 
             //"BedrijfManager - GeefBedrijf - bedrijf bestaat niet"
             _mockRepo.Setup(x => x.BestaatBedrijf(_vb.Id)).Returns(false);
@@ -126,7 +127,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void GeefBedrijven_Invalid_BedrijvenBestaanNiet()
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
 
             //"BedrijfManager - GeefBedrijven - er zijn geen bedrijven"
             _mockRepo.Setup(x => x.GeefBedrijven()).Returns(new List<Bedrijf>());
@@ -147,7 +148,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void GeefBedrijfOpNaam_Invalid_BedrijfLeeg(string bedrijfsnaam)
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
             Assert.Throws<BedrijfManagerException>(() => _bedrijfManager.GeefBedrijf(bedrijfsnaam));
         }
         
@@ -155,7 +156,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         public void GeefBedrijfOpNaam_Invalid_BedrijfBestaatNiet()
         {
             _mockRepo = new Mock<IBedrijfRepository>();
-            _bedrijfManager = new BedrijfManager(_mockRepo.Object);
+            _bedrijfManager = new BedrijfManager(_mockRepo.Object, _mockRepoAfspraak.Object);
 
             //"BedrijfManager - GeefBedrijf - bedrijf bestaat niet"
             _mockRepo.Setup(x => x.BestaatBedrijf(_vb.Naam)).Returns(false);

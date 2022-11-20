@@ -26,8 +26,8 @@ connectionstring = connectionstring.Replace("\\\\", "\\");
 // Alle managers als singleton toevoegen
 // dit omdat de API interract met de managers
 // WAARCHUWING: DE REPOS ZIJN TIJDELIJK, MOETEN VERVANGEN WORDEN DOOR DB
-BedrijfManager bedrijfManager = new(new BedrijfRepoADO(connectionstring));
 AfspraakManager afspraakManager = new(new AfspraakRepoADO(connectionstring));
+BedrijfManager bedrijfManager = new(new BedrijfRepoADO(connectionstring), new AfspraakRepoADO(connectionstring));
 WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring));
 
 builder.Services.AddSingleton(bedrijfManager);
