@@ -4,8 +4,7 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
 
-    public class ParkingContractManager
-    {
+    public class ParkingContractManager {
         private ParkeerplaatsManager _parkeerplaatsManager;
 
         /// <summary>
@@ -18,8 +17,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         /// </summary>
         /// <param name="parkingContractRepository">Interface</param>
         /// <remarks>Deze constructor stelt de lokale variabele [_parkingContractRepository] gelijk aan een instantie van de IParkingContractRepository.</remarks>
-        public ParkingContractManager(IParkingContractRepository parkingContractRepository)
-        {
+        public ParkingContractManager(IParkingContractRepository parkingContractRepository) {
             this._parkingContractRepository = parkingContractRepository;
         }
 
@@ -30,23 +28,19 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         /// <exception cref="ParkingContractManagerException">"ParkingContractManager - VoegParkingContractToe - ParkingContract mag niet leeg zijn"</exception>
 		/// <exception cref="ParkingContractManagerException">"ParkingContractManager - VoegParkingContractToe - ParkingContract bestaat al"</exception>
 		/// <exception cref="ParkingContractManagerException">ex.Message</exception>
-        public void VoegParkingContractToe(ParkingContract parkingContract)
-        {
-            try
-            {
+        public void VoegParkingContractToe(ParkingContract parkingContract) {
+            try {
                 if (parkingContract == null)
-                    throw new ParkingContractManagerException("ParkingContractManager - VoegParkingContractToe - ParkingContract mag niet leeg zijn");
+                    throw new ParkingContractManagerException("ParkingContract mag niet leeg zijn");
                 if (_parkingContractRepository.BestaatParkingContract(parkingContract))
-                    throw new ParkingContractManagerException("ParkingContractManager - VoegParkingContractToe - ParkingContract bestaat al");
+                    throw new ParkingContractManagerException("ParkingContract bestaat al");
                 if (_parkingContractRepository.IsOverLappend(parkingContract)) {
-                    throw new ParkingContractManagerException("ParkingContractManager - VoegParkingContractToe - ParkingContract overlapt");
+                    throw new ParkingContractManagerException("ParkingContract overlapt");
                 }
                 _parkingContractRepository.VoegParkingContractToe(parkingContract);
                 _parkeerplaatsManager.VoegParkingContractBedrijfToe(parkingContract);
-            }
-            catch (Exception ex)
-            {
-                throw new ParkingContractManagerException(ex.Message);
+            } catch (Exception ex) {
+                throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -57,20 +51,16 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         /// <exception cref="ParkingContractManagerException">"ParkingContractManager - VerwijderParkingContract - ParkingContract mag niet leeg zijn"</exception>
 		/// <exception cref="ParkingContractManagerException">"ParkingContractManager - VerwijderParkingContract - ParkingContract bestaat niet"</exception>
 		/// <exception cref="ParkingContractManagerException">ex.Message</exception>
-        public void VerwijderParkingContract(ParkingContract parkingContract)
-        {
-            if (parkingContract == null)
-                throw new ParkingContractManagerException("ParkingContractManager - VerwijderParkingContract - ParkingContract mag niet leeg zijn");
-            if (!_parkingContractRepository.BestaatParkingContract(parkingContract))
-                throw new ParkingContractManagerException("ParkingContractManager - VerwijderParkingContract - ParkingContract bestaat niet");
-            try
-            {
+        public void VerwijderParkingContract(ParkingContract parkingContract) {
+            try {
+                if (parkingContract == null)
+                    throw new ParkingContractManagerException("ParkingContract mag niet leeg zijn");
+                if (!_parkingContractRepository.BestaatParkingContract(parkingContract))
+                    throw new ParkingContractManagerException("ParkingContract bestaat niet");
                 _parkingContractRepository.VerwijderParkingContract(parkingContract);
                 _parkeerplaatsManager.VerwijderParkingContractBedrijf(parkingContract);
-            }
-            catch (Exception ex)
-            {
-                throw new ParkingContractManagerException(ex.Message);
+            } catch (Exception ex) {
+                throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -81,19 +71,15 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         /// <exception cref="BedrijfManagerException">"ParkingContractManager - BewerkParkingContract - ParkingContract mag niet leeg zijn"</exception>
         /// <exception cref="BedrijfManagerException">"ParkingContractManager - BewerkParkingContract - ParkingContract bestaat niet"</exception>
         /// <exception cref="BedrijfManagerException">ex.Message</exception>
-        public void BewerkParkingContract(ParkingContract parkingContract)
-        {
-            if (parkingContract == null)
-                throw new ParkingContractManagerException("ParkingContractManager - BewerkParkingContract - ParkingContract mag niet leeg zijn");
-            if (!_parkingContractRepository.BestaatParkingContract(parkingContract))
-                throw new ParkingContractManagerException("ParkingContractManager - BewerkParkingContract - ParkingContract bestaat niet");
-            try
-            {
+        public void BewerkParkingContract(ParkingContract parkingContract) {
+            try {
+                if (parkingContract == null)
+                    throw new ParkingContractManagerException("ParkingContract mag niet leeg zijn");
+                if (!_parkingContractRepository.BestaatParkingContract(parkingContract))
+                    throw new ParkingContractManagerException("ParkingContract bestaat niet");
                 _parkingContractRepository.BewerkParkingContract(parkingContract);
-            }
-            catch (Exception ex)
-            {
-                throw new ParkingContractManagerException(ex.Message);
+            } catch (Exception ex) {
+                throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -104,17 +90,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         /// <returns>Gewenst parkingContract object</returns>
 		/// <exception cref="BedrijfManagerException">"ParkingContractManager - GeefParkingContract - Bedrijf mag niet leeg zijn"</exception>
         /// <exception cref="BedrijfManagerException">ex.Message</exception>
-        public ParkingContract GeefParkingContract(Bedrijf bedrijf)
-        {
-            if (bedrijf == null)
-                throw new ParkingContractManagerException("ParkingContractManager - GeefParkingContract - Bedrijf mag niet leeg zijn");
-            try
-            {
+        public ParkingContract GeefParkingContract(Bedrijf bedrijf) {
+            try {
+                if (bedrijf == null)
+                    throw new ParkingContractManagerException("Bedrijf mag niet leeg zijn");
                 return _parkingContractRepository.GeefParkingContract(bedrijf.Id);
-            }
-            catch (Exception ex)
-            {
-                throw new ParkingContractManagerException(ex.Message);
+            } catch (Exception ex) {
+                throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
     }
