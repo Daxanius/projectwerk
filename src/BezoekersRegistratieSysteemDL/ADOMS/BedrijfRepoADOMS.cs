@@ -4,9 +4,9 @@ using BezoekersRegistratieSysteemDL.Exceptions;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace BezoekersRegistratieSysteemDL.ADO {
+namespace BezoekersRegistratieSysteemDL.ADOMS {
 
-	public class BedrijfRepoADO : IBedrijfRepository {
+	public class BedrijfRepoADOMS : IBedrijfRepository {
 
 		/// <summary>
 		/// Private lokale variabele connectiestring
@@ -18,7 +18,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// </summary>
 		/// <param name="connectieString">Connectie string database</param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-		public BedrijfRepoADO(string connectieString) {
+		public BedrijfRepoADOMS(string connectieString) {
 			_connectieString = connectieString;
 		}
 
