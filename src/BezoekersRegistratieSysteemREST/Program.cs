@@ -1,5 +1,5 @@
 using BezoekersRegistratieSysteemBL.Managers;
-using BezoekersRegistratieSysteemDL.ADO;
+using BezoekersRegistratieSysteemDL.ADOMS;
 
 const string ENV_DB = "BRS_DATABASE";
 const string ENV_SQL_CONNECTION = "BRS_CONNECTION_STRING";
@@ -33,19 +33,17 @@ switch (database) {
 	case "mssql": {
 			// Alle managers als singleton toevoegen
 			// dit omdat de API interract met de managers
-			BedrijfManager bedrijfManager = new(new BedrijfRepoADO(connectionstring));
-			AfspraakManager afspraakManager = new(new AfspraakRepoADO(connectionstring));
-			WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring));
-
-			// TODO voor Bjorn: De REPO implementeren
-			// ParkingContractManager parkingContractManager = new();
-			// ParkeerplaatsManager parkeerplaatsManager = new();
+			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMS(connectionstring));
+			AfspraakManager afspraakManager = new(new AfspraakRepoADOMS(connectionstring));
+			WerknemerManager werknemerManager = new(new WerknemerRepoADOMS(connectionstring));
+			ParkingContractManager parkingContractManager = new(new ParkingContractADOMS(connectionstring));
+			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADOMS(connectionstring));
 
 			builder.Services.AddSingleton(bedrijfManager);
 			builder.Services.AddSingleton(afspraakManager);
 			builder.Services.AddSingleton(werknemerManager);
-			// builder.Services.AddSingleton(parkingContractManager);
-			// builder.Services.AddSingleton(parkeerplaatsManager);
+			builder.Services.AddSingleton(parkingContractManager);
+			builder.Services.AddSingleton(parkeerplaatsManager);
 
 			break;
 		}

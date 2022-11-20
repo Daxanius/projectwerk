@@ -1,12 +1,13 @@
-﻿using BezoekersRegistratieSysteemDL.ADO;
+﻿using BezoekersRegistratieSysteemDL.ADOMS;
 using Newtonsoft.Json;
 
 namespace BezoekersRegistratieSysteemCLI {
 	public class DataLaagCLI {
-		private const string sqlServerHost = @".\SQLEXPRESS";
-		private const string database = "ProjectWerk";
+		private const string sqlServerHost = @"SYSTEM64\SQLEXPRESS";
+		private const string database = "Test_Group";
 		private const string connectionString = $"Data Source={sqlServerHost};Initial Catalog={database};Integrated Security=True";
-		static void Main() {
+
+        static void Main() {
 			if (sqlServerHost == "" || database == "") {
 				Console.WriteLine("sqlServerHost en database moeten ingevult zijn.");
 				return;
@@ -14,21 +15,21 @@ namespace BezoekersRegistratieSysteemCLI {
 
 			object result;
 
-			AfspraakRepoADO afspraakRepo = new(connectionString);
-			BedrijfRepoADO bedrijfRepo = new BedrijfRepoADO(connectionString);
-			WerknemerRepoADO werknemerRepo = new WerknemerRepoADO(connectionString);
+			AfspraakRepoADOMS afspraakRepo = new(connectionString);
+			BedrijfRepoADOMS bedrijfRepo = new BedrijfRepoADOMS(connectionString);
+			WerknemerRepoADOMS werknemerRepo = new WerknemerRepoADOMS(connectionString);
 
 			#region AfspraakRepo
 
 
 			#region GeefHuidigeAfspraken()
-			try {
-				result = afspraakRepo.GeefHuidigeAfspraken();
-				Print(result, "GeefHuidigeAfspraken");
-			} catch (Exception ex) {
-				Error(ex);
-				return;
-			}
+			//try {
+			//	result = afspraakRepo.GeefHuidigeAfspraken();
+			//	Print(result, "GeefHuidigeAfspraken");
+			//} catch (Exception ex) {
+			//	Error(ex);
+			//	return;
+			//}
 			#endregion
 
 			#region GeefHuidigeAfsprakenPerBedrijf(long bedrijfId)
@@ -321,7 +322,7 @@ namespace BezoekersRegistratieSysteemCLI {
 			#region GeefWerknemer(long werknemerId)
 			//try {
 			//	long werknemerId = 1;
-			//	result = werknemerRepo.GeefWerknemer(werknemerId);
+			//  result = werknemerRepo.GeefWerknemer(werknemerId);
 			//	Print(result, "GeefWerknemer(long werknemerId)");
 			//} catch (Exception ex) {
 			//	Error(ex);
@@ -342,14 +343,14 @@ namespace BezoekersRegistratieSysteemCLI {
 			#endregion
 
 			#region GeefWerknemersPerBedrijf(long bedrijfId)
-			try {
-				long bedrijfId = 2;
-				result = werknemerRepo.GeefWerknemersPerBedrijf(bedrijfId);
-				Print(result, "GeefWerknemersPerBedrijf(long bedrijfId)");
-			} catch (Exception ex) {
-				Error(ex);
-				return;
-			}
+			//try {
+			//	long bedrijfId = 2;
+			//	result = werknemerRepo.GeefWerknemersPerBedrijf(bedrijfId);
+			//	Print(result, "GeefWerknemersPerBedrijf(long bedrijfId)");
+			//} catch (Exception ex) {
+			//	Error(ex);
+			//	return;
+			//}
 			#endregion
 
 			#region VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf)

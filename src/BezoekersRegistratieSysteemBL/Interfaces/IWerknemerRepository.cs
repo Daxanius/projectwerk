@@ -19,14 +19,14 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		bool BestaatWerknemer(Werknemer werknemer);
 		bool BestaatWerknemer(long id);
 
-        StatusObject GeefWerknemer(long id);
-        IReadOnlyList<StatusObject> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId);
-		IReadOnlyList<StatusObject> GeefWerknemersPerBedrijf(long id);
+        Werknemer GeefWerknemer(long id);
+        IReadOnlyList<Werknemer> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId);
+		IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(long id);
         bool BestaatFunctie(string functie);
         void VoegFunctieToe(string functie);
-		IReadOnlyList<StatusObject> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId);
-        IReadOnlyList<StatusObject> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long id);
-        IReadOnlyList<StatusObject> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long id);
+		IReadOnlyList<Werknemer> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId);
+        IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long id);
+        IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long id);
 		void GeefWerknemerId(Werknemer werknemer);
 
 	}
