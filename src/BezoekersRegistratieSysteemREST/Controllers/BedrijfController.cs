@@ -144,7 +144,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<IEnumerable<WerknemerOutputDTO>> VerwijderWerknemerUitBedrijf(long bedrijfId, long werknemerId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId).GeefWerknemerObject();
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
 				bedrijf.VerwijderWerknemerUitBedrijf(werknemer);
 				return Ok();
