@@ -32,6 +32,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         private SqlConnection GetConnection() {
             return new SqlConnection(_connectieString);
         }
+
+        /// <summary>
+        /// Controleerd of een nummerplaat ZONDER eindtijd al bestaat 
+        /// </summary>
+        /// <param name="nummerplaat">nummperplaat die gecontroleerd moet worden</param>
+        /// <returns>True = bestaat | False = bestaat NIET</returns>
         public bool BestaatNummerplaat(string nummerplaat) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
@@ -54,6 +60,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
+        /// <summary>
+        /// Voegt een nummerplaat toe met correcte begin- en/of eindtijd en bedrijf waarvoor die komt
+        /// <paramref name="parkeerplaats">ParkeerPlaats object die de gegens bevat die toegevoegd moeten worden</paramref>
+        /// </summary>
         public void CheckNummerplaatIn(Parkeerplaats parkeerplaats) {
             SqlConnection con = GetConnection();
             string query = "INSERT INTO Parkingplaatsen(NummerPlaat, StartTijd, EindTijd, BedrijfId) " +
@@ -79,11 +89,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
+        /// <summary>
+        /// Geeft een eindtijd aan een nummerplaat, enkel aan de nummerplaat die nog geen eindtijd heeft
+        /// <paramref name="nummerplaat">Nummerplaat die een eindtijd moet krijgen</paramref>
+        /// </summary>
         public void CheckNummerplaatUit(string nummerplaat) {
             SqlConnection con = GetConnection();
             string query = "UPDATE Parkingplaatsen " +
                            "SET EindTijd = @EindTijd " +
-                           "WHERE NummerPlaat = @nummerplaat";
+                           "WHERE NummerPlaat = @nummerplaat AND EindTijd IS NOT NULL";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
@@ -101,6 +115,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
+        /// <summary>
+        /// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
+        /// </summary>
+        /// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
+        /// <returns>IReadOnlyList<String> Nummerplaten</returns>
         public IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
             SqlConnection con = GetConnection();
             string query = "SELECT pp.Nummerplaat " +
@@ -116,9 +135,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                         cmd.Parameters["@BedrijfId"].Value = bedrijf.Id;
                     } else {
                         query += " JOIN Bedrijf b ON(pp.BedrijfId = b.Id) " +
-                                 "WHERE b.Naam = @Naam";
-                        cmd.Parameters.Add(new SqlParameter("@Naam", SqlDbType.VarChar));
-                        cmd.Parameters["@Naam"].Value = bedrijf.Naam;
+                                 "WHERE b.BTWNr = @BTWNr";
+                        cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
+                        cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
                     }
                     IDataReader reader = cmd.ExecuteReader();
                     List<string> nummerplaten = new List<string>();
