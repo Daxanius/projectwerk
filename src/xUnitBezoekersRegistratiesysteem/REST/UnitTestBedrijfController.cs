@@ -12,9 +12,10 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		// Moq repos
 		private Mock<IBedrijfRepository> _mockRepoBedrijf;
 		private Mock<IWerknemerRepository> _mockRepoWerknemer;
+		private Mock<IAfspraakRepository> _mockRepoAfspraak;
 
-		// Managers
-		private BedrijfManager _bedrijfManager;
+        // Managers
+        private BedrijfManager _bedrijfManager;
 		private WerknemerManager _werknemerManger;
 
 		// Controllers
@@ -31,9 +32,10 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			// Moq repos
 			_mockRepoBedrijf = new();
 			_mockRepoWerknemer = new();
+            _mockRepoAfspraak = new();
 
-			// Managers
-			_bedrijfManager = new(_mockRepoBedrijf.Object);
+            // Managers
+            _bedrijfManager = new(_mockRepoBedrijf.Object, _mockRepoAfspraak.Object);
 			_werknemerManger = new(_mockRepoWerknemer.Object);
 
 			// Controllers
