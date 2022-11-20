@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 	public partial class BedrijvenPage : Page {
@@ -21,7 +22,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 		public string ZoekText {
 			get => _zoekText;
 			set {
-				if (!string.IsNullOrWhiteSpace(value)) {
+				if (value.IsNietLeeg()) {
 					_zoekText = value.ToLower();
 
 					List<BedrijfDTO> result = initieleBedrijven.Where(b =>

@@ -72,22 +72,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			Email = Email.Trim();
 			Functie = Functie.Trim();
 
-			if (string.IsNullOrWhiteSpace(Voornaam)) {
+			if (Voornaam.IsLeeg()) {
 				MessageBox.Show("Voornaam mag niet leeg zijn");
 				return;
 			};
 
-			if (string.IsNullOrWhiteSpace(Achternaam)) {
+			if (Achternaam.IsLeeg()) {
 				MessageBox.Show("Achternaam mag niet leeg zijn");
 				return;
 			};
 
-			if (string.IsNullOrWhiteSpace(Email)) {
+			if (Email.IsLeeg()) {
 				MessageBox.Show("Email mag niet leeg zijn");
 				return;
 			};
 
-			if (string.IsNullOrWhiteSpace(Functie)) {
+			if (Functie.IsLeeg()) {
 				MessageBox.Show("Functie mag niet leeg zijn");
 				return;
 			};

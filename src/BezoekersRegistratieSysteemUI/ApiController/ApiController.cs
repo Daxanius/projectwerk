@@ -537,7 +537,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				//System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("fr-FR");
 				//System.Threading.Thread.CurrentThread.CurrentCulture = ci
 
-				if (string.IsNullOrWhiteSpace(datum))
+				if (datum.IsLeeg())
 					datum = DateTime.Now.ToString("MM/dd/yyyy");
 				else
 					datum = DateTime.Parse(datum).ToString("MM/dd/yyyy");

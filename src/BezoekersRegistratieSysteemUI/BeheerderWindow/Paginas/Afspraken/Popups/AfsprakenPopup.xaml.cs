@@ -132,7 +132,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				textBox.BorderBrush = Brushes.Transparent;
 				textBox.BorderThickness = new Thickness(0);
 			} else {
-				if (textBox.Name == "EindTijdTextBox" && string.IsNullOrWhiteSpace(EindTijdTextBox.Text)) {
+				if (textBox.Name == "EindTijdTextBox" && EindTijdTextBox.Text.IsLeeg()) {
 					textBox.BorderBrush = Brushes.Transparent;
 					textBox.BorderThickness = new Thickness(0);
 					return;
@@ -179,17 +179,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				return;
 			}
 
-			if (string.IsNullOrEmpty(StartTijd.Trim())) {
+			if (StartTijd.IsLeeg()) {
 				MessageBox.Show("StartTijd is verplicht !", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
 			DateTime? eindTijdDatum = null;
-			if (EindTijd is not null && !DateTime.TryParse(EindTijd.Trim(), out DateTime dateTime) && !string.IsNullOrWhiteSpace(EindTijd)) {
+			if (EindTijd is not null && !DateTime.TryParse(EindTijd.Trim(), out DateTime dateTime) && EindTijd.IsNietLeeg()) {
 				MessageBox.Show("EindTijd is niet geldig !", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			} else {
-				if (EindTijd is not null && !string.IsNullOrWhiteSpace(EindTijd.Trim()))
+				if (EindTijd is not null && EindTijd.IsNietLeeg())
 					eindTijdDatum = DateTime.Parse(EindTijd.Trim());
 			}
 

@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Model;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -79,27 +80,27 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			Email = Email.Trim();
 			Adres = Adres.Trim();
 
-			if (string.IsNullOrWhiteSpace(Naam)) {
+			if (Naam.IsLeeg()) {
 				MessageBox.Show("Naam is verplicht");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(BtwNummer)) {
+			if (BtwNummer.IsLeeg()) {
 				MessageBox.Show("BtwNummer is verplicht");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(TelefoonNummer)) {
+			if (TelefoonNummer.IsLeeg()) {
 				MessageBox.Show("TelefoonNummer is verplicht");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(Email)) {
+			if (Email.IsLeeg()) {
 				MessageBox.Show("Email is verplicht");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(Adres)) {
+			if (Adres.IsLeeg()) {
 				MessageBox.Show("Adres is verplicht");
 				return;
 			}

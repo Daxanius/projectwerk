@@ -20,7 +20,7 @@ namespace BezoekersRegistratieSysteemUI.Nutsvoorzieningen {
 		}
 
 		public static bool IsNietLeeg(this string? input) {
-			return !(string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input));
+			return !(string.IsNullOrEmpty(input?.Trim()) || string.IsNullOrWhiteSpace(input?.Trim()));
 		}
 
 		public static bool IsLeeg(this string? input) {

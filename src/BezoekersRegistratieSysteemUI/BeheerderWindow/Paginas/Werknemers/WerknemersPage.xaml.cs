@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 	public partial class WerknemersPage : Page, INotifyPropertyChanged {
@@ -25,7 +26,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 		public string ZoekText {
 			get => _zoekText;
 			set {
-				if (!string.IsNullOrWhiteSpace(value)) {
+				if (value.IsNietLeeg()) {
 					_zoekText = value.ToLower();
 
 					List<WerknemerDTO> result = initieleZoekTermWerknemers.Where(w => w.Voornaam.ToLower().Contains(_zoekText) ||
