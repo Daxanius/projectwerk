@@ -102,7 +102,36 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         }
 
         public IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "SELECT pp.Nummerplaat " +
+                           "FROM Parkingplaatsen pp " +
+                           "WHERE 1=1";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    if (bedrijf.Id != 0) {
+                        query += " AND pp.BedrijfId = @BedrijfId";
+                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.Int));
+                        cmd.Parameters["@BedrijfId"].Value = bedrijf.Id;
+                    } else {
+                        query += " JOIN Bedrijf b ON(pp.BedrijfId = b.Id) " +
+                                 "WHERE b.Naam = @Naam";
+                        cmd.Parameters.Add(new SqlParameter("@Naam", SqlDbType.VarChar));
+                        cmd.Parameters["@Naam"].Value = bedrijf.Naam;
+                    }
+                    IDataReader reader = cmd.ExecuteReader();
+                    List<string> nummerplaten = new List<string>();
+                    while (reader.Read()) {
+                        nummerplaten.Add((string)reader["Nummerplaat"]);
+                    }
+                    return nummerplaten.AsReadOnly();
+                }
+            } catch (Exception ex) {
+                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
     }
 }
