@@ -75,6 +75,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         }
         /// <summary>
         /// Bewerkt parkingcontract: Start- EindTijd en aantal plaatsen op basis van id
+        /// <paramref name="parkingContract">Parkingcontract die aangepast moet worden</paramref>
         /// </summary>
         public void BewerkParkingContract(ParkingContract parkingContract) {
             SqlConnection con = GetConnection();
@@ -151,12 +152,58 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
+        /// <summary>
+        /// Bewerkt status van parkingcotnract
+        /// <paramref name="parkingContract">Parkingcontract die aangepast/verwijderd moet worden</paramref>
+        /// </summary>
         public void VerwijderParkingContract(ParkingContract parkingContract) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "UPDATE ParkingContract " +
+                           "SET Statusid = 2 " +
+                           "WHERE Id = @id";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                    cmd.Parameters["@id"].Value = parkingContract.Id;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
-
+        /// <summary>
+        /// Voegt een parkingcontract toe
+        /// <paramref name="parkingContract">Parkingcontract die toegevoegd moet worden</paramref>
+        /// </summary>
         public void VoegParkingContractToe(ParkingContract parkingContract) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "INSERT INTO ParkingContract(StartTijd, EindTijd, BedrijfId, AantalPlaatsen) " +
+                           "OUTPUT INSERTED.Id " +
+                           "VALUES(@StartTijd, @EindTijd, @BedrijfId, @AantalPlaatsen)";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new SqlParameter("@AantalPlaatsen", SqlDbType.Int));
+                    cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
+                    cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
+                    cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
+                    cmd.Parameters["@AantalPlaatsen"].Value = parkingContract.AantalPlaatsen;
+                    long i = (long)cmd.ExecuteScalar();
+                    parkingContract.ZetId(i);
+                }
+            } catch (Exception ex) {
+                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
 
         /// <summary>
