@@ -31,9 +31,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		[Fact]
 		public void ZetVoornaam_Valid()
 		{
-			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-			b.ZetVoornaam("bezoeker");
-			Assert.Equal("bezoeker", b.Voornaam);
+			Bezoeker b = new(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
+			b.ZetVoornaam("Bezoeker");
+			Assert.Equal("Bezoeker", b.Voornaam);
 		}
 
 		[Theory]
@@ -46,7 +46,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		[InlineData("\v")]
 		public void ZetVoornaam_Invalid(string voornaam)
 		{
-			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
+			Bezoeker b = new(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 			Assert.Throws<BezoekerException>(() => b.ZetVoornaam(voornaam));
 		}
 		#endregion
@@ -55,9 +55,9 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		[Fact]
 		public void ZetAchternaam_Valid()
 		{
-			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
-			b.ZetAchternaam("bezoekersen");
-			Assert.Equal("bezoekersen", b.Achternaam);
+			Bezoeker b = new(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
+			b.ZetAchternaam("Bezoekersen");
+			Assert.Equal("Bezoekersen", b.Achternaam);
 		}
 
 		[Theory]
@@ -70,7 +70,7 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		[InlineData("\v")]
 		public void ZetAchternaam_Invalid(string achternaam)
 		{
-			Bezoeker b = new(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
+			Bezoeker b = new(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 			Assert.Throws<BezoekerException>(() => b.ZetAchternaam(achternaam));
 		}
 		#endregion
@@ -144,19 +144,19 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 
 		#region UnitTest Bezoeker Constructor
 		[Theory]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 
-		[InlineData(10, "     bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker     ", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "     Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker     ", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 
-		[InlineData(10, "bezoeker", "     bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen     ", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "     Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen     ", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 
-		[InlineData(10, "bezoeker", "bezoekersen", "     bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com     ", "bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "     bezoeker.bezoekersen@email.com", "bezoekerbedrijf", 10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com     ", "bezoekerbedrijf", 10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "     bezoekerbedrijf", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf     ", 10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "     bezoekerbedrijf", 10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf     ", 10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 		public void ctor_Valid(long idIn, string voornaamIn, string achternaamIn, string emailIn, string bedrijfIn, long idUit, string voornaamUit, string achternaamUit, string emailUit, string bedrijfUit)
 		{
 			Bezoeker b = new(idIn, voornaamIn, achternaamIn, emailIn, bedrijfIn);
@@ -168,40 +168,40 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen
 		}
 
 		[Theory]
-		[InlineData(0, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-        [InlineData(-1, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(0, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+        [InlineData(-1, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 
-        [InlineData(10, null, "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, " ", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "\n", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "\r", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "\t", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "\v", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+        [InlineData(10, null, "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, " ", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "\n", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "\r", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "\t", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "\v", "Bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 
-		[InlineData(10, "bezoeker", null, "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", " ", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "\n", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "\r", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "\t", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "\v", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", null, "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", " ", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "\n", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "\r", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "\t", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "\v", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf")]
 
-		[InlineData(10, "bezoeker", "bezoekersen", null, "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", " ", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "\n", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "\r", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "\t", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "\v", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "@email.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@.com", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@email", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen@.", "bezoekerbedrijf")]
-		[InlineData(10, "bezoeker", "bezoekersen", "bezoeker.bezoekersen.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", null, "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", " ", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "\n", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "\r", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "\t", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "\v", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "@email.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email.", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@.com", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@email", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen@.", "bezoekerbedrijf")]
+		[InlineData(10, "Bezoeker", "Bezoekersen", "bezoeker.bezoekersen.com", "bezoekerbedrijf")]
 		public void ctor_Invalid(long id, string voornaam, string achternaam, string email, string bedrijf)
 		{
 			Assert.Throws<BezoekerException>(() => new Bezoeker(id, voornaam, achternaam, email, bedrijf));
