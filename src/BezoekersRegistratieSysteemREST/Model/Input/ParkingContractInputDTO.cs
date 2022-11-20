@@ -24,7 +24,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Input {
 		/// <param name="starttijd"></param>
 		/// <param name="eindtijd"></param>
 		/// <param name="aantalPlaatsen"></param>
-		public ParkingContractInputDTO(long bedrijfId, DateTime starttijd, DateTime? eindtijd, int aantalPlaatsen) {
+		public ParkingContractInputDTO(long bedrijfId, DateTime starttijd, DateTime eindtijd, int aantalPlaatsen) {
 			BedrijfId = bedrijfId;
 			Starttijd = starttijd;
 			Eindtijd = eindtijd;
@@ -44,7 +44,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Input {
 		/// <summary>
 		/// De eindtijd van het contract.
 		/// </summary>
-		public DateTime? Eindtijd { get; set; }
+		public DateTime Eindtijd { get; set; }
 
 		/// <summary>
 		/// Het aantal gereserveerde plaatsen.
