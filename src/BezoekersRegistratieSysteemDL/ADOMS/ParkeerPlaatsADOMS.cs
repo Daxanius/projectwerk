@@ -80,7 +80,25 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         }
 
         public void CheckNummerplaatUit(string nummerplaat) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "UPDATE Parkingplaatsen " +
+                           "SET EindTijd = @EindTijd " +
+                           "WHERE NummerPlaat = @nummerplaat";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.DateTime));
+                    cmd.Parameters["@nummerplaat"].Value = nummerplaat;
+                    cmd.Parameters["@EindTijd"].Value = DateTime.Now;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
 
         public IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
