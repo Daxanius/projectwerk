@@ -2,6 +2,7 @@
 using BezoekersRegistratieSysteemBL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +22,16 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         public ParkeerPlaatsADOMS(string connectieString) {
             _connectieString = connectieString;
         }
+
+        /// <summary>
+        /// Zet SQL connectie op met desbetreffende database adv de lokale variabele [_connectieString].
+        /// </summary>
+        /// <returns>SQL connectie</returns>
+        private SqlConnection GetConnection() {
+            return new SqlConnection(_connectieString);
+        }
         public bool BestaatNummerplaat(string nummerplaat) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
         }
 
         public void CheckNummerplaatIn(Parkeerplaats parkeerplaats) {
