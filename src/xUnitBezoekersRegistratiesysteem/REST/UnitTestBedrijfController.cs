@@ -12,9 +12,10 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		// Moq repos
 		private Mock<IBedrijfRepository> _mockRepoBedrijf;
 		private Mock<IWerknemerRepository> _mockRepoWerknemer;
+		private Mock<IAfspraakRepository> _mockRepoAfspraak;
 
-		// Managers
-		private BedrijfManager _bedrijfManager;
+        // Managers
+        private BedrijfManager _bedrijfManager;
 		private WerknemerManager _werknemerManger;
 
 		// Controllers
@@ -31,9 +32,10 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			// Moq repos
 			_mockRepoBedrijf = new();
 			_mockRepoWerknemer = new();
+            _mockRepoAfspraak = new();
 
-			// Managers
-			_bedrijfManager = new(_mockRepoBedrijf.Object);
+            // Managers
+            _bedrijfManager = new(_mockRepoBedrijf.Object, _mockRepoAfspraak.Object);
 			_werknemerManger = new(_mockRepoWerknemer.Object);
 
 			// Controllers
@@ -45,14 +47,13 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			Bedrijf b = _b.NaarBusiness();
 			Werknemer w = _w.NaarBusiness(_bedrijfManager);
-			StatusObject ws = new("Plopkoek", _w.NaarBusiness(_bedrijfManager));
 
 			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemersen@bedrijf.com", "nietsen");
 
 			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(true);
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
 			_mockRepoBedrijf.Setup(x => x.GeefBedrijf(0)).Returns(b);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(ws);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(w);
 		}
 		#endregion
 

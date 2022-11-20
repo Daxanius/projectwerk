@@ -33,7 +33,7 @@ switch (database) {
 	case "mssql": {
 			// Alle managers als singleton toevoegen
 			// dit omdat de API interract met de managers
-			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMS(connectionstring));
+			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMS(connectionstring), new AfspraakRepoADOMS(connectionstring));
 			AfspraakManager afspraakManager = new(new AfspraakRepoADOMS(connectionstring));
 			WerknemerManager werknemerManager = new(new WerknemerRepoADOMS(connectionstring));
 			ParkingContractManager parkingContractManager = new(new ParkingContractADOMS(connectionstring));
