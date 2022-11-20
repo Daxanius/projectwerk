@@ -3,7 +3,7 @@
 namespace BezoekersRegistratieSysteemBL.Domeinen {
 
 	public class ParkingContract {
-        
+        public long Id { get; private set; }
         public Bedrijf Bedrijf { get; private set; }
         public DateTime Starttijd { get; private set; }
 		public DateTime Eindtijd { get; private set; }
@@ -14,30 +14,43 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// </summary>
 		public ParkingContract() { }
 
-		///// <summary>
-		///// Constructor voor het aanmaken van een parkingcontract.
-		///// </summary>
-		///// <param name="starttijd"></param>
-		///// <param name="aantalPlaatsen"></param>
-		//public ParkingContract(Bedrijf bedrijf, DateTime starttijd, int aantalPlaatsen) {
-		//	ZetBedrijf(bedrijf);
-		//	ZetStarttijd(starttijd);
-		//	ZetAantalPlaatsen(aantalPlaatsen);
-		//}
+        /// <summary>
+        /// Constructor voor het aanmaken van een parkingcontract.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="bedrijf"></param>
+        /// <param name="starttijd"></param>
+        /// <param name="eindtijd"></param>
+        /// <param name="aantalPlaatsen"></param>
+        public ParkingContract(int id, Bedrijf bedrijf, DateTime starttijd, DateTime eindtijd, int aantalPlaatsen) : this(bedrijf, starttijd, eindtijd, aantalPlaatsen) {
+            ZetId(id);
+		}
 
         /// <summary>
         /// Constructor voor het aanmaken van een parkingcontract.
         /// </summary>
+        /// <param name="bedrijf"></param>
         /// <param name="starttijd"></param>
         /// <param name="eindtijd"></param>
         /// <param name="aantalPlaatsen"></param>
         public ParkingContract(Bedrijf bedrijf, DateTime starttijd, DateTime eindtijd, int aantalPlaatsen) {
-			ZetBedrijf(bedrijf);
-			ZetStarttijd(starttijd);
-			ZetEindtijd(eindtijd);
-			ZetAantalPlaatsen(aantalPlaatsen);
-		}
+            ZetBedrijf(bedrijf);
+            ZetStarttijd(starttijd);
+            ZetEindtijd(eindtijd);
+            ZetAantalPlaatsen(aantalPlaatsen);
+        }
 
+        /// <summary>
+        /// Controleert voorwaarden op geldigheid en stelt bedrijf in.
+        /// </summary>
+        /// <param name="id">Mag niet onder 0 waarde zijn.</param>
+        /// <exception cref="ParkingContractException">"ParkingContract - ZetBedrijf - Bedrijf mag niet leeg zijn"</exception>
+        public void ZetId(int id) {
+            if (id < 0) {
+                throw new ParkingContractException("ParkingContract - ZetId - Id mag niet onder 0");
+            }
+            Id = id;
+        }
         /// <summary>
         /// Controleert voorwaarden op geldigheid en stelt bedrijf in.
         /// </summary>
