@@ -1,7 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
+using BezoekersRegistratieSysteemDL.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -30,8 +32,46 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         private SqlConnection GetConnection() {
             return new SqlConnection(_connectieString);
         }
+
+        /// <summary>
+        /// Kijkt of een parkingcontract bestaat aan de hand van bedrijfId of BTWNr, start-, einddatum en aantalplaatsen
+        /// </summary>
+        /// <returns>True = bestaat | False = bestaat NIET</returns>
         public bool BestaatParkingContract(ParkingContract parkingContract) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+                           "FROM ParkingContract pc";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    if (parkingContract.Bedrijf.Id != 0) {
+                        query += " WHERE pc.BedrijfId = @BedrijfId";
+                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.Date));
+                        cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
+                    } else {
+                        query += " JOIN Bedrijf b ON(pc.bedrijfId = b.Id) " +
+                                 "WHERE b.BTWNr = @BTWNr";
+                        cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
+                        cmd.Parameters["@BTWNr"].Value = parkingContract.Bedrijf.BTW;
+                    }
+                    query += " AND pc.StartTijd = @StartTijd " +
+                             "AND pc.EindTijd = @EindTijd " +
+                             "AND pc.AantalPlaatsen = @AantalPlaatsen";
+                    cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new SqlParameter("@AantalPlaatsen", SqlDbType.Int));
+                    cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
+                    cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
+                    cmd.Parameters["@AantalPlaatsen"].Value = parkingContract.AantalPlaatsen;
+                    int i = (int)cmd.ExecuteScalar();
+                    return (i > 0);
+                }
+            } catch (Exception ex) {
+                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
 
         public void BewerkParkingContract(ParkingContract parkingContract) {

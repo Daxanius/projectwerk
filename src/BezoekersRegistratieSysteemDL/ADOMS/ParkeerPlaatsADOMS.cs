@@ -123,14 +123,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         public IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
             SqlConnection con = GetConnection();
             string query = "SELECT pp.Nummerplaat " +
-                           "FROM Parkingplaatsen pp " +
-                           "WHERE 1=1";
+                           "FROM Parkingplaatsen pp";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     if (bedrijf.Id != 0) {
-                        query += " AND pp.BedrijfId = @BedrijfId";
+                        query += " WHERE pp.BedrijfId = @BedrijfId";
                         cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.Int));
                         cmd.Parameters["@BedrijfId"].Value = bedrijf.Id;
                     } else {
