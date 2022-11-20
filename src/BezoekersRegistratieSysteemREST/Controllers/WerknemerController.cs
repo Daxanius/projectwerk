@@ -140,7 +140,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public IActionResult VerwijderWerknemerFunctie(long werknemerId, long bedrijfId, string naam) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId).GeefWerknemerObject();
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
 				_werknemerManager.VerwijderWerknemerFunctie(werknemer, bedrijf, naam);
 				return Ok();
@@ -159,7 +159,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<WerknemerOutputDTO> VoegWerknemerFunctieToe(long werknemerId, [FromBody] WerknemerInfoInputDTO info) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(info.BedrijfId);
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId).GeefWerknemerObject();
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
                 WerknemerInfo werknemerInfo = info.NaarBusiness(_bedrijfManager);
 
 				// Dit is nogal een vreemde manier om functies toe te voegen, wat heeft Email hiermee te maken?
@@ -182,8 +182,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<WerknemerOutputDTO> BewerkFunctie(long werknemerId, long bedrijfId, string oudeFunctie, [FromQuery] string nieuweFunctie) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				StatusObject werknemer = _werknemerManager.GeefWerknemer(werknemerId);
-				werknemer.GeefWerknemerObject().WijzigFunctie(bedrijf, oudeFunctie, nieuweFunctie);
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
+				werknemer.WijzigFunctie(bedrijf, oudeFunctie, nieuweFunctie);
 				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
