@@ -32,12 +32,15 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="ParkingContractManagerException">ex.Message</exception>
         public void VoegParkingContractToe(ParkingContract parkingContract)
         {
-            if (parkingContract == null)
-                throw new ParkingContractManagerException("ParkingContractManager - VoegParkingContractToe - ParkingContract mag niet leeg zijn");
-            if (_parkingContractRepository.BestaatParkingContract(parkingContract))
-                throw new ParkingContractManagerException("ParkingContractManager - VoegParkingContractToe - ParkingContract bestaat al");
             try
             {
+                if (parkingContract == null)
+                    throw new ParkingContractManagerException("ParkingContractManager - VoegParkingContractToe - ParkingContract mag niet leeg zijn");
+                if (_parkingContractRepository.BestaatParkingContract(parkingContract))
+                    throw new ParkingContractManagerException("ParkingContractManager - VoegParkingContractToe - ParkingContract bestaat al");
+                if (_parkingContractRepository.IsOverLappend(parkingContract)) {
+                    throw new ParkingContractManagerException("ParkingContractManager - VoegParkingContractToe - ParkingContract overlapt");
+                }
                 _parkingContractRepository.VoegParkingContractToe(parkingContract);
                 _parkeerplaatsManager.VoegParkingContractBedrijfToe(parkingContract);
             }

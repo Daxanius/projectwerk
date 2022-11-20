@@ -12,6 +12,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces
         bool BestaatParkingContract(ParkingContract parkingContract);
         void BewerkParkingContract(ParkingContract parkingContract);
         ParkingContract GeefParkingContract(long id);
+        bool IsOverLappend(ParkingContract parkingContract);
         void VerwijderParkingContract(ParkingContract parkingContract);
         void VoegParkingContractToe(ParkingContract parkingContract);
     }

@@ -115,5 +115,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         public void VoegParkingContractToe(ParkingContract parkingContract) {
             throw new NotImplementedException();
         }
+
+        public bool IsOverLappend(ParkingContract parkingContract) {
+            throw new NotImplementedException();
+        }
     }
 }
