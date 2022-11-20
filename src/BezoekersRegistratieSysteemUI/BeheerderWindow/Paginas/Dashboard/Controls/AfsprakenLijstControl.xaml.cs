@@ -13,32 +13,44 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
-	/// <summary>
-	/// Interaction logic for AfsprakenLijstControl.xaml
-	/// </summary>
 	public partial class AfsprakenLijstControl : UserControl {
-		#region Afspraken
-		public ObservableCollection<AfspraakDTO> Afspraken { get; set; }
+		#region Variabelen
+		public ObservableCollection<AfspraakDTO> ItemSource { get; set; }
 		#endregion
 
 		public AfsprakenLijstControl() {
-
-			Afspraken = new();
+			ItemSource = new();
 			this.DataContext = this;
 			InitializeComponent();
 
 			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
 				Task.Run(() => {
 					Dispatcher.Invoke(() => {
-						Afspraken.Add(afspraak);
-						List<AfspraakDTO> afspraken = Afspraken.ToList();
-						Afspraken.Clear();
-						afspraken.OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam).ToList().ForEach(a => Afspraken.Add(a));
+						ItemSource.Add(afspraak);
+						List<AfspraakDTO> afspraken = ItemSource.ToList();
+						ItemSource.Clear();
+						afspraken.OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam).ToList().ForEach(a => ItemSource.Add(a));
 					});
 				});
 			};
 
-			FetchAlleAfspraken();
+			UpdateAfsprakenOpSchermMetNieuweData(HaalAlleAfspraken());
+		}
+
+		public void AutoUpdateIntervalAfspraken() {
+			UpdateAfsprakenOpSchermMetNieuweData(HaalAlleAfspraken());
+		}
+
+		public void UpdateAfsprakenOpSchermMetNieuweData(List<AfspraakDTO> afspraken) {
+			ItemSource.Clear();
+			foreach (AfspraakDTO afspraak in afspraken) {
+				ItemSource.Add(afspraak);
+			}
+		}
+
+		public List<AfspraakDTO> HaalAlleAfspraken() {
+			List<AfspraakDTO> afspraken = ApiController.GeefAfspraken().ToList();
+			return afspraken;
 		}
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
@@ -74,20 +86,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;
 		}
-
-		#region API Requests
-		private async void FetchAlleAfspraken() {
-			(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await ApiController.Get<List<AfspraakOutputDTO>>("afspraak?dag=" + DateTime.Now.ToString("MM/dd/yyy"));
-			if (isvalid) {
-				apiAfspraken.ForEach((api) => {
-					WerknemerDTO werknemer = new(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
-					BezoekerDTO bezoeker = new(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-					Afspraken.Add(new(api.Id, bezoeker, api.Bedrijf.Naam, werknemer, api.Starttijd, api.Eindtijd));
-				});
-			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het ophalen van de afspraaken", "Error /afspraak");
-			}
-		}
-		#endregion
 	}
 }

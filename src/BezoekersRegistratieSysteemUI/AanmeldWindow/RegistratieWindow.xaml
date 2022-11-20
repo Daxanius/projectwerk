@@ -9,10 +9,10 @@
     Title="RegistratieWindow"
     FontFamily="{StaticResource Inter}"
     Icon="/BRS.ico"
-    ResizeMode="NoResize"
+    ResizeMode="CanResize"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
-    WindowStyle="None"
+    WindowStyle="ToolWindow"
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>

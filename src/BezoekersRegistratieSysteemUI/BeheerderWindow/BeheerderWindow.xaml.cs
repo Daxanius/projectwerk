@@ -2,6 +2,7 @@
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,7 +50,8 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 			this.DataContext = this;
 			InitializeComponent();
 
-			FrameControl.Navigate(DashBoardPage.Instance);
+			DashBoardPage.Instance.InitializeComponent();
+			FrameControl.Content = DashBoardPage.Instance;
 			FrameControl.Navigating += OnPageNavigation;
 		}
 
@@ -57,15 +59,17 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 		private void OnPageNavigation(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e) {
 			string path = e.Content.GetType().Name;
-			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Bezoekers", "Dashboard", "Werknemers" };
+			string[] pathFolders = new string[] { "Afspraken", "Bedrijven", "Dashboard", "Werknemers", "Parking" };
 
 			if (GeselecteerdBedrijf is not null) {
 				SideBar.AfsprakenTab.IsEnabled = true;
 				SideBar.WerknemersTab.IsEnabled = true;
+				SideBar.ParkingTab.IsEnabled = true;
 			} else {
 				SideBar.AfsprakenTab.IsEnabled = false;
 				SideBar.WerknemersTab.IsEnabled = false;
-			}
+                SideBar.ParkingTab.IsEnabled = false;
+            }
 
 			foreach (string folder in pathFolders) {
 				if (path.Contains(folder)) {
@@ -87,49 +91,60 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 					switch (folder) {
 						case "Dashboard":
-							SideBar.DashboardTab.Tag = "Selected";
+						SideBar.DashboardTab.Tag = "Selected";
 
-							stackPanel = (StackPanel)SideBar.DashboardTab.Child;
-							textBlock = (TextBlock)stackPanel.Children[1];
-							icon = (Icon)stackPanel.Children[0];
+						stackPanel = (StackPanel)SideBar.DashboardTab.Child;
+						textBlock = (TextBlock)stackPanel.Children[1];
+						icon = (Icon)stackPanel.Children[0];
 
-							textBlock.FontWeight = FontWeights.Bold;
-							icon.Opacity = 1;
-							break;
+						textBlock.FontWeight = FontWeights.Bold;
+						icon.Opacity = 1;
+						break;
 
 						case "Bedrijven":
-							SideBar.BedrijvenTab.Tag = "Selected";
+						SideBar.BedrijvenTab.Tag = "Selected";
 
-							stackPanel = (StackPanel)SideBar.BedrijvenTab.Child;
-							textBlock = (TextBlock)stackPanel.Children[1];
-							icon = (Icon)stackPanel.Children[0];
+						stackPanel = (StackPanel)SideBar.BedrijvenTab.Child;
+						textBlock = (TextBlock)stackPanel.Children[1];
+						icon = (Icon)stackPanel.Children[0];
 
-							textBlock.FontWeight = FontWeights.Bold;
-							icon.Opacity = 1;
-							break;
+						textBlock.FontWeight = FontWeights.Bold;
+						icon.Opacity = 1;
+						break;
 
 						case "Afspraken":
-							SideBar.AfsprakenTab.Tag = "Selected";
+						SideBar.AfsprakenTab.Tag = "Selected";
 
-							stackPanel = (StackPanel)SideBar.AfsprakenTab.Child;
-							textBlock = (TextBlock)stackPanel.Children[1];
-							icon = (Icon)stackPanel.Children[0];
+						stackPanel = (StackPanel)SideBar.AfsprakenTab.Child;
+						textBlock = (TextBlock)stackPanel.Children[1];
+						icon = (Icon)stackPanel.Children[0];
 
-							textBlock.FontWeight = FontWeights.Bold;
-							icon.Opacity = 1;
-							break;
+						textBlock.FontWeight = FontWeights.Bold;
+						icon.Opacity = 1;
+						break;
 
 						case "Werknemers":
-							SideBar.WerknemersTab.Tag = "Selected";
+						SideBar.WerknemersTab.Tag = "Selected";
 
-							stackPanel = (StackPanel)SideBar.WerknemersTab.Child;
-							textBlock = (TextBlock)stackPanel.Children[1];
-							icon = (Icon)stackPanel.Children[0];
+						stackPanel = (StackPanel)SideBar.WerknemersTab.Child;
+						textBlock = (TextBlock)stackPanel.Children[1];
+						icon = (Icon)stackPanel.Children[0];
 
-							textBlock.FontWeight = FontWeights.Bold;
-							icon.Opacity = 1;
-							break;
-					}
+						textBlock.FontWeight = FontWeights.Bold;
+						icon.Opacity = 1;
+						break;
+
+                        case "Parking":
+                        SideBar.ParkingTab.Tag = "Selected";
+
+                        stackPanel = (StackPanel)SideBar.ParkingTab.Child;
+                        textBlock = (TextBlock)stackPanel.Children[1];
+                        icon = (Icon)stackPanel.Children[0];
+
+                        textBlock.FontWeight = FontWeights.Bold;
+                        icon.Opacity = 1;
+                        break;
+                    }
 					return;
 				}
 			}
@@ -146,5 +161,21 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		}
 
 		#endregion ProppertyChanged
+
+		#region Singleton
+		private static BeheerderWindow instance = null;
+		private static readonly object padlock = new object();
+
+		public static BeheerderWindow Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new BeheerderWindow();
+					}
+					return instance;
+				}
+			}
+		}
+		#endregion
 	}
 }

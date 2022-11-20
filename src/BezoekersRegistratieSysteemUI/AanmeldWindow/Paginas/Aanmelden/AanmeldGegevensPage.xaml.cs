@@ -1,7 +1,6 @@
-﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Api.Output;
+﻿using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
-using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 	public partial class AanmeldGegevensPage : Page, INotifyPropertyChanged {
@@ -99,7 +100,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				return;
 			}
 
-			LijstMetWerknemersVanGeselecteerdBedrijf = ApiController.FetchWerknemersVanBedrijf(GeselecteerdBedrijf).ToList();
+			LijstMetWerknemersVanGeselecteerdBedrijf = ApiController.GeefWerknemersVanBedrijf(GeselecteerdBedrijf).ToList();
 		}
 
 		#region Functies
@@ -167,8 +168,8 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
 		}
 
-		private static async void MaakNieuweAfspraak(long bedrijfsId, long werknemerId, BezoekerDTO bezoeker) {
-			var rawBody = new { werknemerId, bedrijfId = bedrijfsId, bezoeker };
+		private async void MaakNieuweAfspraak(long bedrijfsId, long werknemerId, BezoekerDTO bezoeker) {
+			var rawBody = new { werknemerId = werknemerId, bedrijfId = bedrijfsId, bezoeker };
 			string json = JsonConvert.SerializeObject(rawBody);
 
 			(bool isvalid, AfspraakOutputDTO afspraak) = await ApiController.Post<AfspraakOutputDTO>("/afspraak", json);
@@ -180,26 +181,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
-		private Border _selecteditem;
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			if (_selecteditem is not null) {
-				_selecteditem.Background = Brushes.Transparent;
-				_selecteditem.BorderThickness = new Thickness(0);
-			}
-			StackPanel? listViewItem = sender as StackPanel;
-
-			SolidColorBrush hightlightColor = (SolidColorBrush)Application.Current.Resources["LichtGrijsAccent"];
-
-			Border border = (Border)listViewItem.Children[0];
-			border.Background = hightlightColor;
-			border.BorderThickness = new Thickness(0);
-			border.BorderBrush = Brushes.Black;
-			border.CornerRadius = new CornerRadius(20);
-			border.Margin = new Thickness(0, 0, 20, 0);
-			_selecteditem = border;
-		}
-
-		private readonly Regex regexGeenCijfers = new("[^a-zA-Z]+");
+		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
 		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
 			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}

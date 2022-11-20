@@ -4,10 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
-    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
     mc:Ignorable="d">
     <ListView
         x:Name="AfsprakenLijst"
@@ -18,6 +15,8 @@
         FontFamily="Inter"
         ItemsSource="{Binding ItemSource}"
         ScrollViewer.CanContentScroll="False"
+        SelectedIndex="{Binding SelectedIndex}"
+        SelectedItem="{Binding SelectedItem}"
         SelectionMode="Single">
         <ListView.Style>
             <Style TargetType="ListView">
@@ -38,11 +37,13 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListViewItem}">
-                            <StackPanel MouseLeftButtonDown="KlikOpRow">
+                            <StackPanel>
                                 <Border
-                                    Background="Transparent"
+                                    Margin="0,0,20,0"
+                                    Background="{TemplateBinding Background}"
                                     BorderBrush="Transparent"
-                                    BorderThickness="0,0,0,1">
+                                    BorderThickness="0,0,0,1"
+                                    CornerRadius="20">
                                     <GridViewRowPresenter
                                         Width="Auto"
                                         Margin="0"
@@ -58,6 +59,12 @@
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Cursor" Value="Hand" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="False">
+                        <Setter Property="Background" Value="Transparent" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -124,8 +131,11 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="Werknemer.Voornaam" />
-                                                    <Binding Path="Werknemer.Achternaam" />
+                                                    <Binding Converter="{StaticResource ElipsisConverter}" Path="Werknemer.Voornaam" />
+                                                    <Binding
+                                                        Converter="{StaticResource ElipsisConverter}"
+                                                        ConverterParameter="10"
+                                                        Path="Werknemer.Achternaam" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -152,8 +162,14 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="Bezoeker.Voornaam" />
-                                                    <Binding Path="Bezoeker.Achternaam" />
+                                                    <Binding
+                                                        Converter="{StaticResource ElipsisConverter}"
+                                                        ConverterParameter="15"
+                                                        Path="Bezoeker.Voornaam" />
+                                                    <Binding
+                                                        Converter="{StaticResource ElipsisConverter}"
+                                                        ConverterParameter="10"
+                                                        Path="Bezoeker.Achternaam" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -177,7 +193,7 @@
                                     FontSize="15"
                                     FontWeight="DemiBold">
                                     <Label.Content>
-                                        <TextBlock Text="{Binding Bezoeker.Email}" />
+                                        <TextBlock Text="{Binding Bezoeker.Email, Converter={StaticResource ElipsisConverter}}" />
                                     </Label.Content>
                                 </Label>
                             </DataTemplate>
@@ -194,8 +210,8 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Label
-                                    Padding="0,15,0,15"
-                                    Content="{Binding WerknemerBedrijf}"
+                                    Padding="0,15,5,15"
+                                    Content="{Binding Bezoeker.Bedrijf, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>

@@ -10,6 +10,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\**" />
+	  <EmbeddedResource Remove="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\**" />
+	  <None Remove="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\**" />
+	  <Page Remove="BeheerderWindow\Paginas\Afspraken\ConvertedClasses\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Fonts\Inter-Black.ttf" />
 	  <None Remove="Fonts\Inter-Bold.ttf" />
 	  <None Remove="Fonts\Inter-ExtraBold.ttf" />
@@ -124,6 +131,12 @@
 		<Compile Update="BeheerderWindow\Paginas\Bedrijven\BedrijvenPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
+		<Compile Update="MessageBoxes\InformationMessageBox.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
+		<Compile Update="MessageBoxes\QuestionMessageBox.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -192,7 +205,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="BeheerderWindow\Paginas\Werknemers\Converter\" />
+		<Folder Include="BeheerderWindow\Paginas\Parking\Controls\" />
 	</ItemGroup>
 
 	<ItemGroup>

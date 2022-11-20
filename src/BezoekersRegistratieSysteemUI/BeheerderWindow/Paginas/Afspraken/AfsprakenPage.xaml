@@ -8,8 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:popups="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups"
     Title="AfsprakenPage"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -46,7 +44,7 @@
                         IconPadding="0, 0, 4.5, 4"
                         IconSize="50"
                         IconSource="../PlusIcon.xaml"
-                        MouseLeftButtonDown="OpenAfsprakenPopup" />
+                        MouseLeftButtonDown="OpenAfsprakenPopup_Click" />
                     <StackPanel />
                 </DockPanel>
                 <StackPanel
@@ -57,7 +55,7 @@
                     Orientation="Horizontal">
                     <Border
                         Padding="20,0"
-                        MouseLeftButtonDown="NavigeerNaarTab"
+                        MouseLeftButtonDown="Navigeer_Click"
                         Opacity="1"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
@@ -76,7 +74,7 @@
                     </Border>
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="NavigeerNaarTab"
+                        MouseLeftButtonDown="Navigeer_Click"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
@@ -92,9 +90,9 @@
                                 TextAlignment="Center" />
                         </StackPanel>
                     </Border>
-                    <Border
+                    <!--<Border
                         Padding="15,0"
-                        MouseLeftButtonDown="NavigeerNaarTab"
+                        MouseLeftButtonDown="Navigeer_Click"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
@@ -109,10 +107,10 @@
                                 Text="Afspraken Bezoeker"
                                 TextAlignment="Center" />
                         </StackPanel>
-                    </Border>
+                    </Border>-->
                     <Border
                         Padding="15,0"
-                        MouseLeftButtonDown="NavigeerNaarTab"
+                        MouseLeftButtonDown="Navigeer_Click"
                         Style="{StaticResource FilterTabLijstStyle}">
                         <StackPanel
                             HorizontalAlignment="Center"
@@ -182,35 +180,33 @@
                                             Text="Werknemers" />
                                         <StackPanel Grid.Column="1">
                                             <StackPanel HorizontalAlignment="Right">
-                                                <TextBox DockPanel.Dock="Left">
-                                                    <TextBox.Template>
-                                                        <ControlTemplate TargetType="TextBox">
-                                                            <Border Background="{StaticResource MainAchtergrond}" CornerRadius="25">
-                                                                <StackPanel
-                                                                    HorizontalAlignment="Center"
-                                                                    VerticalAlignment="Center"
-                                                                    Orientation="Horizontal">
-                                                                    <iconspresenter:Icon
-                                                                        CircleBackground="Transparent"
-                                                                        IconSize="50"
-                                                                        IconSource="../VergrootGlasIcon.xaml" />
-                                                                    <TextBox
-                                                                        MinWidth="200"
-                                                                        MaxWidth="400"
-                                                                        Padding="0,0,15,0"
-                                                                        VerticalAlignment="Center"
-                                                                        Background="Transparent"
-                                                                        BorderBrush="Transparent"
-                                                                        BorderThickness="0"
-                                                                        FontSize="16"
-                                                                        FontWeight="Bold"
-                                                                        Foreground="{StaticResource DonkerGrijs}"
-                                                                        Text="{TemplateBinding Text}" />
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </TextBox.Template>
-                                                </TextBox>
+                                                <Border
+                                                    Background="{StaticResource MainAchtergrond}"
+                                                    CornerRadius="25"
+                                                    DockPanel.Dock="Left">
+                                                    <StackPanel
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                                        <iconspresenter:Icon
+                                                            CircleBackground="Transparent"
+                                                            IconSize="50"
+                                                            IconSource="../VergrootGlasIcon.xaml" />
+                                                        <TextBox
+                                                            x:Name="ZoekTermTextBoxWerknemers"
+                                                            MinWidth="200"
+                                                            MaxWidth="400"
+                                                            Padding="0,0,15,0"
+                                                            VerticalAlignment="Center"
+                                                            Background="Transparent"
+                                                            BorderBrush="Transparent"
+                                                            BorderThickness="0"
+                                                            FontSize="16"
+                                                            FontWeight="Bold"
+                                                            Foreground="{StaticResource DonkerGrijs}"
+                                                            TextChanged="ZoekTermChangedWerknemers" />
+                                                    </StackPanel>
+                                                </Border>
                                             </StackPanel>
                                         </StackPanel>
                                     </Grid>
@@ -272,14 +268,16 @@
                             <!--#endregion-->
                         </Grid>
                     </DockPanel>
-                    <DockPanel Name="BezoekerAfsprakenTab" Visibility="Collapsed">
+                    <!--<DockPanel Name="BezoekerAfsprakenTab" Visibility="Collapsed">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height=".1*" />
                                 <RowDefinition Height="1.5*" />
                             </Grid.RowDefinitions>
-                            <!--#region BezoekerLijst-->
+                    -->
+                    <!--#region BezoekerLijst-->
+                    <!--
                             <Border
                                 Grid.Row="0"
                                 Padding="20"
@@ -300,43 +298,43 @@
                                             Text="Bezoekers" />
                                         <StackPanel Grid.Column="1">
                                             <StackPanel HorizontalAlignment="Right">
-                                                <TextBox DockPanel.Dock="Left">
-                                                    <TextBox.Template>
-                                                        <ControlTemplate TargetType="TextBox">
-                                                            <Border Background="{StaticResource MainAchtergrond}" CornerRadius="25">
-                                                                <StackPanel
-                                                                    HorizontalAlignment="Center"
-                                                                    VerticalAlignment="Center"
-                                                                    Orientation="Horizontal">
-                                                                    <iconspresenter:Icon
-                                                                        CircleBackground="Transparent"
-                                                                        IconSize="50"
-                                                                        IconSource="../VergrootGlasIcon.xaml" />
-                                                                    <TextBox
-                                                                        MinWidth="200"
-                                                                        MaxWidth="400"
-                                                                        Padding="0,0,15,0"
-                                                                        VerticalAlignment="Center"
-                                                                        Background="Transparent"
-                                                                        BorderBrush="Transparent"
-                                                                        BorderThickness="0"
-                                                                        FontSize="16"
-                                                                        FontWeight="Bold"
-                                                                        Foreground="{StaticResource DonkerGrijs}"
-                                                                        Text="{TemplateBinding Text}" />
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </TextBox.Template>
-                                                </TextBox>
+                                                <Border
+                                                    Background="{StaticResource MainAchtergrond}"
+                                                    CornerRadius="25"
+                                                    DockPanel.Dock="Left">
+                                                    <StackPanel
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                                        <iconspresenter:Icon
+                                                            CircleBackground="Transparent"
+                                                            IconSize="50"
+                                                            IconSource="../VergrootGlasIcon.xaml" />
+                                                        <TextBox
+                                                            x:Name="ZoekTermTextBoxBezoekers"
+                                                            MinWidth="200"
+                                                            MaxWidth="400"
+                                                            Padding="0,0,15,0"
+                                                            VerticalAlignment="Center"
+                                                            Background="Transparent"
+                                                            BorderBrush="Transparent"
+                                                            BorderThickness="0"
+                                                            FontSize="16"
+                                                            FontWeight="Bold"
+                                                            Foreground="{StaticResource DonkerGrijs}"
+                                                            TextChanged="ZoekTermChangedBezoekers" />
+                                                    </StackPanel>
+                                                </Border>
                                             </StackPanel>
                                         </StackPanel>
                                     </Grid>
                                     <controls:BezoekersLijstControl x:Name="BezoekerLijst" />
                                 </DockPanel>
                             </Border>
-                            <!--#endregion-->
-                            <!--#region Bezoeker Afspraken Lijst-->
+                    -->
+                    <!--#endregion-->
+                    <!--#region Bezoeker Afspraken Lijst-->
+                    <!--
                             <Border
                                 Grid.Row="2"
                                 Padding="20"
@@ -354,7 +352,7 @@
                                             FontSize="26"
                                             FontWeight="Bold"
                                             Foreground="{StaticResource DonkerBlauw}"
-                                            Text="Werknemer Afspraken" />
+                                            Text="Bezoeker Afspraken" />
                                         <StackPanel
                                             Grid.Column="1"
                                             HorizontalAlignment="Right"
@@ -387,9 +385,11 @@
                                     <controls:BezoekersAfsprakenLijst x:Name="GeselecteerdeBezoekerAfsprakenLijst" />
                                 </DockPanel>
                             </Border>
-                            <!--#endregion-->
+                    -->
+                    <!--#endregion-->
+                    <!--
                         </Grid>
-                    </DockPanel>
+                    </DockPanel>-->
                     <DockPanel Name="OpDatumAfsprakenTab" Visibility="Collapsed">
                         <Border
                             Padding="20"
@@ -412,7 +412,8 @@
                                         HorizontalAlignment="Right"
                                         Orientation="Horizontal">
                                         <Border CornerRadius="15">
-                                            <TextBox
+                                            <!--<TextBox
+                                                x:Name="DatumFilterTextBox"
                                                 Padding="10"
                                                 Background="Transparent"
                                                 BorderBrush="Transparent"
@@ -420,11 +421,13 @@
                                                 FontSize="16"
                                                 FontWeight="DemiBold"
                                                 Foreground="{StaticResource DonkerBlauw}"
+                                                KeyDown="TextBox_KeyDown"
                                                 LostKeyboardFocus="ValideerDatum"
                                                 PreviewTextInput="IsDatePickerGeldigeText"
                                                 Style="{StaticResource DefaultTextBoxStyle}"
                                                 Text="{Binding Datum}"
-                                                TextAlignment="Center" />
+                                                TextAlignment="Center" />-->
+                                            <DatePicker x:Name="DatumFilterTextBox" SelectedDateChanged="DatumFilterTextBox_SelectedDateChanged" />
                                         </Border>
                                         <iconspresenter:Icon
                                             CircleBackground="{StaticResource DonkerBlauw}"

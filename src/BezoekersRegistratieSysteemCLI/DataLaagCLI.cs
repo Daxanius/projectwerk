@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace BezoekersRegistratieSysteemCLI {
 	public class DataLaagCLI {
-		private const string sqlServerHost = @"ST-PC";
+		private const string sqlServerHost = @".\SQLEXPRESS";
 		private const string database = "ProjectWerk";
 		private const string connectionString = $"Data Source={sqlServerHost};Initial Catalog={database};Integrated Security=True";
 		static void Main() {
@@ -340,14 +340,14 @@ namespace BezoekersRegistratieSysteemCLI {
 			#endregion
 
 			#region GeefWerknemersPerBedrijf(long bedrijfId)
-			//try {
-			//	long bedrijfId = 2;
-			//	result = werknemerRepo.GeefWerknemersPerBedrijf(bedrijfId);
-			//	Print(result, "GeefWerknemersPerBedrijf(long bedrijfId)");
-			//} catch (Exception ex) {
-			//	Error(ex);
-			//	return;
-			//}
+			try {
+				long bedrijfId = 2;
+				result = werknemerRepo.GeefWerknemersPerBedrijf(bedrijfId);
+				Print(result, "GeefWerknemersPerBedrijf(long bedrijfId)");
+			} catch (Exception ex) {
+				Error(ex);
+				return;
+			}
 			#endregion
 
 			#region VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf)

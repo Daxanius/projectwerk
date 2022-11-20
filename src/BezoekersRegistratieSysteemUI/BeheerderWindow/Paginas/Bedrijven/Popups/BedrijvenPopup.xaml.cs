@@ -104,8 +104,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 				return;
 			}
 
-			BedrijfInputDTO nieuwBedrijf = new(Naam, BtwNummer, TelefoonNummer, Email, Adres);
-			BedrijfDTO bedrijf = ApiController.PostBedrijf(nieuwBedrijf);
+			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(Naam, BtwNummer, TelefoonNummer, Email, Adres);
+			BedrijfDTO bedrijf = ApiController.MaakBedrijf(nieuwBedrijf);
 
 			MessageBox.Show($"{Naam} successvol toegevoegd", "Bedrijf toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
 

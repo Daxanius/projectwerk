@@ -23,7 +23,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			InitializeComponent();
 
 			if (Bedrijven is null) {
-				Bedrijven = ApiController.FetchBedrijven().ToList();
+				Bedrijven = ApiController.GeefBedrijven().ToList();
 				SpawnBedrijvenGrid();
 			}
 		}

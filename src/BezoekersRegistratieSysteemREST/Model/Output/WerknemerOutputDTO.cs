@@ -1,32 +1,46 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 
-namespace BezoekersRegistratieSysteemREST.Model.Output {
+namespace BezoekersRegistratieSysteemREST.Model.Output
+{
 	/// <summary>
 	/// De DTO voor uitgaande werknemer informatie.
 	/// </summary>
-	public class WerknemerOutputDTO {
+	public class WerknemerOutputDTO
+	{
+		/// <summary>
+		/// Zet de business variant om naar de DTO.
+		/// </summary>
+		/// <param name="statusObject"></param>
+		/// <returns></returns>
+		public static WerknemerOutputDTO NaarDTO(StatusObject statusObject)
+		{
+			Werknemer werknemer = statusObject.GeefWerknemerObject();
+			var functies = statusObject.GeefWerknemerObject().GeefBedrijvenEnFunctiesPerWerknemer();
+			List<WerknemerInfoOutputDTO> info = new();
+
+			foreach (Bedrijf b in functies.Keys)
+			{
+				info.Add(WerknemerInfoOutputDTO.NaarDTO(functies[b]));
+			}
+
+			return new(werknemer.Id, werknemer.Voornaam, werknemer.Achternaam, info, statusObject.Statusnaam);
+		}
+
 		/// <summary>
 		/// Zet de business variant om naar de DTO.
 		/// </summary>
 		/// <param name="werknemer"></param>
-		/// <param name="werknemerManager"></param>
 		/// <returns></returns>
-		public static WerknemerOutputDTO NaarDTO(WerknemerManager werknemerManager, Werknemer werknemer) {
+		public static WerknemerOutputDTO NaarDTO(Werknemer werknemer) {
 			var functies = werknemer.GeefBedrijvenEnFunctiesPerWerknemer();
 			List<WerknemerInfoOutputDTO> info = new();
-			bool bezet = false;
 
 			foreach (Bedrijf b in functies.Keys) {
 				info.Add(WerknemerInfoOutputDTO.NaarDTO(functies[b]));
-
-				// Om te kijken of de werknemer bezet is, deze oplossing is tijdelijk en zal nog
-				// moeten geimplementeerd worde in de business
-				// TODO: vervang dit met een werkende business method
-				bezet = bezet || werknemerManager.GeefBezetteWerknemersOpDitMomentVoorBedrijf(b).Contains(werknemer);
 			}
 
-			return new(werknemer.Id, werknemer.Voornaam, werknemer.Achternaam, info, bezet);
+			return new(werknemer.Id, werknemer.Voornaam, werknemer.Achternaam, info);
 		}
 
 		/// <summary>
@@ -34,12 +48,27 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// om naar een lijst van DTO instanties.
 		/// </summary>
 		/// <param name="werknemers"></param>
-		/// <param name="werknemerManager"></param>
 		/// <returns>Een lijst van de DTO variant.</returns>
-		public static IEnumerable<WerknemerOutputDTO> NaarDTO(WerknemerManager werknemerManager, IEnumerable<Werknemer> werknemers) {
+		public static IEnumerable<WerknemerOutputDTO> NaarDTO(IEnumerable<StatusObject> werknemers)
+		{
+			List<WerknemerOutputDTO> output = new();
+			foreach (StatusObject werknemer in werknemers)
+			{
+				output.Add(NaarDTO(werknemer));
+			}
+			return output;
+		}
+
+		/// <summary>
+		/// Zet een lijst van business variant instanties
+		/// om naar een lijst van DTO instanties.
+		/// </summary>
+		/// <param name="werknemers"></param>
+		/// <returns>Een lijst van de DTO variant.</returns>
+		public static IEnumerable<WerknemerOutputDTO> NaarDTO(IEnumerable<Werknemer> werknemers) {
 			List<WerknemerOutputDTO> output = new();
 			foreach (Werknemer werknemer in werknemers) {
-				output.Add(NaarDTO(werknemerManager, werknemer));
+				output.Add(NaarDTO(werknemer));
 			}
 			return output;
 		}
@@ -51,13 +80,28 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// <param name="voornaam"></param>
 		/// <param name="achternaam"></param>
 		/// <param name="werknemerInfo"></param>
-		/// <param name="bezet"></param>
-		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo, bool bezet) {
+		/// <param name="statusNaam"></param>
+		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo, string statusNaam)
+		{
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
 			WerknemerInfo = werknemerInfo;
-			Bezet = bezet;
+			StatusNaam = statusNaam;
+		}
+
+		/// <summary>
+		/// De constructor.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="voornaam"></param>
+		/// <param name="achternaam"></param>
+		/// <param name="werknemerInfo"></param>
+		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo) {
+			Id = id;
+			Voornaam = voornaam;
+			Achternaam = achternaam;
+			WerknemerInfo = werknemerInfo;
 		}
 
 		/// <summary>
@@ -81,8 +125,8 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		public IEnumerable<WerknemerInfoOutputDTO> WerknemerInfo { get; set; }
 
 		/// <summary>
-		/// Of de werknemer bezet of vrij is.
+		/// De status van dit object.
 		/// </summary>
-		public bool Bezet { get; set; }
+		public string? StatusNaam { get; set; }
 	}
 }

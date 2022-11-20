@@ -2,6 +2,7 @@
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups {
 	public partial class AfsprakenPopup : UserControl, INotifyPropertyChanged {
@@ -24,11 +27,25 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		#endregion
 
 		#region Variabelen
-		private WerknemerDTO _werknemer;
-		public WerknemerDTO Werknemer {
+		private Border? _selecteditem = null;
+
+		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
+		  nameof(ItemSource),
+		  typeof(ObservableCollection<WerknemerDTO>),
+		  typeof(AfsprakenPopup),
+		  new PropertyMetadata(new ObservableCollection<WerknemerDTO>())
+		 );
+
+		public ObservableCollection<WerknemerDTO> ItemSource {
+			get { return (ObservableCollection<WerknemerDTO>)GetValue(ItemSourceProperty); }
+			set { SetValue(ItemSourceProperty, value); }
+		}
+
+		private WerknemerDTO? _werknemer;
+		public WerknemerDTO? Werknemer {
 			get { return _werknemer; }
 			set {
-				if (value is null || value == _werknemer) return;
+				if (value == _werknemer) return;
 				_werknemer = value;
 			}
 		}
@@ -68,9 +85,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				UpdatePropperty();
 			}
 		}
-		private string _startTijd = DateTime.Today.ToString("MM/dd/yyyy");
+		private string _startTijd = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 		public string StartTijd {
-			get { return _startTijd; }
+			get => _startTijd;
 			set {
 				if (value == _startTijd) return;
 				_startTijd = value;
@@ -91,81 +108,108 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		public AfsprakenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
+
+			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijf_Event;
 		}
 
+		private void UpdateGeselecteerdBedrijf_Event() {
+			Werknemer = null;
+			KiesWerknemerTextBlock.Text = "Kies werknemer";
+		}
+
+		#region Functies
 		#region VoegMedeWerkerToeEiland
-		private void IsDatePickerGeldigeText(object sender, TextCompositionEventArgs e) {
-			e.Handled = e.Text.Any(char.IsDigit);
-		}
-
 		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) => ControleerInputOpDatum(sender);
-
 		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => ControleerInputOpDatum(sender);
+		private void DatePickerInput_LostKeyboardFocus(object sender, RoutedEventArgs e) => ControleerInputOpDatum(sender);
+		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) => SluitOverlay();
+		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) => e.Handled = e.Text.Any(char.IsDigit);
 
 		private void ControleerInputOpDatum(object sender) {
 			TextBox textBox = sender as TextBox;
-			if (DateTime.TryParse(textBox.Text.Trim('-'), out DateTime dateTime)) {
-				textBox.Text = dateTime.ToString("dd/MM/yyyy - HH:mm");
+			if (DateTime.TryParse(textBox.Text, out DateTime dateTime)) {
+				textBox.Text = dateTime.ToString("dd/MM/yyyy HH:mm");
+				textBox.BorderBrush = Brushes.Transparent;
+				textBox.BorderThickness = new Thickness(0);
+			} else {
+				if (textBox.Name == "EindTijdTextBox" && string.IsNullOrWhiteSpace(EindTijdTextBox.Text)) {
+					textBox.BorderBrush = Brushes.Transparent;
+					textBox.BorderThickness = new Thickness(0);
+					return;
+				}
+				textBox.BorderBrush = Brushes.LightSalmon;
+				textBox.BorderThickness = new Thickness(1);
 			}
 		}
-
-		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) => SluitOverlay();
-
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			#region Controle Input
-
-			BezoekerVoornaam = BezoekerVoornaam.Trim();
-			BezoekerAchternaam = BezoekerAchternaam.Trim();
-			BezoekerEmail = BezoekerEmail.Trim();
-			BezoekerBedrijf = BezoekerBedrijf.Trim();
 
 			if (BeheerderWindow.GeselecteerdBedrijf is null) {
 				MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
-			ValideerInput.IsLeeg(new Dictionary<string, string?>() { { "Voornaam", BezoekerVoornaam }, { "Achternaam", BezoekerAchternaam }, { "Email", BezoekerEmail } });
+			if (BezoekerVoornaam.IsLeeg()) {
+				MessageBox.Show("Voornaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			if (BezoekerAchternaam.IsLeeg()) {
+				MessageBox.Show("Achternaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			if (BezoekerEmail.IsLeeg()) {
+				MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
 
 			if (!BezoekerEmail.IsEmailGeldig()) {
 				MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
-			WerknemerDTO werknemer = Werknemer;
-
-			if (werknemer is null) {
+			if (Werknemer is null) {
 				MessageBox.Show("Gelieve een werknemer te kiezen", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
-			if (werknemer.Id is null) {
+			if (Werknemer.Id is null) {
 				MessageBox.Show("Werknemer id is null, gelieve het dashboard te herstarten", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
+			if (string.IsNullOrEmpty(StartTijd.Trim())) {
+				MessageBox.Show("StartTijd is verplicht !", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			DateTime? eindTijdDatum = null;
+			if (EindTijd is not null && !DateTime.TryParse(EindTijd.Trim(), out DateTime dateTime) && !string.IsNullOrWhiteSpace(EindTijd)) {
+				MessageBox.Show("EindTijd is niet geldig !", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			} else {
+				if (EindTijd is not null && !string.IsNullOrWhiteSpace(EindTijd.Trim()))
+					eindTijdDatum = DateTime.Parse(EindTijd.Trim());
+			}
+
 			#endregion
 
-			AfspraakInputDTO payload = new(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), null, null, werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
-			AfspraakDTO afspraak = ApiController.PostAfspraak(payload);
-
-			MessageBox.Show($"Afspraak toegevoegd", "Success");
-
-			NieuweAfspraakToegevoegd?.Invoke(afspraak);
+			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), DateTime.Parse(StartTijd), eindTijdDatum, Werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
+			AfspraakDTO afspraak = ApiController.MaakAfspraak(payload);
+			afspraak.Status = "Lopend";
 
 			SluitOverlay();
-		}
+			NieuweAfspraakToegevoegd?.Invoke(afspraak);
 
+			MessageBox.Show($"Afspraak toegevoegd", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+		}
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
 			KiesMedewerkerEiland.Visibility = Visibility.Visible;
 
-			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.FetchWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
+			MedewerkersLijstVanBedrijf.ItemsSource = new ObservableCollection<WerknemerDTO>(ApiController.GeefWerknemersVanBedrijf(BeheerderWindow.GeselecteerdBedrijf));
 		}
-
-		private void IsInputGeldigZonderCijfers(object sender, TextCompositionEventArgs e) {
-			e.Handled = e.Text.Any(char.IsDigit);
-		}
-
 		private void SluitOverlay() {
 			Werknemer = null;
 
@@ -181,6 +225,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			AfsprakenPage afsprakenPage = AfsprakenPage.Instance;
 			afsprakenPage.AfsprakenPopup.Visibility = Visibility.Hidden;
+		}
+		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
+			if (_selecteditem is not null) {
+				_selecteditem.Background = Brushes.Transparent;
+			}
+			StackPanel? listViewItem = sender as StackPanel;
+
+			Border border = (Border)listViewItem.Children[0];
+			border.Background = Brushes.White;
+			border.CornerRadius = new CornerRadius(20);
+			border.Margin = new Thickness(0);
+			_selecteditem = border;
 		}
 		#endregion
 
@@ -199,6 +255,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Visible;
 			KiesMedewerkerEiland.Visibility = Visibility.Collapsed;
 		}
+		#endregion
 		#endregion
 
 		#region ProppertyChanged

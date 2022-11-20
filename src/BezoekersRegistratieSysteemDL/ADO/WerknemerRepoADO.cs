@@ -11,7 +11,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <summary>
 		/// Private lokale variabele connectiestring
 		/// </summary>
-		private readonly string _connectieString;
+		private string _connectieString;
 
 		/// <summary>
 		/// WerknemerRepoADO constructor krijgt connectie string als parameter.
@@ -58,85 +58,88 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 			}
 		}
 
-		/// <summary>
-		/// Private methode gaat na of werknemer bestaat adhv een werknemer object of parameters werknemer id.
-		/// </summary>
-		/// <param name="werknemer">Optioneel: Werknemer object dat gecontroleerd wenst te worden.</param>
-		/// <param name="werknemerId">Optioneel: Id van de werknemer die gecontroleerd wenst te worden.</param>
-		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="WerknemerADOException">Faalt om bestaan werknemer te verifiëren op basis van werknemer id of werknemer object.</exception>
-		/// <exception cref="WerknemerADOException">Als het email pad neemt en naam wijkt af is er exception.</exception>
-		private bool BestaatWerknemer(Werknemer? werknemer, long? werknemerId) {
-			SqlConnection con = GetConnection();
-			string query = "SELECT COUNT(*) " +
-						   "FROM Werknemer wn ";
-			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				if (werknemer is not null) {
-					if (werknemer.Id != 0) {
-						query += "WHERE wn.id = @id";
-						cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
-						cmd.Parameters["@id"].Value = werknemer.Id;
-					} else {
-						query += "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId) " +
-								 "WHERE wb.werknemerEmail IN(";
-						int mailCount = 0;
-						foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
-							query += $"@mail{mailCount},";
-							cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
-							cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
-							mailCount++;
-						}
-						query = query[..^1];
-						query += ")";
-					}
-				}
-				if (werknemerId.HasValue) {
-					query += "WHERE wn.id = @id";
-					cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
-					cmd.Parameters["@id"].Value = werknemerId;
+        /// <summary>
+        /// Private methode gaat na of werknemer bestaat adhv een werknemer object of parameters werknemer id.
+        /// </summary>
+        /// <param name="werknemer">Optioneel: Werknemer object dat gecontroleerd wenst te worden.</param>
+        /// <param name="werknemerId">Optioneel: Id van de werknemer die gecontroleerd wenst te worden.</param>
+        /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
+        /// <exception cref="WerknemerADOException">Faalt om bestaan werknemer te verifiëren op basis van werknemer id of werknemer object.</exception>
+        /// <exception cref="WerknemerADOException">Als het email pad neemt en naam wijkt af is er exception.</exception>
+        private bool BestaatWerknemer(Werknemer? werknemer, long? werknemerId) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+                           "FROM Werknemer wn ";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    if (werknemer is not null) {
+                        if (werknemer.Id != 0) {
+                            query += "WHERE wn.id = @id";
+                            cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                            cmd.Parameters["@id"].Value = werknemer.Id;
+                        } else {
+                            query += "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId) " +
+                                     "WHERE wb.werknemerEmail IN(";
+                            int mailCount = 0;
+                            foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
+                                query += $"@mail{mailCount},";
+                                cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                                cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
+                                mailCount++;
+                            }
+                            query = query.Substring(0, query.Length - 1);
+                            query += ")";
+                        }
+                    }
+                    if (werknemerId.HasValue) {
+                        query += "WHERE wn.id = @id";
+                        cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                        cmd.Parameters["@id"].Value = werknemerId;
 
-				}
-				cmd.CommandText = query;
-				int i = (int)cmd.ExecuteScalar();
+                    }
+                    cmd.CommandText = query;
+                    int i = (int)cmd.ExecuteScalar();
 
-				//Kan uitgecomment worden als voor moest werknemer naam niet uitmaken wnr email bestaat
-				if (werknemer is not null && i > 0 && werknemer.Id == 0) {
-					using SqlCommand cmdWerknemerNaam = con.CreateCommand();
-					string queryWerknemerNaam = "SELECT COUNT(*) " +
-												"FROM Werknemer wn " +
-												"JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId)" +
-												"WHERE wn.ANaam = @Anaam AND wn.VNaam = @Vnaam AND wb.werknemerEmail IN(";
-					int mailCount = 0;
-					foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
-						queryWerknemerNaam += $"@mail{mailCount},";
-						cmdWerknemerNaam.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
-						cmdWerknemerNaam.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
-						mailCount++;
-					}
-					queryWerknemerNaam = queryWerknemerNaam[..^1];
-					queryWerknemerNaam += ")";
-					cmdWerknemerNaam.CommandText = queryWerknemerNaam;
-					cmdWerknemerNaam.Parameters.Add(new SqlParameter("@Anaam", SqlDbType.VarChar));
-					cmdWerknemerNaam.Parameters.Add(new SqlParameter("@Vnaam", SqlDbType.VarChar));
-					cmdWerknemerNaam.Parameters["@Anaam"].Value = werknemer.Achternaam;
-					cmdWerknemerNaam.Parameters["@Vnaam"].Value = werknemer.Voornaam;
-					int j = (int)cmdWerknemerNaam.ExecuteScalar();
-					if (j == 0) {
-						throw new Exception("Werknemer mail is niet aan deze werknemer naam gelinked");
-					}
-				}
-				return (i > 0);
-			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-				exx.Data.Add("werknemer", werknemer);
-				exx.Data.Add("werknemerId", werknemerId);
-				throw exx;
-			} finally {
-				con.Close();
-			}
-		}
+                    //Kan uitgecomment worden als voor moest werknemer naam niet uitmaken wnr email bestaat
+                    if (werknemer is not null && i > 0 && werknemer.Id == 0) {
+                        using (SqlCommand cmdWerknemerNaam = con.CreateCommand()) {
+                            string queryWerknemerNaam = "SELECT COUNT(*) " +
+                                                        "FROM Werknemer wn " +
+                                                        "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId)" +
+                                                        "WHERE wn.ANaam = @Anaam AND wn.VNaam = @Vnaam AND wb.werknemerEmail IN(";
+                            int mailCount = 0;
+                            foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
+                                queryWerknemerNaam += $"@mail{mailCount},";
+                                cmdWerknemerNaam.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                                cmdWerknemerNaam.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
+                                mailCount++;
+                            }
+                            queryWerknemerNaam = queryWerknemerNaam.Substring(0, queryWerknemerNaam.Length - 1);
+                            queryWerknemerNaam += ")";
+                            cmdWerknemerNaam.CommandText = queryWerknemerNaam;
+                            cmdWerknemerNaam.Parameters.Add(new SqlParameter("@Anaam", SqlDbType.VarChar));
+                            cmdWerknemerNaam.Parameters.Add(new SqlParameter("@Vnaam", SqlDbType.VarChar));
+                            cmdWerknemerNaam.Parameters["@Anaam"].Value = werknemer.Achternaam;
+                            cmdWerknemerNaam.Parameters["@Vnaam"].Value = werknemer.Voornaam;
+                            int j = (int)cmdWerknemerNaam.ExecuteScalar();
+                            if (j == 0) {
+                                throw new Exception("Werknemer mail is niet aan deze werknemer naam gelinked");
+                            }
+                        }
+                    }
+                    return (i > 0);
+                    
+                }
+            } catch (Exception ex) {
+                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("werknemer", werknemer);
+                exx.Data.Add("werknemerId", werknemerId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
 
 		/// <summary>
 		/// Haalt werknemer op adhv parameter werknemer id.
@@ -144,50 +147,59 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_werknemerId">Id van de gewenste werknemer.</param>
 		/// <returns>Gewenst werknemer object</returns>
 		/// <exception cref="WerknemerADOException">Faalt om werknemer object op te halen op basis van het id.</exception>
-		public Werknemer GeefWerknemer(long _werknemerId) {
+		public StatusObject GeefWerknemer(long _werknemerId) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.Vnaam as WerknemerVnaam, wn.Anaam as WerknemerAnaam, wb.WerknemerEmail, " +
 						   "b.id as BedrijfId, b.naam as BedrijfNaam, b.btwnr as bedrijfBTW, b.telenr as bedrijfTele, b.email as BedrijfMail, b.adres as BedrijfAdres, b.BTWChecked, " +
-						   "f.functienaam " +
+						   "f.functienaam, (SELECT COUNT(*) " +
+										   "FROM Afspraak a " +
+										   "JOIN Werknemerbedrijf wbb ON wbb.Id = a.WerknemerBedrijfId " +
+										   "WHERE wbb.WerknemerId = wn.Id " +
+										   "AND a.AfspraakStatusId = 1) AS HuidigeAfsprakenAantal " +
 						   "FROM Werknemer wn " +
 						   "LEFT JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) AND wb.Status = 1 " +
 						   "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
 						   "LEFT JOIN functie f ON(f.id = wb.functieid) " +
-						   "WHERE wn.id = @werknemerId";
-			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				cmd.CommandText = query;
-				cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-				cmd.Parameters["@werknemerId"].Value = _werknemerId;
-				IDataReader reader = cmd.ExecuteReader();
-				Werknemer werknemer = null;
-				Bedrijf bedrijf = null;
-				while (reader.Read()) {
-					if (werknemer is null) {
-						string werknemerVnaam = (string)reader["WerknemerVnaam"];
-						string werknemerAnaam = (string)reader["WerknemerAnaam"];
-						werknemer = new Werknemer(_werknemerId, werknemerVnaam, werknemerAnaam);
-					}
-					if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail"))) {
-						if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
-							long bedrijfId = (long)reader["BedrijfId"];
-							string bedrijfNaam = (string)reader["BedrijfNaam"];
-							string bedrijfBTW = (string)reader["bedrijfBTW"];
-							string bedrijfTele = (string)reader["bedrijfTele"];
-							string bedrijfMail = (string)reader["BedrijfMail"];
-							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+                           "WHERE wn.id = @werknemerId";
+            try {
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters["@werknemerId"].Value = _werknemerId;
+					IDataReader reader = cmd.ExecuteReader();
+					StatusObject statusObject = null;
+					Werknemer werknemer = null;
+					Bedrijf bedrijf = null;
+					while (reader.Read()) {
+						if (statusObject is null) {
+							string werknemerVnaam = (string)reader["WerknemerVnaam"];
+							string werknemerAnaam = (string)reader["WerknemerAnaam"];
+							string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+							werknemer = new Werknemer(_werknemerId, werknemerVnaam, werknemerAnaam);
+                            statusObject = new StatusObject(statusNaam, werknemer);
 						}
-						string werknemerMail = (string)reader["WerknemerEmail"];
-						string functieNaam = (string)reader["functienaam"];
-						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+						//TODO: Deze ordinal check mag waars weg
+						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail"))) {
+							if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
+								long bedrijfId = (long)reader["BedrijfId"];
+								string bedrijfNaam = (string)reader["BedrijfNaam"];
+								string bedrijfBTW = (string)reader["bedrijfBTW"];
+								string bedrijfTele = (string)reader["bedrijfTele"];
+								string bedrijfMail = (string)reader["BedrijfMail"];
+								string bedrijfAdres = (string)reader["BedrijfAdres"];
+								bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+								bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+							}
+							string werknemerMail = (string)reader["WerknemerEmail"];
+							string functieNaam = (string)reader["functienaam"];
+							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+						}
 					}
+					return statusObject;
 				}
-				return werknemer;
 			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemerId", _werknemerId);
 				throw exx;
 			} finally {
@@ -201,7 +213,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_bedrijfId">Id van het gewenste bedrijf.</param>
 		/// <returns>IReadOnlyList van werknemer objecten waar Werknemer Bedrijf id = bedrijf id.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van het bedrijf id.</exception>
-		public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(long _bedrijfId) {
+		public IReadOnlyList<StatusObject> GeefWerknemersPerBedrijf(long _bedrijfId) {
 			try {
 				return GeefWerknemers(_bedrijfId, null, null, null);
 			} catch (Exception ex) {
@@ -217,7 +229,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="bedrijfId">Bedrijf van de gewenste werknemer</param>
 		/// <returns>IReadOnlyList van werknemer objecten op werknemernaam PER bedrijf.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer voornaam/achternaam en bedrijf id.</exception>
-		public IReadOnlyList<Werknemer> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId) {
+		public IReadOnlyList<StatusObject> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId) {
 			try {
 				return GeefWerknemers(bedrijfId, voornaam, achternaam, null);
 			} catch (Exception ex) {
@@ -232,7 +244,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="bedrijfId">Bedrijf van de gewenste werknemer</param>
 		/// <returns>IReadOnlyList van werknemer objecten op werknemerfunctie PER bedrijf.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie en bedrijf id.</exception>
-		public IReadOnlyList<Werknemer> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId) {
+		public IReadOnlyList<StatusObject> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId) {
 			try {
 				return GeefWerknemers(bedrijfId, null, null, functie);
 			} catch (Exception ex) {
@@ -249,72 +261,80 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_functie">Functie van de gewenste werknemer</param>
 		/// <returns>IReadOnlyList van werknemer objecten op werknemerfunctie/naam PER bedrijf.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie/voornaam/achternaam en bedrijf id.</exception>
-		private IReadOnlyList<Werknemer> GeefWerknemers(long? _bedrijfId, string? _voornaam, string? _achternaam, string? _functie) {
+		private IReadOnlyList<StatusObject> GeefWerknemers(long? _bedrijfId, string? _voornaam, string? _achternaam, string? _functie) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
 						   "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
-						   "f.Functienaam " +
+						   "f.Functienaam, (SELECT COUNT(*) " +
+										   "FROM Afspraak a " +
+										   "JOIN Werknemerbedrijf wbb ON wbb.Id = a.WerknemerBedrijfId " +
+										   "WHERE wbb.WerknemerId = wn.Id " +
+										   "AND a.AfspraakStatusId = 1) AS HuidigeAfsprakenAantal " +
 						   "FROM Werknemer wn " +
 						   "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) AND wb.Status = 1 " +
 						   "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
 						   "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
 						   "WHERE 1=1";
-			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				if (_bedrijfId.HasValue) {
-					query += " AND b.id = @bedrijfId";
-					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
-				}
-				if (!String.IsNullOrWhiteSpace(_voornaam)) {
-					query += " AND wn.VNaam LIKE @VNaam";
-					cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
-					cmd.Parameters["@VNaam"].Value = $"%{_voornaam}%";
-				}
-				if (!String.IsNullOrWhiteSpace(_achternaam)) {
-					query += " AND wn.ANaam LIKE @ANaam";
-					cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
-					cmd.Parameters["@ANaam"].Value = $"%{_achternaam}%";
-				}
-				if (!String.IsNullOrWhiteSpace(_functie)) {
-					query += " AND f.FunctieNaam = @functie";
-					cmd.Parameters.Add(new SqlParameter("@functie", SqlDbType.VarChar));
-					cmd.Parameters["@functie"].Value = _functie;
-				}
-				query += " ORDER BY wn.VNaam, wn.ANaam, b.id";
-				cmd.CommandText = query;
-				List<Werknemer> werknemers = new();
-				Werknemer werknemer = null;
-				Bedrijf bedrijf = null;
-				IDataReader reader = cmd.ExecuteReader();
-				while (reader.Read()) {
-					if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
-						long werknemerId = (long)reader["WerknemerId"];
-						string werknemerVNaam = (string)reader["WerknemerVNaam"];
-						string werknemerAnaam = (string)reader["WerknemerAnaam"];
-						werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
-						werknemers.Add(werknemer);
+            try {
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					if (_bedrijfId.HasValue) {
+						query += " AND b.id = @bedrijfId";
+						cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+						cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
 					}
-					if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail"))) {
-						if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
-							long bedrijfId = (long)reader["BedrijfId"];
-							string bedrijfNaam = (string)reader["BedrijfNaam"];
-							string bedrijfBTW = (string)reader["bedrijfBTW"];
-							string bedrijfTele = (string)reader["BedrijfTeleNr"];
-							string bedrijfMail = (string)reader["BedrijfMail"];
-							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+					if (!String.IsNullOrWhiteSpace(_voornaam)) {
+						query += " AND wn.VNaam LIKE @VNaam";
+						cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+						cmd.Parameters["@VNaam"].Value = $"%{_voornaam}%";
+					}
+					if (!String.IsNullOrWhiteSpace(_achternaam)) {
+						query += " AND wn.ANaam LIKE @ANaam";
+						cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+						cmd.Parameters["@ANaam"].Value = $"%{_achternaam}%";
+					}
+					if (!String.IsNullOrWhiteSpace(_functie)) {
+						query += " AND f.FunctieNaam = @functie";
+						cmd.Parameters.Add(new SqlParameter("@functie", SqlDbType.VarChar));
+						cmd.Parameters["@functie"].Value = _functie;
+					}
+					query += " ORDER BY wn.VNaam, wn.ANaam, b.id, wn.id";
+					cmd.CommandText = query;
+					StatusObject statusObject = null;
+					List<StatusObject> werknemersMetStatus = new List<StatusObject>();
+					Werknemer werknemer = null;
+					Bedrijf bedrijf = null;
+					IDataReader reader = cmd.ExecuteReader();
+					while (reader.Read()) {
+						if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
+							long werknemerId = (long)reader["WerknemerId"];
+							string werknemerVNaam = (string)reader["WerknemerVNaam"];
+							string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                            string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+                            werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
+							statusObject = new StatusObject(statusNaam, werknemer);
+							werknemersMetStatus.Add(statusObject);
 						}
-						string werknemerMail = (string)reader["WerknemerEmail"];
-						string functieNaam = (string)reader["functienaam"];
-						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail"))) {
+							if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
+								long bedrijfId = (long)reader["BedrijfId"];
+								string bedrijfNaam = (string)reader["BedrijfNaam"];
+								string bedrijfBTW = (string)reader["bedrijfBTW"];
+								string bedrijfTele = (string)reader["BedrijfTeleNr"];
+								string bedrijfMail = (string)reader["BedrijfMail"];
+								string bedrijfAdres = (string)reader["BedrijfAdres"];
+								bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+								bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+							}
+							string werknemerMail = (string)reader["WerknemerEmail"];
+							string functieNaam = (string)reader["functienaam"];
+							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+						}
 					}
+					return werknemersMetStatus;
 				}
-				return werknemers;
 			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				exx.Data.Add("voornaam", _voornaam);
 				exx.Data.Add("achternaam", _achternaam);
@@ -372,21 +392,22 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 						   "AND WerknemerId = @werknemerId " +
 						   "AND Status = 1";
 			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				if (!String.IsNullOrWhiteSpace(functie)) {
-					query += " AND FunctieId = (SELECT Id FROM FUNCTIE WHERE FunctieNaam = @FunctieNaam)";
-					cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
-					cmd.Parameters["@FunctieNaam"].Value = functie;
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					if (!String.IsNullOrWhiteSpace(functie)) {
+						query += " AND FunctieId = (SELECT Id FROM FUNCTIE WHERE FunctieNaam = @FunctieNaam)";
+						cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
+						cmd.Parameters["@FunctieNaam"].Value = functie;
+					}
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters["@bedrijfId"].Value = bedrijf.Id;
+					cmd.Parameters["@werknemerId"].Value = werknemer.Id;
+					cmd.ExecuteNonQuery();
 				}
-				cmd.CommandText = query;
-				cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-				cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-				cmd.Parameters["@bedrijfId"].Value = bedrijf.Id;
-				cmd.Parameters["@werknemerId"].Value = werknemer.Id;
-				cmd.ExecuteNonQuery();
 			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				exx.Data.Add("bedrijf", bedrijf);
 				exx.Data.Add("functie", functie);
@@ -410,20 +431,21 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 			string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, WerknemerEmail, FunctieId) " +
 								 "VALUES(@bedrijfId,@werknemerId, @email,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
 			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				cmd.CommandText = queryInsert;
-				cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-				cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-				cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
-				cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
-				cmd.Parameters["@werknemerId"].Value = werknemer.Id;
-				cmd.Parameters["@bedrijfId"].Value = werknemerInfo.Bedrijf.Id;
-				cmd.Parameters["@email"].Value = werknemerInfo.Email;
-				cmd.Parameters["@FunctieNaam"].Value = functie;
-				cmd.ExecuteNonQuery();
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = queryInsert;
+					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
+					cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
+					cmd.Parameters["@werknemerId"].Value = werknemer.Id;
+					cmd.Parameters["@bedrijfId"].Value = werknemerInfo.Bedrijf.Id;
+					cmd.Parameters["@email"].Value = werknemerInfo.Email;
+					cmd.Parameters["@FunctieNaam"].Value = functie;
+					cmd.ExecuteNonQuery();
+				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				exx.Data.Add("werknemerinfo", werknemerInfo);
 				throw exx;
@@ -442,20 +464,21 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 			SqlConnection con = GetConnection();
 			string query = "INSERT INTO Werknemer (VNaam, ANaam) OUTPUT INSERTED.Id VALUES (@VNaam, @ANaam)";
 			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				cmd.CommandText = query;
-				cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
-				cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
-				cmd.Parameters["@VNaam"].Value = werknemer.Voornaam;
-				cmd.Parameters["@ANaam"].Value = werknemer.Achternaam;
-				long i = (long)cmd.ExecuteScalar();
-				werknemer.ZetId(i);
-				////Dit voegt de bedrijven/functie toe aan uw werknemer in de DB
-				//VoegFunctieToeAanWerknemer(werknemer);
-				return werknemer;
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+					cmd.Parameters["@VNaam"].Value = werknemer.Voornaam;
+					cmd.Parameters["@ANaam"].Value = werknemer.Achternaam;
+					long i = (long)cmd.ExecuteScalar();
+					werknemer.ZetId(i);
+					////Dit voegt de bedrijven/functie toe aan uw werknemer in de DB
+					//VoegFunctieToeAanWerknemer(werknemer);
+					return werknemer;
+				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				throw exx;
 			} finally {
@@ -546,33 +569,35 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 			con.Open();
 			SqlTransaction trans = con.BeginTransaction();
 			try {
-				using SqlCommand cmdWerknemerBedrijf = con.CreateCommand();
-				using SqlCommand cmdWerknemer = con.CreateCommand();
-				cmdWerknemer.Transaction = trans;
-				cmdWerknemerBedrijf.Transaction = trans;
-				//Portie werknemer
-				cmdWerknemer.CommandText = queryWerknemer;
-				cmdWerknemer.Parameters.Add(new SqlParameter("@Id", SqlDbType.BigInt));
-				cmdWerknemer.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
-				cmdWerknemer.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
-				cmdWerknemer.Parameters["@Id"].Value = werknemer.Id;
-				cmdWerknemer.Parameters["@VNaam"].Value = werknemer.Voornaam;
-				cmdWerknemer.Parameters["@ANaam"].Value = werknemer.Achternaam;
-				cmdWerknemer.ExecuteNonQuery();
-				//Portie werknemerBedrijf
-				string queryWerknemerBedrijf = "UPDATE WerknemerBedrijf SET WerknemerEMail = @mail WHERE WerknemerId = @Wid AND Bedrijfid = @Bid";
-				cmdWerknemerBedrijf.CommandText = queryWerknemerBedrijf;
-				cmdWerknemerBedrijf.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
-				cmdWerknemerBedrijf.Parameters.Add(new SqlParameter("@Wid", SqlDbType.BigInt));
-				cmdWerknemerBedrijf.Parameters.Add(new SqlParameter("@Bid", SqlDbType.BigInt));
-				cmdWerknemerBedrijf.Parameters["@mail"].Value = werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].Email;
-				cmdWerknemerBedrijf.Parameters["@Wid"].Value = werknemer.Id;
-				cmdWerknemerBedrijf.Parameters["@Bid"].Value = bedrijf.Id;
-				cmdWerknemerBedrijf.ExecuteNonQuery();
-				trans.Commit();
+				using (SqlCommand cmdWerknemerBedrijf = con.CreateCommand())
+				using (SqlCommand cmdWerknemer = con.CreateCommand()) {
+
+					cmdWerknemer.Transaction = trans;
+					cmdWerknemerBedrijf.Transaction = trans;
+					//Portie werknemer
+					cmdWerknemer.CommandText = queryWerknemer;
+					cmdWerknemer.Parameters.Add(new SqlParameter("@Id", SqlDbType.BigInt));
+					cmdWerknemer.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+					cmdWerknemer.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+					cmdWerknemer.Parameters["@Id"].Value = werknemer.Id;
+					cmdWerknemer.Parameters["@VNaam"].Value = werknemer.Voornaam;
+					cmdWerknemer.Parameters["@ANaam"].Value = werknemer.Achternaam;
+					cmdWerknemer.ExecuteNonQuery();
+					//Portie werknemerBedrijf
+					string queryWerknemerBedrijf = "UPDATE WerknemerBedrijf SET WerknemerEMail = @mail WHERE WerknemerId = @Wid AND Bedrijfid = @Bid";
+					cmdWerknemerBedrijf.CommandText = queryWerknemerBedrijf;
+					cmdWerknemerBedrijf.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
+					cmdWerknemerBedrijf.Parameters.Add(new SqlParameter("@Wid", SqlDbType.BigInt));
+					cmdWerknemerBedrijf.Parameters.Add(new SqlParameter("@Bid", SqlDbType.BigInt));
+					cmdWerknemerBedrijf.Parameters["@mail"].Value = werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].Email;
+					cmdWerknemerBedrijf.Parameters["@Wid"].Value = werknemer.Id;
+					cmdWerknemerBedrijf.Parameters["@Bid"].Value = bedrijf.Id;
+					cmdWerknemerBedrijf.ExecuteNonQuery();
+					trans.Commit();
+				}
 			} catch (Exception ex) {
 				trans.Rollback();
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				throw exx;
 			} finally {
@@ -592,15 +617,16 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 						   "FROM Functie " +
 						   "WHERE FunctieNaam = @fNaam";
 			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				cmd.CommandText = query;
-				cmd.Parameters.Add(new SqlParameter("@fNaam", SqlDbType.VarChar));
-				cmd.Parameters["@fNaam"].Value = functieNaam;
-				int i = (int)cmd.ExecuteScalar();
-				return (i > 0);
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@fNaam", SqlDbType.VarChar));
+					cmd.Parameters["@fNaam"].Value = functieNaam;
+					int i = (int)cmd.ExecuteScalar();
+					return (i > 0);
+				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("functieNaam", functieNaam);
 				throw exx;
 			} finally {
@@ -618,14 +644,15 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 			SqlConnection con = GetConnection();
 			string query = "INSERT INTO Functie(FunctieNaam) VALUES(@fNaam)";
 			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				cmd.CommandText = query;
-				cmd.Parameters.Add(new SqlParameter("@fNaam", SqlDbType.VarChar));
-				cmd.Parameters["@fNaam"].Value = functieNaam;
-				cmd.ExecuteNonQuery();
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@fNaam", SqlDbType.VarChar));
+					cmd.Parameters["@fNaam"].Value = functieNaam;
+					cmd.ExecuteNonQuery();
+				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("functieNaam", functieNaam);
 				throw exx;
 			} finally {
@@ -640,52 +667,59 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die niet in afspraak zijn.</param>
 		/// <returns>IReadOnlyList van werknemer objecten waar statuscode niet gelijk is aan 1 = 'In gang'.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van afspraakloze werknemer objecten samen te stellen op basis van bedrijf id.</exception>
-		public IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
+		public IReadOnlyList<StatusObject> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
 			SqlConnection con = GetConnection();
-			string query = "SELECT w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerAnaam, wb.WerknemerEmail, f.FunctieNaam, " +
-						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked " +
-						   "FROM Werknemerbedrijf wb " +
-						   "JOIN Afspraak a ON(a.WerknemerBedrijfId = wb.Id) AND a.AfspraakStatusId = 1 " +
-						   "JOIN Werknemer w ON(w.Id = wb.WerknemerId) " +
-						   "JOIN Functie f ON(f.Id = wb.FunctieId) " +
-						   "JOIN Bedrijf b ON(b.Id = wb.BedrijfId) " +
-						   "WHERE wb.BedrijfId = @bedrijfId " +
-						   "ORDER BY w.VNaam, w.ANaam";
-			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				cmd.CommandText = query;
-				cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-				cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
-				List<Werknemer> werknemers = new();
-				Werknemer werknemer = null;
-				Bedrijf bedrijf = null;
-				IDataReader reader = cmd.ExecuteReader();
-				while (reader.Read()) {
-					if (bedrijf is null) {
-						long bedrijfId = (long)reader["BedrijfId"];
-						string bedrijfNaam = (string)reader["BedrijfNaam"];
-						string bedrijfBTW = (string)reader["bedrijfBTW"];
-						string bedrijfTele = (string)reader["BedrijfTeleNr"];
-						string bedrijfMail = (string)reader["BedrijfMail"];
-						string bedrijfAdres = (string)reader["BedrijfAdres"];
-						bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-						bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
+					       "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
+						   "f.Functienaam " +
+						   "FROM Werknemer wn " +
+						   "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) AND wb.Status = 1 " +
+						   "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+						   "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
+                           "WHERE b.Id = @bedrijfId AND (SELECT COUNT(*) " +
+													    "FROM Afspraak a " +
+														"JOIN Werknemerbedrijf wbb ON wbb.Id = a.WerknemerBedrijfId " +
+														"WHERE wbb.WerknemerId = wn.Id " +
+														"AND a.AfspraakStatusId = 1) = 0 " +
+                           "ORDER BY wn.VNaam, wn.ANaam, wn.Id";
+            try {
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
+                    StatusObject statusObject = null;
+                    List<StatusObject> werknemersMetStatus = new List<StatusObject>();
+                    Werknemer werknemer = null;
+					Bedrijf bedrijf = null;
+					IDataReader reader = cmd.ExecuteReader();
+					while (reader.Read()) {
+						if (bedrijf is null) {
+							long bedrijfId = (long)reader["BedrijfId"];
+							string bedrijfNaam = (string)reader["BedrijfNaam"];
+							string bedrijfBTW = (string)reader["bedrijfBTW"];
+							string bedrijfTele = (string)reader["BedrijfTeleNr"];
+							string bedrijfMail = (string)reader["BedrijfMail"];
+							string bedrijfAdres = (string)reader["BedrijfAdres"];
+							bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+						}
+						if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
+							long werknemerId = (long)reader["WerknemerId"];
+							string werknemerVNaam = (string)reader["WerknemerVNaam"];
+							string werknemerAnaam = (string)reader["WerknemerAnaam"];
+							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
+							statusObject = new StatusObject("Vrij", werknemer);
+                            werknemersMetStatus.Add(statusObject);
+						}
+						string werknemerMail = (string)reader["WerknemerEmail"];
+						string functieNaam = (string)reader["FunctieNaam"];
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
 					}
-					if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
-						long werknemerId = (long)reader["WerknemerId"];
-						string werknemerVNaam = (string)reader["WerknemerVNaam"];
-						string werknemerAnaam = (string)reader["WerknemerAnaam"];
-						werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
-						werknemers.Add(werknemer);
-					}
-					string werknemerMail = (string)reader["WerknemerEmail"];
-					string functieNaam = (string)reader["FunctieNaam"];
-					werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+					return werknemersMetStatus.AsReadOnly();
 				}
-				return werknemers.AsReadOnly();
 			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				throw exx;
 			} finally {
@@ -699,52 +733,59 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die momenteel in afspraak zijn.</param>
 		/// <returns>IReadOnlyList van werknemer objecten waar statuscode gelijk is aan 1 = 'In gang'.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van bezette werknemer objecten samen te stellen op basis van bedrijf id.</exception>
-		public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
+		public IReadOnlyList<StatusObject> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
 			SqlConnection con = GetConnection();
-			string query = "SELECT w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerAnaam, wb.WerknemerEmail, f.FunctieNaam, " +
-						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked " +
-						   "FROM Werknemerbedrijf wb " +
-						   "LEFT JOIN Afspraak a ON(a.WerknemerBedrijfId = wb.Id) AND a.AfspraakStatusId = 1 " +
-						   "LEFT JOIN Werknemer w ON(w.Id = wb.WerknemerId) " +
-						   "LEFT JOIN Functie f ON(f.Id = wb.FunctieId) " +
-						   "LEFT JOIN Bedrijf b ON(b.Id = wb.BedrijfId) " +
-						   "WHERE a.Id IS NULL AND wb.BedrijfId = @bedrijfId " +
-						   "ORDER BY w.VNaam, w.ANaam";
-			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				cmd.CommandText = query;
-				cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-				cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
-				List<Werknemer> werknemers = new();
-				Werknemer werknemer = null;
-				Bedrijf bedrijf = null;
-				IDataReader reader = cmd.ExecuteReader();
-				while (reader.Read()) {
-					if (bedrijf is null) {
-						long bedrijfId = (long)reader["BedrijfId"];
-						string bedrijfNaam = (string)reader["BedrijfNaam"];
-						string bedrijfBTW = (string)reader["bedrijfBTW"];
-						string bedrijfTele = (string)reader["BedrijfTeleNr"];
-						string bedrijfMail = (string)reader["BedrijfMail"];
-						string bedrijfAdres = (string)reader["BedrijfAdres"];
-						bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-						bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
+                           "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
+                           "f.Functienaam " +
+                           "FROM Werknemer wn " +
+                           "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) AND wb.Status = 1 " +
+                           "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+                           "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
+                           "WHERE b.Id = @bedrijfId AND (SELECT COUNT(*) " +
+                                                        "FROM Afspraak a " +
+                                                        "JOIN Werknemerbedrijf wbb ON wbb.Id = a.WerknemerBedrijfId " +
+                                                        "WHERE wbb.WerknemerId = wn.Id " +
+                                                        "AND a.AfspraakStatusId = 1) > 0 " +
+                           "ORDER BY wn.VNaam, wn.ANaam, wn.Id";
+            try {
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
+                    StatusObject statusObject = null;
+                    List<StatusObject> werknemersMetStatus = new List<StatusObject>();
+                    Werknemer werknemer = null;
+					Bedrijf bedrijf = null;
+					IDataReader reader = cmd.ExecuteReader();
+					while (reader.Read()) {
+						if (bedrijf is null) {
+							long bedrijfId = (long)reader["BedrijfId"];
+							string bedrijfNaam = (string)reader["BedrijfNaam"];
+							string bedrijfBTW = (string)reader["bedrijfBTW"];
+							string bedrijfTele = (string)reader["BedrijfTeleNr"];
+							string bedrijfMail = (string)reader["BedrijfMail"];
+							string bedrijfAdres = (string)reader["BedrijfAdres"];
+							bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+						}
+						if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
+							long werknemerId = (long)reader["WerknemerId"];
+							string werknemerVNaam = (string)reader["WerknemerVNaam"];
+							string werknemerAnaam = (string)reader["WerknemerAnaam"];
+							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
+                            statusObject = new StatusObject("Bezet", werknemer);
+                            werknemersMetStatus.Add(statusObject);
+						}
+						string werknemerMail = (string)reader["WerknemerEmail"];
+						string functieNaam = (string)reader["FunctieNaam"];
+						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
 					}
-					if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
-						long werknemerId = (long)reader["WerknemerId"];
-						string werknemerVNaam = (string)reader["WerknemerVNaam"];
-						string werknemerAnaam = (string)reader["WerknemerAnaam"];
-						werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
-						werknemers.Add(werknemer);
-					}
-					string werknemerMail = (string)reader["WerknemerEmail"];
-					string functieNaam = (string)reader["FunctieNaam"];
-					werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+					return werknemersMetStatus.AsReadOnly();
 				}
-				return werknemers.AsReadOnly();
 			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				throw exx;
 			} finally {
@@ -752,35 +793,36 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 			}
 		}
 
-		/// <summary>
-		/// Stelt id van werknemer in in het werknemer object.
-		/// </summary>
-		/// <param name="werknemer">werknemer object dat id moet krijgen.</param>
-		/// <exception cref="WerknemerADOException">Faalt om id van werknemer te zetten.</exception>
+        /// <summary>
+        /// Stelt id van werknemer in in het werknemer object.
+        /// </summary>
+        /// <param name="werknemer">werknemer object dat id moet krijgen.</param>
+        /// <exception cref="WerknemerADOException">Faalt om id van werknemer te zetten.</exception>
 
-		public void GeefWerknemerId(Werknemer werknemer) {
+        public void GeefWerknemerId(Werknemer werknemer) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT TOP(1) w.id " +
 							"FROM Werknemer w " +
 							"JOIN Werknemerbedrijf wb ON(w.Id = wb.WerknemerId) " +
 							"WHERE wb.WerknemerEmail IN(";
 			try {
-				using SqlCommand cmd = con.CreateCommand();
-				con.Open();
-				int mailCount = 0;
-				foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
-					query += $"@mail{mailCount},";
-					cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
-					cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
-					mailCount++;
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();							
+                    int mailCount = 0;
+                    foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
+                        query += $"@mail{mailCount},";
+                        cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                        cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
+                        mailCount++;
+                    }
+                    query = query.Substring(0, query.Length - 1);
+                    query += ")";
+                    cmd.CommandText = query;
+					long i = (long)cmd.ExecuteScalar();
+					werknemer.ZetId(i);
 				}
-				query = query[..^1];
-				query += ")";
-				cmd.CommandText = query;
-				long i = (long)cmd.ExecuteScalar();
-				werknemer.ZetId(i);
 			} catch (Exception ex) {
-				WerknemerADOException exx = new($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				throw exx;
 			} finally {
