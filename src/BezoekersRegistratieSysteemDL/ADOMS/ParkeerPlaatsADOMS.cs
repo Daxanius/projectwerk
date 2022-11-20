@@ -1,7 +1,9 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
+using BezoekersRegistratieSysteemDL.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -32,6 +34,24 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         }
         public bool BestaatNummerplaat(string nummerplaat) {
             SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+                           "FROM Parkingplaatsen " +
+                           "WHERE NummerPlaat = @nummerplaat " +
+                           "AND EindTIjd IS NULL";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
+                    cmd.Parameters["@nummerplaat"].Value = nummerplaat;
+                    int i = (int)cmd.ExecuteScalar();
+                    return (i > 0);
+                }
+            } catch (Exception ex) {
+                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
 
         public void CheckNummerplaatIn(Parkeerplaats parkeerplaats) {
