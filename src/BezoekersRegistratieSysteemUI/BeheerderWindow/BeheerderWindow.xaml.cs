@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System.ComponentModel;

@@ -1,7 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Exceptions;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using Newtonsoft.Json;
@@ -223,7 +223,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}
 		}
 
-		public static void Delete(string url, string defaultFoutMelding = "") {
+		public async static Task Delete(string url, string defaultFoutMelding = "") {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -234,7 +234,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				using HttpClient client = new();
 				client.Timeout = _timeout;
 
-				client.DeleteAsync(apiUrl);
+				HttpResponseMessage response = await client.DeleteAsync(apiUrl);
+
+				if (!response.IsSuccessStatusCode) {
+					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
+				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
 					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
@@ -490,8 +494,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-		public static void VerwijderBedrijf(long id) {
-			Delete($"bedrijf/{id}");
+		public static async Task VerwijderBedrijf(long id) {
+			await Delete($"bedrijf/{id}");
 		}
 		#endregion
 

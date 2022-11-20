@@ -206,6 +206,7 @@
 
 	<ItemGroup>
 		<Folder Include="BeheerderWindow\Paginas\Parking\Controls\" />
+		<Folder Include="NewFolder\" />
 	</ItemGroup>
 
 	<ItemGroup>

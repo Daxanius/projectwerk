@@ -1,7 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
@@ -215,11 +215,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			KiesWerknemerTextBlock.Text = "Kies Werknemer";
 
-			BezoekerVoornaam = BezoekerVoornaam.ZetLeeg();
-			BezoekerAchternaam = BezoekerAchternaam.ZetLeeg();
-			BezoekerEmail = BezoekerEmail.ZetLeeg();
-			BezoekerBedrijf = BezoekerBedrijf.ZetLeeg();
-			StartTijd = StartTijd.ZetLeeg();
+			BezoekerVoornaam = "";
+			BezoekerAchternaam = "";
+			BezoekerEmail = "";
+			BezoekerBedrijf = "";
+			StartTijd = "";
 
 			EindTijd = null;
 

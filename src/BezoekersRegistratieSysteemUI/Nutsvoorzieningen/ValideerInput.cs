@@ -27,41 +27,12 @@ namespace BezoekersRegistratieSysteemUI.Nutsvoorzieningen {
 			return !input.IsNietLeeg();
 		}
 
-		public static void IsLeeg(Dictionary<string, string?> arr) {
-			foreach (KeyValuePair<string, string?> item in arr) {
-				if (item.Value.IsLeeg()) {
-					MessageBox.Show($"{item.Key} mag niet leeg zijn", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
-					return;
-				}
-			}
-		}
-
 		public static bool IsTelefoonNummerGeldig(this string input) {
 			return RegexTelefoonnummer.IsMatch(input);
 		}
 
 		public static bool IsBtwNummerGeldig(this string input) {
 			return RegexBtw.IsMatch(input);
-		}
-
-		#endregion
-
-		#region Setters
-
-		public static string ZetLeeg(this string input) {
-			return string.Empty;
-		}
-
-		public static object? ZetNull(this object input) {
-			return null;
-		}
-
-		public static string ToCamelCase(this string input) {
-			if (input.Length > 1) {
-				List<string> woorden = input.Split(" ").ToList();
-				input = string.Join(" ", woorden.Select(i => i[0].ToString().ToUpper() + i[1..]));
-			}
-			return input;
 		}
 
 		#endregion

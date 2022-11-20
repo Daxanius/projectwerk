@@ -31,29 +31,29 @@ connectionstring = connectionstring.Replace("\\\\", "\\");
 switch (database) {
 	case "express":
 	case "mssql": {
-			// Alle managers als singleton toevoegen
-			// dit omdat de API interract met de managers
-			BedrijfManager bedrijfManager = new(new BedrijfRepoADO(connectionstring));
-			AfspraakManager afspraakManager = new(new AfspraakRepoADO(connectionstring));
-			WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring));
+		// Alle managers als singleton toevoegen
+		// dit omdat de API interract met de managers
+		AfspraakManager afspraakManager = new(new AfspraakRepoADO(connectionstring));
+		BedrijfManager bedrijfManager = new(new BedrijfRepoADO(connectionstring), new AfspraakRepoADO(connectionstring));
+		WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring));
 
-			// TODO voor Bjorn: De REPO implementeren
-			// ParkingContractManager parkingContractManager = new();
-			// ParkeerplaatsManager parkeerplaatsManager = new();
+		// TODO voor Bjorn: De REPO implementeren
+		// ParkingContractManager parkingContractManager = new();
+		// ParkeerplaatsManager parkeerplaatsManager = new();
 
-			builder.Services.AddSingleton(bedrijfManager);
-			builder.Services.AddSingleton(afspraakManager);
-			builder.Services.AddSingleton(werknemerManager);
-			// builder.Services.AddSingleton(parkingContractManager);
-			// builder.Services.AddSingleton(parkeerplaatsManager);
+		builder.Services.AddSingleton(bedrijfManager);
+		builder.Services.AddSingleton(afspraakManager);
+		builder.Services.AddSingleton(werknemerManager);
+		// builder.Services.AddSingleton(parkingContractManager);
+		// builder.Services.AddSingleton(parkeerplaatsManager);
 
-			break;
-		}
-	default:
-		Console.WriteLine($"Implementatie niet gevonden voor: \"{database}\"");
-		Console.WriteLine($"U kunt een implementatie selecteren door \"{ENV_DB}\" te specifieren in uw appsettings");
-		Environment.Exit(1);
 		break;
+	}
+	default:
+	Console.WriteLine($"Implementatie niet gevonden voor: \"{database}\"");
+	Console.WriteLine($"U kunt een implementatie selecteren door \"{ENV_DB}\" te specifieren in uw appsettings");
+	Environment.Exit(1);
+	break;
 }
 
 var app = builder.Build();

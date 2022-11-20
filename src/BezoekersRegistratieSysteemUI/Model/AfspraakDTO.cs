@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
+namespace BezoekersRegistratieSysteemUI.Model {
 
 	public class AfspraakDTO {
 		public long Id { get; set; }

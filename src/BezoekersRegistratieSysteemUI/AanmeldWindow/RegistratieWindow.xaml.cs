@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.Model;
 using System.Windows;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow {

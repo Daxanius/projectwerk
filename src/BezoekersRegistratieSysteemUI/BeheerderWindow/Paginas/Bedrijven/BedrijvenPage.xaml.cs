@@ -1,5 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 using System;
@@ -24,11 +24,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 				if (!string.IsNullOrWhiteSpace(value)) {
 					_zoekText = value.ToLower();
 
-					List<BedrijfDTO> result = initieleBedrijven.Where(b => 
-					b.Naam.ToLower().Contains(_zoekText) || 
-					b.TelefoonNummer.ToLower().Contains(_zoekText) || 
-					b.Adres.ToLower().Contains(_zoekText) || 
-					b.Email.ToLower().Contains(_zoekText) || 
+					List<BedrijfDTO> result = initieleBedrijven.Where(b =>
+					b.Naam.ToLower().Contains(_zoekText) ||
+					b.TelefoonNummer.ToLower().Contains(_zoekText) ||
+					b.Adres.ToLower().Contains(_zoekText) ||
+					b.Email.ToLower().Contains(_zoekText) ||
 					b.BTW.ToLower().Contains(_zoekText)).ToList();
 
 					BedrijvenLijstControl.ItemSource.Clear();
@@ -36,7 +36,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 					foreach (BedrijfDTO bedrijf in result) {
 						BedrijvenLijstControl.ItemSource.Add(bedrijf);
 					}
-					
+
 				} else if (value.Length == 0) {
 					BedrijvenLijstControl.ItemSource.Clear();
 					foreach (BedrijfDTO bedrijf in ApiController.GeefBedrijven()) {
@@ -70,6 +70,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 			initieleBedrijven = bedrijven;
 		}
 
+		private void ZoekTermChanged(object sender, TextChangedEventArgs e) {
+			Task.Run(() => Dispatcher.Invoke(() => ZoekText = ZoekTextTextbox.Text));
+		}
+
 		#region Singleton
 		private static BedrijvenPage instance = null;
 		private static readonly object padlock = new object();
@@ -85,9 +89,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 			}
 		}
 		#endregion
-
-		private void ZoekTermChanged(object sender, TextChangedEventArgs e) {
-			Task.Run(() => Dispatcher.Invoke(() => ZoekText = ZoekTextTextbox.Text));
-		}
 	}
 }
