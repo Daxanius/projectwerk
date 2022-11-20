@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -26,22 +27,27 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 			this.DataContext = this;
 			InitializeComponent();
 
+			//Kijk of je kan rechts klikken om iets te doen
+			BedrijvenLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
+
 			ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
 		}
 
 		private protected void KlikOpBedrijfOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
 			BedrijfDTO bedrijf = (BedrijfDTO)b.CommandParameter;
+
+			int index = ItemSource.IndexOf(bedrijf);
+			BedrijvenLijst.SelectedIndex = index;
+
+			if (BeheerderWindow.GeselecteerdBedrijf is not null && BeheerderWindow.GeselecteerdBedrijf.Equals(bedrijf))
+				VerwijderMenuItem.Visibility = Visibility.Collapsed;
+			else
+				VerwijderMenuItem.Visibility = Visibility.Visible;
+
 			ContextMenu.DataContext = bedrijf;
 			ContextMenu.IsOpen = true;
 		}
-
-		#region ProppertyChanged
-		public event PropertyChangedEventHandler? PropertyChanged;
-		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-		#endregion ProppertyChanged
 
 		private void WijzigBedrijf_Click(object sender, RoutedEventArgs e) {
 			if (ContextMenu.DataContext is BedrijfDTO bedrijf) {
@@ -55,5 +61,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 				ItemSource.Remove(bedrijf);
 			}
 		}
+
+		#region ProppertyChanged
+		public event PropertyChangedEventHandler? PropertyChanged;
+		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		#endregion ProppertyChanged
 	}
 }
