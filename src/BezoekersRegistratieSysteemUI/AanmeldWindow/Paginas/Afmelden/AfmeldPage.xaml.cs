@@ -65,7 +65,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 
 				await ApiController.Put<object>($"/afspraak/end?email={Email}");
 
-				Email = Email.ZetLeeg();
+				Email = "";
 
 				MessageBox.Show("U bent afgemeld", "Joepi");
 

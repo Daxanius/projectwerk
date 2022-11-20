@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+using BezoekersRegistratieSysteemUI.Events;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 	public partial class BedrijvenPage : Page {
@@ -52,10 +53,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 			this.DataContext = this;
 			InitializeComponent();
 
-			BedrijvenPopup.UpdateBedrijfLijst += UpdateBedrijvenLijst;
+			BedrijfEvents.NieuwBedrijfToeGevoegd += NieuwBedrijfToeGevoegd_Event;
 		}
 
-		private void UpdateBedrijvenLijst(BedrijfDTO bedrijf) {
+		private void NieuwBedrijfToeGevoegd_Event(BedrijfDTO bedrijf) {
 			BedrijvenLijstControl.ItemSource.Add(bedrijf);
 			initieleBedrijven = BedrijvenLijstControl.ItemSource.ToList();
 		}

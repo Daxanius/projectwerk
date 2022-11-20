@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.Collections.Generic;
@@ -13,10 +14,6 @@ using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
 	public partial class WerknemersPopup : UserControl, INotifyPropertyChanged {
-		public event PropertyChangedEventHandler? PropertyChanged;
-		public delegate void NieuweWerknemerToegevoegdEvent(WerknemerDTO werknemer);
-		public static event NieuweWerknemerToegevoegdEvent NieuweWerknemerToegevoegd;
-
 		#region Bind Propperties
 		private string _voornaam = string.Empty;
 		public string Voornaam {
@@ -95,7 +92,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
 			WerknemerDTO werknemer = ApiController.MaakWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
-			NieuweWerknemerToegevoegd?.Invoke(werknemer);
+			WerknemerEvents.InvokeUpdateGeselecteerdBedrijf(werknemer);
 
 			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd");
 			SluitOverlay();
@@ -118,6 +115,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 		#region ProppertyChanged
 
+		public event PropertyChangedEventHandler? PropertyChanged;
 		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}

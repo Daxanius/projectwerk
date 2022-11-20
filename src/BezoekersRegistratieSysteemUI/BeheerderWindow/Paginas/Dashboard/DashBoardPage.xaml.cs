@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using BezoekersRegistratieSysteemUI.Events;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 	public partial class DashBoardPage : Page {
@@ -23,17 +24,19 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			this.DataContext = this;
 			InitializeComponent();
 
-			App.RefreshTimer.Tick += AutoUpdateIntervalAfspraken_Event;
-			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
-				if (huidigeFilterAfspraken is null) huidigeFilterAfspraken = AfsprakenLijstControl.ItemSource.ToList();
-				huidigeFilterAfspraken.Add(afspraak);
-			};
+			GlobalEvents.RefreshData += AutoUpdateIntervalAfspraken_Event;
+			AfspraakEvents.NieuweAfspraakToegevoegd += NieuweAfspraakToegevoegd_Event;
 
 			//this.NavigationService.Navigate()
 			//TODO: :-)
 		}
 
-		private void AutoUpdateIntervalAfspraken_Event(object? sender, EventArgs e) {
+		private void NieuweAfspraakToegevoegd_Event(AfspraakDTO afspraak) {
+			huidigeFilterAfspraken ??= AfsprakenLijstControl.ItemSource.ToList();
+			huidigeFilterAfspraken.Add(afspraak);
+		}
+
+		private void AutoUpdateIntervalAfspraken_Event() {
 			NavigationService? navigating = NavigationService.GetNavigationService(this);
 			if (navigating is null || navigating.Content is not DashBoardPage) return;
 

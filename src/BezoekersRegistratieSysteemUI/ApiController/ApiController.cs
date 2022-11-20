@@ -35,7 +35,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -73,7 +73,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.SendAsync(request);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -105,7 +105,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
@@ -128,7 +128,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsync(apiUrl, null);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -160,7 +160,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, json);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -192,7 +192,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsync(apiUrl, null);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
@@ -214,7 +214,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, json);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
@@ -466,7 +466,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					apiWerknemers.ForEach((api) => {
 						List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(bedrijf, w.Email, w.Functies)).ToList());
 						WerknemerInfoOutputDTO werknemerInfo = api.WerknemerInfo.First(w => w.Bedrijf.Id == bedrijf.Id);
-						ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, api.StatusNaam ?? ""));
+						ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, werknemerInfo.StatusNaam ?? ""));
 					});
 					return ItemSource;
 				} else {
@@ -571,6 +571,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				} else
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van alle afspraaken");
 			}).Result;
+		}
+
+		public static void BeeindigAlleOnAfgeslotenAfspraken() {
+			Task.Run(() => Put("afspraak/end/lopend"));
 		}
 		#endregion
 	}

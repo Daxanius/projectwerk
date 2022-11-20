@@ -43,7 +43,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				border.Height = 85;
 				border.MinWidth = 350;
 				border.Margin = new Thickness(10);
-				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab;
+				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab_Event;
 				border.DataContext = Bedrijven[i];
 
 				StackPanel container = new();
@@ -90,7 +90,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
-		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
+		private void GaNaarWerknemersVanBedrijfTab_Event(object sender, MouseButtonEventArgs e) {
 			BedrijfDTO geselecteerdbedrijf = (BedrijfDTO)((Border)sender).DataContext;
 
 			Window window = Window.GetWindow(this);

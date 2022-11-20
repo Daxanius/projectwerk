@@ -10,26 +10,34 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Linq;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
+using BezoekersRegistratieSysteemUI.Events;
+using System.Reflection;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	public partial class BedrijvenGridControl : UserControl {
 		private const int MAX_COLUMN_COUNT = 4;
-		private List<BedrijfDTO> _bedrijven;
+		private List<BedrijfDTO> _bedrijvenLijst;
 
 		public BedrijvenGridControl() {
 			this.DataContext = this;
 			InitializeComponent();
 
-			BedrijvenPopup.UpdateBedrijfLijst += UpdateListMetBedrijf;
+			BedrijfEvents.NieuwBedrijfToeGevoegd += NieuwBedrijfToeGevoegd_Event;
+			BedrijfEvents.BedrijfVerwijderd += BedrijfVerwijderd_Event;
 
-			_bedrijven = ApiController.GeefBedrijven().ToList();
+			_bedrijvenLijst = ApiController.GeefBedrijven().ToList();
 
 			SpawnBedrijvenGrid();
-			BedrijvenPage.Instance.LoadBedrijvenInList(_bedrijven);
+			BedrijvenPage.Instance.LoadBedrijvenInList(_bedrijvenLijst);
 		}
 
-		private void UpdateListMetBedrijf(BedrijfDTO bedrijf) {
-			_bedrijven.Add(bedrijf);
+		private void BedrijfVerwijderd_Event(BedrijfDTO bedrijf) {
+			_bedrijvenLijst.Remove(bedrijf);
+			SpawnBedrijvenGrid();
+		}
+
+		private void NieuwBedrijfToeGevoegd_Event(BedrijfDTO bedrijf) {
+			_bedrijvenLijst.Add(bedrijf);
 			SpawnBedrijvenGrid();
 		}
 
@@ -40,14 +48,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 
 			gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
-			for (int i = 0; i < _bedrijven.Count; i++) {
+			for (int i = 0; i < _bedrijvenLijst.Count; i++) {
 				Border border = new Border();
 				border.Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style;
 				border.Height = 85;
 				border.MinWidth = 300;
 				border.Margin = new Thickness(10);
-				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab;
-				border.DataContext = _bedrijven[i];
+				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab_Event;
+				border.DataContext = _bedrijvenLijst[i];
 
 				StackPanel container = new();
 				container.Margin = new Thickness(5);
@@ -56,7 +64,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 				container.VerticalAlignment = VerticalAlignment.Center;
 
 				TextBlock bedrijfNaam = new() {
-					Text = _bedrijven[i].Naam,
+					Text = _bedrijvenLijst[i].Naam,
 					FontSize = 24,
 					FontWeight = FontWeights.Medium,
 					TextAlignment = TextAlignment.Center,
@@ -94,7 +102,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			}
 		}
 
-		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
+		private void GaNaarWerknemersVanBedrijfTab_Event(object sender, MouseButtonEventArgs e) {
 			BedrijfDTO bedrijf = (BedrijfDTO)((Border)sender).DataContext;
 
 			Window window = Window.GetWindow(this);
@@ -111,9 +119,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			((TextBlock)((StackPanel)beheerderWindow.SideBar.WerknemersTab.Child).Children[1]).Opacity = 1;
 			((Icon)((StackPanel)beheerderWindow.SideBar.WerknemersTab.Child).Children[0]).Opacity = 1;
 
-            ((TextBlock)((StackPanel)beheerderWindow.SideBar.ParkingTab.Child).Children[1]).Opacity = 1;
-            ((Icon)((StackPanel)beheerderWindow.SideBar.ParkingTab.Child).Children[0]).Opacity = 1;
-        }
+			((TextBlock)((StackPanel)beheerderWindow.SideBar.ParkingTab.Child).Children[1]).Opacity = 1;
+			((Icon)((StackPanel)beheerderWindow.SideBar.ParkingTab.Child).Children[0]).Opacity = 1;
+		}
 
 		#region Singleton
 		private static BedrijvenGridControl instance = null;

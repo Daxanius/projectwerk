@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.ComponentModel;
@@ -59,11 +60,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 		#endregion
 
-		#region NieuwBedrijfToegevoegdVanuitUi Event
-		public delegate void NieuwBedrijfToegevoegdVanuitUi(BedrijfDTO bedrijf);
-		public static event NieuwBedrijfToegevoegdVanuitUi UpdateBedrijfLijst;
-		#endregion
-
 		public BedrijvenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
@@ -110,7 +106,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 
 			MessageBox.Show($"{Naam} successvol toegevoegd", "Bedrijf toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
 
-			UpdateBedrijfLijst?.Invoke(bedrijf);
+			BedrijfEvents.InvokeNieuwBedrijfToeGevoegd(bedrijf);
 
 			SluitOverlay();
 		}

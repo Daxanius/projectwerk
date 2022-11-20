@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -58,7 +59,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 		private async void VerwijderBedrijf_Click(object sender, RoutedEventArgs e) {
 			if (ContextMenu.DataContext is BedrijfDTO bedrijf) {
 				await ApiController.VerwijderBedrijf(bedrijf.Id);
-				ItemSource.Remove(bedrijf); 
+				ItemSource.Remove(bedrijf);
+				BedrijfEvents.InvokeBedrijfVerwijderd(bedrijf);
 			}
 		}
 
