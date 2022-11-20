@@ -497,6 +497,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmdAfspraak.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
 					cmdAfspraak.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
 					cmdAfspraak.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmdAfspraak.Parameters.Add(new SqlParameter("@AfspraakStatusId", SqlDbType.Int));
 					cmdAfspraak.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
 					cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
 					cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
@@ -505,8 +506,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
 
 					if (afspraak.Eindtijd is not null) {
-						cmdAfspraak.Parameters.Add(new SqlParameter("@AfspraakStatusId", SqlDbType.Int));
 						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 5;
+					} else {
+						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 1;
 					}
 
 					long i = (long)cmdAfspraak.ExecuteScalar();
