@@ -123,7 +123,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			if (!gelijk) {
 				return false;
 			}
-			
+
 			foreach (string functie in Functies) {
 				if (!werknemerinfo.Functies.Contains(functie))
 					return false;

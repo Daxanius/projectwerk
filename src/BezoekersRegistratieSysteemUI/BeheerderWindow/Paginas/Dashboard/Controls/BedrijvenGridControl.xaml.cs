@@ -3,13 +3,13 @@ using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Linq;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	public partial class BedrijvenGridControl : UserControl {
@@ -111,9 +111,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			((TextBlock)((StackPanel)beheerderWindow.SideBar.WerknemersTab.Child).Children[1]).Opacity = 1;
 			((Icon)((StackPanel)beheerderWindow.SideBar.WerknemersTab.Child).Children[0]).Opacity = 1;
 
-            ((TextBlock)((StackPanel)beheerderWindow.SideBar.ParkingTab.Child).Children[1]).Opacity = 1;
-            ((Icon)((StackPanel)beheerderWindow.SideBar.ParkingTab.Child).Children[0]).Opacity = 1;
-        }
+			((TextBlock)((StackPanel)beheerderWindow.SideBar.ParkingTab.Child).Children[1]).Opacity = 1;
+			((Icon)((StackPanel)beheerderWindow.SideBar.ParkingTab.Child).Children[0]).Opacity = 1;
+		}
 
 		#region Singleton
 		private static BedrijvenGridControl instance = null;

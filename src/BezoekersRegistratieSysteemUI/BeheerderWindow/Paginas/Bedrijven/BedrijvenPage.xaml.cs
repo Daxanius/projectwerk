@@ -4,7 +4,6 @@ using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,11 +23,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 				if (!string.IsNullOrWhiteSpace(value)) {
 					_zoekText = value.ToLower();
 
-					List<BedrijfDTO> result = initieleBedrijven.Where(b => 
-					b.Naam.ToLower().Contains(_zoekText) || 
-					b.TelefoonNummer.ToLower().Contains(_zoekText) || 
-					b.Adres.ToLower().Contains(_zoekText) || 
-					b.Email.ToLower().Contains(_zoekText) || 
+					List<BedrijfDTO> result = initieleBedrijven.Where(b =>
+					b.Naam.ToLower().Contains(_zoekText) ||
+					b.TelefoonNummer.ToLower().Contains(_zoekText) ||
+					b.Adres.ToLower().Contains(_zoekText) ||
+					b.Email.ToLower().Contains(_zoekText) ||
 					b.BTW.ToLower().Contains(_zoekText)).ToList();
 
 					BedrijvenLijstControl.ItemSource.Clear();
@@ -36,7 +35,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 					foreach (BedrijfDTO bedrijf in result) {
 						BedrijvenLijstControl.ItemSource.Add(bedrijf);
 					}
-					
+
 				} else if (value.Length == 0) {
 					BedrijvenLijstControl.ItemSource.Clear();
 					foreach (BedrijfDTO bedrijf in ApiController.GeefBedrijven()) {

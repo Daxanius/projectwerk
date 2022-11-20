@@ -35,7 +35,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			get { return (WerknemerDTO)GetValue(SelectedItemProperty); }
 			set { SetValue(SelectedItemProperty, value); }
 		}
-		
+
 		public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
 		  nameof(SelectedIndex),
 		  typeof(int),

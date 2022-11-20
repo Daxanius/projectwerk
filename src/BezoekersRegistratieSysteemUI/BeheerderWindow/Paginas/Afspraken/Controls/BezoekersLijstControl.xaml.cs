@@ -2,8 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls {
 	public partial class BezoekersLijstControl : UserControl {
@@ -33,7 +31,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			get { return (BezoekerDTO)GetValue(SelectedItemProperty); }
 			set { SetValue(SelectedItemProperty, value); }
 		}
-		
+
 		public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
 		  nameof(SelectedIndex),
 		  typeof(int),

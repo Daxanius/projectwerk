@@ -1,26 +1,21 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.Managers;
 
-namespace BezoekersRegistratieSysteemREST.Model.Output
-{
+namespace BezoekersRegistratieSysteemREST.Model.Output {
 	/// <summary>
 	/// De DTO voor uitgaande werknemer informatie.
 	/// </summary>
-	public class WerknemerOutputDTO
-	{
+	public class WerknemerOutputDTO {
 		/// <summary>
 		/// Zet de business variant om naar de DTO.
 		/// </summary>
 		/// <param name="statusObject"></param>
 		/// <returns></returns>
-		public static WerknemerOutputDTO NaarDTO(StatusObject statusObject)
-		{
+		public static WerknemerOutputDTO NaarDTO(StatusObject statusObject) {
 			Werknemer werknemer = statusObject.GeefWerknemerObject();
 			var functies = statusObject.GeefWerknemerObject().GeefBedrijvenEnFunctiesPerWerknemer();
 			List<WerknemerInfoOutputDTO> info = new();
 
-			foreach (Bedrijf b in functies.Keys)
-			{
+			foreach (Bedrijf b in functies.Keys) {
 				info.Add(WerknemerInfoOutputDTO.NaarDTO(functies[b]));
 			}
 
@@ -49,11 +44,9 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// </summary>
 		/// <param name="werknemers"></param>
 		/// <returns>Een lijst van de DTO variant.</returns>
-		public static IEnumerable<WerknemerOutputDTO> NaarDTO(IEnumerable<StatusObject> werknemers)
-		{
+		public static IEnumerable<WerknemerOutputDTO> NaarDTO(IEnumerable<StatusObject> werknemers) {
 			List<WerknemerOutputDTO> output = new();
-			foreach (StatusObject werknemer in werknemers)
-			{
+			foreach (StatusObject werknemer in werknemers) {
 				output.Add(NaarDTO(werknemer));
 			}
 			return output;
@@ -81,8 +74,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <param name="achternaam"></param>
 		/// <param name="werknemerInfo"></param>
 		/// <param name="statusNaam"></param>
-		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo, string statusNaam)
-		{
+		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo, string statusNaam) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;
