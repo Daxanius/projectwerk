@@ -2,23 +2,31 @@
 
 namespace BezoekersRegistratieSysteemBL.Domeinen {
 
-	public class WerknemerInfo {
+	public class WerknemerInfo : Status {
 		public Bedrijf Bedrijf { get; private set; }
 		public string Email { get; private set; }
 
-		private List<string> Functies = new();
+		private List<string> Functies = new List<string>();
 
-		public WerknemerInfo() {
+
+
+        /// <summary>
+        /// Constructor voor het aanmaken van werknemerInfo.
+        /// </summary>
+        public WerknemerInfo(Bedrijf bedrijf, string email, string statusNaam) : base(statusNaam) {
+			ZetBedrijf(bedrijf);
+			ZetEmail(email);
 		}
 
         /// <summary>
         /// Constructor voor het aanmaken van werknemerInfo.
         /// </summary>
         public WerknemerInfo(Bedrijf bedrijf, string email) {
-			ZetBedrijf(bedrijf);
-			ZetEmail(email);
-		}
-
+            ZetBedrijf(bedrijf);
+            ZetEmail(email);
+        }
+        public WerknemerInfo() {
+        }
         /// <summary>
         /// Controleert voorwaarden op geldigheid en stelt bedrijf in.
         /// </summary>
@@ -130,5 +138,16 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 			}
 			return true;
 		}
+
+        /// <summary>
+        /// Zet statusnaam voor werknemerInfo, dus werknemer per bedrijf
+        /// </summary>
+        /// <param name="statusNaam">Status naam die gezet moet worden.</param>
+        public void ZetStatusNaam(string statusNaam) {
+            if (String.IsNullOrWhiteSpace(statusNaam)) {
+                throw new WerknemerInfoException("Status naam is leeg");
+            }
+            base.ZetStatusNaam(statusNaam);
+        }
 	}
 }

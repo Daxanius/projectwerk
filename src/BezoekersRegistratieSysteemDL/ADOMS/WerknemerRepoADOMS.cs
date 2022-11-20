@@ -4,9 +4,9 @@ using BezoekersRegistratieSysteemDL.Exceptions;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace BezoekersRegistratieSysteemDL.ADO {
+namespace BezoekersRegistratieSysteemDL.ADOMS {
 
-	public class WerknemerRepoADO : IWerknemerRepository {
+	public class WerknemerRepoADOMS : IWerknemerRepository {
 
 		/// <summary>
 		/// Private lokale variabele connectiestring
@@ -18,7 +18,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// </summary>
 		/// <param name="connectieString">Connectie string database</param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-		public WerknemerRepoADO(string connectieString) {
+		public WerknemerRepoADOMS(string connectieString) {
 			_connectieString = connectieString;
 		}
 
@@ -147,7 +147,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_werknemerId">Id van de gewenste werknemer.</param>
 		/// <returns>Gewenst werknemer object</returns>
 		/// <exception cref="WerknemerADOException">Faalt om werknemer object op te halen op basis van het id.</exception>
-		public StatusObject GeefWerknemer(long _werknemerId) {
+		public Werknemer GeefWerknemer(long _werknemerId) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.Vnaam as WerknemerVnaam, wn.Anaam as WerknemerAnaam, wb.WerknemerEmail, " +
 						   "b.id as BedrijfId, b.naam as BedrijfNaam, b.btwnr as bedrijfBTW, b.telenr as bedrijfTele, b.email as BedrijfMail, b.adres as BedrijfAdres, b.BTWChecked, " +
@@ -168,16 +168,13 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
 					cmd.Parameters["@werknemerId"].Value = _werknemerId;
 					IDataReader reader = cmd.ExecuteReader();
-					StatusObject statusObject = null;
 					Werknemer werknemer = null;
 					Bedrijf bedrijf = null;
 					while (reader.Read()) {
-						if (statusObject is null) {
+						if (werknemer is null) {
 							string werknemerVnaam = (string)reader["WerknemerVnaam"];
-							string werknemerAnaam = (string)reader["WerknemerAnaam"];
-							string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+							string werknemerAnaam = (string)reader["WerknemerAnaam"];							
 							werknemer = new Werknemer(_werknemerId, werknemerVnaam, werknemerAnaam);
-                            statusObject = new StatusObject(statusNaam, werknemer);
 						}
 						//TODO: Deze ordinal check mag waars weg
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail"))) {
@@ -194,9 +191,11 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 							string werknemerMail = (string)reader["WerknemerEmail"];
 							string functieNaam = (string)reader["functienaam"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                            string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+                            werknemer.ZetStatusNaamPerBedrijf(bedrijf, statusNaam);
 						}
 					}
-					return statusObject;
+					return werknemer;
 				}
 			} catch (Exception ex) {
 				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
@@ -213,7 +212,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_bedrijfId">Id van het gewenste bedrijf.</param>
 		/// <returns>IReadOnlyList van werknemer objecten waar Werknemer Bedrijf id = bedrijf id.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van het bedrijf id.</exception>
-		public IReadOnlyList<StatusObject> GeefWerknemersPerBedrijf(long _bedrijfId) {
+		public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(long _bedrijfId) {
 			try {
 				return GeefWerknemers(_bedrijfId, null, null, null);
 			} catch (Exception ex) {
@@ -229,7 +228,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="bedrijfId">Bedrijf van de gewenste werknemer</param>
 		/// <returns>IReadOnlyList van werknemer objecten op werknemernaam PER bedrijf.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer voornaam/achternaam en bedrijf id.</exception>
-		public IReadOnlyList<StatusObject> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId) {
+		public IReadOnlyList<Werknemer> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId) {
 			try {
 				return GeefWerknemers(bedrijfId, voornaam, achternaam, null);
 			} catch (Exception ex) {
@@ -244,7 +243,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="bedrijfId">Bedrijf van de gewenste werknemer</param>
 		/// <returns>IReadOnlyList van werknemer objecten op werknemerfunctie PER bedrijf.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie en bedrijf id.</exception>
-		public IReadOnlyList<StatusObject> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId) {
+		public IReadOnlyList<Werknemer> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId) {
 			try {
 				return GeefWerknemers(bedrijfId, null, null, functie);
 			} catch (Exception ex) {
@@ -261,7 +260,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_functie">Functie van de gewenste werknemer</param>
 		/// <returns>IReadOnlyList van werknemer objecten op werknemerfunctie/naam PER bedrijf.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie/voornaam/achternaam en bedrijf id.</exception>
-		private IReadOnlyList<StatusObject> GeefWerknemers(long? _bedrijfId, string? _voornaam, string? _achternaam, string? _functie) {
+		private IReadOnlyList<Werknemer> GeefWerknemers(long? _bedrijfId, string? _voornaam, string? _achternaam, string? _functie) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
 						   "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
@@ -300,8 +299,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 					}
 					query += " ORDER BY wn.VNaam, wn.ANaam, b.id, wn.id";
 					cmd.CommandText = query;
-					StatusObject statusObject = null;
-					List<StatusObject> werknemersMetStatus = new List<StatusObject>();
+					List<Werknemer> werknemers = new List<Werknemer>();
 					Werknemer werknemer = null;
 					Bedrijf bedrijf = null;
 					IDataReader reader = cmd.ExecuteReader();
@@ -310,10 +308,8 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 							long werknemerId = (long)reader["WerknemerId"];
 							string werknemerVNaam = (string)reader["WerknemerVNaam"];
 							string werknemerAnaam = (string)reader["WerknemerAnaam"];
-                            string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
                             werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
-							statusObject = new StatusObject(statusNaam, werknemer);
-							werknemersMetStatus.Add(statusObject);
+							werknemers.Add(werknemer);
 						}
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail"))) {
 							if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
@@ -329,9 +325,11 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 							string werknemerMail = (string)reader["WerknemerEmail"];
 							string functieNaam = (string)reader["functienaam"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                            string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+							werknemer.ZetStatusNaamPerBedrijf(bedrijf, statusNaam);
 						}
 					}
-					return werknemersMetStatus;
+					return werknemers;
 				}
 			} catch (Exception ex) {
 				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
@@ -667,7 +665,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die niet in afspraak zijn.</param>
 		/// <returns>IReadOnlyList van werknemer objecten waar statuscode niet gelijk is aan 1 = 'In gang'.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van afspraakloze werknemer objecten samen te stellen op basis van bedrijf id.</exception>
-		public IReadOnlyList<StatusObject> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
+		public IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
 					       "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
@@ -688,8 +686,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 					cmd.CommandText = query;
 					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
 					cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
-                    StatusObject statusObject = null;
-                    List<StatusObject> werknemersMetStatus = new List<StatusObject>();
+                    List<Werknemer> werknemers = new List<Werknemer>();
                     Werknemer werknemer = null;
 					Bedrijf bedrijf = null;
 					IDataReader reader = cmd.ExecuteReader();
@@ -709,14 +706,14 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 							string werknemerVNaam = (string)reader["WerknemerVNaam"];
 							string werknemerAnaam = (string)reader["WerknemerAnaam"];
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
-							statusObject = new StatusObject("Vrij", werknemer);
-                            werknemersMetStatus.Add(statusObject);
+                            werknemers.Add(werknemer);
 						}
 						string werknemerMail = (string)reader["WerknemerEmail"];
 						string functieNaam = (string)reader["FunctieNaam"];
 						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-					}
-					return werknemersMetStatus.AsReadOnly();
+                        werknemer.ZetStatusNaamPerBedrijf(bedrijf, "Vrij");
+                    }
+					return werknemers.AsReadOnly();
 				}
 			} catch (Exception ex) {
 				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
@@ -733,7 +730,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 		/// <param name="_bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die momenteel in afspraak zijn.</param>
 		/// <returns>IReadOnlyList van werknemer objecten waar statuscode gelijk is aan 1 = 'In gang'.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van bezette werknemer objecten samen te stellen op basis van bedrijf id.</exception>
-		public IReadOnlyList<StatusObject> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
+		public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
                            "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
@@ -754,8 +751,7 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 					cmd.CommandText = query;
 					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
 					cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
-                    StatusObject statusObject = null;
-                    List<StatusObject> werknemersMetStatus = new List<StatusObject>();
+                    List<Werknemer> werknemers = new List<Werknemer>();
                     Werknemer werknemer = null;
 					Bedrijf bedrijf = null;
 					IDataReader reader = cmd.ExecuteReader();
@@ -775,14 +771,14 @@ namespace BezoekersRegistratieSysteemDL.ADO {
 							string werknemerVNaam = (string)reader["WerknemerVNaam"];
 							string werknemerAnaam = (string)reader["WerknemerAnaam"];
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
-                            statusObject = new StatusObject("Bezet", werknemer);
-                            werknemersMetStatus.Add(statusObject);
+                            werknemers.Add(werknemer);
 						}
 						string werknemerMail = (string)reader["WerknemerEmail"];
 						string functieNaam = (string)reader["FunctieNaam"];
 						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-					}
-					return werknemersMetStatus.AsReadOnly();
+                        werknemer.ZetStatusNaamPerBedrijf(bedrijf, "Bezet");
+                    }
+					return werknemers.AsReadOnly();
 				}
 			} catch (Exception ex) {
 				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);

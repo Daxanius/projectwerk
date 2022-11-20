@@ -14,12 +14,11 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		#endregion
 
 		#region Valid Info
-		private StatusObject _so;
 		private Werknemer _w;
 		private Bedrijf _b;
 		private WerknemerInfo _wi;
 		private string _f;
-        #endregion
+		#endregion
 
         #region Initialiseren
         public UnitTestWerknemerManager()
@@ -29,7 +28,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _f = "functie";
 
 			_wi = new(_b, "werknemer.werknemersen@email.com");
-            _so = new("status", _w);
         }
         #endregion
 
@@ -108,7 +106,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			//"BedrijfManager - VoegWerknemerFunctieToe - bedrijf bestaat niet"
 
-			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_so);
+			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
 			Assert.DoesNotContain(_b, _w.GeefBedrijvenEnFunctiesPerWerknemer().Keys);
 		}
         #endregion
@@ -163,7 +161,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			//"BedrijfManager - VerwijderWerknemerFunctie - werknemer niet werkzaam bij dit bedrijf"
 
-			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_so);
+			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
 			Assert.DoesNotContain(_b, _w.GeefBedrijvenEnFunctiesPerWerknemer().Keys);
 		}
 
@@ -174,7 +172,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			//"WerknemerManager - VerwijderWerknemerFunctie - werknemer heeft geen functie bij dit bedrijf"
 
-			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_so);
+			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
 			Assert.Empty(_w.GeefBedrijvenEnFunctiesPerWerknemer().Values);
 		}
 
@@ -185,7 +183,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			//"WerknemerManager - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben"
 
-			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_so);
+			_mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
 			Assert.True(_w.GeefBedrijvenEnFunctiesPerWerknemer().Values.Count() < 1);
 		}
         #endregion
@@ -225,7 +223,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
             //"WerknemerManager - BewerkWerknemer - werknemer is niet gewijzigd"
             _mockRepo.Setup(x => x.BestaatWerknemer(_w.Id)).Returns(true);
-            _mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_so);
+            _mockRepo.Setup(x => x.GeefWerknemer(_w.Id)).Returns(_w);
 			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.BewerkWerknemer(_w, _b));
         }
         #endregion
@@ -358,7 +356,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
 
 			//"WerknemerManager - GeefWerknemersOpNaam - er zijn geen werknemers"
-			_mockRepo.Setup(x => x.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, _b.Id)).Returns(new List<StatusObject>());
+			_mockRepo.Setup(x => x.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, _b.Id)).Returns(new List<Werknemer>());
 			var ex = _werknemerManager.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, _b);
 			Assert.Empty(ex);
 		}
@@ -399,7 +397,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _werknemerManager = new WerknemerManager(_mockRepo.Object);
 
             //"WerknemerManager - GeefWerknemersOpFunctiePerBedrijf - er zijn geen werknemers"
-            _mockRepo.Setup(x => x.GeefWerknemersOpFunctiePerBedrijf("functie", _b.Id)).Returns(new List<StatusObject>());
+            _mockRepo.Setup(x => x.GeefWerknemersOpFunctiePerBedrijf("functie", _b.Id)).Returns(new List<Werknemer>());
             var ex = _werknemerManager.GeefWerknemersOpFunctiePerBedrijf("functie", _b);
             Assert.Empty(ex);
         }
@@ -421,7 +419,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_werknemerManager = new WerknemerManager(_mockRepo.Object);
 
 			//"WerknemerManager - GeefWerknemersPerBedrijf - er zijn geen werknemers"
-			_mockRepo.Setup(x => x.GeefWerknemersPerBedrijf(_b.Id)).Returns(new List<StatusObject>());
+			_mockRepo.Setup(x => x.GeefWerknemersPerBedrijf(_b.Id)).Returns(new List<Werknemer>());
 			var ex = _werknemerManager.GeefWerknemersPerBedrijf(_b);
 			Assert.Empty(ex);
 		}
@@ -476,7 +474,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _werknemerManager = new WerknemerManager(_mockRepo.Object);
 
             //"WerknemerManager - GeefVrijeWerknemersOpDitMomentVoorBedrijf - er zijn geen werknemers"
-            _mockRepo.Setup(x => x.GeefVrijeWerknemersOpDitMomentVoorBedrijf(_b.Id)).Returns(new List<StatusObject>());
+            _mockRepo.Setup(x => x.GeefVrijeWerknemersOpDitMomentVoorBedrijf(_b.Id)).Returns(new List<Werknemer>());
             var ex = _werknemerManager.GeefVrijeWerknemersOpDitMomentVoorBedrijf(_b);
             Assert.Empty(ex);
         }
@@ -500,7 +498,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             _werknemerManager = new WerknemerManager(_mockRepo.Object);
 
             //"WerknemerManager - GeefBezetteWerknemersOpDitMomentVoorBedrijf - er zijn geen werknemers"
-            _mockRepo.Setup(x => x.GeefBezetteWerknemersOpDitMomentVoorBedrijf(_b.Id)).Returns(new List<StatusObject>());
+            _mockRepo.Setup(x => x.GeefBezetteWerknemersOpDitMomentVoorBedrijf(_b.Id)).Returns(new List<Werknemer>());
             var ex = _werknemerManager.GeefBezetteWerknemersOpDitMomentVoorBedrijf(_b);
             Assert.Empty(ex);
         }
