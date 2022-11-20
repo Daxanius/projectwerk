@@ -10,6 +10,7 @@ namespace BezoekersRegistratieSysteemBL.Managers
         /// Private lokale Interface variabele.
         /// </summary>
         private readonly IBedrijfRepository _bedrijfRepository;
+		private AfspraakManager _afspraakManager;
 
         /// <summary>
         /// BedrijfManager constructor krijgt een instantie van de IBedrijfRepository interface als parameter.
@@ -57,7 +58,9 @@ namespace BezoekersRegistratieSysteemBL.Managers
 				throw new BedrijfManagerException("BedrijfManager - VerwijderBedrijf - mag niet leeg zijn");
 			if (!_bedrijfRepository.BestaatBedrijf(bedrijf))
 				throw new BedrijfManagerException("BedrijfManager - VerwijderBedrijf - bedrijf bestaat niet");
-			try
+            if (_afspraakManager.GeefHuidigeAfsprakenPerBedrijf(bedrijf).Count > 0)
+                throw new BedrijfManagerException("BedrijfManager - VerwijderBedrijf - bedrijf heeft lopende afspraken");
+            try
 			{
 				_bedrijfRepository.VerwijderBedrijf(bedrijf.Id);
 			} catch (Exception ex)
