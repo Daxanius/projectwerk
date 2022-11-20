@@ -116,8 +116,41 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Kijkt of een bedrijf al een overlapende contract heeft
+        /// </summary>
+        /// <returns>True = bestaat | False = bestaat NIET</returns>
         public bool IsOverLappend(ParkingContract parkingContract) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+                           "FROM ParkingContract pc";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    if (parkingContract.Bedrijf.Id != 0) {
+                        query += " WHERE pc.BedrijfId = @BedrijfId";
+                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                        cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
+                    } else {
+                        query += " JOIN Bedrijf b ON(pc.bedrijfId = b.Id) " +
+                                 "WHERE b.BTWNr = @BTWNr";
+                        cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
+                        cmd.Parameters["@BTWNr"].Value = parkingContract.Bedrijf.BTW;
+                    }
+                    query += " AND (@startTijd BETWEEN pc.StartTijd AND pc.EindTijd OR @eindTijd BETWEEN pc.StartTijd AND pc.EindTijd)";
+                    cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.Date));
+                    cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
+                    cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
+                    int i = (int)cmd.ExecuteScalar();
+                    return (i > 0);
+                }
+            } catch (Exception ex) {
+                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
     }
 }
