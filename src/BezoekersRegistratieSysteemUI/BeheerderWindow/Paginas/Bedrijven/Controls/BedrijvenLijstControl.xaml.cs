@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -17,35 +18,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 		);
 
 		public ObservableCollection<BedrijfDTO> ItemSource {
-			get { return (ObservableCollection<BedrijfDTO>)GetValue(ItemSourceProperty); }
-			set { SetValue(ItemSourceProperty, value); }
+			get => (ObservableCollection<BedrijfDTO>)GetValue(ItemSourceProperty);
+			set => SetValue(ItemSourceProperty, value);
 		}
 
 		public BedrijvenLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
+
+			ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
 		}
 
-		private Border _selecteditem;
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			if (_selecteditem is not null) {
-				_selecteditem.Background = Brushes.Transparent;
-				_selecteditem.BorderThickness = new Thickness(0);
-			}
-			StackPanel listViewItem = (StackPanel)sender;
-
-			Border border = (Border)listViewItem.Children[0];
-			border.Background = Brushes.White;
-			border.BorderThickness = new Thickness(1);
-			border.BorderBrush = Brushes.WhiteSmoke;
-			border.CornerRadius = new CornerRadius(20);
-			border.Margin = new Thickness(0, 0, 20, 0);
-			_selecteditem = border;
-		}
-
-		private void KlikOpBedrijfOptions(object sender, RoutedEventArgs e) {
+		private protected void KlikOpBedrijfOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
 			BedrijfDTO bedrijf = (BedrijfDTO)b.CommandParameter;
+			ContextMenu.DataContext = bedrijf;
+			ContextMenu.IsOpen = true;
 		}
 
 		#region ProppertyChanged
@@ -54,5 +42,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged
+
+		private void WijzigBedrijf_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is BedrijfDTO bedrijf) {
+				MessageBox.Show("Ik heb een design nodig weude");
+			}
+		}
+
+		private void VerwijderBedrijf_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is BedrijfDTO bedrijf) {
+				ApiController.VerwijderBedrijf(bedrijf.Id);
+				ItemSource.Remove(bedrijf);
+			}
+		}
 	}
 }

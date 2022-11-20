@@ -23,6 +23,7 @@
     <SolidColorBrush x:Key="DonkerBlauw" Color="#272944" />
 
     <SolidColorBrush x:Key="LichtGrijs" Color="#747474" />
+    <SolidColorBrush x:Key="ScrollGrijs" Color="#C8C8D0" />
     <SolidColorBrush x:Key="SelectedGrijs" Color="#232323" />
     <SolidColorBrush x:Key="DonkerGrijs" Color="#3F3F3F" />
 
@@ -268,7 +269,7 @@
                                             <Border
                                                 Width="12"
                                                 Height="Auto"
-                                                Background="#C8C8D0"
+                                                Background="{StaticResource ScrollGrijs}"
                                                 CornerRadius="7" />
                                         </ControlTemplate>
                                     </Thumb.Template>

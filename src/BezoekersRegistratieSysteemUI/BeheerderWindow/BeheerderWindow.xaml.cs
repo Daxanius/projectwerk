@@ -50,7 +50,8 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 			this.DataContext = this;
 			InitializeComponent();
 
-			FrameControl.Navigate(DashBoardPage.Instance);
+			DashBoardPage.Instance.InitializeComponent();
+			FrameControl.Content = DashBoardPage.Instance;
 			FrameControl.Navigating += OnPageNavigation;
 		}
 
@@ -160,5 +161,21 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 		}
 
 		#endregion ProppertyChanged
+
+		#region Singleton
+		private static BeheerderWindow instance = null;
+		private static readonly object padlock = new object();
+
+		public static BeheerderWindow Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new BeheerderWindow();
+					}
+					return instance;
+				}
+			}
+		}
+		#endregion
 	}
 }

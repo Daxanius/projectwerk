@@ -108,6 +108,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		public AfsprakenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
+
+			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijf_Event;
+		}
+
+		private void UpdateGeselecteerdBedrijf_Event() {
+			Werknemer = null;
+			KiesWerknemerTextBlock.Text = "Kies werknemer";
 		}
 
 		#region Functies

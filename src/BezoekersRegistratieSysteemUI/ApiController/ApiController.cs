@@ -48,8 +48,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex);
-				throw new FetchApiException(ex.Message);
+					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
+				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 		public static async Task<(bool, T?)> GetMetBody<T>(string url, string body, string defaultFoutMelding = "") {
@@ -86,8 +86,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex);
-				throw new FetchApiException(ex.Message);
+					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
+				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 		public static async void Get(string url, string defaultFoutMelding = "") {
@@ -108,8 +108,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex);
-				throw new FetchApiException(ex.Message);
+					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
+				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
@@ -141,8 +141,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex);
-				throw new FetchApiException(ex.Message);
+					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
+				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 		public static async Task<(bool, T?)> Put<T>(string url, string json, string defaultFoutMelding = "") {
@@ -173,8 +173,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex);
-				throw new FetchApiException(ex.Message);
+					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
+				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 		public static async void Put(string url, string defaultFoutMelding = "") {
@@ -195,8 +195,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex);
-				throw new FetchApiException(ex.Message);
+					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
+				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 		public static async void Put(string url, string json, string defaultFoutMelding = "") {
@@ -217,8 +217,27 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex);
-				throw new FetchApiException(ex.Message);
+					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
+				throw new FetchApiException(ex.Message, ex.InnerException);
+			}
+		}
+
+		public static void Delete(string url, string defaultFoutMelding = "") {
+			try {
+				if (url.Length > 1 && url[0] == '/') {
+					url = url[1..];
+				}
+
+				string apiUrl = $"{BaseAddres}{url}";
+
+				using HttpClient client = new();
+				client.Timeout = _timeout;
+
+				client.DeleteAsync(apiUrl);
+			} catch (Exception ex) {
+				if (defaultFoutMelding != "")
+					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
+				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
@@ -250,8 +269,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex);
-				throw new FetchApiException(ex.Message);
+					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
+				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 		public static async Task<bool> Post(string url, string json = "", string defaultFoutMelding = "") {
@@ -274,8 +293,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				return true;
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex);
-				throw new FetchApiException(ex.Message);
+					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
+				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
@@ -469,6 +488,9 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
 				}
 			}).Result;
+		}
+		public static void VerwijderBedrijf(long id) {
+			Delete($"bedrijf/{id}");
 		}
 		#endregion
 
