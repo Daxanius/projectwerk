@@ -47,7 +47,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.CommandText = query;
                     if (parkingContract.Bedrijf.Id != 0) {
                         query += " WHERE pc.BedrijfId = @BedrijfId";
-                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.Date));
+                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
                         cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
                     } else {
                         query += " JOIN Bedrijf b ON(pc.bedrijfId = b.Id) " +

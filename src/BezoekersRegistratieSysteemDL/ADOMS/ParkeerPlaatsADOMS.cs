@@ -75,7 +75,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
                     cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.DateTime));
                     cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.DateTime));
-                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.Int));
+                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
                     cmd.Parameters["@nummerplaat"].Value = parkeerplaats.Nummerplaat;
                     cmd.Parameters["@StartTijd"].Value = parkeerplaats.Starttijd;
                     cmd.Parameters["@EindTijd"].Value = parkeerplaats.Eindtijd.HasValue ? parkeerplaats.Eindtijd.Value : DBNull.Value;
@@ -130,7 +130,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.CommandText = query;
                     if (bedrijf.Id != 0) {
                         query += " WHERE pp.BedrijfId = @BedrijfId";
-                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.Int));
+                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
                         cmd.Parameters["@BedrijfId"].Value = bedrijf.Id;
                     } else {
                         query += " JOIN Bedrijf b ON(pp.BedrijfId = b.Id) " +
