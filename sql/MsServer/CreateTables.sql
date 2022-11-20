@@ -68,6 +68,7 @@ CREATE TABLE [dbo].[Afspraak](
 )
 
 CREATE TABLE [dbo].[ParkingContract](
+	[Id] BIGINT NOT NULL IDENTITY PRIMARY KEY,
 	[StartTijd] DATE NOT NULL,
 	[EindTijd] DATE NOT NULL,
 	[BedrijfId] BIGINT NOT NULL,
