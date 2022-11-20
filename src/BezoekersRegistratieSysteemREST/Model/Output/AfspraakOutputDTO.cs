@@ -28,7 +28,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			List<AfspraakOutputDTO> output = new();
 			foreach (Afspraak afspraak in afspraken)
 			{
-				output.Add(AfspraakOutputDTO.NaarDTO(afspraak));
+				output.Add(NaarDTO(afspraak));
 			}
 			return output;
 		}

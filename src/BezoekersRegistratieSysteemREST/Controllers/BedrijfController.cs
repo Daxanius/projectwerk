@@ -18,10 +18,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// De constructor.
 		/// </summary>
-		/// <param name="afspraakManager">De afspraak manager</param>
+		/// <param name="bedrijfManager">De bedrijf manager</param>
 		/// <param name="werknemerManager">De werknemer manager</param>
-		public BedrijfController(BedrijfManager afspraakManager, WerknemerManager werknemerManager) {
-			_bedrijfManager = afspraakManager;
+		public BedrijfController(BedrijfManager bedrijfManager, WerknemerManager werknemerManager) {
+			_bedrijfManager = bedrijfManager;
 			_werknemerManager = werknemerManager;
 		}
 

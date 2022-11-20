@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemDL.ADOMS {
-    internal class ParkeerPlaatsADOMS : IParkeerplaatsRepository {
+    public class ParkeerPlaatsADOMS : IParkeerplaatsRepository {
         /// <summary>
 		/// Private lokale variabele connectiestring
 		/// </summary>

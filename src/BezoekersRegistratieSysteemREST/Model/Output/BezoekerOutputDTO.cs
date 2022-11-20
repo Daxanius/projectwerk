@@ -28,7 +28,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			List<BezoekerOutputDTO> output = new();
 			foreach (Bezoeker bezoeker in bezoekers)
 			{
-				output.Add(BezoekerOutputDTO.NaarDTO(bezoeker));
+				output.Add(NaarDTO(bezoeker));
 			}
 			return output;
 		}
