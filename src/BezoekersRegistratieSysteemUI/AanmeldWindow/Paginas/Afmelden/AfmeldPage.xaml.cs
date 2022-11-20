@@ -67,11 +67,11 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 
 				Email = "";
 
-				MessageBox.Show("U bent afgemeld", "Joepi");
+				MessageBox.Show("U bent afgemeld", "", MessageBoxButton.OK, MessageBoxImage.Information);
 
 				await Task.Delay(TimeSpan.FromSeconds(2));
 
-				RegistratieWindow registratieWindow = (RegistratieWindow)Window.GetWindow(this);
+				RegistratieWindow registratieWindow = RegistratieWindow.Instance;
 				registratieWindow = (RegistratieWindow)registratieWindow.DataContext;
 
 				registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;

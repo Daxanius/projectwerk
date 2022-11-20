@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Model;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers;
+using BezoekersRegistratieSysteemUI.Model;
 using System.Windows;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow {
@@ -32,5 +33,21 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow {
 			this.DataContext = this;
 			InitializeComponent();
 		}
+
+		#region Singleton
+		private static RegistratieWindow instance = null;
+		private static readonly object padlock = new object();
+
+		public static RegistratieWindow Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new RegistratieWindow();
+					}
+					return instance;
+				}
+			}
+		}
+		#endregion
 	}
 }
