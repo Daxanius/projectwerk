@@ -44,7 +44,6 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
-                    cmd.CommandText = query;
                     if (parkingContract.Bedrijf.Id != 0) {
                         query += " WHERE pc.BedrijfId = @BedrijfId";
                         cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
@@ -58,6 +57,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     query += " AND pc.StartTijd = @StartTijd " +
                              "AND pc.EindTijd = @EindTijd " +
                              "AND pc.AantalPlaatsen = @AantalPlaatsen";
+                    cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
                     cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.Date));
                     cmd.Parameters.Add(new SqlParameter("@AantalPlaatsen", SqlDbType.Int));
@@ -104,8 +104,51 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
+        /// <summary>
+        /// Geeft laatste parkingcontract van een bedrijf
+        /// </summary>
+        /// <param name="bedrijfId">bedrijf wiens parkingcontract weergegeven wordt</param>
+        /// <returns>True = bestaat | False = bestaat NIET</returns>
         public ParkingContract GeefParkingContract(long bedrijfId) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "SELECT pc.Id, pc.StartTijd, pc.Eindtijd, pc.AantalPlaatsen, " +
+                           "b.Id As BedrijfId, b.Naam, b.BTWNr, b.TeleNR, b.Email, b.Adres, b.BTWChecked" +
+                           "FROM ParkingContract pc " +
+                           "JOIN bedrijf b ON(pc.bedrijfId = b.Id) " +
+                           "WHERE (@vandaagDatum BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@vandaagDatum", SqlDbType.Date));
+                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters["@StartTijd"].Value = DateTime.Today;
+                    cmd.Parameters["@bedrijfId"].Value = bedrijfId;
+                    IDataReader reader = cmd.ExecuteReader();
+                    ParkingContract contract = null;
+                    while (reader.Read()) {
+                        //Contract gedeelte
+                        long contractId = (long)reader["Id"];
+                        DateTime contractStart = (DateTime)reader["StartTijd"];
+                        DateTime contractEind = (DateTime)reader["Eindtijd"];
+                        int contractPlaatsen = (int)reader["AantalPlaatsen"];
+                        //Bedrijf gedeelte
+                        string bedrijfNaam = (string)reader["Naam"];
+                        string bedrijfBTW = (string)reader["BTWNr"];
+                        string bedrijfTele = (string)reader["TeleNR"];
+                        string bedrijfMail = (string)reader["Email"];
+                        string bedrijfAdres = (string)reader["Adres"];
+                        bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+                        Bedrijf bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+                        contract = new ParkingContract(contractId, bedrijf, contractStart, contractEind, contractPlaatsen);
+                    }
+                    return contract;
+                }
+            } catch (Exception ex) {
+                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
 
         public void VerwijderParkingContract(ParkingContract parkingContract) {
@@ -128,7 +171,6 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
-                    cmd.CommandText = query;
                     if (parkingContract.Bedrijf.Id != 0) {
                         query += " WHERE pc.BedrijfId = @BedrijfId";
                         cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
@@ -140,6 +182,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                         cmd.Parameters["@BTWNr"].Value = parkingContract.Bedrijf.BTW;
                     }
                     query += " AND (@startTijd BETWEEN pc.StartTijd AND pc.EindTijd OR @eindTijd BETWEEN pc.StartTijd AND pc.EindTijd)";
+                    cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
                     cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.Date));
                     cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;

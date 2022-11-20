@@ -22,7 +22,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="starttijd"></param>
         /// <param name="eindtijd"></param>
         /// <param name="aantalPlaatsen"></param>
-        public ParkingContract(int id, Bedrijf bedrijf, DateTime starttijd, DateTime eindtijd, int aantalPlaatsen) : this(bedrijf, starttijd, eindtijd, aantalPlaatsen) {
+        public ParkingContract(long id, Bedrijf bedrijf, DateTime starttijd, DateTime eindtijd, int aantalPlaatsen) : this(bedrijf, starttijd, eindtijd, aantalPlaatsen) {
             ZetId(id);
 		}
 
@@ -45,7 +45,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// </summary>
         /// <param name="id">Mag niet onder 0 waarde zijn.</param>
         /// <exception cref="ParkingContractException">"ParkingContract - ZetBedrijf - Bedrijf mag niet leeg zijn"</exception>
-        public void ZetId(int id) {
+        public void ZetId(long id) {
             if (id < 0) {
                 throw new ParkingContractException("ParkingContract - ZetId - Id mag niet onder 0");
             }

@@ -127,7 +127,6 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
-                    cmd.CommandText = query;
                     if (bedrijf.Id != 0) {
                         query += " WHERE pp.BedrijfId = @BedrijfId";
                         cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
@@ -138,6 +137,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                         cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
                         cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
                     }
+                    cmd.CommandText = query;
                     IDataReader reader = cmd.ExecuteReader();
                     List<string> nummerplaten = new List<string>();
                     while (reader.Read()) {
