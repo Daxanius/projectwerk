@@ -55,7 +55,28 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         }
 
         public void CheckNummerplaatIn(Parkeerplaats parkeerplaats) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query = "INSERT INTO Parkingplaatsen(NummerPlaat, StartTijd, EindTijd, BedrijfId) " +
+                           "VALUES(@NummerPlaat, @StartTijd, @EindTijd, @BedrijfId)";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.Int));
+                    cmd.Parameters["@nummerplaat"].Value = parkeerplaats.Nummerplaat;
+                    cmd.Parameters["@StartTijd"].Value = parkeerplaats.Starttijd;
+                    cmd.Parameters["@EindTijd"].Value = parkeerplaats.Eindtijd.HasValue ? parkeerplaats.Eindtijd.Value : DBNull.Value;
+                    cmd.Parameters["@BedrijfId"].Value = parkeerplaats.Bedrijf.Id;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
 
         public void CheckNummerplaatUit(string nummerplaat) {
