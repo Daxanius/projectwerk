@@ -31,7 +31,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
             try {
 				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn.");
 				if (_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("er is nog een lopende afspraak voor dit email adres.");
-				if (_afspraakRepository.HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(afspraak)) throw new AfspraakManagerException("deze werknemer heeft al een afspraak maar met een ander bedrijf.");
+				//if (_afspraakRepository.HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(afspraak)) throw new AfspraakManagerException("deze werknemer heeft al een afspraak maar met een ander bedrijf.");
 				return _afspraakRepository.VoegAfspraakToe(afspraak);
 			} catch (Exception ex) {
 				throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
