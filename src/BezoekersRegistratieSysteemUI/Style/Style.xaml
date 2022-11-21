@@ -656,7 +656,16 @@
         <Setter Property="Padding" Value="2" />
         <Setter Property="Width" Value="90" />
         <Style.Triggers>
-            <Trigger Property="Tag" Value="Afgerond">
+            <Trigger Property="Tag" Value="Verwijderd">
+                <Setter Property="Background" Value="{StaticResource DonkerRood}" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Stopgezet door gebruiker">
+                <Setter Property="Background" Value="{StaticResource DonkerRood}" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Stopgezet door systeem">
+                <Setter Property="Background" Value="{StaticResource DonkerRood}" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Stopgezet door administratief medewerker">
                 <Setter Property="Background" Value="{StaticResource DonkerRood}" />
             </Trigger>
             <Trigger Property="Tag" Value="Lopend">
