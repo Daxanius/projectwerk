@@ -17,7 +17,7 @@ INSERT INTO Groupswork.AfspraakStatus
 		  ('Verwijderd'),
 		  ('Stopgezet door gebruiker'),
 		  ('Stopgezet door systeem'),
-		  ('Stopgezet door administratief medewerker');
+		  ('Stopgezet door admin');
 
 INSERT INTO Groupswork.Bezoeker
 	(Vnaam, ANaam, Email, EigenBedrijf)

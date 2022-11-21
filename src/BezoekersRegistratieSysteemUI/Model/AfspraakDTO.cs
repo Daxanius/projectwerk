@@ -14,7 +14,7 @@ namespace BezoekersRegistratieSysteemUI.Model {
 		public DateTime? EindTijdDate { get; set; }
 		public string Status { get; set; }
 
-		public AfspraakDTO(long id, BezoekerDTO bezoeker, string werknemerBedrijf, WerknemerDTO werknemer, DateTime startTijd, DateTime? eindTijd) {
+		public AfspraakDTO(long id, BezoekerDTO bezoeker, string werknemerBedrijf, WerknemerDTO werknemer, DateTime startTijd, DateTime? eindTijd, string statusNaam) {
 			Id = id;
 			Bezoeker = bezoeker;
 			WerknemerBedrijf = werknemerBedrijf;
@@ -23,7 +23,7 @@ namespace BezoekersRegistratieSysteemUI.Model {
 			StartTijdDate = startTijd;
 			EindTijd = eindTijd.HasValue ? eindTijd.Value.ToString("HH:mm - dd/MM/yyyy") : "";
 			EindTijdDate = eindTijd;
-			Status = eindTijd.HasValue ? "Afgerond" : "Lopend";
+			Status = statusNaam;
 		}
 
 		public override bool Equals(object? obj) {
