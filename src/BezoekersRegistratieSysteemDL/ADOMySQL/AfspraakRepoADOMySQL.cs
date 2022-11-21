@@ -4,8 +4,8 @@ using BezoekersRegistratieSysteemDL.Exceptions;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace BezoekersRegistratieSysteemDL.ADOMS {
-	public class AfspraakRepoADOMS : IAfspraakRepository {
+namespace BezoekersRegistratieSysteemDL.ADOMySQL {
+	public class AfspraakRepoADOMySQL : IAfspraakRepository {
 
 		/// <summary>
 		/// Private lokale variabele connectiestring
@@ -17,7 +17,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="connectieString">Connectie string database</param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-		public AfspraakRepoADOMS(string connectieString) {
+		public AfspraakRepoADOMySQL(string connectieString) {
 			_connectieString = connectieString;
 		}
 
@@ -158,45 +158,45 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 				con.Close();
 			}
 		}
-		/// <summary>
-		/// Gaat na of werknemer al een afspraak heeft bij een ander bedrijf
-		/// </summary>
-		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
-		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
-		public bool HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(Afspraak afspraak) {
+        /// <summary>
+        /// Gaat na of werknemer al een afspraak heeft bij een ander bedrijf
+        /// </summary>
+        /// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
+        /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
+        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+        public bool HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(Afspraak afspraak) {
 			SqlConnection con = GetConnection();
-			string query = "SElECT COUNT(*) " +
+            string query = "SElECT COUNT(*) " +
 						   "FROM Werknemerbedrijf wb " +
 						   "WHERE wb.WerknemerId = @werknemerId AND wb.BedrijfId != @bedrijfId " +
 						   "AND (SELECT COUNT(*) FROM Afspraak a WHERE wb.Id = a.WerknemerBedrijfId AND a.AfspraakStatusId = 1) >= 1";
-			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					cmd.CommandText = query;
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
 					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
 					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
 					cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
 					cmd.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
-					int i = (int)cmd.ExecuteScalar();
-					return (i > 0);
-				}
-			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-				exx.Data.Add("afspraak", afspraak);
-				throw exx;
-			} finally {
-				con.Close();
-			}
-		}
+                    int i = (int)cmd.ExecuteScalar();
+                    return (i > 0);
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("afspraak", afspraak);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
 
-		/// <summary>
-		/// Gaat na of afspraak bestaat adhv een afspraak object.
-		/// </summary>
-		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
-		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
-		public bool BestaatAfspraak(Afspraak afspraak) {
+        /// <summary>
+        /// Gaat na of afspraak bestaat adhv een afspraak object.
+        /// </summary>
+        /// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
+        /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
+        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+        public bool BestaatAfspraak(Afspraak afspraak) {
 			try {
 				return BestaatAfspraak(afspraak, null, null, null);
 			} catch (Exception ex) {
@@ -470,9 +470,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								   "output INSERTED.ID " +
 								   "VALUES(@ANaam,@VNaam,@EMail,@EigenBedrijf)";
 
-			string queryAfspraak = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, AfspraakStatusId, BezoekerId) " +
+			string queryAfspraak = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, BezoekerId) " +
 								   "output INSERTED.ID " +
-								   "VALUES(@start,@eind,(SELECT TOP(1) Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId AND BedrijfId = @bedrijfId), @AfspraakStatusId ,@bezoekerId)";
+								   "VALUES(@start,@eind,(SELECT TOP(1) Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId AND BedrijfId = @bedrijfId),@bezoekerId)";
 			con.Open();
 			SqlTransaction trans = con.BeginTransaction();
 			try {
@@ -497,21 +497,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmdAfspraak.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
 					cmdAfspraak.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
 					cmdAfspraak.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmdAfspraak.Parameters.Add(new SqlParameter("@AfspraakStatusId", SqlDbType.Int));
 					cmdAfspraak.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
 					cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
 					cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
 					cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
 					cmdAfspraak.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
-					cmdAfspraak.Parameters["@AfspraakStatusId"].Value = afspraak.Eindtijd is not null ? 5 : 1;
-                    cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
-
-					if (afspraak.Eindtijd is not null) {
-						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 5;
-					} else {
-						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 1;
-					}
-
+					cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
 					long i = (long)cmdAfspraak.ExecuteScalar();
 					afspraak.ZetId(i);
 					afspraak.Bezoeker.ZetId(bezoekerId);
