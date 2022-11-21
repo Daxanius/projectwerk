@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -54,7 +55,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		}
 
 		private void VerwijderAfspraak_Event(AfspraakDTO afspraak) {
-			if (ItemSource.Contains(afspraak)) {
+			if (ItemSource.Where(_afspraak => _afspraak.Id == _afspraak.Id).Count() > 0) {
 				ItemSource.Remove(afspraak);
 			}
 		}

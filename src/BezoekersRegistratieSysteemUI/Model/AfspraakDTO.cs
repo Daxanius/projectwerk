@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BezoekersRegistratieSysteemUI.Model {
 
@@ -23,6 +24,17 @@ namespace BezoekersRegistratieSysteemUI.Model {
 			EindTijd = eindTijd.HasValue ? eindTijd.Value.ToString("HH:mm - dd/MM/yyyy") : "";
 			EindTijdDate = eindTijd;
 			Status = eindTijd.HasValue ? "Afgerond" : "Lopend";
+		}
+
+		public override bool Equals(object? obj) {
+			return obj is AfspraakDTO dTO &&
+				   Id == dTO.Id;
+		}
+
+		public override int GetHashCode() {
+			HashCode hash = new HashCode();
+			hash.Add(Id);
+			return hash.ToHashCode();
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BezoekersRegistratieSysteemUI.Model {
 
@@ -11,6 +12,17 @@ namespace BezoekersRegistratieSysteemUI.Model {
 			Bedrijf = bedrijf;
 			Email = email;
 			Functies = functies;
+		}
+
+		public override bool Equals(object? obj) {
+			return obj is WerknemerInfoDTO dTO &&
+				   EqualityComparer<BedrijfDTO>.Default.Equals(Bedrijf, dTO.Bedrijf) &&
+				   Email == dTO.Email &&
+				   EqualityComparer<IEnumerable<string>>.Default.Equals(Functies, dTO.Functies);
+		}
+
+		public override int GetHashCode() {
+			return HashCode.Combine(Bedrijf, Email, Functies);
 		}
 	}
 }
