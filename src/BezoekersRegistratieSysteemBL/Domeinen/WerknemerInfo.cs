@@ -13,9 +13,8 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <summary>
         /// Constructor voor het aanmaken van werknemerInfo.
         /// </summary>
-        public WerknemerInfo(Bedrijf bedrijf, string email, string statusNaam) : base(statusNaam) {
-			ZetBedrijf(bedrijf);
-			ZetEmail(email);
+        public WerknemerInfo(Bedrijf bedrijf, string email, string statusNaam) : this(bedrijf, email) {
+            base.ZetStatusNaam(statusNaam);
 		}
 
         /// <summary>

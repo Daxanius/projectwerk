@@ -319,9 +319,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		public void BewerkAfspraak(Afspraak afspraak) {
 			SqlConnection con = GetConnection();
 			//SELECT WORD GEBRUIKT OM EEN ACCURATE STATUSID IN TE STELLEN.
-			string querySelect = "SELECT COUNT(*) " +
+			string querySelect = "SELECT AfspraakStatusId " +
 								 "FROM Afspraak " +
-								 "WHERE Id = @afspraakid AND AfspraakStatusId = 1";
+								 "WHERE Id = @afspraakid";
 
 			string queryUpdate = "UPDATE Afspraak " +
 								  "SET StartTijd = @start, " +
@@ -399,15 +399,16 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
 						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
-						   "f.FunctieNaam " +
+						   "f.FunctieNaam, afs.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
 						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 						   "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
 						   "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
-						   "WHERE a.Id = @afspraakid";
-			try {
+						   "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
+                           "WHERE a.Id = @afspraakid";
+            try {
 				using (SqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
@@ -443,7 +444,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						Werknemer werknemer = new(werknemerId, werknemerVNaam, werknemerANaam);
 						Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-						afspraak = new Afspraak(afspraakId, start, eind, bedrijf, new(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
+						string AfspraakStatus = (string)reader["AfspraakStatusNaam"];
+						afspraak = new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer, AfspraakStatus);
 					}
 					return afspraak;
 				}
@@ -609,13 +611,14 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
 						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
-						   "f.FunctieNaam " +
+                           "f.FunctieNaam, afs.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
 						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 						   "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
 						   "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
 						   "WHERE a.AfspraakStatusId = 1";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
@@ -678,8 +681,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							werknemerMail = (string)reader["WerknemerEmail"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
 						}
-
-						afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+                        string AfspraakStatus = (string)reader["AfspraakStatusNaam"];
+                        afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer, AfspraakStatus));
 					}
 					return afspraken.AsReadOnly();
 				}
@@ -816,13 +819,14 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
 						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
-						   "f.FunctieNaam " +
+                           "f.FunctieNaam, asf.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
 						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 						   "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
 						   "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
 						   "WHERE 1=1";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
@@ -906,7 +910,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							werknemerMail = (string)reader["WerknemerEmail"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
 						}
-						afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+                        string AfspraakStatus = (string)reader["AfspraakStatusNaam"];
+                        afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer, AfspraakStatus));
 					}
 					return afspraken.AsReadOnly();
 				}
