@@ -19,7 +19,7 @@ INSERT INTO AfspraakStatus
 		  ('Verwijderd'),
 		  ('Stopgezet door gebruiker'),
 		  ('Stopgezet door systeem'),
-		  ('Stopgezet door administratief medewerker')
+		  ('Stopgezet door admin')
 
 INSERT INTO Bezoeker
 	(Vnaam, ANaam, Email, EigenBedrijf)
