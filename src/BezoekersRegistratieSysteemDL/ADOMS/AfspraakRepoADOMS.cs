@@ -819,13 +819,14 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
 						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
-						   "f.FunctieNaam " +
+                           "f.FunctieNaam, asf.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
 						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 						   "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
 						   "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
 						   "WHERE 1=1";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
