@@ -37,7 +37,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListViewItem}">
-                            <StackPanel MouseLeftButtonDown="VeranderKleurRowOnKlik">
+                            <StackPanel>
                                 <Border
                                     Background="Transparent"
                                     BorderBrush="Transparent"

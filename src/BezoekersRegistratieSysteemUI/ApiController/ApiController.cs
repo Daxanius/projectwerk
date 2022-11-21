@@ -576,6 +576,14 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static void BeeindigAlleOnAfgeslotenAfspraken() {
 			Task.Run(() => Put("afspraak/end/lopend"));
 		}
+
+		public async static Task VerwijderWerknemerVanBedrijf(long id) {
+			await Task.Run(() => Delete($"bedrijf/{BeheerderWindow.GeselecteerdBedrijf.Id}/werknemer/{id}"));
+		}
+
+		public async static Task VerwijderAfspraak(AfspraakDTO afspraak) {
+			await Task.Run(() => Delete($"afspraak/{afspraak.Id}"));
+		}
 		#endregion
 	}
 }

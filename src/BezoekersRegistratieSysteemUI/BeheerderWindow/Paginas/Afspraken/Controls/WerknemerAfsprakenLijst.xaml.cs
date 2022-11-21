@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Model;
+﻿using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +28,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		  typeof(WerknemerAfsprakenLijst),
 		  new PropertyMetadata(-1)
 		);
-		
+
 		public int SelectedIndex {
 			get { return (int)GetValue(SelectedIndexProperty); }
 			set { SetValue(SelectedIndexProperty, value); }
@@ -48,17 +49,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public WerknemerAfsprakenLijst() {
 			this.DataContext = this;
 			InitializeComponent();
+
+			AfspraakEvents.VerwijderAfspraak += VerwijderAfspraak_Event;
 		}
 
-		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
-			Button? b = sender as Button;
-			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
-
-			OpenAfspraakDetail(afspraak);
-		}
-
-		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
-
+		private void VerwijderAfspraak_Event(AfspraakDTO afspraak) {
+			if (ItemSource.Contains(afspraak)) {
+				ItemSource.Remove(afspraak);
+			}
 		}
 
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {

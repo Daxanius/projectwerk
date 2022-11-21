@@ -1,4 +1,6 @@
-﻿using BezoekersRegistratieSysteemUI.Model;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -50,20 +52,25 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			InitializeComponent();
 		}
 
-		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
-			Button? b = sender as Button;
-			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
-
-			OpenAfspraakDetail(afspraak);
-		}
-
-		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
-
-		}
-
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
 			AfspraakDTO afspraak = (AfspraakDTO)b.CommandParameter;
+			ContextMenu.DataContext = afspraak;
+			ContextMenu.IsOpen = true;
+		}
+
+		private void WijzigAfspraak_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is WerknemerDTO werknemer) {
+
+			}
+		}
+
+		private async void VerwijderAfspraak_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is AfspraakDTO afspraak) {
+				await ApiController.VerwijderAfspraak(afspraak);
+				ItemSource.Remove(afspraak);
+				AfspraakEvents.InvokeVerwijderAfspraak(afspraak);
+			}
 		}
 	}
 }

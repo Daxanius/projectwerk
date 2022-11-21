@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Model;
+﻿using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -51,6 +52,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public BezoekersAfsprakenLijst() {
 			this.DataContext = this;
 			InitializeComponent();
+
+			AfspraakEvents.VerwijderAfspraak += VerwijderAfspraak_Event;
+		}
+
+		private void VerwijderAfspraak_Event(AfspraakDTO afspraak) {
+			if (ItemSource.Contains(afspraak)) {
+				ItemSource.Remove(afspraak);
+			}
 		}
 
 		#region Functies

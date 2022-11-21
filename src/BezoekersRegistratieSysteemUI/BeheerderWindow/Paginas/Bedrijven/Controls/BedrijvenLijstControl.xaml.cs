@@ -30,7 +30,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 
 			//Kijk of je kan rechts klikken om iets te doen
 			BedrijvenLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
-
 			ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
 		}
 

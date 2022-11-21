@@ -36,6 +36,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			};
 
 			UpdateAfsprakenOpSchermMetNieuweData(HaalAlleAfspraken());
+
+			//Kijk of je kan rechts klikken om iets te doen
+			AfsprakenLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
+			ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
 		}
 
 		public void AutoUpdateIntervalAfspraken() {
@@ -50,8 +54,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 		}
 
 		public List<AfspraakDTO> HaalAlleAfspraken() {
-			List<AfspraakDTO> afspraken = ApiController.GeefAfspraken().ToList();
-			return afspraken;
+			return ApiController.GeefAfspraken().ToList();
 		}
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
@@ -86,6 +89,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			border.CornerRadius = new CornerRadius(20);
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;
+		}
+
+		private void WijzigAfspraken_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is AfspraakDTO afspraak) {
+
+			}
+		}
+
+		private async void VerwijderAfspraken_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is AfspraakDTO afspraak) {
+
+			}
 		}
 	}
 }
