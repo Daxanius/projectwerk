@@ -503,7 +503,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
 					cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
 					cmdAfspraak.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
-					cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
+					cmdAfspraak.Parameters["@AfspraakStatusId"].Value = afspraak.Eindtijd is not null ? 5 : 1;
+                    cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
 
 					if (afspraak.Eindtijd is not null) {
 						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 5;
