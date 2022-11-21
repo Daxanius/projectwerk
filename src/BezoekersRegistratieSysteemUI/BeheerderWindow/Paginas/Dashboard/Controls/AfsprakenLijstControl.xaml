@@ -252,12 +252,9 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button
-                                    Click="KlikOpActionButtonOpRow"
-                                    CommandParameter="{Binding}"
-                                    Style="{StaticResource WijzigButtonStyle}">
-                                    <Border Style="{StaticResource AfspraakStatusBackgroundStyle}" Tag="{Binding Status}">
-                                        <TextBlock Style="{StaticResource ListViewWijzigTextBlockStyle}" Text="{Binding Status}" />
+                                <Button CommandParameter="{Binding}" Style="{StaticResource WijzigButtonStyle}">
+                                    <Border Style="{StaticResource AfspraakStatusBackgroundStyle}" Tag="{Binding Status, Converter={StaticResource DashboardStatusConverter}}">
+                                        <TextBlock Style="{StaticResource ListViewWijzigTextBlockStyle}" Text="{Binding Status, Converter={StaticResource DashboardStatusConverter}}" />
                                     </Border>
                                 </Button>
                             </DataTemplate>

@@ -7,13 +7,13 @@
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.MessageBoxes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Opgelet"
-    Width="800"
-    Height="450"
     AllowsTransparency="True"
-    Background="Transparent"
+    Background="#3a3a3a7a"
     FontFamily="{StaticResource Inter}"
     ResizeMode="NoResize"
+    Topmost="True"
     WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     WindowStyle="None"
     mc:Ignorable="d">
     <Border Background="{StaticResource MainAchtergrond}" CornerRadius="25">

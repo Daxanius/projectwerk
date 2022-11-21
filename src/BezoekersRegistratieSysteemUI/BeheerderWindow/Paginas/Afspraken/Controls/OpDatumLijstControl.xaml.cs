@@ -81,7 +81,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 					int index = ItemSource.IndexOf(afspraak);
 					ItemSource.RemoveAt(index);
 					AfspraakEvents.InvokeVerwijderAfspraak(afspraak);
-					afspraak.Status = "Afgerond";
+					afspraak.Status = "Verwijderd";
 					ItemSource.Insert(index, afspraak);
 					AfspraakDTO? updatedAfspraak = ApiController.GeefAfsprakenOpDatumVanBedrijf(BeheerderWindow.GeselecteerdBedrijf.Id).FirstOrDefault(a => a.Id == afspraak.Id);
 					if (updatedAfspraak is not null) {

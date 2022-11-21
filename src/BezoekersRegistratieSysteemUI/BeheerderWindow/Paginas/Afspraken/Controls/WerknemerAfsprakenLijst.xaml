@@ -278,6 +278,7 @@
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
+                                MaxWidth="1500"
                                 Padding="5,0"
                                 FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"

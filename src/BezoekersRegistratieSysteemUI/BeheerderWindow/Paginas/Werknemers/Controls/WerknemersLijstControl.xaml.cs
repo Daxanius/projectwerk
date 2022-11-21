@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -46,9 +47,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Contro
 
 		private async void VerwijderWerknemer_Click(object sender, RoutedEventArgs e) {
 			if (ContextMenu.DataContext is WerknemerDTO werknemer && werknemer.Id.HasValue) {
-				await ApiController.VerwijderWerknemerVanBedrijf(werknemer.Id.Value);
-				ItemSource.Remove(werknemer);
-				WerknemerEvents.InvokeVerwijderWerknemer(werknemer);
+				CustomMessageBox warningMessage = new();
+				ECustomMessageBoxResult result = warningMessage.Show("Ben je het zeker?", $"Wil je {werknemer.Voornaam} {werknemer.Achternaam} verwijderen", ECustomMessageBoxIcon.Warning);
+
+				if (result == ECustomMessageBoxResult.Bevestigen) {
+					await ApiController.VerwijderWerknemerVanBedrijf(werknemer.Id.Value);
+					ItemSource.Remove(werknemer);
+					WerknemerEvents.InvokeVerwijderWerknemer(werknemer);
+				}
 			}
 		}
 	}

@@ -2,6 +2,7 @@
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 		}
 
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {
-			SluitOverlay();
+			SluitOverlay(null);
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
@@ -92,10 +93,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
 			WerknemerDTO werknemer = ApiController.MaakWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
+			werknemer.Status = "Vrij";
 			WerknemerEvents.InvokeUpdateGeselecteerdBedrijf(werknemer);
 
-			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd");
-			SluitOverlay();
+			SluitOverlay(werknemer);
 		}
 
 		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
@@ -103,7 +104,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}
 
-		private void SluitOverlay() {
+		private void SluitOverlay(WerknemerDTO werknemer) {
 			Voornaam = "";
 			Achternaam = "";
 			Email = "";
@@ -111,6 +112,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 			WerknemersPage werknemersPage = WerknemersPage.Instance;
 			werknemersPage.WerknemersPopup.Visibility = Visibility.Hidden;
+
+			if(werknemer is not null) {
+				CustomMessageBox warningMessage = new();
+				warningMessage.Show($"{werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd", "Success", ECustomMessageBoxIcon.Information);
+			}
 		}
 
 		#region ProppertyChanged

@@ -57,17 +57,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			return ApiController.GeefAfspraken().ToList();
 		}
 
-		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
-			Button? b = sender as Button;
-			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
-
-			OpenAfspraakDetail(afspraak);
-		}
-
-		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
-
-		}
-
 		private void WijzigAfspraken_Click(object sender, RoutedEventArgs e) {
 			if (ContextMenu.DataContext is AfspraakDTO afspraak) {
 
