@@ -2,7 +2,7 @@
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
-	public class Afspraak
+	public class Afspraak : Status
 	{
 		public long Id { get; private set; }
 		public DateTime Starttijd { get; private set; }
@@ -150,6 +150,14 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         public void ZetWerknemer(Werknemer werknemer)
 		{
 			Werknemer = werknemer ?? throw new AfspraakException("Afspraak - ZetWerknemer - werknemer mag niet leeg zijn");
+		}
+
+        /// <summary>
+        /// Zet statusnaam voor Afspraak
+        /// </summary>
+        /// <param name="statusNaam">Status naam die gezet moet worden.</param>
+        public void ZetStatus(string statusNaam) {
+			base.ZetStatusNaam(statusNaam ?? throw new AfspraakException("Afspraak - ZetStatus - status mag niet leeg zijn"));
 		}
 
         /// <summary>
