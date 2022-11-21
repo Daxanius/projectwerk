@@ -819,7 +819,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
 						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
-                           "f.FunctieNaam, asf.AfspraakStatusNaam " +
+                           "f.FunctieNaam, afs.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
 						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
