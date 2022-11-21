@@ -319,9 +319,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		public void BewerkAfspraak(Afspraak afspraak) {
 			SqlConnection con = GetConnection();
 			//SELECT WORD GEBRUIKT OM EEN ACCURATE STATUSID IN TE STELLEN.
-			string querySelect = "SELECT COUNT(*) " +
+			string querySelect = "SELECT AfspraakStatusId " +
 								 "FROM Afspraak " +
-								 "WHERE Id = @afspraakid AND AfspraakStatusId = 1";
+								 "WHERE Id = @afspraakid";
 
 			string queryUpdate = "UPDATE Afspraak " +
 								  "SET StartTijd = @start, " +
