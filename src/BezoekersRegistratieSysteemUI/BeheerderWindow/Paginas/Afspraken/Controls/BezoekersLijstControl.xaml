@@ -49,12 +49,12 @@
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="Transparent"
                                     BorderThickness="0,0,0,1"
-                                    CornerRadius="20">
+                                    CornerRadius="25">
                                     <GridViewRowPresenter
                                         Width="Auto"
                                         Margin="0"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        VerticalAlignment="Center"
                                         Content="{TemplateBinding Content}" />
                                 </Border>
                             </StackPanel>

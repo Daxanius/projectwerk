@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -57,9 +58,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 
 		private async void VerwijderBedrijf_Click(object sender, RoutedEventArgs e) {
 			if (ContextMenu.DataContext is BedrijfDTO bedrijf) {
-				await ApiController.VerwijderBedrijf(bedrijf.Id);
-				ItemSource.Remove(bedrijf);
-				BedrijfEvents.InvokeBedrijfVerwijderd(bedrijf);
+				CustomMessageBox warningMessage = new();
+				ECustomMessageBoxResult result = warningMessage.Show("Ben je het zeker?", $"Wil je {bedrijf.Naam} verwijderen", ECustomMessageBoxIcon.Warning);
+
+				if (result == ECustomMessageBoxResult.Bevestigen) {
+					await ApiController.VerwijderBedrijf(bedrijf.Id);
+					ItemSource.Remove(bedrijf);
+					BedrijfEvents.InvokeBedrijfVerwijderd(bedrijf);
+				}
 			}
 		}
 

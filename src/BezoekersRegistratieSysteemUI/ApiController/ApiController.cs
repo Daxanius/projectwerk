@@ -530,15 +530,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-		public static IEnumerable<AfspraakDTO> GeefAfsprakenOpDatumVanBedrijf(long bedrijfsId, string datum) {
+		public static IEnumerable<AfspraakDTO> GeefAfsprakenOpDatumVanBedrijf(long bedrijfsId, string datum = "???") {
 			return Task.Run(async () => {
 				List<AfspraakDTO> ItemSource = new();
 
-				//System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("fr-FR");
-				//System.Threading.Thread.CurrentThread.CurrentCulture = ci
-
-				if (datum.IsLeeg())
-					datum = DateTime.Now.ToString("MM/dd/yyyy");
+				if (datum == "???") datum = DateTime.Now.ToString("MM/dd/yyyy");
 				else
 					datum = DateTime.Parse(datum).ToString("MM/dd/yyyy");
 
@@ -582,6 +578,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		}
 
 		public async static Task VerwijderAfspraak(AfspraakDTO afspraak) {
+			if (afspraak.EindTijd is null) return;
 			await Task.Run(() => Delete($"afspraak/{afspraak.Id}"));
 		}
 		#endregion

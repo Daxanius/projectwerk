@@ -39,14 +39,16 @@
                         <ControlTemplate TargetType="{x:Type ListViewItem}">
                             <StackPanel>
                                 <Border
-                                    Background="Transparent"
+                                    Margin="0,0,20,0"
+                                    Background="{TemplateBinding Background}"
                                     BorderBrush="Transparent"
-                                    BorderThickness="0,0,0,1">
+                                    BorderThickness="0,0,0,1"
+                                    CornerRadius="25">
                                     <GridViewRowPresenter
                                         Width="Auto"
                                         Margin="0"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        VerticalAlignment="Center"
                                         Content="{TemplateBinding Content}" />
                                 </Border>
                             </StackPanel>
@@ -56,6 +58,12 @@
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Cursor" Value="Hand" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="true">
+                        <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="false">
+                        <Setter Property="Background" Value="Transparent" />
                     </Trigger>
                 </Style.Triggers>
             </Style>

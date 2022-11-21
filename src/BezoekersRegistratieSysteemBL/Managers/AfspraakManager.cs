@@ -49,6 +49,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			try {
 				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
 				if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("afspraak bestaat niet");
+				if (afspraak.Eindtijd is null) _afspraakRepository.BeeindigAfspraakSysteem(afspraak.Id);
 				_afspraakRepository.VerwijderAfspraak(afspraak.Id);
 			} catch (Exception ex) {
                 throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);

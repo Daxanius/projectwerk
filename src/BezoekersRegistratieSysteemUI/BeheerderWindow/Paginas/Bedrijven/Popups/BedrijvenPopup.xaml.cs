@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.ComponentModel;
@@ -66,7 +67,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {
-			SluitOverlay();
+			SluitOverlay(null);
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
@@ -103,21 +104,23 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 
 			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(Naam, BtwNummer, TelefoonNummer, Email, Adres);
 			BedrijfDTO bedrijf = ApiController.MaakBedrijf(nieuwBedrijf);
-
-			MessageBox.Show($"{Naam} successvol toegevoegd", "Bedrijf toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-
 			BedrijfEvents.InvokeNieuwBedrijfToeGevoegd(bedrijf);
 
-			SluitOverlay();
+			SluitOverlay(bedrijf);
 		}
 
-		private void SluitOverlay() {
+		private void SluitOverlay(BedrijfDTO? bedrijf) {
 			Naam = string.Empty;
 			TelefoonNummer = string.Empty;
 			BtwNummer = string.Empty;
 			Email = string.Empty;
 			Adres = string.Empty;
 			Visibility = Visibility.Hidden;
+
+			if(bedrijf is not null) {
+				CustomMessageBox customMessageBox = new();
+				customMessageBox.Show($"{bedrijf?.Naam} toegevoegd", $"Success", ECustomMessageBoxIcon.Information);
+			}
 		}
 
 		#region ProppertyChanged

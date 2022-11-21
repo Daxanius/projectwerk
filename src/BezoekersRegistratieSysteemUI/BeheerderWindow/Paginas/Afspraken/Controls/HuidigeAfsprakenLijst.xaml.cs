@@ -1,7 +1,12 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -50,6 +55,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public HuidigeAfsprakenLijst() {
 			this.DataContext = this;
 			InitializeComponent();
+			AfspraakEvents.VerwijderAfspraak += VerwijderAfspraak_Event;
+		}
+
+		private void VerwijderAfspraak_Event(AfspraakDTO afspraak) {
+			if (ItemSource.Where(_afspraak => _afspraak.Id == _afspraak.Id).Count() > 0) {
+				ItemSource.Remove(afspraak);
+			}
 		}
 
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
@@ -67,9 +79,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		private async void VerwijderAfspraak_Click(object sender, RoutedEventArgs e) {
 			if (ContextMenu.DataContext is AfspraakDTO afspraak) {
-				await ApiController.VerwijderAfspraak(afspraak);
-				ItemSource.Remove(afspraak);
-				AfspraakEvents.InvokeVerwijderAfspraak(afspraak);
+				if (afspraak.EindTijd.IsNietLeeg()) return;
+
+				CustomMessageBox warningMessage = new();
+				ECustomMessageBoxResult result = warningMessage.Show("Ben je het zeker?", $"Wil je deze afspraak verwijderen", ECustomMessageBoxIcon.Warning);
+
+				if (result == ECustomMessageBoxResult.Bevestigen) {
+					await ApiController.VerwijderAfspraak(afspraak);
+					ItemSource.Remove(afspraak);
+					AfspraakEvents.InvokeVerwijderAfspraak(afspraak);
+				}
 			}
 		}
 	}

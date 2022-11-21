@@ -137,7 +137,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		private void VeranderStatusAfspraak(long afspraakId, int statusId) {
 			SqlConnection con = GetConnection();
 			string query = "UPDATE Afspraak " +
-						   "SET AfspraakStatusId = @statusId " +
+						   $"SET AfspraakStatusId = @statusId " +
 						   "WHERE Id = @afspraakid";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
