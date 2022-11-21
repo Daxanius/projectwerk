@@ -267,6 +267,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "LEFT JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) AND wb.Status = 1 " +
 						   "LEFT JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
 						   "LEFT JOIN Functie f ON(wb.FunctieId = f.Id) " +
+						   "WHERE b.Status = 1 " +
 						   "ORDER BY b.Naam, wn.id";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {

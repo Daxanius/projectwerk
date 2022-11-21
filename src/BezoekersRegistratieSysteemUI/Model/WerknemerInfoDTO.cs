@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
+namespace BezoekersRegistratieSysteemUI.Model {
 
 	public class WerknemerInfoDTO {
 		public BedrijfDTO Bedrijf { get; set; }

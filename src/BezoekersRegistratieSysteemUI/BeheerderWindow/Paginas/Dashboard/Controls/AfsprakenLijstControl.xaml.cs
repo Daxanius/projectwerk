@@ -1,6 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Output;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using BezoekersRegistratieSysteemUI.Events;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	public partial class AfsprakenLijstControl : UserControl {
@@ -23,7 +24,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			this.DataContext = this;
 			InitializeComponent();
 
-			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
+			AfspraakEvents.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
 				Task.Run(() => {
 					Dispatcher.Invoke(() => {
 						ItemSource.Add(afspraak);

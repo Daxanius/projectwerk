@@ -1,5 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -26,14 +28,40 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 			this.DataContext = this;
 			InitializeComponent();
 
+			//Kijk of je kan rechts klikken om iets te doen
+			BedrijvenLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
+
 			ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
 		}
 
 		private protected void KlikOpBedrijfOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
 			BedrijfDTO bedrijf = (BedrijfDTO)b.CommandParameter;
+
+			int index = ItemSource.IndexOf(bedrijf);
+			BedrijvenLijst.SelectedIndex = index;
+
+			if (BeheerderWindow.GeselecteerdBedrijf is not null && BeheerderWindow.GeselecteerdBedrijf.Equals(bedrijf))
+				VerwijderMenuItem.Visibility = Visibility.Collapsed;
+			else
+				VerwijderMenuItem.Visibility = Visibility.Visible;
+
 			ContextMenu.DataContext = bedrijf;
 			ContextMenu.IsOpen = true;
+		}
+
+		private void WijzigBedrijf_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is BedrijfDTO bedrijf) {
+				MessageBox.Show("Ik heb een design nodig weude");
+			}
+		}
+
+		private async void VerwijderBedrijf_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is BedrijfDTO bedrijf) {
+				await ApiController.VerwijderBedrijf(bedrijf.Id);
+				ItemSource.Remove(bedrijf);
+				BedrijfEvents.InvokeBedrijfVerwijderd(bedrijf);
+			}
 		}
 
 		#region ProppertyChanged
@@ -42,18 +70,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged
-
-		private void WijzigBedrijf_Click(object sender, RoutedEventArgs e) {
-			if (ContextMenu.DataContext is BedrijfDTO bedrijf) {
-				MessageBox.Show("Ik heb een design nodig weude");
-			}
-		}
-
-		private void VerwijderBedrijf_Click(object sender, RoutedEventArgs e) {
-			if (ContextMenu.DataContext is BedrijfDTO bedrijf) {
-				ApiController.VerwijderBedrijf(bedrijf.Id);
-				ItemSource.Remove(bedrijf);
-			}
-		}
 	}
 }

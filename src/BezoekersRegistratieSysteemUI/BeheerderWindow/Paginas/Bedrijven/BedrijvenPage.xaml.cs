@@ -1,5 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 using System;
@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+using BezoekersRegistratieSysteemUI.Events;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 	public partial class BedrijvenPage : Page {
@@ -21,14 +23,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 		public string ZoekText {
 			get => _zoekText;
 			set {
-				if (!string.IsNullOrWhiteSpace(value)) {
+				if (value.IsNietLeeg()) {
 					_zoekText = value.ToLower();
 
-					List<BedrijfDTO> result = initieleBedrijven.Where(b => 
-					b.Naam.ToLower().Contains(_zoekText) || 
-					b.TelefoonNummer.ToLower().Contains(_zoekText) || 
-					b.Adres.ToLower().Contains(_zoekText) || 
-					b.Email.ToLower().Contains(_zoekText) || 
+					List<BedrijfDTO> result = initieleBedrijven.Where(b =>
+					b.Naam.ToLower().Contains(_zoekText) ||
+					b.TelefoonNummer.ToLower().Contains(_zoekText) ||
+					b.Adres.ToLower().Contains(_zoekText) ||
+					b.Email.ToLower().Contains(_zoekText) ||
 					b.BTW.ToLower().Contains(_zoekText)).ToList();
 
 					BedrijvenLijstControl.ItemSource.Clear();
@@ -36,7 +38,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 					foreach (BedrijfDTO bedrijf in result) {
 						BedrijvenLijstControl.ItemSource.Add(bedrijf);
 					}
-					
+
 				} else if (value.Length == 0) {
 					BedrijvenLijstControl.ItemSource.Clear();
 					foreach (BedrijfDTO bedrijf in ApiController.GeefBedrijven()) {
@@ -51,10 +53,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 			this.DataContext = this;
 			InitializeComponent();
 
-			BedrijvenPopup.UpdateBedrijfLijst += UpdateBedrijvenLijst;
+			BedrijfEvents.NieuwBedrijfToeGevoegd += NieuwBedrijfToeGevoegd_Event;
 		}
 
-		private void UpdateBedrijvenLijst(BedrijfDTO bedrijf) {
+		private void NieuwBedrijfToeGevoegd_Event(BedrijfDTO bedrijf) {
 			BedrijvenLijstControl.ItemSource.Add(bedrijf);
 			initieleBedrijven = BedrijvenLijstControl.ItemSource.ToList();
 		}
@@ -68,6 +70,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 				BedrijvenLijstControl.ItemSource.Add(bedrijf);
 			}
 			initieleBedrijven = bedrijven;
+		}
+
+		private void ZoekTermChanged(object sender, TextChangedEventArgs e) {
+			Task.Run(() => Dispatcher.Invoke(() => ZoekText = ZoekTextTextbox.Text));
 		}
 
 		#region Singleton
@@ -85,9 +91,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 			}
 		}
 		#endregion
-
-		private void ZoekTermChanged(object sender, TextChangedEventArgs e) {
-			Task.Run(() => Dispatcher.Invoke(() => ZoekText = ZoekTextTextbox.Text));
-		}
 	}
 }

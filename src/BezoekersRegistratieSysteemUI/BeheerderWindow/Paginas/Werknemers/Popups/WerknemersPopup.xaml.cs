@@ -1,7 +1,9 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.Model;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -12,10 +14,6 @@ using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
 	public partial class WerknemersPopup : UserControl, INotifyPropertyChanged {
-		public event PropertyChangedEventHandler? PropertyChanged;
-		public delegate void NieuweWerknemerToegevoegdEvent(WerknemerDTO werknemer);
-		public static event NieuweWerknemerToegevoegdEvent NieuweWerknemerToegevoegd;
-
 		#region Bind Propperties
 		private string _voornaam = string.Empty;
 		public string Voornaam {
@@ -72,29 +70,29 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			Email = Email.Trim();
 			Functie = Functie.Trim();
 
-			if (string.IsNullOrWhiteSpace(Voornaam)) {
+			if (Voornaam.IsLeeg()) {
 				MessageBox.Show("Voornaam mag niet leeg zijn");
 				return;
 			};
 
-			if (string.IsNullOrWhiteSpace(Achternaam)) {
+			if (Achternaam.IsLeeg()) {
 				MessageBox.Show("Achternaam mag niet leeg zijn");
 				return;
 			};
 
-			if (string.IsNullOrWhiteSpace(Email)) {
+			if (Email.IsLeeg()) {
 				MessageBox.Show("Email mag niet leeg zijn");
 				return;
 			};
 
-			if (string.IsNullOrWhiteSpace(Functie)) {
+			if (Functie.IsLeeg()) {
 				MessageBox.Show("Functie mag niet leeg zijn");
 				return;
 			};
 
 			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
 			WerknemerDTO werknemer = ApiController.MaakWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
-			NieuweWerknemerToegevoegd?.Invoke(werknemer);
+			WerknemerEvents.InvokeUpdateGeselecteerdBedrijf(werknemer);
 
 			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd");
 			SluitOverlay();
@@ -117,6 +115,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 		#region ProppertyChanged
 
+		public event PropertyChangedEventHandler? PropertyChanged;
 		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}

@@ -1,16 +1,15 @@
-﻿using System;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Events;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
 namespace BezoekersRegistratieSysteemUI {
 	public partial class App : Application {
-
-		public readonly static DispatcherTimer RefreshTimer = new DispatcherTimer();
+		private GlobalEvents globalEvents;
 		public App() {
-			RefreshTimer.Interval = TimeSpan.FromSeconds(5);
-			RefreshTimer.Start();
-
+			globalEvents = new GlobalEvents();
 			BeeindigAlleOnAfgeslotenAfspraken();
 
 			System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("fr-FR");
@@ -18,7 +17,7 @@ namespace BezoekersRegistratieSysteemUI {
 		}
 
 		private void BeeindigAlleOnAfgeslotenAfspraken() {
-
+			ApiController.BeeindigAlleOnAfgeslotenAfspraken();
 		}
 
 		private void VangOntsnapteExceptions(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {

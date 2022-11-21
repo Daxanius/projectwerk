@@ -45,13 +45,13 @@ switch (database) {
 			builder.Services.AddSingleton(parkingContractManager);
 			builder.Services.AddSingleton(parkeerplaatsManager);
 
-			break;
-		}
-	default:
-		Console.WriteLine($"Implementatie niet gevonden voor: \"{database}\"");
-		Console.WriteLine($"U kunt een implementatie selecteren door \"{ENV_DB}\" te specifieren in uw appsettings");
-		Environment.Exit(1);
 		break;
+	}
+	default:
+	Console.WriteLine($"Implementatie niet gevonden voor: \"{database}\"");
+	Console.WriteLine($"U kunt een implementatie selecteren door \"{ENV_DB}\" te specifieren in uw appsettings");
+	Environment.Exit(1);
+	break;
 }
 
 var app = builder.Build();
