@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups {
 	public partial class AfsprakenPopup : UserControl, INotifyPropertyChanged {
@@ -212,12 +213,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), startTijdDatum, eindTijdDatum, Werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
 			AfspraakDTO afspraak = ApiController.MaakAfspraak(payload);
-			afspraak.Status = "Lopend";
+
+			if (afspraak.EindTijd.IsLeeg())
+				afspraak.Status = "Lopend";
+			else if (afspraak.EindTijd.IsNietLeeg())
+				afspraak.Status = "Stopgezet door admin";
 
 			SluitOverlay();
 			AfspraakEvents.InvokeNieuweAfspraakToegevoegd(afspraak);
 
-			MessageBox.Show($"Afspraak toegevoegd", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+			CustomMessageBox customMessageBox = new();
+			customMessageBox.Show("Afspraak toegevoegd", $"Success", ECustomMessageBoxIcon.Information);
 		}
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;

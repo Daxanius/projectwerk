@@ -57,7 +57,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 
 			List<AfspraakDTO> filtered = huidigeFilterAfspraken;
 			if (combobox.SelectedIndex != 0) {
-				filtered = huidigeFilterAfspraken.Where(a => a.Status.ToLower() == selected.ToLower()).ToList();
+				if (selected.ToLower() == "lopend") {
+					filtered = huidigeFilterAfspraken.Where(a => a.Status.ToLower() == "lopend").ToList();
+				} else {
+					filtered = huidigeFilterAfspraken.Where(a => a.Status.ToLower() != "lopend").ToList();
+				}
 				filtered = filtered.OrderByDescending(a => a.StartTijd).ToList();
 			}
 

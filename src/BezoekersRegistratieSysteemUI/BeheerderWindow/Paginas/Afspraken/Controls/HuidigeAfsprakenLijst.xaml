@@ -22,6 +22,71 @@
         SelectedIndex="{Binding SelectedIndex}"
         SelectedItem="{Binding SelectedItem}"
         SelectionMode="Single">
+        <ListView.ContextMenu>
+            <ContextMenu
+                x:Name="ContextMenu"
+                Padding="10"
+                Background="{StaticResource LichtGrijsAccent}"
+                BorderBrush="Transparent"
+                BorderThickness="0">
+                <ContextMenu.Resources>
+                    <Style TargetType="ContextMenu">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ContextMenu">
+                                    <Border
+                                        Margin="5"
+                                        Padding="5"
+                                        Background="{StaticResource MainAchtergrond}"
+                                        BorderBrush="{StaticResource ScrollGrijs}"
+                                        BorderThickness="1.8"
+                                        CornerRadius="10">
+                                        <ItemsPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="MenuItem">
+                                    <Border
+                                        Margin="5"
+                                        Padding="10,5"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0,0,0,1"
+                                        CornerRadius="5">
+                                        <ContentPresenter HorizontalAlignment="Center" Content="{TemplateBinding Header}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Foreground" Value="{StaticResource GewoonBlauw}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContextMenu.Resources>
+                <MenuItem
+                    Background="{StaticResource ButtonOranje}"
+                    Click="WijzigAfspraak_Click"
+                    FontWeight="DemiBold"
+                    Foreground="{StaticResource MainAchtergrond}"
+                    Header="Wijzig" />
+                <MenuItem
+                    x:Name="VerwijderMenuItem"
+                    Background="{StaticResource LichtRood}"
+                    Click="VerwijderAfspraak_Click"
+                    FontWeight="DemiBold"
+                    Foreground="WhiteSmoke"
+                    Header="Verwijder" />
+            </ContextMenu>
+        </ListView.ContextMenu>
         <ListView.Style>
             <Style TargetType="ListView">
                 <Style.Triggers>
@@ -47,12 +112,12 @@
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="Transparent"
                                     BorderThickness="0,0,0,1"
-                                    CornerRadius="20">
+                                    CornerRadius="25">
                                     <GridViewRowPresenter
                                         Width="Auto"
                                         Margin="0"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        VerticalAlignment="Center"
                                         Content="{TemplateBinding Content}" />
                                 </Border>
                             </StackPanel>

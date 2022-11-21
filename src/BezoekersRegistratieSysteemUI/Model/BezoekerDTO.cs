@@ -1,4 +1,6 @@
-﻿namespace BezoekersRegistratieSysteemUI.Model {
+﻿using System;
+
+namespace BezoekersRegistratieSysteemUI.Model {
 
 	public class BezoekerDTO {
 
@@ -22,5 +24,18 @@
 		public string Achternaam { get; set; }
 		public string Email { get; set; }
 		public string Bedrijf { get; set; }
+
+		public override bool Equals(object? obj) {
+			return obj is BezoekerDTO dTO &&
+				   Id == dTO.Id &&
+				   Voornaam == dTO.Voornaam &&
+				   Achternaam == dTO.Achternaam &&
+				   Email == dTO.Email &&
+				   Bedrijf == dTO.Bedrijf;
+		}
+
+		public override int GetHashCode() {
+			return HashCode.Combine(Id, Voornaam, Achternaam, Email, Bedrijf);
+		}
 	}
 }

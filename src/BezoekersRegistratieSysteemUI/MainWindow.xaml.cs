@@ -38,9 +38,9 @@ namespace BezoekersRegistratieSysteemUI {
 		}
 
 		private void AdminButton_Click(object sender, RoutedEventArgs e) {
-			BeheerderWindow parkeerWindow = new BeheerderWindow();
+			BeheerderWindow beheerderWindow = new BeheerderWindow();
 			this.Close();
-			parkeerWindow.ShowDialog();
+			beheerderWindow.ShowDialog();
 		}
 	}
 }

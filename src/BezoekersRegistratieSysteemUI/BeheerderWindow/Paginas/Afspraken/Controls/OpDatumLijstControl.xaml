@@ -18,6 +18,71 @@
         SelectedIndex="{Binding SelectedIndex}"
         SelectedItem="{Binding SelectedItem}"
         SelectionMode="Single">
+        <ListView.ContextMenu>
+            <ContextMenu
+                x:Name="ContextMenu"
+                Padding="10"
+                Background="{StaticResource LichtGrijsAccent}"
+                BorderBrush="Transparent"
+                BorderThickness="0">
+                <ContextMenu.Resources>
+                    <Style TargetType="ContextMenu">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ContextMenu">
+                                    <Border
+                                        Margin="5"
+                                        Padding="5"
+                                        Background="{StaticResource MainAchtergrond}"
+                                        BorderBrush="{StaticResource ScrollGrijs}"
+                                        BorderThickness="1.8"
+                                        CornerRadius="10">
+                                        <ItemsPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="MenuItem">
+                                    <Border
+                                        Margin="5"
+                                        Padding="10,5"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0,0,0,1"
+                                        CornerRadius="5">
+                                        <ContentPresenter HorizontalAlignment="Center" Content="{TemplateBinding Header}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Foreground" Value="{StaticResource GewoonBlauw}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContextMenu.Resources>
+                <MenuItem
+                    Background="{StaticResource ButtonOranje}"
+                    Click="WijzigAfspraak_Click"
+                    FontWeight="DemiBold"
+                    Foreground="{StaticResource MainAchtergrond}"
+                    Header="Wijzig" />
+                <MenuItem
+                    x:Name="VerwijderMenuItem"
+                    Background="{StaticResource LichtRood}"
+                    Click="VerwijderAfspraak_Click"
+                    FontWeight="DemiBold"
+                    Foreground="WhiteSmoke"
+                    Header="Verwijder" />
+            </ContextMenu>
+        </ListView.ContextMenu>
         <ListView.Style>
             <Style TargetType="ListView">
                 <Style.Triggers>
@@ -43,12 +108,12 @@
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="Transparent"
                                     BorderThickness="0,0,0,1"
-                                    CornerRadius="20">
+                                    CornerRadius="25">
                                     <GridViewRowPresenter
                                         Width="Auto"
                                         Margin="0"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        VerticalAlignment="Center"
                                         Content="{TemplateBinding Content}" />
                                 </Border>
                             </StackPanel>
@@ -94,10 +159,9 @@
                     </Style>
                 </GridView.ColumnHeaderContainerStyle>
                 <GridView.Columns>
-                    <GridViewColumn>
+                    <GridViewColumn Width="Auto">
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="200"
                                 FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Datum" />
@@ -113,10 +177,9 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn>
+                    <GridViewColumn Width="Auto">
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="250"
                                 FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Werknemer" />
@@ -144,10 +207,9 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn>
+                    <GridViewColumn Width="Auto">
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="250"
                                 FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Bezoeker" />
@@ -178,10 +240,9 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn>
+                    <GridViewColumn Width="Auto">
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="250"
                                 FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Email" />
@@ -199,10 +260,9 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn>
+                    <GridViewColumn Width="Auto">
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="80"
                                 FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Bedrijf" />
@@ -218,6 +278,25 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock
+                                MaxWidth="1500"
+                                Padding="5,0"
+                                FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
+                                Text="Status" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button CommandParameter="{Binding}" Style="{StaticResource WijzigButtonStyle}">
+                                    <Border Style="{StaticResource AfspraakStatusBackgroundStyle}" Tag="{Binding Status}">
+                                        <TextBlock Style="{StaticResource ListViewWijzigTextBlockStyle}" Text="{Binding Status}" />
+                                    </Border>
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto">
                         <GridViewColumn.Header>
                             <TextBlock Padding="5,0" Text="" />
                         </GridViewColumn.Header>

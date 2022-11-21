@@ -127,7 +127,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 
-
 				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf)));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
@@ -146,7 +145,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
-				bedrijf.VerwijderWerknemerUitBedrijf(werknemer);
+				_werknemerManager.VerwijderWerknemer(werknemer, bedrijf);
 				return Ok();
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
