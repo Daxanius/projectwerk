@@ -1,8 +1,9 @@
 ﻿using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Exceptions;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -72,7 +73,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.SendAsync(request);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -104,7 +105,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
@@ -127,7 +128,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsync(apiUrl, null);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -159,7 +160,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, json);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -191,7 +192,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsync(apiUrl, null);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
@@ -213,7 +214,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, json);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException("De request is niet gelukt: statuscode: " + response.StatusCode);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
@@ -222,7 +223,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}
 		}
 
-		public static void Delete(string url, string defaultFoutMelding = "") {
+		public async static Task Delete(string url, string defaultFoutMelding = "") {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -233,7 +234,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				using HttpClient client = new();
 				client.Timeout = _timeout;
 
-				client.DeleteAsync(apiUrl);
+				HttpResponseMessage response = await client.DeleteAsync(apiUrl);
+
+				if (!response.IsSuccessStatusCode) {
+					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
+				}
 			} catch (Exception ex) {
 				if (defaultFoutMelding != "")
 					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
@@ -461,7 +466,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					apiWerknemers.ForEach((api) => {
 						List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(bedrijf, w.Email, w.Functies)).ToList());
 						WerknemerInfoOutputDTO werknemerInfo = api.WerknemerInfo.First(w => w.Bedrijf.Id == bedrijf.Id);
-						ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, api.StatusNaam ?? ""));
+						ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, werknemerInfo.StatusNaam ?? ""));
 					});
 					return ItemSource;
 				} else {
@@ -489,8 +494,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-		public static void VerwijderBedrijf(long id) {
-			Delete($"bedrijf/{id}");
+		public static async Task VerwijderBedrijf(long id) {
+			await Delete($"bedrijf/{id}");
 		}
 		#endregion
 
@@ -532,7 +537,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				//System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("fr-FR");
 				//System.Threading.Thread.CurrentThread.CurrentCulture = ci
 
-				if (string.IsNullOrWhiteSpace(datum))
+				if (datum.IsLeeg())
 					datum = DateTime.Now.ToString("MM/dd/yyyy");
 				else
 					datum = DateTime.Parse(datum).ToString("MM/dd/yyyy");
@@ -566,6 +571,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				} else
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van alle afspraaken");
 			}).Result;
+		}
+
+		public static void BeeindigAlleOnAfgeslotenAfspraken() {
+			Task.Run(() => Put("afspraak/end/lopend"));
 		}
 		#endregion
 	}

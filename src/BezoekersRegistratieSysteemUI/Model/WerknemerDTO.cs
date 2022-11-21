@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
+namespace BezoekersRegistratieSysteemUI.Model {
 
 	public class WerknemerDTO {
 		public long? Id { get; set; }
