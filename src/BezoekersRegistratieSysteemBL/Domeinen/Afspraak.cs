@@ -2,7 +2,7 @@
 
 namespace BezoekersRegistratieSysteemBL.Domeinen
 {
-	public class Afspraak
+	public class Afspraak : Status
 	{
 		public long Id { get; private set; }
 		public DateTime Starttijd { get; private set; }
@@ -11,59 +11,65 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		public Bezoeker Bezoeker { get; private set; }
 		public Werknemer Werknemer { get; private set; }
 
-		/// <summary>
-		/// Constructor REST
-		/// </summary>
-		public Afspraak() { }
 
-		/// <summary>
-		/// Constructor voor het aanmaken van een afspraak.
-		/// </summary>
-		/// <param name="starttijd"></param>
-		/// <param name="bedrijf"></param>
-		/// <param name="bezoeker"></param>
-		/// <param name="werknemer"></param>
-		public Afspraak(DateTime starttijd, Bedrijf bedrijf, Bezoeker bezoeker, Werknemer werknemer)
-		{
-			ZetStarttijd(starttijd);
-			ZetBezoeker(bezoeker);
-			ZetWerknemer(werknemer);
-			ZetBedrijfEnWerknemer(bedrijf, werknemer);
-		}
+        /// <summary>
+        /// Constructor voor het ophalen van een afspraak.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="starttijd"></param>
+        /// <param name="eindtijd"></param>
+        /// <param name="bedrijf"></param>
+        /// <param name="bezoeker"></param>
+        /// <param name="werknemer"></param>
+        /// <param name="statusNaam"></param>
+        public Afspraak(long id, DateTime starttijd, DateTime? eindtijd, Bedrijf bedrijf, Bezoeker bezoeker, Werknemer werknemer, string statusNaam) : this(id, starttijd, eindtijd, bedrijf, bezoeker, werknemer) {
+			base.ZetStatusNaam(statusNaam);
+        }
 
-		/// <summary>
-		/// Maak een nieuwe afspraak met een starttijd en een eindtijd
-		/// </summary>
-		/// <param name="starttijd"></param>
-		/// <param name="eindtijd"></param>
-		/// <param name="bedrijf"></param>
-		/// <param name="bezoeker"></param>
-		/// <param name="werknemer"></param>
-		public Afspraak(DateTime starttijd, DateTime? eindtijd, Bedrijf bedrijf, Bezoeker bezoeker, Werknemer werknemer) {
-			ZetStarttijd(starttijd);
-			ZetBezoeker(bezoeker);
-			ZetWerknemer(werknemer);
-			ZetBedrijfEnWerknemer(bedrijf, werknemer);
-			ZetEindtijd(eindtijd);
-		}
+        /// <summary>
+        /// Constructor voor het ophalen van een afspraak.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="starttijd"></param>
+        /// <param name="eindtijd"></param>
+        /// <param name="bedrijf"></param>
+        /// <param name="bezoeker"></param>
+        /// <param name="werknemer"></param>
+        public Afspraak(long id, DateTime starttijd, DateTime? eindtijd, Bedrijf bedrijf, Bezoeker bezoeker, Werknemer werknemer) : this(starttijd, eindtijd, bedrijf, bezoeker, werknemer) {
+            ZetId(id);
+        }
 
-		/// <summary>
-		/// Constructor voor het ophalen van een afspraak.
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="starttijd"></param>
-		/// <param name="eindtijd"></param>
-		/// <param name="bedrijf"></param>
-		/// <param name="bezoeker"></param>
-		/// <param name="werknemer"></param>
-		public Afspraak(long id, DateTime starttijd, DateTime? eindtijd, Bedrijf bedrijf, Bezoeker bezoeker, Werknemer werknemer)
-		{
-			ZetId(id);
-			ZetStarttijd(starttijd);
-			ZetEindtijd(eindtijd);
-			ZetBezoeker(bezoeker);
-			ZetBedrijfEnWerknemer(bedrijf, werknemer);
-		}
+        /// <summary>
+        /// Maak een nieuwe afspraak met een starttijd en een eindtijd
+        /// </summary>
+        /// <param name="starttijd"></param>
+        /// <param name="eindtijd"></param>
+        /// <param name="bedrijf"></param>
+        /// <param name="bezoeker"></param>
+        /// <param name="werknemer"></param>
+        public Afspraak(DateTime starttijd, DateTime? eindtijd, Bedrijf bedrijf, Bezoeker bezoeker, Werknemer werknemer) : this(starttijd, bedrijf, bezoeker, werknemer) {
+            ZetEindtijd(eindtijd);
+        }
+
+        /// <summary>
+        /// Constructor voor het aanmaken van een afspraak.
+        /// </summary>
+        /// <param name="starttijd"></param>
+        /// <param name="bedrijf"></param>
+        /// <param name="bezoeker"></param>
+        /// <param name="werknemer"></param>
+        public Afspraak(DateTime starttijd, Bedrijf bedrijf, Bezoeker bezoeker, Werknemer werknemer) {
+            ZetStarttijd(starttijd);
+            ZetBezoeker(bezoeker);
+            ZetWerknemer(werknemer);
+            ZetBedrijfEnWerknemer(bedrijf, werknemer);
+        }
+
+        /// <summary>
+        /// Constructor REST
+        /// </summary>
+        public Afspraak() { }
+
 
         /// <summary>
         /// Controleert voorwaarden op geldigheid en stelt het id in.
@@ -150,6 +156,14 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         public void ZetWerknemer(Werknemer werknemer)
 		{
 			Werknemer = werknemer ?? throw new AfspraakException("Afspraak - ZetWerknemer - werknemer mag niet leeg zijn");
+		}
+
+        /// <summary>
+        /// Zet statusnaam voor Afspraak
+        /// </summary>
+        /// <param name="statusNaam">Status naam die gezet moet worden.</param>
+        public void ZetStatus(string statusNaam) {
+			base.ZetStatusNaam(statusNaam ?? throw new AfspraakException("Afspraak - ZetStatus - status mag niet leeg zijn"));
 		}
 
         /// <summary>
