@@ -58,7 +58,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <exception cref="ParkingContractException">"ParkingContract - ZetBedrijf - Bedrijf mag niet leeg zijn"</exception>
         public void ZetBedrijf(Bedrijf bedrijf)
         {
-            if (Bedrijf == null) throw new ParkingContractException("ParkingContract - ZetBedrijf - Bedrijf mag niet leeg zijn");
+            if (bedrijf == null) throw new ParkingContractException("ParkingContract - ZetBedrijf - Bedrijf mag niet leeg zijn");
 			Bedrijf = bedrijf;
         }
 
@@ -77,6 +77,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="eindtijd">Mag niet na starttijd liggen.</param>
         /// <exception cref="ParkingContractException">"ParkingContract - ZetEindtijd - Eindtijd moet na starttijd liggen"</exception>
         public void ZetEindtijd(DateTime eindtijd) {
+            if (eindtijd < Starttijd) throw new ParkingContractException("ParkingContract - ZetEindtijd - Eindtijd mag niet voo starttijd zijn");
 			Eindtijd = eindtijd;
 		}
 
@@ -86,7 +87,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
         /// <param name="aantalPlaatsen"></param>
         /// <exception cref="ParkingContractException">"ParkingContract - ZetAantalPlaatsen - Aantal plaatsen moet groter dan 0 zijn"</exception>
         public void ZetAantalPlaatsen(int aantalPlaatsen) {
-			if (aantalPlaatsen < 0)
+			if (aantalPlaatsen < 1)
         		throw new ParkingContractException("ParkingContract - ZetAantalPlaatsen - Aantal plaatsen moet groter dan 0 zijn");
 			AantalPlaatsen = aantalPlaatsen;
 		}

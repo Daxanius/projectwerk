@@ -75,10 +75,25 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemer(_w, _b));
 			Assert.Equal("WerknemerManager - VerwijderWerknemer - werknemer bestaat niet", ex.Message);
 		}
+
+        [Fact]
+        public void VerwijderWerknemer_Invalid_WerknemerHeeftAfspraken()
+        {
+            _mockRepo = new Mock<IWerknemerRepository>();
+            _mockRepoAfspraak = new Mock<IAfspraakRepository>();
+            _werknemerManager = new WerknemerManager(_mockRepo.Object, _mockRepoAfspraak.Object);
+
+            //"BedrijfManager - VoegWerknemerToe - werknemer heeft afspraken"
+            _mockRepo.Setup(x => x.BestaatWerknemer(_w)).Returns(true);
+            _mockRepoAfspraak.Setup(x => x.GeefHuidigeAfsprakenPerBedrijf(_b.Id).Count).Returns(1);
+            var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemer(_w, _b));
+            Assert.Equal("WerknemerManager - VerwijderWerknemer - werknemer heeft lopende afspraken", ex.Message);
+        }
+        
         #endregion
 
         #region UnitTest VoegWerknemerFunctieToe
-        [Fact]
+            [Fact]
 		public void VoegWerknemerFunctieToe_Invalid_WerknemerLeeg() {
 			_mockRepo = new Mock<IWerknemerRepository>();
             _mockRepoAfspraak = new Mock<IAfspraakRepository>();
