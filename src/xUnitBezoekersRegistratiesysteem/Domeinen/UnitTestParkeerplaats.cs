@@ -51,10 +51,13 @@ namespace xUnitBezoekersRegistratieSysteem.Domeinen {
 			Assert.Equal(pp.Nummerplaat, nummerplaatIn);
 		}
 
-		[Fact]
-		public void Nummerplaat_Leeg() {
-			Assert.Throws<Exception>(() => {
-				Parkeerplaats pp = new(_bd, _st, null);
+		[Theory]
+		[InlineData("Dit is GEEN geldig nummerplaat...")]
+		[InlineData(null)]
+		[InlineData("⎅⟟⏁ ⟟⌇ ⟒⟒⋏ ⏚⎍⟟⏁⟒⋏⏃⏃⍀⎅⌇ ⋏⎍⋔⋔⟒⍀⌿⌰⏃⏃⏁")]
+		public void Nummerplaat_Invalid(string nummerplaatIn) {
+			Assert.Throws<ParkeerplaatsException>(() => {
+				Parkeerplaats pp = new(_bd, _st, nummerplaatIn);
 			});
 		}
 		#endregion
