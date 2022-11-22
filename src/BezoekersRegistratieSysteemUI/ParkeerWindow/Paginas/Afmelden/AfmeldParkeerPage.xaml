@@ -1,11 +1,11 @@
 ﻿<Page
-    x:Class="BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden.AfmeldPage"
+    x:Class="BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Afmelden.AfmeldParkeerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Afmelden"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="AfmeldPage"
+    Title="KiesBedrijfPage"
     d:DesignHeight="450"
     d:DesignWidth="800"
     FontFamily="{StaticResource Inter}"
@@ -23,11 +23,11 @@
             <Label
                 Margin="0,0,0,50"
                 HorizontalAlignment="Center"
-                Content="Gelieve uw mailadres in te geven."
+                Content="Gelieve uw nummerplaat in te geven."
                 FontSize="65"
                 FontWeight="Bold"
                 Foreground="{StaticResource DonkerBlauw}" />
-            <TextBox Style="{StaticResource AanmeldenInputStyle}" Text="{Binding Email}" />
+            <TextBox Style="{StaticResource AanmeldenInputStyle}" Text="{Binding Nummerplaat}" />
             <Button
                 x:Name="AfmeldenButton"
                 Margin="0,70,0,0"
@@ -35,7 +35,7 @@
                 BorderBrush="{StaticResource GewoonBlauw}"
                 BorderThickness="5"
                 Click="AfmeldenClick"
-                Content="afmelden"
+                Content="Afmelden"
                 FontSize="28"
                 Foreground="{StaticResource GewoonBlauw}"
                 Style="{StaticResource ActionButtonPopup}"
