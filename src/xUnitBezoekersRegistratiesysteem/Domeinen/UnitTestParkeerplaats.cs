@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Exceptions.DomeinException;
 
 namespace xUnitBezoekersRegistratieSysteem.Domeinen {
 	public class UnitTestParkeerplaats {
@@ -36,8 +37,41 @@ namespace xUnitBezoekersRegistratieSysteem.Domeinen {
 			//
 
 			// Is dit een geldig nummerplaat?
-			_n = "028AB";
+			_n = "0-KKK-000";
 			_in = "AZERTYUIOPQSDFGHJKLMWXCVBN";
+		}
+		#endregion
+
+		#region UnitTest Nummerplaat
+		[Theory]
+		[InlineData("1-ABC-005")]
+		[InlineData("6-YEE-040")]
+		public void Nummerplaat_Valid(string nummerplaatIn) {
+			Parkeerplaats pp = new(_bd, _st, nummerplaatIn);
+			Assert.Equal(pp.Nummerplaat, nummerplaatIn);
+		}
+
+		[Fact]
+		public void Nummerplaat_Leeg() {
+			Assert.Throws<Exception>(() => {
+				Parkeerplaats pp = new(_bd, _st, null);
+			});
+		}
+		#endregion
+
+		#region UnitTest Eindtijd
+		[Fact]
+		public void Eindtijd_Invalid() {
+			Parkeerplaats pp = new(_bd, DateTime.Now, _n);
+			Assert.Throws<ParkeerplaatsException>(() => {
+				pp.ZetEindtijd(DateTime.Now.AddDays(-2));
+			});
+		}
+
+		[Fact]
+		public void Eindtijd_Valid() {
+			Parkeerplaats pp = new(_bd, DateTime.Now, _n);
+			pp.ZetEindtijd(DateTime.Now.AddHours(2));
 		}
 		#endregion
 	}
