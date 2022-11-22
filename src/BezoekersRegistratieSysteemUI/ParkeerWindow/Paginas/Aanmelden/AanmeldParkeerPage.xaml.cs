@@ -1,4 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden;
+﻿using BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden;
 using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
-	public partial class AfmeldPage : Page, INotifyPropertyChanged {
+namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
+	public partial class AanmeldParkeerPage : Page, INotifyPropertyChanged {
 		#region Scaling
 		public double ScaleX { get; set; }
 		public double ScaleY { get; set; }
@@ -18,21 +18,22 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 
 		#region Variabelen
 
-		private string _email;
+		private string _nummerplaat;
 
-		public string Email {
-			get { return _email; }
+		public string Nummerplaat
+        {
+			get { return _nummerplaat; }
 
 			set {
-				if (value == _email) return;
-				_email = value.Trim();
+				if (value == _nummerplaat) return;
+                _nummerplaat = value.Trim();
 				UpdatePropperty();
 			}
 		}
 
 		#endregion
 
-		public AfmeldPage() {
+		public AanmeldParkeerPage() {
 
 			double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
 			double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
@@ -51,25 +52,32 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 		}
 
 		#region Functies
-		private async void AfmeldenClick(object sender, RoutedEventArgs e) {
+		private async void AanmeldenClick(object sender, RoutedEventArgs e) {
 			try {
-				if (!Email.IsEmailGeldig()) {
+				if (!Nummerplaat.IsEmailGeldig()) {
 					MessageBox.Show("Email is niet geldig!", "Error");
 					return;
 				}
 
-				if (Email.IsLeeg()) {
+				if (Nummerplaat.IsLeeg()) {
 					MessageBox.Show("Email is leeg!", "Error");
 					return;
 				}
 
-				await ApiController.Put<object>($"/afspraak/end?email={Email}");
+				await ApiController.Put<object>($"/afspraak/end?email={Nummerplaat}");
 
-				Email = "";
+                Nummerplaat = "";
 
 				MessageBox.Show("U bent afgemeld", "", MessageBoxButton.OK, MessageBoxImage.Information);
 
 				await Task.Delay(TimeSpan.FromSeconds(2));
+
+				//RegistratieWindow registratieWindow = RegistratieWindow.Instance;
+				//registratieWindow = (RegistratieWindow)registratieWindow.DataContext;
+
+				//registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
+				//registratieWindow.SideBar.AanmeldenTab.Tag = "Selected";
+				//registratieWindow.SideBar.AfmeldenTab.Tag = "UnSelected";
 
 			} catch (Exception ex) {
 				if (ex.Message.Contains("NotFound")) {
@@ -89,14 +97,14 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 		#endregion ProppertyChanged
 
 		#region Singleton
-		private static AfmeldPage instance = null;
+		private static AanmeldParkeerPage instance = null;
 		private static readonly object padlock = new object();
 
-		public static AfmeldPage Instance {
+		public static AanmeldParkeerPage Instance {
 			get {
 				lock (padlock) {
 					if (instance == null) {
-						instance = new AfmeldPage();
+						instance = new AanmeldParkeerPage();
 					}
 					return instance;
 				}

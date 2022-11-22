@@ -92,6 +92,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="ParkeerWindow\Paginas\Aanmelden\AanmeldParkeerPage.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 		<Compile Update="AanmeldWindow\Paginas\Afmelden\AfmeldPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
@@ -131,9 +134,15 @@
 		<Compile Update="BeheerderWindow\Paginas\Bedrijven\BedrijvenPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
+		<Compile Update="ParkeerWindow\Paginas\Afmelden\AfmeldParkeerPage.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+		<Page Update="ParkeerWindow\Paginas\Aanmelden\AanmeldParkeerPage.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		</Page>
 		<Page Update="AanmeldWindow\Paginas\Afmelden\AfmeldPage.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
@@ -195,6 +204,9 @@
 		<Page Update="BeheerderWindow\Paginas\Bedrijven\BedrijvenPage.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="ParkeerWindow\Paginas\Afmelden\AfmeldParkeerPage.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		</Page>
 	</ItemGroup>
 
