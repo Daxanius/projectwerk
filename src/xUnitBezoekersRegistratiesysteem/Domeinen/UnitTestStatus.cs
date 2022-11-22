@@ -5,6 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace xUnitBezoekersRegistratieSysteem.Domeinen {
-	internal class UnitTestStatus {
+	public class UnitTestStatus {
 	}
 }
