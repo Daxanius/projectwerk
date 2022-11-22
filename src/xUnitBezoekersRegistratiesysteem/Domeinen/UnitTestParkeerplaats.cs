@@ -65,16 +65,17 @@ namespace xUnitBezoekersRegistratieSysteem.Domeinen {
 		#region UnitTest Eindtijd
 		[Fact]
 		public void Eindtijd_Invalid() {
-			Parkeerplaats pp = new(_bd, DateTime.Now, _n);
+			Parkeerplaats pp = new(_bd, _st, _n);
 			Assert.Throws<ParkeerplaatsException>(() => {
-				pp.ZetEindtijd(DateTime.Now.AddDays(-2));
+				pp.ZetEindtijd(_st.AddDays(-2));
 			});
 		}
 
 		[Fact]
 		public void Eindtijd_Valid() {
-			Parkeerplaats pp = new(_bd, DateTime.Now, _n);
-			pp.ZetEindtijd(DateTime.Now.AddHours(2));
+			Parkeerplaats pp = new(_bd, _st, _n);
+			pp.ZetEindtijd(_et);
+			Assert.Equal(_et, pp.Eindtijd);
 		}
 		#endregion
 	}
