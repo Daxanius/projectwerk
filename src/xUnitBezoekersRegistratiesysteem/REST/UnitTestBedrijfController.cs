@@ -36,7 +36,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
             // Managers
             _bedrijfManager = new(_mockRepoBedrijf.Object, _mockRepoAfspraak.Object);
-			_werknemerManger = new(_mockRepoWerknemer.Object);
+			_werknemerManger = new(_mockRepoWerknemer.Object, _mockRepoAfspraak.Object);
 
 			// Controllers
 			_bedrijfController = new(_bedrijfManager, _werknemerManger);
