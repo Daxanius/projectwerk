@@ -1,7 +1,10 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
+using BezoekersRegistratieSysteemUI.Model;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -12,10 +15,6 @@ using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
 	public partial class WerknemersPopup : UserControl, INotifyPropertyChanged {
-		public event PropertyChangedEventHandler? PropertyChanged;
-		public delegate void NieuweWerknemerToegevoegdEvent(WerknemerDTO werknemer);
-		public static event NieuweWerknemerToegevoegdEvent NieuweWerknemerToegevoegd;
-
 		#region Bind Propperties
 		private string _voornaam = string.Empty;
 		public string Voornaam {
@@ -61,7 +60,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 		}
 
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {
-			SluitOverlay();
+			SluitOverlay(null);
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
@@ -72,32 +71,32 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			Email = Email.Trim();
 			Functie = Functie.Trim();
 
-			if (string.IsNullOrWhiteSpace(Voornaam)) {
+			if (Voornaam.IsLeeg()) {
 				MessageBox.Show("Voornaam mag niet leeg zijn");
 				return;
 			};
 
-			if (string.IsNullOrWhiteSpace(Achternaam)) {
+			if (Achternaam.IsLeeg()) {
 				MessageBox.Show("Achternaam mag niet leeg zijn");
 				return;
 			};
 
-			if (string.IsNullOrWhiteSpace(Email)) {
+			if (Email.IsLeeg()) {
 				MessageBox.Show("Email mag niet leeg zijn");
 				return;
 			};
 
-			if (string.IsNullOrWhiteSpace(Functie)) {
+			if (Functie.IsLeeg()) {
 				MessageBox.Show("Functie mag niet leeg zijn");
 				return;
 			};
 
 			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
 			WerknemerDTO werknemer = ApiController.MaakWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
-			NieuweWerknemerToegevoegd?.Invoke(werknemer);
+			werknemer.Status = "Vrij";
+			WerknemerEvents.InvokeUpdateGeselecteerdBedrijf(werknemer);
 
-			MessageBox.Show($"Werknemer: {werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd");
-			SluitOverlay();
+			SluitOverlay(werknemer);
 		}
 
 		private readonly Regex regexGeenCijfers = new Regex("[^a-zA-Z]+");
@@ -105,7 +104,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}
 
-		private void SluitOverlay() {
+		private void SluitOverlay(WerknemerDTO werknemer) {
 			Voornaam = "";
 			Achternaam = "";
 			Email = "";
@@ -113,10 +112,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 			WerknemersPage werknemersPage = WerknemersPage.Instance;
 			werknemersPage.WerknemersPopup.Visibility = Visibility.Hidden;
+
+			if(werknemer is not null) {
+				CustomMessageBox warningMessage = new();
+				warningMessage.Show($"{werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd", "Success", ECustomMessageBoxIcon.Information);
+			}
 		}
 
 		#region ProppertyChanged
 
+		public event PropertyChangedEventHandler? PropertyChanged;
 		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}

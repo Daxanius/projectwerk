@@ -1,6 +1,9 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
+using BezoekersRegistratieSysteemUI.Model;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -58,18 +61,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 		#endregion
 
-		#region NieuwBedrijfToegevoegdVanuitUi Event
-		public delegate void NieuwBedrijfToegevoegdVanuitUi(BedrijfDTO bedrijf);
-		public static event NieuwBedrijfToegevoegdVanuitUi UpdateBedrijfLijst;
-		#endregion
-
 		public BedrijvenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
 		}
 
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {
-			SluitOverlay();
+			SluitOverlay(null);
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
@@ -79,48 +77,50 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			Email = Email.Trim();
 			Adres = Adres.Trim();
 
-			if (string.IsNullOrWhiteSpace(Naam)) {
+			if (Naam.IsLeeg()) {
 				MessageBox.Show("Naam is verplicht");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(BtwNummer)) {
+			if (BtwNummer.IsLeeg()) {
 				MessageBox.Show("BtwNummer is verplicht");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(TelefoonNummer)) {
+			if (TelefoonNummer.IsLeeg()) {
 				MessageBox.Show("TelefoonNummer is verplicht");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(Email)) {
+			if (Email.IsLeeg()) {
 				MessageBox.Show("Email is verplicht");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(Adres)) {
+			if (Adres.IsLeeg()) {
 				MessageBox.Show("Adres is verplicht");
 				return;
 			}
 
 			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(Naam, BtwNummer, TelefoonNummer, Email, Adres);
 			BedrijfDTO bedrijf = ApiController.MaakBedrijf(nieuwBedrijf);
+			BedrijfEvents.InvokeNieuwBedrijfToeGevoegd(bedrijf);
 
-			MessageBox.Show($"{Naam} successvol toegevoegd", "Bedrijf toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-
-			UpdateBedrijfLijst?.Invoke(bedrijf);
-
-			SluitOverlay();
+			SluitOverlay(bedrijf);
 		}
 
-		private void SluitOverlay() {
+		private void SluitOverlay(BedrijfDTO? bedrijf) {
 			Naam = string.Empty;
 			TelefoonNummer = string.Empty;
 			BtwNummer = string.Empty;
 			Email = string.Empty;
 			Adres = string.Empty;
 			Visibility = Visibility.Hidden;
+
+			if(bedrijf is not null) {
+				CustomMessageBox customMessageBox = new();
+				customMessageBox.Show($"{bedrijf?.Naam} toegevoegd", $"Success", ECustomMessageBoxIcon.Information);
+			}
 		}
 
 		#region ProppertyChanged

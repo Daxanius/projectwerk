@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,9 +7,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls {
-	/// <summary>
-	/// Interaction logic for WerknemersLijstControl.xaml
-	/// </summary>
 	public partial class WerknemersLijstControl : UserControl {
 		public bool HeeftData { get; set; }
 
@@ -35,7 +33,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			get { return (WerknemerDTO)GetValue(SelectedItemProperty); }
 			set { SetValue(SelectedItemProperty, value); }
 		}
-		
+
 		public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
 		  nameof(SelectedIndex),
 		  typeof(int),
@@ -51,6 +49,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public WerknemersLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
+
+			//Kijk of je kan rechts klikken om iets te doen
+			WerknemerLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
+
+			WerknemerEvents.VerwijderWerknemerEvent += VerwijderWerknemer_Event;
+		}
+		private void VerwijderWerknemer_Event(WerknemerDTO werknemer) {
+			if (this.ItemSource.Contains(werknemer)) {
+				this.ItemSource.Remove(werknemer);
+			}
 		}
 
 		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
@@ -62,23 +70,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			if (SelectedItem is null) return;
 			WerknemerDTO werknemer = SelectedItem;
 			AfsprakenPage.Instance.GeselecteerdeWerknemer = werknemer;
-		}
-
-		private Border _selecteditem;
-		private void VeranderKleurRowOnKlik(object sender, MouseButtonEventArgs e) {
-			if (_selecteditem is not null) {
-				_selecteditem.Background = Brushes.Transparent;
-				_selecteditem.BorderThickness = new Thickness(0);
-			}
-			StackPanel? listViewItem = sender as StackPanel;
-
-			Border border = (Border)listViewItem.Children[0];
-			border.Background = Brushes.White;
-			border.BorderThickness = new Thickness(1);
-			border.BorderBrush = Brushes.WhiteSmoke;
-			border.CornerRadius = new CornerRadius(20);
-			border.Margin = new Thickness(0, 0, 20, 0);
-			_selecteditem = border;
 		}
 	}
 }

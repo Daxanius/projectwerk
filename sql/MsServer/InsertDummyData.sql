@@ -1,31 +1,33 @@
 /*
-DUMMY DATA FOR GROUPSWORK FOR MYSQL
+DUMMY DATA FOR GROUPSWORK IN TSQL
 */
 
-INSERT INTO Groupswork.Functie
+INSERT INTO Functie
 	(FunctieNaam)
 	VALUES('Ceo'),
 		  ('Cfo'),
 		  ('Sanitair medewerker'),
 		  ('Administratief medewerker'),
 		  ('Logistiek'),
-		  ('Sociale media beinvloeder');
+		  ('Sociale media beinvloeder')
 
-INSERT INTO Groupswork.AfspraakStatus
+
+
+INSERT INTO AfspraakStatus
 	(AfspraakStatusNaam)
-	VALUES('In gang'),
+	VALUES('Lopend'),
 		  ('Verwijderd'),
 		  ('Stopgezet door gebruiker'),
 		  ('Stopgezet door systeem'),
-		  ('Stopgezet door administratief medewerker');
+		  ('Stopgezet door admin')
 
-INSERT INTO Groupswork.Bezoeker
+INSERT INTO Bezoeker
 	(Vnaam, ANaam, Email, EigenBedrijf)
 	VALUES('Bart', 'Smis', 'BartSmis@Outlook.com', 'Smisses NV'),
 		  ('Niet', 'Geert', 'NietGeert@Outlook.com', 'NietGeert NV'),
-		  ('David', 'Brex', 'Davidbrex@Outlook.com', 'Dominos');
+		  ('David', 'Brex', 'Davidbrex@Outlook.com', 'Dominos')
 
-INSERT INTO Groupswork.Werknemer
+INSERT INTO Werknemer
 	(VNaam, ANaam)
 	VALUES('Ruby','Tucker'),
 	      ('Sharon','Cunningham'),
@@ -126,10 +128,10 @@ INSERT INTO Groupswork.Werknemer
 		  ('Annette','Herrera'),
 		  ('Kyle','Gardner'),
 		  ('Benjamin','Oliver'),
-		  ('Jeanette','Reynolds');
+		  ('Jeanette','Reynolds')
 
 
-INSERT INTO Groupswork.Bedrijf
+INSERT INTO Bedrijf
 	(Naam, BTWNr, TeleNr, Email, Adres, BTWChecked)
   VALUES('allphi','BE0838576480','093961130','info@allphi.be','guldensporenpark 24 9820 merelbeke', 1),
 		('orbid','BE0463174208','092729911','info@orbid.be','guldensporenpark 29 9820 merelbeke', 1),
@@ -145,10 +147,10 @@ INSERT INTO Groupswork.Bedrijf
 		('xplore','BE0865300673','038719966','info@appfoundry.be','guldensporenpark 88 9820 merelbeke', 1),
 		('axxes','BE0877961252','033034404','info@axxessid.com','guldensporenlaan 2 9820 merelbeke', 1),
 		('linak','NL801383572B01','092300109','sales@linak.cn','guldensporenpark 31 9820 merelbeke', 1),
-		('walters people','BE0874633459','092105740','gent@walterspeople.com','guldensporenpark 25 9820 merelbeke', 1);
+		('walters people','BE0874633459','092105740','gent@walterspeople.com','guldensporenpark 25 9820 merelbeke', 1)
 
 
-INSERT INTO Groupswork.WerknemerBedrijf(BedrijfId, WerknemerId, FunctieId,WerknemerEmail)
+INSERT INTO WerknemerBedrijf(BedrijfId, WerknemerId, FunctieId,WerknemerEmail)
 VALUES(14, 1, 2, 'RubyTucker@linak.cn'),
 (3, 1, 6, 'RubyTucker@cerence.com'),
 (2, 2, 4, 'SharonCunningham@orbid.be'),
@@ -251,40 +253,32 @@ VALUES(14, 1, 2, 'RubyTucker@linak.cn'),
 (14, 97, 5, 'AnnetteHerrera@linak.cn'),
 (14, 98, 5, 'KyleGardner@linak.cn'),
 (6, 99, 1, 'BenjaminOliver@cadmes.com'),
-(5, 100, 4, 'JeanetteReynolds@thermofisher.com');
+(5, 100, 4, 'JeanetteReynolds@thermofisher.com')
 
-INSERT INTO Groupswork.Afspraak
+INSERT INTO Afspraak
 	(StartTijd, WerknemerBedrijfId, BezoekerId)
-	VALUES(NOW(), 1, 1),
-		  (NOW(), 30, 2),
-		  (NOW(), 3, 3);
-
+	VALUES(GETDATE(), 1, 1),
+		  (GETDATE(), 30, 2),
+		  (GETDATE(), 3, 3)
 
 /*Voegt een parkingcontract met 50 plaatsen toe aan een bedrijf die status 1 heeft*/
-DROP PROCEDURE IF EXISTS Groupswork.GenerateParkeerPlaatsen;
+DECLARE @AantalBedrijven INT;
+DECLARE @i INT;
 
-DELIMITER $$
-CREATE procedure Groupswork.GenerateParkeerPlaatsen()
+SET @AantalBedrijven = (SELECT COUNT(*) FROM Bedrijf WHERE Status = 1);
+SET @i = 0;
+
+WHILE(@i < @AantalBedrijven)
 BEGIN
-DECLARE i INT;
-DECLARE AantalBedrijven INT;
-SET AantalBedrijven = (SELECT COUNT(*) FROM Groupswork.Bedrijf WHERE Status = 1);
-SET i = 0;
-  label: 
-WHILE (i < AantalBedrijven) DO
-    	INSERT INTO Groupswork.ParkingContract(StartTijd, EindTijd, BedrijfId, AantalPlaatsen) 
-			VALUES(CONVERT(NOW(),date), 
-			DATE_ADD(CONVERT(NOW(), date), INTERVAL 1 YEAR), 
+	INSERT INTO ParkingContract(StartTijd, EindTijd, BedrijfId, AantalPlaatsen) 
+			VALUES(CONVERT(date, GETDATE()), 
+			DATEADD(year, 1, CONVERT(date, GETDATE())), 
 			(SELECT id
-			FROM Groupswork.Bedrijf
+			FROM Bedrijf
 			WHERE STATUS = 1
 			ORDER BY Id
-			LIMIT i, 1), 
+			OFFSET @i ROWS
+			FETCH NEXT 1 ROWS ONLY), 
 			50);
-    SET i = i + 1;
-  END
-WHILE label;
-END; $$
-DELIMITER ;
-
-CALL Groupswork.GenerateParkeerPlaatsen;
+	SET @i = @i + 1;
+END

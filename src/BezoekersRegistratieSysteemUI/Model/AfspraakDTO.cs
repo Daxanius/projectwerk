@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
+namespace BezoekersRegistratieSysteemUI.Model {
 
 	public class AfspraakDTO {
 		public long Id { get; set; }
@@ -13,7 +14,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 		public DateTime? EindTijdDate { get; set; }
 		public string Status { get; set; }
 
-		public AfspraakDTO(long id, BezoekerDTO bezoeker, string werknemerBedrijf, WerknemerDTO werknemer, DateTime startTijd, DateTime? eindTijd) {
+		public AfspraakDTO(long id, BezoekerDTO bezoeker, string werknemerBedrijf, WerknemerDTO werknemer, DateTime startTijd, DateTime? eindTijd, string statusNaam) {
 			Id = id;
 			Bezoeker = bezoeker;
 			WerknemerBedrijf = werknemerBedrijf;
@@ -22,7 +23,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowDTO {
 			StartTijdDate = startTijd;
 			EindTijd = eindTijd.HasValue ? eindTijd.Value.ToString("HH:mm - dd/MM/yyyy") : "";
 			EindTijdDate = eindTijd;
-			Status = eindTijd.HasValue ? "Afgerond" : "Lopend";
+			Status = statusNaam;
+		}
+
+		public override bool Equals(object? obj) {
+			return obj is AfspraakDTO dTO &&
+				   Id == dTO.Id;
+		}
+
+		public override int GetHashCode() {
+			HashCode hash = new HashCode();
+			hash.Add(Id);
+			return hash.ToHashCode();
 		}
 	}
 }

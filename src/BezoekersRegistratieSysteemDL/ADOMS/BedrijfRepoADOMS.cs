@@ -191,7 +191,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			SqlConnection con = GetConnection();
 			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
-						   "f.FunctieNaam " +
+                           "f.FunctieNaam " +
 						   "FROM Bedrijf b " +
 						   "LEFT JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId) AND wb.Status = 1 " +
 						   "LEFT JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
@@ -235,6 +235,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							string werknemerMail = (string)reader["WerknemerEMail"];
 							string functieNaam = (string)reader["FunctieNaam"];
 							bedrijf.VoegWerknemerToeInBedrijf(werknemer, werknemerMail, functieNaam);
+                            //Halen momenteel enkel werknemers op die werkzaam zijn
+                            //Voeg dit aan qeury toe 'wb.Status as WerknemerBedrijfStatus'
+                            //string werknemerbedrijfStatus = (int)reader["WerknemerBedrijfStatus"] == 1 ? "Werkzaam" : "Niet werkzaam";
+                            werknemer.ZetStatusNaamPerBedrijf(bedrijf, "Werkzaam");
 						}
 					}
 					return bedrijf;
@@ -263,6 +267,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "LEFT JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) AND wb.Status = 1 " +
 						   "LEFT JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
 						   "LEFT JOIN Functie f ON(wb.FunctieId = f.Id) " +
+						   "WHERE b.Status = 1 " +
 						   "ORDER BY b.Naam, wn.id";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
@@ -296,6 +301,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							string functieNaam = (string)reader["FunctieNaam"];
 
 							bedrijf.VoegWerknemerToeInBedrijf(werknemer, werknemerMail, functieNaam);
+                            //Halen momenteel enkel werknemers op die werkzaam zijn
+                            //Voeg dit aan qeury toe 'wb.Status as WerknemerBedrijfStatus'
+                            //string werknemerbedrijfStatus = (int)reader["WerknemerBedrijfStatus"] == 1 ? "Werkzaam" : "Niet werkzaam";
+							werknemer.ZetStatusNaamPerBedrijf(bedrijf, "Werkzaam");
 						}
 					}
 					return bedrijven;

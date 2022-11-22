@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.ConvertedClasses">
 
     <local:ElipsisConverter x:Key="ElipsisConverter" />
+    <local:DashboardStatusConverter x:Key="DashboardStatusConverter" />
 
     <!--#region Colors-->
 
@@ -654,10 +655,22 @@
     <Style x:Key="AfspraakStatusBackgroundStyle" TargetType="Border">
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Padding" Value="2" />
-        <Setter Property="Width" Value="90" />
+        <Setter Property="MaxWidth" Value="1500" />
         <Style.Triggers>
+            <Trigger Property="Tag" Value="Verwijderd">
+                <Setter Property="Background" Value="{StaticResource DonkerRood}" />
+            </Trigger>
             <Trigger Property="Tag" Value="Afgerond">
                 <Setter Property="Background" Value="{StaticResource DonkerRood}" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Stopgezet door gebruiker">
+                <Setter Property="Background" Value="{StaticResource ButtonDonkerOranje}" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Stopgezet door systeem">
+                <Setter Property="Background" Value="{StaticResource ButtonDonkerOranje}" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Stopgezet door admin">
+                <Setter Property="Background" Value="{StaticResource ButtonDonkerOranje}" />
             </Trigger>
             <Trigger Property="Tag" Value="Lopend">
                 <Setter Property="Background" Value="{StaticResource LichtGroen}" />
@@ -803,13 +816,6 @@
         <Setter Property="FontSize" Value="15" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="{StaticResource LichtWit}" />
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="TextDecorations" Value="Underline" />
-                <Setter Property="Cursor" Value="Hand" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
     <!--#endregion-->

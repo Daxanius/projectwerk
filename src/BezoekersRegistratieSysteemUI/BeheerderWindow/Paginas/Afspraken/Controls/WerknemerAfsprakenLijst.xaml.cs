@@ -1,5 +1,11 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
+using BezoekersRegistratieSysteemUI.Model;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -27,7 +33,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		  typeof(WerknemerAfsprakenLijst),
 		  new PropertyMetadata(-1)
 		);
-		
+
 		public int SelectedIndex {
 			get { return (int)GetValue(SelectedIndexProperty); }
 			set { SetValue(SelectedIndexProperty, value); }
@@ -48,22 +54,51 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public WerknemerAfsprakenLijst() {
 			this.DataContext = this;
 			InitializeComponent();
+
+			AfspraakEvents.VerwijderAfspraak += VerwijderAfspraak_Event;
 		}
 
-		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
-			Button? b = sender as Button;
-			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
-
-			OpenAfspraakDetail(afspraak);
-		}
-
-		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
-
+		private void VerwijderAfspraak_Event(AfspraakDTO afspraak) {
+			if (ItemSource.Where(_afspraak => _afspraak.Id == _afspraak.Id).Count() > 0) {
+				ItemSource.Remove(afspraak);
+			}
 		}
 
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
 			AfspraakDTO afspraak = (AfspraakDTO)b.CommandParameter;
+			ContextMenu.DataContext = afspraak;
+			ContextMenu.IsOpen = true;
+		}
+
+		private void WijzigAfspraak_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is WerknemerDTO werknemer) {
+
+			}
+		}
+
+		private async void VerwijderAfspraak_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is AfspraakDTO afspraak) {
+				if (afspraak.EindTijd.IsNietLeeg()) return;
+
+				CustomMessageBox warningMessage = new();
+				ECustomMessageBoxResult result = warningMessage.Show("Ben je het zeker?", $"Wil je deze afspraak verwijderen", ECustomMessageBoxIcon.Warning);
+
+				if (result == ECustomMessageBoxResult.Bevestigen) {
+					await ApiController.VerwijderAfspraak(afspraak);
+					int index = ItemSource.IndexOf(afspraak);
+					ItemSource.RemoveAt(index);
+					AfspraakEvents.InvokeVerwijderAfspraak(afspraak);
+					afspraak.Status = "Verwijderd";
+					ItemSource.Insert(index, afspraak);
+					AfspraakDTO? updatedAfspraak = ApiController.GeefAfsprakenOpDatumVanBedrijf(BeheerderWindow.GeselecteerdBedrijf.Id).FirstOrDefault(a => a.Id == afspraak.Id);
+					if (updatedAfspraak is not null) {
+						index = ItemSource.IndexOf(ItemSource.First(a => a.Id == afspraak.Id));
+						ItemSource.RemoveAt(index);
+						ItemSource.Insert(index, afspraak);
+					}
+				}
+			}
 		}
 	}
 }

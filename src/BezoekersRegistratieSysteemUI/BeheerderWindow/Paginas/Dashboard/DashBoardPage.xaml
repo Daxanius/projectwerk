@@ -52,6 +52,7 @@
                         <ComboBoxItem Content="Alles" IsSelected="True" />
                         <ComboBoxItem Content="Lopend" />
                         <ComboBoxItem Content="Afgerond" />
+                        <!--<ComboBoxItem Content="Stopgezet Door Systeem" />-->
                     </ComboBox>
                 </DockPanel>
                 <dashboard:AfsprakenLijstControl x:Name="AfsprakenLijstControl" />

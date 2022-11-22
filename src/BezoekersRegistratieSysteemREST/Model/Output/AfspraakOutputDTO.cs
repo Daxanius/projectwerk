@@ -14,7 +14,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <returns>De DTO variant.</returns>
 		public static AfspraakOutputDTO NaarDTO(Afspraak afspraak)
 		{
-			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, IdInfoOutputDTO.NaarDTO(afspraak.Bedrijf), IdInfoOutputDTO.NaarDTO(afspraak.Bezoeker), IdInfoOutputDTO.NaarDTO(afspraak.Werknemer));
+			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, IdInfoOutputDTO.NaarDTO(afspraak.Bedrijf), IdInfoOutputDTO.NaarDTO(afspraak.Bezoeker), IdInfoOutputDTO.NaarDTO(afspraak.Werknemer), afspraak.StatusNaam);
 		}
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <param name="bedrijf"></param>
 		/// <param name="bezoeker"></param>
 		/// <param name="werknemer"></param>
-		public AfspraakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, IdInfoOutputDTO bedrijf, IdInfoOutputDTO bezoeker, IdInfoOutputDTO werknemer)
+		public AfspraakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, IdInfoOutputDTO bedrijf, IdInfoOutputDTO bezoeker, IdInfoOutputDTO werknemer, string statusNaam)
 		{
 			Id = id;
 			Starttijd = starttijd;
@@ -50,6 +50,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 			Bedrijf = bedrijf;
 			Bezoeker = bezoeker;
 			Werknemer = werknemer;
+			StatusNaam = statusNaam;
 		}
 
 		/// <summary>
@@ -81,5 +82,9 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// De werknemer van de afpsraak.
 		/// </summary>
 		public IdInfoOutputDTO Werknemer { get; set; }
+        /// <summary>
+        /// De status van de afpsraak.
+        /// </summary>
+        public string StatusNaam { get; set; }
 	}
 }

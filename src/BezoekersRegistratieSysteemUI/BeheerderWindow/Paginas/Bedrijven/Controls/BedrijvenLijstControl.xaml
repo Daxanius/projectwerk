@@ -10,6 +10,7 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <ListView
+        x:Name="BedrijvenLijst"
         Padding="0,5,0,0"
         HorizontalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
@@ -74,6 +75,7 @@
                     Foreground="{StaticResource MainAchtergrond}"
                     Header="Wijzig" />
                 <MenuItem
+                    x:Name="VerwijderMenuItem"
                     Background="{StaticResource LichtRood}"
                     Click="VerwijderBedrijf_Click"
                     FontWeight="DemiBold"
@@ -106,7 +108,7 @@
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="Transparent"
                                     BorderThickness="0,0,0,1"
-                                    CornerRadius="20">
+                                    CornerRadius="25">
                                     <GridViewRowPresenter
                                         Width="Auto"
                                         Margin="0"

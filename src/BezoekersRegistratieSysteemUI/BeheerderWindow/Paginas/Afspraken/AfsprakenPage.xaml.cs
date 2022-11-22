@@ -1,6 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Controls;
@@ -17,22 +17,20 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+using BezoekersRegistratieSysteemUI.Events;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 	public partial class AfsprakenPage : Page, INotifyPropertyChanged {
 		#region Variabelen
-		private static BezoekerDTO? _geselecteerdeBezoeker;
 		private static WerknemerDTO? _geselecteerdeWerknemer;
 
 		private int _geselecteerdeHuidigeAfspraakIndex = -1;
 		private int _geselecteerdeWerknemerAfspraakIndex = -1;
-		//private int _geslecteerdeBezoekerIndex = -1;
-		//private int _geslecteerdeBezoekerAfsprakenIndex = -1;
 		private int _geselecteerdeAfspraakOpDatumIndex = -1;
 
 		private bool _huidigeAfsprakenTabIsGeselecteerd = false;
 		private bool _afsprakenWerknemerTabIsGeselecteerd = false;
-		private bool _afsprakenBezoekerTabIsGeselecteerd = false;
 		private bool _afsprakenOpDatumTabIsGeselecteerd = false;
 
 		private HuidigeAfsprakenLijst afsprakenAfsprakenLijstControl = new();
@@ -41,16 +39,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		private OpDatumLijstControl opDatumAfsprakenLijstControl = new();
 
 		public BedrijfDTO GeselecteerdBedrijf => BeheerderWindow.GeselecteerdBedrijf;
-		//public BezoekerDTO GeselecteerdeBezoeker {
-		//	get => _geselecteerdeBezoeker;
-		//	set {
-		//		if (value == null || _geselecteerdeBezoeker?.Id == value.Id) return;
-		//		_geselecteerdeBezoeker = value;
-
-		//		UpdateBezoekerAfsprakenOpSchermMetNieuweData();
-		//		UpdatePropperty();
-		//	}
-		//}
 
 		public WerknemerDTO GeselecteerdeWerknemer {
 			get => _geselecteerdeWerknemer;
@@ -78,7 +66,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		public string ZoekTextWerknemers {
 			get => _zoekTextWerknemers;
 			set {
-				if (!string.IsNullOrWhiteSpace(value)) {
+				if (value.IsNietLeeg()) {
 					_zoekTextWerknemers = value.ToLower();
 
 					List<WerknemerDTO> result = initieleZoekBalkWerknemers.Where(w => w.Voornaam.ToLower().Contains(_zoekTextWerknemers) ||
@@ -101,34 +89,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				}
 			}
 		}
-
-		//private List<BezoekerDTO> initieleBezoekers;
-		//private string _zoekTextBezoekers;
-		//public string ZoekTextBezoekers {
-		//	get => _zoekTextBezoekers;
-		//	set {
-		//		if (!string.IsNullOrWhiteSpace(value)) {
-		//			_zoekTextBezoekers = value.ToLower();
-
-		//			List<BezoekerDTO> result = initieleBezoekers.Where(b => b.Voornaam.ToLower().Contains(_zoekTextBezoekers) ||
-		//			b.Achternaam.ToLower().Contains(_zoekTextBezoekers) ||
-		//			b.Email.ToLower().Contains(_zoekTextBezoekers) ||
-		//			b.Bedrijf.ToLower().Contains(_zoekTextBezoekers)).ToList();
-
-		//			BezoekerLijst.ItemSource.Clear();
-
-		//			foreach (BezoekerDTO bezoeker in result) {
-		//				BezoekerLijst.ItemSource.Add(bezoeker);
-		//			}
-
-		//		} else if (value.Length == 0) {
-		//			BezoekerLijst.ItemSource.Clear();
-		//			foreach (BezoekerDTO bezoeker in initieleBezoekers) {
-		//				BezoekerLijst.ItemSource.Add(bezoeker);
-		//			}
-		//		}
-		//	}
-		//}
 		#endregion
 
 		public AfsprakenPage() {
@@ -140,52 +100,27 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			DatumFilterTextBox.DisplayDateEnd = DateTime.Now;
 
 			//Events
-			App.RefreshTimer.Tick += AutoUpdateIntervalAfspraken_Event;
-			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijf_Event;
-			AfsprakenPopup.NieuweAfspraakToegevoegd += NieuweAfspraakToegevoegd_Event;
-			WerknemersPopup.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => {
-				WerknemerLijst.ItemSource.Add(werknemer);
-				initieleZoekBalkWerknemers.Add(werknemer);
-			};
+			GlobalEvents.RefreshData += AutoUpdateIntervalAfspraken_Event;
+			BedrijfEvents.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijf_Event;
+			AfspraakEvents.NieuweAfspraakToegevoegd += NieuweAfspraakToegevoegd_Event;
+			WerknemerEvents.NieuweWerknemerToegevoegd += NieuweWerknemerToegevoegd_Event;
+		}
+
+		private void DatumFilterTextBox_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
+
 		}
 
 		#region Functies
 		private void ZoekTermChangedWerknemers(object sender, TextChangedEventArgs e) => Task.Run(() => Dispatcher.Invoke(() => ZoekTextWerknemers = ZoekTermTextBoxWerknemers.Text));
-		//private void ZoekTermChangedBezoekers(object sender, TextChangedEventArgs e) => Task.Run(() => Dispatcher.Invoke(() => ZoekTextBezoekers = ZoekTermTextBoxBezoekers.Text));
 		private void ValideerDatum(object sender, KeyboardFocusChangedEventArgs e) => ControleerInputOpDatum(sender);
 
-		private void AutoUpdateIntervalAfspraken_Event(object? sender, EventArgs e) {
+		private void AutoUpdateIntervalAfspraken_Event() {
 			if (_huidigeAfsprakenTabIsGeselecteerd)
 				UpdateHuidigeAfsprakenOpSchermMetNieuweData();
 			else if (_afsprakenWerknemerTabIsGeselecteerd)
 				UpdateWerknemerAfsprakenOpSchermMetNieuweData();
-			//else if (_afsprakenBezoekerTabIsGeselecteerd)
-			//	UpdateBezoekerAfsprakenOpSchermMetNieuweData();
 			else if (_afsprakenOpDatumTabIsGeselecteerd)
 				UpdateOpDatumAfsprakenOpSchermMetNieuweData();
-		}
-		private void NieuweAfspraakToegevoegd_Event(AfspraakDTO afspraak) {
-			Task.Run(() => {
-				Dispatcher.Invoke(() => {
-					if (afspraak.StartTijdDate.Day == DateTime.Parse(Datum).Day) {
-						// Als de afspraak nog bezig is voegen we hem toe aan de huidige
-						// afspraken lijst
-						if (string.IsNullOrWhiteSpace(afspraak.EindTijd)) {
-							HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
-							List<AfspraakDTO> afspraken = HuidigeAfsprakenLijst.ItemSource.ToList();
-							HuidigeAfsprakenLijst.ItemSource.Clear();
-
-							afspraken = afspraken.OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam).ToList();
-							afspraken.ForEach(a => HuidigeAfsprakenLijst.ItemSource.Add(a));
-
-							OpDatumAfsprakenLijst.ItemSource.Add(afspraak);
-						}
-
-						//BezoekerLijst.ItemSource.Add(afspraak.Bezoeker);
-						//initieleBezoekers = BezoekerLijst.ItemSource.ToList();
-					}
-				});
-			});
 		}
 		private void UpdateGeselecteerdBedrijf_Event() {
 			bezoekersAfsprakenLijstControl.ItemSource.Clear();
@@ -207,6 +142,30 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			UpdatePropperty(nameof(GeselecteerdBedrijf));
 			UpdateHuidigeAfsprakenOpSchermMetNieuweData();
 		}
+		private void NieuweAfspraakToegevoegd_Event(AfspraakDTO afspraak) {
+			Task.Run(() => {
+				Dispatcher.Invoke(() => {
+					if (afspraak.StartTijdDate.Day == DateTime.Parse(Datum).Day) {
+						// Als de afspraak nog bezig is voegen we hem toe aan de huidige
+						// afspraken lijst
+						if (afspraak.EindTijd.IsLeeg()) {
+							HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
+							List<AfspraakDTO> afspraken = HuidigeAfsprakenLijst.ItemSource.ToList();
+							HuidigeAfsprakenLijst.ItemSource.Clear();
+
+							afspraken = afspraken.OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam).ToList();
+							afspraken.ForEach(a => HuidigeAfsprakenLijst.ItemSource.Add(a));
+
+							OpDatumAfsprakenLijst.ItemSource.Add(afspraak);
+						}
+					}
+				});
+			});
+		}
+		private void NieuweWerknemerToegevoegd_Event(WerknemerDTO werknemer) {
+			WerknemerLijst.ItemSource.Add(werknemer);
+			initieleZoekBalkWerknemers.Add(werknemer);
+		}
 
 		private void UpdateOpDatumAfsprakenOpSchermMetNieuweData() {
 			if (OpDatumAfsprakenLijst.SelectedItem is AfspraakDTO) {
@@ -224,39 +183,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				OpDatumAfsprakenLijst.SelectedIndex = _geselecteerdeAfspraakOpDatumIndex;
 			}
 		}
-		//private void UpdateBezoekerAfsprakenOpSchermMetNieuweData() {
-		//	if (GeselecteerdBedrijf is not null) {
-		//		if (BezoekerLijst.SelectedItem is BezoekerDTO) {
-		//			_geslecteerdeBezoekerIndex = BezoekerLijst.SelectedIndex;
-		//		}
-
-		//		if (GeselecteerdeBezoeker is not null) {
-		//			if (GeselecteerdeBezoekerAfsprakenLijst.SelectedItem is AfspraakDTO) {
-		//				_geslecteerdeBezoekerAfsprakenIndex = GeselecteerdeBezoekerAfsprakenLijst.SelectedIndex;
-		//			}
-
-		//			GeselecteerdeBezoekerAfsprakenLijst.ItemSource.Clear();
-		//			foreach (AfspraakDTO afspraak in ApiController.GeefBezoekerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeBezoeker).OrderByDescending(a => a.StartTijd)) {
-		//				GeselecteerdeBezoekerAfsprakenLijst.ItemSource.Add(afspraak);
-		//			}
-
-		//			if (_geslecteerdeBezoekerAfsprakenIndex != -1) {
-		//				GeselecteerdeBezoekerAfsprakenLijst.SelectedIndex = _geslecteerdeBezoekerAfsprakenIndex;
-		//			}
-		//		} else {
-		//			GeselecteerdeBezoekerAfsprakenLijst.ItemSource.Clear();
-		//		}
-
-		//		BezoekerLijst.ItemSource.Clear();
-		//		foreach (BezoekerDTO bezoeker in ApiController.GeefBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Parse(Datum)).OrderByDescending(b => b.Voornaam)) {
-		//			BezoekerLijst.ItemSource.Add(bezoeker);
-		//		}
-
-		//		if (_geslecteerdeBezoekerIndex != -1) {
-		//			BezoekerLijst.SelectedIndex = _geslecteerdeBezoekerIndex;
-		//		}
-		//	}
-		//}
 		private void UpdateWerknemerAfsprakenOpSchermMetNieuweData() {
 			if (_geselecteerdeWerknemer is not null && GeselecteerdBedrijf is not null) {
 				if (GeselecteerdeWerknemerAfsprakenLijst.SelectedItem is AfspraakDTO) {
@@ -279,8 +205,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			}
 
 			HuidigeAfsprakenLijst.ItemSource.Clear();
-			foreach (AfspraakDTO afspraak in ApiController.GeefAfsprakenVanBedrijf(GeselecteerdBedrijf.Id).OrderByDescending(a => a.StartTijd)) {
-				HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
+			foreach (AfspraakDTO afspraak in ApiController.GeefAfsprakenVanBedrijf(GeselecteerdBedrijf.Id).OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam)) {
+				if (afspraak.StartTijdDate.Day == DateTime.Parse(Datum).Day && afspraak.EindTijd.IsLeeg()) {
+					HuidigeAfsprakenLijst.ItemSource.Add(afspraak);
+				}
 			}
 
 			if (_geselecteerdeHuidigeAfspraakIndex != -1) {
@@ -308,18 +236,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				}
 				break;
 
-				//case "Afspraken Bezoeker":
-				//NavigeerNaarTab("Afspraken Bezoeker");
-				//if (!bezoekersAfsprakenLijstControl.HeeftData) {
-				//	var bezoekers = ApiController.GeefBezoekersVanBedrijf(GeselecteerdBedrijf.Id, DateTime.Now).OrderByDescending(b => b.Voornaam);
-				//	foreach (BezoekerDTO bezoeker in bezoekers) {
-				//		BezoekerLijst.ItemSource.Add(bezoeker);
-				//	}
-				//	initieleBezoekers = BezoekerLijst.ItemSource.ToList();
-				//	bezoekersAfsprakenLijstControl.HeeftData = true;
-				//}
-				//break;
-
 				case "Afspraak Op Datum":
 				NavigeerNaarTab("Afspraak Op Datum");
 				UpdateOpDatumAfsprakenOpSchermMetNieuweData();
@@ -346,12 +262,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				((Grid)FilterContainer.Children[0]).Children[1].Visibility = Visibility.Visible;
 				break;
 
-				//case "Afspraken Bezoeker":
-				//_afsprakenBezoekerTabIsGeselecteerd = true;
-				//FilterContainerHeaders.Children[2].Opacity = 1;
-				//((Grid)FilterContainer.Children[0]).Children[2].Visibility = Visibility.Visible;
-				//break;
-
 				case "Afspraak Op Datum":
 				_afsprakenOpDatumTabIsGeselecteerd = true;
 				FilterContainerHeaders.Children[2].Opacity = 1;
@@ -367,7 +277,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 			_huidigeAfsprakenTabIsGeselecteerd = false;
 			_afsprakenWerknemerTabIsGeselecteerd = false;
-			_afsprakenBezoekerTabIsGeselecteerd = false;
 			_afsprakenOpDatumTabIsGeselecteerd = false;
 		}
 		private void ResetDatumFilter(object sender, MouseButtonEventArgs e) {
@@ -411,8 +320,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 		}
 		#endregion
 
-		private void DatumFilterTextBox_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
-
-		}
 	}
 }

@@ -31,5 +31,10 @@ namespace BezoekersRegistratieSysteemUI.Api.Output {
 		/// De functies van de werknemer binnen dit bedrijf.
 		/// </summary>
 		public IEnumerable<string> Functies { get; set; }
+
+		/// <summary>
+		/// De status van dit object.
+		/// </summary>
+		public string StatusNaam { get; set; }
 	}
 }

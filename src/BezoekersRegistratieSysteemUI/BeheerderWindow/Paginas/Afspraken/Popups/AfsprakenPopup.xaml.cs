@@ -1,7 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
@@ -15,17 +15,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups {
 	public partial class AfsprakenPopup : UserControl, INotifyPropertyChanged {
-
-		#region Event
-
-		public delegate void AfspraakToegevoegdEvent(AfspraakDTO afspraak);
-		public static event AfspraakToegevoegdEvent NieuweAfspraakToegevoegd;
-
-		#endregion
-
 		#region Variabelen
 		private Border? _selecteditem = null;
 
@@ -109,7 +103,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			this.DataContext = this;
 			InitializeComponent();
 
-			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijf_Event;
+			BedrijfEvents.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijf_Event;
 		}
 
 		private void UpdateGeselecteerdBedrijf_Event() {
@@ -132,7 +126,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				textBox.BorderBrush = Brushes.Transparent;
 				textBox.BorderThickness = new Thickness(0);
 			} else {
-				if (textBox.Name == "EindTijdTextBox" && string.IsNullOrWhiteSpace(EindTijdTextBox.Text)) {
+				if (textBox.Name == "EindTijdTextBox" && EindTijdTextBox.Text.IsLeeg()) {
 					textBox.BorderBrush = Brushes.Transparent;
 					textBox.BorderThickness = new Thickness(0);
 					return;
@@ -145,7 +139,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			#region Controle Input
 
 			if (BeheerderWindow.GeselecteerdBedrijf is null) {
-				MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("Er is geen bedrijf geselecteerd!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
@@ -170,39 +164,66 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			}
 
 			if (Werknemer is null) {
-				MessageBox.Show("Gelieve een werknemer te kiezen", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("Gelieve een werknemer te kiezen!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
 			if (Werknemer.Id is null) {
-				MessageBox.Show("Werknemer id is null, gelieve het dashboard te herstarten", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("Werknemer id is null, gelieve het dashboard te herstarten!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
-			if (string.IsNullOrEmpty(StartTijd.Trim())) {
-				MessageBox.Show("StartTijd is verplicht !", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+			if (StartTijd.IsLeeg()) {
+				MessageBox.Show("StartTijd is verplicht!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			DateTime startTijdDatum = DateTime.Parse(StartTijd);
+			if (startTijdDatum > DateTime.Now) {
+				MessageBox.Show("StartTijd mag niet in de toekomst liggen!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
 			DateTime? eindTijdDatum = null;
-			if (EindTijd is not null && !DateTime.TryParse(EindTijd.Trim(), out DateTime dateTime) && !string.IsNullOrWhiteSpace(EindTijd)) {
-				MessageBox.Show("EindTijd is niet geldig !", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+			if (EindTijd is not null && !DateTime.TryParse(EindTijd.Trim(), out DateTime dateTime) && EindTijd.IsNietLeeg()) {
+				MessageBox.Show("EindTijd is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			} else {
-				if (EindTijd is not null && !string.IsNullOrWhiteSpace(EindTijd.Trim()))
+				if (EindTijd is not null && EindTijd.IsNietLeeg())
 					eindTijdDatum = DateTime.Parse(EindTijd.Trim());
+
+				DateTime maxEindtijdVandaag = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
+				if (eindTijdDatum > maxEindtijdVandaag) {
+					MessageBox.Show($"EindTijd mag niet later dan {maxEindtijdVandaag.ToString("dd/MM/yyyy HH:mm:ss")}!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+
+				if (eindTijdDatum == startTijdDatum) {
+					MessageBox.Show($"EindTijd mag niet gelijk zijn aan StartTijd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+
+				if (eindTijdDatum < startTijdDatum) {
+					MessageBox.Show($"EindTijd moet later zijn dan de StartTijd!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
 			}
 
 			#endregion
 
-			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), DateTime.Parse(StartTijd), eindTijdDatum, Werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
+			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), startTijdDatum, eindTijdDatum, Werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
 			AfspraakDTO afspraak = ApiController.MaakAfspraak(payload);
-			afspraak.Status = "Lopend";
+
+			if (afspraak.EindTijd.IsLeeg())
+				afspraak.Status = "Lopend";
+			else if (afspraak.EindTijd.IsNietLeeg())
+				afspraak.Status = "Stopgezet door admin";
 
 			SluitOverlay();
-			NieuweAfspraakToegevoegd?.Invoke(afspraak);
+			AfspraakEvents.InvokeNieuweAfspraakToegevoegd(afspraak);
 
-			MessageBox.Show($"Afspraak toegevoegd", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+			CustomMessageBox customMessageBox = new();
+			customMessageBox.Show("Afspraak toegevoegd", $"Success", ECustomMessageBoxIcon.Information);
 		}
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
@@ -215,11 +236,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			KiesWerknemerTextBlock.Text = "Kies Werknemer";
 
-			BezoekerVoornaam = BezoekerVoornaam.ZetLeeg();
-			BezoekerAchternaam = BezoekerAchternaam.ZetLeeg();
-			BezoekerEmail = BezoekerEmail.ZetLeeg();
-			BezoekerBedrijf = BezoekerBedrijf.ZetLeeg();
-			StartTijd = StartTijd.ZetLeeg();
+			BezoekerVoornaam = "";
+			BezoekerAchternaam = "";
+			BezoekerEmail = "";
+			BezoekerBedrijf = "";
+			StartTijd = "";
 
 			EindTijd = null;
 
