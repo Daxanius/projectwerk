@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
+﻿using BezoekersRegistratieSysteemBL;
+using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
 using System.Data;
@@ -687,7 +688,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						}
 						//functie portie
-						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
+						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(Nutsvoorziening.NaamOpmaak((string)reader["FunctieNaam"]))) {
 							functieNaam = (string)reader["FunctieNaam"];
 							werknemerMail = (string)reader["WerknemerEmail"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
@@ -819,14 +820,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id, werknemer- of bezoekerid/info en datum.</exception>
 		private IReadOnlyList<Afspraak> GeefAlleAfspraken(long? _bedrijfId, long? _werknemerId, long? _bezoekerId, string? _bezoekerVNaam, string? _bezoekerANaam, string? _bezoekerMail, DateTime? _datum) {
 			SqlConnection con = GetConnection();
-			/* INFO SELECT
+            /* INFO SELECT
              * Afspraak
              * Bezoeker
              * Bedrijf
              * Werknemer
              * Functie Medewerker
              */
-			string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
+            List<Afspraak> afspraken = new List<Afspraak>();
+            string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
 						   "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
 						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
@@ -880,7 +882,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					query += " ORDER BY a.StartTijd DESC, b.id, w.id, f.FunctieNaam";
 					cmd.CommandText = query;
 					IDataReader reader = cmd.ExecuteReader();
-					List<Afspraak> afspraken = new List<Afspraak>();
+					
 					Werknemer werknemer = null;
 					Bedrijf bedrijf = null;
 					string functieNaam = "";
@@ -916,7 +918,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						}
 						//functie portie
-						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
+                        if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(Nutsvoorziening.NaamOpmaak((string)reader["FunctieNaam"]))) {
 							functieNaam = (string)reader["FunctieNaam"];
 							werknemerMail = (string)reader["WerknemerEmail"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
@@ -934,6 +936,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 				exx.Data.Add("bezoekerVNaam", _bezoekerVNaam);
 				exx.Data.Add("bezoekerANaam", _bezoekerANaam);
 				exx.Data.Add("bezoekermail", _bezoekerMail);
+				exx.Data.Add("bezoekermail2", afspraken);
 				exx.Data.Add("datum", _datum);
 				throw exx;
 			} finally {

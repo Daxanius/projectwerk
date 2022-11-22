@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
+﻿using BezoekersRegistratieSysteemBL;
+using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
 using System.Data;
@@ -29,6 +30,31 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			return new SqlConnection(_connectieString);
 		}
 
+        /// <summary>
+        /// Beëindigd afspraak via het fallback pad adhv parameter afspraak id.
+        /// </summary>
+        /// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
+        /// <remarks>Afspraak krijgt statuscode 4 = 'Stopgezet door systeem'.</remarks>
+        public void BeeindigAfspraakSysteem() {
+            SqlConnection con = GetConnection();
+            string query = "UPDATE Afspraak " +
+						   "SET AfspraakStatusId = 4, " +
+						   "EindTijd = DATE_ADD(CONVERT(CONVERT(NOW(), DATE), DATETIME), INTERVAL -1 SECOND) " +
+						   "WHERE AfspraakStatusId = 1 AND CONVERT(StartTijd, DATE) < CONVERT(NOW(), DATE)";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
+
 		/// <summary>
 		/// Beëindigd afspraak adhv bezoeker email adhv parameter bezoeker email.
 		/// </summary>
@@ -52,20 +78,6 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public void BeeindigAfspraakBezoeker(long afspraakId) {
 			try {
 				BeeindigAfspraak(null, afspraakId, 3);
-			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-			}
-		}
-
-		/// <summary>
-		/// Beëindigd afspraak via het fallback pad adhv parameter afspraak id.
-		/// </summary>
-		/// <param name="afspraakId">Id van de afspraak die beëindigd wenst te worden.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
-		/// <remarks>Afspraak krijgt statuscode 4 = 'Stopgezet door systeem'.</remarks>
-		public void BeeindigAfspraakSysteem(long afspraakId) {
-			try {
-				BeeindigAfspraak(null, afspraakId, 4);
 			} catch (Exception ex) {
 				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
@@ -664,7 +676,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						}
 						//functie portie
-						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
+						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(Nutsvoorziening.NaamOpmaak((string)reader["FunctieNaam"]))) {
 							functieNaam = (string)reader["FunctieNaam"];
 							werknemerMail = (string)reader["WerknemerEmail"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
@@ -892,7 +904,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						}
 						//functie portie
-						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
+						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(Nutsvoorziening.NaamOpmaak((string)reader["FunctieNaam"]))) {
 							functieNaam = (string)reader["FunctieNaam"];
 							werknemerMail = (string)reader["WerknemerEmail"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
