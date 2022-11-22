@@ -54,30 +54,17 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Afmelden {
 		#region Functies
 		private async void AfmeldenClick(object sender, RoutedEventArgs e) {
 			try {
-				if (!Nummerplaat.IsEmailGeldig()) {
-					MessageBox.Show("Email is niet geldig!", "Error");
-					return;
-				}
-
+                
 				if (Nummerplaat.IsLeeg()) {
-					MessageBox.Show("Email is leeg!", "Error");
+					MessageBox.Show("Nummerplaat is leeg!", "Error");
 					return;
 				}
 
-				await ApiController.Put<object>($"/afspraak/end?email={Nummerplaat}");
+				//await ApiController.Put<object>($"/afspraak/end?email={Nummerplaat}");
 
                 Nummerplaat = "";
 
 				MessageBox.Show("U bent afgemeld", "", MessageBoxButton.OK, MessageBoxImage.Information);
-
-				await Task.Delay(TimeSpan.FromSeconds(2));
-
-				//RegistratieWindow registratieWindow = RegistratieWindow.Instance;
-				//registratieWindow = (RegistratieWindow)registratieWindow.DataContext;
-
-				//registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
-				//registratieWindow.SideBar.AanmeldenTab.Tag = "Selected";
-				//registratieWindow.SideBar.AfmeldenTab.Tag = "UnSelected";
 
 			} catch (Exception ex) {
 				if (ex.Message.Contains("NotFound")) {

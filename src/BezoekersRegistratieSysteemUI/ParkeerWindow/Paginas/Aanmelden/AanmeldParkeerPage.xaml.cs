@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
+using BezoekersRegistratieSysteemUI.ParkeerWindow;
 
 namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 	public partial class AanmeldParkeerPage : Page, INotifyPropertyChanged {
@@ -54,43 +56,41 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 		#region Functies
 		private async void AanmeldenClick(object sender, RoutedEventArgs e) {
 			try {
-				if (!Nummerplaat.IsEmailGeldig()) {
-					MessageBox.Show("Email is niet geldig!", "Error");
-					return;
-				}
 
 				if (Nummerplaat.IsLeeg()) {
-					MessageBox.Show("Email is leeg!", "Error");
+					MessageBox.Show("Nummerplaat is leeg!", "Error");
 					return;
 				}
 
-				await ApiController.Put<object>($"/afspraak/end?email={Nummerplaat}");
+					CustomMessageBox messagebox = new CustomMessageBox();
+					var result = messagebox.Show($"Zijn ingevoerde gegevens correct?\n\nNummerplaat: {Nummerplaat}", "Bevestiging", ECustomMessageBoxIcon.Question);
+                    //if (result==ECustomMessageBoxResult.Sluit)
+                        //MaakParkeerplaats
+                    //else return;
+
+                //await ApiController.Put<object>($"/parkeerplaats/ckeckin={Nummerplaat}");
 
                 Nummerplaat = "";
 
-				MessageBox.Show("U bent afgemeld", "", MessageBoxButton.OK, MessageBoxImage.Information);
-
-				await Task.Delay(TimeSpan.FromSeconds(2));
-
-				//RegistratieWindow registratieWindow = RegistratieWindow.Instance;
-				//registratieWindow = (RegistratieWindow)registratieWindow.DataContext;
-
-				//registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;
-				//registratieWindow.SideBar.AanmeldenTab.Tag = "Selected";
-				//registratieWindow.SideBar.AfmeldenTab.Tag = "UnSelected";
-
-			} catch (Exception ex) {
-				if (ex.Message.Contains("NotFound")) {
-					MessageBox.Show("Er is geen afspraak voor dit email adres");
-					return;
-				}
-				MessageBox.Show(ex.Message, "Error");
-			}
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
+            GaTerugNaarKiesBedrijf();
 		}
-		#endregion
 
-		#region ProppertyChanged
-		public event PropertyChangedEventHandler? PropertyChanged;
+        private void GaTerugNaarKiesBedrijf()
+        {
+            Nummerplaat = "";
+
+            AanmeldParkeerWindow aanmeldParkeerWindow = (AanmeldParkeerWindow)Window.GetWindow(this);
+            aanmeldParkeerWindow.FrameControl.Content = KiesBedrijfPage.Instance;
+        }
+        #endregion
+
+        #region ProppertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged;
 		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
