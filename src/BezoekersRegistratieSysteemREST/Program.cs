@@ -1,3 +1,4 @@
+using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemDL.ADOMS;
 
@@ -33,9 +34,11 @@ switch (database) {
 	case "mssql": {
 			// Alle managers als singleton toevoegen
 			// dit omdat de API interract met de managers
+			IAfspraakRepository afspraakRepo = new AfspraakRepoADOMS(connectionstring);
+
 			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMS(connectionstring), new AfspraakRepoADOMS(connectionstring));
-			AfspraakManager afspraakManager = new(new AfspraakRepoADOMS(connectionstring));
-			WerknemerManager werknemerManager = new(new WerknemerRepoADOMS(connectionstring));
+			AfspraakManager afspraakManager = new(afspraakRepo);
+			WerknemerManager werknemerManager = new(new WerknemerRepoADOMS(connectionstring), afspraakRepo);
 			ParkingContractManager parkingContractManager = new(new ParkingContractADOMS(connectionstring));
 			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADOMS(connectionstring));
 
