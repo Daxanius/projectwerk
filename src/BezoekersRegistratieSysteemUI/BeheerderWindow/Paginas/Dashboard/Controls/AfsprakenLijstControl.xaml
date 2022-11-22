@@ -13,14 +13,16 @@
         Background="Transparent"
         BorderBrush="Transparent"
         ItemsSource="{Binding ItemSource}"
-        ScrollViewer.CanContentScroll="False">
+        ScrollViewer.CanContentScroll="False"
+        ScrollViewer.ScrollChanged="AfsprakenLijst_ScrollChanged">
         <ListView.ContextMenu>
             <ContextMenu
                 Name="ContextMenu"
                 Padding="10"
                 Background="{StaticResource LichtGrijsAccent}"
                 BorderBrush="Transparent"
-                BorderThickness="0">
+                BorderThickness="0"
+                >
                 <ContextMenu.Resources>
                     <Style TargetType="ContextMenu">
                         <Setter Property="Template">
