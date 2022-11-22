@@ -29,9 +29,9 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="nummerplaat"></param>
         public Parkeerplaats(Bedrijf bedrijf, DateTime starttijd, string nummerplaat)
         {
-            Bedrijf = bedrijf;
-            Starttijd = starttijd;
-            Nummerplaat = nummerplaat;
+            ZetBedrijf(bedrijf);
+            ZetStarttijd(starttijd);
+            ZetNummerplaat(nummerplaat);
         }
 
         /// <summary>
@@ -43,9 +43,10 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
 		/// <param name="nummerplaat"></param>
         public Parkeerplaats(Bedrijf bedrijf, DateTime starttijd, DateTime? eindtijd, string nummerplaat)
         {
-            Bedrijf = bedrijf;
-            Starttijd = starttijd;
-            Nummerplaat = nummerplaat;
+            ZetBedrijf(bedrijf);
+            ZetStarttijd(starttijd);
+            ZetEindtijd(eindtijd);
+            ZetNummerplaat(nummerplaat);
         }
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen
         /// </summary>
         /// <param name="eindtijd">Mag niet na starttijd liggen.</param>
         /// <exception cref="ParkeerplaatsException">"Parkeerplaats - ZetEindtijd - Parking is al afgelopen"</exception>
-        public void ZetEindtijd(DateTime eindtijd)
+        public void ZetEindtijd(DateTime? eindtijd)
         {
             if (eindtijd < Starttijd)
                 throw new ParkeerplaatsException("Parkeerplaats - ZetEindtijd - Parking is al afgelopen");

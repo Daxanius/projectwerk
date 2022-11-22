@@ -68,8 +68,10 @@ namespace BezoekersRegistratieSysteemBL {
         /// <returns>Opgemaakte tekst</returns>
         public static string NaamOpmaak(string input) {
 			string aangepasteInput = RegexWhitespace.Replace(input, " ").Trim();
-            return $"{char.ToUpper(aangepasteInput[0])}{aangepasteInput.Substring(1).ToLower()}";
-        }
+            aangepasteInput = $"{char.ToUpper(aangepasteInput[0])}{aangepasteInput[1..].ToLower()}";
+			return Regex.Replace(aangepasteInput, @"\b\w", (Match match) => match.ToString().ToUpper());
+		}
+
         /// <summary>
         /// Controleert een BTW nummer op notatie.
         /// </summary>
