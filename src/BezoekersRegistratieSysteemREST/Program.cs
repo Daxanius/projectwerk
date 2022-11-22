@@ -1,6 +1,7 @@
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemDL.ADOMS;
+using BezoekersRegistratieSysteemDL.ADOMySQL;
 
 const string ENV_DB = "BRS_DATABASE";
 const string ENV_SQL_CONNECTION = "BRS_CONNECTION_STRING";
@@ -29,6 +30,8 @@ if (connectionstring is null) {
 // Weer een Microsoft quirk...
 connectionstring = connectionstring.Replace("\\\\", "\\");
 
+// Dit zorgt ervoor dat we een database technologie kunnen kiezen
+// bij het opstarten van onze service.
 switch (database) {
 	case "express":
 	case "mssql": {
@@ -36,7 +39,7 @@ switch (database) {
 			// dit omdat de API interract met de managers
 			IAfspraakRepository afspraakRepo = new AfspraakRepoADOMS(connectionstring);
 
-			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMS(connectionstring), new AfspraakRepoADOMS(connectionstring));
+			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMS(connectionstring), afspraakRepo);
 			AfspraakManager afspraakManager = new(afspraakRepo);
 			WerknemerManager werknemerManager = new(new WerknemerRepoADOMS(connectionstring), afspraakRepo);
 			ParkingContractManager parkingContractManager = new(new ParkingContractADOMS(connectionstring));
@@ -48,13 +51,33 @@ switch (database) {
 			builder.Services.AddSingleton(parkingContractManager);
 			builder.Services.AddSingleton(parkeerplaatsManager);
 
-		break;
-	}
-	default:
-	Console.WriteLine($"Implementatie niet gevonden voor: \"{database}\"");
-	Console.WriteLine($"U kunt een implementatie selecteren door \"{ENV_DB}\" te specifieren in uw appsettings");
-	Environment.Exit(1);
-	break;
+			break;
+		}
+	case "mysql": {
+			// Alle managers als singleton toevoegen
+			// dit omdat de API interract met de managers
+			IAfspraakRepository afspraakRepo = new AfspraakRepoADOMySQL(connectionstring);
+
+			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMySQL(connectionstring), afspraakRepo);
+			AfspraakManager afspraakManager = new(afspraakRepo);
+			WerknemerManager werknemerManager = new(new WerknemerRepoADOMySQL(connectionstring), afspraakRepo);
+			ParkingContractManager parkingContractManager = new(new ParkingContractADOMySQL(connectionstring));
+			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADOMySQL(connectionstring));
+
+			builder.Services.AddSingleton(bedrijfManager);
+			builder.Services.AddSingleton(afspraakManager);
+			builder.Services.AddSingleton(werknemerManager);
+			builder.Services.AddSingleton(parkingContractManager);
+			builder.Services.AddSingleton(parkeerplaatsManager);
+
+			break;
+		}
+	default: {
+			Console.WriteLine($"Implementatie niet gevonden voor: \"{database}\"");
+			Console.WriteLine($"U kunt een implementatie selecteren door \"{ENV_DB}\" te specifieren in uw appsettings");
+			Environment.Exit(1);
+			break;
+		}
 }
 
 var app = builder.Build();

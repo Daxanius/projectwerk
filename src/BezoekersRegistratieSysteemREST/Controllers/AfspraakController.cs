@@ -157,14 +157,15 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public IActionResult End() {
 			try {
 				// Haal alle lopende afspraken op
-				List<Afspraak> afspraken = _afspraakManager.GeefHuidigeAfspraken().ToList();
+				IEnumerable<Afspraak> afspraken = _afspraakManager.GeefHuidigeAfspraken();
 
-				// Beeindig elke afspraak van alle dagen voorgaan vandaag
+				// Beeindig elke afspraak van alle dagen voorgaand vandaag
 				foreach (var afspraak in afspraken) {
 					if (afspraak.Starttijd.Date < DateTime.Today) {
 						_afspraakManager.BeeindigAfspraakSysteem(afspraak);
 					}
 				}
+
 				return Ok();
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
