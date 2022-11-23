@@ -43,18 +43,59 @@
                         DockPanel.Dock="Right"
                         IconPadding="0, 0, 4.5, 4"
                         IconSize="50"
-                        IconSource="../PlusIcon.xaml"
-                        MouseLeftButtonDown="" />
+                        IconSource="../PlusIcon.xaml"/>
                     <StackPanel />
+                </DockPanel>
+            </Grid>
                 <Border
                 Padding="20"
                 Background="{StaticResource LichtGrijsAccent}"
                 CornerRadius="25"
-                DockPanel.Dock="Bottom">
+                DockPanel.Dock="Right">
+                <StackPanel>
+                    <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                                            Grid.Column="0"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource DonkerBlauw}"
+                                            Text="Geparkeerden" />
+                        <StackPanel HorizontalAlignment="Right" Grid.Column="1">
+                            <Border
+                                                    Background="{StaticResource MainAchtergrond}"
+                                                    CornerRadius="25"
+                                                    DockPanel.Dock="Left">
+                                <StackPanel
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                    <iconspresenter:Icon
+                                                            CircleBackground="Transparent"
+                                                            IconSize="50"
+                                                            IconSource="../VergrootGlasIcon.xaml" />
+                                    <TextBox
+                                                            x:Name="ZoekTermTextBoxWerknemers"
+                                                            MinWidth="200"
+                                                            MaxWidth="400"
+                                                            Padding="0,0,15,0"
+                                                            VerticalAlignment="Center"
+                                                            Background="Transparent"
+                                                            BorderBrush="Transparent"
+                                                            BorderThickness="0"
+                                                            FontSize="16"
+                                                            FontWeight="Bold"
+                                                            Foreground="{StaticResource DonkerGrijs}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
                     <controls:NummerplaatLijstControl x:Name="NummerplaatLijstControl" />
-                </Border>
-                </DockPanel>
-            </Grid>
+                </StackPanel>
+            </Border>
         </DockPanel>
     </Grid>
 </Page>
