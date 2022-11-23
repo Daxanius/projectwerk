@@ -460,7 +460,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <remarks>Voegt een entry toe aan de werknemer tabel in de databank.</remarks>
 		public Werknemer VoegWerknemerToe(Werknemer werknemer) {
 			MySqlConnection con = GetConnection();
-			string query = "INSERT INTO Werknemer (VNaam, ANaam) OUTPUT INSERTED.Id VALUES (@VNaam, @ANaam)";
+			string query = "INSERT INTO Werknemer (VNaam, ANaam) VALUES (@VNaam, @ANaam);" +
+                           "SELECT id FROM Werknemer WHERE id = LAST_INSERT_ID();";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
@@ -565,7 +566,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 									"ANaam = @ANaam " +
 									"WHERE Id = @Id";
 			con.Open();
-			SqlTransaction trans = con.BeginTransaction();
+            MySqlTransaction trans = con.BeginTransaction();
 			try {
 				using (MySqlCommand cmdWerknemerBedrijf = con.CreateCommand())
 				using (MySqlCommand cmdWerknemer = con.CreateCommand()) {
@@ -797,7 +798,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 
         public void GeefWerknemerId(Werknemer werknemer) {
 			MySqlConnection con = GetConnection();
-			string query = "SELECT TOP(1) w.id " +
+			string query = "SELECT w.id " +
 							"FROM Werknemer w " +
 							"JOIN Werknemerbedrijf wb ON(w.Id = wb.WerknemerId) " +
 							"WHERE wb.WerknemerEmail IN(";
@@ -812,7 +813,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                         mailCount++;
                     }
                     query = query.Substring(0, query.Length - 1);
-                    query += ")";
+                    query += ") LIMIT 1";
                     cmd.CommandText = query;
 					long i = (long)cmd.ExecuteScalar();
 					werknemer.ZetId(i);
