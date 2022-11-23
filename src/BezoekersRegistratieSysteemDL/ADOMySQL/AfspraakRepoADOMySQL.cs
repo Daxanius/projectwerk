@@ -30,17 +30,17 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			return new SqlConnection(_connectieString);
 		}
 
-        /// <summary>
-        /// Beëindigd afspraak via het fallback pad adhv parameter afspraak id.
-        /// </summary>
-        /// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
-        /// <remarks>Afspraak krijgt statuscode 4 = 'Stopgezet door systeem'.</remarks>
-        public void BeeindigAfspraakSysteem() {
+		/// <summary>
+		/// Beëindigd afspraak via het fallback pad adhv parameter afspraak id.
+		/// </summary>
+		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
+		/// <remarks>Afspraak krijgt statuscode 4 = 'Stopgezet door systeem'.</remarks>
+		public void BeeindigAfspraakSysteem() {
             SqlConnection con = GetConnection();
             string query = "UPDATE Afspraak " +
-						   "SET AfspraakStatusId = 4, " +
-						   "EindTijd = DATE_ADD(CONVERT(CONVERT(NOW(), DATE), DATETIME), INTERVAL -1 SECOND) " +
-						   "WHERE AfspraakStatusId = 1 AND CONVERT(StartTijd, DATE) < CONVERT(NOW(), DATE)";
+                           "SET AfspraakStatusId = 4, " +
+                           "EindTijd = DATEADD(SECOND,-1,CONVERT(datetime,CONVERT(DATE, GETDATE()))) " +
+                           "WHERE AfspraakStatusId = 1 AND CONVERT(DATE, StartTijd) < CONVERT(DATE, GETDATE())";
             try {
                 using (SqlCommand cmd = con.CreateCommand()) {
                     con.Open();
@@ -149,7 +149,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		private void VeranderStatusAfspraak(long afspraakId, int statusId) {
 			SqlConnection con = GetConnection();
 			string query = "UPDATE Afspraak " +
-						   "SET AfspraakStatusId = @statusId " +
+						   $"SET AfspraakStatusId = @statusId " +
 						   "WHERE Id = @afspraakid";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
@@ -170,45 +170,45 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				con.Close();
 			}
 		}
-        /// <summary>
-        /// Gaat na of werknemer al een afspraak heeft bij een ander bedrijf
-        /// </summary>
-        /// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
-        /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
-        public bool HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(Afspraak afspraak) {
+		/// <summary>
+		/// Gaat na of werknemer al een afspraak heeft bij een ander bedrijf
+		/// </summary>
+		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
+		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
+		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+		public bool HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(Afspraak afspraak) {
 			SqlConnection con = GetConnection();
-            string query = "SElECT COUNT(*) " +
+			string query = "SElECT COUNT(*) " +
 						   "FROM Werknemerbedrijf wb " +
 						   "WHERE wb.WerknemerId = @werknemerId AND wb.BedrijfId != @bedrijfId " +
 						   "AND (SELECT COUNT(*) FROM Afspraak a WHERE wb.Id = a.WerknemerBedrijfId AND a.AfspraakStatusId = 1) >= 1";
-            try {
-                using (SqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    cmd.CommandText = query;
+			try {
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
 					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
 					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
 					cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
 					cmd.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
-                    int i = (int)cmd.ExecuteScalar();
-                    return (i > 0);
-                }
-            } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-                exx.Data.Add("afspraak", afspraak);
-                throw exx;
-            } finally {
-                con.Close();
-            }
-        }
+					int i = (int)cmd.ExecuteScalar();
+					return (i > 0);
+				}
+			} catch (Exception ex) {
+				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				exx.Data.Add("afspraak", afspraak);
+				throw exx;
+			} finally {
+				con.Close();
+			}
+		}
 
-        /// <summary>
-        /// Gaat na of afspraak bestaat adhv een afspraak object.
-        /// </summary>
-        /// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
-        /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-        /// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
-        public bool BestaatAfspraak(Afspraak afspraak) {
+		/// <summary>
+		/// Gaat na of afspraak bestaat adhv een afspraak object.
+		/// </summary>
+		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
+		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
+		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+		public bool BestaatAfspraak(Afspraak afspraak) {
 			try {
 				return BestaatAfspraak(afspraak, null, null, null);
 			} catch (Exception ex) {
@@ -331,9 +331,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public void BewerkAfspraak(Afspraak afspraak) {
 			SqlConnection con = GetConnection();
 			//SELECT WORD GEBRUIKT OM EEN ACCURATE STATUSID IN TE STELLEN.
-			string querySelect = "SELECT COUNT(*) " +
+			string querySelect = "SELECT AfspraakStatusId " +
 								 "FROM Afspraak " +
-								 "WHERE Id = @afspraakid AND AfspraakStatusId = 1";
+								 "WHERE Id = @afspraakid";
 
 			string queryUpdate = "UPDATE Afspraak " +
 								  "SET StartTijd = @start, " +
@@ -411,15 +411,16 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
 						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
-						   "f.FunctieNaam " +
+						   "f.FunctieNaam, afs.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
 						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 						   "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
 						   "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
-						   "WHERE a.Id = @afspraakid";
-			try {
+						   "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
+                           "WHERE a.Id = @afspraakid";
+            try {
 				using (SqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
@@ -455,7 +456,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						Werknemer werknemer = new(werknemerId, werknemerVNaam, werknemerANaam);
 						Bedrijf bedrijf = new(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 						werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-						afspraak = new Afspraak(afspraakId, start, eind, bedrijf, new(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer);
+						string AfspraakStatus = (string)reader["AfspraakStatusNaam"];
+						afspraak = new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer, AfspraakStatus);
 					}
 					return afspraak;
 				}
@@ -482,9 +484,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								   "output INSERTED.ID " +
 								   "VALUES(@ANaam,@VNaam,@EMail,@EigenBedrijf)";
 
-			string queryAfspraak = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, BezoekerId) " +
+			string queryAfspraak = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, AfspraakStatusId, BezoekerId) " +
 								   "output INSERTED.ID " +
-								   "VALUES(@start,@eind,(SELECT TOP(1) Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId AND BedrijfId = @bedrijfId),@bezoekerId)";
+								   "VALUES(@start,@eind,(SELECT TOP(1) Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId AND BedrijfId = @bedrijfId), @AfspraakStatusId ,@bezoekerId)";
 			con.Open();
 			SqlTransaction trans = con.BeginTransaction();
 			try {
@@ -509,12 +511,21 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmdAfspraak.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
 					cmdAfspraak.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
 					cmdAfspraak.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmdAfspraak.Parameters.Add(new SqlParameter("@AfspraakStatusId", SqlDbType.Int));
 					cmdAfspraak.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
 					cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
 					cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
 					cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
 					cmdAfspraak.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
-					cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
+					cmdAfspraak.Parameters["@AfspraakStatusId"].Value = afspraak.Eindtijd is not null ? 5 : 1;
+                    cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
+
+					if (afspraak.Eindtijd is not null) {
+						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 5;
+					} else {
+						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 1;
+					}
+
 					long i = (long)cmdAfspraak.ExecuteScalar();
 					afspraak.ZetId(i);
 					afspraak.Bezoeker.ZetId(bezoekerId);
@@ -612,13 +623,14 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
 						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
-						   "f.FunctieNaam " +
+                           "f.FunctieNaam, afs.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
 						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 						   "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
 						   "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
 						   "WHERE a.AfspraakStatusId = 1";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
@@ -681,8 +693,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							werknemerMail = (string)reader["WerknemerEmail"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
 						}
-
-						afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+                        string AfspraakStatus = (string)reader["AfspraakStatusNaam"];
+                        afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer, AfspraakStatus));
 					}
 					return afspraken.AsReadOnly();
 				}
@@ -808,24 +820,26 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id, werknemer- of bezoekerid/info en datum.</exception>
 		private IReadOnlyList<Afspraak> GeefAlleAfspraken(long? _bedrijfId, long? _werknemerId, long? _bezoekerId, string? _bezoekerVNaam, string? _bezoekerANaam, string? _bezoekerMail, DateTime? _datum) {
 			SqlConnection con = GetConnection();
-			/* INFO SELECT
+            /* INFO SELECT
              * Afspraak
              * Bezoeker
              * Bedrijf
              * Werknemer
              * Functie Medewerker
              */
-			string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
+            List<Afspraak> afspraken = new List<Afspraak>();
+            string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
 						   "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
 						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
-						   "f.FunctieNaam " +
+                           "f.FunctieNaam, afs.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
 						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 						   "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
 						   "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
+                           "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
 						   "WHERE 1=1";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
@@ -868,7 +882,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					query += " ORDER BY a.StartTijd DESC, b.id, w.id, f.FunctieNaam";
 					cmd.CommandText = query;
 					IDataReader reader = cmd.ExecuteReader();
-					List<Afspraak> afspraken = new List<Afspraak>();
+					
 					Werknemer werknemer = null;
 					Bedrijf bedrijf = null;
 					string functieNaam = "";
@@ -904,12 +918,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						}
 						//functie portie
-						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(Nutsvoorziening.NaamOpmaak((string)reader["FunctieNaam"]))) {
+                        if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(Nutsvoorziening.NaamOpmaak((string)reader["FunctieNaam"]))) {
 							functieNaam = (string)reader["FunctieNaam"];
 							werknemerMail = (string)reader["WerknemerEmail"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
 						}
-						afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer));
+                        string AfspraakStatus = (string)reader["AfspraakStatusNaam"];
+                        afspraken.Add(new Afspraak(afspraakId, start, eind, bedrijf, new Bezoeker(bezoekerId, bezoekerVnaam, bezoekerAnaam, bezoekerMail, bezoekerBedrijf), werknemer, AfspraakStatus));
 					}
 					return afspraken.AsReadOnly();
 				}
@@ -921,6 +936,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				exx.Data.Add("bezoekerVNaam", _bezoekerVNaam);
 				exx.Data.Add("bezoekerANaam", _bezoekerANaam);
 				exx.Data.Add("bezoekermail", _bezoekerMail);
+				exx.Data.Add("bezoekermail2", afspraken);
 				exx.Data.Add("datum", _datum);
 				throw exx;
 			} finally {

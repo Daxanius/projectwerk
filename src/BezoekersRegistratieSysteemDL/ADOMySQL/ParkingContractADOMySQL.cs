@@ -228,12 +228,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                         cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
                         cmd.Parameters["@BTWNr"].Value = parkingContract.Bedrijf.BTW;
                     }
-                    query += " AND (@startTijd BETWEEN pc.StartTijd AND pc.EindTijd OR @eindTijd BETWEEN pc.StartTijd AND pc.EindTijd)";
+                    query += " AND ((@startTijd BETWEEN pc.StartTijd AND pc.EindTijd) OR " +
+                             "(@eindTijd BETWEEN pc.StartTijd AND pc.EindTijd) OR " +
+                             "(@startTijd < pc.StartTijd AND @eindTijd > pc.EindTijd) OR " +
+                             "(@startTijd > pc.StartTijd AND @eindTijd < pc.EindTijd))";
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.Date));
-                    cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
-                    cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
+                    cmd.Parameters.Add(new SqlParameter("@startTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new SqlParameter("@eindTijd", SqlDbType.Date));
+                    cmd.Parameters["@startTijd"].Value = parkingContract.Starttijd.Date;
+                    cmd.Parameters["@eindTijd"].Value = parkingContract.Eindtijd.Date;
                     int i = (int)cmd.ExecuteScalar();
                     return (i > 0);
                 }
