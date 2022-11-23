@@ -234,6 +234,7 @@
                                                                             Content="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}, StringFormat=d}"
                                                                             Cursor="Hand"
                                                                             Foreground="{StaticResource DonkerBlauw}"
+                                                                            Style="{StaticResource ActionButtonDatePicker}"
                                                                             Tag="Werknemer" />
                                                                     </ControlTemplate>
                                                                 </Setter.Value>
@@ -296,6 +297,7 @@
                                                                         Content="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}, StringFormat=d}"
                                                                         Cursor="Hand"
                                                                         Foreground="{StaticResource DonkerBlauw}"
+                                                                        Style="{StaticResource ActionButtonDatePicker}"
                                                                         Tag="OpDatum" />
                                                                 </ControlTemplate>
                                                             </Setter.Value>
