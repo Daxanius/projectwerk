@@ -69,5 +69,22 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 		}
 
 		#endregion
+
+		#region UnitTest VerwijderParkingContract
+		[Fact]
+		public void VerwijderParkingContract_Leeg() {
+			Assert.Throws<ParkingContractManagerException>(() => {
+				_parkingContractManager.VerwijderParkingContract(null);
+			});
+		}
+
+		[Fact]
+		public void VerwijderParkingContract_BestaatNiet() {
+			_mockRepo.Setup(x => x.BestaatParkingContract(_c)).Returns(false);
+			Assert.Throws<ParkingContractManagerException>(() => {
+				_parkingContractManager.VerwijderParkingContract(_c);
+			});
+		}
+		#endregion
 	}
 }
