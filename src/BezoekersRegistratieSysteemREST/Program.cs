@@ -38,12 +38,13 @@ switch (database) {
 			// Alle managers als singleton toevoegen
 			// dit omdat de API interract met de managers
 			IAfspraakRepository afspraakRepo = new AfspraakRepoADOMS(connectionstring);
+			IParkingContractRepository parkingContractRepo = new ParkingContractADOMS(connectionstring);
 
 			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMS(connectionstring), afspraakRepo);
 			AfspraakManager afspraakManager = new(afspraakRepo);
 			WerknemerManager werknemerManager = new(new WerknemerRepoADOMS(connectionstring), afspraakRepo);
-			ParkingContractManager parkingContractManager = new(new ParkingContractADOMS(connectionstring));
-			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADOMS(connectionstring));
+			ParkingContractManager parkingContractManager = new(parkingContractRepo);
+			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADOMS(connectionstring), parkingContractRepo);
 
 			builder.Services.AddSingleton(bedrijfManager);
 			builder.Services.AddSingleton(afspraakManager);
@@ -57,12 +58,13 @@ switch (database) {
 			// Alle managers als singleton toevoegen
 			// dit omdat de API interract met de managers
 			IAfspraakRepository afspraakRepo = new AfspraakRepoADOMySQL(connectionstring);
+			IParkingContractRepository parkingContractRepo = new ParkingContractADOMySQL(connectionstring);
 
 			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMySQL(connectionstring), afspraakRepo);
 			AfspraakManager afspraakManager = new(afspraakRepo);
 			WerknemerManager werknemerManager = new(new WerknemerRepoADOMySQL(connectionstring), afspraakRepo);
-			ParkingContractManager parkingContractManager = new(new ParkingContractADOMySQL(connectionstring));
-			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADOMySQL(connectionstring));
+			ParkingContractManager parkingContractManager = new(parkingContractRepo);
+			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADOMySQL(connectionstring), parkingContractRepo);
 
 			builder.Services.AddSingleton(bedrijfManager);
 			builder.Services.AddSingleton(afspraakManager);

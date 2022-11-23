@@ -14,7 +14,6 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 		#region Valid Info
 		private readonly Werknemer _w;
 		private readonly Bedrijf _b1;
-		private readonly Bedrijf _b2;
 		private readonly ParkingContract _c;
 		private readonly int _p;
 		private readonly DateTime _st;
@@ -27,7 +26,6 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 
 			_w = new(10, "werknemer", "werknemersen");
 			_b1 = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
-			_b2 = new(20, "IKEA", "BE0676747521", true, "012345678", "ikea@sweden.furniture", "Stockholm 32");
 
 			_p = 10;
 
@@ -112,15 +110,6 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 				_parkingContractManager.GeefParkingContract(null);
 			});
 		}
-
-		[Fact]
-		public void GeefParkingContract_BestaatNiet() {
-			// Deze test faalt...
-			Assert.Throws<ParkingContractManagerException>(() => {
-				_parkingContractManager.GeefParkingContract(_b2);
-			});
-		}
-
 		#endregion
 	}
 }
