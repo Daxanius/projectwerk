@@ -46,21 +46,21 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     con.Open();
                     if (parkingContract.Bedrijf.Id != 0) {
                         query += " WHERE pc.BedrijfId = @BedrijfId";
-                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                        cmd.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
                         cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
                     } else {
                         query += " JOIN Bedrijf b ON(pc.bedrijfId = b.Id) " +
                                  "WHERE b.BTWNr = @BTWNr";
-                        cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
+                        cmd.Parameters.Add(new MySqlParameter("@BTWNr", SqlDbType.VarChar));
                         cmd.Parameters["@BTWNr"].Value = parkingContract.Bedrijf.BTW;
                     }
                     query += " AND pc.StartTijd = @StartTijd " +
                              "AND pc.EindTijd = @EindTijd " +
                              "AND pc.AantalPlaatsen = @AantalPlaatsen";
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new SqlParameter("@AantalPlaatsen", SqlDbType.Int));
+                    cmd.Parameters.Add(new MySqlParameter("@StartTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@AantalPlaatsen", SqlDbType.Int));
                     cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
                     cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
                     cmd.Parameters["@AantalPlaatsen"].Value = parkingContract.AantalPlaatsen;
@@ -88,10 +88,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new SqlParameter("@AantalPlaatsen", SqlDbType.Int));
-                    cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new MySqlParameter("@StartTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@AantalPlaatsen", SqlDbType.Int));
+                    cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
                     cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
                     cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
                     cmd.Parameters["@AantalPlaatsen"].Value = parkingContract.AantalPlaatsen;
@@ -121,8 +121,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@vandaagDatum", SqlDbType.Date));
-                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new MySqlParameter("@vandaagDatum", SqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
                     cmd.Parameters["@StartTijd"].Value = DateTime.Today;
                     cmd.Parameters["@bedrijfId"].Value = bedrijfId;
                     IDataReader reader = cmd.ExecuteReader();
@@ -165,7 +165,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
                     cmd.Parameters["@id"].Value = parkingContract.Id;
                     cmd.ExecuteNonQuery();
                 }
@@ -188,10 +188,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
-                    cmd.Parameters.Add(new SqlParameter("@AantalPlaatsen", SqlDbType.Int));
+                    cmd.Parameters.Add(new MySqlParameter("@StartTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new MySqlParameter("@AantalPlaatsen", SqlDbType.Int));
                     cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
                     cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
                     cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
@@ -220,12 +220,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     con.Open();
                     if (parkingContract.Bedrijf.Id != 0) {
                         query += " WHERE pc.BedrijfId = @BedrijfId";
-                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                        cmd.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
                         cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
                     } else {
                         query += " JOIN Bedrijf b ON(pc.bedrijfId = b.Id) " +
                                  "WHERE b.BTWNr = @BTWNr";
-                        cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
+                        cmd.Parameters.Add(new MySqlParameter("@BTWNr", SqlDbType.VarChar));
                         cmd.Parameters["@BTWNr"].Value = parkingContract.Bedrijf.BTW;
                     }
                     query += " AND ((@startTijd BETWEEN pc.StartTijd AND pc.EindTijd) OR " +
@@ -233,8 +233,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                              "(@startTijd < pc.StartTijd AND @eindTijd > pc.EindTijd) OR " +
                              "(@startTijd > pc.StartTijd AND @eindTijd < pc.EindTijd))";
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@startTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new SqlParameter("@eindTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@startTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@eindTijd", SqlDbType.Date));
                     cmd.Parameters["@startTijd"].Value = parkingContract.Starttijd.Date;
                     cmd.Parameters["@eindTijd"].Value = parkingContract.Eindtijd.Date;
                     int i = (int)cmd.ExecuteScalar();

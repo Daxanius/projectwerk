@@ -48,7 +48,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new MySqlParameter("@nummerplaat", SqlDbType.VarChar));
                     cmd.Parameters["@nummerplaat"].Value = nummerplaat;
                     int i = (int)cmd.ExecuteScalar();
                     return (i > 0);
@@ -72,10 +72,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
-                    cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.DateTime));
-                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.DateTime));
-                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new MySqlParameter("@nummerplaat", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new MySqlParameter("@StartTijd", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
                     cmd.Parameters["@nummerplaat"].Value = parkeerplaats.Nummerplaat;
                     cmd.Parameters["@StartTijd"].Value = parkeerplaats.Starttijd;
                     cmd.Parameters["@EindTijd"].Value = parkeerplaats.Eindtijd.HasValue ? parkeerplaats.Eindtijd.Value : DBNull.Value;
@@ -102,8 +102,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
-                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new MySqlParameter("@nummerplaat", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.DateTime));
                     cmd.Parameters["@nummerplaat"].Value = nummerplaat;
                     cmd.Parameters["@EindTijd"].Value = DateTime.Now;
                     cmd.ExecuteNonQuery();
@@ -129,12 +129,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     con.Open();
                     if (bedrijf.Id != 0) {
                         query += " WHERE pp.BedrijfId = @BedrijfId";
-                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                        cmd.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
                         cmd.Parameters["@BedrijfId"].Value = bedrijf.Id;
                     } else {
                         query += " JOIN Bedrijf b ON(pp.BedrijfId = b.Id) " +
                                  "WHERE b.BTWNr = @BTWNr";
-                        cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
+                        cmd.Parameters.Add(new MySqlParameter("@BTWNr", SqlDbType.VarChar));
                         cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
                     }
                     cmd.CommandText = query;

@@ -89,7 +89,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					var sqltype = (bedrijf is not null && bedrijf.Id != 0) ? SqlDbType.BigInt : (bedrijfId.HasValue) ? SqlDbType.BigInt : SqlDbType.VarChar;
-					cmd.Parameters.Add(new SqlParameter("@querylookup", sqltype));
+					cmd.Parameters.Add(new MySqlParameter("@querylookup", sqltype));
 					string databaseWhere = (bedrijf is not null) ? (bedrijf.Id != 0) ? "id" : "BTWNr" : (bedrijfId.HasValue) ? "id" : "Naam";
 					query += $" AND {databaseWhere} = @querylookup";
 					cmd.Parameters["@querylookup"].Value = (bedrijf is not null) ? (bedrijf.Id != 0) ? bedrijf.Id : bedrijf.BTW : (bedrijfId.HasValue) ? bedrijfId : bedrijfsnaam;
@@ -127,13 +127,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@naam", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@btwnr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@telenr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@adres", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@btwcheck", SqlDbType.Bit));
-					cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@naam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@btwnr", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@telenr", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@email", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@adres", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@btwcheck", SqlDbType.Bit));
+					cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
 					cmd.Parameters["@naam"].Value = bedrijf.Naam;
 					cmd.Parameters["@btwnr"].Value = bedrijf.BTW;
 					cmd.Parameters["@telenr"].Value = bedrijf.TelefoonNummer;
@@ -202,11 +202,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					con.Open();
 					if (_bedrijfId.HasValue) {
 						query += " AND b.Id = @id";
-						cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
 						cmd.Parameters["@id"].Value = _bedrijfId;
 					} else {
 						query += " AND b.Naam = @Naam";
-						cmd.Parameters.Add(new SqlParameter("@Naam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@Naam", SqlDbType.VarChar));
 						cmd.Parameters["@Naam"].Value = _bedrijfnaam;
 					}
 					query += " ORDER BY wn.Id, f.Id";
@@ -354,8 +354,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 												 "SET Status = @statusId " +
 												 "WHERE BedrijfId = @bedrijfid";
 						cmdMedewerker.Transaction = trans;
-						cmdMedewerker.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
-						cmdMedewerker.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+						cmdMedewerker.Parameters.Add(new MySqlParameter("@bedrijfid", SqlDbType.BigInt));
+						cmdMedewerker.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
 						cmdMedewerker.Parameters["@bedrijfid"].Value = bedrijfId;
 						cmdMedewerker.Parameters["@statusId"].Value = statusId;
 						cmdMedewerker.CommandText = queryMedewerker;
@@ -364,8 +364,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					//Bedrijf Sectie
 					cmdBedrijf.CommandText = queryBedrijf;
 					cmdBedrijf.Transaction = trans;
-					cmdBedrijf.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
-					cmdBedrijf.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+					cmdBedrijf.Parameters.Add(new MySqlParameter("@bedrijfid", SqlDbType.BigInt));
+					cmdBedrijf.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
 					cmdBedrijf.Parameters["@bedrijfid"].Value = bedrijfId;
 					cmdBedrijf.Parameters["@statusId"].Value = statusId;
 					cmdBedrijf.ExecuteNonQuery();
@@ -397,12 +397,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@naam", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@btwNr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@TeleNr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@Adres", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@BTWChecked", SqlDbType.Bit));
+					cmd.Parameters.Add(new MySqlParameter("@naam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@btwNr", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@TeleNr", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@Email", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@Adres", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@BTWChecked", SqlDbType.Bit));
 					cmd.Parameters["@naam"].Value = bedrijf.Naam;
 					cmd.Parameters["@btwNr"].Value = bedrijf.BTW;
 					cmd.Parameters["@TeleNr"].Value = bedrijf.TelefoonNummer;
