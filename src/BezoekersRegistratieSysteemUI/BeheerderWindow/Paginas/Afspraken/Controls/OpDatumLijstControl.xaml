@@ -110,7 +110,6 @@
                                     BorderThickness="0,0,0,1"
                                     CornerRadius="25">
                                     <GridViewRowPresenter
-                                        Width="Auto"
                                         Margin="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
@@ -159,7 +158,7 @@
                     </Style>
                 </GridView.ColumnHeaderContainerStyle>
                 <GridView.Columns>
-                    <GridViewColumn Width="Auto">
+                    <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
                                 FontSize="12"
@@ -177,7 +176,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="Auto">
+                    <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
                                 FontSize="12"
@@ -207,7 +206,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="Auto">
+                    <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
                                 FontSize="12"
@@ -240,7 +239,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="Auto">
+                    <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
                                 FontSize="12"
@@ -260,7 +259,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="Auto">
+                    <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
                                 FontSize="12"
@@ -280,7 +279,6 @@
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
-                                MaxWidth="1500"
                                 Padding="5,0"
                                 FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
@@ -296,7 +294,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="Auto">
+                    <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock Padding="5,0" Text="" />
                         </GridViewColumn.Header>

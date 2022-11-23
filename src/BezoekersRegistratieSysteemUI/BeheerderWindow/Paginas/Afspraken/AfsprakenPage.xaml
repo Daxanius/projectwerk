@@ -90,24 +90,6 @@
                                 TextAlignment="Center" />
                         </StackPanel>
                     </Border>
-                    <!--<Border
-                        Padding="15,0"
-                        MouseLeftButtonDown="Navigeer_Click"
-                        Style="{StaticResource FilterTabLijstStyle}">
-                        <StackPanel
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                            <iconspresenter:Icon IconSize="50" IconSource="../BezoekerAfspraakIcon.xaml" />
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                FontSize="20"
-                                FontWeight="DemiBold"
-                                Foreground="{StaticResource DonkerBlauw}"
-                                Text="Afspraken Bezoeker"
-                                TextAlignment="Center" />
-                        </StackPanel>
-                    </Border>-->
                     <Border
                         Padding="15,0"
                         MouseLeftButtonDown="Navigeer_Click"
@@ -159,7 +141,6 @@
                                 <RowDefinition Height=".1*" />
                                 <RowDefinition Height="1.5*" />
                             </Grid.RowDefinitions>
-                            <!--#region WerknemerLijst-->
                             <Border
                                 Grid.Row="0"
                                 Padding="20"
@@ -213,8 +194,6 @@
                                     <controls:WerknemersLijstControl x:Name="WerknemerLijst" />
                                 </DockPanel>
                             </Border>
-                            <!--#endregion-->
-                            <!--#region Werknemer Afspraken Lijst-->
                             <Border
                                 Grid.Row="2"
                                 Padding="20"
@@ -238,19 +217,31 @@
                                             HorizontalAlignment="Right"
                                             Orientation="Horizontal">
                                             <Border CornerRadius="15">
-                                                <TextBox
-                                                    Padding="10"
-                                                    Background="Transparent"
-                                                    BorderBrush="Transparent"
+                                                <DatePicker
+                                                    x:Name="DatePicker_Werknemer"
                                                     BorderThickness="0"
-                                                    FontSize="16"
-                                                    FontWeight="DemiBold"
-                                                    Foreground="{StaticResource DonkerBlauw}"
-                                                    LostKeyboardFocus="ValideerDatum"
-                                                    PreviewTextInput="IsDatePickerGeldigeText"
-                                                    Style="{StaticResource DefaultTextBoxStyle}"
-                                                    Text="{Binding Datum}"
-                                                    TextAlignment="Center" />
+                                                    SelectedDateChanged="DatumFilterTextBox_SelectedDateChanged">
+                                                    <DatePicker.Resources>
+                                                        <Style TargetType="{x:Type DatePickerTextBox}">
+                                                            <Setter Property="Control.Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate>
+                                                                        <Button
+                                                                            Background="Transparent"
+                                                                            BorderBrush="Transparent"
+                                                                            BorderThickness="0"
+                                                                            Click="OpenDatePickerMenu_Click"
+                                                                            Content="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}, StringFormat=d}"
+                                                                            Cursor="Hand"
+                                                                            Foreground="{StaticResource DonkerBlauw}"
+                                                                            Style="{StaticResource ActionButtonDatePicker}"
+                                                                            Tag="Werknemer" />
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </DatePicker.Resources>
+                                                </DatePicker>
                                             </Border>
                                             <iconspresenter:Icon
                                                 CircleBackground="{StaticResource DonkerBlauw}"
@@ -265,131 +256,8 @@
                                     <controls:WerknemerAfsprakenLijst x:Name="GeselecteerdeWerknemerAfsprakenLijst" />
                                 </DockPanel>
                             </Border>
-                            <!--#endregion-->
                         </Grid>
                     </DockPanel>
-                    <!--<DockPanel Name="BezoekerAfsprakenTab" Visibility="Collapsed">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height=".1*" />
-                                <RowDefinition Height="1.5*" />
-                            </Grid.RowDefinitions>
-                    -->
-                    <!--#region BezoekerLijst-->
-                    <!--
-                            <Border
-                                Grid.Row="0"
-                                Padding="20"
-                                Background="{StaticResource LichtGrijsAccent}"
-                                CornerRadius="0 25 25 25"
-                                DockPanel.Dock="Top">
-                                <DockPanel>
-                                    <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            FontSize="24"
-                                            FontWeight="Bold"
-                                            Foreground="{StaticResource DonkerBlauw}"
-                                            Text="Bezoekers" />
-                                        <StackPanel Grid.Column="1">
-                                            <StackPanel HorizontalAlignment="Right">
-                                                <Border
-                                                    Background="{StaticResource MainAchtergrond}"
-                                                    CornerRadius="25"
-                                                    DockPanel.Dock="Left">
-                                                    <StackPanel
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Orientation="Horizontal">
-                                                        <iconspresenter:Icon
-                                                            CircleBackground="Transparent"
-                                                            IconSize="50"
-                                                            IconSource="../VergrootGlasIcon.xaml" />
-                                                        <TextBox
-                                                            x:Name="ZoekTermTextBoxBezoekers"
-                                                            MinWidth="200"
-                                                            MaxWidth="400"
-                                                            Padding="0,0,15,0"
-                                                            VerticalAlignment="Center"
-                                                            Background="Transparent"
-                                                            BorderBrush="Transparent"
-                                                            BorderThickness="0"
-                                                            FontSize="16"
-                                                            FontWeight="Bold"
-                                                            Foreground="{StaticResource DonkerGrijs}"
-                                                            TextChanged="ZoekTermChangedBezoekers" />
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Grid>
-                                    <controls:BezoekersLijstControl x:Name="BezoekerLijst" />
-                                </DockPanel>
-                            </Border>
-                    -->
-                    <!--#endregion-->
-                    <!--#region Bezoeker Afspraken Lijst-->
-                    <!--
-                            <Border
-                                Grid.Row="2"
-                                Padding="20"
-                                Background="{StaticResource LichtGrijsAccent}"
-                                CornerRadius="25"
-                                DockPanel.Dock="Bottom">
-                                <DockPanel>
-                                    <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            FontSize="26"
-                                            FontWeight="Bold"
-                                            Foreground="{StaticResource DonkerBlauw}"
-                                            Text="Bezoeker Afspraken" />
-                                        <StackPanel
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Right"
-                                            Orientation="Horizontal">
-                                            <Border CornerRadius="15">
-                                                <TextBox
-                                                    Padding="10"
-                                                    Background="Transparent"
-                                                    BorderBrush="Transparent"
-                                                    BorderThickness="0"
-                                                    FontSize="16"
-                                                    FontWeight="DemiBold"
-                                                    Foreground="{StaticResource DonkerBlauw}"
-                                                    LostKeyboardFocus="ValideerDatum"
-                                                    PreviewTextInput="IsDatePickerGeldigeText"
-                                                    Style="{StaticResource DefaultTextBoxStyle}"
-                                                    Text="{Binding Datum}"
-                                                    TextAlignment="Center" />
-                                            </Border>
-                                            <iconspresenter:Icon
-                                                CircleBackground="{StaticResource DonkerBlauw}"
-                                                Cursor="Hand"
-                                                DockPanel.Dock="Right"
-                                                IconPadding="0, 0, 2.5, 1"
-                                                IconSize="40"
-                                                IconSource="../ReloadIcon.xaml"
-                                                MouseLeftButtonDown="ResetDatumFilter" />
-                                        </StackPanel>
-                                    </Grid>
-                                    <controls:BezoekersAfsprakenLijst x:Name="GeselecteerdeBezoekerAfsprakenLijst" />
-                                </DockPanel>
-                            </Border>
-                    -->
-                    <!--#endregion-->
-                    <!--
-                        </Grid>
-                    </DockPanel>-->
                     <DockPanel Name="OpDatumAfsprakenTab" Visibility="Collapsed">
                         <Border
                             Padding="20"
@@ -412,22 +280,31 @@
                                         HorizontalAlignment="Right"
                                         Orientation="Horizontal">
                                         <Border CornerRadius="15">
-                                            <!--<TextBox
-                                                x:Name="DatumFilterTextBox"
-                                                Padding="10"
-                                                Background="Transparent"
-                                                BorderBrush="Transparent"
+                                            <DatePicker
+                                                x:Name="DatePicker_OpDatum"
                                                 BorderThickness="0"
-                                                FontSize="16"
-                                                FontWeight="DemiBold"
-                                                Foreground="{StaticResource DonkerBlauw}"
-                                                KeyDown="TextBox_KeyDown"
-                                                LostKeyboardFocus="ValideerDatum"
-                                                PreviewTextInput="IsDatePickerGeldigeText"
-                                                Style="{StaticResource DefaultTextBoxStyle}"
-                                                Text="{Binding Datum}"
-                                                TextAlignment="Center" />-->
-                                            <DatePicker x:Name="DatumFilterTextBox" SelectedDateChanged="DatumFilterTextBox_SelectedDateChanged" />
+                                                SelectedDateChanged="DatumFilterTextBox_SelectedDateChanged">
+                                                <DatePicker.Resources>
+                                                    <Style TargetType="{x:Type DatePickerTextBox}">
+                                                        <Setter Property="Control.Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <Button
+                                                                        Background="Transparent"
+                                                                        BorderBrush="Transparent"
+                                                                        BorderThickness="0"
+                                                                        Click="OpenDatePickerMenu_Click"
+                                                                        Content="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}, StringFormat=d}"
+                                                                        Cursor="Hand"
+                                                                        Foreground="{StaticResource DonkerBlauw}"
+                                                                        Style="{StaticResource ActionButtonDatePicker}"
+                                                                        Tag="OpDatum" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </DatePicker.Resources>
+                                            </DatePicker>
                                         </Border>
                                         <iconspresenter:Icon
                                             CircleBackground="{StaticResource DonkerBlauw}"

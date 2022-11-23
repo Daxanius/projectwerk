@@ -54,8 +54,19 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public WerknemerAfsprakenLijst() {
 			this.DataContext = this;
 			InitializeComponent();
-
+			ItemSource.CollectionChanged += ItemSource_CollectionChanged;
 			AfspraakEvents.VerwijderAfspraak += VerwijderAfspraak_Event;
+		}
+
+		//Auto Columns Resize on Change
+		private void ItemSource_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
+			GridView view = AfsprakenLijst.View as GridView;
+			foreach (GridViewColumn c in view.Columns) {
+				if (double.IsNaN(c.Width)) {
+					c.Width = c.ActualWidth;
+				}
+				c.Width = double.NaN;
+			}
 		}
 
 		private void VerwijderAfspraak_Event(AfspraakDTO afspraak) {
