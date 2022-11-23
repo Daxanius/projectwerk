@@ -39,8 +39,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
             MySqlConnection con = GetConnection();
             string query = "UPDATE Afspraak " +
                            "SET AfspraakStatusId = 4, " +
-                           "EindTijd = DATEADD(SECOND,-1,CONVERT(datetime,CONVERT(DATE, GETDATE()))) " +
-                           "WHERE AfspraakStatusId = 1 AND CONVERT(DATE, StartTijd) < CONVERT(DATE, GETDATE())";
+                           "EindTijd = DATE_ADD(CONVERT(CONVERT(NOW(), DATE), DATETIME), INTERVAL -1 SECOND) " +
+                           "WHERE AfspraakStatusId = 1 AND CONVERT(StartTijd, DATE) < CONVERT(NOW(), DATE)";
             try {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
@@ -100,7 +100,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
-						query += " AND BezoekerId = (SELECT TOP(1) Id FROM Bezoeker WHERE Email = @mail ORDER BY Id DESC)";
+						query += " AND BezoekerId = (SELECT Id FROM Bezoeker WHERE Email = @mail ORDER BY Id DESC LIMIT 1)";
 						cmd.Parameters.Add(new MySqlParameter("@mail", SqlDbType.VarChar));
 						cmd.Parameters["@mail"].Value = bezoekerMail;
 					} else {
@@ -149,7 +149,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		private void VeranderStatusAfspraak(long afspraakId, int statusId) {
 			MySqlConnection con = GetConnection();
 			string query = "UPDATE Afspraak " +
-						   $"SET AfspraakStatusId = @statusId " +
+						   "SET AfspraakStatusId = @statusId " +
 						   "WHERE Id = @afspraakid";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
@@ -481,14 +481,14 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public Afspraak VoegAfspraakToe(Afspraak afspraak) {
 			MySqlConnection con = GetConnection();
 			string queryBezoeker = "INSERT INTO Bezoeker(ANaam, VNaam, EMail, EigenBedrijf) " +
-								   "output INSERTED.ID " +
-								   "VALUES(@ANaam,@VNaam,@EMail,@EigenBedrijf)";
+								   "VALUES(@ANaam,@VNaam,@EMail,@EigenBedrijf);" +
+                                   "SELECT id FROM Bezoeker WHERE id = LAST_INSERT_ID();";
 
 			string queryAfspraak = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, AfspraakStatusId, BezoekerId) " +
-								   "output INSERTED.ID " +
-								   "VALUES(@start,@eind,(SELECT TOP(1) Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId AND BedrijfId = @bedrijfId), @AfspraakStatusId ,@bezoekerId)";
+								   "VALUES(@start,@eind,(SELECT Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId AND BedrijfId = @bedrijfId LIMIT 1), @AfspraakStatusId ,@bezoekerId);" +
+                                   "SELECT id FROM Afspraak WHERE id = LAST_INSERT_ID();";
 			con.Open();
-			SqlTransaction trans = con.BeginTransaction();
+			MySqlTransaction trans = con.BeginTransaction();
 			try {
 				using (MySqlCommand cmdBezoeker = con.CreateCommand())
 				using (MySqlCommand cmdAfspraak = con.CreateCommand()) {
@@ -520,11 +520,6 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmdAfspraak.Parameters["@AfspraakStatusId"].Value = afspraak.Eindtijd is not null ? 5 : 1;
                     cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
 
-					if (afspraak.Eindtijd is not null) {
-						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 5;
-					} else {
-						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 1;
-					}
 
 					long i = (long)cmdAfspraak.ExecuteScalar();
 					afspraak.ZetId(i);
