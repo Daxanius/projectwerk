@@ -8,7 +8,8 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 	public class UnitTestParkeerplaatsManager {
 		#region MOQ
 		private readonly ParkeerplaatsManager _parkeerPlaatsManager;
-		private readonly Mock<IParkeerplaatsRepository> _mockRepo;
+		private readonly Mock<IParkeerplaatsRepository> _mockRepoParkeerplaats;
+		private readonly Mock<IParkingContractRepository> _mockRepoParkingContract;
 		#endregion
 
 		#region Valid Info
@@ -24,7 +25,8 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 
 		#region Initialiseren
 		public UnitTestParkeerplaatsManager() {
-			_mockRepo = new();
+			_mockRepoParkeerplaats = new();
+			_mockRepoParkingContract = new();
 
 			_w = new(10, "werknemer", "werknemersen");
 			_b1 = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
@@ -41,22 +43,22 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 
 			_pp = new(_b1, _st, _n);
 
-			_parkeerPlaatsManager = new(_mockRepo.Object);
+			_parkeerPlaatsManager = new(_mockRepoParkeerplaats.Object, _mockRepoParkingContract.Object);
 		}
 		#endregion
 
 		#region UnitTest VoegParkingContractToe
 		[Fact]
 		public void VoegParkingContractToe_Leeg() {
-			Assert.Throws<ParkeerManagerException>(() => {
+			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.CheckNummerplaatIn(null);
 			});
 		}
 
 		[Fact]
 		public void VoegParkingContractToe_Bestaat() {
-			_mockRepo.Setup(x => x.BestaatNummerplaat(_pp.Nummerplaat)).Returns(true);
-			Assert.Throws<ParkeerManagerException>(() => {
+			_mockRepoParkeerplaats.Setup(x => x.BestaatNummerplaat(_pp.Nummerplaat)).Returns(true);
+			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.CheckNummerplaatIn(_pp);
 			});
 		}
@@ -66,15 +68,15 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 		#region UnitTest VerwijderParkingContract
 		[Fact]
 		public void VerwijderParkingContract_Leeg() {
-			Assert.Throws<ParkeerManagerException>(() => {
+			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.VerwijderParkingContractBedrijf(null);
 			});
 		}
 
 		[Fact]
 		public void VerwijderParkingContract_BestaatNiet() {
-			_mockRepo.Setup(x => x.BestaatNummerplaat(_pp.Nummerplaat)).Returns(false);
-			Assert.Throws<ParkeerManagerException>(() => {
+			_mockRepoParkeerplaats.Setup(x => x.BestaatNummerplaat(_pp.Nummerplaat)).Returns(false);
+			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.CheckNummerplaatUit(_n);
 			});
 		}
@@ -83,14 +85,14 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 		#region GeefParkingContract
 		[Fact]
 		public void GeefParkingContract_Leeg() {
-			Assert.Throws<ParkeerManagerException>(() => {
+			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.GeefNummerplatenPerBedrijf(null);
 			});
 		}
 
 		[Fact]
 		public void GeefParkingContract_BestaatNiet() {
-			Assert.Throws<ParkeerManagerException>(() => {
+			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.GeefNummerplatenPerBedrijf(_b2);
 			});
 		}

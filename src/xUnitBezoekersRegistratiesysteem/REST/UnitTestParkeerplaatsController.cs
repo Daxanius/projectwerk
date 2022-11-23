@@ -40,7 +40,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			// Managers
 			_parkingContractManager = new(_mockRepoParkingContract.Object);
-			_parkeerPlaatsManager = new(_mockRepoParkeerplaats.Object);
+			_parkeerPlaatsManager = new(_mockRepoParkeerplaats.Object, _mockRepoParkingContract.Object);
 			_bedrijfManager = new(_mockRepoBedrijf.Object, _mockAfspraakRepository.Object);
 
 			_n = "0-KKK-000";
