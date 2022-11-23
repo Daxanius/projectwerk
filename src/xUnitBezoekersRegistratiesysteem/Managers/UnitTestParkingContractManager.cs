@@ -86,5 +86,18 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 			});
 		}
 		#endregion
+
+		#region UnitTest BewerkParkingContract
+		[Fact]
+		public void BewerkParkingContract_Leeg() {
+
+		}
+
+		[Fact]
+		public void BewerkParkingContract_BestaatNiet() {
+
+		}
+
+		#endregion
 	}
 }
