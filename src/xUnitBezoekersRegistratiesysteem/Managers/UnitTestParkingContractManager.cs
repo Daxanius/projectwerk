@@ -115,9 +115,9 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 
 		[Fact]
 		public void GeefParkingContract_BestaatNiet() {
-			// Deze test faalt Weude...
+			// Deze test faalt...
 			Assert.Throws<ParkingContractManagerException>(() => {
-				_parkingContractManager.GeefParkingContract(_b1);
+				_parkingContractManager.GeefParkingContract(_b2);
 			});
 		}
 
