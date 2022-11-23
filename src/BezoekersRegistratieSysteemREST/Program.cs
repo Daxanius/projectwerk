@@ -34,6 +34,7 @@ connectionstring = connectionstring.Replace("\\\\", "\\");
 // bij het opstarten van onze service.
 switch (database) {
 	case "express":
+	case "msserver":
 	case "mssql": {
 			// Alle managers als singleton toevoegen
 			// dit omdat de API interract met de managers
