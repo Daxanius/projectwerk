@@ -90,12 +90,17 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 		#region UnitTest BewerkParkingContract
 		[Fact]
 		public void BewerkParkingContract_Leeg() {
-
+			Assert.Throws<ParkingContractManagerException>(() => {
+				_parkingContractManager.BewerkParkingContract(null);
+			});
 		}
 
 		[Fact]
 		public void BewerkParkingContract_BestaatNiet() {
-
+			_mockRepo.Setup(x => x.BestaatParkingContract(_c)).Returns(false);
+			Assert.Throws<ParkingContractManagerException>(() => {
+				_parkingContractManager.BewerkParkingContract(_c);
+			});
 		}
 
 		#endregion
