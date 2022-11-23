@@ -27,6 +27,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         /// <param name="parkingContract">ParkingContract object dat toegevoegd wenst te worden.</param>
         /// <exception cref="ParkingContractManagerException">"ParkingContractManager - VoegParkingContractToe - ParkingContract mag niet leeg zijn"</exception>
 		/// <exception cref="ParkingContractManagerException">"ParkingContractManager - VoegParkingContractToe - ParkingContract bestaat al"</exception>
+        /// <exception cref="ParkingContractManagerException">"ParkingContractManager - VoegParkingContractToe - ParkingContract overlapt"</exception>
 		/// <exception cref="ParkingContractManagerException">ex.Message</exception>
         public void VoegParkingContractToe(ParkingContract parkingContract) {
             try {
@@ -90,7 +91,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
         /// <returns>Gewenst parkingContract object</returns>
 		/// <exception cref="BedrijfManagerException">"ParkingContractManager - GeefParkingContract - Bedrijf mag niet leeg zijn"</exception>
         /// <exception cref="BedrijfManagerException">ex.Message</exception>
-        public ParkingContract GeefParkingContract(Bedrijf bedrijf) {
+        public ParkingContract? GeefParkingContract(Bedrijf bedrijf) {
             try {
                 if (bedrijf == null)
                     throw new ParkingContractManagerException("Bedrijf mag niet leeg zijn");
