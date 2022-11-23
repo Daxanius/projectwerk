@@ -870,7 +870,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						cmd.Parameters["@Email"].Value = $"%{_bezoekerMail}%";
 					}
 					if (_datum.HasValue) {
-						query += " AND CONVERT(DATE, a.StartTijd) = @date";
+						query += " AND CONVERT(a.StartTijd, DATE) = @date";
 						cmd.Parameters.Add(new MySqlParameter("@date", SqlDbType.Date));
 						cmd.Parameters["@date"].Value = _datum.Value.Date;
 					}
