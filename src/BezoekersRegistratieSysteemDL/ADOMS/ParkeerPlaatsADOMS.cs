@@ -185,9 +185,5 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
-        public int GeefHuidigBezetteParkeerplaatsenPerBedrijf(long id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
