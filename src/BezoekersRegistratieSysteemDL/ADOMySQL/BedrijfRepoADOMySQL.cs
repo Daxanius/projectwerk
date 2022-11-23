@@ -344,7 +344,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								  "SET Status = @statusId " +
 								  "WHERE Id = @bedrijfid";
 			con.Open();
-			SqlTransaction trans = con.BeginTransaction();
+            MySqlTransaction trans = con.BeginTransaction();
 			try {
 				using (MySqlCommand cmdMedewerker = con.CreateCommand())
 				using (MySqlCommand cmdBedrijf = con.CreateCommand()) {
@@ -391,8 +391,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
 			MySqlConnection con = GetConnection();
 			string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres, BTWChecked) " +
-						   "output INSERTED.ID " +
-						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked)";
+						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked);" +
+                           "SELECT id FROM Bedrijf WHERE id = LAST_INSERT_ID();";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
