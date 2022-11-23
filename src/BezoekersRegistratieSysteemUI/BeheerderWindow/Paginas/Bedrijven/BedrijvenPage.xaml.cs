@@ -62,7 +62,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven {
 		}
 
 		private void VoegBedrijfToe(object sender, MouseButtonEventArgs e) {
-			bedrijvenPopup.Visibility = Visibility.Visible;
+			bedrijfToevoegenPopup.Visibility = Visibility.Visible;
 		}
 
 		public void LoadBedrijvenInList(List<BedrijfDTO> bedrijven) {

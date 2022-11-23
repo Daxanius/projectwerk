@@ -583,6 +583,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			if (afspraak.EindTijd is null) return;
 			await Task.Run(() => Delete($"afspraak/{afspraak.Id}"));
 		}
+
+		internal static BedrijfDTO UpdateBedrijf(BedrijfInputDTO nieuwBedrijf) {
+			throw new NotImplementedException();
+		}
 		#endregion
 	}
 }

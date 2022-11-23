@@ -4,13 +4,14 @@ using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups {
-	public partial class BedrijvenPopup : UserControl, INotifyPropertyChanged {
+	public partial class BedrijfUpdatenPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		#region Bind Propperties
@@ -33,7 +34,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			}
 		}
 		private string _btwNummer = string.Empty;
-		public string BtwNummer {
+		public string BTW {
 			get { return _btwNummer; }
 			set {
 				if (value == _btwNummer) return;
@@ -61,7 +62,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 		#endregion
 
-		public BedrijvenPopup() {
+		public BedrijfUpdatenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
 		}
@@ -71,56 +72,58 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
-			Naam = Naam.Trim();
-			BtwNummer = BtwNummer.Trim();
-			TelefoonNummer = TelefoonNummer.Trim();
-			Email = Email.Trim();
-			Adres = Adres.Trim();
+			string naam = Naam.Trim();
+			string telefoonNummer = TelefoonNummer.Trim();
+			string email = Email.Trim();
+			string adres = Adres.Trim();
 
-			if (Naam.IsLeeg()) {
+			if (naam.IsLeeg()) {
 				MessageBox.Show("Naam is verplicht");
 				return;
 			}
 
-			if (BtwNummer.IsLeeg()) {
-				MessageBox.Show("BtwNummer is verplicht");
-				return;
-			}
-
-			if (TelefoonNummer.IsLeeg()) {
+			if (telefoonNummer.IsLeeg() || telefoonNummer.IsTelefoonNummerGeldig()) {
 				MessageBox.Show("TelefoonNummer is verplicht");
 				return;
 			}
 
-			if (Email.IsLeeg()) {
+			if (email.IsLeeg()) {
 				MessageBox.Show("Email is verplicht");
 				return;
 			}
 
-			if (Adres.IsLeeg()) {
+			if (adres.IsLeeg()) {
 				MessageBox.Show("Adres is verplicht");
 				return;
 			}
 
-			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(Naam, BtwNummer, TelefoonNummer, Email, Adres);
-			BedrijfDTO bedrijf = ApiController.MaakBedrijf(nieuwBedrijf);
-			BedrijfEvents.InvokeNieuwBedrijfToeGevoegd(bedrijf);
+			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(naam, BTW, telefoonNummer, email, adres);
+			BedrijfDTO bedrijf = ApiController.UpdateBedrijf(nieuwBedrijf);
+			//BedrijfEvents.InvokeNieuwBedrijfToeGevoegd(bedrijf)
 
-			SluitOverlay(bedrijf);
+			SluitOverlay(null);
 		}
 
 		private void SluitOverlay(BedrijfDTO? bedrijf) {
 			Naam = string.Empty;
 			TelefoonNummer = string.Empty;
-			BtwNummer = string.Empty;
+			BTW = string.Empty;
 			Email = string.Empty;
 			Adres = string.Empty;
 			Visibility = Visibility.Hidden;
 
-			if(bedrijf is not null) {
+			if (bedrijf is not null) {
 				CustomMessageBox customMessageBox = new();
-				customMessageBox.Show($"{bedrijf?.Naam} toegevoegd", $"Success", ECustomMessageBoxIcon.Information);
+				customMessageBox.Show($"{bedrijf.Naam} Successvol Geupdate", $"Success", ECustomMessageBoxIcon.Information);
 			}
+		}
+
+		public void ZetBedrijf(BedrijfDTO bedrijf) {
+			Naam = bedrijf.Naam;
+			TelefoonNummer = bedrijf.TelefoonNummer;
+			BTW = bedrijf.BTW;
+			Email = bedrijf.Email;
+			Adres = bedrijf.Adres;
 		}
 
 		#region ProppertyChanged

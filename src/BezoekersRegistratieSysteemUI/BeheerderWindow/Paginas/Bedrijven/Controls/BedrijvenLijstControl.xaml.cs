@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
@@ -52,7 +53,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 
 		private void WijzigBedrijf_Click(object sender, RoutedEventArgs e) {
 			if (ContextMenu.DataContext is BedrijfDTO bedrijf) {
-				MessageBox.Show("Ik heb een design nodig weude");
+				BedrijvenPage.Instance.bedrijfUpdatenPopup.Visibility = Visibility.Visible;
+				BedrijvenPage.Instance.bedrijfUpdatenPopup.ZetBedrijf(bedrijf);
 			}
 		}
 
