@@ -33,6 +33,7 @@ connectionstring = connectionstring.Replace("\\\\", "\\");
 // Dit zorgt ervoor dat we een database technologie kunnen kiezen
 // bij het opstarten van onze service.
 switch (database) {
+	case "azure":
 	case "express":
 	case "msserver":
 	case "mssql": {
