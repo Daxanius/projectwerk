@@ -93,9 +93,11 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 
 					CustomMessageBox messagebox = new CustomMessageBox();
 					var result = messagebox.Show($"Zijn ingevoerde gegevens correct?\n\nNummerplaat: {Nummerplaat}", "Bevestiging", ECustomMessageBoxIcon.Question);
-                    //if (result==ECustomMessageBoxResult.Sluit)
-                        //MaakParkeerplaats
-                    //else return;
+                    
+                //TODO STAN
+                //if (result==ECustomMessageBoxResult.Sluit)
+                //MaakParkeerplaats
+                //else return;
 
                 //await ApiController.Put<object>($"/parkeerplaats/ckeckin={Nummerplaat}");
 

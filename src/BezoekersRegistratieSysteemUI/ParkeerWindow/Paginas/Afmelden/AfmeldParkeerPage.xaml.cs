@@ -60,6 +60,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Afmelden {
 					return;
 				}
 
+                //TODO STAN
 				//await ApiController.Put<object>($"/afspraak/end?email={Nummerplaat}");
 
                 Nummerplaat = "";
