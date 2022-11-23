@@ -65,7 +65,7 @@
                         DockPanel.Dock="Left"
                         FontSize="45"
                         FontWeight="Bold"
-                        Foreground="{StaticResource DonkerGrijs}"
+                        Foreground="{StaticResource DonkerBlauw}"
                         Text="Bedrijven" />
                     <StackPanel />
                 </DockPanel>

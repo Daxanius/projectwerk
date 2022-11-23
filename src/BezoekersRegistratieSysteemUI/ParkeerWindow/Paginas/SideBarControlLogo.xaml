@@ -1,0 +1,26 @@
+﻿<UserControl
+    x:Class="BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.SideBarControlLogo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
+    xmlns:images="clr-namespace:BezoekersRegistratieSysteemUI.Images"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    FontFamily="{StaticResource Inter}"
+    mc:Ignorable="d">
+    <Border
+        Margin="40,20,40,20"
+        Background="{StaticResource LichtGrijsAccent}"
+        CornerRadius="50">
+        <Grid>
+            <images:BRS_Logo
+                Width="250"
+                Margin="40"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top" />
+        </Grid>
+    </Border>
+</UserControl>

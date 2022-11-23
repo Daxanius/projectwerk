@@ -184,5 +184,6 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                 con.Close();
             }
         }
+
     }
 }

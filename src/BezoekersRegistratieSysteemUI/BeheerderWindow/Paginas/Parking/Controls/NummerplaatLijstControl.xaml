@@ -1,0 +1,195 @@
+﻿<UserControl
+    x:Class="BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls.NummerplaatLijstControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <ListView
+        x:Name="NummerplaatLijst"
+        Padding="0,5,0,0"
+        HorizontalAlignment="Stretch"
+        HorizontalContentAlignment="Stretch"
+        Background="Transparent"
+        BorderBrush="Transparent"
+        ItemsSource="{Binding ItemSource}"
+        ScrollViewer.CanContentScroll="False">
+        <ListView.ContextMenu>
+            <ContextMenu
+                Name="ContextMenu"
+                Padding="10"
+                Background="{StaticResource LichtGrijsAccent}"
+                BorderBrush="Transparent"
+                BorderThickness="0">
+                <ContextMenu.Resources>
+                    <Style TargetType="ContextMenu">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ContextMenu">
+                                    <Border
+                                        Margin="5"
+                                        Padding="5"
+                                        Background="{StaticResource MainAchtergrond}"
+                                        BorderBrush="{StaticResource ScrollGrijs}"
+                                        BorderThickness="1.8"
+                                        CornerRadius="10">
+                                        <ItemsPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="MenuItem">
+                                    <Border
+                                        Margin="5"
+                                        Padding="10,5"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0,0,0,1"
+                                        CornerRadius="5">
+                                        <ContentPresenter HorizontalAlignment="Center" Content="{TemplateBinding Header}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Foreground" Value="{StaticResource GewoonBlauw}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContextMenu.Resources>
+                <MenuItem
+                    Background="{StaticResource ButtonOranje}"
+                    FontWeight="DemiBold"
+                    Foreground="{StaticResource MainAchtergrond}"
+                    Header="Wijzig" />
+                <MenuItem
+                    x:Name="VerwijderMenuItem"
+                    Background="{StaticResource LichtRood}"
+                    FontWeight="DemiBold"
+                    Foreground="WhiteSmoke"
+                    Header="Verwijder" />
+            </ContextMenu>
+        </ListView.ContextMenu>
+        <ListView.Style>
+            <Style TargetType="ListView">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="False">
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ListView.Style>
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                            <StackPanel>
+                                <Border
+                                    Margin="0,0,20,0"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0,0,0,1"
+                                    CornerRadius="25">
+                                    <GridViewRowPresenter
+                                        Width="Auto"
+                                        Margin="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Content="{TemplateBinding Content}" />
+                                </Border>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Cursor" Value="Hand" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{StaticResource MainAchtergrond}" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="False">
+                        <Setter Property="Background" Value="Transparent" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.View>
+            <GridView>
+                <GridView.ColumnHeaderContainerStyle>
+                    <Style TargetType="GridViewColumnHeader">
+                        <Setter Property="FontSize" Value="20" />
+                        <Setter Property="FontWeight" Value="DemiBold" />
+                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="GridViewColumnHeader">
+                                    <Label Content="{TemplateBinding Content}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </GridView.ColumnHeaderContainerStyle>
+                <GridView.Columns>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock
+                                MinWidth="250"
+                                FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
+                                Text="Nummerplaat" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label
+                                    Padding="8,15,0,15"
+                                    Content="{Binding Naam, Converter={StaticResource ElipsisConverter}}"
+                                    FontSize="15"
+                                    FontWeight="DemiBold" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock Padding="5,0" Text="" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    Click="KlikOpParkeerplaatsOptions"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource DotsButtonStyle}">
+                                    <iconspresenter:Icon
+                                        CircleBackground="Transparent"
+                                        FontSize="20"
+                                        IconSource="../DotsIcon.xaml" />
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView.Columns>
+            </GridView>
+        </ListView.View>
+    </ListView>
+</UserControl>

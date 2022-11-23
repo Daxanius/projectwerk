@@ -10,8 +10,8 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas
 	/// <summary>
 	/// Interaction logic for SideBarControl.xaml
 	/// </summary>
-	public partial class SideBarControlRegistratie : UserControl {
-		public SideBarControlRegistratie() {
+	public partial class SideBarControlButton : UserControl {
+		public SideBarControlButton() {
 			InitializeComponent();
 		}
 
