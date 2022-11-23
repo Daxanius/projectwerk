@@ -182,8 +182,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         public void VoegParkingContractToe(ParkingContract parkingContract) {
             MySqlConnection con = GetConnection();
             string query = "INSERT INTO ParkingContract(StartTijd, EindTijd, BedrijfId, AantalPlaatsen) " +
-                           "OUTPUT INSERTED.Id " +
-                           "VALUES(@StartTijd, @EindTijd, @BedrijfId, @AantalPlaatsen)";
+                           "VALUES(@StartTijd, @EindTijd, @BedrijfId, @AantalPlaatsen);" +
+                           "SELECT id FROM ParkingContract WHERE id = LAST_INSERT_ID();";
             try {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
