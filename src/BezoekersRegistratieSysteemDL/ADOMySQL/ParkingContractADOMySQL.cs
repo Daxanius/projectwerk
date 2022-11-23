@@ -1,10 +1,10 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,8 +29,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// Zet SQL connectie op met desbetreffende database adv de lokale variabele [_connectieString].
         /// </summary>
         /// <returns>SQL connectie</returns>
-        private SqlConnection GetConnection() {
-            return new SqlConnection(_connectieString);
+        private MySqlConnection GetConnection() {
+            return new MySqlConnection(_connectieString);
         }
 
         /// <summary>
@@ -38,11 +38,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// </summary>
         /// <returns>True = bestaat | False = bestaat NIET</returns>
         public bool BestaatParkingContract(ParkingContract parkingContract) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM ParkingContract pc";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     if (parkingContract.Bedrijf.Id != 0) {
                         query += " WHERE pc.BedrijfId = @BedrijfId";
@@ -78,14 +78,14 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <paramref name="parkingContract">Parkingcontract die aangepast moet worden</paramref>
         /// </summary>
         public void BewerkParkingContract(ParkingContract parkingContract) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "UPDATE ParkingContract " +
                            "SET StartTijd = @startTijd, " +
                            "EindTijd = @EindTijd, " +
                            "AantalPlaatsen = @aantalPlaatsen " +
                            "WHERE Id = @id";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
@@ -111,14 +111,14 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <param name="bedrijfId">bedrijf wiens parkingcontract weergegeven wordt</param>
         /// <returns>True = bestaat | False = bestaat NIET</returns>
         public ParkingContract GeefParkingContract(long bedrijfId) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "SELECT pc.Id, pc.StartTijd, pc.Eindtijd, pc.AantalPlaatsen, " +
                            "b.Id As BedrijfId, b.Naam, b.BTWNr, b.TeleNR, b.Email, b.Adres, b.BTWChecked" +
                            "FROM ParkingContract pc " +
                            "JOIN bedrijf b ON(pc.bedrijfId = b.Id) " +
                            "WHERE (@vandaagDatum BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@vandaagDatum", SqlDbType.Date));
@@ -157,12 +157,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <paramref name="parkingContract">Parkingcontract die aangepast/verwijderd moet worden</paramref>
         /// </summary>
         public void VerwijderParkingContract(ParkingContract parkingContract) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "UPDATE ParkingContract " +
                            "SET Statusid = 2 " +
                            "WHERE Id = @id";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
@@ -180,12 +180,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <paramref name="parkingContract">Parkingcontract die toegevoegd moet worden</paramref>
         /// </summary>
         public void VoegParkingContractToe(ParkingContract parkingContract) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "INSERT INTO ParkingContract(StartTijd, EindTijd, BedrijfId, AantalPlaatsen) " +
                            "OUTPUT INSERTED.Id " +
                            "VALUES(@StartTijd, @EindTijd, @BedrijfId, @AantalPlaatsen)";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.Date));
@@ -212,11 +212,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <param name="parkingContract">ParkingContract die gecontroleerd moet worden</param>
         /// <returns>True = bestaat | False = bestaat NIET</returns>
         public bool IsOverLappend(ParkingContract parkingContract) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM ParkingContract pc";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     if (parkingContract.Bedrijf.Id != 0) {
                         query += " WHERE pc.BedrijfId = @BedrijfId";

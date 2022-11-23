@@ -1,10 +1,10 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,8 +29,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// Zet SQL connectie op met desbetreffende database adv de lokale variabele [_connectieString].
         /// </summary>
         /// <returns>SQL connectie</returns>
-        private SqlConnection GetConnection() {
-            return new SqlConnection(_connectieString);
+        private MySqlConnection GetConnection() {
+            return new MySqlConnection(_connectieString);
         }
 
         /// <summary>
@@ -39,13 +39,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <param name="nummerplaat">nummperplaat die gecontroleerd moet worden</param>
         /// <returns>True = bestaat | False = bestaat NIET</returns>
         public bool BestaatNummerplaat(string nummerplaat) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM Parkingplaatsen " +
                            "WHERE NummerPlaat = @nummerplaat " +
                            "AND EindTIjd IS NULL";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
@@ -65,11 +65,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <paramref name="parkeerplaats">ParkeerPlaats object die de gegens bevat die toegevoegd moeten worden</paramref>
         /// </summary>
         public void CheckNummerplaatIn(Parkeerplaats parkeerplaats) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "INSERT INTO Parkingplaatsen(NummerPlaat, StartTijd, EindTijd, BedrijfId) " +
                            "VALUES(@NummerPlaat, @StartTijd, @EindTijd, @BedrijfId)";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
@@ -94,12 +94,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <paramref name="nummerplaat">Nummerplaat die een eindtijd moet krijgen</paramref>
         /// </summary>
         public void CheckNummerplaatUit(string nummerplaat) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "UPDATE Parkingplaatsen " +
                            "SET EindTijd = @EindTijd " +
                            "WHERE NummerPlaat = @nummerplaat AND EindTijd IS NOT NULL";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
@@ -121,11 +121,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
         /// <returns>IReadOnlyList<String> Nummerplaten</returns>
         public IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "SELECT pp.Nummerplaat " +
                            "FROM Parkingplaatsen pp";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     if (bedrijf.Id != 0) {
                         query += " WHERE pp.BedrijfId = @BedrijfId";

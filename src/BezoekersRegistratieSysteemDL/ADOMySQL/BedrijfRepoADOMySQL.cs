@@ -1,7 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace BezoekersRegistratieSysteemDL.ADOMySQL {
@@ -26,8 +26,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// Zet SQL connectie op met desbetreffende database adv de lokale variabele [_connectieString].
 		/// </summary>
 		/// <returns>SQL connectie</returns>
-		private SqlConnection GetConnection() {
-			return new SqlConnection(_connectieString);
+		private MySqlConnection GetConnection() {
+			return new MySqlConnection(_connectieString);
 		}
 
 		/// <summary>
@@ -81,12 +81,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
 		/// <exception cref="BedrijfADOException">Faalt om bestaan bedrijf te verifiëren op basis van de bedrijfid/naam of bedrijf object.</exception>
 		private bool BestaatBedrijf(Bedrijf? bedrijf, long? bedrijfId, string? bedrijfsnaam) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
 						   "FROM bedrijf " +
 						   "WHERE 1=1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					var sqltype = (bedrijf is not null && bedrijf.Id != 0) ? SqlDbType.BigInt : (bedrijfId.HasValue) ? SqlDbType.BigInt : SqlDbType.VarChar;
 					cmd.Parameters.Add(new SqlParameter("@querylookup", sqltype));
@@ -114,7 +114,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <param name="bedrijf">Bedrijf object dat gewijzigd wenst te worden in de databank.</param>
 		/// <exception cref="BedrijfADOException">Faalt bedrijf te wijzigen.</exception>
 		public void BewerkBedrijf(Bedrijf bedrijf) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "UPDATE bedrijf " +
 						   "SET Naam = @naam, " +
 						   "BTWNr = @btwnr, " +
@@ -124,7 +124,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "BTWChecked = @btwcheck " +
 						   "WHERE id = @id";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
 					cmd.Parameters.Add(new SqlParameter("@naam", SqlDbType.VarChar));
@@ -188,7 +188,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <returns>Gewenst bedrijf object</returns>
 		/// <exception cref="BedrijfADOException">Faalt om bedrijf object op te halen op basis van het id of naam.</exception>
 		private Bedrijf GeefBedrijf(long? _bedrijfId, string? _bedrijfnaam) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
@@ -198,7 +198,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "LEFT JOIN Functie f ON(wb.FunctieId = f.Id) " +
 						   "WHERE 1=1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					if (_bedrijfId.HasValue) {
 						query += " AND b.Id = @id";
@@ -259,7 +259,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <returns>IReadOnlyList van bedrijf objecten.</returns>
 		/// <exception cref="BedrijfADOException">Faalt lijst van bedrijf objecten samen te stellen.</exception>
 		public IReadOnlyList<Bedrijf> GeefBedrijven() {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
 						   "f.FunctieNaam " +
@@ -270,7 +270,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "WHERE b.Status = 1 " +
 						   "ORDER BY b.Naam, wn.id";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
 					IDataReader reader = cmd.ExecuteReader();
@@ -339,15 +339,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <remarks>Wanneer bedrijf status wijzigt 2 = 'verwijderd' => Werknemer status wijzigt 2 = 'Niet langer in dienst'</remarks>
 		private void VeranderStatusBedrijf(long bedrijfId, int statusId) {
 			//Wanneer bedrijf word verwijderd (status 2), medewerkers zijn dan ontslagen (status 2)
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string queryBedrijf = "UPDATE bedrijf " +
 								  "SET Status = @statusId " +
 								  "WHERE Id = @bedrijfid";
 			con.Open();
 			SqlTransaction trans = con.BeginTransaction();
 			try {
-				using (SqlCommand cmdMedewerker = con.CreateCommand())
-				using (SqlCommand cmdBedrijf = con.CreateCommand()) {
+				using (MySqlCommand cmdMedewerker = con.CreateCommand())
+				using (MySqlCommand cmdBedrijf = con.CreateCommand()) {
 					//Medewerker sectie
 					if (statusId == 2) {
 						string queryMedewerker = "UPDATE WerknemerBedrijf " +
@@ -389,12 +389,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <returns>Gewenste bedrijf object MET id</returns>
 		/// <exception cref="BedrijfADOException">Faalt bedrijf toe te voegen op basis van het bedrijf object.</exception>
 		public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres, BTWChecked) " +
 						   "output INSERTED.ID " +
 						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked)";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
 					cmd.Parameters.Add(new SqlParameter("@naam", SqlDbType.VarChar));
