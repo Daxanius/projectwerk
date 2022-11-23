@@ -110,15 +110,6 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 				_parkingContractManager.GeefParkingContract(null);
 			});
 		}
-
-		[Fact]
-		public void GeefParkingContract_BestaatNiet() {
-			_mockRepo.Setup(x => x.BestaatParkingContract(_c)).Returns(false);
-			Assert.Throws<ParkingContractManagerException>(() => {
-				_parkingContractManager.GeefParkingContract(_b1);
-			});
-		}
-
 		#endregion
 	}
 }
