@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using BezoekersRegistratieSysteemUI.Events;
+using System.Windows.Threading;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	public partial class AfsprakenLijstControl : UserControl {
@@ -81,5 +82,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 
 			}
 		}
+
+		private void AfsprakenLijst_ScrollChanged(object sender, ScrollChangedEventArgs e) {
+			if (GlobalEvents._refreshTimerTimout.IsEnabled == true) {
+				return;
+			}
+			GlobalEvents._refreshTimerTimout.Start();
+			GlobalEvents._refreshTimer.Stop();
+        }
 	}
 }

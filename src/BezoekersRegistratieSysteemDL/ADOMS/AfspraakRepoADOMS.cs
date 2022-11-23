@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
+﻿using BezoekersRegistratieSysteemBL;
+using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
 using System.Data;
@@ -30,6 +31,31 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		}
 
 		/// <summary>
+		/// Beëindigd afspraak via het fallback pad adhv parameter afspraak id.
+		/// </summary>
+		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
+		/// <remarks>Afspraak krijgt statuscode 4 = 'Stopgezet door systeem'.</remarks>
+		public void BeeindigAfspraakSysteem() {
+            SqlConnection con = GetConnection();
+            string query = "UPDATE Afspraak " +
+                           "SET AfspraakStatusId = 4, " +
+                           "EindTijd = DATEADD(SECOND,-1,CONVERT(datetime,CONVERT(DATE, GETDATE()))) " +
+                           "WHERE AfspraakStatusId = 1 AND CONVERT(DATE, StartTijd) < CONVERT(DATE, GETDATE())";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex) {
+                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
+
+		/// <summary>
 		/// Beëindigd afspraak adhv bezoeker email adhv parameter bezoeker email.
 		/// </summary>
 		/// <param name="email">Emailadres van de  bezoeker wiens afspraak beëindigd wenst te worden.</param>
@@ -52,20 +78,6 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		public void BeeindigAfspraakBezoeker(long afspraakId) {
 			try {
 				BeeindigAfspraak(null, afspraakId, 3);
-			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-			}
-		}
-
-		/// <summary>
-		/// Beëindigd afspraak via het fallback pad adhv parameter afspraak id.
-		/// </summary>
-		/// <param name="afspraakId">Id van de afspraak die beëindigd wenst te worden.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
-		/// <remarks>Afspraak krijgt statuscode 4 = 'Stopgezet door systeem'.</remarks>
-		public void BeeindigAfspraakSysteem(long afspraakId) {
-			try {
-				BeeindigAfspraak(null, afspraakId, 4);
 			} catch (Exception ex) {
 				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
@@ -137,7 +149,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		private void VeranderStatusAfspraak(long afspraakId, int statusId) {
 			SqlConnection con = GetConnection();
 			string query = "UPDATE Afspraak " +
-						   $"SET AfspraakStatusId = @statusId " +
+						   "SET AfspraakStatusId = @statusId " +
 						   "WHERE Id = @afspraakid";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
@@ -508,11 +520,6 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmdAfspraak.Parameters["@AfspraakStatusId"].Value = afspraak.Eindtijd is not null ? 5 : 1;
                     cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
 
-					if (afspraak.Eindtijd is not null) {
-						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 5;
-					} else {
-						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 1;
-					}
 
 					long i = (long)cmdAfspraak.ExecuteScalar();
 					afspraak.ZetId(i);
@@ -676,7 +683,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						}
 						//functie portie
-						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
+						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(Nutsvoorziening.NaamOpmaak((string)reader["FunctieNaam"]))) {
 							functieNaam = (string)reader["FunctieNaam"];
 							werknemerMail = (string)reader["WerknemerEmail"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
@@ -808,14 +815,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id, werknemer- of bezoekerid/info en datum.</exception>
 		private IReadOnlyList<Afspraak> GeefAlleAfspraken(long? _bedrijfId, long? _werknemerId, long? _bezoekerId, string? _bezoekerVNaam, string? _bezoekerANaam, string? _bezoekerMail, DateTime? _datum) {
 			SqlConnection con = GetConnection();
-			/* INFO SELECT
+            /* INFO SELECT
              * Afspraak
              * Bezoeker
              * Bedrijf
              * Werknemer
              * Functie Medewerker
              */
-			string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
+            List<Afspraak> afspraken = new List<Afspraak>();
+            string query = "SELECT a.Id as AfspraakId, a.StartTijd, a.EindTijd, " +
 						   "bz.Id as BezoekerId, bz.ANaam as BezoekerANaam, bz.VNaam as BezoekerVNaam, bz.Email as BezoekerMail, bz.EigenBedrijf as BezoekerBedrijf, " +
 						   "b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr, b.TeleNr, b.Email as BedrijfEmail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
@@ -869,7 +877,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					query += " ORDER BY a.StartTijd DESC, b.id, w.id, f.FunctieNaam";
 					cmd.CommandText = query;
 					IDataReader reader = cmd.ExecuteReader();
-					List<Afspraak> afspraken = new List<Afspraak>();
+					
 					Werknemer werknemer = null;
 					Bedrijf bedrijf = null;
 					string functieNaam = "";
@@ -905,7 +913,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 							werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerANaam);
 						}
 						//functie portie
-						if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains((string)reader["FunctieNaam"])) {
+                        if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(Nutsvoorziening.NaamOpmaak((string)reader["FunctieNaam"]))) {
 							functieNaam = (string)reader["FunctieNaam"];
 							werknemerMail = (string)reader["WerknemerEmail"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
@@ -923,6 +931,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 				exx.Data.Add("bezoekerVNaam", _bezoekerVNaam);
 				exx.Data.Add("bezoekerANaam", _bezoekerANaam);
 				exx.Data.Add("bezoekermail", _bezoekerMail);
+				exx.Data.Add("bezoekermail2", afspraken);
 				exx.Data.Add("datum", _datum);
 				throw exx;
 			} finally {

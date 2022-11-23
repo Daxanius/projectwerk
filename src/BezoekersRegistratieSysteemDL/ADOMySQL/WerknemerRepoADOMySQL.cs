@@ -1,8 +1,8 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
+using MySql.Data.MySqlClient;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 
@@ -26,8 +26,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// Zet SQL connectie op met desbetreffende database adv de lokale variabele [_connectieString].
 		/// </summary>
 		/// <returns>SQL connectie</returns>
-		private SqlConnection GetConnection() {
-			return new SqlConnection(_connectieString);
+		private MySqlConnection GetConnection() {
+			return new MySqlConnection(_connectieString);
 		}
 
 		/// <summary>
@@ -67,16 +67,16 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <exception cref="WerknemerADOException">Faalt om bestaan werknemer te verifiëren op basis van werknemer id of werknemer object.</exception>
         /// <exception cref="WerknemerADOException">Als het email pad neemt en naam wijkt af is er exception.</exception>
         private bool BestaatWerknemer(Werknemer? werknemer, long? werknemerId) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM Werknemer wn ";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     if (werknemer is not null) {
                         if (werknemer.Id != 0) {
                             query += "WHERE wn.id = @id";
-                            cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                            cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
                             cmd.Parameters["@id"].Value = werknemer.Id;
                         } else {
                             query += "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId) " +
@@ -84,7 +84,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                             int mailCount = 0;
                             foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
                                 query += $"@mail{mailCount},";
-                                cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                                cmd.Parameters.Add(new MySqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
                                 cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
                                 mailCount++;
                             }
@@ -94,7 +94,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     }
                     if (werknemerId.HasValue) {
                         query += "WHERE wn.id = @id";
-                        cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+                        cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
                         cmd.Parameters["@id"].Value = werknemerId;
 
                     }
@@ -103,7 +103,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 
                     //Kan uitgecomment worden als voor moest werknemer naam niet uitmaken wnr email bestaat
                     if (werknemer is not null && i > 0 && werknemer.Id == 0) {
-                        using (SqlCommand cmdWerknemerNaam = con.CreateCommand()) {
+                        using (MySqlCommand cmdWerknemerNaam = con.CreateCommand()) {
                             string queryWerknemerNaam = "SELECT COUNT(*) " +
                                                         "FROM Werknemer wn " +
                                                         "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId)" +
@@ -111,15 +111,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                             int mailCount = 0;
                             foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
                                 queryWerknemerNaam += $"@mail{mailCount},";
-                                cmdWerknemerNaam.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                                cmdWerknemerNaam.Parameters.Add(new MySqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
                                 cmdWerknemerNaam.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
                                 mailCount++;
                             }
                             queryWerknemerNaam = queryWerknemerNaam.Substring(0, queryWerknemerNaam.Length - 1);
                             queryWerknemerNaam += ")";
                             cmdWerknemerNaam.CommandText = queryWerknemerNaam;
-                            cmdWerknemerNaam.Parameters.Add(new SqlParameter("@Anaam", SqlDbType.VarChar));
-                            cmdWerknemerNaam.Parameters.Add(new SqlParameter("@Vnaam", SqlDbType.VarChar));
+                            cmdWerknemerNaam.Parameters.Add(new MySqlParameter("@Anaam", SqlDbType.VarChar));
+                            cmdWerknemerNaam.Parameters.Add(new MySqlParameter("@Vnaam", SqlDbType.VarChar));
                             cmdWerknemerNaam.Parameters["@Anaam"].Value = werknemer.Achternaam;
                             cmdWerknemerNaam.Parameters["@Vnaam"].Value = werknemer.Voornaam;
                             int j = (int)cmdWerknemerNaam.ExecuteScalar();
@@ -148,7 +148,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <returns>Gewenst werknemer object</returns>
 		/// <exception cref="WerknemerADOException">Faalt om werknemer object op te halen op basis van het id.</exception>
 		public Werknemer GeefWerknemer(long _werknemerId) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.Vnaam as WerknemerVnaam, wn.Anaam as WerknemerAnaam, wb.WerknemerEmail, " +
 						   "b.id as BedrijfId, b.naam as BedrijfNaam, b.btwnr as bedrijfBTW, b.telenr as bedrijfTele, b.email as BedrijfMail, b.adres as BedrijfAdres, b.BTWChecked, " +
 						   "f.functienaam, (SELECT COUNT(*) " +
@@ -162,10 +162,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "LEFT JOIN functie f ON(f.id = wb.functieid) " +
                            "WHERE wn.id = @werknemerId";
             try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
 					cmd.Parameters["@werknemerId"].Value = _werknemerId;
 					IDataReader reader = cmd.ExecuteReader();
 					Werknemer werknemer = null;
@@ -261,7 +261,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <returns>IReadOnlyList van werknemer objecten op werknemerfunctie/naam PER bedrijf.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie/voornaam/achternaam en bedrijf id.</exception>
 		private IReadOnlyList<Werknemer> GeefWerknemers(long? _bedrijfId, string? _voornaam, string? _achternaam, string? _functie) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
 						   "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "f.Functienaam, (SELECT COUNT(*) " +
@@ -275,26 +275,26 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
 						   "WHERE 1=1";
             try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					if (_bedrijfId.HasValue) {
 						query += " AND b.id = @bedrijfId";
-						cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
 						cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
 					}
 					if (!String.IsNullOrWhiteSpace(_voornaam)) {
 						query += " AND wn.VNaam LIKE @VNaam";
-						cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
 						cmd.Parameters["@VNaam"].Value = $"%{_voornaam}%";
 					}
 					if (!String.IsNullOrWhiteSpace(_achternaam)) {
 						query += " AND wn.ANaam LIKE @ANaam";
-						cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
 						cmd.Parameters["@ANaam"].Value = $"%{_achternaam}%";
 					}
 					if (!String.IsNullOrWhiteSpace(_functie)) {
 						query += " AND f.FunctieNaam = @functie";
-						cmd.Parameters.Add(new SqlParameter("@functie", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@functie", SqlDbType.VarChar));
 						cmd.Parameters["@functie"].Value = _functie;
 					}
 					query += " ORDER BY wn.VNaam, wn.ANaam, b.id, wn.id";
@@ -383,23 +383,23 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <exception cref="WerknemerADOException">Faalt werknemer of werknemer functie te verwijderen voor specifiek bedrijf.</exception>
 		/// <remarks>Werknemer krijgt statuscode 2 = 'Niet langer in dienst' of Ontneemt functie van werknemer voor specifiek bedrijf.</remarks>
 		private void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf, string? functie) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "UPDATE Werknemerbedrijf " +
 						   "SET Status = 2 " +
 						   "WHERE BedrijfId = @bedrijfId " +
 						   "AND WerknemerId = @werknemerId " +
 						   "AND Status = 1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					if (!String.IsNullOrWhiteSpace(functie)) {
 						query += " AND FunctieId = (SELECT Id FROM FUNCTIE WHERE FunctieNaam = @FunctieNaam)";
-						cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@FunctieNaam", SqlDbType.VarChar));
 						cmd.Parameters["@FunctieNaam"].Value = functie;
 					}
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
 					cmd.Parameters["@bedrijfId"].Value = bedrijf.Id;
 					cmd.Parameters["@werknemerId"].Value = werknemer.Id;
 					cmd.ExecuteNonQuery();
@@ -425,17 +425,17 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <exception cref="WerknemerADOException">Faalt werknemer functie toe te kennen voor specifiek bedrijf.</exception>
 		/// <remarks>Voegt een entry toe aan de werknemer bedrijf tabel in de databank.</remarks>
 		public void VoegWerknemerFunctieToe(Werknemer werknemer, WerknemerInfo werknemerInfo, string functie) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, WerknemerEmail, FunctieId) " +
 								 "VALUES(@bedrijfId,@werknemerId, @email,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = queryInsert;
-					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@email", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@FunctieNaam", SqlDbType.VarChar));
 					cmd.Parameters["@werknemerId"].Value = werknemer.Id;
 					cmd.Parameters["@bedrijfId"].Value = werknemerInfo.Bedrijf.Id;
 					cmd.Parameters["@email"].Value = werknemerInfo.Email;
@@ -459,14 +459,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <exception cref="WerknemerADOException">Faalt werknemer toe te voegen.</exception>
 		/// <remarks>Voegt een entry toe aan de werknemer tabel in de databank.</remarks>
 		public Werknemer VoegWerknemerToe(Werknemer werknemer) {
-			SqlConnection con = GetConnection();
-			string query = "INSERT INTO Werknemer (VNaam, ANaam) OUTPUT INSERTED.Id VALUES (@VNaam, @ANaam)";
+			MySqlConnection con = GetConnection();
+			string query = "INSERT INTO Werknemer (VNaam, ANaam) VALUES (@VNaam, @ANaam);" +
+                           "SELECT id FROM Werknemer WHERE id = LAST_INSERT_ID();";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
 					cmd.Parameters["@VNaam"].Value = werknemer.Voornaam;
 					cmd.Parameters["@ANaam"].Value = werknemer.Achternaam;
 					long i = (long)cmd.ExecuteScalar();
@@ -493,12 +494,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 
 		//    bool bestaatJob = false;
 
-		//    SqlConnection con = GetConnection();
+		//    MySqlConnection con = GetConnection();
 		//    string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, WerknemerEmail, FunctieId) " +
 		//                         "VALUES(@bedrijfId,@werknemerId, @email,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
 		//    try {
-		//        using (SqlCommand cmdCheck = con.CreateCommand())
-		//        using (SqlCommand cmd = con.CreateCommand()) {
+		//        using (MySqlCommand cmdCheck = con.CreateCommand())
+		//        using (MySqlCommand cmd = con.CreateCommand()) {
 		//            con.Open();
 		//            foreach (var kvpBedrijf in werknemer.GeefBedrijvenEnFunctiesPerWerknemer()) {
 		//                foreach (var functieNaam in kvpBedrijf.Value.GeefWerknemerFuncties()) {
@@ -512,9 +513,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		//                    cmdCheck.CommandText = queryDoesJobExist;
 
 		//                    if (!bestaatJob) {
-		//                        cmdCheck.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-		//                        cmdCheck.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-		//                        cmdCheck.Parameters.Add(new SqlParameter("@functieNaam", SqlDbType.VarChar));
+		//                        cmdCheck.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+		//                        cmdCheck.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+		//                        cmdCheck.Parameters.Add(new MySqlParameter("@functieNaam", SqlDbType.VarChar));
 		//                    }
 
 		//                    cmdCheck.Parameters["@werknemerId"].Value = werknemer.Id;
@@ -526,10 +527,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		//                        cmd.CommandText = queryInsert;
 
 		//                        if (!bestaatJob) {
-		//                            cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-		//                            cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-		//                            cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
-		//                            cmd.Parameters.Add(new SqlParameter("@FunctieNaam", SqlDbType.VarChar));
+		//                            cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+		//                            cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+		//                            cmd.Parameters.Add(new MySqlParameter("@email", SqlDbType.VarChar));
+		//                            cmd.Parameters.Add(new MySqlParameter("@FunctieNaam", SqlDbType.VarChar));
 
 		//                            bestaatJob = true;
 		//                        }
@@ -559,24 +560,24 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <param name="bedrijf">bedrijf object waaruit werknemer gewijzigd wenst te worden in de databank.</param>
 		/// <exception cref="WerknemerADOException">Faalt werknemer te wijzigen.</exception>
 		public void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string queryWerknemer = "UPDATE Werknemer " +
 									"SET VNaam = @Vnaam, " +
 									"ANaam = @ANaam " +
 									"WHERE Id = @Id";
 			con.Open();
-			SqlTransaction trans = con.BeginTransaction();
+            MySqlTransaction trans = con.BeginTransaction();
 			try {
-				using (SqlCommand cmdWerknemerBedrijf = con.CreateCommand())
-				using (SqlCommand cmdWerknemer = con.CreateCommand()) {
+				using (MySqlCommand cmdWerknemerBedrijf = con.CreateCommand())
+				using (MySqlCommand cmdWerknemer = con.CreateCommand()) {
 
 					cmdWerknemer.Transaction = trans;
 					cmdWerknemerBedrijf.Transaction = trans;
 					//Portie werknemer
 					cmdWerknemer.CommandText = queryWerknemer;
-					cmdWerknemer.Parameters.Add(new SqlParameter("@Id", SqlDbType.BigInt));
-					cmdWerknemer.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
-					cmdWerknemer.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+					cmdWerknemer.Parameters.Add(new MySqlParameter("@Id", SqlDbType.BigInt));
+					cmdWerknemer.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
+					cmdWerknemer.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
 					cmdWerknemer.Parameters["@Id"].Value = werknemer.Id;
 					cmdWerknemer.Parameters["@VNaam"].Value = werknemer.Voornaam;
 					cmdWerknemer.Parameters["@ANaam"].Value = werknemer.Achternaam;
@@ -584,9 +585,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					//Portie werknemerBedrijf
 					string queryWerknemerBedrijf = "UPDATE WerknemerBedrijf SET WerknemerEMail = @mail WHERE WerknemerId = @Wid AND Bedrijfid = @Bid";
 					cmdWerknemerBedrijf.CommandText = queryWerknemerBedrijf;
-					cmdWerknemerBedrijf.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
-					cmdWerknemerBedrijf.Parameters.Add(new SqlParameter("@Wid", SqlDbType.BigInt));
-					cmdWerknemerBedrijf.Parameters.Add(new SqlParameter("@Bid", SqlDbType.BigInt));
+					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@mail", SqlDbType.VarChar));
+					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@Wid", SqlDbType.BigInt));
+					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@Bid", SqlDbType.BigInt));
 					cmdWerknemerBedrijf.Parameters["@mail"].Value = werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].Email;
 					cmdWerknemerBedrijf.Parameters["@Wid"].Value = werknemer.Id;
 					cmdWerknemerBedrijf.Parameters["@Bid"].Value = bedrijf.Id;
@@ -610,15 +611,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
 		/// <exception cref="WerknemerADOException">Faalt om bestaan functie te verifiëren op basis van de functie naam.</exception>
 		public bool BestaatFunctie(string functieNaam) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
 						   "FROM Functie " +
 						   "WHERE FunctieNaam = @fNaam";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@fNaam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@fNaam", SqlDbType.VarChar));
 					cmd.Parameters["@fNaam"].Value = functieNaam;
 					int i = (int)cmd.ExecuteScalar();
 					return (i > 0);
@@ -639,13 +640,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
 		/// <exception cref="WerknemerADOException">Faalt om functie toe te voegen op basis van de functie naam.</exception>
 		public void VoegFunctieToe(string functieNaam) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "INSERT INTO Functie(FunctieNaam) VALUES(@fNaam)";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@fNaam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@fNaam", SqlDbType.VarChar));
 					cmd.Parameters["@fNaam"].Value = functieNaam;
 					cmd.ExecuteNonQuery();
 				}
@@ -666,7 +667,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <returns>IReadOnlyList van werknemer objecten waar statuscode niet gelijk is aan 1 = 'In gang'.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van afspraakloze werknemer objecten samen te stellen op basis van bedrijf id.</exception>
 		public IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
 					       "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "f.Functienaam " +
@@ -681,10 +682,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 														"AND a.AfspraakStatusId = 1) = 0 " +
                            "ORDER BY wn.VNaam, wn.ANaam, wn.Id";
             try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
 					cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
                     List<Werknemer> werknemers = new List<Werknemer>();
                     Werknemer werknemer = null;
@@ -731,7 +732,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <returns>IReadOnlyList van werknemer objecten waar statuscode gelijk is aan 1 = 'In gang'.</returns>
 		/// <exception cref="WerknemerADOException">Faalt lijst van bezette werknemer objecten samen te stellen op basis van bedrijf id.</exception>
 		public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
                            "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
                            "f.Functienaam " +
@@ -746,10 +747,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                                                         "AND a.AfspraakStatusId = 1) > 0 " +
                            "ORDER BY wn.VNaam, wn.ANaam, wn.Id";
             try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
 					cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
                     List<Werknemer> werknemers = new List<Werknemer>();
                     Werknemer werknemer = null;
@@ -796,23 +797,23 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <exception cref="WerknemerADOException">Faalt om id van werknemer te zetten.</exception>
 
         public void GeefWerknemerId(Werknemer werknemer) {
-			SqlConnection con = GetConnection();
-			string query = "SELECT TOP(1) w.id " +
+			MySqlConnection con = GetConnection();
+			string query = "SELECT w.id " +
 							"FROM Werknemer w " +
 							"JOIN Werknemerbedrijf wb ON(w.Id = wb.WerknemerId) " +
 							"WHERE wb.WerknemerEmail IN(";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();							
                     int mailCount = 0;
                     foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
                         query += $"@mail{mailCount},";
-                        cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                        cmd.Parameters.Add(new MySqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
                         cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
                         mailCount++;
                     }
                     query = query.Substring(0, query.Length - 1);
-                    query += ")";
+                    query += ") LIMIT 1";
                     cmd.CommandText = query;
 					long i = (long)cmd.ExecuteScalar();
 					werknemer.ZetId(i);
