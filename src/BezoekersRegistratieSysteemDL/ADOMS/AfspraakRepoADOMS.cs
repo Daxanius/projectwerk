@@ -149,7 +149,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		private void VeranderStatusAfspraak(long afspraakId, int statusId) {
 			SqlConnection con = GetConnection();
 			string query = "UPDATE Afspraak " +
-						   $"SET AfspraakStatusId = @statusId " +
+						   "SET AfspraakStatusId = @statusId " +
 						   "WHERE Id = @afspraakid";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
@@ -520,11 +520,6 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmdAfspraak.Parameters["@AfspraakStatusId"].Value = afspraak.Eindtijd is not null ? 5 : 1;
                     cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
 
-					if (afspraak.Eindtijd is not null) {
-						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 5;
-					} else {
-						cmdAfspraak.Parameters["@AfspraakStatusId"].Value = 1;
-					}
 
 					long i = (long)cmdAfspraak.ExecuteScalar();
 					afspraak.ZetId(i);
