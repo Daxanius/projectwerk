@@ -104,5 +104,23 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 		}
 
 		#endregion
+
+		#region GeefParkingContract
+		[Fact]
+		public void GeefParkingContract_Leeg() {
+			Assert.Throws<ParkingContractManagerException>(() => {
+				_parkingContractManager.GeefParkingContract(null);
+			});
+		}
+
+		[Fact]
+		public void GeefParkingContract_BestaatNiet() {
+			// Deze test faalt Weude...
+			Assert.Throws<ParkingContractManagerException>(() => {
+				_parkingContractManager.GeefParkingContract(_b1);
+			});
+		}
+
+		#endregion
 	}
 }
