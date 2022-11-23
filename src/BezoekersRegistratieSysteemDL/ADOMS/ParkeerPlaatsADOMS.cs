@@ -151,5 +151,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                 con.Close();
             }
         }
+
+        public int GeefHuidigBezetteParkeerplaatsenPerBedrijf(long id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

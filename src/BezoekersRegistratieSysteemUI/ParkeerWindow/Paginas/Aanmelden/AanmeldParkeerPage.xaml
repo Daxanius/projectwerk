@@ -21,6 +21,15 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <Label
+                Grid.Row="0"
+                Margin="0,50"
+                HorizontalAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="{Binding GeselecteerdBedrijf.Naam}"
+                FontSize="100"
+                FontWeight="Bold"
+                Foreground="{StaticResource GewoonBlauw}" />
+            <Label
                 Margin="0,0,0,50"
                 HorizontalAlignment="Center"
                 Content="Gelieve uw nummerplaat in te geven."
@@ -28,18 +37,37 @@
                 FontWeight="Bold"
                 Foreground="{StaticResource DonkerBlauw}" />
             <TextBox Style="{StaticResource AanmeldenInputStyle}" Text="{Binding Nummerplaat}" />
-            <Button
-                x:Name="AanmeldenButton"
-                Margin="0,70,0,0"
-                Padding="15,0"
-                BorderBrush="{StaticResource GewoonBlauw}"
-                BorderThickness="5"
-                Click="AanmeldenClick"
-                Content="Aanmelden"
-                FontSize="28"
-                Foreground="{StaticResource GewoonBlauw}"
-                Style="{StaticResource ActionButtonPopup}"
-                Tag="Blauw" />
+            <UniformGrid
+                Grid.Row="2"
+                Margin="0,10,0,20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Columns="2">
+                <Button
+                    x:Name="AnnulerenButton"
+                    Margin="10,10,50,10"
+                    Padding="15,0"
+                    BorderBrush="{StaticResource DonkerRood}"
+                    BorderThickness="5"
+                    Click="AnnulerenKlik"
+                    Content="Annuleren"
+                    FontSize="28"
+                    Foreground="{StaticResource DonkerRood}"
+                    Style="{StaticResource ActionButtonPopup}"
+                    Tag="Rood" />
+                <Button
+                    x:Name="BevestigenButton"
+                    Margin="50,10,10,10"
+                    Padding="15,0"
+                    BorderBrush="{StaticResource LichtGroen}"
+                    BorderThickness="5"
+                    Click="AanmeldenKlik"
+                    Content="Bevestigen"
+                    FontSize="28"
+                    Foreground="{StaticResource LichtGroen}"
+                    Style="{StaticResource ActionButtonPopup}"
+                    Tag="Groen" />
+            </UniformGrid>
         </StackPanel>
     </Grid>
 </Page>

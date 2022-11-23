@@ -20,10 +20,12 @@
         </ResourceDictionary>
     </Window.Resources>
     <DockPanel LayoutTransform="{StaticResource windowScaleTransform}">
-        <paginas:SideBarControlRegistratie
-            x:Name="SideBar"
-            Width="500"
-            DockPanel.Dock="Left" />
+        <paginas:SideBarControlLogo
+            x:Name="SideBarLogo"
+            DockPanel.Dock="Top" />
+        <paginas:SideBarControlButton
+            x:Name="SideBarButton"
+            DockPanel.Dock="Bottom" />
         <Frame
             x:Name="FrameControl"
             NavigationUIVisibility="Hidden"
