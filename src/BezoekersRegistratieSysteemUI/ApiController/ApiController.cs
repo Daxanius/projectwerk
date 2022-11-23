@@ -474,14 +474,16 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-		public static IEnumerable<AfspraakDTO> GeefWerknemerAfsprakenVanBedrijf(long bedrijfsId, WerknemerDTO werknemer, DateTime? datum = null, bool alleenLopendeAfspraken = false) {
+		public static IEnumerable<AfspraakDTO> GeefWerknemerAfsprakenVanBedrijf(long bedrijfsId, WerknemerDTO werknemer, string? datum = null, bool alleenLopendeAfspraken = false) {
 			return Task.Run(async () => {
 				List<AfspraakDTO> ItemSource = new();
 
-				if (!datum.HasValue)
-					datum = DateTime.Now;
+				if (datum is null)
+					datum = DateTime.Now.ToString("MM/dd/yyyy");
+				else
+					datum = DateTime.Parse(datum).ToString("MM/dd/yyyy");
 
-				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?dag={datum.Value.ToString("MM/dd/yyyy")}&werknemerId={werknemer.Id}&bedrijfId={bedrijfsId}&openstaand={alleenLopendeAfspraken}");
+				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?dag={datum}&werknemerId={werknemer.Id}&bedrijfId={bedrijfsId}&openstaand={alleenLopendeAfspraken}");
 
 				if (isvalid) {
 					apiAfspraken.ForEach((api) => {
@@ -530,11 +532,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-		public static IEnumerable<AfspraakDTO> GeefAfsprakenOpDatumVanBedrijf(long bedrijfsId, string datum = "???") {
+		public static IEnumerable<AfspraakDTO> GeefAfsprakenOpDatumVanBedrijf(long bedrijfsId, string? datum = null) {
 			return Task.Run(async () => {
 				List<AfspraakDTO> ItemSource = new();
 
-				if (datum == "???") datum = DateTime.Now.ToString("MM/dd/yyyy");
+				if (datum is null) datum = DateTime.Now.ToString("MM/dd/yyyy");
 				else
 					datum = DateTime.Parse(datum).ToString("MM/dd/yyyy");
 
