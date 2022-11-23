@@ -17,7 +17,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 	public static class ApiController {
 		private static TimeSpan _timeout = TimeSpan.FromSeconds(500d);
 
-		public const string BaseAddres = "http://localhost:5049/api/";
+		public static string BaseAddres = "http://localhost:5049/api/";
 
 		#region Request Methods
 
