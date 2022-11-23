@@ -1,9 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Events;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace BezoekersRegistratieSysteemUI {
 	public partial class App : Application {
@@ -11,6 +9,18 @@ namespace BezoekersRegistratieSysteemUI {
 		public App() {
 			globalEvents = new GlobalEvents();
 			BeeindigAlleOnAfgeslotenAfspraken();
+
+			if (!BezoekersRegistratieSysteemUI.Properties.Settings.Default.IsSynchronized) {
+				BezoekersRegistratieSysteemUI.Properties.Settings.Default.Save();
+			}
+
+			if (string.IsNullOrWhiteSpace(BezoekersRegistratieSysteemUI.Properties.Settings.Default.URI)) {
+				MessageBox.Show("Endpoint URI is niet ingesteld!");
+				Environment.Exit(1);
+				return;
+			}
+
+			ApiController.BaseAddres = BezoekersRegistratieSysteemUI.Properties.Settings.Default.URI ?? "http://localhost:5049/api/";
 
 			System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("fr-FR");
 			System.Threading.Thread.CurrentThread.CurrentCulture = ci;

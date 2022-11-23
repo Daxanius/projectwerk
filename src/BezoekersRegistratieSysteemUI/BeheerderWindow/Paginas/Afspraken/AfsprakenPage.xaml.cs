@@ -111,7 +111,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			DatePicker_OpDatum.SelectedDate = DateTime.Now.Date;
 
 			//Events
-			GlobalEvents.RefreshData += AutoUpdateIntervalAfspraken_Event;
+			GlobalEvents.RefreshData += AutoUpdateIntervalAfspraken_Event;			
 			BedrijfEvents.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijf_Event;
 			AfspraakEvents.NieuweAfspraakToegevoegd += NieuweAfspraakToegevoegd_Event;
 			WerknemerEvents.NieuweWerknemerToegevoegd += NieuweWerknemerToegevoegd_Event;

@@ -17,7 +17,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 	public static class ApiController {
 		private static TimeSpan _timeout = TimeSpan.FromSeconds(500d);
 
-		public const string BaseAddres = "http://localhost:5049/api/";
+		public static string BaseAddres = "http://localhost:5049/api/";
 
 		#region Request Methods
 
@@ -582,6 +582,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public async static Task VerwijderAfspraak(AfspraakDTO afspraak) {
 			if (afspraak.EindTijd is null) return;
 			await Task.Run(() => Delete($"afspraak/{afspraak.Id}"));
+		}
+
+		internal static BedrijfDTO UpdateBedrijf(BedrijfInputDTO nieuwBedrijf) {
+			throw new NotImplementedException();
 		}
 		#endregion
 	}

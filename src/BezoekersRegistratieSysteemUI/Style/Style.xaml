@@ -540,7 +540,7 @@
     <Style x:Key="AanmeldenLabelStyle" TargetType="Label">
         <Setter Property="Margin" Value="5" />
         <Setter Property="FontSize" Value="28" />
-        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="{StaticResource DonkerBlauw}" />
     </Style>
 
@@ -585,6 +585,7 @@
                             BorderBrush="Transparent"
                             BorderThickness="0"
                             FontSize="20"
+                            FontWeight="DemiBold"
                             Text="{Binding Path=Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
                     </Border>
                 </ControlTemplate>

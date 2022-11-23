@@ -137,9 +137,17 @@
 		<Compile Update="ParkeerWindow\Paginas\Afmelden\AfmeldParkeerPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+		  <DesignTimeSharedInput>True</DesignTimeSharedInput>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+		<Page Update="BeheerderWindow\Paginas\Bedrijven\Popups\BedrijfUpdatenPopup.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		</Page>
 		<Page Update="ParkeerWindow\Paginas\Aanmelden\AanmeldParkeerPage.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		</Page>
@@ -194,7 +202,7 @@
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
-		<Page Update="BeheerderWindow\Paginas\Bedrijven\Popups\BedrijvenPopup.xaml">
+		<Page Update="BeheerderWindow\Paginas\Bedrijven\Popups\BedrijfToevoegenPopup.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		</Page>
 		<Page Update="BeheerderWindow\Paginas\Werknemers\WerknemersPage.xaml">
@@ -265,6 +273,13 @@
 	  <Resource Include="Icons\PlusIcon.xaml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>PublicSettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
 	</ItemGroup>
 
 </Project>

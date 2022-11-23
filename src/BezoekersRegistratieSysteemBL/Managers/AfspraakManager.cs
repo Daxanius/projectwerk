@@ -49,7 +49,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			try {
 				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
 				if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("afspraak bestaat niet");
-				if (afspraak.Eindtijd is null) _afspraakRepository.BeeindigAfspraakSysteem(afspraak.Id);
+				//if (afspraak.Eindtijd is null) _afspraakRepository.BeeindigAfspraakSysteem(afspraak.Id);
 				_afspraakRepository.VerwijderAfspraak(afspraak.Id);
 			} catch (Exception ex) {
                 throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
@@ -97,17 +97,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <summary>
 		/// Beëindigd afspraak via het fallback pad adhv afspraak object.
 		/// </summary>
-		/// <param name="afspraak">Afspraak object die beëindigd wenst te worden.</param>
-		/// <exception cref="AfspraakManagerException">"AfspraakManager - BeeindigAfspraakSysteem - afspraak mag niet leeg zijn"</exception>
-		/// <exception cref="AfspraakManagerException">"AfspraakManager - BeeindigAfspraakSysteem - afspraak is al beeindigd"</exception>
-		/// <exception cref="AfspraakManagerException">"AfspraakManager - BeeindigAfspraakSysteem - afspraak bestaat niet"</exception>
 		/// <exception cref="AfspraakManagerException">ex.Message</exception>
-		public void BeeindigAfspraakSysteem(Afspraak afspraak) {
+		public void BeeindigAfspraakSysteem() {
 			try {
-				if (afspraak == null) throw new AfspraakManagerException("afspraak mag niet leeg zijn");
-				if (afspraak.Eindtijd is not null) throw new AfspraakManagerException("afspraak is al beeindigd");
-				if (!_afspraakRepository.BestaatAfspraak(afspraak)) throw new AfspraakManagerException("afspraak bestaat niet");
-				_afspraakRepository.BeeindigAfspraakSysteem(afspraak.Id);
+				_afspraakRepository.BeeindigAfspraakSysteem();
 			} catch (Exception ex) {
                 throw new AfspraakManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: {ex.Message}", ex);
             }

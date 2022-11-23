@@ -13,8 +13,6 @@ using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls {
 	public partial class OpDatumLijstControl : UserControl {
-		public bool HeeftData { get; set; }
-
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
 		  typeof(ObservableCollection<AfspraakDTO>),
@@ -54,6 +52,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public OpDatumLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
+			ItemSource.CollectionChanged += ItemSource_CollectionChanged;
+		}
+
+		//Auto Columns Resize on Change
+		private void ItemSource_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
+			GridView view = AfsprakenLijst.View as GridView;
+			foreach (GridViewColumn c in view.Columns) {
+				if (double.IsNaN(c.Width)) {
+					c.Width = c.ActualWidth;
+				}
+				c.Width = double.NaN;
+			}
 		}
 
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
