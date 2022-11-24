@@ -15,6 +15,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		#region Bind Propperties
+		public long Id { get; set; }
 		private string _naam = string.Empty;
 		public string Naam {
 			get { return _naam; }
@@ -98,7 +99,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			}
 
 			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(naam, BTW, telefoonNummer, email, adres);
-			//BedrijfDTO bedrijf = ApiController.UpdateBedrijf(nieuwBedrijf)
+			BedrijfDTO bedrijf = ApiController.UpdateBedrijf(Id, nieuwBedrijf);
 			//BedrijfEvents.InvokeNieuwBedrijfToeGevoegd(bedrijf)
 
 			SluitOverlay(null);
@@ -124,6 +125,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			BTW = bedrijf.BTW;
 			Email = bedrijf.Email;
 			Adres = bedrijf.Adres;
+			Id = bedrijf.Id;
 		}
 
 		#region ProppertyChanged

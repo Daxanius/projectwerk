@@ -17,7 +17,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 	public static class ApiController {
 		private static TimeSpan _timeout = TimeSpan.FromSeconds(500d);
 
-		public const string BaseAddres = "http://localhost:5049/api/";
+		public static string BaseAddres = "http://localhost:5049/api/";
 
 		#region Request Methods
 
@@ -584,8 +584,9 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			await Task.Run(() => Delete($"afspraak/{afspraak.Id}"));
 		}
 
-		internal static BedrijfDTO UpdateBedrijf(BedrijfInputDTO nieuwBedrijf) {
-			throw new NotImplementedException();
+		public static BedrijfDTO UpdateBedrijf(long bedrijfId, BedrijfInputDTO nieuwBedrijf) {
+			Task.Run(() => Put($"bedrijf/{bedrijfId}", JsonConvert.SerializeObject(nieuwBedrijf), "Er is iets mis gegaan bij het updaten van het bedrijf"));
+			return new(bedrijfId, nieuwBedrijf.Naam, nieuwBedrijf.BTW, nieuwBedrijf.TelefoonNummer, nieuwBedrijf.Email, nieuwBedrijf.Adres);
 		}
 		#endregion
 	}

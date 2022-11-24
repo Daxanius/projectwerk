@@ -6,10 +6,10 @@ INSERT INTO Groupswork.Functie
 	(FunctieNaam)
 	VALUES('Ceo'),
 		  ('Cfo'),
-		  ('Sanitair medewerker'),
-		  ('Administratief medewerker'),
+		  ('Sanitair Medewerker'),
+		  ('Administratief Medewerker'),
 		  ('Logistiek'),
-		  ('Sociale media beinvloeder');
+		  ('Sociale Media Beinvloeder');
 
 INSERT INTO Groupswork.AfspraakStatus
 	(AfspraakStatusNaam)

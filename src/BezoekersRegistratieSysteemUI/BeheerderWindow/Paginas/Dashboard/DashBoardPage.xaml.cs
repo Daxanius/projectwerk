@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using BezoekersRegistratieSysteemUI.Events;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 	public partial class DashBoardPage : Page {
@@ -25,13 +26,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			InitializeComponent();
 
 			GlobalEvents.RefreshData += AutoUpdateIntervalAfspraken_Event;
-			AfspraakEvents.NieuweAfspraakToegevoegd += NieuweAfspraakToegevoegd_Event;
+            GlobalEvents.RefreshDataTimout += TimeOutLoading;
+            AfspraakEvents.NieuweAfspraakToegevoegd += NieuweAfspraakToegevoegd_Event;
 
 			//this.NavigationService.Navigate()
 			//TODO: :-)
 		}
-
-		private void NieuweAfspraakToegevoegd_Event(AfspraakDTO afspraak) {
+        public void TimeOutLoading() {
+			GlobalEvents._refreshTimer.Start();
+			GlobalEvents._refreshTimerTimout.Stop();
+        }
+        private void NieuweAfspraakToegevoegd_Event(AfspraakDTO afspraak) {
 			huidigeFilterAfspraken ??= AfsprakenLijstControl.ItemSource.ToList();
 			huidigeFilterAfspraken.Add(afspraak);
 		}

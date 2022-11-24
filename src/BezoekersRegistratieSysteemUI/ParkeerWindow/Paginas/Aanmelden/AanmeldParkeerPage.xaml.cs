@@ -10,11 +10,19 @@ using System.Windows;
 using System.Windows.Controls;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.ParkeerWindow;
+using BezoekersRegistratieSysteemUI.AanmeldWindow;
+using BezoekersRegistratieSysteemUI.Model;
 
 namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 	public partial class AanmeldParkeerPage : Page, INotifyPropertyChanged {
-		#region Scaling
-		public double ScaleX { get; set; }
+        #region Events
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        #endregion
+
+        #region Scaling
+        public double ScaleX { get; set; }
 		public double ScaleY { get; set; }
 		#endregion
 
@@ -33,9 +41,21 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 			}
 		}
 
-		#endregion
+        private BedrijfDTO _geselecteerdBedrijf;
+        public BedrijfDTO GeselecteerdBedrijf
+        {
+            get { return _geselecteerdBedrijf; }
+            set
+            {
+                if (value.Naam == _geselecteerdBedrijf?.Naam) return;
+                _geselecteerdBedrijf = value;
+                UpdatePropperty();
+            }
+        }
 
-		public AanmeldParkeerPage() {
+        #endregion
+
+        public AanmeldParkeerPage() {
 
 			double schermResolutieHeight = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight;
 			double schermResolutieWidth = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth;
@@ -49,12 +69,21 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 			ScaleX = (schermResolutieWidth / defaultResWidth);
 			ScaleY = (schermResolutieHeight / defaultResHeight) + change;
 
-			this.DataContext = this;
+            this.DataContext = this;
 			InitializeComponent();
+            
+            GeselecteerdBedrijf = AanmeldParkeerWindow.GeselecteerdBedrijf;
+
+            if (GeselecteerdBedrijf is null)
+            {
+                MessageBox.Show("Bedrijf is niet gekozen", "Error");
+                ((AanmeldParkeerWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
+                return;
+            }
 		}
 
 		#region Functies
-		private async void AanmeldenClick(object sender, RoutedEventArgs e) {
+		private async void AanmeldenKlik(object sender, RoutedEventArgs e) {
 			try {
 
 				if (Nummerplaat.IsLeeg()) {
@@ -64,9 +93,11 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 
 					CustomMessageBox messagebox = new CustomMessageBox();
 					var result = messagebox.Show($"Zijn ingevoerde gegevens correct?\n\nNummerplaat: {Nummerplaat}", "Bevestiging", ECustomMessageBoxIcon.Question);
-                    //if (result==ECustomMessageBoxResult.Sluit)
-                        //MaakParkeerplaats
-                    //else return;
+                    
+                //TODO STAN
+                //if (result==ECustomMessageBoxResult.Sluit)
+                //MaakParkeerplaats
+                //else return;
 
                 //await ApiController.Put<object>($"/parkeerplaats/ckeckin={Nummerplaat}");
 
@@ -80,6 +111,11 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
             GaTerugNaarKiesBedrijf();
 		}
 
+        private void AnnulerenKlik(object sender, RoutedEventArgs e)
+        {
+            GaTerugNaarKiesBedrijf();
+        }
+
         private void GaTerugNaarKiesBedrijf()
         {
             Nummerplaat = "";
@@ -90,7 +126,6 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
         #endregion
 
         #region ProppertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
 		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
