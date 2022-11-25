@@ -15,9 +15,9 @@ namespace BezoekersRegistratieSysteemCLI {
 
 			object result;
 
-			AfspraakRepoADOMS afspraakRepo = new(connectionString);
-			BedrijfRepoADOMS bedrijfRepo = new BedrijfRepoADOMS(connectionString);
-			WerknemerRepoADOMS werknemerRepo = new WerknemerRepoADOMS(connectionString);
+			AfspraakRepoADO afspraakRepo = new(connectionString);
+			BedrijfRepoADO bedrijfRepo = new BedrijfRepoADO(connectionString);
+			WerknemerRepoADO werknemerRepo = new WerknemerRepoADO(connectionString);
 
 			#region AfspraakRepo
 

@@ -39,14 +39,14 @@ switch (database) {
 	case "mssql": {
 			// Alle managers als singleton toevoegen
 			// dit omdat de API interract met de managers
-			IAfspraakRepository afspraakRepo = new AfspraakRepoADOMS(connectionstring);
-			IParkingContractRepository parkingContractRepo = new ParkingContractADOMS(connectionstring);
+			IAfspraakRepository afspraakRepo = new AfspraakRepoADO(connectionstring);
+			IParkingContractRepository parkingContractRepo = new ParkingContractADO(connectionstring);
 
-			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMS(connectionstring), afspraakRepo);
+			BedrijfManager bedrijfManager = new(new BedrijfRepoADO(connectionstring), afspraakRepo);
 			AfspraakManager afspraakManager = new(afspraakRepo);
-			WerknemerManager werknemerManager = new(new WerknemerRepoADOMS(connectionstring), afspraakRepo);
+			WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring), afspraakRepo);
 			ParkingContractManager parkingContractManager = new(parkingContractRepo);
-			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADOMS(connectionstring), parkingContractRepo);
+			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADO(connectionstring), parkingContractRepo);
 
 			builder.Services.AddSingleton(bedrijfManager);
 			builder.Services.AddSingleton(afspraakManager);
@@ -59,14 +59,14 @@ switch (database) {
 	case "mysql": {
 			// Alle managers als singleton toevoegen
 			// dit omdat de API interract met de managers
-			IAfspraakRepository afspraakRepo = new AfspraakRepoADOMySQL(connectionstring);
-			IParkingContractRepository parkingContractRepo = new ParkingContractADOMySQL(connectionstring);
+			IAfspraakRepository afspraakRepo = new AfspraakRepoMySQL(connectionstring);
+			IParkingContractRepository parkingContractRepo = new ParkingContractMySQL(connectionstring);
 
-			BedrijfManager bedrijfManager = new(new BedrijfRepoADOMySQL(connectionstring), afspraakRepo);
+			BedrijfManager bedrijfManager = new(new BedrijfRepoMySQL(connectionstring), afspraakRepo);
 			AfspraakManager afspraakManager = new(afspraakRepo);
-			WerknemerManager werknemerManager = new(new WerknemerRepoADOMySQL(connectionstring), afspraakRepo);
+			WerknemerManager werknemerManager = new(new WerknemerRepoMySQL(connectionstring), afspraakRepo);
 			ParkingContractManager parkingContractManager = new(parkingContractRepo);
-			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADOMySQL(connectionstring), parkingContractRepo);
+			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsMySQL(connectionstring), parkingContractRepo);
 
 			builder.Services.AddSingleton(bedrijfManager);
 			builder.Services.AddSingleton(afspraakManager);
