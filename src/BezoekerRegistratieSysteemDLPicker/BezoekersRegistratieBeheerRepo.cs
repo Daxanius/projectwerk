@@ -22,7 +22,7 @@ namespace BezoekerRegistratieSysteemDLPicker {
                         werknemerRepository = new WerknemerRepoMySQL(conString);
                         break;
                     default:
-                        throw new Exception("");
+                        throw new Exception("Database type not found.");
                 }
             } catch (Exception ex) {
                 throw new DLPickerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
