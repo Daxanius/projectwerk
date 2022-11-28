@@ -5,7 +5,7 @@ using BezoekersRegistratieSysteemDL.ADOMS;
 using BezoekersRegistratieSysteemDL.ADOMySQL;
 
 const string ENV_DB = "BRS_DATABASE";
-const string ENV_SQL_CONNECTION = "BRS_CONNECTION_STRING";
+//const string ENV_SQL_CONNECTION = "BRS_CONNECTION_STRING";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,9 +17,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-// Database technologie om te gebruiken
-string database = (builder.Configuration[ENV_DB] ?? "mysql").Trim().ToLower();
-
+// Database technologie om te gebruiken (ADO/MYSQL)
+string database = (builder.Configuration[ENV_DB] ?? "mysql").Trim().ToUpper();
+// Houd rekening met DB type nu (ADO/MYSQL)
+string ENV_SQL_CONNECTION = $"BRS_CONNECTION_STRING_{database}";
 // Pak de connectionstring van de omgevingsvariablen of de user secrets
 string? connectionstring = builder.Configuration[ENV_SQL_CONNECTION] ?? Environment.GetEnvironmentVariable(ENV_SQL_CONNECTION);
 
