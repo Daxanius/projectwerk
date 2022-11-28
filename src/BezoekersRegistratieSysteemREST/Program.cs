@@ -5,7 +5,7 @@ using BezoekersRegistratieSysteemDL.ADOMS;
 using BezoekersRegistratieSysteemDL.ADOMySQL;
 
 const string ENV_DB = "BRS_DATABASE";
-//const string ENV_SQL_CONNECTION = "BRS_CONNECTION_STRING";
+//const string ENV_SQL_CONNECTION = "BRS_CONNECTION_STRING_ADO";
 
 var builder = WebApplication.CreateBuilder(args);
 
