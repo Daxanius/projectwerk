@@ -391,25 +391,31 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
 			MySqlConnection con = GetConnection();
 			string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres, BTWChecked) " +
-						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked);" +
-                           "SELECT id FROM Bedrijf WHERE id = LAST_INSERT_ID();";
-			try {
-				using (MySqlCommand cmd = con.CreateCommand()) {
+						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked);";                          
+			string selectId = "SELECT id FROM Bedrijf WHERE id = LAST_INSERT_ID();";
+            try {
+				MySqlTransaction trans = con.BeginTransaction();
+				using (MySqlCommand cmdSelect = con.CreateCommand())
+				using (MySqlCommand cmdInsert = con.CreateCommand()) {
 					con.Open();
-					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@naam", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@btwNr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@TeleNr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@Email", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@Adres", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@BTWChecked", SqlDbType.Bit));
-					cmd.Parameters["@naam"].Value = bedrijf.Naam;
-					cmd.Parameters["@btwNr"].Value = bedrijf.BTW;
-					cmd.Parameters["@TeleNr"].Value = bedrijf.TelefoonNummer;
-					cmd.Parameters["@Email"].Value = bedrijf.Email;
-					cmd.Parameters["@Adres"].Value = bedrijf.Adres;
-					cmd.Parameters["@BTWChecked"].Value = bedrijf.BtwGeverifieerd;
-					long i = (long)cmd.ExecuteScalar();
+					cmdInsert.Transaction = trans;
+					cmdInsert.CommandText = query;
+					cmdInsert.Parameters.Add(new MySqlParameter("@naam", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@btwNr", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@TeleNr", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@Email", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@Adres", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@BTWChecked", SqlDbType.Bit));
+					cmdInsert.Parameters["@naam"].Value = bedrijf.Naam;
+					cmdInsert.Parameters["@btwNr"].Value = bedrijf.BTW;
+					cmdInsert.Parameters["@TeleNr"].Value = bedrijf.TelefoonNummer;
+					cmdInsert.Parameters["@Email"].Value = bedrijf.Email;
+					cmdInsert.Parameters["@Adres"].Value = bedrijf.Adres;
+					cmdInsert.Parameters["@BTWChecked"].Value = bedrijf.BtwGeverifieerd;
+					cmdInsert.ExecuteNonQuery();
+					cmdSelect.CommandText = selectId;
+					cmdSelect.Transaction = trans;
+					long i = (long)cmdSelect.ExecuteScalar();
 					bedrijf.ZetId(i);
 					return bedrijf;
 				}

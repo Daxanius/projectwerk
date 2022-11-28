@@ -481,47 +481,56 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public Afspraak VoegAfspraakToe(Afspraak afspraak) {
 			MySqlConnection con = GetConnection();
 			string queryBezoeker = "INSERT INTO Bezoeker(ANaam, VNaam, EMail, EigenBedrijf) " +
-								   "VALUES(@ANaam,@VNaam,@EMail,@EigenBedrijf);" +
-                                   "SELECT id FROM Bezoeker WHERE id = LAST_INSERT_ID();";
+								   "VALUES(@ANaam,@VNaam,@EMail,@EigenBedrijf);";
+			string queryBezoekerSelect = "SELECT id FROM Bezoeker WHERE id = LAST_INSERT_ID();";
 
 			string queryAfspraak = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, AfspraakStatusId, BezoekerId) " +
-								   "VALUES(@start,@eind,(SELECT Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId AND BedrijfId = @bedrijfId LIMIT 1), @AfspraakStatusId ,@bezoekerId);" +
-                                   "SELECT id FROM Afspraak WHERE id = LAST_INSERT_ID();";
+								   "VALUES(@start,@eind,(SELECT Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId AND BedrijfId = @bedrijfId LIMIT 1), @AfspraakStatusId ,@bezoekerId);";                               
+			string qeuryAfspraakSelect = "SELECT id FROM Afspraak WHERE id = LAST_INSERT_ID();"; 
 			con.Open();
 			MySqlTransaction trans = con.BeginTransaction();
 			try {
-				using (MySqlCommand cmdBezoeker = con.CreateCommand())
-				using (MySqlCommand cmdAfspraak = con.CreateCommand()) {
+				using (MySqlCommand cmdBezoekerSelect = con.CreateCommand())
+				using (MySqlCommand cmdAfspraakSelect = con.CreateCommand())
+				using (MySqlCommand cmdBezoekerInsert = con.CreateCommand())
+				using (MySqlCommand cmdAfspraakInsert = con.CreateCommand()) {
 					//Bezoeker portie
-					cmdBezoeker.Transaction = trans;
-					cmdBezoeker.CommandText = queryBezoeker;
-					cmdBezoeker.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
-					cmdBezoeker.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
-					cmdBezoeker.Parameters.Add(new MySqlParameter("@EMail", SqlDbType.VarChar));
-					cmdBezoeker.Parameters.Add(new MySqlParameter("@EigenBedrijf", SqlDbType.VarChar));
-					cmdBezoeker.Parameters["@ANaam"].Value = afspraak.Bezoeker.Achternaam;
-					cmdBezoeker.Parameters["@VNaam"].Value = afspraak.Bezoeker.Voornaam;
-					cmdBezoeker.Parameters["@EMail"].Value = afspraak.Bezoeker.Email;
-					cmdBezoeker.Parameters["@EigenBedrijf"].Value = afspraak.Bezoeker.Bedrijf;
-					long bezoekerId = (long)cmdBezoeker.ExecuteScalar();
+					cmdBezoekerInsert.Transaction = trans;
+					cmdBezoekerInsert.CommandText = queryBezoeker;
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@EMail", SqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@EigenBedrijf", SqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters["@ANaam"].Value = afspraak.Bezoeker.Achternaam;
+					cmdBezoekerInsert.Parameters["@VNaam"].Value = afspraak.Bezoeker.Voornaam;
+					cmdBezoekerInsert.Parameters["@EMail"].Value = afspraak.Bezoeker.Email;
+					cmdBezoekerInsert.Parameters["@EigenBedrijf"].Value = afspraak.Bezoeker.Bedrijf;
+					cmdBezoekerInsert.ExecuteNonQuery();
+					//TODO: miss dispose gebruiken
+
+					cmdBezoekerSelect.Transaction = trans;
+					cmdBezoekerSelect.CommandText = queryBezoekerSelect;
+					long bezoekerId = (long)cmdBezoekerSelect.ExecuteScalar();
 					//Afspraak portie
-					cmdAfspraak.Transaction = trans;
-					cmdAfspraak.CommandText = queryAfspraak;
-					cmdAfspraak.Parameters.Add(new MySqlParameter("@start", SqlDbType.DateTime));
-					cmdAfspraak.Parameters.Add(new MySqlParameter("@eind", SqlDbType.DateTime));
-					cmdAfspraak.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmdAfspraak.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmdAfspraak.Parameters.Add(new MySqlParameter("@AfspraakStatusId", SqlDbType.Int));
-					cmdAfspraak.Parameters.Add(new MySqlParameter("@bezoekerId", SqlDbType.BigInt));
-					cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
-					cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
-					cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
-					cmdAfspraak.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
-					cmdAfspraak.Parameters["@AfspraakStatusId"].Value = afspraak.Eindtijd is not null ? 5 : 1;
-                    cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
+					cmdAfspraakInsert.Transaction = trans;
+					cmdAfspraakInsert.CommandText = queryAfspraak;
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@start", SqlDbType.DateTime));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@eind", SqlDbType.DateTime));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@AfspraakStatusId", SqlDbType.Int));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@bezoekerId", SqlDbType.BigInt));
+					cmdAfspraakInsert.Parameters["@start"].Value = afspraak.Starttijd;
+					cmdAfspraakInsert.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+					cmdAfspraakInsert.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+					cmdAfspraakInsert.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
+					cmdAfspraakInsert.Parameters["@AfspraakStatusId"].Value = afspraak.Eindtijd is not null ? 5 : 1;
+					cmdAfspraakInsert.Parameters["@bezoekerId"].Value = bezoekerId;
+					cmdAfspraakInsert.ExecuteNonQuery();
 
-
-					long i = (long)cmdAfspraak.ExecuteScalar();
+					cmdAfspraakSelect.Transaction = trans;
+					cmdAfspraakSelect.CommandText = qeuryAfspraakSelect;
+                    long i = (long)cmdAfspraakSelect.ExecuteScalar();
 					afspraak.ZetId(i);
 					afspraak.Bezoeker.ZetId(bezoekerId);
 					trans.Commit();
