@@ -1,35 +1,54 @@
-﻿using BezoekersRegistratieSysteemDL.ADOMS;
+﻿using BezoekerRegistratieSysteemDLPicker;
+using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemBL.Managers;
+using BezoekersRegistratieSysteemDL.ADOMS;
 using Newtonsoft.Json;
 
 namespace BezoekersRegistratieSysteemCLI {
 	public class DataLaagCLI {
 		private const string sqlServerHost = @"SYSTEM64\SQLEXPRESS";
-		private const string database = "Test_Group";
-		private const string connectionString = $"Data Source={sqlServerHost};Initial Catalog={database};Integrated Security=True";
-
+		private const string databaseADO = "Test_Group";
+		private const string databaseMYSQL = "groupswork";
+        //private const string connectionString = $"Data Source={sqlServerHost};Initial Catalog={databaseADO};Integrated Security=True";
+        private const string connectionString = $"server=localhost;uid=root;pwd=root;database={databaseMYSQL}";
+		private const string databaseType = "MYSQL";
         static void Main() {
-			if (sqlServerHost == "" || database == "") {
+			//We zitten momenteel aan VoegAfspraakToe()
+			if (sqlServerHost == "" || (databaseADO == "" && databaseMYSQL == "")) {
 				Console.WriteLine("sqlServerHost en database moeten ingevult zijn.");
 				return;
 			}
 
+            BezoekersRegistratieBeheerRepo repos = null;
+            if (!Enum.TryParse<RepoType>(databaseType.ToUpper(), out RepoType repoType)) {
+                Console.WriteLine("Databse type niet geldig.");
+                return;
+            }
+			repos = DLPickerFactory.GeefRepositories(connectionString, repoType);
+
+
+            AfspraakManager afspraakRepo = new AfspraakManager(repos.afspraakrepository);
+			BedrijfManager bedrijfRepo = new BedrijfManager(repos.bedrijfRepository, repos.afspraakrepository);
+			WerknemerManager werknemerRepo = new WerknemerManager(repos.werknemerRepository, repos.afspraakrepository);
+			ParkeerplaatsManager parkeerRepo = new ParkeerplaatsManager(repos.parkeerplaatsRepository, repos.parkingContractRepository);
+			ParkingContractManager parkingRepo = new ParkingContractManager(repos.parkingContractRepository);
+
+			Bedrijf bestaandBedrijf = new Bedrijf(1, "allphi", "BE0838576480", true, "093961130", "info@allphi.be", "Guldensporenpark 24 9820 merelbeke");
+			Werknemer bestaandWerknemer = new Werknemer(38, "MArcella", "Lawrence");
+			bestaandWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(bestaandBedrijf, "MarcellaLawrence@allphi.be", "Logistiek");
 			object result;
 
-			AfspraakRepoADO afspraakRepo = new(connectionString);
-			BedrijfRepoADO bedrijfRepo = new BedrijfRepoADO(connectionString);
-			WerknemerRepoADO werknemerRepo = new WerknemerRepoADO(connectionString);
-
-			#region AfspraakRepo
+            #region AfspraakRepo
 
 
-			#region GeefHuidigeAfspraken()
-			//try {
-			//	result = afspraakRepo.GeefHuidigeAfspraken();
-			//	Print(result, "GeefHuidigeAfspraken");
-			//} catch (Exception ex) {
-			//	Error(ex);
-			//	return;
-			//}
+            #region VoegAfspraakToe()
+            try {
+				result = afspraakRepo.VoegAfspraakToe(new Afspraak(DateTime.Now, bestaandBedrijf, new Bezoeker("Dool", "Mans", "DoolMans@gmail.com", "Dool BVBA"), bestaandWerknemer));
+				Print(result, "VoegAfspraakToe");
+			} catch (Exception ex) {
+				Error(ex);
+				return;
+			}
 			#endregion
 
 			#region GeefHuidigeAfsprakenPerBedrijf(long bedrijfId)
