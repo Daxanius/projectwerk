@@ -14,7 +14,7 @@ namespace BezoekerRegistratieSysteemDLPicker {
                         parkingContractRepository = new ParkingContractADO(conString);
                         werknemerRepository = new WerknemerRepoADO(conString);
                         break;
-                    case RepoType.MySQL:
+                    case RepoType.MYSQL:
                         afspraakrepository = new AfspraakRepoMySQL(conString);
                         bedrijfRepository = new BedrijfRepoMySQL(conString);
                         parkeerplaatsRepository = new ParkeerPlaatsMySQL(conString);
