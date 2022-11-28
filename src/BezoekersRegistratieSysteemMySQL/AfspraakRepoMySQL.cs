@@ -101,16 +101,16 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					con.Open();
 					if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
 						query += " AND BezoekerId = (SELECT Id FROM Bezoeker WHERE Email = @mail ORDER BY Id DESC LIMIT 1)";
-						cmd.Parameters.Add(new MySqlParameter("@mail", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@mail", MySqlDbType.VarChar));
 						cmd.Parameters["@mail"].Value = bezoekerMail;
 					} else {
 						query += " AND id = @afspraakId";
-						cmd.Parameters.Add(new MySqlParameter("@afspraakId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@afspraakId", MySqlDbType.Int64));
 						cmd.Parameters["@afspraakId"].Value = afspraakId.Value;
 					}
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
-					cmd.Parameters.Add(new MySqlParameter("@Eindtijd", SqlDbType.DateTime));
+					cmd.Parameters.Add(new MySqlParameter("@statusId", MySqlDbType.Int32));
+					cmd.Parameters.Add(new MySqlParameter("@Eindtijd", MySqlDbType.DateTime));
 					cmd.Parameters["@statusId"].Value = statusId;
 					cmd.Parameters["@Eindtijd"].Value = DateTime.Now;
 					cmd.ExecuteNonQuery();
@@ -155,8 +155,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@afspraakid", SqlDbType.BigInt));
-					cmd.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
+					cmd.Parameters.Add(new MySqlParameter("@afspraakid", MySqlDbType.Int64));
+					cmd.Parameters.Add(new MySqlParameter("@statusId", MySqlDbType.Int32));
 					cmd.Parameters["@afspraakid"].Value = afspraakId;
 					cmd.Parameters["@statusId"].Value = statusId;
 					cmd.ExecuteNonQuery();
@@ -186,8 +186,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
 					cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
 					cmd.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
 					int i = (int)cmd.ExecuteScalar();
@@ -279,36 +279,36 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					if (afspraak is not null) {
 						if (afspraak.Id != 0) {
 							query += "WHERE a.Id = @id";
-							cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
+							cmd.Parameters.Add(new MySqlParameter("@id", MySqlDbType.Int64));
 							cmd.Parameters["@id"].Value = afspraak.Id;
 						} else {
 							query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 									 "WHERE bz.Email = @bmail AND a.eindTijd is null";
-							cmd.Parameters.Add(new MySqlParameter("@bmail", SqlDbType.VarChar));
+							cmd.Parameters.Add(new MySqlParameter("@bmail", MySqlDbType.VarChar));
 							cmd.Parameters["@bmail"].Value = afspraak.Bezoeker.Email;
 						}
 					}
 					//Afspraak Id
 					if (afspraakid.HasValue) {
 						query += "WHERE a.Id = @id";
-						cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@id", MySqlDbType.Int64));
 						cmd.Parameters["@id"].Value = afspraakid.Value;
 					}
 					//Bezoeker mail
 					if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
 						query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 								 "WHERE bz.Email = @bmail AND a.eindTijd is null";
-						cmd.Parameters.Add(new MySqlParameter("@bmail", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@bmail", MySqlDbType.VarChar));
 						cmd.Parameters["@bmail"].Value = bezoekerMail;
 					}
 					//Status Id
 					if (afspraakStatus.HasValue) {
 						query += " AND a.AfspraakStatusId = @statusId";
-						cmd.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
+						cmd.Parameters.Add(new MySqlParameter("@statusId", MySqlDbType.Int32));
 						cmd.Parameters["@statusId"].Value = afspraakStatus.Value;
 					}
 					cmd.CommandText = query;
-					int i = (int)cmd.ExecuteScalar();
+					long i = (long)cmd.ExecuteScalar();
 					return (i > 0);
 				}
 			} catch (Exception ex) {
@@ -356,19 +356,19 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					con.Open();
 					//Geeft de statusID van de afspraak die gevraagd werd.
 					cmdSelect.CommandText = querySelect;
-					cmdSelect.Parameters.Add(new MySqlParameter("@afspraakid", SqlDbType.BigInt));
+					cmdSelect.Parameters.Add(new MySqlParameter("@afspraakid", MySqlDbType.Int64));
 					cmdSelect.Parameters["@afspraakid"].Value = afspraak.Id;
 					int currentAfspraakStatusId = (int)cmdSelect.ExecuteScalar();
 					//Bewerkt de gevraagde afspraak.
 					cmdUpdate.CommandText = queryUpdate;
-					cmdUpdate.Parameters.Add(new MySqlParameter("@afspraakid", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@start", SqlDbType.DateTime));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@eind", SqlDbType.DateTime));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@bezoekerId", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@afspraakstatusId", SqlDbType.Int));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@functienaam", SqlDbType.VarChar));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@afspraakid", MySqlDbType.Int64));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@start", MySqlDbType.DateTime));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@eind", MySqlDbType.DateTime));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@bezoekerId", MySqlDbType.Int64));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@afspraakstatusId", MySqlDbType.Int32));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@functienaam", MySqlDbType.VarChar));
 					cmdUpdate.Parameters["@afspraakid"].Value = afspraak.Id;
 					cmdUpdate.Parameters["@start"].Value = afspraak.Starttijd;
 					cmdUpdate.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
@@ -424,7 +424,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@afspraakid", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@afspraakid", MySqlDbType.Int64));
 					cmd.Parameters["@afspraakid"].Value = afspraakId;
 					IDataReader reader = cmd.ExecuteReader();
 					Afspraak afspraak = null;
@@ -497,10 +497,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					//Bezoeker portie
 					cmdBezoekerInsert.Transaction = trans;
 					cmdBezoekerInsert.CommandText = queryBezoeker;
-					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
-					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
-					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@EMail", SqlDbType.VarChar));
-					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@EigenBedrijf", SqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@ANaam", MySqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@VNaam", MySqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@EMail", MySqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@EigenBedrijf", MySqlDbType.VarChar));
 					cmdBezoekerInsert.Parameters["@ANaam"].Value = afspraak.Bezoeker.Achternaam;
 					cmdBezoekerInsert.Parameters["@VNaam"].Value = afspraak.Bezoeker.Voornaam;
 					cmdBezoekerInsert.Parameters["@EMail"].Value = afspraak.Bezoeker.Email;
@@ -514,12 +514,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					//Afspraak portie
 					cmdAfspraakInsert.Transaction = trans;
 					cmdAfspraakInsert.CommandText = queryAfspraak;
-					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@start", SqlDbType.DateTime));
-					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@eind", SqlDbType.DateTime));
-					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@AfspraakStatusId", SqlDbType.Int));
-					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@bezoekerId", SqlDbType.BigInt));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@start", MySqlDbType.DateTime));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@eind", MySqlDbType.DateTime));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@AfspraakStatusId", MySqlDbType.Int32));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@bezoekerId", MySqlDbType.Int64));
 					cmdAfspraakInsert.Parameters["@start"].Value = afspraak.Starttijd;
 					cmdAfspraakInsert.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
 					cmdAfspraakInsert.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
@@ -641,17 +641,17 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					con.Open();
 					if (_bedrijfId.HasValue) {
 						query += " AND b.id = @bedrijfId";
-						cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
 						cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
 					}
 					if (_werknemerId.HasValue) {
 						query += " AND w.id = @werknemerId";
-						cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
 						cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
 					}
 					if (_bezoekerId.HasValue) {
 						query += " AND bz.id = @bezoekerId";
-						cmd.Parameters.Add(new MySqlParameter("@bezoekerId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@bezoekerId", MySqlDbType.Int64));
 						cmd.Parameters["@bezoekerId"].Value = _bezoekerId.Value;
 					}
 					query += " ORDER BY b.id, w.id, f.FunctieNaam";
@@ -850,37 +850,37 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					con.Open();
 					if (_bedrijfId.HasValue) {
 						query += " AND b.id = @bedrijfId";
-						cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
 						cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
 					}
 					if (_werknemerId.HasValue) {
 						query += " AND w.id = @werknemerId";
-						cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
 						cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
 					}
 					if (_bezoekerId.HasValue) {
 						query += " AND bz.id = @bezoekerId";
-						cmd.Parameters.Add(new MySqlParameter("@bezoekerId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@bezoekerId", MySqlDbType.Int64));
 						cmd.Parameters["@bezoekerId"].Value = _bezoekerId.Value;
 					}
 					if (!String.IsNullOrWhiteSpace(_bezoekerVNaam)) {
 						query += " AND bz.VNaam LIKE @VNaam";
-						cmd.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@VNaam", MySqlDbType.VarChar));
 						cmd.Parameters["@VNaam"].Value = $"%{_bezoekerVNaam}%";
 					}
 					if (!String.IsNullOrWhiteSpace(_bezoekerANaam)) {
 						query += " AND bz.ANaam LIKE @ANaam";
-						cmd.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@ANaam", MySqlDbType.VarChar));
 						cmd.Parameters["@ANaam"].Value = $"%{_bezoekerANaam}%";
 					}
 					if (!String.IsNullOrWhiteSpace(_bezoekerMail)) {
 						query += " AND bz.Email LIKE @Email";
-						cmd.Parameters.Add(new MySqlParameter("@Email", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@Email", MySqlDbType.VarChar));
 						cmd.Parameters["@Email"].Value = $"%{_bezoekerMail}%";
 					}
 					if (_datum.HasValue) {
 						query += " AND CONVERT(a.StartTijd, DATE) = @date";
-						cmd.Parameters.Add(new MySqlParameter("@date", SqlDbType.Date));
+						cmd.Parameters.Add(new MySqlParameter("@date", MySqlDbType.Date));
 						cmd.Parameters["@date"].Value = _datum.Value.Date;
 					}
 					query += " ORDER BY a.StartTijd DESC, b.id, w.id, f.FunctieNaam";
