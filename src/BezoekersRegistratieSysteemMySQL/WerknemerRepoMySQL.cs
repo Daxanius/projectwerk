@@ -76,7 +76,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     if (werknemer is not null) {
                         if (werknemer.Id != 0) {
                             query += "WHERE wn.id = @id";
-                            cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
+                            cmd.Parameters.Add(new MySqlParameter("@id", MySqlDbType.Int64));
                             cmd.Parameters["@id"].Value = werknemer.Id;
                         } else {
                             query += "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId) " +
@@ -84,7 +84,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                             int mailCount = 0;
                             foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
                                 query += $"@mail{mailCount},";
-                                cmd.Parameters.Add(new MySqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                                cmd.Parameters.Add(new MySqlParameter($"@mail{mailCount}", MySqlDbType.VarChar));
                                 cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
                                 mailCount++;
                             }
@@ -94,12 +94,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     }
                     if (werknemerId.HasValue) {
                         query += "WHERE wn.id = @id";
-                        cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
+                        cmd.Parameters.Add(new MySqlParameter("@id", MySqlDbType.Int64));
                         cmd.Parameters["@id"].Value = werknemerId;
 
                     }
                     cmd.CommandText = query;
-                    int i = (int)cmd.ExecuteScalar();
+                    long i = (long)cmd.ExecuteScalar();
 
                     //Kan uitgecomment worden als voor moest werknemer naam niet uitmaken wnr email bestaat
                     if (werknemer is not null && i > 0 && werknemer.Id == 0) {
@@ -111,18 +111,18 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                             int mailCount = 0;
                             foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
                                 queryWerknemerNaam += $"@mail{mailCount},";
-                                cmdWerknemerNaam.Parameters.Add(new MySqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                                cmdWerknemerNaam.Parameters.Add(new MySqlParameter($"@mail{mailCount}", MySqlDbType.VarChar));
                                 cmdWerknemerNaam.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
                                 mailCount++;
                             }
                             queryWerknemerNaam = queryWerknemerNaam.Substring(0, queryWerknemerNaam.Length - 1);
                             queryWerknemerNaam += ")";
                             cmdWerknemerNaam.CommandText = queryWerknemerNaam;
-                            cmdWerknemerNaam.Parameters.Add(new MySqlParameter("@Anaam", SqlDbType.VarChar));
-                            cmdWerknemerNaam.Parameters.Add(new MySqlParameter("@Vnaam", SqlDbType.VarChar));
+                            cmdWerknemerNaam.Parameters.Add(new MySqlParameter("@Anaam", MySqlDbType.VarChar));
+                            cmdWerknemerNaam.Parameters.Add(new MySqlParameter("@Vnaam", MySqlDbType.VarChar));
                             cmdWerknemerNaam.Parameters["@Anaam"].Value = werknemer.Achternaam;
                             cmdWerknemerNaam.Parameters["@Vnaam"].Value = werknemer.Voornaam;
-                            int j = (int)cmdWerknemerNaam.ExecuteScalar();
+                            long j = (long)cmdWerknemerNaam.ExecuteScalar();
                             if (j == 0) {
                                 throw new Exception("Werknemer mail is niet aan deze werknemer naam gelinked");
                             }
@@ -165,7 +165,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
 					cmd.Parameters["@werknemerId"].Value = _werknemerId;
 					IDataReader reader = cmd.ExecuteReader();
 					Werknemer werknemer = null;
@@ -279,22 +279,22 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					con.Open();
 					if (_bedrijfId.HasValue) {
 						query += " AND b.id = @bedrijfId";
-						cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
 						cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
 					}
 					if (!String.IsNullOrWhiteSpace(_voornaam)) {
 						query += " AND wn.VNaam LIKE @VNaam";
-						cmd.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@VNaam", MySqlDbType.VarChar));
 						cmd.Parameters["@VNaam"].Value = $"%{_voornaam}%";
 					}
 					if (!String.IsNullOrWhiteSpace(_achternaam)) {
 						query += " AND wn.ANaam LIKE @ANaam";
-						cmd.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@ANaam", MySqlDbType.VarChar));
 						cmd.Parameters["@ANaam"].Value = $"%{_achternaam}%";
 					}
 					if (!String.IsNullOrWhiteSpace(_functie)) {
 						query += " AND f.FunctieNaam = @functie";
-						cmd.Parameters.Add(new MySqlParameter("@functie", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@functie", MySqlDbType.VarChar));
 						cmd.Parameters["@functie"].Value = _functie;
 					}
 					query += " ORDER BY wn.VNaam, wn.ANaam, b.id, wn.id";
@@ -394,12 +394,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					con.Open();
 					if (!String.IsNullOrWhiteSpace(functie)) {
 						query += " AND FunctieId = (SELECT Id FROM FUNCTIE WHERE FunctieNaam = @FunctieNaam)";
-						cmd.Parameters.Add(new MySqlParameter("@FunctieNaam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@FunctieNaam", MySqlDbType.VarChar));
 						cmd.Parameters["@FunctieNaam"].Value = functie;
 					}
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
+					cmd.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
 					cmd.Parameters["@bedrijfId"].Value = bedrijf.Id;
 					cmd.Parameters["@werknemerId"].Value = werknemer.Id;
 					cmd.ExecuteNonQuery();
@@ -432,10 +432,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = queryInsert;
-					cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmd.Parameters.Add(new MySqlParameter("@email", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@FunctieNaam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
+					cmd.Parameters.Add(new MySqlParameter("@email", MySqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@FunctieNaam", MySqlDbType.VarChar));
 					cmd.Parameters["@werknemerId"].Value = werknemer.Id;
 					cmd.Parameters["@bedrijfId"].Value = werknemerInfo.Bedrijf.Id;
 					cmd.Parameters["@email"].Value = werknemerInfo.Email;
@@ -469,8 +469,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmdInsert = con.CreateCommand()) {
 					cmdInsert.Transaction = trans;
 					cmdInsert.CommandText = queryInsert;
-					cmdInsert.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
-					cmdInsert.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@VNaam", MySqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@ANaam", MySqlDbType.VarChar));
 					cmdInsert.Parameters["@VNaam"].Value = werknemer.Voornaam;
 					cmdInsert.Parameters["@ANaam"].Value = werknemer.Achternaam;
 					cmdInsert.ExecuteNonQuery();
@@ -520,24 +520,24 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		//                    cmdCheck.CommandText = queryDoesJobExist;
 
 		//                    if (!bestaatJob) {
-		//                        cmdCheck.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
-		//                        cmdCheck.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
-		//                        cmdCheck.Parameters.Add(new MySqlParameter("@functieNaam", SqlDbType.VarChar));
+		//                        cmdCheck.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
+		//                        cmdCheck.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
+		//                        cmdCheck.Parameters.Add(new MySqlParameter("@functieNaam", MySqlDbType.VarChar));
 		//                    }
 
 		//                    cmdCheck.Parameters["@werknemerId"].Value = werknemer.Id;
 		//                    cmdCheck.Parameters["@bedrijfId"].Value = kvpBedrijf.Key.Id;
 		//                    cmdCheck.Parameters["@functieNaam"].Value = functieNaam;
 
-		//                    int i = (int)cmdCheck.ExecuteScalar();
+		//                    long i = (long)cmdCheck.ExecuteScalar();
 		//                    if (i == 0) {
 		//                        cmd.CommandText = queryInsert;
 
 		//                        if (!bestaatJob) {
-		//                            cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
-		//                            cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
-		//                            cmd.Parameters.Add(new MySqlParameter("@email", SqlDbType.VarChar));
-		//                            cmd.Parameters.Add(new MySqlParameter("@FunctieNaam", SqlDbType.VarChar));
+		//                            cmd.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
+		//                            cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
+		//                            cmd.Parameters.Add(new MySqlParameter("@email", MySqlDbType.VarChar));
+		//                            cmd.Parameters.Add(new MySqlParameter("@FunctieNaam", MySqlDbType.VarChar));
 
 		//                            bestaatJob = true;
 		//                        }
@@ -582,9 +582,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmdWerknemerBedrijf.Transaction = trans;
 					//Portie werknemer
 					cmdWerknemer.CommandText = queryWerknemer;
-					cmdWerknemer.Parameters.Add(new MySqlParameter("@Id", SqlDbType.BigInt));
-					cmdWerknemer.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
-					cmdWerknemer.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
+					cmdWerknemer.Parameters.Add(new MySqlParameter("@Id", MySqlDbType.Int64));
+					cmdWerknemer.Parameters.Add(new MySqlParameter("@VNaam", MySqlDbType.VarChar));
+					cmdWerknemer.Parameters.Add(new MySqlParameter("@ANaam", MySqlDbType.VarChar));
 					cmdWerknemer.Parameters["@Id"].Value = werknemer.Id;
 					cmdWerknemer.Parameters["@VNaam"].Value = werknemer.Voornaam;
 					cmdWerknemer.Parameters["@ANaam"].Value = werknemer.Achternaam;
@@ -592,9 +592,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					//Portie werknemerBedrijf
 					string queryWerknemerBedrijf = "UPDATE WerknemerBedrijf SET WerknemerEMail = @mail WHERE WerknemerId = @Wid AND Bedrijfid = @Bid";
 					cmdWerknemerBedrijf.CommandText = queryWerknemerBedrijf;
-					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@mail", SqlDbType.VarChar));
-					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@Wid", SqlDbType.BigInt));
-					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@Bid", SqlDbType.BigInt));
+					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@mail", MySqlDbType.VarChar));
+					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@Wid", MySqlDbType.Int64));
+					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@Bid", MySqlDbType.Int64));
 					cmdWerknemerBedrijf.Parameters["@mail"].Value = werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].Email;
 					cmdWerknemerBedrijf.Parameters["@Wid"].Value = werknemer.Id;
 					cmdWerknemerBedrijf.Parameters["@Bid"].Value = bedrijf.Id;
@@ -626,9 +626,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@fNaam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@fNaam", MySqlDbType.VarChar));
 					cmd.Parameters["@fNaam"].Value = functieNaam;
-					int i = (int)cmd.ExecuteScalar();
+					long i = (long)cmd.ExecuteScalar();
 					return (i > 0);
 				}
 			} catch (Exception ex) {
@@ -653,7 +653,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@fNaam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@fNaam", MySqlDbType.VarChar));
 					cmd.Parameters["@fNaam"].Value = functieNaam;
 					cmd.ExecuteNonQuery();
 				}
@@ -692,7 +692,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
 					cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
                     List<Werknemer> werknemers = new List<Werknemer>();
                     Werknemer werknemer = null;
@@ -757,7 +757,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
 					cmd.Parameters["@bedrijfId"].Value = _bedrijfId;
                     List<Werknemer> werknemers = new List<Werknemer>();
                     Werknemer werknemer = null;
@@ -815,7 +815,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     int mailCount = 0;
                     foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
                         query += $"@mail{mailCount},";
-                        cmd.Parameters.Add(new MySqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+                        cmd.Parameters.Add(new MySqlParameter($"@mail{mailCount}", MySqlDbType.VarChar));
                         cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
                         mailCount++;
                     }
