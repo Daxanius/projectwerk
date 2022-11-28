@@ -46,25 +46,25 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     con.Open();
                     if (parkingContract.Bedrijf.Id != 0) {
                         query += " WHERE pc.BedrijfId = @BedrijfId";
-                        cmd.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
+                        cmd.Parameters.Add(new MySqlParameter("@BedrijfId", MySqlDbType.Int64));
                         cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
                     } else {
                         query += " JOIN Bedrijf b ON(pc.bedrijfId = b.Id) " +
                                  "WHERE b.BTWNr = @BTWNr";
-                        cmd.Parameters.Add(new MySqlParameter("@BTWNr", SqlDbType.VarChar));
+                        cmd.Parameters.Add(new MySqlParameter("@BTWNr", MySqlDbType.VarChar));
                         cmd.Parameters["@BTWNr"].Value = parkingContract.Bedrijf.BTW;
                     }
                     query += " AND pc.StartTijd = @StartTijd " +
                              "AND pc.EindTijd = @EindTijd " +
                              "AND pc.AantalPlaatsen = @AantalPlaatsen";
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new MySqlParameter("@StartTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new MySqlParameter("@AantalPlaatsen", SqlDbType.Int));
+                    cmd.Parameters.Add(new MySqlParameter("@StartTijd", MySqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", MySqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@AantalPlaatsen", MySqlDbType.Int32));
                     cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
                     cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
                     cmd.Parameters["@AantalPlaatsen"].Value = parkingContract.AantalPlaatsen;
-                    int i = (int)cmd.ExecuteScalar();
+                    long i = (long)cmd.ExecuteScalar();
                     return (i > 0);
                 }
             } catch (Exception ex) {
@@ -88,10 +88,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new MySqlParameter("@StartTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new MySqlParameter("@AantalPlaatsen", SqlDbType.Int));
-                    cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new MySqlParameter("@StartTijd", MySqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", MySqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@AantalPlaatsen", MySqlDbType.Int32));
+                    cmd.Parameters.Add(new MySqlParameter("@id", MySqlDbType.Int64));
                     cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
                     cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
                     cmd.Parameters["@AantalPlaatsen"].Value = parkingContract.AantalPlaatsen;
@@ -121,8 +121,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new MySqlParameter("@vandaagDatum", SqlDbType.Date));
-                    cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new MySqlParameter("@vandaagDatum", MySqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
                     cmd.Parameters["@StartTijd"].Value = DateTime.Today;
                     cmd.Parameters["@bedrijfId"].Value = bedrijfId;
                     IDataReader reader = cmd.ExecuteReader();
@@ -165,7 +165,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new MySqlParameter("@id", MySqlDbType.Int64));
                     cmd.Parameters["@id"].Value = parkingContract.Id;
                     cmd.ExecuteNonQuery();
                 }
@@ -191,10 +191,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmdInsert = con.CreateCommand()) {
                     cmdInsert.Transaction = trans;
                     cmdInsert.CommandText = queryInsert;
-                    cmdInsert.Parameters.Add(new MySqlParameter("@StartTijd", SqlDbType.Date));
-                    cmdInsert.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.Date));
-                    cmdInsert.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
-                    cmdInsert.Parameters.Add(new MySqlParameter("@AantalPlaatsen", SqlDbType.Int));
+                    cmdInsert.Parameters.Add(new MySqlParameter("@StartTijd", MySqlDbType.Date));
+                    cmdInsert.Parameters.Add(new MySqlParameter("@EindTijd", MySqlDbType.Date));
+                    cmdInsert.Parameters.Add(new MySqlParameter("@BedrijfId", MySqlDbType.Int64));
+                    cmdInsert.Parameters.Add(new MySqlParameter("@AantalPlaatsen", MySqlDbType.Int32));
                     cmdInsert.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
                     cmdInsert.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
                     cmdInsert.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
@@ -227,12 +227,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     con.Open();
                     if (parkingContract.Bedrijf.Id != 0) {
                         query += " WHERE pc.BedrijfId = @BedrijfId";
-                        cmd.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
+                        cmd.Parameters.Add(new MySqlParameter("@BedrijfId", MySqlDbType.Int64));
                         cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
                     } else {
                         query += " JOIN Bedrijf b ON(pc.bedrijfId = b.Id) " +
                                  "WHERE b.BTWNr = @BTWNr";
-                        cmd.Parameters.Add(new MySqlParameter("@BTWNr", SqlDbType.VarChar));
+                        cmd.Parameters.Add(new MySqlParameter("@BTWNr", MySqlDbType.VarChar));
                         cmd.Parameters["@BTWNr"].Value = parkingContract.Bedrijf.BTW;
                     }
                     query += " AND ((@startTijd BETWEEN pc.StartTijd AND pc.EindTijd) OR " +
@@ -240,11 +240,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                              "(@startTijd < pc.StartTijd AND @eindTijd > pc.EindTijd) OR " +
                              "(@startTijd > pc.StartTijd AND @eindTijd < pc.EindTijd))";
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new MySqlParameter("@startTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new MySqlParameter("@eindTijd", SqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@startTijd", MySqlDbType.Date));
+                    cmd.Parameters.Add(new MySqlParameter("@eindTijd", MySqlDbType.Date));
                     cmd.Parameters["@startTijd"].Value = parkingContract.Starttijd.Date;
                     cmd.Parameters["@eindTijd"].Value = parkingContract.Eindtijd.Date;
-                    int i = (int)cmd.ExecuteScalar();
+                    long i = (long)cmd.ExecuteScalar();
                     return (i > 0);
                 }
             } catch (Exception ex) {
