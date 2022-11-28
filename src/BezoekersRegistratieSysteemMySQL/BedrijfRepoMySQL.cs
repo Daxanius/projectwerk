@@ -222,8 +222,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
 							string bedrijfMail = (string)reader["BedrijfMail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBtwCheck = (bool)reader["BTWChecked"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBtwCheck, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 						}
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
 							if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
@@ -285,8 +285,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
 							string bedrijfMail = (string)reader["BedrijfMail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBtwCheck = (bool)reader["BTWChecked"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBtwCheck, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 							bedrijven.Add(bedrijf);
 						}
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {

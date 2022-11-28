@@ -185,13 +185,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								string bedrijfTele = (string)reader["bedrijfTele"];
 								string bedrijfMail = (string)reader["BedrijfMail"];
 								string bedrijfAdres = (string)reader["BedrijfAdres"];
-								bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-								bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+                                bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+                                bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
 							}
 							string werknemerMail = (string)reader["WerknemerEmail"];
 							string functieNaam = (string)reader["functienaam"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-                            string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+                            string statusNaam = (long)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
                             werknemer.ZetStatusNaamPerBedrijf(bedrijf, statusNaam);
 						}
 					}
@@ -319,13 +319,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								string bedrijfTele = (string)reader["BedrijfTeleNr"];
 								string bedrijfMail = (string)reader["BedrijfMail"];
 								string bedrijfAdres = (string)reader["BedrijfAdres"];
-								bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-								bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+                                bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+                                bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
 							}
 							string werknemerMail = (string)reader["WerknemerEmail"];
 							string functieNaam = (string)reader["functienaam"];
 							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
-                            string statusNaam = (int)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+                            string statusNaam = (long)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
 							werknemer.ZetStatusNaamPerBedrijf(bedrijf, statusNaam);
 						}
 					}
@@ -706,8 +706,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string bedrijfTele = (string)reader["BedrijfTeleNr"];
 							string bedrijfMail = (string)reader["BedrijfMail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+                            bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
 						}
 						if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
 							long werknemerId = (long)reader["WerknemerId"];
@@ -771,8 +771,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string bedrijfTele = (string)reader["BedrijfTeleNr"];
 							string bedrijfMail = (string)reader["BedrijfMail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+                            bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
 						}
 						if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
 							long werknemerId = (long)reader["WerknemerId"];

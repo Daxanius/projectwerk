@@ -445,7 +445,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						string bedrijfTeleNr = (string)reader["TeleNr"];
 						string bedrijfMail = (string)reader["BedrijfEmail"];
 						string bedrijfAdres = (string)reader["BedrijfAdres"];
-						bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+						bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
 						//werknemer portie
 						long werknemerId = (long)reader["WerknemerId"];
 						string werknemerANaam = (string)reader["WerknemerANaam"];
@@ -681,7 +681,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string bedrijfTeleNr = (string)reader["TeleNr"];
 							string bedrijfMail = (string)reader["BedrijfEmail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+							bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
 							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 						}
 						//werknemer portie
@@ -911,7 +911,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string bedrijfTeleNr = (string)reader["TeleNr"];
 							string bedrijfMail = (string)reader["BedrijfEmail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+                            bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
 							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTWNr, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 						}
 						//werknemer portie
