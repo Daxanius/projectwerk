@@ -30,6 +30,13 @@ if (connectionstring is null) {
 // Weer een Microsoft quirk...
 connectionstring = connectionstring.Replace("\\\\", "\\");
 
+// Lege repos declareren
+IAfspraakRepository afspraakRepo;
+IBedrijfRepository bedrijfRepo;
+IWerknemerRepository werknemerRepo;
+IParkingContractRepository parkingContractRepo;
+IParkeerplaatsRepository parkeerplaatsRepo;
+
 // Dit zorgt ervoor dat we een database technologie kunnen kiezen
 // bij het opstarten van onze service.
 switch (database) {
@@ -37,52 +44,41 @@ switch (database) {
 	case "express":
 	case "msserver":
 	case "mssql": {
-			// Alle managers als singleton toevoegen
-			// dit omdat de API interract met de managers
-			IAfspraakRepository afspraakRepo = new AfspraakRepoADO(connectionstring);
-			IParkingContractRepository parkingContractRepo = new ParkingContractADO(connectionstring);
-
-			BedrijfManager bedrijfManager = new(new BedrijfRepoADO(connectionstring), afspraakRepo);
-			AfspraakManager afspraakManager = new(afspraakRepo);
-			WerknemerManager werknemerManager = new(new WerknemerRepoADO(connectionstring), afspraakRepo);
-			ParkingContractManager parkingContractManager = new(parkingContractRepo);
-			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsADO(connectionstring), parkingContractRepo);
-
-			builder.Services.AddSingleton(bedrijfManager);
-			builder.Services.AddSingleton(afspraakManager);
-			builder.Services.AddSingleton(werknemerManager);
-			builder.Services.AddSingleton(parkingContractManager);
-			builder.Services.AddSingleton(parkeerplaatsManager);
-
+			afspraakRepo = new AfspraakRepoADO(connectionstring);
+			bedrijfRepo = new BedrijfRepoADO(connectionstring);
+			werknemerRepo = new WerknemerRepoADO(connectionstring);
+			parkingContractRepo = new ParkingContractADO(connectionstring);
+			parkeerplaatsRepo = new ParkeerPlaatsADO(connectionstring);
 			break;
 		}
 	case "mysql": {
-			// Alle managers als singleton toevoegen
-			// dit omdat de API interract met de managers
-			IAfspraakRepository afspraakRepo = new AfspraakRepoMySQL(connectionstring);
-			IParkingContractRepository parkingContractRepo = new ParkingContractMySQL(connectionstring);
-
-			BedrijfManager bedrijfManager = new(new BedrijfRepoMySQL(connectionstring), afspraakRepo);
-			AfspraakManager afspraakManager = new(afspraakRepo);
-			WerknemerManager werknemerManager = new(new WerknemerRepoMySQL(connectionstring), afspraakRepo);
-			ParkingContractManager parkingContractManager = new(parkingContractRepo);
-			ParkeerplaatsManager parkeerplaatsManager = new(new ParkeerPlaatsMySQL(connectionstring), parkingContractRepo);
-
-			builder.Services.AddSingleton(bedrijfManager);
-			builder.Services.AddSingleton(afspraakManager);
-			builder.Services.AddSingleton(werknemerManager);
-			builder.Services.AddSingleton(parkingContractManager);
-			builder.Services.AddSingleton(parkeerplaatsManager);
-
+			afspraakRepo = new AfspraakRepoMySQL(connectionstring);
+			bedrijfRepo = new BedrijfRepoMySQL(connectionstring);
+			werknemerRepo = new WerknemerRepoMySQL(connectionstring);
+			parkingContractRepo = new ParkingContractMySQL(connectionstring);
+			parkeerplaatsRepo = new ParkeerPlaatsMySQL(connectionstring);;
 			break;
 		}
 	default: {
 			Console.WriteLine($"Implementatie niet gevonden voor: \"{database}\"");
 			Console.WriteLine($"U kunt een implementatie selecteren door \"{ENV_DB}\" te specifieren in uw appsettings");
-			Environment.Exit(1);
-			break;
+			return;
 		}
 }
+
+// Alle managers als singleton toevoegen
+// dit omdat de API interract met de managers
+BedrijfManager bedrijfManager = new(bedrijfRepo, afspraakRepo);
+AfspraakManager afspraakManager = new(afspraakRepo);
+WerknemerManager werknemerManager = new(werknemerRepo, afspraakRepo);
+ParkingContractManager parkingContractManager = new(parkingContractRepo);
+ParkeerplaatsManager parkeerplaatsManager = new(parkeerplaatsRepo, parkingContractRepo);
+
+builder.Services.AddSingleton(bedrijfManager);
+builder.Services.AddSingleton(afspraakManager);
+builder.Services.AddSingleton(werknemerManager);
+builder.Services.AddSingleton(parkingContractManager);
+builder.Services.AddSingleton(parkeerplaatsManager);
 
 var app = builder.Build();
 
