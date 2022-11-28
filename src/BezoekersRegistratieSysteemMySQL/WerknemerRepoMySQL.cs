@@ -460,17 +460,24 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <remarks>Voegt een entry toe aan de werknemer tabel in de databank.</remarks>
 		public Werknemer VoegWerknemerToe(Werknemer werknemer) {
 			MySqlConnection con = GetConnection();
-			string query = "INSERT INTO Werknemer (VNaam, ANaam) VALUES (@VNaam, @ANaam);" +
-                           "SELECT id FROM Werknemer WHERE id = LAST_INSERT_ID();";
+			string queryInsert = "INSERT INTO Werknemer (VNaam, ANaam) VALUES (@VNaam, @ANaam);";
+            string querySelect = "SELECT id FROM Werknemer WHERE id = LAST_INSERT_ID();";
 			try {
-				using (MySqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
-					cmd.Parameters["@VNaam"].Value = werknemer.Voornaam;
-					cmd.Parameters["@ANaam"].Value = werknemer.Achternaam;
-					long i = (long)cmd.ExecuteScalar();
+				con.Open();
+				MySqlTransaction trans = con.BeginTransaction();
+				using (MySqlCommand cmdSelect = con.CreateCommand())
+				using (MySqlCommand cmdInsert = con.CreateCommand()) {
+					cmdInsert.Transaction = trans;
+					cmdInsert.CommandText = queryInsert;
+					cmdInsert.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
+					cmdInsert.Parameters["@VNaam"].Value = werknemer.Voornaam;
+					cmdInsert.Parameters["@ANaam"].Value = werknemer.Achternaam;
+					cmdInsert.ExecuteNonQuery();
+
+					cmdSelect.Transaction = trans;
+					cmdSelect.CommandText = querySelect;
+					long i = (long)cmdInsert.ExecuteScalar();
 					werknemer.ZetId(i);
 					////Dit voegt de bedrijven/functie toe aan uw werknemer in de DB
 					//VoegFunctieToeAanWerknemer(werknemer);

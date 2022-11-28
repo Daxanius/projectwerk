@@ -394,10 +394,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked);";                          
 			string selectId = "SELECT id FROM Bedrijf WHERE id = LAST_INSERT_ID();";
             try {
+				con.Open();
 				MySqlTransaction trans = con.BeginTransaction();
 				using (MySqlCommand cmdSelect = con.CreateCommand())
 				using (MySqlCommand cmdInsert = con.CreateCommand()) {
-					con.Open();
 					cmdInsert.Transaction = trans;
 					cmdInsert.CommandText = query;
 					cmdInsert.Parameters.Add(new MySqlParameter("@naam", SqlDbType.VarChar));
@@ -413,8 +413,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmdInsert.Parameters["@Adres"].Value = bedrijf.Adres;
 					cmdInsert.Parameters["@BTWChecked"].Value = bedrijf.BtwGeverifieerd;
 					cmdInsert.ExecuteNonQuery();
-					cmdSelect.CommandText = selectId;
+
 					cmdSelect.Transaction = trans;
+					cmdSelect.CommandText = selectId;
 					long i = (long)cmdSelect.ExecuteScalar();
 					bedrijf.ZetId(i);
 					return bedrijf;
