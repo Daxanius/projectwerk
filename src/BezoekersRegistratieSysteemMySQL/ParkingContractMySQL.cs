@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemDL.ADOMySQL {
-    public class ParkingContractADOMySQL : IParkingContractRepository {
+    public class ParkingContractMySQL : IParkingContractRepository {
         /// <summary>
         /// Private lokale variabele connectiestring
         /// </summary>
@@ -21,7 +21,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// </summary>
         /// <param name="connectieString">Connectie string database</param>
         /// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-        public ParkingContractADOMySQL(string connectieString) {
+        public ParkingContractMySQL(string connectieString) {
             _connectieString = connectieString;
         }
 
@@ -68,7 +68,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -99,7 +99,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -146,7 +146,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     return contract;
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -170,7 +170,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -181,26 +181,33 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// </summary>
         public void VoegParkingContractToe(ParkingContract parkingContract) {
             MySqlConnection con = GetConnection();
-            string query = "INSERT INTO ParkingContract(StartTijd, EindTijd, BedrijfId, AantalPlaatsen) " +
-                           "VALUES(@StartTijd, @EindTijd, @BedrijfId, @AantalPlaatsen);" +
-                           "SELECT id FROM ParkingContract WHERE id = LAST_INSERT_ID();";
+            string queryInsert = "INSERT INTO ParkingContract(StartTijd, EindTijd, BedrijfId, AantalPlaatsen) " +
+                           "VALUES(@StartTijd, @EindTijd, @BedrijfId, @AantalPlaatsen);";
+            string querySelect = "SELECT id FROM ParkingContract WHERE id = LAST_INSERT_ID();";
             try {
-                using (MySqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    cmd.CommandText = query;
-                    cmd.Parameters.Add(new MySqlParameter("@StartTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.Date));
-                    cmd.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
-                    cmd.Parameters.Add(new MySqlParameter("@AantalPlaatsen", SqlDbType.Int));
-                    cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
-                    cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
-                    cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
-                    cmd.Parameters["@AantalPlaatsen"].Value = parkingContract.AantalPlaatsen;
-                    long i = (long)cmd.ExecuteScalar();
+                con.Open();
+                MySqlTransaction trans = con.BeginTransaction();
+                using (MySqlCommand cmdSelect = con.CreateCommand())
+                using (MySqlCommand cmdInsert = con.CreateCommand()) {
+                    cmdInsert.Transaction = trans;
+                    cmdInsert.CommandText = queryInsert;
+                    cmdInsert.Parameters.Add(new MySqlParameter("@StartTijd", SqlDbType.Date));
+                    cmdInsert.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.Date));
+                    cmdInsert.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
+                    cmdInsert.Parameters.Add(new MySqlParameter("@AantalPlaatsen", SqlDbType.Int));
+                    cmdInsert.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
+                    cmdInsert.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
+                    cmdInsert.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
+                    cmdInsert.Parameters["@AantalPlaatsen"].Value = parkingContract.AantalPlaatsen;
+                    cmdInsert.ExecuteNonQuery();
+
+                    cmdSelect.Transaction = trans;
+                    cmdSelect.CommandText = querySelect;
+                    long i = (long)cmdSelect.ExecuteScalar();
                     parkingContract.ZetId(i);
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -241,7 +248,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }

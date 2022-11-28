@@ -6,7 +6,7 @@ using System.Data;
 
 namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 
-	public class WerknemerRepoADOMySQL : IWerknemerRepository {
+	public class WerknemerRepoMySQL : IWerknemerRepository {
 
 		/// <summary>
 		/// Private lokale variabele connectiestring
@@ -18,7 +18,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="connectieString">Connectie string database</param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-		public WerknemerRepoADOMySQL(string connectieString) {
+		public WerknemerRepoMySQL(string connectieString) {
 			_connectieString = connectieString;
 		}
 
@@ -35,12 +35,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="werknemer">Werknemer object dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="WerknemerADOException">Faalt om bestaan werknemer te verifiëren op basis van het werknemer object.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt om bestaan werknemer te verifiëren op basis van het werknemer object.</exception>
 		public bool BestaatWerknemer(Werknemer werknemer) {
 			try {
 				return BestaatWerknemer(werknemer, null);
 			} catch (Exception ex) {
-				throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -49,12 +49,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="id">Id van de werknemer die gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="WerknemerADOException">Faalt om bestaan werknemer te verifiëren op basis van het werknemer id.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt om bestaan werknemer te verifiëren op basis van het werknemer id.</exception>
 		public bool BestaatWerknemer(long id) {
 			try {
 				return BestaatWerknemer(null, id);
 			} catch (Exception ex) {
-				throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -64,8 +64,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// <param name="werknemer">Optioneel: Werknemer object dat gecontroleerd wenst te worden.</param>
         /// <param name="werknemerId">Optioneel: Id van de werknemer die gecontroleerd wenst te worden.</param>
         /// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-        /// <exception cref="WerknemerADOException">Faalt om bestaan werknemer te verifiëren op basis van werknemer id of werknemer object.</exception>
-        /// <exception cref="WerknemerADOException">Als het email pad neemt en naam wijkt af is er exception.</exception>
+        /// <exception cref="WerknemerMySQLException">Faalt om bestaan werknemer te verifiëren op basis van werknemer id of werknemer object.</exception>
+        /// <exception cref="WerknemerMySQLException">Als het email pad neemt en naam wijkt af is er exception.</exception>
         private bool BestaatWerknemer(Werknemer? werknemer, long? werknemerId) {
             MySqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
@@ -132,7 +132,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     
                 }
             } catch (Exception ex) {
-                WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("werknemer", werknemer);
                 exx.Data.Add("werknemerId", werknemerId);
                 throw exx;
@@ -146,7 +146,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="_werknemerId">Id van de gewenste werknemer.</param>
 		/// <returns>Gewenst werknemer object</returns>
-		/// <exception cref="WerknemerADOException">Faalt om werknemer object op te halen op basis van het id.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt om werknemer object op te halen op basis van het id.</exception>
 		public Werknemer GeefWerknemer(long _werknemerId) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.Vnaam as WerknemerVnaam, wn.Anaam as WerknemerAnaam, wb.WerknemerEmail, " +
@@ -198,7 +198,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					return werknemer;
 				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemerId", _werknemerId);
 				throw exx;
 			} finally {
@@ -211,12 +211,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="_bedrijfId">Id van het gewenste bedrijf.</param>
 		/// <returns>IReadOnlyList van werknemer objecten waar Werknemer Bedrijf id = bedrijf id.</returns>
-		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van het bedrijf id.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt lijst van werknemer objecten samen te stellen op basis van het bedrijf id.</exception>
 		public IReadOnlyList<Werknemer> GeefWerknemersPerBedrijf(long _bedrijfId) {
 			try {
 				return GeefWerknemers(_bedrijfId, null, null, null);
 			} catch (Exception ex) {
-				throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -227,12 +227,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <param name="achternaam">Achternaam van de gewenste werknemer.</param>
 		/// <param name="bedrijfId">Bedrijf van de gewenste werknemer</param>
 		/// <returns>IReadOnlyList van werknemer objecten op werknemernaam PER bedrijf.</returns>
-		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer voornaam/achternaam en bedrijf id.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer voornaam/achternaam en bedrijf id.</exception>
 		public IReadOnlyList<Werknemer> GeefWerknemersOpNaamPerBedrijf(string voornaam, string achternaam, long bedrijfId) {
 			try {
 				return GeefWerknemers(bedrijfId, voornaam, achternaam, null);
 			} catch (Exception ex) {
-				throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -242,12 +242,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <param name="functie">Functie van de gewenste werknemer</param>
 		/// <param name="bedrijfId">Bedrijf van de gewenste werknemer</param>
 		/// <returns>IReadOnlyList van werknemer objecten op werknemerfunctie PER bedrijf.</returns>
-		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie en bedrijf id.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie en bedrijf id.</exception>
 		public IReadOnlyList<Werknemer> GeefWerknemersOpFunctiePerBedrijf(string functie, long bedrijfId) {
 			try {
 				return GeefWerknemers(bedrijfId, null, null, functie);
 			} catch (Exception ex) {
-				throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -259,7 +259,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <param name="_achternaam">Achternaam van de gewenste werknemer.</param>
 		/// <param name="_functie">Functie van de gewenste werknemer</param>
 		/// <returns>IReadOnlyList van werknemer objecten op werknemerfunctie/naam PER bedrijf.</returns>
-		/// <exception cref="WerknemerADOException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie/voornaam/achternaam en bedrijf id.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt lijst van werknemer objecten samen te stellen op basis van Werknemer functie/voornaam/achternaam en bedrijf id.</exception>
 		private IReadOnlyList<Werknemer> GeefWerknemers(long? _bedrijfId, string? _voornaam, string? _achternaam, string? _functie) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
@@ -332,7 +332,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					return werknemers;
 				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				exx.Data.Add("voornaam", _voornaam);
 				exx.Data.Add("achternaam", _achternaam);
@@ -348,13 +348,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="werknemer">Werknemer object dat verwijderd wenst te worden.</param>
 		/// <param name="bedrijf">Bedrijf object waaruit werknemer verwijderd wenst te worden.</param>
-		/// <exception cref="WerknemerADOException">Faalt werknemer te verwijderen uit specifiek.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt werknemer te verwijderen uit specifiek.</exception>
 		/// <remarks>Werknemer krijgt statuscode 2 = 'Niet langer in dienst' => Bedrijf specifiek.</remarks>
 		public void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf) {
 			try {
 				VerwijderWerknemer(werknemer, bedrijf, null);
 			} catch (Exception ex) {
-				throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -364,13 +364,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <param name="werknemer">Werknemer object waar men de functie van wenst te verwijderen.</param>
 		/// <param name="bedrijf">Bedrijf object waar werknemer werkzaam is onder functie.</param>
 		/// <param name="functie">Functie die verwijderd wenst te worden.</param>
-		/// <exception cref="WerknemerADOException">Faalt werknemer functie te verwijderen voor specifiek bedrijf.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt werknemer functie te verwijderen voor specifiek bedrijf.</exception>
 		/// <remarks>Ontneemt functie van werknemer voor specifiek bedrijf.</remarks>
 		public void VerwijderWerknemerFunctie(Werknemer werknemer, Bedrijf bedrijf, string functie) {
 			try {
 				VerwijderWerknemer(werknemer, bedrijf, functie);
 			} catch (Exception ex) {
-				throw new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -380,7 +380,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <param name="werknemer">Werknemer object dan men wenst te verwijderen of waar men de functie van wenst te verwijderen.</param>
 		/// <param name="bedrijf">Bedrijf object waar werknemer werkzaam is onder functie(s).</param>
 		/// <param name="functie">Optioneel: Functie die verwijderd wenst te worden.</param>
-		/// <exception cref="WerknemerADOException">Faalt werknemer of werknemer functie te verwijderen voor specifiek bedrijf.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt werknemer of werknemer functie te verwijderen voor specifiek bedrijf.</exception>
 		/// <remarks>Werknemer krijgt statuscode 2 = 'Niet langer in dienst' of Ontneemt functie van werknemer voor specifiek bedrijf.</remarks>
 		private void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf, string? functie) {
 			MySqlConnection con = GetConnection();
@@ -405,7 +405,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmd.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				exx.Data.Add("bedrijf", bedrijf);
 				exx.Data.Add("functie", functie);
@@ -422,7 +422,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <param name="werknemer">Werknemer object die functie toegewezen wenst te worden.</param>
 		/// <param name="werknemerInfo">WerknemerInfo object object waar werknemer werkzaam.</param>
 		/// <param name="functie">Functie die toegevoegd wenst te worden.</param>
-		/// <exception cref="WerknemerADOException">Faalt werknemer functie toe te kennen voor specifiek bedrijf.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt werknemer functie toe te kennen voor specifiek bedrijf.</exception>
 		/// <remarks>Voegt een entry toe aan de werknemer bedrijf tabel in de databank.</remarks>
 		public void VoegWerknemerFunctieToe(Werknemer werknemer, WerknemerInfo werknemerInfo, string functie) {
 			MySqlConnection con = GetConnection();
@@ -443,7 +443,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmd.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				exx.Data.Add("werknemerinfo", werknemerInfo);
 				throw exx;
@@ -456,28 +456,35 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// Voegt werknemer toe.
 		/// </summary>
 		/// <param name="werknemer">Werknemer object dat toegevoegd wenst te worden.</param>
-		/// <exception cref="WerknemerADOException">Faalt werknemer toe te voegen.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt werknemer toe te voegen.</exception>
 		/// <remarks>Voegt een entry toe aan de werknemer tabel in de databank.</remarks>
 		public Werknemer VoegWerknemerToe(Werknemer werknemer) {
 			MySqlConnection con = GetConnection();
-			string query = "INSERT INTO Werknemer (VNaam, ANaam) VALUES (@VNaam, @ANaam);" +
-                           "SELECT id FROM Werknemer WHERE id = LAST_INSERT_ID();";
+			string queryInsert = "INSERT INTO Werknemer (VNaam, ANaam) VALUES (@VNaam, @ANaam);";
+            string querySelect = "SELECT id FROM Werknemer WHERE id = LAST_INSERT_ID();";
 			try {
-				using (MySqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
-					cmd.Parameters["@VNaam"].Value = werknemer.Voornaam;
-					cmd.Parameters["@ANaam"].Value = werknemer.Achternaam;
-					long i = (long)cmd.ExecuteScalar();
+				con.Open();
+				MySqlTransaction trans = con.BeginTransaction();
+				using (MySqlCommand cmdSelect = con.CreateCommand())
+				using (MySqlCommand cmdInsert = con.CreateCommand()) {
+					cmdInsert.Transaction = trans;
+					cmdInsert.CommandText = queryInsert;
+					cmdInsert.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
+					cmdInsert.Parameters["@VNaam"].Value = werknemer.Voornaam;
+					cmdInsert.Parameters["@ANaam"].Value = werknemer.Achternaam;
+					cmdInsert.ExecuteNonQuery();
+
+					cmdSelect.Transaction = trans;
+					cmdSelect.CommandText = querySelect;
+					long i = (long)cmdInsert.ExecuteScalar();
 					werknemer.ZetId(i);
 					////Dit voegt de bedrijven/functie toe aan uw werknemer in de DB
 					//VoegFunctieToeAanWerknemer(werknemer);
 					return werknemer;
 				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				throw exx;
 			} finally {
@@ -596,7 +603,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				}
 			} catch (Exception ex) {
 				trans.Rollback();
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				throw exx;
 			} finally {
@@ -609,7 +616,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="functieNaam">Functie die gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="WerknemerADOException">Faalt om bestaan functie te verifiëren op basis van de functie naam.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt om bestaan functie te verifiëren op basis van de functie naam.</exception>
 		public bool BestaatFunctie(string functieNaam) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
@@ -625,7 +632,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					return (i > 0);
 				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("functieNaam", functieNaam);
 				throw exx;
 			} finally {
@@ -638,7 +645,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="functieNaam">Functie die toegevoegd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="WerknemerADOException">Faalt om functie toe te voegen op basis van de functie naam.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt om functie toe te voegen op basis van de functie naam.</exception>
 		public void VoegFunctieToe(string functieNaam) {
 			MySqlConnection con = GetConnection();
 			string query = "INSERT INTO Functie(FunctieNaam) VALUES(@fNaam)";
@@ -651,7 +658,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmd.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("functieNaam", functieNaam);
 				throw exx;
 			} finally {
@@ -665,7 +672,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="_bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die niet in afspraak zijn.</param>
 		/// <returns>IReadOnlyList van werknemer objecten waar statuscode niet gelijk is aan 1 = 'In gang'.</returns>
-		/// <exception cref="WerknemerADOException">Faalt lijst van afspraakloze werknemer objecten samen te stellen op basis van bedrijf id.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt lijst van afspraakloze werknemer objecten samen te stellen op basis van bedrijf id.</exception>
 		public IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
@@ -717,7 +724,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					return werknemers.AsReadOnly();
 				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				throw exx;
 			} finally {
@@ -730,7 +737,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="_bedrijfId">Id van het bedrijf waar men de werknemer van wenst op te vragen die momenteel in afspraak zijn.</param>
 		/// <returns>IReadOnlyList van werknemer objecten waar statuscode gelijk is aan 1 = 'In gang'.</returns>
-		/// <exception cref="WerknemerADOException">Faalt lijst van bezette werknemer objecten samen te stellen op basis van bedrijf id.</exception>
+		/// <exception cref="WerknemerMySQLException">Faalt lijst van bezette werknemer objecten samen te stellen op basis van bedrijf id.</exception>
 		public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long _bedrijfId) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
@@ -782,7 +789,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					return werknemers.AsReadOnly();
 				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				throw exx;
 			} finally {
@@ -794,7 +801,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         /// Stelt id van werknemer in in het werknemer object.
         /// </summary>
         /// <param name="werknemer">werknemer object dat id moet krijgen.</param>
-        /// <exception cref="WerknemerADOException">Faalt om id van werknemer te zetten.</exception>
+        /// <exception cref="WerknemerMySQLException">Faalt om id van werknemer te zetten.</exception>
 
         public void GeefWerknemerId(Werknemer werknemer) {
 			MySqlConnection con = GetConnection();
@@ -819,7 +826,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					werknemer.ZetId(i);
 				}
 			} catch (Exception ex) {
-				WerknemerADOException exx = new WerknemerADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				throw exx;
 			} finally {

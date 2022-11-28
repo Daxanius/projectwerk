@@ -13,8 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BezoekerRegistratieSysteemDLPicker\BezoekerRegistratieSysteemDLPicker.csproj" />
+    <ProjectReference Include="..\BezoekersRegistratieSysteemADO\BezoekersRegistratieSysteemADO.csproj" />
     <ProjectReference Include="..\BezoekersRegistratieSysteemBL\BezoekersRegistratieSysteemBL.csproj" />
-    <ProjectReference Include="..\BezoekersRegistratieSysteemDL\BezoekersRegistratieSysteemDL.csproj" />
+    <ProjectReference Include="..\BezoekersRegistratieSysteemMySQL\BezoekersRegistratieSysteemMySQL.csproj" />
   </ItemGroup>
 
 </Project>

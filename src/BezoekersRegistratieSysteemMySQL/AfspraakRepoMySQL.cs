@@ -2,11 +2,11 @@
 using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
+using MySql.Data.MySqlClient;
 using System.Data;
-using System.Data.SqlClient;
 
-namespace BezoekersRegistratieSysteemDL.ADOMS {
-	public class AfspraakRepoADOMS : IAfspraakRepository {
+namespace BezoekersRegistratieSysteemDL.ADOMySQL {
+	public class AfspraakRepoMySQL : IAfspraakRepository {
 
 		/// <summary>
 		/// Private lokale variabele connectiestring
@@ -18,7 +18,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="connectieString">Connectie string database</param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-		public AfspraakRepoADOMS(string connectieString) {
+		public AfspraakRepoMySQL(string connectieString) {
 			_connectieString = connectieString;
 		}
 
@@ -26,29 +26,29 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Zet SQL connectie op met desbetreffende database adv de lokale variabele [_connectieString].
 		/// </summary>
 		/// <returns>SQL connectie</returns>
-		private SqlConnection GetConnection() {
-			return new SqlConnection(_connectieString);
+		private MySqlConnection GetConnection() {
+			return new MySqlConnection(_connectieString);
 		}
 
 		/// <summary>
 		/// Beëindigd afspraak via het fallback pad adhv parameter afspraak id.
 		/// </summary>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt afspraak te beëindigd</exception>
 		/// <remarks>Afspraak krijgt statuscode 4 = 'Stopgezet door systeem'.</remarks>
 		public void BeeindigAfspraakSysteem() {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "UPDATE Afspraak " +
                            "SET AfspraakStatusId = 4, " +
-                           "EindTijd = DATEADD(SECOND,-1,CONVERT(datetime,CONVERT(DATE, GETDATE()))) " +
-                           "WHERE AfspraakStatusId = 1 AND CONVERT(DATE, StartTijd) < CONVERT(DATE, GETDATE())";
+                           "EindTijd = DATE_ADD(CONVERT(CONVERT(NOW(), DATE), DATETIME), INTERVAL -1 SECOND) " +
+                           "WHERE AfspraakStatusId = 1 AND CONVERT(StartTijd, DATE) < CONVERT(NOW(), DATE)";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 throw exx;
             } finally {
                 con.Close();
@@ -59,13 +59,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Beëindigd afspraak adhv bezoeker email adhv parameter bezoeker email.
 		/// </summary>
 		/// <param name="email">Emailadres van de  bezoeker wiens afspraak beëindigd wenst te worden.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt afspraak te beëindigd</exception>
 		/// <remarks>Afspraak krijgt statuscode 3 = 'Stopgezet door gebruiker'.</remarks>
 		public void BeeindigAfspraakOpEmail(string email) {
 			try {
 				BeeindigAfspraak(email, null, 3);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -73,13 +73,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Beëindigd afspraak via het normale pad adhv parameter afspraak id.
 		/// </summary>
 		/// <param name="afspraakId">Id van de afspraak die beëindigd wenst te worden.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt afspraak te beëindigd</exception>
 		/// <remarks>Afspraak krijgt statuscode 5 = 'Stopgezet door administratief medewerker'.</remarks>
 		public void BeeindigAfspraakBezoeker(long afspraakId) {
 			try {
 				BeeindigAfspraak(null, afspraakId, 3);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -89,34 +89,34 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bezoekerMail">Emailadres van de bezoeker wiens afspraak gewijzigd wenst te worden.</param>
 		/// <param name="afspraakId">Id voor de afspraak die gewijzigd wenst te worden.</param>
 		/// <param name="statusId">Id voor het toekennen van een status.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd en/of status toe te kennen.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt afspraak te beëindigd en/of status toe te kennen.</exception>
 		private void BeeindigAfspraak(string? bezoekerMail, long? afspraakId, int statusId) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "UPDATE Afspraak " +
 						   "SET AfspraakStatusId = @statusId, " +
 						   "EindTijd = @Eindtijd " +
 						   "WHERE AfspraakStatusId = 1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
-						query += " AND BezoekerId = (SELECT TOP(1) Id FROM Bezoeker WHERE Email = @mail ORDER BY Id DESC)";
-						cmd.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
+						query += " AND BezoekerId = (SELECT Id FROM Bezoeker WHERE Email = @mail ORDER BY Id DESC LIMIT 1)";
+						cmd.Parameters.Add(new MySqlParameter("@mail", SqlDbType.VarChar));
 						cmd.Parameters["@mail"].Value = bezoekerMail;
 					} else {
 						query += " AND id = @afspraakId";
-						cmd.Parameters.Add(new SqlParameter("@afspraakId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@afspraakId", SqlDbType.BigInt));
 						cmd.Parameters["@afspraakId"].Value = afspraakId.Value;
 					}
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
-					cmd.Parameters.Add(new SqlParameter("@Eindtijd", SqlDbType.DateTime));
+					cmd.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
+					cmd.Parameters.Add(new MySqlParameter("@Eindtijd", SqlDbType.DateTime));
 					cmd.Parameters["@statusId"].Value = statusId;
 					cmd.Parameters["@Eindtijd"].Value = DateTime.Now;
 					cmd.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("mail", bezoekerMail);
 				exx.Data.Add("afspraakId", afspraakId);
 				exx.Data.Add("statusId", statusId);
@@ -130,13 +130,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Verwijder gewenste afspraak.
 		/// </summary>
 		/// <param name="afspraakId">Id van afspraak die verwijderd wenst te worden.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te verwijderen.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt afspraak te verwijderen.</exception>
 		/// <remarks>Afspraak krijgt statuscode 2 = 'Verwijderd'.</remarks>
 		public void VerwijderAfspraak(long afspraakId) {
 			try {
 				VeranderStatusAfspraak(afspraakId, 2);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -145,24 +145,24 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraakId">Id van de afspraak die gewijzigd wenst te worden.</param>
 		/// <param name="statusId">Id voor het wijzigen van een status.</param>
-		/// <exception cref="AfspraakADOException">Faalt om status van een afspraak te wijzigen.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt om status van een afspraak te wijzigen.</exception>
 		private void VeranderStatusAfspraak(long afspraakId, int statusId) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "UPDATE Afspraak " +
 						   "SET AfspraakStatusId = @statusId " +
 						   "WHERE Id = @afspraakid";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
-					cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+					cmd.Parameters.Add(new MySqlParameter("@afspraakid", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
 					cmd.Parameters["@afspraakid"].Value = afspraakId;
 					cmd.Parameters["@statusId"].Value = statusId;
 					cmd.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraakId", afspraakId);
 				exx.Data.Add("statusId", statusId);
 				throw exx;
@@ -175,26 +175,26 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
 		public bool HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(Afspraak afspraak) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SElECT COUNT(*) " +
 						   "FROM Werknemerbedrijf wb " +
 						   "WHERE wb.WerknemerId = @werknemerId AND wb.BedrijfId != @bedrijfId " +
 						   "AND (SELECT COUNT(*) FROM Afspraak a WHERE wb.Id = a.WerknemerBedrijfId AND a.AfspraakStatusId = 1) >= 1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
 					cmd.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
 					cmd.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
 					int i = (int)cmd.ExecuteScalar();
 					return (i > 0);
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				throw exx;
 			} finally {
@@ -207,12 +207,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
 		public bool BestaatAfspraak(Afspraak afspraak) {
 			try {
 				return BestaatAfspraak(afspraak, null, null, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
 			}
 		}
 
@@ -221,12 +221,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraakid">Id van de afspraak die gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het id.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt om bestaan afspraak te verifiëren op basis van het id.</exception>
 		public bool BestaatAfspraak(long afspraakid) {
 			try {
 				return BestaatAfspraak(null, afspraakid, null, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} id {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} id {ex.Message}", ex);
 			}
 		}
 
@@ -235,13 +235,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
 		/// <remarks>Controle mbv statuscode 1 = 'In gang'</remarks>
 		public bool BestaatLopendeAfspraak(Afspraak afspraak) {
 			try {
 				return BestaatAfspraak(afspraak, null, null, 1);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
 			}
 		}
 
@@ -250,13 +250,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bezoekerMail">Bezoeker mail dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
 		/// <remarks>Controle mbv statuscode 1 = 'In gang'</remarks>
 		public bool BestaatAfspraak(string bezoekerMail) {
 			try {
 				return BestaatAfspraak(null, null, bezoekerMail, 1);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
 			}
 		}
 		/// <summary>
@@ -267,44 +267,44 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bezoekerMail">Optioneel: Mail van bezoeker die gecontroleerd wenst te worden.</param>
 		/// <param name="afspraakStatus">Optioneel: Afspraakstatus.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object of id.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object of id.</exception>
 		private bool BestaatAfspraak(Afspraak afspraak, long? afspraakid, string? bezoekerMail, int? afspraakStatus) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
 						   "FROM Afspraak a ";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					//Afspraak object
 					if (afspraak is not null) {
 						if (afspraak.Id != 0) {
 							query += "WHERE a.Id = @id";
-							cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+							cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
 							cmd.Parameters["@id"].Value = afspraak.Id;
 						} else {
 							query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 									 "WHERE bz.Email = @bmail AND a.eindTijd is null";
-							cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));
+							cmd.Parameters.Add(new MySqlParameter("@bmail", SqlDbType.VarChar));
 							cmd.Parameters["@bmail"].Value = afspraak.Bezoeker.Email;
 						}
 					}
 					//Afspraak Id
 					if (afspraakid.HasValue) {
 						query += "WHERE a.Id = @id";
-						cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
 						cmd.Parameters["@id"].Value = afspraakid.Value;
 					}
 					//Bezoeker mail
 					if (!String.IsNullOrWhiteSpace(bezoekerMail)) {
 						query += "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 								 "WHERE bz.Email = @bmail AND a.eindTijd is null";
-						cmd.Parameters.Add(new SqlParameter("@bmail", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@bmail", SqlDbType.VarChar));
 						cmd.Parameters["@bmail"].Value = bezoekerMail;
 					}
 					//Status Id
 					if (afspraakStatus.HasValue) {
 						query += " AND a.AfspraakStatusId = @statusId";
-						cmd.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+						cmd.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
 						cmd.Parameters["@statusId"].Value = afspraakStatus.Value;
 					}
 					cmd.CommandText = query;
@@ -312,7 +312,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return (i > 0);
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				exx.Data.Add("afspraakId", afspraakid);
 				exx.Data.Add("bezoekerMail", bezoekerMail);
@@ -327,9 +327,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Bewerkt gegevens van een afspraak adhv afspraak object.
 		/// </summary>
 		/// <param name="afspraak">Afspraak object dat gewijzigd wenst te worden in de databank.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te wijzigen.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt afspraak te wijzigen.</exception>
 		public void BewerkAfspraak(Afspraak afspraak) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			//SELECT WORD GEBRUIKT OM EEN ACCURATE STATUSID IN TE STELLEN.
 			string querySelect = "SELECT AfspraakStatusId " +
 								 "FROM Afspraak " +
@@ -351,24 +351,24 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								  "AfspraakstatusId = @afspraakstatusId  " +
 								  "WHERE Id = @afspraakid";
 			try {
-				using (SqlCommand cmdSelect = con.CreateCommand())
-				using (SqlCommand cmdUpdate = con.CreateCommand()) {
+				using (MySqlCommand cmdSelect = con.CreateCommand())
+				using (MySqlCommand cmdUpdate = con.CreateCommand()) {
 					con.Open();
 					//Geeft de statusID van de afspraak die gevraagd werd.
 					cmdSelect.CommandText = querySelect;
-					cmdSelect.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+					cmdSelect.Parameters.Add(new MySqlParameter("@afspraakid", SqlDbType.BigInt));
 					cmdSelect.Parameters["@afspraakid"].Value = afspraak.Id;
 					int currentAfspraakStatusId = (int)cmdSelect.ExecuteScalar();
 					//Bewerkt de gevraagde afspraak.
 					cmdUpdate.CommandText = queryUpdate;
-					cmdUpdate.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
-					cmdUpdate.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
-					cmdUpdate.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-					cmdUpdate.Parameters.Add(new SqlParameter("@afspraakstatusId", SqlDbType.Int));
-					cmdUpdate.Parameters.Add(new SqlParameter("@functienaam", SqlDbType.VarChar));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@afspraakid", SqlDbType.BigInt));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@start", SqlDbType.DateTime));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@eind", SqlDbType.DateTime));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@bezoekerId", SqlDbType.BigInt));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@afspraakstatusId", SqlDbType.Int));
+					cmdUpdate.Parameters.Add(new MySqlParameter("@functienaam", SqlDbType.VarChar));
 					cmdUpdate.Parameters["@afspraakid"].Value = afspraak.Id;
 					cmdUpdate.Parameters["@start"].Value = afspraak.Starttijd;
 					cmdUpdate.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
@@ -383,7 +383,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmdUpdate.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				throw exx;
 			} finally {
@@ -397,9 +397,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraakId">Id van de gewenste afspraak.</param>
 		/// <returns>Gewenst afspraak object</returns>
-		/// <exception cref="AfspraakADOException">Faalt om afspraak object op te halen op basis van het id.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt om afspraak object op te halen op basis van het id.</exception>
 		public Afspraak GeefAfspraak(long afspraakId) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			/* INFO SELECT
              * Afspraak
              * Bezoeker
@@ -421,10 +421,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
                            "WHERE a.Id = @afspraakid";
             try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@afspraakid", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@afspraakid", SqlDbType.BigInt));
 					cmd.Parameters["@afspraakid"].Value = afspraakId;
 					IDataReader reader = cmd.ExecuteReader();
 					Afspraak afspraak = null;
@@ -462,7 +462,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return afspraak;
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraakId", afspraakId);
 				throw exx;
 			} finally {
@@ -477,58 +477,67 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraak">Afspraak object dat toegevoegd wenst te worden.</param>
 		/// <returns>Afspraak object MET id</returns>
-		/// <exception cref="AfspraakADOException">Faalt afspraak toe te voegen op basis van het afspraak object.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt afspraak toe te voegen op basis van het afspraak object.</exception>
 		public Afspraak VoegAfspraakToe(Afspraak afspraak) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string queryBezoeker = "INSERT INTO Bezoeker(ANaam, VNaam, EMail, EigenBedrijf) " +
-								   "output INSERTED.ID " +
-								   "VALUES(@ANaam,@VNaam,@EMail,@EigenBedrijf)";
+								   "VALUES(@ANaam,@VNaam,@EMail,@EigenBedrijf);";
+			string queryBezoekerSelect = "SELECT id FROM Bezoeker WHERE id = LAST_INSERT_ID();";
 
 			string queryAfspraak = "INSERT INTO Afspraak(StartTijd, EindTijd, WerknemerbedrijfId, AfspraakStatusId, BezoekerId) " +
-								   "output INSERTED.ID " +
-								   "VALUES(@start,@eind,(SELECT TOP(1) Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId AND BedrijfId = @bedrijfId), @AfspraakStatusId ,@bezoekerId)";
+								   "VALUES(@start,@eind,(SELECT Id FROM Werknemerbedrijf WHERE WerknemerId = @werknemerId AND BedrijfId = @bedrijfId LIMIT 1), @AfspraakStatusId ,@bezoekerId);";                               
+			string qeuryAfspraakSelect = "SELECT id FROM Afspraak WHERE id = LAST_INSERT_ID();"; 
 			con.Open();
-			SqlTransaction trans = con.BeginTransaction();
+			MySqlTransaction trans = con.BeginTransaction();
 			try {
-				using (SqlCommand cmdBezoeker = con.CreateCommand())
-				using (SqlCommand cmdAfspraak = con.CreateCommand()) {
+				using (MySqlCommand cmdBezoekerSelect = con.CreateCommand())
+				using (MySqlCommand cmdAfspraakSelect = con.CreateCommand())
+				using (MySqlCommand cmdBezoekerInsert = con.CreateCommand())
+				using (MySqlCommand cmdAfspraakInsert = con.CreateCommand()) {
 					//Bezoeker portie
-					cmdBezoeker.Transaction = trans;
-					cmdBezoeker.CommandText = queryBezoeker;
-					cmdBezoeker.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
-					cmdBezoeker.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
-					cmdBezoeker.Parameters.Add(new SqlParameter("@EMail", SqlDbType.VarChar));
-					cmdBezoeker.Parameters.Add(new SqlParameter("@EigenBedrijf", SqlDbType.VarChar));
-					cmdBezoeker.Parameters["@ANaam"].Value = afspraak.Bezoeker.Achternaam;
-					cmdBezoeker.Parameters["@VNaam"].Value = afspraak.Bezoeker.Voornaam;
-					cmdBezoeker.Parameters["@EMail"].Value = afspraak.Bezoeker.Email;
-					cmdBezoeker.Parameters["@EigenBedrijf"].Value = afspraak.Bezoeker.Bedrijf;
-					long bezoekerId = (long)cmdBezoeker.ExecuteScalar();
+					cmdBezoekerInsert.Transaction = trans;
+					cmdBezoekerInsert.CommandText = queryBezoeker;
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@EMail", SqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters.Add(new MySqlParameter("@EigenBedrijf", SqlDbType.VarChar));
+					cmdBezoekerInsert.Parameters["@ANaam"].Value = afspraak.Bezoeker.Achternaam;
+					cmdBezoekerInsert.Parameters["@VNaam"].Value = afspraak.Bezoeker.Voornaam;
+					cmdBezoekerInsert.Parameters["@EMail"].Value = afspraak.Bezoeker.Email;
+					cmdBezoekerInsert.Parameters["@EigenBedrijf"].Value = afspraak.Bezoeker.Bedrijf;
+					cmdBezoekerInsert.ExecuteNonQuery();
+					//TODO: miss dispose gebruiken
+
+					cmdBezoekerSelect.Transaction = trans;
+					cmdBezoekerSelect.CommandText = queryBezoekerSelect;
+					long bezoekerId = (long)cmdBezoekerSelect.ExecuteScalar();
 					//Afspraak portie
-					cmdAfspraak.Transaction = trans;
-					cmdAfspraak.CommandText = queryAfspraak;
-					cmdAfspraak.Parameters.Add(new SqlParameter("@start", SqlDbType.DateTime));
-					cmdAfspraak.Parameters.Add(new SqlParameter("@eind", SqlDbType.DateTime));
-					cmdAfspraak.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
-					cmdAfspraak.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmdAfspraak.Parameters.Add(new SqlParameter("@AfspraakStatusId", SqlDbType.Int));
-					cmdAfspraak.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
-					cmdAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
-					cmdAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
-					cmdAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
-					cmdAfspraak.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
-					cmdAfspraak.Parameters["@AfspraakStatusId"].Value = afspraak.Eindtijd is not null ? 5 : 1;
-                    cmdAfspraak.Parameters["@bezoekerId"].Value = bezoekerId;
+					cmdAfspraakInsert.Transaction = trans;
+					cmdAfspraakInsert.CommandText = queryAfspraak;
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@start", SqlDbType.DateTime));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@eind", SqlDbType.DateTime));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@AfspraakStatusId", SqlDbType.Int));
+					cmdAfspraakInsert.Parameters.Add(new MySqlParameter("@bezoekerId", SqlDbType.BigInt));
+					cmdAfspraakInsert.Parameters["@start"].Value = afspraak.Starttijd;
+					cmdAfspraakInsert.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+					cmdAfspraakInsert.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+					cmdAfspraakInsert.Parameters["@bedrijfId"].Value = afspraak.Bedrijf.Id;
+					cmdAfspraakInsert.Parameters["@AfspraakStatusId"].Value = afspraak.Eindtijd is not null ? 5 : 1;
+					cmdAfspraakInsert.Parameters["@bezoekerId"].Value = bezoekerId;
+					cmdAfspraakInsert.ExecuteNonQuery();
 
-
-					long i = (long)cmdAfspraak.ExecuteScalar();
+					cmdAfspraakSelect.Transaction = trans;
+					cmdAfspraakSelect.CommandText = qeuryAfspraakSelect;
+                    long i = (long)cmdAfspraakSelect.ExecuteScalar();
 					afspraak.ZetId(i);
 					afspraak.Bezoeker.ZetId(bezoekerId);
 					trans.Commit();
 					return afspraak;
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				trans.Rollback();
 				throw exx;
@@ -543,12 +552,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Stelt lijst van huidige afspraken samen met enkel lees rechten.
 		/// </summary>
 		/// <returns>IReadOnlyList van afspraak objecten waar statuscode gelijk is aan 1 = 'In gang'.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen.</exception>
 		public IReadOnlyList<Afspraak> GeefHuidigeAfspraken() {
 			try {
 				return GeefHuidigeAfspraken(null, null, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -557,12 +566,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten waar statuscode gelijk is aan 1 = 'In gang' PER bedrijf.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van het bedrijf id.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van het bedrijf id.</exception>
 		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(long bedrijfId) {
 			try {
 				return GeefHuidigeAfspraken(bedrijfId, null, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -572,12 +581,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bezoekerId">Id van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>Gewenste afspraak object waar statuscode gelijk is aan 1 = 'In gang' PER bezoeker per bedrijf.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van het bezoeker id en bedrijf id.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van het bezoeker id en bedrijf id.</exception>
 		public Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long bezoekerId, long bedrijfId) {
 			try {
 				return GeefHuidigeAfspraken(bedrijfId, null, bezoekerId).First();
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -587,12 +596,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="werknemerId">Id van de werknemer waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten waar statuscode gelijk is aan 1 = 'In gang' PER werknemer per bedrijf.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van het werknemer id en bedrijf id.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van het werknemer id en bedrijf id.</exception>
 		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId) {
 			try {
 				return GeefHuidigeAfspraken(bedrijfId, werknemerId, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -604,9 +613,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="_werknemerId">Optioneel: Id van de werknemer waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="_bezoekerId">Optioneel: Id van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten waar statuscode gelijk is aan 1 = 'In gang' PER bedrijf en/of werknemer en/of bezoeker.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van het werknemer id en bedrijf id.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van het werknemer id en bedrijf id.</exception>
 		private IReadOnlyList<Afspraak> GeefHuidigeAfspraken(long? _bedrijfId, long? _werknemerId, long? _bezoekerId) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			/* INFO SELECT
              * Afspraak
              * Bezoeker
@@ -628,21 +637,21 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                            "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
 						   "WHERE a.AfspraakStatusId = 1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					if (_bedrijfId.HasValue) {
 						query += " AND b.id = @bedrijfId";
-						cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
 						cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
 					}
 					if (_werknemerId.HasValue) {
 						query += " AND w.id = @werknemerId";
-						cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
 						cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
 					}
 					if (_bezoekerId.HasValue) {
 						query += " AND bz.id = @bezoekerId";
-						cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@bezoekerId", SqlDbType.BigInt));
 						cmd.Parameters["@bezoekerId"].Value = _bezoekerId.Value;
 					}
 					query += " ORDER BY b.id, w.id, f.FunctieNaam";
@@ -694,7 +703,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return afspraken.AsReadOnly();
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				exx.Data.Add("werknemerId", _werknemerId);
 				exx.Data.Add("bezoekerId", _bezoekerId);
@@ -712,12 +721,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="datum">Datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten waar starttijd.Date = datum.Date.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van datum.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van datum.</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
 			try {
 				return GeefAlleAfspraken(null, null, null, null, null, null, datum);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -727,12 +736,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="datum">Datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf en waar starttijd.Date = datum.Date.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id en datum.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id en datum.</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long bedrijfId, DateTime datum) {
 			try {
 				return GeefAlleAfspraken(bedrijfId, null, null, null, null, null, datum);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -743,12 +752,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="datum">Datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf per bezoeker en waar starttijd.Date = datum.Date</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bezoeker id, bedrijf id en datum.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van bezoeker id, bedrijf id en datum.</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(long bezoekerId, DateTime datum, long bedrijfId) {
 			try {
 				return GeefAlleAfspraken(bedrijfId, null, bezoekerId, null, null, null, datum);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -760,12 +769,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bezoekerMail">Optioneel: Email van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf per bezoeker op voornaam/achternaam/email en waar starttijd.Date = datum.Date.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bezoeker voornaam/achternaam/email en bedrijf id.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van bezoeker voornaam/achternaam/email en bedrijf id.</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string bezoekerVNaam, string bezoekerANaam, string bezoekerMail, long bedrijfId) {
 			try {
 				return GeefAlleAfspraken(bedrijfId, null, null, bezoekerVNaam, bezoekerANaam, bezoekerMail, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -776,12 +785,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="werknemerId">Id van de werknemer waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf per werknemer.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van werknemer id en bedrijf id.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van werknemer id en bedrijf id.</exception>
 		public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId) {
 			try {
 				return GeefAlleAfspraken(bedrijfId, werknemerId, null, null, null, null, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -792,12 +801,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="datum">datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf per werknemer en waar starttijd.Date = datum.Date.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van werknemer id, bedrijf id en datum.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van werknemer id, bedrijf id en datum.</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId) {
 			try {
 				return GeefAlleAfspraken(bedrijfId, werknemerId, null, null, null, null, datum);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -812,9 +821,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="_bezoekerMail">Optioneel: Email van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="_datum">Optioneel: datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf per werknemer/bezoeker en/of waar starttijd.Date = datum.Date</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id, werknemer- of bezoekerid/info en datum.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id, werknemer- of bezoekerid/info en datum.</exception>
 		private IReadOnlyList<Afspraak> GeefAlleAfspraken(long? _bedrijfId, long? _werknemerId, long? _bezoekerId, string? _bezoekerVNaam, string? _bezoekerANaam, string? _bezoekerMail, DateTime? _datum) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
             /* INFO SELECT
              * Afspraak
              * Bezoeker
@@ -837,41 +846,41 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                            "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
 						   "WHERE 1=1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					if (_bedrijfId.HasValue) {
 						query += " AND b.id = @bedrijfId";
-						cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
 						cmd.Parameters["@bedrijfId"].Value = _bedrijfId.Value;
 					}
 					if (_werknemerId.HasValue) {
 						query += " AND w.id = @werknemerId";
-						cmd.Parameters.Add(new SqlParameter("@werknemerId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@werknemerId", SqlDbType.BigInt));
 						cmd.Parameters["@werknemerId"].Value = _werknemerId.Value;
 					}
 					if (_bezoekerId.HasValue) {
 						query += " AND bz.id = @bezoekerId";
-						cmd.Parameters.Add(new SqlParameter("@bezoekerId", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@bezoekerId", SqlDbType.BigInt));
 						cmd.Parameters["@bezoekerId"].Value = _bezoekerId.Value;
 					}
 					if (!String.IsNullOrWhiteSpace(_bezoekerVNaam)) {
 						query += " AND bz.VNaam LIKE @VNaam";
-						cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@VNaam", SqlDbType.VarChar));
 						cmd.Parameters["@VNaam"].Value = $"%{_bezoekerVNaam}%";
 					}
 					if (!String.IsNullOrWhiteSpace(_bezoekerANaam)) {
 						query += " AND bz.ANaam LIKE @ANaam";
-						cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@ANaam", SqlDbType.VarChar));
 						cmd.Parameters["@ANaam"].Value = $"%{_bezoekerANaam}%";
 					}
 					if (!String.IsNullOrWhiteSpace(_bezoekerMail)) {
 						query += " AND bz.Email LIKE @Email";
-						cmd.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@Email", SqlDbType.VarChar));
 						cmd.Parameters["@Email"].Value = $"%{_bezoekerMail}%";
 					}
 					if (_datum.HasValue) {
-						query += " AND CONVERT(DATE, a.StartTijd) = @date";
-						cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
+						query += " AND CONVERT(a.StartTijd, DATE) = @date";
+						cmd.Parameters.Add(new MySqlParameter("@date", SqlDbType.Date));
 						cmd.Parameters["@date"].Value = _datum.Value.Date;
 					}
 					query += " ORDER BY a.StartTijd DESC, b.id, w.id, f.FunctieNaam";
@@ -924,7 +933,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return afspraken.AsReadOnly();
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				exx.Data.Add("werknemerId", _werknemerId);
 				exx.Data.Add("bezoekerId", _bezoekerId);
@@ -945,17 +954,17 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Stelt lijst van alle aanwezige bezoekers samen met enkel lees rechten.
 		/// </summary>
 		/// <returns>IReadOnlyList van bezoeker objecten.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van bezoeker objecten samen te stellen.</exception>
+		/// <exception cref="AfspraakMySQLException">Faalt lijst van bezoeker objecten samen te stellen.</exception>
 		/// <remarks>Geeft alle bezoekers terug waar statuscode afspraak gelijk is aan 1 = 'In gang'.</remarks>
 		public IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers() {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT b.Id, b.VNaam, b.ANaam, b.Email, b.EigenBedrijf " +
 						   "FROM Afspraak a " +
 						   "JOIN Bezoeker b ON(a.BezoekerId = b.Id) " +
 						   "WHERE a.AfspraakStatusId = 1 AND a.EindTijd IS NULL " +
 						   "ORDER BY b.Vnaam, b.ANaam";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
 					IDataReader reader = cmd.ExecuteReader();
@@ -971,7 +980,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return bezoekers.AsReadOnly();
 				}
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}", ex);
+				throw new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}", ex);
 			} finally {
 				con.Close();
 			}

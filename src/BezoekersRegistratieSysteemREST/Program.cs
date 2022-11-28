@@ -1,3 +1,4 @@
+using BezoekerRegistratieSysteemDLPicker;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemDL.ADOMS;
@@ -29,50 +30,24 @@ if (connectionstring is null) {
 
 // Weer een Microsoft quirk...
 connectionstring = connectionstring.Replace("\\\\", "\\");
-
-// Lege repos declareren
-IAfspraakRepository afspraakRepo;
-IBedrijfRepository bedrijfRepo;
-IWerknemerRepository werknemerRepo;
-IParkingContractRepository parkingContractRepo;
-IParkeerplaatsRepository parkeerplaatsRepo;
-
-// Dit zorgt ervoor dat we een database technologie kunnen kiezen
-// bij het opstarten van onze service.
-switch (database) {
-	case "azure":
-	case "express":
-	case "msserver":
-	case "mssql": {
-			afspraakRepo = new AfspraakRepoADOMS(connectionstring);
-			bedrijfRepo = new BedrijfRepoADOMS(connectionstring);
-			werknemerRepo = new WerknemerRepoADOMS(connectionstring);
-			parkingContractRepo = new ParkingContractADOMS(connectionstring);
-			parkeerplaatsRepo = new ParkeerPlaatsADOMS(connectionstring);
-			break;
-		}
-	case "mysql": {
-			afspraakRepo = new AfspraakRepoADOMySQL(connectionstring);
-			bedrijfRepo = new BedrijfRepoADOMySQL(connectionstring);
-			werknemerRepo = new WerknemerRepoADOMySQL(connectionstring);
-			parkingContractRepo = new ParkingContractADOMySQL(connectionstring);
-			parkeerplaatsRepo = new ParkeerPlaatsADOMySQL(connectionstring);;
-			break;
-		}
-	default: {
-			Console.WriteLine($"Implementatie niet gevonden voor: \"{database}\"");
-			Console.WriteLine($"U kunt een implementatie selecteren door \"{ENV_DB}\" te specifieren in uw appsettings");
-			return;
-		}
+BezoekersRegistratieBeheerRepo repos = null;
+try {
+	if (!Enum.TryParse<RepoType>(database.ToUpper(), out RepoType repoType)) {
+		throw new Exception("Database type not found.");
+	}
+	repos = DLPickerFactory.GeefRepositories(connectionstring, repoType);
+} catch (Exception ex) {
+	Console.WriteLine($"{ex.Message}");
+    Environment.Exit(1);
+	return;
 }
 
-// Alle managers als singleton toevoegen
-// dit omdat de API interract met de managers
-BedrijfManager bedrijfManager = new(bedrijfRepo, afspraakRepo);
-AfspraakManager afspraakManager = new(afspraakRepo);
-WerknemerManager werknemerManager = new(werknemerRepo, afspraakRepo);
-ParkingContractManager parkingContractManager = new(parkingContractRepo);
-ParkeerplaatsManager parkeerplaatsManager = new(parkeerplaatsRepo, parkingContractRepo);
+BedrijfManager bedrijfManager = new(repos.bedrijfRepository, repos.afspraakrepository);
+AfspraakManager afspraakManager = new(repos.afspraakrepository);
+WerknemerManager werknemerManager = new(repos.werknemerRepository, repos.afspraakrepository);
+ParkingContractManager parkingContractManager = new(repos.parkingContractRepository);
+ParkeerplaatsManager parkeerplaatsManager = new(repos.parkeerplaatsRepository, repos.parkingContractRepository);
+
 
 builder.Services.AddSingleton(bedrijfManager);
 builder.Services.AddSingleton(afspraakManager);

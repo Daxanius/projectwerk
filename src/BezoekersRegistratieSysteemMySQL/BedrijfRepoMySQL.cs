@@ -1,12 +1,12 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Data;
 
-namespace BezoekersRegistratieSysteemDL.ADOMS {
+namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 
-	public class BedrijfRepoADOMS : IBedrijfRepository {
+	public class BedrijfRepoMySQL : IBedrijfRepository {
 
 		/// <summary>
 		/// Private lokale variabele connectiestring
@@ -18,7 +18,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="connectieString">Connectie string database</param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-		public BedrijfRepoADOMS(string connectieString) {
+		public BedrijfRepoMySQL(string connectieString) {
 			_connectieString = connectieString;
 		}
 
@@ -26,8 +26,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Zet SQL connectie op met desbetreffende database adv de lokale variabele [_connectieString].
 		/// </summary>
 		/// <returns>SQL connectie</returns>
-		private SqlConnection GetConnection() {
-			return new SqlConnection(_connectieString);
+		private MySqlConnection GetConnection() {
+			return new MySqlConnection(_connectieString);
 		}
 
 		/// <summary>
@@ -35,12 +35,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijf">Bedrijf object dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf object.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf object.</exception>
 		public bool BestaatBedrijf(Bedrijf bedrijf) {
 			try {
 				return BestaatBedrijf(bedrijf, null, null);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -49,12 +49,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijfId">Id van het bedrijf dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf id.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf id.</exception>
 		public bool BestaatBedrijf(long bedrijfId) {
 			try {
 				return BestaatBedrijf(null, bedrijfId, null);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -63,12 +63,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijfsnaam">Naam van het bedrijf dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf id.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf id.</exception>
 		public bool BestaatBedrijf(string bedrijfsnaam) {
 			try {
 				return BestaatBedrijf(null, null, bedrijfsnaam);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -79,17 +79,17 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bedrijfId">Optioneel: Id van het bedrijf dat gecontroleerd wenst te worden.</param>
 		/// <param name="bedrijfsnaam">Optioneel: Naam van het bedrijf dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bestaan bedrijf te verifiëren op basis van de bedrijfid/naam of bedrijf object.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt om bestaan bedrijf te verifiëren op basis van de bedrijfid/naam of bedrijf object.</exception>
 		private bool BestaatBedrijf(Bedrijf? bedrijf, long? bedrijfId, string? bedrijfsnaam) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
 						   "FROM bedrijf " +
 						   "WHERE 1=1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					var sqltype = (bedrijf is not null && bedrijf.Id != 0) ? SqlDbType.BigInt : (bedrijfId.HasValue) ? SqlDbType.BigInt : SqlDbType.VarChar;
-					cmd.Parameters.Add(new SqlParameter("@querylookup", sqltype));
+					cmd.Parameters.Add(new MySqlParameter("@querylookup", sqltype));
 					string databaseWhere = (bedrijf is not null) ? (bedrijf.Id != 0) ? "id" : "BTWNr" : (bedrijfId.HasValue) ? "id" : "Naam";
 					query += $" AND {databaseWhere} = @querylookup";
 					cmd.Parameters["@querylookup"].Value = (bedrijf is not null) ? (bedrijf.Id != 0) ? bedrijf.Id : bedrijf.BTW : (bedrijfId.HasValue) ? bedrijfId : bedrijfsnaam;
@@ -98,7 +98,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return (i > 0);
 				}
 			} catch (Exception ex) {
-				BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				BedrijfMySQLException exx = new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijf", bedrijf);
 				exx.Data.Add("bedrijfId", bedrijfId);
 				exx.Data.Add("bedrijfsnaam", bedrijfsnaam);
@@ -112,9 +112,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Bewerkt gegevens van een bedrijf adhv bedrijf object.
 		/// </summary>
 		/// <param name="bedrijf">Bedrijf object dat gewijzigd wenst te worden in de databank.</param>
-		/// <exception cref="BedrijfADOException">Faalt bedrijf te wijzigen.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt bedrijf te wijzigen.</exception>
 		public void BewerkBedrijf(Bedrijf bedrijf) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "UPDATE bedrijf " +
 						   "SET Naam = @naam, " +
 						   "BTWNr = @btwnr, " +
@@ -124,16 +124,16 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "BTWChecked = @btwcheck " +
 						   "WHERE id = @id";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@naam", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@btwnr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@telenr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@adres", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@btwcheck", SqlDbType.Bit));
-					cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@naam", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@btwnr", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@telenr", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@email", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@adres", SqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@btwcheck", SqlDbType.Bit));
+					cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
 					cmd.Parameters["@naam"].Value = bedrijf.Naam;
 					cmd.Parameters["@btwnr"].Value = bedrijf.BTW;
 					cmd.Parameters["@telenr"].Value = bedrijf.TelefoonNummer;
@@ -144,7 +144,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmd.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				BedrijfMySQLException exx = new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijf", bedrijf);
 				throw exx;
 			} finally {
@@ -157,12 +157,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="id">Id van het gewenste bedrijf.</param>
 		/// <returns>Gewenst bedrijf object</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bedrijf object op te halen op basis van het id.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt om bedrijf object op te halen op basis van het id.</exception>
 		public Bedrijf GeefBedrijf(long id) {
 			try {
 				return GeefBedrijf(id, null);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -171,12 +171,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijfsnaam">Naam van het gewenste bedrijf.</param>
 		/// <returns>Gewenst bedrijf object</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bedrijf object op te halen op basis van de bedrijfsnaam.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt om bedrijf object op te halen op basis van de bedrijfsnaam.</exception>
 		public Bedrijf GeefBedrijf(string bedrijfsnaam) {
 			try {
 				return GeefBedrijf(null, bedrijfsnaam);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -186,9 +186,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="_bedrijfId">Id van het gewenste bedrijf.</param>
 		/// <param name="_bedrijfnaam">Naam van het gewenste bedrijf.</param>
 		/// <returns>Gewenst bedrijf object</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bedrijf object op te halen op basis van het id of naam.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt om bedrijf object op te halen op basis van het id of naam.</exception>
 		private Bedrijf GeefBedrijf(long? _bedrijfId, string? _bedrijfnaam) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
@@ -198,15 +198,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "LEFT JOIN Functie f ON(wb.FunctieId = f.Id) " +
 						   "WHERE 1=1";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					if (_bedrijfId.HasValue) {
 						query += " AND b.Id = @id";
-						cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
 						cmd.Parameters["@id"].Value = _bedrijfId;
 					} else {
 						query += " AND b.Naam = @Naam";
-						cmd.Parameters.Add(new SqlParameter("@Naam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@Naam", SqlDbType.VarChar));
 						cmd.Parameters["@Naam"].Value = _bedrijfnaam;
 					}
 					query += " ORDER BY wn.Id, f.Id";
@@ -244,7 +244,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return bedrijf;
 				}
 			} catch (Exception ex) {
-				BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				BedrijfMySQLException exx = new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfid", _bedrijfId);
 				exx.Data.Add("bedrijfnaam", _bedrijfnaam);
 				throw exx;
@@ -257,9 +257,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Private methode die alle bedrijven ophaalt uit de databank.
 		/// </summary>
 		/// <returns>IReadOnlyList van bedrijf objecten.</returns>
-		/// <exception cref="BedrijfADOException">Faalt lijst van bedrijf objecten samen te stellen.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt lijst van bedrijf objecten samen te stellen.</exception>
 		public IReadOnlyList<Bedrijf> GeefBedrijven() {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
 						   "f.FunctieNaam " +
@@ -270,7 +270,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "WHERE b.Status = 1 " +
 						   "ORDER BY b.Naam, wn.id";
 			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
+				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
 					IDataReader reader = cmd.ExecuteReader();
@@ -310,7 +310,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return bedrijven;
 				}
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			} finally {
 				con.Close();
 			}
@@ -320,13 +320,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Verwijdert gewenste bedrijf.
 		/// </summary>
 		/// <param name="bedrijfId">Id van bedrijf dat verwijderd wenst te worden.</param>
-		/// <exception cref="BedrijfADOException">Faalt bedrijf te verwijderen.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt bedrijf te verwijderen.</exception>
 		/// <remarks>bedrijf krijgt statuscode 2 = 'Verwijderd'.</remarks>
 		public void VerwijderBedrijf(long bedrijfId) {
 			try {
 				VeranderStatusBedrijf(bedrijfId, 2);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -335,27 +335,27 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijfId">Id van het bedrijf dat gewijzigd wenst te worden.</param>
 		/// <param name="statusId">Id voor het wijzigen van een status.</param>
-		/// <exception cref="BedrijfADOException">Faalt om status van een bedrijf te wijzigen.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt om status van een bedrijf te wijzigen.</exception>
 		/// <remarks>Wanneer bedrijf status wijzigt 2 = 'verwijderd' => Werknemer status wijzigt 2 = 'Niet langer in dienst'</remarks>
 		private void VeranderStatusBedrijf(long bedrijfId, int statusId) {
 			//Wanneer bedrijf word verwijderd (status 2), medewerkers zijn dan ontslagen (status 2)
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string queryBedrijf = "UPDATE bedrijf " +
 								  "SET Status = @statusId " +
 								  "WHERE Id = @bedrijfid";
 			con.Open();
-			SqlTransaction trans = con.BeginTransaction();
+            MySqlTransaction trans = con.BeginTransaction();
 			try {
-				using (SqlCommand cmdMedewerker = con.CreateCommand())
-				using (SqlCommand cmdBedrijf = con.CreateCommand()) {
+				using (MySqlCommand cmdMedewerker = con.CreateCommand())
+				using (MySqlCommand cmdBedrijf = con.CreateCommand()) {
 					//Medewerker sectie
 					if (statusId == 2) {
 						string queryMedewerker = "UPDATE WerknemerBedrijf " +
 												 "SET Status = @statusId " +
 												 "WHERE BedrijfId = @bedrijfid";
 						cmdMedewerker.Transaction = trans;
-						cmdMedewerker.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
-						cmdMedewerker.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+						cmdMedewerker.Parameters.Add(new MySqlParameter("@bedrijfid", SqlDbType.BigInt));
+						cmdMedewerker.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
 						cmdMedewerker.Parameters["@bedrijfid"].Value = bedrijfId;
 						cmdMedewerker.Parameters["@statusId"].Value = statusId;
 						cmdMedewerker.CommandText = queryMedewerker;
@@ -364,8 +364,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					//Bedrijf Sectie
 					cmdBedrijf.CommandText = queryBedrijf;
 					cmdBedrijf.Transaction = trans;
-					cmdBedrijf.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
-					cmdBedrijf.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
+					cmdBedrijf.Parameters.Add(new MySqlParameter("@bedrijfid", SqlDbType.BigInt));
+					cmdBedrijf.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
 					cmdBedrijf.Parameters["@bedrijfid"].Value = bedrijfId;
 					cmdBedrijf.Parameters["@statusId"].Value = statusId;
 					cmdBedrijf.ExecuteNonQuery();
@@ -373,7 +373,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 				}
 			} catch (Exception ex) {
 				trans.Rollback();
-				BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				BedrijfMySQLException exx = new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", bedrijfId);
 				exx.Data.Add("statusId", statusId);
 				throw exx;
@@ -387,34 +387,41 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijf">Bedrijf object dat toegevoegd wenst te worden.</param>
 		/// <returns>Gewenste bedrijf object MET id</returns>
-		/// <exception cref="BedrijfADOException">Faalt bedrijf toe te voegen op basis van het bedrijf object.</exception>
+		/// <exception cref="BedrijfMySQLException">Faalt bedrijf toe te voegen op basis van het bedrijf object.</exception>
 		public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
-			SqlConnection con = GetConnection();
+			MySqlConnection con = GetConnection();
 			string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres, BTWChecked) " +
-						   "output INSERTED.ID " +
-						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked)";
-			try {
-				using (SqlCommand cmd = con.CreateCommand()) {
-					con.Open();
-					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@naam", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@btwNr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@TeleNr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@Adres", SqlDbType.VarChar));
-					cmd.Parameters.Add(new SqlParameter("@BTWChecked", SqlDbType.Bit));
-					cmd.Parameters["@naam"].Value = bedrijf.Naam;
-					cmd.Parameters["@btwNr"].Value = bedrijf.BTW;
-					cmd.Parameters["@TeleNr"].Value = bedrijf.TelefoonNummer;
-					cmd.Parameters["@Email"].Value = bedrijf.Email;
-					cmd.Parameters["@Adres"].Value = bedrijf.Adres;
-					cmd.Parameters["@BTWChecked"].Value = bedrijf.BtwGeverifieerd;
-					long i = (long)cmd.ExecuteScalar();
+						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked);";                          
+			string selectId = "SELECT id FROM Bedrijf WHERE id = LAST_INSERT_ID();";
+            try {
+				con.Open();
+				MySqlTransaction trans = con.BeginTransaction();
+				using (MySqlCommand cmdSelect = con.CreateCommand())
+				using (MySqlCommand cmdInsert = con.CreateCommand()) {
+					cmdInsert.Transaction = trans;
+					cmdInsert.CommandText = query;
+					cmdInsert.Parameters.Add(new MySqlParameter("@naam", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@btwNr", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@TeleNr", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@Email", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@Adres", SqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@BTWChecked", SqlDbType.Bit));
+					cmdInsert.Parameters["@naam"].Value = bedrijf.Naam;
+					cmdInsert.Parameters["@btwNr"].Value = bedrijf.BTW;
+					cmdInsert.Parameters["@TeleNr"].Value = bedrijf.TelefoonNummer;
+					cmdInsert.Parameters["@Email"].Value = bedrijf.Email;
+					cmdInsert.Parameters["@Adres"].Value = bedrijf.Adres;
+					cmdInsert.Parameters["@BTWChecked"].Value = bedrijf.BtwGeverifieerd;
+					cmdInsert.ExecuteNonQuery();
+
+					cmdSelect.Transaction = trans;
+					cmdSelect.CommandText = selectId;
+					long i = (long)cmdSelect.ExecuteScalar();
 					bedrijf.ZetId(i);
 					return bedrijf;
 				}
 			} catch (Exception ex) {
-				BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				BedrijfMySQLException exx = new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijf", bedrijf);
 				throw exx;
 			} finally {

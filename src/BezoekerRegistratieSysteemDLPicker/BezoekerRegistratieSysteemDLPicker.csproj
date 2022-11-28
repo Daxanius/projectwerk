@@ -4,16 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.0.31" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\BezoekersRegistratieSysteemADO\BezoekersRegistratieSysteemADO.csproj" />
     <ProjectReference Include="..\BezoekersRegistratieSysteemBL\BezoekersRegistratieSysteemBL.csproj" />
+    <ProjectReference Include="..\BezoekersRegistratieSysteemMySQL\BezoekersRegistratieSysteemMySQL.csproj" />
   </ItemGroup>
 
 </Project>

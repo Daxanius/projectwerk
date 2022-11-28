@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace BezoekersRegistratieSysteemDL.ADOMS {
 
-	public class WerknemerRepoADOMS : IWerknemerRepository {
+	public class WerknemerRepoADO : IWerknemerRepository {
 
 		/// <summary>
 		/// Private lokale variabele connectiestring
@@ -18,7 +18,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="connectieString">Connectie string database</param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-		public WerknemerRepoADOMS(string connectieString) {
+		public WerknemerRepoADO(string connectieString) {
 			_connectieString = connectieString;
 		}
 

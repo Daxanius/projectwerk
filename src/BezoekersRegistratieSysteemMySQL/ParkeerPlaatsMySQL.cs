@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,8 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BezoekersRegistratieSysteemDL.ADOMS {
-    public class ParkeerPlaatsADOMS : IParkeerplaatsRepository {
+namespace BezoekersRegistratieSysteemDL.ADOMySQL {
+    public class ParkeerPlaatsMySQL : IParkeerplaatsRepository {
         /// <summary>
 		/// Private lokale variabele connectiestring
 		/// </summary>
@@ -21,7 +22,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// </summary>
         /// <param name="connectieString">Connectie string database</param>
         /// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-        public ParkeerPlaatsADOMS(string connectieString) {
+        public ParkeerPlaatsMySQL(string connectieString) {
             _connectieString = connectieString;
         }
 
@@ -29,8 +30,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// Zet SQL connectie op met desbetreffende database adv de lokale variabele [_connectieString].
         /// </summary>
         /// <returns>SQL connectie</returns>
-        private SqlConnection GetConnection() {
-            return new SqlConnection(_connectieString);
+        private MySqlConnection GetConnection() {
+            return new MySqlConnection(_connectieString);
         }
 
         /// <summary>
@@ -39,22 +40,22 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// <param name="nummerplaat">nummperplaat die gecontroleerd moet worden</param>
         /// <returns>True = bestaat | False = bestaat NIET</returns>
         public bool BestaatNummerplaat(string nummerplaat) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM Parkingplaatsen " +
                            "WHERE NummerPlaat = @nummerplaat " +
                            "AND EindTIjd IS NULL";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new MySqlParameter("@nummerplaat", SqlDbType.VarChar));
                     cmd.Parameters["@nummerplaat"].Value = nummerplaat;
                     int i = (int)cmd.ExecuteScalar();
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -65,17 +66,17 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// <paramref name="parkeerplaats">ParkeerPlaats object die de gegens bevat die toegevoegd moeten worden</paramref>
         /// </summary>
         public void CheckNummerplaatIn(Parkeerplaats parkeerplaats) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "INSERT INTO Parkingplaatsen(NummerPlaat, StartTijd, EindTijd, BedrijfId) " +
                            "VALUES(@NummerPlaat, @StartTijd, @EindTijd, @BedrijfId)";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
-                    cmd.Parameters.Add(new SqlParameter("@StartTijd", SqlDbType.DateTime));
-                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.DateTime));
-                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new MySqlParameter("@nummerplaat", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new MySqlParameter("@StartTijd", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
                     cmd.Parameters["@nummerplaat"].Value = parkeerplaats.Nummerplaat;
                     cmd.Parameters["@StartTijd"].Value = parkeerplaats.Starttijd;
                     cmd.Parameters["@EindTijd"].Value = parkeerplaats.Eindtijd.HasValue ? parkeerplaats.Eindtijd.Value : DBNull.Value;
@@ -83,7 +84,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -94,22 +95,22 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// <paramref name="nummerplaat">Nummerplaat die een eindtijd moet krijgen</paramref>
         /// </summary>
         public void CheckNummerplaatUit(string nummerplaat) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "UPDATE Parkingplaatsen " +
                            "SET EindTijd = @EindTijd " +
                            "WHERE NummerPlaat = @nummerplaat AND EindTijd IS NOT NULL";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.VarChar));
-                    cmd.Parameters.Add(new SqlParameter("@EindTijd", SqlDbType.DateTime));
+                    cmd.Parameters.Add(new MySqlParameter("@nummerplaat", SqlDbType.VarChar));
+                    cmd.Parameters.Add(new MySqlParameter("@EindTijd", SqlDbType.DateTime));
                     cmd.Parameters["@nummerplaat"].Value = nummerplaat;
                     cmd.Parameters["@EindTijd"].Value = DateTime.Now;
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -126,7 +127,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                 bedrijf.ZetId(bedrijfId);
                 return GeefNummerplaten(bedrijf, true).Count();
             } catch (Exception ex) {
-                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -139,7 +140,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             try {
                 return GeefNummerplaten(bedrijf, false);
             } catch (Exception ex) {
-                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
         /// <summary>
@@ -149,20 +150,20 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// <param name="bezet">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
         /// <returns>IReadOnlyList<String> Nummerplaten</returns>
         private IReadOnlyList<string> GeefNummerplaten(Bedrijf bedrijf, bool bezet) {
-            SqlConnection con = GetConnection();
+            MySqlConnection con = GetConnection();
             string query = "SELECT pp.Nummerplaat " +
                            "FROM Parkingplaatsen pp";
             try {
-                using (SqlCommand cmd = con.CreateCommand()) {
+                using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     if (bedrijf.Id != 0) {
                         query += " WHERE pp.BedrijfId = @BedrijfId";
-                        cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                        cmd.Parameters.Add(new MySqlParameter("@BedrijfId", SqlDbType.BigInt));
                         cmd.Parameters["@BedrijfId"].Value = bedrijf.Id;
                     } else {
                         query += " JOIN Bedrijf b ON(pp.BedrijfId = b.Id) " +
                                  "WHERE b.BTWNr = @BTWNr";
-                        cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
+                        cmd.Parameters.Add(new MySqlParameter("@BTWNr", SqlDbType.VarChar));
                         cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
                     }
                     if (bezet) {
@@ -177,13 +178,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     return nummerplaten.AsReadOnly();
                 }
             } catch (Exception ex) {
-                ParkeerPlaatsADOException exx = new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                ParkeerPlaatsMySQLException exx = new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("bedrijf", bedrijf);
+                exx.Data.Add("bezet", bezet);
                 throw exx;
             } finally {
                 con.Close();
             }
         }
-
     }
 }

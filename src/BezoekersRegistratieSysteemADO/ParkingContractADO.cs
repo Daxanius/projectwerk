@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemDL.ADOMS {
-    public class ParkingContractADOMS : IParkingContractRepository {
+    public class ParkingContractADO : IParkingContractRepository {
         /// <summary>
         /// Private lokale variabele connectiestring
         /// </summary>
@@ -21,7 +21,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// </summary>
         /// <param name="connectieString">Connectie string database</param>
         /// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-        public ParkingContractADOMS(string connectieString) {
+        public ParkingContractADO(string connectieString) {
             _connectieString = connectieString;
         }
 
