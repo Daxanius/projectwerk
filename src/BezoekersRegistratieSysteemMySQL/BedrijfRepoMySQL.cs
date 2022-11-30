@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
+﻿using BezoekersRegistratieSysteemBL;
+using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
 using MySql.Data.MySqlClient;
@@ -189,7 +190,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <exception cref="BedrijfMySQLException">Faalt om bedrijf object op te halen op basis van het id of naam.</exception>
 		private Bedrijf GeefBedrijf(long? _bedrijfId, string? _bedrijfnaam) {
 			MySqlConnection con = GetConnection();
-			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
+			string query = "SELECT DISTINCT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
 						   "FROM Bedrijf b " +
@@ -232,7 +233,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								string werknemerAnaam = (string)reader["WerknemerAnaam"];
 								werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
 							}
-							string werknemerMail = (string)reader["WerknemerEMail"];
+                            string werknemerMail = (string)reader["WerknemerEMail"];
 							string functieNaam = (string)reader["FunctieNaam"];
 							bedrijf.VoegWerknemerToeInBedrijf(werknemer, werknemerMail, functieNaam);
                             //Halen momenteel enkel werknemers op die werkzaam zijn
@@ -260,7 +261,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <exception cref="BedrijfMySQLException">Faalt lijst van bedrijf objecten samen te stellen.</exception>
 		public IReadOnlyList<Bedrijf> GeefBedrijven() {
 			MySqlConnection con = GetConnection();
-			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
+			string query = "SELECT DISTINCT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
 						   "f.FunctieNaam " +
 						   "FROM Bedrijf b " +
