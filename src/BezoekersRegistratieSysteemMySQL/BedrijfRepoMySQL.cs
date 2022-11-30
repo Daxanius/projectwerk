@@ -394,9 +394,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres, BTWChecked) " +
 						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked);";                          
 			string selectId = "SELECT id FROM Bedrijf WHERE id = LAST_INSERT_ID();";
+			con.Open();
+			MySqlTransaction trans = con.BeginTransaction();
             try {
-				con.Open();
-				MySqlTransaction trans = con.BeginTransaction();
 				using (MySqlCommand cmdSelect = con.CreateCommand())
 				using (MySqlCommand cmdInsert = con.CreateCommand()) {
 					cmdInsert.Transaction = trans;
@@ -419,11 +419,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmdSelect.CommandText = selectId;
 					long i = (long)cmdSelect.ExecuteScalar();
 					bedrijf.ZetId(i);
+					trans.Commit();
 					return bedrijf;
 				}
 			} catch (Exception ex) {
 				BedrijfMySQLException exx = new BedrijfMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijf", bedrijf);
+				trans.Rollback();
 				throw exx;
 			} finally {
 				con.Close();
