@@ -10,12 +10,12 @@ STATUS 2 == INVALID
 
 CREATE TABLE [dbo].[Functie](
 	[Id] INT NOT NULL IDENTITY PRIMARY KEY,
-	[FunctieNaam] VARCHAR(50) NOT NULL
+	[FunctieNaam] VARCHAR(50) NOT NULL UNIQUE
 )
 
 CREATE TABLE [dbo].[AfspraakStatus](
 	[Id] INT NOT NULL IDENTITY PRIMARY KEY,
-	[AfspraakStatusNaam] VARCHAR(50) NOT NULL
+	[AfspraakStatusNaam] VARCHAR(50) NOT NULL UNIQUE
 )
 
 CREATE TABLE [dbo].[Bedrijf](
@@ -26,7 +26,8 @@ CREATE TABLE [dbo].[Bedrijf](
 	[Email] VARCHAR(255) NOT NULL,
 	[Adres] VARCHAR(255) NOT NULL,
 	[BTWChecked] BIT NOT NULL,
-	[Status] INT NOT NULL DEFAULT 1
+	[Status] INT NOT NULL DEFAULT 1,
+	CONSTRAINT [UN_BTW_Status] UNIQUE(BTWNr, Status)
 )
 
 CREATE TABLE [dbo].[Werknemer](
@@ -44,7 +45,8 @@ CREATE TABLE [dbo].[Werknemerbedrijf](
 	[Status] INT NOT NULL DEFAULT 1,
 	CONSTRAINT [FK_WerknemerBedrijf_Bedrijf_Id] FOREIGN KEY ([BedrijfId]) REFERENCES [dbo].[Bedrijf](Id),
 	CONSTRAINT [FK_WerknemerBedrijf_Werknemer_Id] FOREIGN KEY ([WerknemerId]) REFERENCES [dbo].[Werknemer](Id),
-	CONSTRAINT [FK_Werknemer_Functie_Id] FOREIGN KEY ([FunctieId]) REFERENCES [dbo].[Functie](Id)
+	CONSTRAINT [FK_Werknemer_Functie_Id] FOREIGN KEY ([FunctieId]) REFERENCES [dbo].[Functie](Id),
+	CONSTRAINT [UN_BId_WId_FId_WMail_Status] UNIQUE(BedrijfId, WerknemerId, FunctieId, WerknemerEmail, Status)
 )
 
 CREATE TABLE [dbo].[Bezoeker](
