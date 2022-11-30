@@ -21,7 +21,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 		#region Request Methods
 
-		public static async Task<(bool, T?)> Get<T>(string url, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Get<T>(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -48,12 +48,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task<(bool, T?)> GetMetBody<T>(string url, string body, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> GetMetBody<T>(string url, string body) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -86,12 +84,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async void Get(string url, string defaultFoutMelding = "") {
+		public static async void Get(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -108,13 +104,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
-		public static async Task<(bool, T?)> Put<T>(string url, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Put<T>(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -141,12 +135,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task<(bool, T?)> Put<T>(string url, string json, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Put<T>(string url, string json) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -173,12 +165,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async void Put(string url, string defaultFoutMelding = "") {
+		public static async void Put(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -195,12 +185,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async void Put(string url, string json, string defaultFoutMelding = "") {
+		public static async void Put(string url, string json) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -217,13 +205,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
-		public async static Task Delete(string url, string defaultFoutMelding = "") {
+		public async static Task Delete(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -240,13 +226,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
-		public static async Task<(bool, T?)> Post<T>(string url, string json, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Post<T>(string url, string json) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -273,12 +257,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task<bool> Post(string url, string json = "", string defaultFoutMelding = "") {
+		public static async Task<bool> Post(string url, string json = "") {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -297,8 +279,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				return true;
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
@@ -585,7 +565,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		}
 
 		public static BedrijfDTO UpdateBedrijf(long bedrijfId, BedrijfInputDTO nieuwBedrijf) {
-			Task.Run(() => Put($"bedrijf/{bedrijfId}", JsonConvert.SerializeObject(nieuwBedrijf), "Er is iets mis gegaan bij het updaten van het bedrijf"));
+			string payload = JsonConvert.SerializeObject(nieuwBedrijf);
+			Task.Run(() => Put($"bedrijf/{bedrijfId}", payload));
 			return new(bedrijfId, nieuwBedrijf.Naam, nieuwBedrijf.BTW, nieuwBedrijf.TelefoonNummer, nieuwBedrijf.Email, nieuwBedrijf.Adres);
 		}
 		#endregion
