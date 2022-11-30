@@ -462,9 +462,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			MySqlConnection con = GetConnection();
 			string queryInsert = "INSERT INTO Werknemer (VNaam, ANaam) VALUES (@VNaam, @ANaam);";
             string querySelect = "SELECT id FROM Werknemer WHERE id = LAST_INSERT_ID();";
+			con.Open();
+			MySqlTransaction trans = con.BeginTransaction();
 			try {
-				con.Open();
-				MySqlTransaction trans = con.BeginTransaction();
 				using (MySqlCommand cmdSelect = con.CreateCommand())
 				using (MySqlCommand cmdInsert = con.CreateCommand()) {
 					cmdInsert.Transaction = trans;
@@ -477,8 +477,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 
 					cmdSelect.Transaction = trans;
 					cmdSelect.CommandText = querySelect;
-					long i = (long)cmdInsert.ExecuteScalar();
+					long i = (long)cmdSelect.ExecuteScalar();
 					werknemer.ZetId(i);
+					trans.Commit();
 					////Dit voegt de bedrijven/functie toe aan uw werknemer in de DB
 					//VoegFunctieToeAanWerknemer(werknemer);
 					return werknemer;
@@ -486,6 +487,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			} catch (Exception ex) {
 				WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
+				trans.Rollback();
 				throw exx;
 			} finally {
 				con.Close();
