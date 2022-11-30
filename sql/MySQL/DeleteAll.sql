@@ -15,3 +15,7 @@ DROP PROCEDURE IF EXISTS Groupswork.GenerateParkeerPlaatsen;
 
 /*Drops Procedure that adds 500 visitors and appointments*/
 DROP PROCEDURE IF EXISTS Groupswork.GenerateBulkAppointments;
+
+/*Drops Events if they exist*/
+DROP EVENT IF EXIST event_BeeindigAfsprakenSysteem;
+SET GLOBAL event_scheduler = OFF;

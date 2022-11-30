@@ -88,13 +88,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
-					var sqltype = (bedrijf is not null && bedrijf.Id != 0) ? SqlDbType.BigInt : (bedrijfId.HasValue) ? SqlDbType.BigInt : SqlDbType.VarChar;
+					var sqltype = (bedrijf is not null && bedrijf.Id != 0) ? MySqlDbType.Int64 : (bedrijfId.HasValue) ? MySqlDbType.Int64 : MySqlDbType.VarChar;
 					cmd.Parameters.Add(new MySqlParameter("@querylookup", sqltype));
 					string databaseWhere = (bedrijf is not null) ? (bedrijf.Id != 0) ? "id" : "BTWNr" : (bedrijfId.HasValue) ? "id" : "Naam";
 					query += $" AND {databaseWhere} = @querylookup";
 					cmd.Parameters["@querylookup"].Value = (bedrijf is not null) ? (bedrijf.Id != 0) ? bedrijf.Id : bedrijf.BTW : (bedrijfId.HasValue) ? bedrijfId : bedrijfsnaam;
 					cmd.CommandText = query;
-					int i = (int)cmd.ExecuteScalar();
+					long i = (long)cmd.ExecuteScalar();
 					return (i > 0);
 				}
 			} catch (Exception ex) {
@@ -127,13 +127,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@naam", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@btwnr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@telenr", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@email", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@adres", SqlDbType.VarChar));
-					cmd.Parameters.Add(new MySqlParameter("@btwcheck", SqlDbType.Bit));
-					cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
+					cmd.Parameters.Add(new MySqlParameter("@naam", MySqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@btwnr", MySqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@telenr", MySqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@email", MySqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@adres", MySqlDbType.VarChar));
+					cmd.Parameters.Add(new MySqlParameter("@btwcheck", MySqlDbType.Bit));
+					cmd.Parameters.Add(new MySqlParameter("@id", MySqlDbType.Int64));
 					cmd.Parameters["@naam"].Value = bedrijf.Naam;
 					cmd.Parameters["@btwnr"].Value = bedrijf.BTW;
 					cmd.Parameters["@telenr"].Value = bedrijf.TelefoonNummer;
@@ -202,11 +202,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					con.Open();
 					if (_bedrijfId.HasValue) {
 						query += " AND b.Id = @id";
-						cmd.Parameters.Add(new MySqlParameter("@id", SqlDbType.BigInt));
+						cmd.Parameters.Add(new MySqlParameter("@id", MySqlDbType.Int64));
 						cmd.Parameters["@id"].Value = _bedrijfId;
 					} else {
 						query += " AND b.Naam = @Naam";
-						cmd.Parameters.Add(new MySqlParameter("@Naam", SqlDbType.VarChar));
+						cmd.Parameters.Add(new MySqlParameter("@Naam", MySqlDbType.VarChar));
 						cmd.Parameters["@Naam"].Value = _bedrijfnaam;
 					}
 					query += " ORDER BY wn.Id, f.Id";
@@ -222,8 +222,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
 							string bedrijfMail = (string)reader["BedrijfMail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBtwCheck = (bool)reader["BTWChecked"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBtwCheck, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 						}
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
 							if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
@@ -285,8 +285,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
 							string bedrijfMail = (string)reader["BedrijfMail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-							bool bedrijfBtwCheck = (bool)reader["BTWChecked"];
-							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBtwCheck, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+                            bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 							bedrijven.Add(bedrijf);
 						}
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
@@ -354,8 +354,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 												 "SET Status = @statusId " +
 												 "WHERE BedrijfId = @bedrijfid";
 						cmdMedewerker.Transaction = trans;
-						cmdMedewerker.Parameters.Add(new MySqlParameter("@bedrijfid", SqlDbType.BigInt));
-						cmdMedewerker.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
+						cmdMedewerker.Parameters.Add(new MySqlParameter("@bedrijfid", MySqlDbType.Int64));
+						cmdMedewerker.Parameters.Add(new MySqlParameter("@statusId", MySqlDbType.Int32));
 						cmdMedewerker.Parameters["@bedrijfid"].Value = bedrijfId;
 						cmdMedewerker.Parameters["@statusId"].Value = statusId;
 						cmdMedewerker.CommandText = queryMedewerker;
@@ -364,8 +364,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					//Bedrijf Sectie
 					cmdBedrijf.CommandText = queryBedrijf;
 					cmdBedrijf.Transaction = trans;
-					cmdBedrijf.Parameters.Add(new MySqlParameter("@bedrijfid", SqlDbType.BigInt));
-					cmdBedrijf.Parameters.Add(new MySqlParameter("@statusId", SqlDbType.Int));
+					cmdBedrijf.Parameters.Add(new MySqlParameter("@bedrijfid", MySqlDbType.Int64));
+					cmdBedrijf.Parameters.Add(new MySqlParameter("@statusId", MySqlDbType.Int32));
 					cmdBedrijf.Parameters["@bedrijfid"].Value = bedrijfId;
 					cmdBedrijf.Parameters["@statusId"].Value = statusId;
 					cmdBedrijf.ExecuteNonQuery();
@@ -400,12 +400,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmdInsert = con.CreateCommand()) {
 					cmdInsert.Transaction = trans;
 					cmdInsert.CommandText = query;
-					cmdInsert.Parameters.Add(new MySqlParameter("@naam", SqlDbType.VarChar));
-					cmdInsert.Parameters.Add(new MySqlParameter("@btwNr", SqlDbType.VarChar));
-					cmdInsert.Parameters.Add(new MySqlParameter("@TeleNr", SqlDbType.VarChar));
-					cmdInsert.Parameters.Add(new MySqlParameter("@Email", SqlDbType.VarChar));
-					cmdInsert.Parameters.Add(new MySqlParameter("@Adres", SqlDbType.VarChar));
-					cmdInsert.Parameters.Add(new MySqlParameter("@BTWChecked", SqlDbType.Bit));
+					cmdInsert.Parameters.Add(new MySqlParameter("@naam", MySqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@btwNr", MySqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@TeleNr", MySqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@Email", MySqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@Adres", MySqlDbType.VarChar));
+					cmdInsert.Parameters.Add(new MySqlParameter("@BTWChecked", MySqlDbType.Bit));
 					cmdInsert.Parameters["@naam"].Value = bedrijf.Naam;
 					cmdInsert.Parameters["@btwNr"].Value = bedrijf.BTW;
 					cmdInsert.Parameters["@TeleNr"].Value = bedrijf.TelefoonNummer;
