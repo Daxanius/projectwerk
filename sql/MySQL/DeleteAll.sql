@@ -17,5 +17,5 @@ DROP PROCEDURE IF EXISTS Groupswork.GenerateParkeerPlaatsen;
 DROP PROCEDURE IF EXISTS Groupswork.GenerateBulkAppointments;
 
 /*Drops Events if they exist*/
-DROP EVENT IF EXIST event_BeeindigAfsprakenSysteem;
+DROP EVENT IF EXISTS Groupswork.event_BeeindigAfsprakenSysteem;
 SET GLOBAL event_scheduler = OFF;
