@@ -8,6 +8,7 @@
       xmlns:controls="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      FontFamily="{StaticResource Inter}"
       Title="ParkingPage">
     <Grid>
         <Grid.RowDefinitions>
@@ -47,7 +48,66 @@
                     <StackPanel />
                 </DockPanel>
             </Grid>
-                <Border
+            <Border
+                Padding="20"
+                Margin="0,0,40,0"
+                Background="{StaticResource LichtGrijsAccent}"
+                CornerRadius="25"
+                DockPanel.Dock="Left">
+                <StackPanel>
+                    <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                                            Grid.Column="0"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource DonkerBlauw}"
+                                            Text="Parking Contract" />
+                        <StackPanel HorizontalAlignment="Right" Grid.Column="1">
+                            <Border
+                                                    Background="{StaticResource MainAchtergrond}"
+                                                    CornerRadius="25"
+                                                    DockPanel.Dock="Left">
+                                <StackPanel
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                    <iconspresenter:Icon
+                                                            CircleBackground="{StaticResource DonkerBlauw}"
+                                                            IconSize="50"
+                                                            IconSource="../ParkingContractIcon.xaml" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                    <controls:ParkingContractControl x:Name="ParkingContractDetail" />
+                </StackPanel>
+            </Border>
+            <Border
+                Padding="20"
+                Margin="0,40,0,0"
+                Background="{StaticResource LichtGrijsAccent}"
+                CornerRadius="25"
+                DockPanel.Dock="Bottom">
+                <StackPanel>
+                    <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                                            Grid.Column="0"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource DonkerBlauw}"
+                                            Text="Statistieken" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <Border
                 Padding="20"
                 Background="{StaticResource LichtGrijsAccent}"
                 CornerRadius="25"
