@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace BezoekersRegistratieSysteemUI
+namespace BezoekersRegistratieSysteemUI.Grafiek
 {
     public class GrafiekControl : Control
     {
@@ -29,7 +29,7 @@ namespace BezoekersRegistratieSysteemUI
 
 			List<Point> punten = new();
             foreach (var key in Waarden.Keys) {
-                var width = punten.Count * (Width / Waarden.Keys.Count);
+                var width = punten.Count * (Width / (Waarden.Keys.Count-1));
 				punten.Add(new(width, Height - (Waarden[key] / max * Height * 0.9)));
 				drawingContext.DrawText(new(
                         key, 
