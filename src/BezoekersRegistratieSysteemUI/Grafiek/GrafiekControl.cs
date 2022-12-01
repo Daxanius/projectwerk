@@ -56,11 +56,12 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 			for (int i = 0; i <= max; i += ValueIncrement) {
                 var textHeight = Height - (i / max * Height * 0.9);
 
-				//for (int ii = 0; ii < Width; ii += (MileStrokeDot + MileStrokeDotPadding)) {
-				//	drawingContext.DrawLine(new(MileStroke, MileStrokeThickness), new(ii, height), new(ii + MileStrokeDot, height));
-				//}
+                //for (int ii = 0; ii < Width; ii += (MileStrokeDot + MileStrokeDotPadding))
+                //{
+                //    drawingContext.DrawLine(new(MileStroke, MileStrokeThickness), new(ii, height), new(ii + MileStrokeDot, height));
+                //}
 
-				drawingContext.DrawText(new(
+                drawingContext.DrawText(new(
                         i.ToString(), 
                         CultureInfo.CurrentCulture, 
                         FlowDirection.RightToLeft, 
@@ -73,13 +74,30 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 		}
 
         public GrafiekControl() {
-            Waarden.Add("Ma", 30);
-            Waarden.Add("Di", 100);
-            Waarden.Add("Wo", 34);
-            Waarden.Add("Do", 67);
-            Waarden.Add("Vr", 54);
-            Waarden.Add("Za", 3);
-            Waarden.Add("Zo", 0);
+            Waarden.Add("1u", 30);
+            Waarden.Add("2u", 100);
+            Waarden.Add("3u", 34);
+            Waarden.Add("4u", 67);
+            Waarden.Add("5u", 54);
+            Waarden.Add("6u", 3);
+            Waarden.Add("7u", 0);
+            Waarden.Add("8u", 30);
+            Waarden.Add("9u", 100);
+            Waarden.Add("10u", 34);
+            Waarden.Add("11u", 67);
+            Waarden.Add("12u", 54);
+            Waarden.Add("13u", 3);
+            Waarden.Add("14u", 0);
+            Waarden.Add("15u", 30);
+            Waarden.Add("16u", 100);
+            Waarden.Add("17u", 34);
+            Waarden.Add("18u", 67);
+            Waarden.Add("19u", 54);
+            Waarden.Add("20u", 3);
+            Waarden.Add("21u", 0);
+            Waarden.Add("22u", 0);
+            Waarden.Add("23u", 0);
+            Waarden.Add("24u", 0);
         }
 
         static GrafiekControl()
