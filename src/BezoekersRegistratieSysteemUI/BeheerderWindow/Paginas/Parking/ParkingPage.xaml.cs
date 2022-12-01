@@ -65,20 +65,25 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 		}
         #endregion ProppertyChanged
 
-        private void Test_Loaded(object sender, RoutedEventArgs e)
+        private void LineGraph_Loaded(object sender, RoutedEventArgs e)
         {
-			Grafiek.Width = Test.RenderSize.Width*0.85;
-			Grafiek.Height = Test.RenderSize.Height*0.65;
+			Grafiek.Width = LineGraph.RenderSize.Width*0.85;
+			Grafiek.Height = LineGraph.RenderSize.Height*0.65;
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-			if (Test.RenderSize.Width == 0)
+			if (LineGraph.RenderSize.Width == 0)
 			{
 				return;
 			}
-            Grafiek.Width = Test.RenderSize.Width * 0.85;
-            Grafiek.Height = Test.RenderSize.Height * 0.65;
+            Grafiek.Width = LineGraph.RenderSize.Width * 0.85;
+            Grafiek.Height = LineGraph.RenderSize.Height * 0.65;
+        }
+
+        private void BarGraph_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

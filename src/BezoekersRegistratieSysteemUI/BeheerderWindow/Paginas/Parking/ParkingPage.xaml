@@ -50,14 +50,25 @@
                     <StackPanel />
                 </DockPanel>
             </Grid>
-            <Border
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.3*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Border
                 Padding="20"
                 Margin="0,0,40,0"
                 Background="{StaticResource LichtGrijsAccent}"
                 CornerRadius="25"
-                DockPanel.Dock="Left">
+                DockPanel.Dock="Left"
+                Grid.Row="0"
+                Grid.Column="0">
                 <StackPanel>
-                    <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
+                    <Grid DockPanel.Dock="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -88,19 +99,40 @@
                     <controls:ParkingContractControl x:Name="ParkingContractDetail" />
                 </StackPanel>
             </Border>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1.3*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                <Border
+                Padding="20"
+                Margin="0,40,40,0"
+                Background="{StaticResource LichtGrijsAccent}"
+                CornerRadius="25"
+                DockPanel.Dock="Bottom"
+                Name="BarGraph" 
+                Grid.Row="1"
+                    Grid.Column="0" Loaded="BarGraph_Loaded">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                            Grid.Column="0"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource DonkerBlauw}"
+                                            Text="Bezetting op Weekbasis" />
+                        </Grid>
+                        <local1:GrafiekControl x:Name="Grafiek1" Margin="25,0,25,25" ValueIncrement="25" Font="Inter" HorizontalAlignment="Center" Stroke="{StaticResource GewoonBlauw}" StrokeThickness="3"/>
+                    </StackPanel>
+                </Border>
                 <Border
                 Padding="20"
                 Margin="0,40,0,0"
                 Background="{StaticResource LichtGrijsAccent}"
                 CornerRadius="25"
                 DockPanel.Dock="Bottom"
-                Name="Test" Loaded="Test_Loaded"
-                Grid.Row="1">
+                Name="LineGraph" Loaded="LineGraph_Loaded"
+                Grid.Row="1"
+                    Grid.Column="1">
                     <StackPanel>
                     <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
                         <Grid.ColumnDefinitions>
@@ -112,17 +144,18 @@
                                             FontSize="24"
                                             FontWeight="Bold"
                                             Foreground="{StaticResource DonkerBlauw}"
-                                            Text="Statistieken" />
+                                            Text="Bezetting op Dagbasis" />
                     </Grid>
-                <local1:GrafiekControl x:Name="Grafiek" Margin="25,0,25,25" ValueIncrement="25" Font="Inter" HorizontalAlignment="Center"/>
+                <local1:GrafiekControl x:Name="Grafiek" Margin="25,0,25,25" ValueIncrement="25" Font="Inter" HorizontalAlignment="Center" Stroke="{StaticResource GewoonBlauw}" StrokeThickness="3"/>
                 </StackPanel>
-            </Border>
+                </Border>
                 <Border
                 Padding="20"
                 Background="{StaticResource LichtGrijsAccent}"
                 CornerRadius="25"
                 DockPanel.Dock="Right"
-                Grid.Row="0">
+                Grid.Row="0"
+                    Grid.Column="1">
                 <StackPanel>
                     <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
                         <Grid.ColumnDefinitions>
