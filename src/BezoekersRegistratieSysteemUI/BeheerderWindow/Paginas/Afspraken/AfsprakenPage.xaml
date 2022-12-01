@@ -316,7 +316,7 @@
                                             MouseLeftButtonDown="ResetDatumFilter" />
                                     </StackPanel>
                                 </Grid>
-                                <controls:OpDatumLijstControl x:Name="OpDatumAfsprakenLijst" />
+                                <controls:OpDatumAfsprakenLijstControl x:Name="OpDatumAfsprakenLijst" />
                             </DockPanel>
                         </Border>
                     </DockPanel>
@@ -324,7 +324,11 @@
             </DockPanel>
         </DockPanel>
         <popups:AfsprakenPopup
-            x:Name="AfsprakenPopup"
+            x:Name="afsprakenPopup"
+            Grid.Row="0"
+            Visibility="Collapsed" />
+        <popups:UpdateAfsprakenPopup
+            x:Name="updateAfsprakenPopup"
             Grid.Row="0"
             Visibility="Collapsed" />
     </Grid>

@@ -167,13 +167,15 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// Bewerkt een afspraak op ID.
 		/// </summary>
 		/// <param name="afspraakId">De ID van de afspraak</param>
+		/// <param name="bezoekerId">De ID van de bezoeker</param>
 		/// <param name="afspraakInput">De nieuwe informatie van de afspraak</param>
 		/// <returns>BadRequest bij mislukking</returns>
-		[HttpPut("{afspraakId}")]
-		public ActionResult<AfspraakOutputDTO> BewerkAfspraak(long afspraakId, [FromBody] AfspraakInputDTO afspraakInput) {
+		[HttpPut("{afspraakId}/{bezoekerId}")]
+		public ActionResult<AfspraakOutputDTO> BewerkAfspraak(long afspraakId, long bezoekerId, [FromBody] AfspraakInputDTO afspraakInput) {
 			try {
 				Afspraak afspraak = afspraakInput.NaarBusiness(_werknemerManager, _bedrijfManager);
 				afspraak.ZetId(afspraakId);
+				afspraak.Bezoeker.ZetId(bezoekerId);
 				_afspraakManager.BewerkAfspraak(afspraak);
 				return Ok(AfspraakOutputDTO.NaarDTO(afspraak));
 			} catch (Exception ex) {

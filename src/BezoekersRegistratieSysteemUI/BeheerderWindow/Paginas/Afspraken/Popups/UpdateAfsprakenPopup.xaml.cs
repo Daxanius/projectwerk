@@ -17,16 +17,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
+using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemUI.Api.Output;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups {
-	public partial class AfsprakenPopup : UserControl, INotifyPropertyChanged {
+	public partial class UpdateAfsprakenPopup : UserControl, INotifyPropertyChanged {
 		#region Variabelen
 		private Border? _selecteditem = null;
 
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
 		  typeof(ObservableCollection<WerknemerDTO>),
-		  typeof(AfsprakenPopup),
+		  typeof(UpdateAfsprakenPopup),
 		  new PropertyMetadata(new ObservableCollection<WerknemerDTO>())
 		 );
 
@@ -34,6 +36,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			get { return (ObservableCollection<WerknemerDTO>)GetValue(ItemSourceProperty); }
 			set { SetValue(ItemSourceProperty, value); }
 		}
+
+		private AfspraakDTO oudeAfspraak;
 
 		private WerknemerDTO? _werknemer;
 		public WerknemerDTO? Werknemer {
@@ -79,7 +83,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				UpdatePropperty();
 			}
 		}
-		private string _startTijd = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+		private string _startTijd = DateTime.Now.ToString("HH:mm dd/MM/yyyy");
 		public string StartTijd {
 			get => _startTijd;
 			set {
@@ -99,21 +103,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		}
 		#endregion
 
-		public AfsprakenPopup() {
+		public UpdateAfsprakenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
 
 			BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
 		}
 
-		private void UpdateGeselecteerdBedrijf_Event() {
-			Werknemer = null;
-			KiesWerknemerTextBlock.Text = "Kies werknemer";
-		}
-
 		#region Functies
-		#region VoegMedeWerkerToeEiland
-		private void DatePicker_LostKeyboardFocus(object sender, RoutedEventArgs e) => ControleerInputOpDatum(sender);
 		private void DatePickerInput_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => ControleerInputOpDatum(sender);
 		private void DatePickerInput_LostKeyboardFocus(object sender, RoutedEventArgs e) => ControleerInputOpDatum(sender);
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) => SluitOverlay();
@@ -122,7 +119,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		private void ControleerInputOpDatum(object sender) {
 			TextBox textBox = sender as TextBox;
 			if (DateTime.TryParse(textBox.Text, out DateTime dateTime)) {
-				textBox.Text = dateTime.ToString("dd/MM/yyyy HH:mm");
+				textBox.Text = dateTime.ToString("HH:mm dd/MM/yyyy");
 				textBox.BorderBrush = Brushes.Transparent;
 				textBox.BorderThickness = new Thickness(0);
 			} else {
@@ -178,7 +175,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				return;
 			}
 
-			DateTime startTijdDatum = DateTime.Parse(StartTijd);
+			DateTime startTijdDatum = DateTime.Parse(StartTijd.Trim());
 			if (startTijdDatum > DateTime.Now) {
 				MessageBox.Show("StartTijd mag niet in de toekomst liggen!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
@@ -211,19 +208,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			#endregion
 
-			AfspraakInputDTO payload = new AfspraakInputDTO(new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf), startTijdDatum, eindTijdDatum, Werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
-			AfspraakDTO afspraak = ApiController.MaakAfspraak(payload);
+			var bezoekerInput = new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf);
+			var afspraakInput = new AfspraakInputDTO(bezoekerInput, startTijdDatum, eindTijdDatum, Werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
+			
+			ApiController.UpdateAfspraak(afspraakInput, oudeAfspraak.Id, oudeAfspraak.Bezoeker.Id);
 
-			if (afspraak.EindTijd.IsLeeg())
-				afspraak.Status = "Lopend";
-			else if (afspraak.EindTijd.IsNietLeeg())
-				afspraak.Status = "Stopgezet door admin";
+			AfspraakDTO afspraak = ApiController.GeefAfspraak(oudeAfspraak.Id);
+			AfspraakEvents.InvokeUpdateAfspraak(afspraak);
 
 			SluitOverlay();
-			AfspraakEvents.InvokeNieuweAfspraakToegevoegd(afspraak);
 
 			CustomMessageBox customMessageBox = new();
-			customMessageBox.Show("Afspraak toegevoegd", $"Success", ECustomMessageBoxIcon.Information);
+			customMessageBox.Show("Afspraak Is Gewijzigd", $"Success", ECustomMessageBoxIcon.Information);
 		}
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
@@ -245,7 +241,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			EindTijd = null;
 
 			AfsprakenPage afsprakenPage = AfsprakenPage.Instance;
-			afsprakenPage.afsprakenPopup.Visibility = Visibility.Hidden;
+			afsprakenPage.updateAfsprakenPopup.Visibility = Visibility.Hidden;
 		}
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
 			if (_selecteditem is not null) {
@@ -259,9 +255,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			border.Margin = new Thickness(0);
 			_selecteditem = border;
 		}
-		#endregion
-
-		#region KiesWerknemerEiland
 		private void KiesMedeWerkerClick(object sender, RoutedEventArgs e) {
 			object selectedItem = MedewerkersLijstVanBedrijf.SelectedValue;
 			if (selectedItem is not WerknemerDTO) return;
@@ -271,12 +264,25 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			KiesWerknemerTextBlock.Text = werknemer.ToString();
 			GaTerugNaarVoegMedewerkerEiland(null, null);
 		}
-
 		private void GaTerugNaarVoegMedewerkerEiland(object sender, RoutedEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Visible;
 			KiesMedewerkerEiland.Visibility = Visibility.Collapsed;
 		}
-		#endregion
+		private void UpdateGeselecteerdBedrijf_Event() {
+			Werknemer = null;
+			KiesWerknemerTextBlock.Text = "Kies werknemer";
+		}
+		public void ZetAfspraak(AfspraakDTO afspraak) {
+			oudeAfspraak = afspraak;
+
+			Werknemer = afspraak.Werknemer;
+			BezoekerVoornaam = afspraak.Bezoeker.Voornaam;
+			BezoekerAchternaam = afspraak.Bezoeker.Achternaam;
+			BezoekerEmail = afspraak.Bezoeker.Email;
+			BezoekerBedrijf = afspraak.Bezoeker.Bedrijf;
+			StartTijd = afspraak.StartTijd;
+			EindTijd = afspraak.EindTijd;
+		}
 		#endregion
 
 		#region ProppertyChanged

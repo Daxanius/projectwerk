@@ -12,11 +12,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls {
-	public partial class OpDatumLijstControl : UserControl {
+	public partial class OpDatumAfsprakenLijstControl : UserControl {
+		#region Variabelen
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
 		  typeof(ObservableCollection<AfspraakDTO>),
-		  typeof(OpDatumLijstControl),
+		  typeof(OpDatumAfsprakenLijstControl),
 		  new PropertyMetadata(new ObservableCollection<AfspraakDTO>())
 		 );
 
@@ -28,7 +29,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
 		  nameof(SelectedItem),
 		  typeof(AfspraakDTO),
-		  typeof(OpDatumLijstControl),
+		  typeof(OpDatumAfsprakenLijstControl),
 		  new PropertyMetadata(null)
 		);
 
@@ -40,7 +41,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
 		  nameof(SelectedIndex),
 		  typeof(int),
-		  typeof(OpDatumLijstControl),
+		  typeof(OpDatumAfsprakenLijstControl),
 		  new PropertyMetadata(-1)
 		);
 
@@ -48,11 +49,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			get { return (int)GetValue(SelectedIndexProperty); }
 			set { SetValue(SelectedIndexProperty, value); }
 		}
+		#endregion
 
-		public OpDatumLijstControl() {
+		public OpDatumAfsprakenLijstControl() {
 			this.DataContext = this;
 			InitializeComponent();
 			ItemSource.CollectionChanged += ItemSource_CollectionChanged;
+			AfspraakEvents.UpdateAfspraak += AfspraakGewijzig_Event;
 		}
 
 		//Auto Columns Resize on Change
@@ -74,8 +77,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		}
 
 		private void WijzigAfspraak_Click(object sender, RoutedEventArgs e) {
-			if (ContextMenu.DataContext is WerknemerDTO werknemer) {
+			if (ContextMenu.DataContext is AfspraakDTO afspraak && afspraak is not null) {
+				AfsprakenPage.Instance.updateAfsprakenPopup.Visibility = Visibility.Visible;
+				AfsprakenPage.Instance.updateAfsprakenPopup.ZetAfspraak(afspraak);
+			}
+		}
 
+		private void AfspraakGewijzig_Event(AfspraakDTO afspraak) {
+			if (afspraak is null) return;
+			int index = ItemSource.IndexOf(ItemSource.FirstOrDefault(a => a.Id == afspraak.Id));
+			if (index > -1) {
+				ItemSource.RemoveAt(index);
+				ItemSource.Insert(index, afspraak);
 			}
 		}
 

@@ -24,6 +24,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 
 			BedrijfEvents.NieuwBedrijfToeGevoegd += NieuwBedrijfToeGevoegd_Event;
 			BedrijfEvents.BedrijfVerwijderd += BedrijfVerwijderd_Event;
+			BedrijfEvents.BedrijfGeupdate += BedrijfGeUpdate_Event;
 
 			_bedrijvenLijst = ApiController.GeefBedrijven().ToList();
 
@@ -39,6 +40,23 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 		private void NieuwBedrijfToeGevoegd_Event(BedrijfDTO bedrijf) {
 			_bedrijvenLijst.Add(bedrijf);
 			SpawnBedrijvenGrid();
+		}
+
+		private void BedrijfGeUpdate_Event(BedrijfDTO bedrijf) {
+			if (bedrijf is null) return;
+
+			for (int i = 0; i < gridContainer.Children.Count; i++) {
+				Border border = (Border)gridContainer.Children[i];
+				if (border.DataContext is BedrijfDTO bedrijfDTO) {
+					if (bedrijfDTO.Id == bedrijf.Id) {
+						border.DataContext = bedrijf;
+						StackPanel stackPanel = (StackPanel)border.Child;
+						TextBlock textBlock = (TextBlock)stackPanel.Children[1];
+						textBlock.Text = bedrijf.Naam;
+						break;
+					}
+				}
+			}
 		}
 
 		private void SpawnBedrijvenGrid() {

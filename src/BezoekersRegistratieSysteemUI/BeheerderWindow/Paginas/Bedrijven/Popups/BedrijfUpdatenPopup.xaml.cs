@@ -100,7 +100,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 
 			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(naam, BTW, telefoonNummer, email, adres);
 			BedrijfDTO bedrijf = ApiController.UpdateBedrijf(Id, nieuwBedrijf);
-			//BedrijfEvents.InvokeNieuwBedrijfToeGevoegd(bedrijf)
+			BedrijfEvents.InvokeBedrijfGeupdate(bedrijf);
 
 			SluitOverlay(null);
 		}

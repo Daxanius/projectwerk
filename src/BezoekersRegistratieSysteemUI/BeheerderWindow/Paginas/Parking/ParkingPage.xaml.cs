@@ -30,7 +30,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			FullWidth = (int)SystemParameters.PrimaryScreenWidth;
 			FullHeight = (int)SystemParameters.PrimaryScreenHeight;
 
-			BedrijfEvents.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijf_Event;
+			BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
 
 			this.DataContext = this;
 			InitializeComponent();

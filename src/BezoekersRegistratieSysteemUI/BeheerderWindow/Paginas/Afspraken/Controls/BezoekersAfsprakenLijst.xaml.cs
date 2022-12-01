@@ -56,24 +56,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			AfspraakEvents.VerwijderAfspraak += VerwijderAfspraak_Event;
 		}
 
-		private void VerwijderAfspraak_Event(AfspraakDTO afspraak) {
-			if (ItemSource.Contains(afspraak)) {
-				ItemSource.Remove(afspraak);
-			}
-		}
-
 		#region Functies
-		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
-			Button? b = sender as Button;
-			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
-
-			OpenAfspraakDetail(afspraak);
-		}
-
-		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
-
-		}
-
 		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
 			if (_selecteditem is not null) {
 				_selecteditem.Background = Brushes.Transparent;
@@ -88,6 +71,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			border.CornerRadius = new CornerRadius(20);
 			border.Margin = new Thickness(0, 0, 20, 0);
 			_selecteditem = border;
+		}
+
+		private void VerwijderAfspraak_Event(AfspraakDTO afspraak) {
+			if (ItemSource.Contains(afspraak)) {
+				ItemSource.Remove(afspraak);
+			}
 		}
 
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {

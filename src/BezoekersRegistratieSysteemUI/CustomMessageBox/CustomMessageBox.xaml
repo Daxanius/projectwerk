@@ -8,63 +8,56 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Opgelet"
     AllowsTransparency="True"
-    Background="#3a3a3a7a"
+    Background="Transparent"
     FontFamily="{StaticResource Inter}"
     ResizeMode="NoResize"
+    SizeToContent="WidthAndHeight"
     Topmost="True"
     WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
     WindowStyle="None"
     mc:Ignorable="d">
     <Border Background="{StaticResource MainAchtergrond}" CornerRadius="25">
-        <Grid>
+        <Grid Margin="80">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="0.5*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="0.5*" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="0.5*" />
-                <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Label
                 x:Name="TitleLabel"
-                Grid.Row="1"
+                Grid.Row="0"
                 Grid.Column="0"
-                Grid.ColumnSpan="5"
+                Grid.ColumnSpan="2"
                 HorizontalAlignment="Center"
                 FontSize="40"
                 FontWeight="Bold"
                 Foreground="{StaticResource DonkerBlauw}" />
-            <iconspresenter:Icon
-                x:Name="Icon"
-                Grid.Row="3"
-                Grid.Column="1"
-                Margin="-50"
-                HorizontalAlignment="Left"
-                IconSize="200"
-                Opacity="1" />
-            <TextBlock
-                x:Name="TextTextBox"
-                Grid.Row="3"
-                Grid.Column="1"
-                Grid.ColumnSpan="3"
-                Margin="120,10,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontSize="26"
-                FontWeight="Medium" />
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Orientation="Horizontal">
+                <iconspresenter:Icon
+                    x:Name="Icon"
+                    CanvasWidth="40"
+                    IconSize="200"
+                    Opacity="1" />
+                <TextBlock
+                    x:Name="TextTextBox"
+                    Margin="0,10,0,0"
+                    VerticalAlignment="Center"
+                    FontSize="36"
+                    FontWeight="Bold" />
+            </StackPanel>
             <Button
                 x:Name="AnnulerenButton"
-                Grid.Row="5"
-                Grid.Column="1"
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="0,25,35,0"
                 Padding="15,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
@@ -79,8 +72,9 @@
                 Style="{StaticResource ActionButtonPopup}" />
             <Button
                 x:Name="BevestigenButton"
-                Grid.Row="5"
-                Grid.Column="3"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="35,25,0,0"
                 Padding="15,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
@@ -95,9 +89,9 @@
                 Style="{StaticResource ActionButtonPopup}" />
             <Button
                 x:Name="SluitButton"
-                Grid.Row="5"
+                Grid.Row="2"
                 Grid.Column="0"
-                Grid.ColumnSpan="5"
+                Grid.ColumnSpan="2"
                 Padding="15,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

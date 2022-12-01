@@ -12,6 +12,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemUI.Api {
 	public static class ApiController {
@@ -199,7 +202,8 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				using HttpClient client = new();
 				client.Timeout = _timeout;
 
-				HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, json);
+				var data = new StringContent(json, Encoding.UTF8, "application/json");
+				HttpResponseMessage response = await client.PutAsync(apiUrl, data);
 
 				if (!response.IsSuccessStatusCode) {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
@@ -384,10 +388,14 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-		public static WerknemerOutputDTO? GeefWerknemer(long werknemerId) {
+		public static WerknemerDTO GeefWerknemer(long werknemerId) {
 			return Task.Run(async () => {
-				(bool isvalid, WerknemerOutputDTO werknemer) = await Get<WerknemerOutputDTO>($"werknemer/{werknemerId}");
+				(bool isvalid, WerknemerOutputDTO apiWerknemer) = await Get<WerknemerOutputDTO>($"werknemer/{werknemerId}");
 				if (isvalid) {
+					List<WerknemerInfoDTO> lijstWerknemerInfo = apiWerknemer.WerknemerInfo.Select(w => new WerknemerInfoDTO(BeheerderWindow.GeselecteerdBedrijf, w.Email, w.Functies)).ToList();
+					string emailVanGeselecteerdBedrijf = lijstWerknemerInfo.First(w => w.Bedrijf.Id == BeheerderWindow.GeselecteerdBedrijf.Id).Email;
+					WerknemerDTO werknemer = new WerknemerDTO(apiWerknemer.Id, apiWerknemer.Voornaam, apiWerknemer.Achternaam, lijstWerknemerInfo);
+					werknemer.Email = emailVanGeselecteerdBedrijf;
 					return werknemer;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemer");
@@ -568,6 +576,24 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			string payload = JsonConvert.SerializeObject(nieuwBedrijf);
 			Task.Run(() => Put($"bedrijf/{bedrijfId}", payload));
 			return new(bedrijfId, nieuwBedrijf.Naam, nieuwBedrijf.BTW, nieuwBedrijf.TelefoonNummer, nieuwBedrijf.Email, nieuwBedrijf.Adres);
+		}
+
+		public static void UpdateAfspraak(AfspraakInputDTO afspraakInput, long afspraakId, long bezoekerId) {
+			string payload = JsonConvert.SerializeObject(afspraakInput);
+			Task.Run(() => Put($"afspraak/{afspraakId}/{bezoekerId}", payload));
+		}
+
+		public static AfspraakDTO GeefAfspraak(long afspraakId) {
+			return Task.Run(async () => {
+				(bool isvalid, AfspraakOutputDTO apiAfspraak) = await Get<AfspraakOutputDTO>($"afspraak/{afspraakId}");
+				if (isvalid) {
+					WerknemerDTO werknemer = new WerknemerDTO(apiAfspraak.Werknemer.Id, apiAfspraak.Werknemer.Naam.Split(";")[0], apiAfspraak.Werknemer.Naam.Split(";")[1], null);
+					BezoekerDTO bezoeker = new BezoekerDTO(apiAfspraak.Bezoeker.Id, apiAfspraak.Bezoeker.Naam.Split(";")[0], apiAfspraak.Bezoeker.Naam.Split(";")[1], apiAfspraak.Bezoeker.Email, apiAfspraak.Bezoeker.BezoekerBedrijf);
+					return new AfspraakDTO(apiAfspraak.Id, bezoeker, BeheerderWindow.GeselecteerdBedrijf.Naam, werknemer, apiAfspraak.Starttijd, apiAfspraak.Eindtijd, apiAfspraak.StatusNaam);
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
+				}
+			}).Result;
 		}
 		#endregion
 	}
