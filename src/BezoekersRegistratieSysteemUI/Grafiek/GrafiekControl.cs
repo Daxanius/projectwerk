@@ -11,14 +11,14 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
     public class GrafiekControl : Control
     {
         public Dictionary<string, double> Waarden { get; set; } = new();
-        public Brush Stroke { get; set; } = Brushes.DarkBlue;
-        public double StrokeThickness { get; set; } = 2;
         public Brush MileStroke { get; set; } = Brushes.LightGray;
+        public Brush Stroke { get; set; } = Brushes.DarkBlue;
+        public string Font { get; set; } = "Arial";
+        public double StrokeThickness { get; set; } = 2;
         public double MileStrokeThickness { get; set; } = 1;
         public int MileStrokeDot { get; set; } = 10;
         public int MileStrokeDotPadding { get; set; } = 5;
         public int ValueIncrement { get; set; } = 10;
-        public String Font { get; set; } = "Arial";
         public double TextPadding { get; set; } = 10;
         public double PixelsPerDip { get; set; } = 10;
 
@@ -35,10 +35,11 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
                         key, 
                         CultureInfo.CurrentCulture, 
                         FlowDirection.LeftToRight, 
-                        new(Font), FontSize, 
+                        new(Font), 
+                        FontSize, 
                         Foreground, 
                         PixelsPerDip), 
-                    new(width, Height + TextPadding));
+                    new(width - ((key.Length / 2) * FontSize) + PixelsPerDip / 2, Height + TextPadding));
 			}
 
 			for (int i = 0; i < punten.Count; i++) {
@@ -64,8 +65,8 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
                 drawingContext.DrawText(new(
                         i.ToString(), 
                         CultureInfo.CurrentCulture, 
-                        FlowDirection.RightToLeft, 
-                        new(Font), 
+                        FlowDirection.RightToLeft,
+						new(Font), 
                         FontSize, 
                         Foreground,
                         PixelsPerDip), 
