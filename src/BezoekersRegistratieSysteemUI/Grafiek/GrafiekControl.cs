@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.Grafiek
@@ -15,17 +14,50 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
         /// De waarden per kolom, steunt meerdere lijnen
         /// </summary>
         public Dictionary<string, GrafiekDataset> Lijnen { get; set; } = new();
+
+		/// <summary>
+		/// De kolomnamen voor extra duidelijkheid
+		/// </summary>
         public List<string> Kolommen { get; set; } = new();
+
+		/// <summary>
+		/// Het grafiektype
+		/// </summary>
 		public GrafiekType GrafiekType { get; set; } = GrafiekType.Lijn;
+
+		/// <summary>
+		/// De brush waarmee de achtergrond wordt getekend
+		/// </summary>
 		public Brush Stroke { get; set; } = Brushes.LightGray;
+
+		/// <summary>
+		/// De dikheid van de achtergrond brush
+		/// </summary>
         public double StrokeThickness { get; set; } = 1;
+
+		/// <summary>
+		/// De grootte van een punt
+		/// </summary>
         public int StrokeDot { get; set; } = 10;
+
+		/// <summary>
+		/// De tussenruimte tussen punten
+		/// </summary>
         public int StrokeDotPadding { get; set; } = 5;
+
+		/// <summary>
+		/// Het lettertype van de tekst
+		/// </summary>
         public string Font { get; set; } = "Arial";
+
+		/// <summary>
+		/// Met welke waarden de grafiek te incrementeren
+		/// </summary>
         public int WaardeIncrement { get; set; } = 10;
         public double TextPadding { get; set; } = 10;
         public double PixelsPerDip { get; set; } = 10;
-		public double BarPadding { get; set; } = 5;
+		public double BarMargin { get; set; } = 2;
+		public double LegendeMargin { get; set; } = 2;
 
 		/// <summary>
 		/// Tekent een achtergrond gebaseerd op de grootste dataset
@@ -35,9 +67,19 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
             // Haalt de grootste set op
             int langsteSet = Lijnen.Values.Max(s => s.Data.Count);
 
+			// Voor een bar hebben we geen offset nodig
+			int offset = 0;
+			switch (GrafiekType) {
+				case GrafiekType.Lijn:
+					offset = -1;
+					break;
+				default:
+					break;
+			}
+
 			for (int i = 0; i < langsteSet; i++) {
                 // X positie berekenen
-                double x = i * (Width / (langsteSet - 1));
+                double x = i * (Width / (langsteSet + offset));
 
 				// Verticale dotted lijn
 				for (int ii = 0; ii < Height; ii += (StrokeDot + StrokeDotPadding)) {
@@ -85,9 +127,9 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 
 			// We gaan door alle datasets gaan en ze individueel tekenen
 			foreach (var key in Lijnen.Keys) {
-				for (int i = 0; i < Lijnen[key].Data.Count - 1; i++) {
-					Point punt = new(i * (Width / (langsteSet - 1)), Height - (Lijnen[key].Data[i] / maxWaarde * Height * 0.9));
-					Rect rect = new(punt, new Size(Width / (Lijnen.Count * BarPadding), Lijnen[key].Data[i] / maxWaarde * Height * 0.9));
+				for (int i = 0; i < Lijnen[key].Data.Count; i++) {
+					Point punt = new(i * (Width / langsteSet), Height - (Lijnen[key].Data[i] / maxWaarde * Height * 0.9));
+					Rect rect = new(punt, new Size(Width / (langsteSet * BarMargin), Lijnen[key].Data[i] / maxWaarde * Height * 0.9));
 					drawingContext.DrawRectangle(Lijnen[key].Stroke, Lijnen[key].GeefPen(), rect);
 				}
 			}
@@ -102,9 +144,19 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 			double maxWaarde = Lijnen.Values.Max(x => x.Data.Max());
 			int langsteSet = Lijnen.Values.Max(s => s.Data.Count);
 
+			// Voor een bar hebben we geen offset nodig
+			int offset = 0;
+			switch (GrafiekType) {
+				case GrafiekType.Lijn:
+					offset = -1;
+					break;
+				default:
+					break;
+			}
+
 			// Tekent de onderste legende
 			for (int i = 0; i < Kolommen.Count && i < langsteSet; i++) {
-				var width = i * (Width / (langsteSet - 1));
+				var width = i * (Width / (langsteSet + offset));
 				drawingContext.DrawText(new(
 						Kolommen[i],
 						CultureInfo.CurrentCulture,
@@ -148,7 +200,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 					PixelsPerDip),
 				new(Width + TextPadding + rect.Width + 5, textHeight));
 
-				count += 20;
+				count += LegendeMargin * 10;
 			}
 		}
 
