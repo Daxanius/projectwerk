@@ -51,10 +51,9 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 		}
 
         /// <summary>
-        /// Tekent een dataset op de grafiek
+        /// Tekent een dataset op de grafiek als lijn
         /// </summary>
         /// <param name="drawingContext"></param>
-        /// <param name="dataset"></param>
         private void TekenDatasets(DrawingContext drawingContext) {
             // Haalt de hoogste waarde op
             double maxWaarde = Lijnen.Values.Max(x => x.Data.Max());
@@ -73,11 +72,11 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 			}
         }
 
-        /// <summary>
-        /// Tekent de textuele informatie
-        /// </summary>
-        /// <param name="drawingContext"></param>
-        private void TekenInfo(DrawingContext drawingContext) {
+		/// <summary>
+		/// Tekent de textuele informatie
+		/// </summary>
+		/// <param name="drawingContext"></param>
+		private void TekenInfo(DrawingContext drawingContext) {
 			// Haalt de hoogste waarden op
 			double maxWaarde = Lijnen.Values.Max(x => x.Data.Max());
 			int langsteSet = Lijnen.Values.Max(s => s.Data.Count);
@@ -109,6 +108,26 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 						Foreground,
 						PixelsPerDip),
 					new(-TextPadding, textHeight));
+			}
+
+			// Tekent de legende
+			double count = 0;
+			foreach (var key in Lijnen.Keys) {
+				var textHeight = count + (Height / 2);
+
+				Rect rect = new(new(Width + TextPadding, textHeight + 2), new Size(10, 10));
+				drawingContext.DrawRectangle(Lijnen[key].Stroke, Lijnen[key].GeefPen(), rect);
+				drawingContext.DrawText(new(
+					key,
+					CultureInfo.CurrentCulture,
+					FlowDirection.LeftToRight,
+					new(Font),
+					FontSize,
+					Foreground,
+					PixelsPerDip),
+				new(Width + TextPadding + rect.Width + 5, textHeight));
+
+				count += 20;
 			}
 		}
 
