@@ -11,6 +11,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		public List<double> Data { get; set; } = new();
 		public Brush Stroke { get; set; } = Brushes.DarkBlue;
 		public double StrokeThickness { get; set; } = 2;
+		public string? Label { get; set; }
 
 		public Pen GeefPen() {
 			return new(Stroke, StrokeThickness);
