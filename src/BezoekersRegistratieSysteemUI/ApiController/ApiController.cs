@@ -16,34 +16,45 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemUI.Api {
-	public static class ApiController {
-		private static TimeSpan _timeout = TimeSpan.FromSeconds(500d);
+namespace BezoekersRegistratieSysteemUI.Api
+{
+    public static class ApiController
+    {
+        private static TimeSpan _timeout = TimeSpan.FromSeconds(500d);
 
-		public static string BaseAddres = "http://localhost:5049/api/";
+        public static string BaseAddres = "http://localhost:5049/api/";
 
-		#region Request Methods
+        #region Request Methods
 
+        public static async Task<(bool, T?)> Get<T>(string url, string defaultFoutMelding = "")
+        {
+            try
+            {
+                if (url.Length > 1 && url[0] == '/')
+                {
+                    url = url[1..];
+                }
 		public static async Task<(bool, T?)> Get<T>(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{BaseAddres}{url}";
+                string apiUrl = $"{BaseAddres}{url}";
 
-				using HttpClient client = new();
-				client.Timeout = _timeout;
+                using HttpClient client = new();
+                client.Timeout = _timeout;
 
-				HttpResponseMessage response = await client.GetAsync(apiUrl);
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
 
-				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
-				}
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
+                }
 
-				string responseBody = await response.Content.ReadAsStringAsync();
+                string responseBody = await response.Content.ReadAsStringAsync();
 
-				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
+                T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
 
 				if (parsed is T) {
 					return (true, parsed);
@@ -60,26 +71,28 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{BaseAddres}{url}";
+                string apiUrl = $"{BaseAddres}{url}";
 
-				using HttpClient client = new();
-				client.Timeout = _timeout;
+                using HttpClient client = new();
+                client.Timeout = _timeout;
 
-				var request = new HttpRequestMessage {
-					Method = HttpMethod.Get,
-					RequestUri = new Uri(apiUrl),
-					Content = new StringContent(body, Encoding.UTF8, "application/json"),
-				};
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(apiUrl),
+                    Content = new StringContent(body, Encoding.UTF8, "application/json"),
+                };
 
-				HttpResponseMessage response = await client.SendAsync(request);
+                HttpResponseMessage response = await client.SendAsync(request);
 
-				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
-				}
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
+                }
 
-				string responseBody = await response.Content.ReadAsStringAsync();
+                string responseBody = await response.Content.ReadAsStringAsync();
 
-				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
+                T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
 
 				if (parsed is T) {
 					return (true, parsed);
@@ -96,12 +109,12 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{BaseAddres}{url}";
+                string apiUrl = $"{BaseAddres}{url}";
 
-				using HttpClient client = new();
-				client.Timeout = _timeout;
+                using HttpClient client = new();
+                client.Timeout = _timeout;
 
-				HttpResponseMessage response = await client.GetAsync(apiUrl);
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
 
 				if (!response.IsSuccessStatusCode) {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
@@ -117,20 +130,21 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{BaseAddres}{url}";
+                string apiUrl = $"{BaseAddres}{url}";
 
-				using HttpClient client = new();
-				client.Timeout = _timeout;
+                using HttpClient client = new();
+                client.Timeout = _timeout;
 
-				HttpResponseMessage response = await client.PutAsync(apiUrl, null);
+                HttpResponseMessage response = await client.PutAsync(apiUrl, null);
 
-				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
-				}
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
+                }
 
-				string responseBody = await response.Content.ReadAsStringAsync();
+                string responseBody = await response.Content.ReadAsStringAsync();
 
-				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
+                T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
 
 				if (parsed is T) {
 					return (true, parsed);
@@ -147,20 +161,21 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{BaseAddres}{url}";
+                string apiUrl = $"{BaseAddres}{url}";
 
-				using HttpClient client = new();
-				client.Timeout = _timeout;
+                using HttpClient client = new();
+                client.Timeout = _timeout;
 
-				HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, json);
+                HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, json);
 
-				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
-				}
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
+                }
 
-				string responseBody = await response.Content.ReadAsStringAsync();
+                string responseBody = await response.Content.ReadAsStringAsync();
 
-				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
+                T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
 
 				if (parsed is T) {
 					return (true, parsed);
@@ -177,12 +192,12 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{BaseAddres}{url}";
+                string apiUrl = $"{BaseAddres}{url}";
 
-				using HttpClient client = new();
-				client.Timeout = _timeout;
+                using HttpClient client = new();
+                client.Timeout = _timeout;
 
-				HttpResponseMessage response = await client.PutAsync(apiUrl, null);
+                HttpResponseMessage response = await client.PutAsync(apiUrl, null);
 
 				if (!response.IsSuccessStatusCode) {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
@@ -197,10 +212,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{BaseAddres}{url}";
+                string apiUrl = $"{BaseAddres}{url}";
 
-				using HttpClient client = new();
-				client.Timeout = _timeout;
+                using HttpClient client = new();
+                client.Timeout = _timeout;
 
 				var data = new StringContent(json, Encoding.UTF8, "application/json");
 				HttpResponseMessage response = await client.PutAsync(apiUrl, data);
@@ -219,12 +234,12 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{BaseAddres}{url}";
+                string apiUrl = $"{BaseAddres}{url}";
 
-				using HttpClient client = new();
-				client.Timeout = _timeout;
+                using HttpClient client = new();
+                client.Timeout = _timeout;
 
-				HttpResponseMessage response = await client.DeleteAsync(apiUrl);
+                HttpResponseMessage response = await client.DeleteAsync(apiUrl);
 
 				if (!response.IsSuccessStatusCode) {
 					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
@@ -240,20 +255,21 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{BaseAddres}{url}";
+                string apiUrl = $"{BaseAddres}{url}";
 
-				using HttpClient client = new();
-				client.Timeout = _timeout;
+                using HttpClient client = new();
+                client.Timeout = _timeout;
 
-				var response = await client.PostAsync(apiUrl, new StringContent(json, Encoding.UTF8, "application/json"));
+                var response = await client.PostAsync(apiUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
-				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException($"De request is niet gelukt!\n\nError: {response.Content.ReadAsStringAsync().Result}\n\nStatuscode: " + response.StatusCode);
-				}
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new FetchApiException($"De request is niet gelukt!\n\nError: {response.Content.ReadAsStringAsync().Result}\n\nStatuscode: " + response.StatusCode);
+                }
 
-				string responseBody = await response.Content.ReadAsStringAsync();
+                string responseBody = await response.Content.ReadAsStringAsync();
 
-				T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
+                T? parsed = JsonConvert.DeserializeObject<T?>(responseBody);
 
 				if (parsed is T) {
 					return (true, parsed);
@@ -270,16 +286,17 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					url = url[1..];
 				}
 
-				string apiUrl = $"{BaseAddres}{url}";
+                string apiUrl = $"{BaseAddres}{url}";
 
-				using HttpClient client = new();
-				client.Timeout = _timeout;
+                using HttpClient client = new();
+                client.Timeout = _timeout;
 
-				var response = await client.PostAsync(apiUrl, new StringContent(json, Encoding.UTF8, "application/json"));
+                var response = await client.PostAsync(apiUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
-				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException($"De request is niet gelukt!\n\nError: {response.Content.ReadAsStringAsync().Result}\n\nStatuscode: " + response.StatusCode);
-				}
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new FetchApiException($"De request is niet gelukt!\n\nError: {response.Content.ReadAsStringAsync().Result}\n\nStatuscode: " + response.StatusCode);
+                }
 
 				return true;
 			} catch (Exception ex) {
@@ -287,79 +304,107 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Bedrijven
-		public static BedrijfDTO MaakBedrijf(BedrijfInputDTO bedrijf) {
-			return Task.Run(async () => {
-				string body = JsonConvert.SerializeObject(bedrijf);
-				(bool isvalid, BedrijfOutputDTO apiBedrijf) = await Post<BedrijfOutputDTO>($"bedrijf", body);
-				if (isvalid) {
-					return new BedrijfDTO(apiBedrijf.Id, apiBedrijf.Naam, apiBedrijf.BTW, apiBedrijf.TelefoonNummer, apiBedrijf.Email, apiBedrijf.Adres);
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
-				}
-			}).Result;
-		}
-		public static BedrijfOutputDTO? GeefBedrijf(long bedrijfId) {
-			return Task.Run(async () => {
-				(bool isvalid, BedrijfOutputDTO bedrijf) = await Get<BedrijfOutputDTO>($"bedrijf/{bedrijfId}");
-				if (isvalid) {
-					return bedrijf;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het bedrijf");
-				}
-			}).Result;
-		}
-		public static IEnumerable<BezoekerDTO> GeefBezoekersVanBedrijf(long bedrijfsId, DateTime datum) {
-			return Task.Run(async () => {
-				List<BezoekerDTO> ItemSource = new();
-				(bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bedrijf/{bedrijfsId}?datum={datum.ToString("M/dd/yyyy")}");
-				if (isvalid) {
-					apiBezoekers.ForEach((api) => {
-						ItemSource.Add(new BezoekerDTO(api.Id, api.Voornaam, api.Achternaam, api.Email, api.Bedrijf));
-					});
-					return ItemSource;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
-				}
-			}).Result;
-		}
-		public static IEnumerable<BedrijfDTO> GeefBedrijven() {
-			return Task.Run(async () => {
-				List<BedrijfDTO> _bedrijven = new();
-				(bool isvalid, List<BedrijfOutputDTO> apiBedrijven) = await Get<List<BedrijfOutputDTO>>($"bedrijf");
-				if (isvalid) {
-					apiBedrijven.ForEach(api => {
-						_bedrijven.Add(new BedrijfDTO(api.Id, api.Naam, api.BTW, api.TelefoonNummer, api.Email, api.Adres));
-					});
-					return _bedrijven;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de bedrijven");
-				}
-			}).Result;
-		}
-		public static IEnumerable<AfspraakDTO> GeefBezoekerAfsprakenVanBedrijf(long bedrijfsId, BezoekerDTO bezoeker, DateTime? dag = null) {
-			return Task.Run(async () => {
+        #region Bedrijven
+        public static BedrijfDTO MaakBedrijf(BedrijfInputDTO bedrijf)
+        {
+            return Task.Run(async () =>
+            {
+                string body = JsonConvert.SerializeObject(bedrijf);
+                (bool isvalid, BedrijfOutputDTO apiBedrijf) = await Post<BedrijfOutputDTO>($"bedrijf", body);
+                if (isvalid)
+                {
+                    return new BedrijfDTO(apiBedrijf.Id, apiBedrijf.Naam, apiBedrijf.BTW, apiBedrijf.TelefoonNummer, apiBedrijf.Email, apiBedrijf.Adres);
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
+                }
+            }).Result;
+        }
+        public static BedrijfOutputDTO? GeefBedrijf(long bedrijfId)
+        {
+            return Task.Run(async () =>
+            {
+                (bool isvalid, BedrijfOutputDTO bedrijf) = await Get<BedrijfOutputDTO>($"bedrijf/{bedrijfId}");
+                if (isvalid)
+                {
+                    return bedrijf;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het bedrijf");
+                }
+            }).Result;
+        }
+        public static IEnumerable<BezoekerDTO> GeefBezoekersVanBedrijf(long bedrijfsId, DateTime datum)
+        {
+            return Task.Run(async () =>
+            {
+                List<BezoekerDTO> ItemSource = new();
+                (bool isvalid, List<BezoekerOutputDTO> apiBezoekers) = await Get<List<BezoekerOutputDTO>>($"afspraak/bedrijf/{bedrijfsId}?datum={datum.ToString("M/dd/yyyy")}");
+                if (isvalid)
+                {
+                    apiBezoekers.ForEach((api) =>
+                    {
+                        ItemSource.Add(new BezoekerDTO(api.Id, api.Voornaam, api.Achternaam, api.Email, api.Bedrijf));
+                    });
+                    return ItemSource;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
+                }
+            }).Result;
+        }
+        public static IEnumerable<BedrijfDTO> GeefBedrijven()
+        {
+            return Task.Run(async () =>
+            {
+                List<BedrijfDTO> _bedrijven = new();
+                (bool isvalid, List<BedrijfOutputDTO> apiBedrijven) = await Get<List<BedrijfOutputDTO>>($"bedrijf");
+                if (isvalid)
+                {
+                    apiBedrijven.ForEach(api =>
+                    {
+                        _bedrijven.Add(new BedrijfDTO(api.Id, api.Naam, api.BTW, api.TelefoonNummer, api.Email, api.Adres));
+                    });
+                    return _bedrijven;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de bedrijven");
+                }
+            }).Result;
+        }
+        public static IEnumerable<AfspraakDTO> GeefBezoekerAfsprakenVanBedrijf(long bedrijfsId, BezoekerDTO bezoeker, DateTime? dag = null)
+        {
+            return Task.Run(async () =>
+            {
 
-				List<AfspraakDTO> ItemSource = new();
-				string payload = JsonConvert.SerializeObject(bezoeker);
-				string dagString = (dag is not null ? dag.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")).ToString();
-				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await GetMetBody<List<AfspraakOutputDTO>>($"afspraak/bedrijf/{bedrijfsId}/bezoeker/{bezoeker.Id}/all?dag={dagString}", payload);
+                List<AfspraakDTO> ItemSource = new();
+                string payload = JsonConvert.SerializeObject(bezoeker);
+                string dagString = (dag is not null ? dag.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")).ToString();
+                (bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await GetMetBody<List<AfspraakOutputDTO>>($"afspraak/bedrijf/{bedrijfsId}/bezoeker/{bezoeker.Id}/all?dag={dagString}", payload);
 
-				if (isvalid) {
-					apiAfspraken.ForEach((api) => {
-						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
-						ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd, api.StatusNaam));
-					});
+                if (isvalid)
+                {
+                    apiAfspraken.ForEach((api) =>
+                    {
+                        WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
+                        ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd, api.StatusNaam));
+                    });
 
-					return ItemSource;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
-				}
-			}).Result;
-		}
-		#endregion
+                    return ItemSource;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+                }
+            }).Result;
+        }
+        #endregion
 
 		#region Werknemers
 		public static WerknemerDTO MaakWerknemer(WerknemerInputDTO werknemer) {
@@ -466,111 +511,141 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			return Task.Run(async () => {
 				List<AfspraakDTO> ItemSource = new();
 
-				if (datum is null)
-					datum = DateTime.Now.ToString("MM/dd/yyyy");
-				else
-					datum = DateTime.Parse(datum).ToString("MM/dd/yyyy");
+                if (datum is null)
+                    datum = DateTime.Now.ToString("MM/dd/yyyy");
+                else
+                    datum = DateTime.Parse(datum).ToString("MM/dd/yyyy");
 
-				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?dag={datum}&werknemerId={werknemer.Id}&bedrijfId={bedrijfsId}&openstaand={alleenLopendeAfspraken}");
+                (bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?dag={datum}&werknemerId={werknemer.Id}&bedrijfId={bedrijfsId}&openstaand={alleenLopendeAfspraken}");
 
-				if (isvalid) {
-					apiAfspraken.ForEach((api) => {
-						BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-						ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd, api.StatusNaam));
-					});
-					return ItemSource;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
-				}
-			}).Result;
-		}
-		public static async Task VerwijderBedrijf(long id) {
-			await Delete($"bedrijf/{id}");
-		}
-		#endregion
+                if (isvalid)
+                {
+                    apiAfspraken.ForEach((api) =>
+                    {
+                        BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
+                        ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd, api.StatusNaam));
+                    });
+                    return ItemSource;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+                }
+            }).Result;
+        }
+        public static async Task VerwijderBedrijf(long id)
+        {
+            await Delete($"bedrijf/{id}");
+        }
+        #endregion
 
-		#region Afspraken
-		public static AfspraakDTO MaakAfspraak(AfspraakInputDTO afspraak) {
-			return Task.Run(async () => {
-				string body = JsonConvert.SerializeObject(afspraak);
+        #region Afspraken
+        public static AfspraakDTO MaakAfspraak(AfspraakInputDTO afspraak)
+        {
+            return Task.Run(async () =>
+            {
+                string body = JsonConvert.SerializeObject(afspraak);
 
-				(bool isvalid, AfspraakOutputDTO apiAfspraken) = await Post<AfspraakOutputDTO>($"afspraak", body);
-				if (isvalid) {
-					WerknemerDTO werknemer = new WerknemerDTO(apiAfspraken.Werknemer.Id, apiAfspraken.Werknemer.Naam.Split(";")[0], apiAfspraken.Werknemer.Naam.Split(";")[1], null);
-					BezoekerDTO bezoeker = new BezoekerDTO(apiAfspraken.Bezoeker.Id, apiAfspraken.Bezoeker.Naam.Split(";")[0], apiAfspraken.Bezoeker.Naam.Split(";")[1], apiAfspraken.Bezoeker.Email, apiAfspraken.Bezoeker.BezoekerBedrijf);
-					return new AfspraakDTO(apiAfspraken.Id, bezoeker, BeheerderWindow.GeselecteerdBedrijf.Naam, werknemer, apiAfspraken.Starttijd, apiAfspraken.Eindtijd, apiAfspraken.StatusNaam);
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
-				}
-			}).Result;
-		}
-		public static IEnumerable<AfspraakDTO> GeefAfsprakenVanBedrijf(long bedrijfsId) {
-			return Task.Run(async () => {
-				List<AfspraakDTO> ItemSource = new();
-				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?bedrijfId={bedrijfsId}&openstaand=true");
-				if (isvalid) {
-					apiAfspraken.ForEach((api) => {
-						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
-						BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-						ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd, api.StatusNaam));
-					});
-					return ItemSource;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
-				}
-			}).Result;
-		}
-		public static IEnumerable<AfspraakDTO> GeefAfsprakenOpDatumVanBedrijf(long bedrijfsId, string? datum = null) {
-			return Task.Run(async () => {
-				List<AfspraakDTO> ItemSource = new();
+                (bool isvalid, AfspraakOutputDTO apiAfspraken) = await Post<AfspraakOutputDTO>($"afspraak", body);
+                if (isvalid)
+                {
+                    WerknemerDTO werknemer = new WerknemerDTO(apiAfspraken.Werknemer.Id, apiAfspraken.Werknemer.Naam.Split(";")[0], apiAfspraken.Werknemer.Naam.Split(";")[1], null);
+                    BezoekerDTO bezoeker = new BezoekerDTO(apiAfspraken.Bezoeker.Id, apiAfspraken.Bezoeker.Naam.Split(";")[0], apiAfspraken.Bezoeker.Naam.Split(";")[1], apiAfspraken.Bezoeker.Email, apiAfspraken.Bezoeker.BezoekerBedrijf);
+                    return new AfspraakDTO(apiAfspraken.Id, bezoeker, BeheerderWindow.GeselecteerdBedrijf.Naam, werknemer, apiAfspraken.Starttijd, apiAfspraken.Eindtijd, apiAfspraken.StatusNaam);
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
+                }
+            }).Result;
+        }
+        public static IEnumerable<AfspraakDTO> GeefAfsprakenVanBedrijf(long bedrijfsId)
+        {
+            return Task.Run(async () =>
+            {
+                List<AfspraakDTO> ItemSource = new();
+                (bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?bedrijfId={bedrijfsId}&openstaand=true");
+                if (isvalid)
+                {
+                    apiAfspraken.ForEach((api) =>
+                    {
+                        WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
+                        BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
+                        ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd, api.StatusNaam));
+                    });
+                    return ItemSource;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+                }
+            }).Result;
+        }
+        public static IEnumerable<AfspraakDTO> GeefAfsprakenOpDatumVanBedrijf(long bedrijfsId, string? datum = null)
+        {
+            return Task.Run(async () =>
+            {
+                List<AfspraakDTO> ItemSource = new();
 
-				if (datum is null) datum = DateTime.Now.ToString("MM/dd/yyyy");
-				else
-					datum = DateTime.Parse(datum).ToString("MM/dd/yyyy");
+                if (datum is null) datum = DateTime.Now.ToString("MM/dd/yyyy");
+                else
+                    datum = DateTime.Parse(datum).ToString("MM/dd/yyyy");
 
-				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?dag={datum}&bedrijfId={bedrijfsId}");
+                (bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>($"afspraak?dag={datum}&bedrijfId={bedrijfsId}");
 
-				if (isvalid) {
-					apiAfspraken.ForEach((api) => {
-						BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
-						ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd, api.StatusNaam));
-					});
-					return ItemSource;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
-				}
-			}).Result;
-		}
-		public static IEnumerable<AfspraakDTO> GeefAfspraken() {
-			return Task.Run(async () => {
-				List<AfspraakDTO> alleAfspraken = new();
+                if (isvalid)
+                {
+                    apiAfspraken.ForEach((api) =>
+                    {
+                        BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
+                        WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
+                        ItemSource.Add(new AfspraakDTO(api.Id, bezoeker, api.Bezoeker.BezoekerBedrijf, werknemer, api.Starttijd, api.Eindtijd, api.StatusNaam));
+                    });
+                    return ItemSource;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
+                }
+            }).Result;
+        }
+        public static IEnumerable<AfspraakDTO> GeefAfspraken()
+        {
+            return Task.Run(async () =>
+            {
+                List<AfspraakDTO> alleAfspraken = new();
 
-				(bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>("afspraak?dag=" + DateTime.Now.ToString("MM/dd/yyy"));
-				if (isvalid) {
-					apiAfspraken.ForEach((api) => {
-						WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
-						BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
-						alleAfspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bedrijf.Naam, werknemer, api.Starttijd, api.Eindtijd, api.StatusNaam));
-					});
-					return alleAfspraken;
-				} else
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van alle afspraaken");
-			}).Result;
-		}
+                (bool isvalid, List<AfspraakOutputDTO> apiAfspraken) = await Get<List<AfspraakOutputDTO>>("afspraak?dag=" + DateTime.Now.ToString("MM/dd/yyy"));
+                if (isvalid)
+                {
+                    apiAfspraken.ForEach((api) =>
+                    {
+                        WerknemerDTO werknemer = new WerknemerDTO(api.Werknemer.Id, api.Werknemer.Naam.Split(";")[0], api.Werknemer.Naam.Split(";")[1], null);
+                        BezoekerDTO bezoeker = new BezoekerDTO(api.Bezoeker.Id, api.Bezoeker.Naam.Split(";")[0], api.Bezoeker.Naam.Split(";")[1], api.Bezoeker.Email, api.Bezoeker.BezoekerBedrijf);
+                        alleAfspraken.Add(new AfspraakDTO(api.Id, bezoeker, api.Bedrijf.Naam, werknemer, api.Starttijd, api.Eindtijd, api.StatusNaam));
+                    });
+                    return alleAfspraken;
+                }
+                else
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van alle afspraaken");
+            }).Result;
+        }
 
-		public static void BeeindigAlleOnAfgeslotenAfspraken() {
-			Task.Run(() => Put("afspraak/end/lopend"));
-		}
+        public static void BeeindigAlleOnAfgeslotenAfspraken()
+        {
+            Task.Run(() => Put("afspraak/end/lopend"));
+        }
 
-		public async static Task VerwijderWerknemerVanBedrijf(long id) {
-			await Task.Run(() => Delete($"bedrijf/{BeheerderWindow.GeselecteerdBedrijf.Id}/werknemer/{id}"));
-		}
+        public async static Task VerwijderWerknemerVanBedrijf(long id)
+        {
+            await Task.Run(() => Delete($"bedrijf/{BeheerderWindow.GeselecteerdBedrijf.Id}/werknemer/{id}"));
+        }
 
-		public async static Task VerwijderAfspraak(AfspraakDTO afspraak) {
-			if (afspraak.EindTijd is null) return;
-			await Task.Run(() => Delete($"afspraak/{afspraak.Id}"));
-		}
+        public async static Task VerwijderAfspraak(AfspraakDTO afspraak)
+        {
+            if (afspraak.EindTijd is null) return;
+            await Task.Run(() => Delete($"afspraak/{afspraak.Id}"));
+        }
 
 		public static BedrijfDTO UpdateBedrijf(long bedrijfId, BedrijfInputDTO nieuwBedrijf) {
 			string payload = JsonConvert.SerializeObject(nieuwBedrijf);

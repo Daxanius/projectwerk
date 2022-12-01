@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.Grafiek;
 using BezoekersRegistratieSysteemUI.Model;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
-		#endregion ProppertyChanged
-	}
+        #endregion ProppertyChanged
+
+        private void Test_Loaded(object sender, RoutedEventArgs e)
+        {
+			Grafiek.Width = Test.RenderSize.Width*0.85;
+			Grafiek.Height = Test.RenderSize.Height*0.65;
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+			if (Test.RenderSize.Width == 0)
+			{
+				return;
+			}
+            Grafiek.Width = Test.RenderSize.Width * 0.85;
+            Grafiek.Height = Test.RenderSize.Height * 0.65;
+        }
+    }
 }

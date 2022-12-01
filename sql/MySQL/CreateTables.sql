@@ -13,12 +13,12 @@ CREATE DATABASE IF NOT EXISTS Groupswork;
 
 CREATE TABLE IF NOT EXISTS Groupswork.Functie(
 	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	FunctieNaam VARCHAR(50) NOT NULL
+	FunctieNaam VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS Groupswork.AfspraakStatus(
 	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	AfspraakStatusNaam VARCHAR(50) NOT NULL
+	AfspraakStatusNaam VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS Groupswork.Bedrijf(
@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS Groupswork.Bedrijf(
 	Email VARCHAR(255) NOT NULL,
 	Adres VARCHAR(255) NOT NULL,
 	BTWChecked BIT NOT NULL,
-	Status INT NOT NULL DEFAULT 1
+	Status INT NOT NULL DEFAULT 1,
+    CONSTRAINT UN_BTW_Status UNIQUE(BTWNr, Status)
 );
 
 CREATE TABLE IF NOT EXISTS Groupswork.Werknemer(
@@ -47,7 +48,8 @@ CREATE TABLE IF NOT EXISTS Groupswork.Werknemerbedrijf(
 	Status INT NOT NULL DEFAULT 1,
 	CONSTRAINT FK_WerknemerBedrijf_Bedrijf_Id FOREIGN KEY (BedrijfId) REFERENCES Groupswork.Bedrijf(Id),
 	CONSTRAINT FK_WerknemerBedrijf_Werknemer_Id FOREIGN KEY (WerknemerId) REFERENCES Groupswork.Werknemer(Id),
-	CONSTRAINT FK_Werknemer_Functie_Id FOREIGN KEY (FunctieId) REFERENCES Groupswork.Functie(Id)
+	CONSTRAINT FK_Werknemer_Functie_Id FOREIGN KEY (FunctieId) REFERENCES Groupswork.Functie(Id),
+    CONSTRAINT UN_BId_WId_FId_WMail_Status UNIQUE(BedrijfId, WerknemerId, FunctieId, WerknemerEmail, Status)
 );
 
 CREATE TABLE IF NOT EXISTS Groupswork.Bezoeker(
