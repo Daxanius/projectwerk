@@ -335,57 +335,83 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								 "FROM Afspraak " +
 								 "WHERE Id = @afspraakid";
 
-			string queryUpdate = "UPDATE Afspraak " +
-								  "SET StartTijd = @start, " +
-								  "EindTijd = @eind, " +
-								  "WerknemerBedrijfId = (SELECT wb.Id " +
-														"FROM WerknemerBedrijf wb " +
-														"WHERE wb.BedrijfId = @bedrijfId AND " +
-														"wb.WerknemerId = @werknemerId AND " +
-														"wb.FunctieId = (SELECT f.Id " +
-																		"FROM Functie f " +
-																		"WHERE f.FunctieNaam = @functienaam " +
-																		") " +
-														"AND Status = 1" +
-														"), " +
-								  "BezoekerId = @bezoekerId, " +
-								  "AfspraakstatusId = @afspraakstatusId  " +
-								  "WHERE Id = @afspraakid";
+			string queryUpdateAfspraak = "UPDATE Afspraak " +
+									     "SET StartTijd = @start, " +
+									     "EindTijd = @eind, " +
+									     "WerknemerBedrijfId = (SELECT wb.Id " +
+																"FROM WerknemerBedrijf wb " +
+																"WHERE wb.BedrijfId = @bedrijfId AND " +
+																"wb.WerknemerId = @werknemerId AND " +
+																"wb.FunctieId = (SELECT f.Id " +
+																				"FROM Functie f " +
+																				"WHERE f.FunctieNaam = @functienaam " +
+																				") " +
+																"AND Status = 1" +
+																"), " +
+									     "AfspraakstatusId = @afspraakstatusId  " +
+									     "WHERE Id = @afspraakid";
+
+			string queryUpdateBezoeker = "UPDATE Bezoeker " +
+									     "SET ANaam = @ANaam, " +
+										 "VNaam = @VNaam, " +
+										 "Email = @Email, " +
+										 "EigenBedrijf = @EigenBedrijf " +
+										 "WHERE Id = @id";
+
+			con.Open();
+			MySqlTransaction trans = con.BeginTransaction();
 			try {
 				using (MySqlCommand cmdSelect = con.CreateCommand())
-				using (MySqlCommand cmdUpdate = con.CreateCommand()) {
-					con.Open();
+				using (MySqlCommand cmdUpdateBezoeker = con.CreateCommand())
+				using (MySqlCommand cmdUpdateAfspraak = con.CreateCommand()) {
 					//Geeft de statusID van de afspraak die gevraagd werd.
+					cmdSelect.Transaction = trans;
 					cmdSelect.CommandText = querySelect;
 					cmdSelect.Parameters.Add(new MySqlParameter("@afspraakid", MySqlDbType.Int64));
 					cmdSelect.Parameters["@afspraakid"].Value = afspraak.Id;
 					int currentAfspraakStatusId = (int)cmdSelect.ExecuteScalar();
 					//Bewerkt de gevraagde afspraak.
-					cmdUpdate.CommandText = queryUpdate;
-					cmdUpdate.Parameters.Add(new MySqlParameter("@afspraakid", MySqlDbType.Int64));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@start", MySqlDbType.DateTime));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@eind", MySqlDbType.DateTime));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@bezoekerId", MySqlDbType.Int64));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@afspraakstatusId", MySqlDbType.Int32));
-					cmdUpdate.Parameters.Add(new MySqlParameter("@functienaam", MySqlDbType.VarChar));
-					cmdUpdate.Parameters["@afspraakid"].Value = afspraak.Id;
-					cmdUpdate.Parameters["@start"].Value = afspraak.Starttijd;
-					cmdUpdate.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
-					cmdUpdate.Parameters["@afspraakstatusId"].Value = afspraak.Eindtijd is not null && currentAfspraakStatusId == 1 ? 5 : afspraak.Eindtijd is not null && currentAfspraakStatusId != 1 ? currentAfspraakStatusId : 1;
+					cmdUpdateAfspraak.Transaction = trans;
+					cmdUpdateAfspraak.CommandText = queryUpdateAfspraak;
+					cmdUpdateAfspraak.Parameters.Add(new MySqlParameter("@afspraakid", MySqlDbType.Int64));
+					cmdUpdateAfspraak.Parameters.Add(new MySqlParameter("@start", MySqlDbType.DateTime));
+					cmdUpdateAfspraak.Parameters.Add(new MySqlParameter("@eind", MySqlDbType.DateTime));
+					cmdUpdateAfspraak.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
+					cmdUpdateAfspraak.Parameters.Add(new MySqlParameter("@werknemerId", MySqlDbType.Int64));
+					cmdUpdateAfspraak.Parameters.Add(new MySqlParameter("@bezoekerId", MySqlDbType.Int64));
+					cmdUpdateAfspraak.Parameters.Add(new MySqlParameter("@afspraakstatusId", MySqlDbType.Int32));
+					cmdUpdateAfspraak.Parameters.Add(new MySqlParameter("@functienaam", MySqlDbType.VarChar));
+					cmdUpdateAfspraak.Parameters["@afspraakid"].Value = afspraak.Id;
+					cmdUpdateAfspraak.Parameters["@start"].Value = afspraak.Starttijd;
+					cmdUpdateAfspraak.Parameters["@eind"].Value = afspraak.Eindtijd is not null ? afspraak.Eindtijd : DBNull.Value;
+					cmdUpdateAfspraak.Parameters["@afspraakstatusId"].Value = afspraak.Eindtijd is not null && currentAfspraakStatusId == 1 ? 5 : afspraak.Eindtijd is not null && currentAfspraakStatusId != 1 ? currentAfspraakStatusId : 1;
 					//FUNCTIE GETBEDRIJF
 					var bedrijf = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Keys.First();
 					var functie = afspraak.Werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values.First().GeefWerknemerFuncties().First();
-					cmdUpdate.Parameters["@bedrijfId"].Value = bedrijf.Id;
-					cmdUpdate.Parameters["@functienaam"].Value = functie;
-					cmdUpdate.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
-					cmdUpdate.Parameters["@bezoekerId"].Value = afspraak.Bezoeker.Id;
-					cmdUpdate.ExecuteNonQuery();
-				}
+					cmdUpdateAfspraak.Parameters["@bedrijfId"].Value = bedrijf.Id;
+					cmdUpdateAfspraak.Parameters["@functienaam"].Value = functie;
+					cmdUpdateAfspraak.Parameters["@werknemerId"].Value = afspraak.Werknemer.Id;
+					cmdUpdateAfspraak.ExecuteNonQuery();
+					//Update Bezoeker
+					cmdUpdateBezoeker.Transaction = trans;
+					cmdUpdateBezoeker.CommandText = queryUpdateBezoeker;
+                    cmdUpdateBezoeker.Parameters.Add(new MySqlParameter("@ANaam", MySqlDbType.VarChar));
+                    cmdUpdateBezoeker.Parameters.Add(new MySqlParameter("@VNaam", MySqlDbType.VarChar));
+                    cmdUpdateBezoeker.Parameters.Add(new MySqlParameter("@Email", MySqlDbType.VarChar));
+                    cmdUpdateBezoeker.Parameters.Add(new MySqlParameter("@EigenBedrijf", MySqlDbType.VarChar));
+                    cmdUpdateBezoeker.Parameters.Add(new MySqlParameter("@id", MySqlDbType.Int64));
+					cmdUpdateBezoeker.Parameters["@ANaam"].Value = afspraak.Bezoeker.Achternaam;
+					cmdUpdateBezoeker.Parameters["@VNaam"].Value = afspraak.Bezoeker.Voornaam;
+					cmdUpdateBezoeker.Parameters["@Email"].Value = afspraak.Bezoeker.Email;
+					cmdUpdateBezoeker.Parameters["@EigenBedrijf"].Value = afspraak.Bezoeker.Bedrijf;
+					cmdUpdateBezoeker.Parameters["@id"].Value = afspraak.Bezoeker.Id;
+					cmdUpdateBezoeker.ExecuteNonQuery();
+                    trans.Commit();
+                }
 			} catch (Exception ex) {
 				AfspraakMySQLException exx = new AfspraakMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
+				trans.Rollback();
 				throw exx;
 			} finally {
 				con.Close();
