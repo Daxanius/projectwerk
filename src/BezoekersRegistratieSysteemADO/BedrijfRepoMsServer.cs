@@ -189,7 +189,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <exception cref="BedrijfMsServerException">Faalt om bedrijf object op te halen op basis van het id of naam.</exception>
 		private Bedrijf GeefBedrijf(long? _bedrijfId, string? _bedrijfnaam) {
 			SqlConnection con = GetConnection();
-			string query = "SELECT DISTINCT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
+			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
 						   "FROM Bedrijf b " +
@@ -260,7 +260,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <exception cref="BedrijfMsServerException">Faalt lijst van bedrijf objecten samen te stellen.</exception>
 		public IReadOnlyList<Bedrijf> GeefBedrijven() {
 			SqlConnection con = GetConnection();
-			string query = "SELECT DISTINCT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
+			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
 						   "f.FunctieNaam " +
 						   "FROM Bedrijf b " +
