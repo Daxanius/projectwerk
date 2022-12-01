@@ -16,12 +16,12 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
         public Dictionary<string, GrafiekDataset> Lijnen { get; set; } = new();
 
 		/// <summary>
-		/// De klomnamen voor extra duidelijkheid
+		/// De kolomnamen voor extra duidelijkheid
 		/// </summary>
         public List<string> Kolommen { get; set; } = new();
 
 		/// <summary>
-		/// De grafiektype
+		/// Het grafiektype
 		/// </summary>
 		public GrafiekType GrafiekType { get; set; } = GrafiekType.Lijn;
 
@@ -46,7 +46,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
         public int StrokeDotPadding { get; set; } = 5;
 
 		/// <summary>
-		/// De tekst font
+		/// Het lettertype van de tekst
 		/// </summary>
         public string Font { get; set; } = "Arial";
 
