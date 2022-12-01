@@ -146,7 +146,7 @@
                                             Foreground="{StaticResource DonkerBlauw}"
                                             Text="Bezetting op Dagbasis" />
                     </Grid>
-                <local1:GrafiekControl x:Name="Grafiek" Margin="25,0,25,25" WaardeIncrement="25" HorizontalAlignment="Left" GrafiekType="Lijn"/>
+                <local1:GrafiekControl x:Name="Grafiek" Margin="25,0,25,25" WaardeIncrement="25" HorizontalAlignment="Center" GrafiekType="Lijn"/>
                 </StackPanel>
                 </Border>
                 <Border

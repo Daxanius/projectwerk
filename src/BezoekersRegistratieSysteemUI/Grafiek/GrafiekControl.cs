@@ -222,6 +222,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 		}
 
         public GrafiekControl() {
+			return;
             // Een eerste dataset definieren
 			GrafiekDataset ds = new() {
 				Data = new() {
@@ -267,7 +268,6 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 
 
 			//GrafiekType = GrafiekType.Bar;
-            #endregion
         }
 
         static GrafiekControl()
