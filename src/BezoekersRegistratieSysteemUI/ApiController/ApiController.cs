@@ -25,15 +25,6 @@ namespace BezoekersRegistratieSysteemUI.Api
         public static string BaseAddres = "http://localhost:5049/api/";
 
         #region Request Methods
-
-        public static async Task<(bool, T?)> Get<T>(string url, string defaultFoutMelding = "")
-        {
-            try
-            {
-                if (url.Length > 1 && url[0] == '/')
-                {
-                    url = url[1..];
-                }
 		public static async Task<(bool, T?)> Get<T>(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
