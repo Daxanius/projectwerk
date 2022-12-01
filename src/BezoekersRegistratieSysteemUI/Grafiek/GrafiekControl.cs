@@ -16,7 +16,8 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
         /// </summary>
         public Dictionary<string, GrafiekDataset> Lijnen { get; set; } = new();
         public List<string> Kolommen { get; set; } = new();
-        public Brush Stroke { get; set; } = Brushes.LightGray;
+		public GrafiekType GrafiekType { get; set; } = GrafiekType.Lijn;
+		public Brush Stroke { get; set; } = Brushes.LightGray;
         public double StrokeThickness { get; set; } = 1;
         public int StrokeDot { get; set; } = 10;
         public int StrokeDotPadding { get; set; } = 5;
@@ -24,12 +25,13 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
         public int WaardeIncrement { get; set; } = 10;
         public double TextPadding { get; set; } = 10;
         public double PixelsPerDip { get; set; } = 10;
+		public double BarPadding { get; set; } = 5;
 
-        /// <summary>
-        /// Tekent een achtergrond gebaseerd op de grootste dataset
-        /// </summary>
-        /// <param name="drawingContext"></param>
-        private void TekenAchtergrond(DrawingContext drawingContext) {
+		/// <summary>
+		/// Tekent een achtergrond gebaseerd op de grootste dataset
+		/// </summary>
+		/// <param name="drawingContext"></param>
+		private void TekenAchtergrond(DrawingContext drawingContext) {
             // Haalt de grootste set op
             int langsteSet = Lijnen.Values.Max(s => s.Data.Count);
 
@@ -54,7 +56,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
         /// Tekent een dataset op de grafiek als lijn
         /// </summary>
         /// <param name="drawingContext"></param>
-        private void TekenDatasets(DrawingContext drawingContext) {
+        private void TekenDatasetsLijn(DrawingContext drawingContext) {
             // Haalt de hoogste waarde op
             double maxWaarde = Lijnen.Values.Max(x => x.Data.Max());
 			int langsteSet = Lijnen.Values.Max(s => s.Data.Count);
@@ -71,6 +73,25 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 				}
 			}
         }
+
+		/// <summary>
+		/// Tekent een dataset op de grafiek als bargrafiek
+		/// </summary>
+		/// <param name="drawingContext"></param>
+		private void TekenDatasetsBar(DrawingContext drawingContext) {
+			// Haalt de hoogste waarde op
+			double maxWaarde = Lijnen.Values.Max(x => x.Data.Max());
+			int langsteSet = Lijnen.Values.Max(s => s.Data.Count);
+
+			// We gaan door alle datasets gaan en ze individueel tekenen
+			foreach (var key in Lijnen.Keys) {
+				for (int i = 0; i < Lijnen[key].Data.Count - 1; i++) {
+					Point punt = new(i * (Width / (langsteSet - 1)), Height - (Lijnen[key].Data[i] / maxWaarde * Height * 0.9));
+					Rect rect = new(punt, new Size(Width / (Lijnen.Count * BarPadding), Lijnen[key].Data[i] / maxWaarde * Height * 0.9));
+					drawingContext.DrawRectangle(Lijnen[key].Stroke, Lijnen[key].GeefPen(), rect);
+				}
+			}
+		}
 
 		/// <summary>
 		/// Tekent de textuele informatie
@@ -91,7 +112,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 						new(Font),
 						FontSize,
 						Foreground,
-				PixelsPerDip),
+						PixelsPerDip),
 					new(width - ((Kolommen[i].Length / 2) * FontSize) + PixelsPerDip / 2, Height + TextPadding));
 			}
 
@@ -134,7 +155,16 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
         protected override void OnRender(DrawingContext drawingContext) {
             base.OnRender(drawingContext);
             TekenAchtergrond(drawingContext);
-            TekenDatasets(drawingContext);
+
+			switch (GrafiekType) {
+				case GrafiekType.Bar: 
+					TekenDatasetsBar(drawingContext);
+					break;
+				default:
+					TekenDatasetsLijn(drawingContext);
+					break;
+			}
+
             TekenInfo(drawingContext);
 		}
 
@@ -179,6 +209,8 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
             // De dataset toevoegen
 			Lijnen.Add("Gemiddeld", ds);
 			Lijnen.Add("Totaal ofz", ds1);
+
+			GrafiekType = GrafiekType.Bar;
 		}
 
         static GrafiekControl()
