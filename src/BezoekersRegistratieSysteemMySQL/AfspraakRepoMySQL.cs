@@ -346,6 +346,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 																		"FROM Functie f " +
 																		"WHERE f.FunctieNaam = @functienaam " +
 																		") " +
+														"AND Status = 1" +
 														"), " +
 								  "BezoekerId = @bezoekerId, " +
 								  "AfspraakstatusId = @afspraakstatusId  " +
