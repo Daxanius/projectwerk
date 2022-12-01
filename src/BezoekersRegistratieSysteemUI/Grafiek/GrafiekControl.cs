@@ -222,48 +222,52 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 
         public GrafiekControl() {
             // Een eerste dataset definieren
-			GrafiekDataset ds = new() {
-				Data = new() {
-					23,
-					34,
-					65,
-					65,
-					12,
-					34,
-					54
-				}
-			};
+            #region DummyData
+   //         GrafiekDataset ds = new() {
+			//	Data = new() {
+			//		23,
+			//		34,
+			//		65,
+			//		65,
+			//		100,
+			//		34,
+			//		54
+			//	}
+			//};
 
-			GrafiekDataset ds1 = new() {
-				Data = new() {
-					65,
-					12,
-					98,
-					34,
-					45,
-					8,
-					76
-				},
-				Stroke = Brushes.OrangeRed
-			};
+			//GrafiekDataset ds1 = new() {
+			//	Data = new() {
+			//		65,
+			//		12,
+			//		98,
+			//		34,
+			//		45,
+			//		100,
+			//		76
+			//	},
+			//	Stroke = Brushes.OrangeRed
+			//};
 
-			// Kolommen definieren
-			Kolommen = new() {
-                "Ma",
-                "Di",
-                "Wo",
-                "Do",
-                "Vr",
-                "Za",
-                "Zo"
-            };
+			//// Kolommen definieren
+			//Kolommen = new() {
+   //             "Ma",
+   //             "Di",
+   //             "Wo",
+   //             "Do",
+   //             "Vr",
+   //             "Za",
+   //             "Zo"
+   //         };
 
-            // De dataset toevoegen
-			Lijnen.Add("Gemiddeld", ds);
-			Lijnen.Add("Totaal ofz", ds1);
+   //         // De dataset toevoegen
+			//Lijnen.Add("Gemiddeld", ds);
+			//Lijnen.Add("Totaal ofz", ds1);
 
-			GrafiekType = GrafiekType.Bar;
-		}
+
+
+			//GrafiekType = GrafiekType.Bar;
+            #endregion
+        }
 
         static GrafiekControl()
         {
