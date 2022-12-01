@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -13,12 +12,12 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
         /// <summary>
         /// De waarden per kolom, steunt meerdere lijnen
         /// </summary>
-        public Dictionary<string, GrafiekDataset> Lijnen { get; set; } = new();
+        public List<GrafiekDataset> Datasets { get; set; } = new();
 
 		/// <summary>
 		/// De kolomnamen voor extra duidelijkheid
 		/// </summary>
-        public List<string> Kolommen { get; set; } = new();
+        public List<string> KolomLabels { get; set; } = new();
 
 		/// <summary>
 		/// Het grafiektype
@@ -65,7 +64,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 		/// <param name="drawingContext"></param>
 		private void TekenAchtergrond(DrawingContext drawingContext) {
             // Haalt de grootste set op
-            int langsteSet = Lijnen.Values.Max(s => s.Data.Count);
+            int langsteSet = Datasets.Max(s => s.Data.Count);
 
 			// Voor een bar hebben we geen offset nodig
 			int offset = 0;
@@ -100,18 +99,18 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
         /// <param name="drawingContext"></param>
         private void TekenDatasetsLijn(DrawingContext drawingContext) {
             // Haalt de hoogste waarde op
-            double maxWaarde = Lijnen.Values.Max(x => x.Data.Max());
-			int langsteSet = Lijnen.Values.Max(s => s.Data.Count);
+            double maxWaarde = Datasets.Max(x => x.Data.Max());
+			int langsteSet = Datasets.Max(s => s.Data.Count);
 
 			// We gaan door alle datasets gaan en ze individueel tekenen
-			foreach (var key in Lijnen.Keys) {
-                for (int i = 0; i < Lijnen[key].Data.Count -1; i++) {
+			foreach (var dataset in Datasets) {
+                for (int i = 0; i < dataset.Data.Count -1; i++) {
                     Point punt = new(i * (Width / (langsteSet - 1)), 
-                        Height - (Lijnen[key].Data[i] / maxWaarde * Height * 0.9));
+                        Height - (dataset.Data[i] / maxWaarde * Height * 0.9));
                     Point puntNext = new((i + 1) * (Width / (langsteSet - 1)), 
-                        Height - (Lijnen[key].Data[i + 1] / maxWaarde * Height * 0.9));
+                        Height - (dataset.Data[i + 1] / maxWaarde * Height * 0.9));
 
-                    drawingContext.DrawLine(Lijnen[key].GeefPen(), punt, puntNext);
+                    drawingContext.DrawLine(dataset.GeefPen(), punt, puntNext);
 				}
 			}
         }
@@ -122,15 +121,15 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 		/// <param name="drawingContext"></param>
 		private void TekenDatasetsBar(DrawingContext drawingContext) {
 			// Haalt de hoogste waarde op
-			double maxWaarde = Lijnen.Values.Max(x => x.Data.Max());
-			int langsteSet = Lijnen.Values.Max(s => s.Data.Count);
+			double maxWaarde = Datasets.Max(x => x.Data.Max());
+			int langsteSet = Datasets.Max(s => s.Data.Count);
 
 			// We gaan door alle datasets gaan en ze individueel tekenen
-			foreach (var key in Lijnen.Keys) {
-				for (int i = 0; i < Lijnen[key].Data.Count; i++) {
-					Point punt = new(i * (Width / langsteSet), Height - (Lijnen[key].Data[i] / maxWaarde * Height * 0.9));
-					Rect rect = new(punt, new Size(Width / (langsteSet * BarMargin), Lijnen[key].Data[i] / maxWaarde * Height * 0.9));
-					drawingContext.DrawRectangle(Lijnen[key].Stroke, Lijnen[key].GeefPen(), rect);
+			foreach (var dataset in Datasets) {
+				for (int i = 0; i < dataset.Data.Count; i++) {
+					Point punt = new(i * (Width / langsteSet), Height - (dataset.Data[i] / maxWaarde * Height * 0.9));
+					Rect rect = new(punt, new Size(Width / (langsteSet * BarMargin), dataset.Data[i] / maxWaarde * Height * 0.9));
+					drawingContext.DrawRectangle(dataset.Stroke, dataset.GeefPen(), rect);
 				}
 			}
 		}
@@ -141,8 +140,8 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 		/// <param name="drawingContext"></param>
 		private void TekenInfo(DrawingContext drawingContext) {
 			// Haalt de hoogste waarden op
-			double maxWaarde = Lijnen.Values.Max(x => x.Data.Max());
-			int langsteSet = Lijnen.Values.Max(s => s.Data.Count);
+			double maxWaarde = Datasets.Max(x => x.Data.Max());
+			int langsteSet = Datasets.Max(s => s.Data.Count);
 
 			// Voor een bar hebben we geen offset nodig
 			int offset = 0;
@@ -155,17 +154,17 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 			}
 
 			// Tekent de onderste legende
-			for (int i = 0; i < Kolommen.Count && i < langsteSet; i++) {
+			for (int i = 0; i < KolomLabels.Count && i < langsteSet; i++) {
 				var width = i * (Width / (langsteSet + offset));
 				drawingContext.DrawText(new(
-						Kolommen[i],
+						KolomLabels[i],
 						CultureInfo.CurrentCulture,
 						FlowDirection.LeftToRight,
 						new(Font),
 						FontSize,
 						Foreground,
 						PixelsPerDip),
-					new(width - ((Kolommen[i].Length / 2) * FontSize) + PixelsPerDip / 2, Height + TextPadding));
+					new(width - ((KolomLabels[i].Length / 2) * FontSize) + PixelsPerDip / 2, Height + TextPadding));
 			}
 
 			// Tekent de nummers met een increment
@@ -184,14 +183,16 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 			}
 
 			// Tekent de legende
-			double count = 0;
-			foreach (var key in Lijnen.Keys) {
-				var textHeight = count + (Height / 2);
+			double labelCount = 0;
+			for (int i = 0; i < Datasets.Count; i++) {
+				var dataset = Datasets[i];
+				if (dataset.Label is null) continue;
 
+				var textHeight = labelCount + (Height / 2);
 				Rect rect = new(new(Width + TextPadding, textHeight + 2), new Size(10, 10));
-				drawingContext.DrawRectangle(Lijnen[key].Stroke, Lijnen[key].GeefPen(), rect);
+				drawingContext.DrawRectangle(dataset.Stroke, dataset.GeefPen(), rect);
 				drawingContext.DrawText(new(
-					key,
+				dataset.Label,
 					CultureInfo.CurrentCulture,
 					FlowDirection.LeftToRight,
 					new(Font),
@@ -200,7 +201,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 					PixelsPerDip),
 				new(Width + TextPadding + rect.Width + 5, textHeight));
 
-				count += LegendeMargin * 10;
+				labelCount += LegendeMargin * 10;
 			}
 		}
 
@@ -231,7 +232,8 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 					12,
 					34,
 					54
-				}
+				},
+				Label = "Spul"
 			};
 
 			GrafiekDataset ds1 = new() {
@@ -244,11 +246,11 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
 					8,
 					76
 				},
-				Stroke = Brushes.OrangeRed
+				Stroke = Brushes.OrangeRed,
 			};
 
 			// Kolommen definieren
-			Kolommen = new() {
+			KolomLabels = new() {
                 "Ma",
                 "Di",
                 "Wo",
@@ -259,8 +261,8 @@ namespace BezoekersRegistratieSysteemUI.Grafiek
             };
 
             // De dataset toevoegen
-			Lijnen.Add("Gemiddeld", ds);
-			Lijnen.Add("Totaal ofz", ds1);
+			Datasets.Add(ds);
+			Datasets.Add(ds1);
 
 			GrafiekType = GrafiekType.Bar;
 		}
