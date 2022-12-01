@@ -7,12 +7,12 @@ namespace BezoekerRegistratieSysteemDLPicker {
         public BezoekersRegistratieBeheerRepo(string conString, RepoType repoType) {
             try {
                 switch (repoType) {
-                    case RepoType.ADO:
-                        afspraakrepository = new AfspraakRepoADO(conString);
-                        bedrijfRepository = new BedrijfRepoADO(conString);
-                        parkeerplaatsRepository = new ParkeerPlaatsADO(conString);
-                        parkingContractRepository = new ParkingContractADO(conString);
-                        werknemerRepository = new WerknemerRepoADO(conString);
+                    case RepoType.MSSERVER:
+                        afspraakrepository = new AfspraakRepoMsServer(conString);
+                        bedrijfRepository = new BedrijfRepoMsServer(conString);
+                        parkeerplaatsRepository = new ParkeerPlaatsMsServer(conString);
+                        parkingContractRepository = new ParkingContractMsServer(conString);
+                        werknemerRepository = new WerknemerRepoMsServer(conString);
                         break;
                     case RepoType.MYSQL:
                         afspraakrepository = new AfspraakRepoMySQL(conString);

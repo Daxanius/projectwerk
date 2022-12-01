@@ -6,7 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 namespace BezoekersRegistratieSysteemDL.ADOMS {
-	public class AfspraakRepoADO : IAfspraakRepository {
+	public class AfspraakRepoMsServer : IAfspraakRepository {
 
 		/// <summary>
 		/// Private lokale variabele connectiestring
@@ -18,7 +18,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="connectieString">Connectie string database</param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-		public AfspraakRepoADO(string connectieString) {
+		public AfspraakRepoMsServer(string connectieString) {
 			_connectieString = connectieString;
 		}
 
@@ -33,7 +33,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <summary>
 		/// Beëindigd afspraak via het fallback pad adhv parameter afspraak id.
 		/// </summary>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt afspraak te beëindigd</exception>
 		/// <remarks>Afspraak krijgt statuscode 4 = 'Stopgezet door systeem'.</remarks>
 		public void BeeindigAfspraakSysteem() {
             SqlConnection con = GetConnection();
@@ -48,7 +48,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                AfspraakMsServerException exx = new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 throw exx;
             } finally {
                 con.Close();
@@ -59,13 +59,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Beëindigd afspraak adhv bezoeker email adhv parameter bezoeker email.
 		/// </summary>
 		/// <param name="email">Emailadres van de  bezoeker wiens afspraak beëindigd wenst te worden.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt afspraak te beëindigd</exception>
 		/// <remarks>Afspraak krijgt statuscode 3 = 'Stopgezet door gebruiker'.</remarks>
 		public void BeeindigAfspraakOpEmail(string email) {
 			try {
 				BeeindigAfspraak(email, null, 3);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -73,13 +73,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Beëindigd afspraak via het normale pad adhv parameter afspraak id.
 		/// </summary>
 		/// <param name="afspraakId">Id van de afspraak die beëindigd wenst te worden.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt afspraak te beëindigd</exception>
 		/// <remarks>Afspraak krijgt statuscode 5 = 'Stopgezet door administratief medewerker'.</remarks>
 		public void BeeindigAfspraakBezoeker(long afspraakId) {
 			try {
 				BeeindigAfspraak(null, afspraakId, 3);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -89,7 +89,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bezoekerMail">Emailadres van de bezoeker wiens afspraak gewijzigd wenst te worden.</param>
 		/// <param name="afspraakId">Id voor de afspraak die gewijzigd wenst te worden.</param>
 		/// <param name="statusId">Id voor het toekennen van een status.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te beëindigd en/of status toe te kennen.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt afspraak te beëindigd en/of status toe te kennen.</exception>
 		private void BeeindigAfspraak(string? bezoekerMail, long? afspraakId, int statusId) {
 			SqlConnection con = GetConnection();
 			string query = "UPDATE Afspraak " +
@@ -116,7 +116,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmd.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMsServerException exx = new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("mail", bezoekerMail);
 				exx.Data.Add("afspraakId", afspraakId);
 				exx.Data.Add("statusId", statusId);
@@ -130,13 +130,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Verwijder gewenste afspraak.
 		/// </summary>
 		/// <param name="afspraakId">Id van afspraak die verwijderd wenst te worden.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te verwijderen.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt afspraak te verwijderen.</exception>
 		/// <remarks>Afspraak krijgt statuscode 2 = 'Verwijderd'.</remarks>
 		public void VerwijderAfspraak(long afspraakId) {
 			try {
 				VeranderStatusAfspraak(afspraakId, 2);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -145,7 +145,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraakId">Id van de afspraak die gewijzigd wenst te worden.</param>
 		/// <param name="statusId">Id voor het wijzigen van een status.</param>
-		/// <exception cref="AfspraakADOException">Faalt om status van een afspraak te wijzigen.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt om status van een afspraak te wijzigen.</exception>
 		private void VeranderStatusAfspraak(long afspraakId, int statusId) {
 			SqlConnection con = GetConnection();
 			string query = "UPDATE Afspraak " +
@@ -162,7 +162,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmd.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMsServerException exx = new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraakId", afspraakId);
 				exx.Data.Add("statusId", statusId);
 				throw exx;
@@ -175,7 +175,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
 		public bool HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(Afspraak afspraak) {
 			SqlConnection con = GetConnection();
 			string query = "SElECT COUNT(*) " +
@@ -194,7 +194,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return (i > 0);
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMsServerException exx = new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				throw exx;
 			} finally {
@@ -207,12 +207,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
 		public bool BestaatAfspraak(Afspraak afspraak) {
 			try {
 				return BestaatAfspraak(afspraak, null, null, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
 			}
 		}
 
@@ -221,12 +221,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraakid">Id van de afspraak die gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het id.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt om bestaan afspraak te verifiëren op basis van het id.</exception>
 		public bool BestaatAfspraak(long afspraakid) {
 			try {
 				return BestaatAfspraak(null, afspraakid, null, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} id {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} id {ex.Message}", ex);
 			}
 		}
 
@@ -235,13 +235,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraak">Afspraak object dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
 		/// <remarks>Controle mbv statuscode 1 = 'In gang'</remarks>
 		public bool BestaatLopendeAfspraak(Afspraak afspraak) {
 			try {
 				return BestaatAfspraak(afspraak, null, null, 1);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
 			}
 		}
 
@@ -250,13 +250,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bezoekerMail">Bezoeker mail dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object.</exception>
 		/// <remarks>Controle mbv statuscode 1 = 'In gang'</remarks>
 		public bool BestaatAfspraak(string bezoekerMail) {
 			try {
 				return BestaatAfspraak(null, null, bezoekerMail, 1);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} object {ex.Message}", ex);
 			}
 		}
 		/// <summary>
@@ -267,7 +267,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bezoekerMail">Optioneel: Mail van bezoeker die gecontroleerd wenst te worden.</param>
 		/// <param name="afspraakStatus">Optioneel: Afspraakstatus.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="AfspraakADOException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object of id.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt om bestaan afspraak te verifiëren op basis van het afspraak object of id.</exception>
 		private bool BestaatAfspraak(Afspraak afspraak, long? afspraakid, string? bezoekerMail, int? afspraakStatus) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
@@ -312,7 +312,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return (i > 0);
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMsServerException exx = new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				exx.Data.Add("afspraakId", afspraakid);
 				exx.Data.Add("bezoekerMail", bezoekerMail);
@@ -327,7 +327,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Bewerkt gegevens van een afspraak adhv afspraak object.
 		/// </summary>
 		/// <param name="afspraak">Afspraak object dat gewijzigd wenst te worden in de databank.</param>
-		/// <exception cref="AfspraakADOException">Faalt afspraak te wijzigen.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt afspraak te wijzigen.</exception>
 		public void BewerkAfspraak(Afspraak afspraak) {
 			SqlConnection con = GetConnection();
 			//SELECT WORD GEBRUIKT OM EEN ACCURATE STATUSID IN TE STELLEN.
@@ -383,7 +383,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmdUpdate.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMsServerException exx = new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				throw exx;
 			} finally {
@@ -397,7 +397,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraakId">Id van de gewenste afspraak.</param>
 		/// <returns>Gewenst afspraak object</returns>
-		/// <exception cref="AfspraakADOException">Faalt om afspraak object op te halen op basis van het id.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt om afspraak object op te halen op basis van het id.</exception>
 		public Afspraak GeefAfspraak(long afspraakId) {
 			SqlConnection con = GetConnection();
 			/* INFO SELECT
@@ -462,7 +462,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return afspraak;
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMsServerException exx = new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraakId", afspraakId);
 				throw exx;
 			} finally {
@@ -477,7 +477,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="afspraak">Afspraak object dat toegevoegd wenst te worden.</param>
 		/// <returns>Afspraak object MET id</returns>
-		/// <exception cref="AfspraakADOException">Faalt afspraak toe te voegen op basis van het afspraak object.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt afspraak toe te voegen op basis van het afspraak object.</exception>
 		public Afspraak VoegAfspraakToe(Afspraak afspraak) {
 			SqlConnection con = GetConnection();
 			string queryBezoeker = "INSERT INTO Bezoeker(ANaam, VNaam, EMail, EigenBedrijf) " +
@@ -528,7 +528,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return afspraak;
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMsServerException exx = new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("afspraak", afspraak);
 				trans.Rollback();
 				throw exx;
@@ -543,12 +543,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Stelt lijst van huidige afspraken samen met enkel lees rechten.
 		/// </summary>
 		/// <returns>IReadOnlyList van afspraak objecten waar statuscode gelijk is aan 1 = 'In gang'.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen.</exception>
 		public IReadOnlyList<Afspraak> GeefHuidigeAfspraken() {
 			try {
 				return GeefHuidigeAfspraken(null, null, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -557,12 +557,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten waar statuscode gelijk is aan 1 = 'In gang' PER bedrijf.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van het bedrijf id.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van het bedrijf id.</exception>
 		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(long bedrijfId) {
 			try {
 				return GeefHuidigeAfspraken(bedrijfId, null, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -572,12 +572,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bezoekerId">Id van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>Gewenste afspraak object waar statuscode gelijk is aan 1 = 'In gang' PER bezoeker per bedrijf.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van het bezoeker id en bedrijf id.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van het bezoeker id en bedrijf id.</exception>
 		public Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long bezoekerId, long bedrijfId) {
 			try {
 				return GeefHuidigeAfspraken(bedrijfId, null, bezoekerId).First();
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -587,12 +587,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="werknemerId">Id van de werknemer waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten waar statuscode gelijk is aan 1 = 'In gang' PER werknemer per bedrijf.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van het werknemer id en bedrijf id.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van het werknemer id en bedrijf id.</exception>
 		public IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId) {
 			try {
 				return GeefHuidigeAfspraken(bedrijfId, werknemerId, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -604,7 +604,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="_werknemerId">Optioneel: Id van de werknemer waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="_bezoekerId">Optioneel: Id van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten waar statuscode gelijk is aan 1 = 'In gang' PER bedrijf en/of werknemer en/of bezoeker.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van het werknemer id en bedrijf id.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van het werknemer id en bedrijf id.</exception>
 		private IReadOnlyList<Afspraak> GeefHuidigeAfspraken(long? _bedrijfId, long? _werknemerId, long? _bezoekerId) {
 			SqlConnection con = GetConnection();
 			/* INFO SELECT
@@ -694,7 +694,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return afspraken.AsReadOnly();
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMsServerException exx = new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				exx.Data.Add("werknemerId", _werknemerId);
 				exx.Data.Add("bezoekerId", _bezoekerId);
@@ -712,12 +712,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="datum">Datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten waar starttijd.Date = datum.Date.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van datum.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van datum.</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum) {
 			try {
 				return GeefAlleAfspraken(null, null, null, null, null, null, datum);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -727,12 +727,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="datum">Datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf en waar starttijd.Date = datum.Date.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id en datum.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id en datum.</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long bedrijfId, DateTime datum) {
 			try {
 				return GeefAlleAfspraken(bedrijfId, null, null, null, null, null, datum);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -743,12 +743,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="datum">Datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf per bezoeker en waar starttijd.Date = datum.Date</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bezoeker id, bedrijf id en datum.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van bezoeker id, bedrijf id en datum.</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(long bezoekerId, DateTime datum, long bedrijfId) {
 			try {
 				return GeefAlleAfspraken(bedrijfId, null, bezoekerId, null, null, null, datum);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -760,12 +760,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bezoekerMail">Optioneel: Email van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf per bezoeker op voornaam/achternaam/email en waar starttijd.Date = datum.Date.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bezoeker voornaam/achternaam/email en bedrijf id.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van bezoeker voornaam/achternaam/email en bedrijf id.</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string bezoekerVNaam, string bezoekerANaam, string bezoekerMail, long bedrijfId) {
 			try {
 				return GeefAlleAfspraken(bedrijfId, null, null, bezoekerVNaam, bezoekerANaam, bezoekerMail, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -776,12 +776,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="werknemerId">Id van de werknemer waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf per werknemer.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van werknemer id en bedrijf id.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van werknemer id en bedrijf id.</exception>
 		public IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId) {
 			try {
 				return GeefAlleAfspraken(bedrijfId, werknemerId, null, null, null, null, null);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -792,12 +792,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="datum">datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="bedrijfId">Id van het bedrijf waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf per werknemer en waar starttijd.Date = datum.Date.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van werknemer id, bedrijf id en datum.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van werknemer id, bedrijf id en datum.</exception>
 		public IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId) {
 			try {
 				return GeefAlleAfspraken(bedrijfId, werknemerId, null, null, null, null, datum);
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -812,7 +812,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="_bezoekerMail">Optioneel: Email van de bezoeker waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <param name="_datum">Optioneel: datum waar de afspraken van opgevraagd wensen te worden.</param>
 		/// <returns>IReadOnlyList van afspraak objecten PER bedrijf per werknemer/bezoeker en/of waar starttijd.Date = datum.Date</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id, werknemer- of bezoekerid/info en datum.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van afspraak objecten samen te stellen op basis van bedrijf id, werknemer- of bezoekerid/info en datum.</exception>
 		private IReadOnlyList<Afspraak> GeefAlleAfspraken(long? _bedrijfId, long? _werknemerId, long? _bezoekerId, string? _bezoekerVNaam, string? _bezoekerANaam, string? _bezoekerMail, DateTime? _datum) {
 			SqlConnection con = GetConnection();
             /* INFO SELECT
@@ -924,7 +924,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return afspraken.AsReadOnly();
 				}
 			} catch (Exception ex) {
-				AfspraakADOException exx = new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				AfspraakMsServerException exx = new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", _bedrijfId);
 				exx.Data.Add("werknemerId", _werknemerId);
 				exx.Data.Add("bezoekerId", _bezoekerId);
@@ -945,7 +945,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Stelt lijst van alle aanwezige bezoekers samen met enkel lees rechten.
 		/// </summary>
 		/// <returns>IReadOnlyList van bezoeker objecten.</returns>
-		/// <exception cref="AfspraakADOException">Faalt lijst van bezoeker objecten samen te stellen.</exception>
+		/// <exception cref="AfspraakMsServerException">Faalt lijst van bezoeker objecten samen te stellen.</exception>
 		/// <remarks>Geeft alle bezoekers terug waar statuscode afspraak gelijk is aan 1 = 'In gang'.</remarks>
 		public IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers() {
 			SqlConnection con = GetConnection();
@@ -971,7 +971,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return bezoekers.AsReadOnly();
 				}
 			} catch (Exception ex) {
-				throw new AfspraakADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}", ex);
+				throw new AfspraakMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name}", ex);
 			} finally {
 				con.Close();
 			}
