@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemDL.ADOMS {
-    public class ParkingContractADO : IParkingContractRepository {
+    public class ParkingContractMsServer : IParkingContractRepository {
         /// <summary>
         /// Private lokale variabele connectiestring
         /// </summary>
@@ -21,7 +21,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// </summary>
         /// <param name="connectieString">Connectie string database</param>
         /// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-        public ParkingContractADO(string connectieString) {
+        public ParkingContractMsServer(string connectieString) {
             _connectieString = connectieString;
         }
 
@@ -68,7 +68,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -99,7 +99,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -146,7 +146,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     return contract;
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -170,7 +170,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -200,7 +200,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     parkingContract.ZetId(i);
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -241,7 +241,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                throw new ParkingContractADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkingContractMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }

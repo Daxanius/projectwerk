@@ -6,7 +6,7 @@ using System.Data;
 
 namespace BezoekersRegistratieSysteemDL.ADOMS {
 
-	public class BedrijfRepoADO : IBedrijfRepository {
+	public class BedrijfRepoMsServer : IBedrijfRepository {
 
 		/// <summary>
 		/// Private lokale variabele connectiestring
@@ -18,7 +18,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="connectieString">Connectie string database</param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-		public BedrijfRepoADO(string connectieString) {
+		public BedrijfRepoMsServer(string connectieString) {
 			_connectieString = connectieString;
 		}
 
@@ -35,12 +35,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijf">Bedrijf object dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf object.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf object.</exception>
 		public bool BestaatBedrijf(Bedrijf bedrijf) {
 			try {
 				return BestaatBedrijf(bedrijf, null, null);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -49,12 +49,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijfId">Id van het bedrijf dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf id.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf id.</exception>
 		public bool BestaatBedrijf(long bedrijfId) {
 			try {
 				return BestaatBedrijf(null, bedrijfId, null);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -63,12 +63,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijfsnaam">Naam van het bedrijf dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf id.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt om bestaan bedrijf te verifiëren op basis van het bedrijf id.</exception>
 		public bool BestaatBedrijf(string bedrijfsnaam) {
 			try {
 				return BestaatBedrijf(null, null, bedrijfsnaam);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -79,7 +79,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="bedrijfId">Optioneel: Id van het bedrijf dat gecontroleerd wenst te worden.</param>
 		/// <param name="bedrijfsnaam">Optioneel: Naam van het bedrijf dat gecontroleerd wenst te worden.</param>
 		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bestaan bedrijf te verifiëren op basis van de bedrijfid/naam of bedrijf object.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt om bestaan bedrijf te verifiëren op basis van de bedrijfid/naam of bedrijf object.</exception>
 		private bool BestaatBedrijf(Bedrijf? bedrijf, long? bedrijfId, string? bedrijfsnaam) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
@@ -98,7 +98,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return (i > 0);
 				}
 			} catch (Exception ex) {
-				BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				BedrijfMsServerException exx = new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijf", bedrijf);
 				exx.Data.Add("bedrijfId", bedrijfId);
 				exx.Data.Add("bedrijfsnaam", bedrijfsnaam);
@@ -112,7 +112,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Bewerkt gegevens van een bedrijf adhv bedrijf object.
 		/// </summary>
 		/// <param name="bedrijf">Bedrijf object dat gewijzigd wenst te worden in de databank.</param>
-		/// <exception cref="BedrijfADOException">Faalt bedrijf te wijzigen.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt bedrijf te wijzigen.</exception>
 		public void BewerkBedrijf(Bedrijf bedrijf) {
 			SqlConnection con = GetConnection();
 			string query = "UPDATE bedrijf " +
@@ -144,7 +144,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmd.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
-				BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				BedrijfMsServerException exx = new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijf", bedrijf);
 				throw exx;
 			} finally {
@@ -157,12 +157,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="id">Id van het gewenste bedrijf.</param>
 		/// <returns>Gewenst bedrijf object</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bedrijf object op te halen op basis van het id.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt om bedrijf object op te halen op basis van het id.</exception>
 		public Bedrijf GeefBedrijf(long id) {
 			try {
 				return GeefBedrijf(id, null);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -171,12 +171,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijfsnaam">Naam van het gewenste bedrijf.</param>
 		/// <returns>Gewenst bedrijf object</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bedrijf object op te halen op basis van de bedrijfsnaam.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt om bedrijf object op te halen op basis van de bedrijfsnaam.</exception>
 		public Bedrijf GeefBedrijf(string bedrijfsnaam) {
 			try {
 				return GeefBedrijf(null, bedrijfsnaam);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -186,10 +186,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="_bedrijfId">Id van het gewenste bedrijf.</param>
 		/// <param name="_bedrijfnaam">Naam van het gewenste bedrijf.</param>
 		/// <returns>Gewenst bedrijf object</returns>
-		/// <exception cref="BedrijfADOException">Faalt om bedrijf object op te halen op basis van het id of naam.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt om bedrijf object op te halen op basis van het id of naam.</exception>
 		private Bedrijf GeefBedrijf(long? _bedrijfId, string? _bedrijfnaam) {
 			SqlConnection con = GetConnection();
-			string query = "SELECT DISTINCT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
+			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
                            "f.FunctieNaam " +
 						   "FROM Bedrijf b " +
@@ -244,7 +244,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return bedrijf;
 				}
 			} catch (Exception ex) {
-				BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				BedrijfMsServerException exx = new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfid", _bedrijfId);
 				exx.Data.Add("bedrijfnaam", _bedrijfnaam);
 				throw exx;
@@ -257,10 +257,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Private methode die alle bedrijven ophaalt uit de databank.
 		/// </summary>
 		/// <returns>IReadOnlyList van bedrijf objecten.</returns>
-		/// <exception cref="BedrijfADOException">Faalt lijst van bedrijf objecten samen te stellen.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt lijst van bedrijf objecten samen te stellen.</exception>
 		public IReadOnlyList<Bedrijf> GeefBedrijven() {
 			SqlConnection con = GetConnection();
-			string query = "SELECT DISTINCT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
+			string query = "SELECT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
 						   "f.FunctieNaam " +
 						   "FROM Bedrijf b " +
@@ -310,7 +310,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return bedrijven;
 				}
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			} finally {
 				con.Close();
 			}
@@ -320,13 +320,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// Verwijdert gewenste bedrijf.
 		/// </summary>
 		/// <param name="bedrijfId">Id van bedrijf dat verwijderd wenst te worden.</param>
-		/// <exception cref="BedrijfADOException">Faalt bedrijf te verwijderen.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt bedrijf te verwijderen.</exception>
 		/// <remarks>bedrijf krijgt statuscode 2 = 'Verwijderd'.</remarks>
 		public void VerwijderBedrijf(long bedrijfId) {
 			try {
 				VeranderStatusBedrijf(bedrijfId, 2);
 			} catch (Exception ex) {
-				throw new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				throw new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
@@ -335,7 +335,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijfId">Id van het bedrijf dat gewijzigd wenst te worden.</param>
 		/// <param name="statusId">Id voor het wijzigen van een status.</param>
-		/// <exception cref="BedrijfADOException">Faalt om status van een bedrijf te wijzigen.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt om status van een bedrijf te wijzigen.</exception>
 		/// <remarks>Wanneer bedrijf status wijzigt 2 = 'verwijderd' => Werknemer status wijzigt 2 = 'Niet langer in dienst'</remarks>
 		private void VeranderStatusBedrijf(long bedrijfId, int statusId) {
 			//Wanneer bedrijf word verwijderd (status 2), medewerkers zijn dan ontslagen (status 2)
@@ -373,7 +373,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 				}
 			} catch (Exception ex) {
 				trans.Rollback();
-				BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				BedrijfMsServerException exx = new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijfId", bedrijfId);
 				exx.Data.Add("statusId", statusId);
 				throw exx;
@@ -387,7 +387,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="bedrijf">Bedrijf object dat toegevoegd wenst te worden.</param>
 		/// <returns>Gewenste bedrijf object MET id</returns>
-		/// <exception cref="BedrijfADOException">Faalt bedrijf toe te voegen op basis van het bedrijf object.</exception>
+		/// <exception cref="BedrijfMsServerException">Faalt bedrijf toe te voegen op basis van het bedrijf object.</exception>
 		public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
 			SqlConnection con = GetConnection();
 			string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres, BTWChecked) " +
@@ -414,7 +414,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					return bedrijf;
 				}
 			} catch (Exception ex) {
-				BedrijfADOException exx = new BedrijfADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				BedrijfMsServerException exx = new BedrijfMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijf", bedrijf);
 				throw exx;
 			} finally {
