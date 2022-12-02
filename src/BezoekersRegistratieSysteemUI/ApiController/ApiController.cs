@@ -8,12 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemUI.Api {
 	public static class ApiController {
@@ -23,7 +21,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 		#region Request Methods
 
-		public static async Task<(bool, T?)> Get<T>(string url, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Get<T>(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -50,12 +48,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task<(bool, T?)> GetMetBody<T>(string url, string body, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> GetMetBody<T>(string url, string body) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -88,12 +84,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async void Get(string url, string defaultFoutMelding = "") {
+		public static async void Get(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -110,13 +104,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
-		public static async Task<(bool, T?)> Put<T>(string url, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Put<T>(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -143,12 +135,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task<(bool, T?)> Put<T>(string url, string json, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Put<T>(string url, string json) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -175,12 +165,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task Put(string url, string defaultFoutMelding = "") {
+		public static async Task Put(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -197,12 +185,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async void Put(string url, string json, string defaultFoutMelding = "") {
+		public static async Task Put(string url, string json) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -213,19 +199,18 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				using HttpClient client = new();
 				client.Timeout = _timeout;
 
-				HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, json);
+				var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+				HttpResponseMessage response = await client.PutAsync(apiUrl, httpContent);
 
 				if (!response.IsSuccessStatusCode) {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
-		public async static Task Delete(string url, string defaultFoutMelding = "") {
+		public async static Task Delete(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -242,13 +227,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
-		public static async Task<(bool, T?)> Post<T>(string url, string json, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Post<T>(string url, string json) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -275,12 +258,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task<bool> Post(string url, string json = "", string defaultFoutMelding = "") {
+		public static async Task<bool> Post(string url, string json = "") {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -299,8 +280,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				return true;
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
@@ -574,7 +553,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		}
 
 		public static void BeeindigAlleOnAfgeslotenAfspraken() {
-			Task.Run(() => Put("afspraak/end/lopend"));
+			Task.Run(async () => await Put("afspraak/end/lopend"));
 		}
 
 		public async static Task VerwijderWerknemerVanBedrijf(long id) {
