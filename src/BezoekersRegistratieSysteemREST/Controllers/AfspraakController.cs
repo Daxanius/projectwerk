@@ -156,7 +156,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpPut("end/lopend")]
 		public IActionResult End() {
 			try {
-                _afspraakManager.BeeindigAfspraakSysteem();
+				_afspraakManager.BeeindigAfspraakSysteem();
 				return Ok();
 			} catch (Exception ex) {
 				return NotFound(ex.Message);

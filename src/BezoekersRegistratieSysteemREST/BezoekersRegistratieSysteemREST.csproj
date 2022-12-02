@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BezoekerRegistratieSysteemDLPicker\BezoekerRegistratieSysteemDLPicker.csproj" />
-    <ProjectReference Include="..\BezoekersRegistratieSysteemADO\BezoekersRegistratieSysteemADO.csproj" />
+    <ProjectReference Include="..\BezoekersRegistratieSysteemADO\BezoekersRegistratieSysteemMsServer.csproj" />
     <ProjectReference Include="..\BezoekersRegistratieSysteemBL\BezoekersRegistratieSysteemBL.csproj" />
     <ProjectReference Include="..\BezoekersRegistratieSysteemMySQL\BezoekersRegistratieSysteemMySQL.csproj" />
   </ItemGroup>

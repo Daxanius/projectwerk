@@ -1,21 +1,18 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 
-namespace BezoekersRegistratieSysteemREST.Model.Input
-{
+namespace BezoekersRegistratieSysteemREST.Model.Input {
 	/// <summary>
 	/// De DTO voor inkomende werknemer informatie
 	/// </summary>
-	public class WerknemerInfoInputDTO
-	{
+	public class WerknemerInfoInputDTO {
 		/// <summary>
 		/// De constructor.
 		/// </summary>
 		/// <param name="bedrijfId"></param>
 		/// <param name="email"></param>
 		/// <param name="functies"></param>
-		public WerknemerInfoInputDTO(long bedrijfId, string email, IEnumerable<string> functies)
-		{
+		public WerknemerInfoInputDTO(long bedrijfId, string email, IEnumerable<string> functies) {
 			BedrijfId = bedrijfId;
 			Email = email;
 			Functies = functies;
@@ -41,14 +38,12 @@ namespace BezoekersRegistratieSysteemREST.Model.Input
 		/// </summary>
 		/// <param name="bedrijfManager"></param>
 		/// <returns></returns>
-        public WerknemerInfo NaarBusiness(BedrijfManager bedrijfManager)
-        {
-            WerknemerInfo werknemerinfo = new(bedrijfManager.GeefBedrijf(BedrijfId), Email);
-            foreach (string functie in Functies)
-            {
-                werknemerinfo.VoegWerknemerFunctieToe(functie);
-            }
-            return werknemerinfo;
-        }
-    }
+		public WerknemerInfo NaarBusiness(BedrijfManager bedrijfManager) {
+			WerknemerInfo werknemerinfo = new(bedrijfManager.GeefBedrijf(BedrijfId), Email);
+			foreach (string functie in Functies) {
+				werknemerinfo.VoegWerknemerFunctieToe(functie);
+			}
+			return werknemerinfo;
+		}
+	}
 }

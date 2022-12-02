@@ -1,6 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
 using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
@@ -10,8 +9,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Controls {
 	public partial class BedrijvenLijstControl : UserControl, INotifyPropertyChanged {

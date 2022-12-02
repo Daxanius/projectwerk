@@ -1,15 +1,10 @@
-﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.Events;
-using BezoekersRegistratieSysteemUI.MessageBoxes;
+﻿using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls {
 	public partial class NummerplaatLijstControl : UserControl, INotifyPropertyChanged {
@@ -39,7 +34,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
 			ParkeerplaatsDTO parkeerplaats = (ParkeerplaatsDTO)b.CommandParameter;
 
 			int index = ItemSource.IndexOf(parkeerplaats);
-            NummerplaatLijst.SelectedIndex = index;
+			NummerplaatLijst.SelectedIndex = index;
 
 			ContextMenu.DataContext = parkeerplaats;
 			ContextMenu.IsOpen = true;

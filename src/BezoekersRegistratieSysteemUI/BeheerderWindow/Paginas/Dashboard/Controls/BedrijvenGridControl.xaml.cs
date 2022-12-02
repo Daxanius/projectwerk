@@ -1,17 +1,15 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
+using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
+using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Linq;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups;
-using BezoekersRegistratieSysteemUI.Events;
-using System.Reflection;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	public partial class BedrijvenGridControl : UserControl {

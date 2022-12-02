@@ -1,18 +1,12 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.Model;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls;
+using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.Model;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using BezoekersRegistratieSysteemUI.Events;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 	public partial class DashBoardPage : Page {
@@ -32,7 +26,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			//this.NavigationService.Navigate()
 			//TODO: :-)
 		}
-        public void TimeOutLoading() {
+		public void TimeOutLoading() {
 			GlobalEvents._refreshTimer.Start();
 			GlobalEvents._refreshTimerTimout.Stop();
         }

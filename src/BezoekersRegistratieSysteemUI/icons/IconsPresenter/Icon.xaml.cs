@@ -25,7 +25,7 @@ namespace BezoekersRegistratieSysteemUI.icons.IconsPresenter {
 				  typeof(Icon),
 				  new PropertyMetadata(40)
 			  );
-		
+
 		public int CanvasWidth {
 			get { return (int)GetValue(CanvasWidthPropperty); }
 			set { SetValue(CanvasWidthPropperty, value); }
@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemUI.icons.IconsPresenter {
 				  typeof(Icon),
 				  new PropertyMetadata(50)
 			  );
-		
+
 		public Thickness IconPadding {
 			get { return (Thickness)GetValue(IconPaddingPropperty); }
 			set { SetValue(IconPaddingPropperty, value); }
@@ -81,7 +81,7 @@ namespace BezoekersRegistratieSysteemUI.icons.IconsPresenter {
 				  typeof(Icon),
 				  new PropertyMetadata(40)
 			  );
-		
+
 		public Brush CircleBackground {
 			get { return (Brush)GetValue(CircleBackgroundProppperty); }
 			set { SetValue(CircleBackgroundProppperty, value); }

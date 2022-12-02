@@ -15,11 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteem
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BezoekersRegistratieSysteemDL", "BezoekersRegistratieSysteemDL", "{BF9BC225-AA63-488A-ACE6-26AFCA66521B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteemADO", "BezoekersRegistratieSysteemADO\BezoekersRegistratieSysteemADO.csproj", "{4C0570A7-E175-4623-B8CD-A0F30DA41090}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteemMsServer", "BezoekersRegistratieSysteemADO\BezoekersRegistratieSysteemMsServer.csproj", "{4C0570A7-E175-4623-B8CD-A0F30DA41090}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekersRegistratieSysteemMySQL", "BezoekersRegistratieSysteemMySQL\BezoekersRegistratieSysteemMySQL.csproj", "{46907089-5B3F-4628-B364-D59FF1C5D216}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BezoekerRegistratieSysteemDLPicker", "BezoekerRegistratieSysteemDLPicker\BezoekerRegistratieSysteemDLPicker.csproj", "{8C0610ED-A022-476A-9035-078C666346C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BezoekerRegistratieSysteemDLPicker", "BezoekerRegistratieSysteemDLPicker\BezoekerRegistratieSysteemDLPicker.csproj", "{8C0610ED-A022-476A-9035-078C666346C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
