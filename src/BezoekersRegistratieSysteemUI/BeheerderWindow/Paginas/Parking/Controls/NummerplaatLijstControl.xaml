@@ -156,6 +156,24 @@
                                 MinWidth="250"
                                 FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
+                                Text="Check-In Tijd" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label
+                                    Padding="8,15,0,15"
+                                    Content="{Binding Naam, Converter={StaticResource ElipsisConverter}}"
+                                    FontSize="15"
+                                    FontWeight="DemiBold" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock
+                                MinWidth="250"
+                                FontSize="12"
+                                Foreground="{StaticResource LichtGrijs}"
                                 Text="Nummerplaat" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
