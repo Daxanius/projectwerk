@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Groupswork.Bedrijf(
 	Email VARCHAR(255) NOT NULL,
 	Adres VARCHAR(255) NOT NULL,
 	BTWChecked BIT NOT NULL,
-	Status INT NOT NULL DEFAULT 1,
+	Status INT NULL DEFAULT 1,
     CONSTRAINT UN_BTW_Status UNIQUE(BTWNr, Status)
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Groupswork.Werknemerbedrijf(
 	WerknemerId BIGINT NOT NULL,
 	FunctieId INT NOT NULL,
 	WerknemerEmail VARCHAR(255) NOT NULL,
-	Status INT NOT NULL DEFAULT 1,
+	Status INT NULL DEFAULT 1,
 	CONSTRAINT FK_WerknemerBedrijf_Bedrijf_Id FOREIGN KEY (BedrijfId) REFERENCES Groupswork.Bedrijf(Id),
 	CONSTRAINT FK_WerknemerBedrijf_Werknemer_Id FOREIGN KEY (WerknemerId) REFERENCES Groupswork.Werknemer(Id),
 	CONSTRAINT FK_Werknemer_Functie_Id FOREIGN KEY (FunctieId) REFERENCES Groupswork.Functie(Id),
@@ -78,9 +78,9 @@ CREATE TABLE IF NOT EXISTS Groupswork.ParkingContract(
 	EindTijd DATE NOT NULL,
 	BedrijfId BIGINT NOT NULL,
 	AantalPlaatsen INT NOT NULL,
-	StatusId INT NOT NULL DEFAULT 1,
+	StatusId INT NULL DEFAULT 1,
 	CONSTRAINT FK_ParkingContract_Bedrijf_Id FOREIGN KEY (BedrijfId) REFERENCES Groupswork.Bedrijf(Id),
-	CONSTRAINT UN_Start_Eind_Bedrijf UNIQUE (StartTijd, EindTijd, BedrijfId)
+	CONSTRAINT UN_Start_Eind_Bedrijf UNIQUE (StartTijd, EindTijd, BedrijfId, StatusId)
 );
 
 CREATE TABLE IF NOT EXISTS Groupswork.ParkingPlaatsen(
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS Groupswork.ParkingPlaatsen(
 	StartTijd DATETIME NOT NULL,
 	EindTijd DATETIME NULL,
 	BedrijfId BIGINT NOT NULL,
-	StatusId INT NOT NULL DEFAULT 1,
+	StatusId INT NULL DEFAULT 1,
 	CONSTRAINT FK_ParkingPlaatsen_Bedrijf_Id FOREIGN KEY (BedrijfId) REFERENCES Groupswork.Bedrijf(Id),
 	CONSTRAINT UN_NummerPlaat_Start UNIQUE (NummerPlaat, StartTijd)
 );
