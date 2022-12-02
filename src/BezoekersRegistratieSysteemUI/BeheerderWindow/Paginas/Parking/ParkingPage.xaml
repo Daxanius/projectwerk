@@ -114,7 +114,7 @@
                                             Foreground="{StaticResource DonkerBlauw}"
                                             Text="Statistieken" />
                     </Grid>
-                <local1:GrafiekControl x:Name="Grafiek" Margin="25,0,25,25" ValueIncrement="25" Font="Inter" HorizontalAlignment="Center"/>
+                <local1:GrafiekControl x:Name="Grafiek" Margin="25,0,25,25" WaardeIncrement="25" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
                 <Border

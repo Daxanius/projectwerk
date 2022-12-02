@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BezoekersRegistratieSysteemDL.ADOMS {
-    public class ParkeerPlaatsADO : IParkeerplaatsRepository {
+    public class ParkeerPlaatsMsServer : IParkeerplaatsRepository {
         /// <summary>
 		/// Private lokale variabele connectiestring
 		/// </summary>
@@ -21,7 +21,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// </summary>
         /// <param name="connectieString">Connectie string database</param>
         /// <remarks>Deze constructor stelt de lokale variabele [_connectieString] gelijk aan de connectie string parameter.</remarks>
-        public ParkeerPlaatsADO(string connectieString) {
+        public ParkeerPlaatsMsServer(string connectieString) {
             _connectieString = connectieString;
         }
 
@@ -54,7 +54,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     return (i > 0);
                 }
             } catch (Exception ex) {
-                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -83,7 +83,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -109,7 +109,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.ExecuteNonQuery();
                 }
             } catch (Exception ex) {
-                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             } finally {
                 con.Close();
             }
@@ -126,7 +126,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                 bedrijf.ZetId(bedrijfId);
                 return GeefNummerplaten(bedrijf, true).Count();
             } catch (Exception ex) {
-                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
 
@@ -139,7 +139,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             try {
                 return GeefNummerplaten(bedrijf, false);
             } catch (Exception ex) {
-                throw new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
         }
         /// <summary>
@@ -177,7 +177,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     return nummerplaten.AsReadOnly();
                 }
             } catch (Exception ex) {
-                ParkeerPlaatsADOException exx = new ParkeerPlaatsADOException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
                 exx.Data.Add("bedrijf", bedrijf);
                 throw exx;
             } finally {
