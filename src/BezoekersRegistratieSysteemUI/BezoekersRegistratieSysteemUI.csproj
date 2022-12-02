@@ -92,6 +92,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="ParkeerWindow\Paginas\Aanmelden\AanmeldParkeerPage.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 		<Compile Update="AanmeldWindow\Paginas\Afmelden\AfmeldPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
@@ -131,15 +134,23 @@
 		<Compile Update="BeheerderWindow\Paginas\Bedrijven\BedrijvenPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
-		<Compile Update="MessageBoxes\InformationMessageBox.xaml.cs">
+		<Compile Update="ParkeerWindow\Paginas\Afmelden\AfmeldParkeerPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
-		<Compile Update="MessageBoxes\QuestionMessageBox.xaml.cs">
-		  <SubType>Code</SubType>
+		<Compile Update="Properties\Settings.Designer.cs">
+		  <DesignTimeSharedInput>True</DesignTimeSharedInput>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Settings.settings</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+		<Page Update="BeheerderWindow\Paginas\Bedrijven\Popups\BedrijfUpdatenPopup.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		</Page>
+		<Page Update="ParkeerWindow\Paginas\Aanmelden\AanmeldParkeerPage.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		</Page>
 		<Page Update="AanmeldWindow\Paginas\Afmelden\AfmeldPage.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
@@ -191,7 +202,7 @@
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
-		<Page Update="BeheerderWindow\Paginas\Bedrijven\Popups\BedrijvenPopup.xaml">
+		<Page Update="BeheerderWindow\Paginas\Bedrijven\Popups\BedrijfToevoegenPopup.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		</Page>
 		<Page Update="BeheerderWindow\Paginas\Werknemers\WerknemersPage.xaml">
@@ -202,14 +213,17 @@
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
+		<Page Update="ParkeerWindow\Paginas\Afmelden\AfmeldParkeerPage.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="BeheerderWindow\Paginas\Parking\Controls\" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	  <ProjectReference Include="..\BezoekersRegistratieSysteemBL\BezoekersRegistratieSysteemBL.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -259,6 +273,13 @@
 	  <Resource Include="Icons\PlusIcon.xaml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>PublicSettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
 	</ItemGroup>
 
 </Project>

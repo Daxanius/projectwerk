@@ -18,10 +18,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <summary>
 		/// De constructor.
 		/// </summary>
-		/// <param name="afspraakManager">De afspraak manager</param>
+		/// <param name="bedrijfManager">De bedrijf manager</param>
 		/// <param name="werknemerManager">De werknemer manager</param>
-		public BedrijfController(BedrijfManager afspraakManager, WerknemerManager werknemerManager) {
-			_bedrijfManager = afspraakManager;
+		public BedrijfController(BedrijfManager bedrijfManager, WerknemerManager werknemerManager) {
+			_bedrijfManager = bedrijfManager;
 			_werknemerManager = werknemerManager;
 		}
 
@@ -127,7 +127,6 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 
-
 				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemersPerBedrijf(bedrijf)));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
@@ -144,9 +143,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<IEnumerable<WerknemerOutputDTO>> VerwijderWerknemerUitBedrijf(long bedrijfId, long werknemerId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId).GeefWerknemerObject();
+				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
 
-				bedrijf.VerwijderWerknemerUitBedrijf(werknemer);
+				_werknemerManager.VerwijderWerknemer(werknemer, bedrijf);
 				return Ok();
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);

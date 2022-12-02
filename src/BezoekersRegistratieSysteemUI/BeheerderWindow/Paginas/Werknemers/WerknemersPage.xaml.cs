@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+using BezoekersRegistratieSysteemUI.Events;
+using System.Collections.ObjectModel;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 	public partial class WerknemersPage : Page, INotifyPropertyChanged {
@@ -18,16 +22,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 		public int FullHeight { get; set; }
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
 
-		private List<WerknemerDTO> initieleZoekTermWerknemers;
-		private List<WerknemerDTO> huidigeFilterAfspraken;
+		private ObservableCollection<WerknemerDTO> _werknemerLijst;
+		private List<WerknemerDTO> _initieleZoekTermWerknemers;
+		private List<WerknemerDTO> _huidigeFilterAfspraken;
 		private string _zoekText;
 		public string ZoekText {
 			get => _zoekText;
 			set {
-				if (!string.IsNullOrWhiteSpace(value)) {
+				if (value.IsNietLeeg()) {
 					_zoekText = value.ToLower();
 
-					List<WerknemerDTO> result = initieleZoekTermWerknemers.Where(w => w.Voornaam.ToLower().Contains(_zoekText) ||
+					List<WerknemerDTO> result = _initieleZoekTermWerknemers.Where(w => w.Voornaam.ToLower().Contains(_zoekText) ||
 					w.Achternaam.ToLower().Contains(_zoekText) ||
 					w.Email.ToLower().Contains(_zoekText) ||
 					w.Functie.ToLower().Contains(_zoekText) ||
@@ -41,7 +46,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 				} else if (value.Length == 0) {
 					WerknemerLijstControl.ItemSource.Clear();
-					foreach (WerknemerDTO bedrijf in initieleZoekTermWerknemers) {
+					foreach (WerknemerDTO bedrijf in _initieleZoekTermWerknemers) {
 						WerknemerLijstControl.ItemSource.Add(bedrijf);
 					}
 				}
@@ -53,29 +58,31 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			FullWidth = (int)SystemParameters.PrimaryScreenWidth;
 			FullHeight = (int)SystemParameters.PrimaryScreenHeight;
 
-			BeheerderWindow.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijfOpScherm;
-
 			this.DataContext = this;
 			InitializeComponent();
 
-			WerknemersPopup.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => WerknemerLijstControl.ItemSource.Add(werknemer);
+			WerknemerLijstControl.ItemSource ??= new ObservableCollection<WerknemerDTO>();
+			_werknemerLijst = WerknemerLijstControl.ItemSource;
+
+			BedrijfEvents.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijf_Event;
+			WerknemerEvents.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => _werknemerLijst.Add(werknemer);
 
 			UpdateWerknemersMetNieuweDataOpScherm();
 		}
 
-		private void UpdateGeselecteerdBedrijfOpScherm() {
+		private void UpdateGeselecteerdBedrijf_Event() {
 			UpdatePropperty(nameof(GeselecteerdBedrijf));
 			UpdateWerknemersMetNieuweDataOpScherm();
 		}
 
 		private void UpdateWerknemersMetNieuweDataOpScherm() {
 			List<WerknemerDTO> werknemers = ApiController.GeefWerknemersVanBedrijf(GeselecteerdBedrijf).ToList();
-			WerknemerLijstControl.ItemSource.Clear();
+			_werknemerLijst.Clear();
 			foreach (WerknemerDTO werknemer in werknemers) {
-				WerknemerLijstControl.ItemSource.Add(werknemer);
+				_werknemerLijst.Add(werknemer);
 			}
 
-			initieleZoekTermWerknemers = new(WerknemerLijstControl.ItemSource);
+			_initieleZoekTermWerknemers = new(_werknemerLijst);
 		}
 		private void ZoekTermChanged(object sender, TextChangedEventArgs e) {
 			Task.Run(() => Dispatcher.Invoke(() => ZoekText = ZoekTextTextbox.Text));
@@ -92,24 +99,24 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			if (WerknemerLijstControl is null) return;
-			if (huidigeFilterAfspraken is null) huidigeFilterAfspraken = WerknemerLijstControl.ItemSource.ToList();
+			_huidigeFilterAfspraken ??= _werknemerLijst.ToList();
 
 			ComboBox combobox = (sender as ComboBox);
 			if (combobox.SelectedValue is null) return;
 
 			string selected = ((ComboBoxItem)combobox.SelectedValue).Content.ToString();
 
-			List<WerknemerDTO> filtered = huidigeFilterAfspraken;
+			List<WerknemerDTO> filtered = _huidigeFilterAfspraken;
 			if (combobox.SelectedIndex != 0) {
 				if (selected == "Vrij")
-					filtered = huidigeFilterAfspraken.Where(x => x.Status == "Vrij").ToList();
+					filtered = _huidigeFilterAfspraken.Where(x => x.Status == "Vrij").ToList();
 				else
-					filtered = huidigeFilterAfspraken.Where(x => x.Status == "Bezet").ToList();
+					filtered = _huidigeFilterAfspraken.Where(x => x.Status == "Bezet").ToList();
 			}
 
-			WerknemerLijstControl.ItemSource.Clear();
+			_werknemerLijst.Clear();
 			foreach (WerknemerDTO afspraak in filtered) {
-				WerknemerLijstControl.ItemSource.Add(afspraak);
+				_werknemerLijst.Add(afspraak);
 			}
 		}
 

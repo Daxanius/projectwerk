@@ -40,35 +40,72 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Button
-                        Grid.Column="0"
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Button
+                        Grid.Row="0"
                         Width="500"
-                        Height="500"
-                        Margin="0,0,50,0"
+                        Height="237.5"
+                        Margin="0,0,50,12.5"
                         Background="{StaticResource LichtGrijsAccent}"
                         BorderBrush="Transparent"
-                        Click="ParkeerButton_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="35" />
-                            </Style>
-                        </Button.Resources>
-                        <StackPanel>
-                            <iconspresenter:Icon
+                        Click="ParkeerCheckInButton_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="35" />
+                                </Style>
+                            </Button.Resources>
+                            <StackPanel>
+                                <iconspresenter:Icon
                                 CanvasHeight="30"
                                 CanvasWidth="30"
                                 CircleBackground="Transparent"
                                 CircleSize="0"
-                                IconSize="360"
-                                IconSource="../ParkingIcon.xaml" />
-                            <Label
+                                IconSize="180"
+                                    Margin="0,-40,0,0"
+                                IconSource="../ParkingCheckInIcon.xaml" />
+                                <Label
                                 HorizontalContentAlignment="Center"
-                                Content="PARKING APPLICATION"
+                                Content="CHECK-IN PARKING"
                                 FontSize="24"
                                 FontWeight="Bold"
                                 Foreground="{StaticResource GewoonBlauw}" />
-                        </StackPanel>
-                    </Button>
+                            </StackPanel>
+                        </Button>
+                        <Button
+                        Grid.Row="1"
+                        Width="500"
+                        Height="237.5"
+                        Margin="0,12.5,50,0"
+                        Background="{StaticResource LichtGrijsAccent}"
+                        BorderBrush="Transparent"
+                        Click="ParkeerCheckOutButton_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="35" />
+                                </Style>
+                            </Button.Resources>
+                            <StackPanel>
+                                <iconspresenter:Icon
+                                CanvasHeight="30"
+                                CanvasWidth="30"
+                                CircleBackground="Transparent"
+                                CircleSize="0"
+                                IconSize="180"
+                                    Margin="0,-40,0,0"
+                                IconSource="../ParkingCheckOutIcon.xaml" />
+                                <Label
+                                HorizontalContentAlignment="Center"
+                                Content="CHECK-OUT PARKING"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource GewoonBlauw}" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
                     <Button
                         Grid.Column="1"
                         Width="500"
@@ -92,7 +129,7 @@
                                 IconSource="../WerknemerIcon.xaml" />
                             <Label
                                 HorizontalContentAlignment="Center"
-                                Content="REGISTRATIE APPLICATION"
+                                Content="REGISTRATIE"
                                 FontSize="24"
                                 FontWeight="Bold"
                                 Foreground="{StaticResource GewoonBlauw}" />
@@ -121,7 +158,7 @@
                                 IconSource="../DashboardIcon.xaml" />
                             <Label
                                 HorizontalContentAlignment="Center"
-                                Content="ADMIN APPLICATION"
+                                Content="ADMIN"
                                 FontSize="24"
                                 FontWeight="Bold"
                                 Foreground="{StaticResource GewoonBlauw}" />

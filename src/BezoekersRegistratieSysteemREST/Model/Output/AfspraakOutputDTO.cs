@@ -1,17 +1,20 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemREST.Model.Output {
+namespace BezoekersRegistratieSysteemREST.Model.Output
+{
 	/// <summary>
 	/// De DTO voor uitgaande afspraak informatie.
 	/// </summary>
-	public class AfspraakOutputDTO {
+	public class AfspraakOutputDTO
+	{
 		/// <summary>
 		/// Zet de business variant om naar de DTO.
 		/// </summary>
 		/// <param name="afspraak"></param>
 		/// <returns>De DTO variant.</returns>
-		public static AfspraakOutputDTO NaarDTO(Afspraak afspraak) {
-			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, IdInfoOutputDTO.NaarDTO(afspraak.Bedrijf), IdInfoOutputDTO.NaarDTO(afspraak.Bezoeker), IdInfoOutputDTO.NaarDTO(afspraak.Werknemer));
+		public static AfspraakOutputDTO NaarDTO(Afspraak afspraak)
+		{
+			return new(afspraak.Id, afspraak.Starttijd, afspraak.Eindtijd, IdInfoOutputDTO.NaarDTO(afspraak.Bedrijf), IdInfoOutputDTO.NaarDTO(afspraak.Bezoeker), IdInfoOutputDTO.NaarDTO(afspraak.Werknemer), afspraak.StatusNaam);
 		}
 
 		/// <summary>
@@ -20,10 +23,12 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// </summary>
 		/// <param name="afspraken"></param>
 		/// <returns>Een lijst van de DTO variant.</returns>
-		public static IEnumerable<AfspraakOutputDTO> NaarDTO(IEnumerable<Afspraak> afspraken) {
+		public static IEnumerable<AfspraakOutputDTO> NaarDTO(IEnumerable<Afspraak> afspraken)
+		{
 			List<AfspraakOutputDTO> output = new();
-			foreach (Afspraak afspraak in afspraken) {
-				output.Add(AfspraakOutputDTO.NaarDTO(afspraak));
+			foreach (Afspraak afspraak in afspraken)
+			{
+				output.Add(NaarDTO(afspraak));
 			}
 			return output;
 		}
@@ -37,13 +42,15 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// <param name="bedrijf"></param>
 		/// <param name="bezoeker"></param>
 		/// <param name="werknemer"></param>
-		public AfspraakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, IdInfoOutputDTO bedrijf, IdInfoOutputDTO bezoeker, IdInfoOutputDTO werknemer) {
+		public AfspraakOutputDTO(long id, DateTime starttijd, DateTime? eindtijd, IdInfoOutputDTO bedrijf, IdInfoOutputDTO bezoeker, IdInfoOutputDTO werknemer, string statusNaam)
+		{
 			Id = id;
 			Starttijd = starttijd;
 			Eindtijd = eindtijd;
 			Bedrijf = bedrijf;
 			Bezoeker = bezoeker;
 			Werknemer = werknemer;
+			StatusNaam = statusNaam;
 		}
 
 		/// <summary>
@@ -75,5 +82,9 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// De werknemer van de afpsraak.
 		/// </summary>
 		public IdInfoOutputDTO Werknemer { get; set; }
+        /// <summary>
+        /// De status van de afpsraak.
+        /// </summary>
+        public string StatusNaam { get; set; }
 	}
 }

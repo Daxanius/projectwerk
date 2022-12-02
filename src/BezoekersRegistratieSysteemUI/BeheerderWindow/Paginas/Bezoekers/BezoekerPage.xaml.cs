@@ -1,5 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;

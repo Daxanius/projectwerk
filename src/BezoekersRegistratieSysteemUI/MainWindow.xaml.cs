@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
+﻿using BezoekersRegistratieSysteemUI.ParkeerWindow;
+using BezoekersRegistratieSysteemUI.AanmeldWindow;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using System.Windows;
 
@@ -25,22 +26,29 @@ namespace BezoekersRegistratieSysteemUI {
 			InitializeComponent();
 		}
 
-		private void ParkeerButton_Click(object sender, RoutedEventArgs e) {
-			ParkeerWindow parkeerWindow = new();
+		private void ParkeerCheckInButton_Click(object sender, RoutedEventArgs e) {
+			AanmeldParkeerWindow parkeerWindow = new AanmeldParkeerWindow();
 			this.Close();
-			parkeerWindow.ShowDialog();
+            parkeerWindow.ShowDialog();
 		}
 
-		private void AanmeldButton_Click(object sender, RoutedEventArgs e) {
-			RegistratieWindow registratieWindow = new();
+        private void ParkeerCheckOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            AfmeldParkeerWindow parkeerWindow = new AfmeldParkeerWindow();
+            this.Close();
+            parkeerWindow.ShowDialog();
+        }
+
+        private void AanmeldButton_Click(object sender, RoutedEventArgs e) {
+			RegistratieWindow registratieWindow = new RegistratieWindow();
 			this.Close();
 			registratieWindow.ShowDialog();
 		}
 
 		private void AdminButton_Click(object sender, RoutedEventArgs e) {
-			BeheerderWindow parkeerWindow = new();
+			BeheerderWindow beheerderWindow = new BeheerderWindow();
 			this.Close();
-			parkeerWindow.ShowDialog();
+			beheerderWindow.ShowDialog();
 		}
 	}
 }

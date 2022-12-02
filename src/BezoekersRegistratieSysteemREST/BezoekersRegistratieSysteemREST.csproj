@@ -9,12 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BezoekerRegistratieSysteemDLPicker\BezoekerRegistratieSysteemDLPicker.csproj" />
+    <ProjectReference Include="..\BezoekersRegistratieSysteemADO\BezoekersRegistratieSysteemMsServer.csproj" />
     <ProjectReference Include="..\BezoekersRegistratieSysteemBL\BezoekersRegistratieSysteemBL.csproj" />
-    <ProjectReference Include="..\BezoekersRegistratieSysteemDL\BezoekersRegistratieSysteemDL.csproj" />
+    <ProjectReference Include="..\BezoekersRegistratieSysteemMySQL\BezoekersRegistratieSysteemMySQL.csproj" />
   </ItemGroup>
 
 </Project>

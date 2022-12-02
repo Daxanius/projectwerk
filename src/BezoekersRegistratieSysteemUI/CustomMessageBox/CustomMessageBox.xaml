@@ -1,0 +1,116 @@
+﻿<Window
+    x:Class="BezoekersRegistratieSysteemUI.MessageBoxes.CustomMessageBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.MessageBoxes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Opgelet"
+    AllowsTransparency="True"
+    Background="#3a3a3a7a"
+    FontFamily="{StaticResource Inter}"
+    ResizeMode="NoResize"
+    Topmost="True"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Border Background="{StaticResource MainAchtergrond}" CornerRadius="25">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="0.5*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="0.5*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                x:Name="TitleLabel"
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="5"
+                HorizontalAlignment="Center"
+                FontSize="40"
+                FontWeight="Bold"
+                Foreground="{StaticResource DonkerBlauw}" />
+            <iconspresenter:Icon
+                x:Name="Icon"
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="-50"
+                HorizontalAlignment="Left"
+                IconSize="200"
+                Opacity="1" />
+            <TextBlock
+                x:Name="TextTextBox"
+                Grid.Row="3"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                Margin="120,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontSize="26"
+                FontWeight="Medium" />
+            <Button
+                x:Name="AnnulerenButton"
+                Grid.Row="5"
+                Grid.Column="1"
+                Padding="15,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderBrush="{StaticResource DonkerRood}"
+                BorderThickness="3"
+                Click="Button_Click"
+                Content="Annuleren"
+                FontSize="24"
+                FontWeight="Bold"
+                Foreground="{StaticResource DonkerRood}"
+                Style="{StaticResource ActionButtonPopup}" />
+            <Button
+                x:Name="BevestigenButton"
+                Grid.Row="5"
+                Grid.Column="3"
+                Padding="15,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderBrush="{StaticResource ButtonGroen}"
+                BorderThickness="3"
+                Click="Button_Click"
+                Content="Bevestigen"
+                FontSize="24"
+                FontWeight="Bold"
+                Foreground="{StaticResource ButtonGroen}"
+                Style="{StaticResource ActionButtonPopup}" />
+            <Button
+                x:Name="SluitButton"
+                Grid.Row="5"
+                Grid.Column="0"
+                Grid.ColumnSpan="5"
+                Padding="15,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderBrush="{StaticResource ButtonGroen}"
+                BorderThickness="3"
+                Click="Button_Click"
+                Content="Sluit"
+                FontSize="24"
+                FontWeight="Bold"
+                Foreground="{StaticResource ButtonGroen}"
+                Style="{StaticResource ActionButtonPopup}"
+                Visibility="Collapsed" />
+        </Grid>
+    </Border>
+</Window>

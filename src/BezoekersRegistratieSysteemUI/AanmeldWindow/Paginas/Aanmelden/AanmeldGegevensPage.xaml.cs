@@ -1,7 +1,6 @@
-﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Api.Output;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
-using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+﻿using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,9 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 
 namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 	public partial class AanmeldGegevensPage : Page, INotifyPropertyChanged {
@@ -119,7 +121,20 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 					return;
 				}
 
-				ValideerInput.IsLeeg(new Dictionary<string, string?>() { { "Voornaam", Voornaam }, { "Achternaam", Achternaam }, { "Email", Email } });
+				if (Achternaam.IsLeeg()) {
+					MessageBox.Show("Achternaam is verplicht", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+
+				if (Voornaam.IsLeeg()) {
+					MessageBox.Show("Voornaam is verplicht", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+
+				if (Email.IsLeeg()) {
+					MessageBox.Show("Email is verplicht", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
 
 				if (!Email.IsEmailGeldig()) {
 					MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -157,10 +172,10 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		}
 
 		private void GaTerugNaarKiesBedrijf() {
-			Voornaam = Voornaam.ZetLeeg();
-			Achternaam = Achternaam.ZetLeeg();
-			Email = Email.ZetLeeg();
-			Bedrijf = Bedrijf.ZetLeeg();
+			Voornaam = "";
+			Achternaam = "";
+			Email = "";
+			Bedrijf = "";
 
 			RegistratieWindow registratieWindow = (RegistratieWindow)Window.GetWindow(this);
 			registratieWindow.FrameControl.Content = KiesBedrijfPage.Instance;

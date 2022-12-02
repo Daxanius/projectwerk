@@ -1,12 +1,11 @@
-﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
-using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden;
+﻿using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden;
 using BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace BezoekersRegistratieSysteemUI.AanmeldenOfAfmeldenWindow.Aanmelden.Paginas {
+namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas {
 	/// <summary>
 	/// Interaction logic for SideBarControl.xaml
 	/// </summary>

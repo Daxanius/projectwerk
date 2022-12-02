@@ -3,12 +3,204 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking"
+      xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking" 
+      xmlns:iconspresenter="clr-namespace:BezoekersRegistratieSysteemUI.icons.IconsPresenter" 
+      xmlns:controls="clr-namespace:BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls" 
+      xmlns:local1="clr-namespace:BezoekersRegistratieSysteemUI.Grafiek"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ParkingPage">
-
+      FontFamily="{StaticResource Inter}"
+      Title="ParkingPage" SizeChanged="Page_SizeChanged"
+      >
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DockPanel
+            Grid.Row="0"
+            Margin="40"
+            LastChildFill="True">
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <TextBlock
+                        DockPanel.Dock="Left"
+                        FontSize="45"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource DonkerBlauw}"
+                        Text="Parking" />
+                    <TextBlock
+                        Margin="12,0,0,0"
+                        DockPanel.Dock="Left"
+                        FontSize="45"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource DonkerBlauw}"
+                        Text="{Binding GeselecteerdBedrijf.Naam}" />
+                    <iconspresenter:Icon
+                        CircleBackground="{StaticResource DonkerBlauw}"
+                        Cursor="Hand"
+                        DockPanel.Dock="Right"
+                        IconPadding="0, 0, 4.5, 4"
+                        IconSize="50"
+                        IconSource="../PlusIcon.xaml"/>
+                    <StackPanel />
+                </DockPanel>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.3*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Border
+                Padding="20"
+                Margin="0,0,40,0"
+                Background="{StaticResource LichtGrijsAccent}"
+                CornerRadius="25"
+                DockPanel.Dock="Left"
+                Grid.Row="0"
+                Grid.Column="0">
+                <StackPanel>
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                                            Grid.Column="0"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource DonkerBlauw}"
+                                            Text="Parking Contract" />
+                        <StackPanel HorizontalAlignment="Right" Grid.Column="1">
+                            <Border
+                                                    Background="{StaticResource MainAchtergrond}"
+                                                    CornerRadius="25"
+                                                    DockPanel.Dock="Left">
+                                <StackPanel
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                    <iconspresenter:Icon
+                                                            CircleBackground="{StaticResource DonkerBlauw}"
+                                                            IconSize="50"
+                                                            IconSource="../ParkingContractIcon.xaml" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                    <controls:ParkingContractControl x:Name="ParkingContractDetail" />
+                </StackPanel>
+            </Border>
+                <Border
+                Padding="20"
+                Margin="0,40,40,0"
+                Background="{StaticResource LichtGrijsAccent}"
+                CornerRadius="25"
+                DockPanel.Dock="Bottom"
+                Name="BarGraph" 
+                Grid.Row="1"
+                    Grid.Column="0" Loaded="BarGraph_Loaded">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                            Grid.Column="0"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource DonkerBlauw}"
+                                            Text="Bezetting op Weekbasis" />
+                        </Grid>
+                        <local1:GrafiekControl x:Name="Grafiek1" Margin="25,0,25,25" WaardeIncrement="25" HorizontalAlignment="Center" GrafiekType="Bar"/>
+                    </StackPanel>
+                </Border>
+                <Border
+                Padding="20"
+                Margin="0,40,0,0"
+                Background="{StaticResource LichtGrijsAccent}"
+                CornerRadius="25"
+                DockPanel.Dock="Bottom"
+                Name="LineGraph" Loaded="LineGraph_Loaded"
+                Grid.Row="1"
+                    Grid.Column="1">
+                    <StackPanel>
+                    <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                                            Grid.Column="0"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource DonkerBlauw}"
+                                            Text="Bezetting op Dagbasis" />
+                    </Grid>
+                <local1:GrafiekControl x:Name="Grafiek" Margin="25,0,25,25" WaardeIncrement="25" HorizontalAlignment="Center" GrafiekType="Lijn"/>
+                </StackPanel>
+                </Border>
+                <Border
+                Padding="20"
+                Background="{StaticResource LichtGrijsAccent}"
+                CornerRadius="25"
+                DockPanel.Dock="Right"
+                Grid.Row="0"
+                    Grid.Column="1">
+                <StackPanel>
+                    <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                                            Grid.Column="0"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource DonkerBlauw}"
+                                            Text="Geparkeerden" />
+                        <StackPanel HorizontalAlignment="Right" Grid.Column="1">
+                            <Border
+                                                    Background="{StaticResource MainAchtergrond}"
+                                                    CornerRadius="25"
+                                                    DockPanel.Dock="Left">
+                                <StackPanel
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                    <iconspresenter:Icon
+                                                            CircleBackground="Transparent"
+                                                            IconSize="50"
+                                                            IconSource="../VergrootGlasIcon.xaml" />
+                                    <TextBox
+                                                            x:Name="ZoekTermTextBoxWerknemers"
+                                                            MinWidth="200"
+                                                            MaxWidth="400"
+                                                            Padding="0,0,15,0"
+                                                            VerticalAlignment="Center"
+                                                            Background="Transparent"
+                                                            BorderBrush="Transparent"
+                                                            BorderThickness="0"
+                                                            FontSize="16"
+                                                            FontWeight="Bold"
+                                                            Foreground="{StaticResource DonkerGrijs}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                    <controls:NummerplaatLijstControl x:Name="NummerplaatLijstControl" />
+                </StackPanel>
+            </Border>
+            </Grid>
+        </DockPanel>
     </Grid>
 </Page>

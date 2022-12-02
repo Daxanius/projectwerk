@@ -10,20 +10,21 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 	public class UnitTestBedrijfController {
 		#region MOQ
 		// Moq repos
-		private readonly Mock<IBedrijfRepository> _mockRepoBedrijf;
-		private readonly Mock<IWerknemerRepository> _mockRepoWerknemer;
+		private Mock<IBedrijfRepository> _mockRepoBedrijf;
+		private Mock<IWerknemerRepository> _mockRepoWerknemer;
+		private Mock<IAfspraakRepository> _mockRepoAfspraak;
 
-		// Managers
-		private readonly BedrijfManager _bedrijfManager;
-		private readonly WerknemerManager _werknemerManger;
+        // Managers
+        private BedrijfManager _bedrijfManager;
+		private WerknemerManager _werknemerManger;
 
 		// Controllers
-		private readonly BedrijfController _bedrijfController;
+		private BedrijfController _bedrijfController;
 		#endregion
 
 		#region Valid Info
-		private readonly WerknemerInputDTO _w;
-		private readonly BedrijfInputDTO _b;
+		private WerknemerInputDTO _w;
+		private BedrijfInputDTO _b;
 		#endregion
 
 		#region Initialiseren
@@ -31,10 +32,11 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			// Moq repos
 			_mockRepoBedrijf = new();
 			_mockRepoWerknemer = new();
+            _mockRepoAfspraak = new();
 
-			// Managers
-			_bedrijfManager = new(_mockRepoBedrijf.Object);
-			_werknemerManger = new(_mockRepoWerknemer.Object);
+            // Managers
+            _bedrijfManager = new(_mockRepoBedrijf.Object, _mockRepoAfspraak.Object);
+			_werknemerManger = new(_mockRepoWerknemer.Object, _mockRepoAfspraak.Object);
 
 			// Controllers
 			_bedrijfController = new(_bedrijfManager, _werknemerManger);
@@ -45,14 +47,13 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			Bedrijf b = _b.NaarBusiness();
 			Werknemer w = _w.NaarBusiness(_bedrijfManager);
-			StatusObject ws = new("Plopkoek", _w.NaarBusiness(_bedrijfManager));
 
 			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemersen@bedrijf.com", "nietsen");
 
 			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(true);
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
 			_mockRepoBedrijf.Setup(x => x.GeefBedrijf(0)).Returns(b);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(ws);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(w);
 		}
 		#endregion
 

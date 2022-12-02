@@ -1,0 +1,34 @@
+﻿<Window
+    x:Class="BezoekersRegistratieSysteemUI.ParkeerWindow.AanmeldParkeerWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.ParkeerWindow"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:paginas="clr-namespace:BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas"
+    Title="ParkeerWindow"
+    FontFamily="{StaticResource Inter}"
+    Icon="/BRS.ico"
+    ResizeMode="CanResize"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ScaleTransform x:Key="windowScaleTransform" ScaleX="{Binding ScaleX}" ScaleY="{Binding ScaleY}" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel LayoutTransform="{StaticResource windowScaleTransform}">
+        <paginas:SideBarControlLogo
+            x:Name="SideBarLogo"
+            DockPanel.Dock="Top" />
+        <paginas:SideBarControlButton
+            x:Name="SideBarButton"
+            DockPanel.Dock="Bottom" />
+        <Frame
+            x:Name="FrameControl"
+            NavigationUIVisibility="Hidden"
+            Source="/ParkeerWindow/Paginas/Aanmelden/KiesBedrijfPage.xaml" />
+    </DockPanel>
+</Window>

@@ -32,7 +32,7 @@
                 HorizontalAlignment="Center"
                 VerticalContentAlignment="Center"
                 Content="{Binding GeselecteerdBedrijf.Naam}"
-                FontSize="65"
+                FontSize="100"
                 FontWeight="Bold"
                 Foreground="{StaticResource GewoonBlauw}" />
             <Label

@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.ConvertedClasses">
 
     <local:ElipsisConverter x:Key="ElipsisConverter" />
+    <local:DashboardStatusConverter x:Key="DashboardStatusConverter" />
 
     <!--#region Colors-->
 
@@ -475,41 +476,38 @@
                             FontWeight="Bold"
                             Foreground="{TemplateBinding Foreground}" />
                     </Border>
-                    <!--<ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="Tag" Value="Groen" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource LichtGroen}" />
-                                <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
-                                <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="Tag" Value="Rood" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource DonkerRood}" />
-                                <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
-                                <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="Tag" Value="Blauw" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="ActionButtonBorder" Property="Background" Value="{StaticResource GewoonBlauw}" />
-                                <Setter TargetName="ActionButtonBorder" Property="BorderThickness" Value="2" />
-                                <Setter TargetName="ActionButtonLabel" Property="Foreground" Value="{StaticResource MainAchtergrond}" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>-->
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ActionButtonDatePicker" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                        Name="ActionButtonBorder"
+                        Padding="15,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{StaticResource MainAchtergrond}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="5"
+                        CornerRadius="20"
+                        Cursor="Hand">
+                        <Label
+                            Name="ActionButtonLabel"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Content="{TemplateBinding Content}"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Foreground="{TemplateBinding Foreground}" />
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -542,7 +540,7 @@
     <Style x:Key="AanmeldenLabelStyle" TargetType="Label">
         <Setter Property="Margin" Value="5" />
         <Setter Property="FontSize" Value="28" />
-        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="{StaticResource DonkerBlauw}" />
     </Style>
 
@@ -587,6 +585,7 @@
                             BorderBrush="Transparent"
                             BorderThickness="0"
                             FontSize="20"
+                            FontWeight="DemiBold"
                             Text="{Binding Path=Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
                     </Border>
                 </ControlTemplate>
@@ -654,10 +653,21 @@
     <Style x:Key="AfspraakStatusBackgroundStyle" TargetType="Border">
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Padding" Value="2" />
-        <Setter Property="Width" Value="90" />
         <Style.Triggers>
+            <Trigger Property="Tag" Value="Verwijderd">
+                <Setter Property="Background" Value="{StaticResource DonkerRood}" />
+            </Trigger>
             <Trigger Property="Tag" Value="Afgerond">
                 <Setter Property="Background" Value="{StaticResource DonkerRood}" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Stopgezet Door Gebruiker">
+                <Setter Property="Background" Value="{StaticResource ButtonDonkerOranje}" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Stopgezet Door Systeem">
+                <Setter Property="Background" Value="{StaticResource ButtonDonkerOranje}" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Stopgezet Door Admin">
+                <Setter Property="Background" Value="{StaticResource ButtonDonkerOranje}" />
             </Trigger>
             <Trigger Property="Tag" Value="Lopend">
                 <Setter Property="Background" Value="{StaticResource LichtGroen}" />
@@ -803,13 +813,6 @@
         <Setter Property="FontSize" Value="15" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="{StaticResource LichtWit}" />
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="TextDecorations" Value="Underline" />
-                <Setter Property="Cursor" Value="Hand" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
     <!--#endregion-->

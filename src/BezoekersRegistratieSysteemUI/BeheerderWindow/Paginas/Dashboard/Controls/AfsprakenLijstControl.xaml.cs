@@ -1,6 +1,8 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,6 +11,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using BezoekersRegistratieSysteemUI.Events;
+using System.Windows.Threading;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls {
 	public partial class AfsprakenLijstControl : UserControl {
@@ -21,7 +25,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			this.DataContext = this;
 			InitializeComponent();
 
-			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
+			AfspraakEvents.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
 				Task.Run(() => {
 					Dispatcher.Invoke(() => {
 						ItemSource.Add(afspraak);
@@ -33,6 +37,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			};
 
 			UpdateAfsprakenOpSchermMetNieuweData(HaalAlleAfspraken());
+
+			//Kijk of je kan rechts klikken om iets te doen
+			AfsprakenLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
+			ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
 		}
 
 		public void AutoUpdateIntervalAfspraken() {
@@ -47,42 +55,27 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 		}
 
 		public List<AfspraakDTO> HaalAlleAfspraken() {
-			List<AfspraakDTO> afspraken = ApiController.GeefAfspraken().ToList();
-			return afspraken;
+			return ApiController.GeefAfspraken().ToList();
 		}
 
-		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
-			Button? b = sender as Button;
-			AfspraakDTO? afspraak = b?.CommandParameter as AfspraakDTO;
+		private void WijzigAfspraken_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is AfspraakDTO afspraak) {
 
-			OpenAfspraakDetail(afspraak);
+			}
 		}
 
-		private void OpenAfspraakDetail(AfspraakDTO afspraak) {
+		private async void VerwijderAfspraken_Click(object sender, RoutedEventArgs e) {
+			if (ContextMenu.DataContext is AfspraakDTO afspraak) {
 
+			}
 		}
 
-		private Border _selecteditem;
-
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			//Er is 2 keer geklikt
-			if (e.ClickCount == 2) {
+		private void AfsprakenLijst_ScrollChanged(object sender, ScrollChangedEventArgs e) {
+			if (GlobalEvents._refreshTimerTimout.IsEnabled == true) {
 				return;
 			}
-
-			if (_selecteditem is not null) {
-				_selecteditem.Background = Brushes.Transparent;
-				_selecteditem.BorderThickness = new Thickness(0);
-			}
-			StackPanel? listViewItem = sender as StackPanel;
-
-			Border border = (Border)listViewItem.Children[0];
-			border.Background = Brushes.White;
-			border.BorderThickness = new Thickness(1);
-			border.BorderBrush = Brushes.WhiteSmoke;
-			border.CornerRadius = new CornerRadius(20);
-			border.Margin = new Thickness(0, 0, 20, 0);
-			_selecteditem = border;
-		}
+			GlobalEvents._refreshTimerTimout.Start();
+			GlobalEvents._refreshTimer.Stop();
+        }
 	}
 }

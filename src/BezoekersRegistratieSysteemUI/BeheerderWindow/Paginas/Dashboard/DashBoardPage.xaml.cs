@@ -1,12 +1,18 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using BezoekersRegistratieSysteemUI.Events;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 	public partial class DashBoardPage : Page {
@@ -19,17 +25,23 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			this.DataContext = this;
 			InitializeComponent();
 
-			App.RefreshTimer.Tick += AutoUpdateIntervalAfspraken_Event;
-			AfsprakenPopup.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
-				if (huidigeFilterAfspraken is null) huidigeFilterAfspraken = AfsprakenLijstControl.ItemSource.ToList();
-				huidigeFilterAfspraken.Add(afspraak);
-			};
+			GlobalEvents.RefreshData += AutoUpdateIntervalAfspraken_Event;
+            GlobalEvents.RefreshDataTimout += TimeOutLoading;
+            AfspraakEvents.NieuweAfspraakToegevoegd += NieuweAfspraakToegevoegd_Event;
 
 			//this.NavigationService.Navigate()
 			//TODO: :-)
 		}
+        public void TimeOutLoading() {
+			GlobalEvents._refreshTimer.Start();
+			GlobalEvents._refreshTimerTimout.Stop();
+        }
+        private void NieuweAfspraakToegevoegd_Event(AfspraakDTO afspraak) {
+			huidigeFilterAfspraken ??= AfsprakenLijstControl.ItemSource.ToList();
+			huidigeFilterAfspraken.Add(afspraak);
+		}
 
-		private void AutoUpdateIntervalAfspraken_Event(object? sender, EventArgs e) {
+		private void AutoUpdateIntervalAfspraken_Event() {
 			NavigationService? navigating = NavigationService.GetNavigationService(this);
 			if (navigating is null || navigating.Content is not DashBoardPage) return;
 
@@ -50,7 +62,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 
 			List<AfspraakDTO> filtered = huidigeFilterAfspraken;
 			if (combobox.SelectedIndex != 0) {
-				filtered = huidigeFilterAfspraken.Where(a => a.Status.ToLower() == selected.ToLower()).ToList();
+				if (selected.ToLower() == "lopend") {
+					filtered = huidigeFilterAfspraken.Where(a => a.Status.ToLower() == "lopend").ToList();
+				} else {
+					filtered = huidigeFilterAfspraken.Where(a => a.Status.ToLower() != "lopend").ToList();
+				}
 				filtered = filtered.OrderByDescending(a => a.StartTijd).ToList();
 			}
 

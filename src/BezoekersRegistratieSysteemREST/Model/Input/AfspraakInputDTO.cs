@@ -1,19 +1,22 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.Managers;
+﻿using BezoekersRegistratieSysteemBL.Managers;
+using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemREST.Model.Input {
+namespace BezoekersRegistratieSysteemREST.Model.Input
+{
 	/// <summary>
 	/// De DTO voor inkomende afspraak informatie
 	/// </summary>
-	public class AfspraakInputDTO {
+	public class AfspraakInputDTO
+	{
 		/// <summary>
 		/// Zet de DTO om naar de business variant
 		/// </summary>
 		/// <param name="werknemerManager">De werknemer manager</param>
 		/// <param name="bedrijfManager">De bedrijf manager</param>
 		/// <returns>De Business variant</returns>
-		public Afspraak NaarBusiness(WerknemerManager werknemerManager, BedrijfManager bedrijfManager) {
-			Werknemer werknemer = werknemerManager.GeefWerknemer(WerknemerId).GeefWerknemerObject();
+		public Afspraak NaarBusiness(WerknemerManager werknemerManager, BedrijfManager bedrijfManager)
+		{
+			Werknemer werknemer = werknemerManager.GeefWerknemer(WerknemerId);
 			Bezoeker bezoeker = Bezoeker.NaarBusiness();
 			Bedrijf bedrijf = bedrijfManager.GeefBedrijf(BedrijfId);
 
@@ -28,7 +31,8 @@ namespace BezoekersRegistratieSysteemREST.Model.Input {
 		/// <param name="eindtijd"></param>
 		/// <param name="werknemerId"></param>
 		/// <param name="bedrijfId"></param>
-		public AfspraakInputDTO(BezoekerInputDTO bezoeker, DateTime? starttijd, DateTime? eindtijd, long werknemerId, long bedrijfId) {
+		public AfspraakInputDTO(BezoekerInputDTO bezoeker, DateTime? starttijd, DateTime? eindtijd, long werknemerId, long bedrijfId)
+		{
 			WerknemerId = werknemerId;
 			Bezoeker = bezoeker;
 			BedrijfId = bedrijfId;

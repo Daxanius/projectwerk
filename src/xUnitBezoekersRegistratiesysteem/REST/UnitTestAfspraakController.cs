@@ -43,8 +43,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			// Managers
 			_afspraakManager = new(_mockRepoAfspraak.Object);
-			_bedrijfManager = new(_mockRepoBedrijf.Object);
-			_werknemerManger = new(_mockRepoWerknemer.Object);
+			_bedrijfManager = new(_mockRepoBedrijf.Object, _mockRepoAfspraak.Object);
+			_werknemerManger = new(_mockRepoWerknemer.Object, _mockRepoAfspraak.Object);
 
 			// Controllers
 			_afspraakController = new(_afspraakManager, _werknemerManger, _bedrijfManager);
@@ -61,14 +61,13 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			Bedrijf b = _bd.NaarBusiness();
 			Werknemer w = _w.NaarBusiness(_bedrijfManager);
-			StatusObject ws = new("Plopkoek", _w.NaarBusiness(_bedrijfManager));
 
 			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemersen@bedrijf.com", "nietsen");
 
 			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(true);
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
 			_mockRepoBedrijf.Setup(x => x.GeefBedrijf(0)).Returns(b);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(ws);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(w);
 		}
 		#endregion
 

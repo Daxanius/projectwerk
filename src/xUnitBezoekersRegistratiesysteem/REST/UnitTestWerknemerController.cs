@@ -10,22 +10,23 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 	public class UnitTestWerknemerController {
 		#region MOQ
 		// Moq repos
-		private readonly Mock<IWerknemerRepository> _mockRepoWerknemer;
-		private readonly Mock<IBedrijfRepository> _mockRepoBedrijf;
+		private Mock<IWerknemerRepository> _mockRepoWerknemer;
+		private Mock<IBedrijfRepository> _mockRepoBedrijf;
+        private Mock<IAfspraakRepository> _mockRepoAfspraak;
 
-		// Managers
-		private readonly WerknemerManager _werknemerManager;
-		private readonly BedrijfManager _bedrijfManager;
+        // Managers
+        private WerknemerManager _werknemerManager;
+		private BedrijfManager _bedrijfManager;
 
 		// Controllers
-		private readonly WerknemerController _werknemerController;
+		private WerknemerController _werknemerController;
 		#endregion
 
 		#region Valid Info
-		private readonly WerknemerInputDTO _w;
-		private readonly BedrijfInputDTO _b;
-		private readonly WerknemerInfoInputDTO _wi;
-		private readonly string _f;
+		private WerknemerInputDTO _w;
+		private BedrijfInputDTO _b;
+		private WerknemerInfoInputDTO _wi;
+		private string _f;
 		#endregion
 
 		#region Initialiseren
@@ -33,13 +34,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			// Moq repos
 			_mockRepoWerknemer = new();
 			_mockRepoBedrijf = new();
+            _mockRepoAfspraak = new();
 
-			// Managers
-			_werknemerManager = new(_mockRepoWerknemer.Object);
-			_bedrijfManager = new(_mockRepoBedrijf.Object);
+            // Managers
+            _werknemerManager = new(_mockRepoWerknemer.Object, _mockRepoAfspraak.Object);
+            _bedrijfManager = new(_mockRepoBedrijf.Object, _mockRepoAfspraak.Object);
 
-			// Controllers
-			_werknemerController = new(_werknemerManager, _bedrijfManager);
+            // Controllers
+            _werknemerController = new(_werknemerManager, _bedrijfManager);
 
 			// Data
 			_w = new("werknemer", "werknemersen", new List<WerknemerInfoInputDTO>());
@@ -50,14 +52,13 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			Bedrijf b = _b.NaarBusiness();
 			Werknemer w = _w.NaarBusiness(_bedrijfManager);
-			StatusObject ws = new("Plopkoek", _w.NaarBusiness(_bedrijfManager));
 
 			b.VoegWerknemerToeInBedrijf(w, "werknemer.werknemersen@bedrijf.com", "nietsen");
 
 			_mockRepoBedrijf.Setup(x => x.BestaatBedrijf(0)).Returns(true);
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
 			_mockRepoBedrijf.Setup(x => x.GeefBedrijf(0)).Returns(b);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(ws);
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(w);
 		}
 		#endregion
 
@@ -81,14 +82,16 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		}
 
 		[Fact]
-		public void VoegWerknemerFunctieToe_Invalid_WerknemerInfoNull() {
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerInfoNull()
+		{
 			var result = _werknemerController.VoegWerknemerFunctieToe(0, null);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 		}
 
 		[Fact]
-		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet() {
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet()
+		{
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
 			var result = _werknemerController.VoegWerknemerFunctieToe(0, _wi);
 			Assert.NotNull(result.Result);
@@ -159,7 +162,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[Fact]
 		public void BewerkWerknemer_Invalid_WerknemerNietGewijzigd() {
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(true);
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(new StatusObject("Plopkoek", _w.NaarBusiness(_bedrijfManager)));
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemer(0)).Returns(_w.NaarBusiness(_bedrijfManager));
 			var result = _werknemerController.BewerkWerknemer(0, 0, _w);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
@@ -276,7 +279,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void GeefWerknemersOpNaam_Invalid_GeenWerknemers() {
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, 0)).Returns(new List<StatusObject>());
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemersOpNaamPerBedrijf(_w.Voornaam, _w.Achternaam, 0)).Returns(new List<Werknemer>());
 			var result = _werknemerController.GeefWerknemersOpNaam(0, _w.Voornaam, _w.Achternaam);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
@@ -302,7 +305,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void GeefWerknemersOpFunctie_Invalid_GeenWerknemers() {
-			_mockRepoWerknemer.Setup(x => x.GeefWerknemersOpFunctiePerBedrijf("functie", 0)).Returns(new List<StatusObject>());
+			_mockRepoWerknemer.Setup(x => x.GeefWerknemersOpFunctiePerBedrijf("functie", 0)).Returns(new List<Werknemer>());
 			var result = _werknemerController.GeefWerknemersOpFunctie(0, "functie");
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
@@ -321,7 +324,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void GeefVrijeWerknemersOpDitMomentVoorBedrijf_Invalid_GeenWerknemers() {
-			_mockRepoWerknemer.Setup(x => x.GeefVrijeWerknemersOpDitMomentVoorBedrijf(0)).Returns(new List<StatusObject>());
+			_mockRepoWerknemer.Setup(x => x.GeefVrijeWerknemersOpDitMomentVoorBedrijf(0)).Returns(new List<Werknemer>());
 			var result = _werknemerController.GeefWerknemersPerBedrijfVrijOfBezet(0, true);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());
@@ -340,7 +343,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		[Fact]
 		public void GeefBezetteWerknemersOpDitMomentVoorBedrijf_Invalid_GeenWerknemers() {
-			_mockRepoWerknemer.Setup(x => x.GeefBezetteWerknemersOpDitMomentVoorBedrijf(0)).Returns(new List<StatusObject>());
+			_mockRepoWerknemer.Setup(x => x.GeefBezetteWerknemersOpDitMomentVoorBedrijf(0)).Returns(new List<Werknemer>());
 			var result = _werknemerController.GeefWerknemersPerBedrijfVrijOfBezet(0, false);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(OkObjectResult), result.Result.GetType());

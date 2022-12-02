@@ -1,5 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.BeheerderWindowDTO;
+using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,21 +38,19 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
 			for (int i = 0; i < Bedrijven?.Count; i++) {
-				Border border = new() {
-					Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style,
-					Height = 85,
-					MinWidth = 350,
-					Margin = new Thickness(10)
-				};
-				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab;
+				Border border = new Border();
+				border.Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style;
+				border.Height = 85;
+				border.MinWidth = 350;
+				border.Margin = new Thickness(10);
+				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab_Event;
 				border.DataContext = Bedrijven[i];
 
-				StackPanel container = new() {
-					Margin = new Thickness(5),
-					Orientation = Orientation.Horizontal,
-					HorizontalAlignment = HorizontalAlignment.Left,
-					VerticalAlignment = VerticalAlignment.Center
-				};
+				StackPanel container = new();
+				container.Margin = new Thickness(5);
+				container.Orientation = Orientation.Horizontal;
+				container.HorizontalAlignment = HorizontalAlignment.Left;
+				container.VerticalAlignment = VerticalAlignment.Center;
 
 				TextBlock bedrijfNaam = new() {
 					Text = Bedrijven[i].Naam,
@@ -92,7 +90,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			}
 		}
 
-		private void GaNaarWerknemersVanBedrijfTab(object sender, MouseButtonEventArgs e) {
+		private void GaNaarWerknemersVanBedrijfTab_Event(object sender, MouseButtonEventArgs e) {
 			BedrijfDTO geselecteerdbedrijf = (BedrijfDTO)((Border)sender).DataContext;
 
 			Window window = Window.GetWindow(this);
@@ -106,12 +104,14 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 
 		#region Singleton
 		private static KiesBedrijfPage instance = null;
-		private static readonly object padlock = new();
+		private static readonly object padlock = new object();
 
 		public static KiesBedrijfPage Instance {
 			get {
 				lock (padlock) {
-					instance ??= new KiesBedrijfPage();
+					if (instance == null) {
+						instance = new KiesBedrijfPage();
+					}
 					return instance;
 				}
 			}

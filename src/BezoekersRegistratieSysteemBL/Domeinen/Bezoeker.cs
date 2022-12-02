@@ -64,7 +64,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public void ZetVoornaam(string voornaam) {
 			if (string.IsNullOrWhiteSpace(voornaam))
 				throw new BezoekerException("Bezoeker - ZetVoornaam - voornaam mag niet leeg zijn");
-			Voornaam = voornaam.Trim();
+			Voornaam = Nutsvoorziening.NaamOpmaak(voornaam);
 		}
 
 		/// <summary>
@@ -75,7 +75,7 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		public void ZetAchternaam(string achternaam) {
 			if (string.IsNullOrWhiteSpace(achternaam))
 				throw new BezoekerException("Bezoeker - ZetAchternaam - achternaam mag niet leeg zijn");
-			Achternaam = achternaam.Trim();
+			Achternaam = Nutsvoorziening.NaamOpmaak(achternaam);
 		}
 
 		/// <summary>

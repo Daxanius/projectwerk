@@ -150,36 +150,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		}
 		#endregion
 
-		#region UnitTest BeeindigAfspraakSysteem
-		[Fact]
-		public void BeeindigAfspraakSysteem_Invalid_AfspraakLeeg() {
-			_mockRepo = new Mock<IAfspraakRepository>();
-			_afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-			//"AfspraakManager - BeeindigAfspraakSysteem - afspraak mag niet leeg zijn"
-			Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakSysteem(null));
-		}
-
-		[Fact]
-		public void BeeindigAfspraakSysteem_Invalid_AfspraakReedsBeeindigd() {
-			_mockRepo = new Mock<IAfspraakRepository>();
-			_afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-			//"AfspraakManager - BeeindigAfspraakSysteem - afspraak bestaat niet"
-			Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakSysteem(_ia));
-		}
-
-		[Fact]
-		public void BeeindigAfspraakSysteem_Invalid_AfspraakBestaatNiet() {
-			_mockRepo = new Mock<IAfspraakRepository>();
-			_afspraakManager = new AfspraakManager(_mockRepo.Object);
-
-			//"AfspraakManager - BeeindigAfspraakSysteem - afspraak is al beeindigd"
-			_mockRepo.Setup(x => x.BestaatAfspraak(_oa)).Returns(false);
-			var ex = Assert.Throws<AfspraakManagerException>(() => _afspraakManager.BeeindigAfspraakSysteem(_oa));
-			Assert.Equal("BezoekersRegistratieSysteemBL.Managers.AfspraakManager: BeeindigAfspraakSysteem: afspraak is al beeindigd", ex.Message);
-		}
-		#endregion
 
 		#region UnitTest BeeindigAfspraakOpEmail
 		[Theory]

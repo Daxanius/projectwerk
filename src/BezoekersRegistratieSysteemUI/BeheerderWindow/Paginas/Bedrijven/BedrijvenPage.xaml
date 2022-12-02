@@ -65,7 +65,7 @@
                         DockPanel.Dock="Left"
                         FontSize="45"
                         FontWeight="Bold"
-                        Foreground="{StaticResource DonkerGrijs}"
+                        Foreground="{StaticResource DonkerBlauw}"
                         Text="Bedrijven" />
                     <StackPanel />
                 </DockPanel>
@@ -78,8 +78,12 @@
                 <controls:BedrijvenLijstControl x:Name="BedrijvenLijstControl" />
             </Border>
         </DockPanel>
-        <popups:BedrijvenPopup
-            x:Name="bedrijvenPopup"
+        <popups:BedrijfToevoegenPopup
+            x:Name="bedrijfToevoegenPopup"
+            Grid.Row="0"
+            Visibility="Collapsed" />
+        <popups:BedrijfUpdatenPopup
+            x:Name="bedrijfUpdatenPopup"
             Grid.Row="0"
             Visibility="Collapsed" />
     </Grid>
