@@ -586,7 +586,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			(bool isvalid, AfspraakOutputDTO apiAfspraak) = await Get<AfspraakOutputDTO>($"afspraak/{afspraakId}");
 			if (isvalid) {
 				WerknemerDTO werknemer = new WerknemerDTO(apiAfspraak.Werknemer.Id, apiAfspraak.Werknemer.Naam.Split(";")[0], apiAfspraak.Werknemer.Naam.Split(";")[1], null);
-				BezoekerDTO bezoeker = new BezoekerDTO(apiAfspraak.Bezoeker.Id, apiAfspraak.Bezoeker.Naam.Split(";")[0], apiAfspraak.Bezoeker.Naam.Split(";")[1], apiAfspraak.Bezoeker.Email, apiAfspraak.Bezoeker.BezoekerBedrijf);
+				BezoekerDTO bezoeker = new(apiAfspraak.Bezoeker.Id, apiAfspraak.Bezoeker.Naam.Split(";")[0], apiAfspraak.Bezoeker.Naam.Split(";")[1], apiAfspraak.Bezoeker.Email, apiAfspraak.Bezoeker.BezoekerBedrijf);
 				return new AfspraakDTO(apiAfspraak.Id, bezoeker, BeheerderWindow.GeselecteerdBedrijf.Naam, werknemer, apiAfspraak.Starttijd, apiAfspraak.Eindtijd, apiAfspraak.StatusNaam);
 			} else {
 				throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
