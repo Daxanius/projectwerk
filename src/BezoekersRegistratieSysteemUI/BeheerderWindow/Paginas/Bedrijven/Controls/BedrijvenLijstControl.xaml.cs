@@ -5,6 +5,7 @@ using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,7 +30,18 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Control
 
 			//Kijk of je kan rechts klikken om iets te doen
 			BedrijvenLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
+			BedrijfEvents.BedrijfGeupdate += BedrijfGeUpdate_Event;
 			ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
+		}
+
+		private void BedrijfGeUpdate_Event(BedrijfDTO bedrijf) {
+			if (bedrijf is null) return;
+			var bedrijfInLijst = ItemSource.FirstOrDefault(b => b.Id == bedrijf.Id);
+			int index = ItemSource.IndexOf(bedrijfInLijst!);
+			if (index >= 0) {
+				ItemSource.RemoveAt(index);
+				ItemSource.Insert(index, bedrijf);
+			}
 		}
 
 		private protected void KlikOpBedrijfOptions(object sender, RoutedEventArgs e) {

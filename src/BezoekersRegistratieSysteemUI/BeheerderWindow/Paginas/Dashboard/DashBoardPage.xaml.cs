@@ -20,7 +20,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			InitializeComponent();
 
 			GlobalEvents.RefreshData += AutoUpdateIntervalAfspraken_Event;
-			GlobalEvents.RefreshDataTimout += TimeOutLoading;
+            GlobalEvents.RefreshDataTimout += TimeOutLoading;
 			AfspraakEvents.NieuweAfspraakToegevoegd += NieuweAfspraakToegevoegd_Event;
 
 			//this.NavigationService.Navigate()
@@ -29,7 +29,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 		public void TimeOutLoading() {
 			GlobalEvents._refreshTimer.Start();
 			GlobalEvents._refreshTimerTimout.Stop();
-		}
+        }
+
 		private void NieuweAfspraakToegevoegd_Event(AfspraakDTO afspraak) {
 			huidigeFilterAfspraken ??= AfsprakenLijstControl.ItemSource.ToList();
 			huidigeFilterAfspraken.Add(afspraak);

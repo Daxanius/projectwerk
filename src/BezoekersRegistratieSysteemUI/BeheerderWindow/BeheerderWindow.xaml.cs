@@ -21,7 +21,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 			get => _geselecteerdBedrijf;
 			set {
 				_geselecteerdBedrijf = value;
-				BedrijfEvents.InvokeUpdateGeselecteerdBedrijf();
+				BedrijfEvents.InvokeGeselecteerdBedrijfChanged();
 			}
 		}
 
@@ -43,6 +43,8 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 			this.DataContext = this;
 			InitializeComponent();
+
+			BedrijfEvents.BedrijfGeupdate += BedrijfGeUpdate_Event;
 
 			DashBoardPage.Instance.InitializeComponent();
 			FrameControl.Content = DashBoardPage.Instance;
@@ -141,6 +143,13 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 					}
 					return;
 				}
+			}
+		}
+
+		private void BedrijfGeUpdate_Event(BedrijfDTO bedrijf) {
+			if (bedrijf is null) return;
+			if(_geselecteerdBedrijf is not null && _geselecteerdBedrijf.Id == bedrijf.Id) {
+				GeselecteerdBedrijf = bedrijf;
 			}
 		}
 

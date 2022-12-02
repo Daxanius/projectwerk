@@ -18,9 +18,9 @@ namespace BezoekersRegistratieSysteemUI.Model {
 			Bezoeker = bezoeker;
 			WerknemerBedrijf = werknemerBedrijf;
 			Werknemer = werknemer;
-			StartTijd = startTijd.ToString("HH:mm - dd/MM/yyyy");
+			StartTijd = startTijd.ToString("HH:mm dd/MM/yyyy");
 			StartTijdDate = startTijd;
-			EindTijd = eindTijd.HasValue ? eindTijd.Value.ToString("HH:mm - dd/MM/yyyy") : "";
+			EindTijd = eindTijd.HasValue ? eindTijd.Value.ToString("HH:mm dd/MM/yyyy") : "";
 			EindTijdDate = eindTijd;
 			Status = statusNaam;
 		}

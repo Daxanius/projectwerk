@@ -113,7 +113,7 @@
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\WerknemersAfsprakenLijst.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
-		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\OpDatumLijstControl.xaml.cs">
+		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\OpDatumAfsprakenLijstControl.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Update="BeheerderWindow\Paginas\Afspraken\Controls\BezoekersLijstControl.xaml.cs">
@@ -145,6 +145,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Popups\UpdateAfsprakenPopup.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		</Page>
 		<Page Update="BeheerderWindow\Paginas\Bedrijven\Popups\BedrijfUpdatenPopup.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		</Page>
@@ -175,7 +178,7 @@
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>
-		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\OpDatumLijstControl.xaml">
+		<Page Update="BeheerderWindow\Paginas\Afspraken\Controls\OpDatumAfsprakenLijstControl.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		  <SubType>Designer</SubType>
 		</Page>

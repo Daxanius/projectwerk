@@ -63,7 +63,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 			WerknemerLijstControl.ItemSource ??= new ObservableCollection<WerknemerDTO>();
 			_werknemerLijst = WerknemerLijstControl.ItemSource;
 
-			BedrijfEvents.UpdateGeselecteerdBedrijf += UpdateGeselecteerdBedrijf_Event;
+			BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
 			WerknemerEvents.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => _werknemerLijst.Add(werknemer);
 
 			UpdateWerknemersMetNieuweDataOpScherm();
