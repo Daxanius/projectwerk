@@ -4,16 +4,14 @@ namespace BezoekersRegistratieSysteemUI.Api.Input {
 	/// <summary>
 	/// De DTO voor inkomende werknemer informatie
 	/// </summary>
-	public class WerknemerInfoInputDTO
-	{
+	public class WerknemerInfoInputDTO {
 		/// <summary>
 		/// De constructor.
 		/// </summary>
 		/// <param name="bedrijfId"></param>
 		/// <param name="email"></param>
 		/// <param name="functies"></param>
-		public WerknemerInfoInputDTO(long bedrijfId, string email, IEnumerable<string> functies)
-		{
+		public WerknemerInfoInputDTO(long bedrijfId, string email, IEnumerable<string> functies) {
 			BedrijfId = bedrijfId;
 			Email = email;
 			Functies = functies;

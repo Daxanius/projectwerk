@@ -13,32 +13,32 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void BeeindigAfspraakOpEmail(string bezoekerMail);
 		Afspraak GeefAfspraak(long afspraakId);
 		bool BestaatAfspraak(Afspraak afspraak);
-		bool BestaatAfspraak(long afspraakid);    
-        bool BestaatAfspraak(string bezoekerMail);
+		bool BestaatAfspraak(long afspraakid);
+		bool BestaatAfspraak(string bezoekerMail);
 
-        bool BestaatLopendeAfspraak(Afspraak afspraak);
+		bool BestaatLopendeAfspraak(Afspraak afspraak);
 
-        //Bedrijf
-        IReadOnlyList<Afspraak> GeefHuidigeAfspraken();
+		//Bedrijf
+		IReadOnlyList<Afspraak> GeefHuidigeAfspraken();
 		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerBedrijf(long bedrijfId);
-        IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long id, DateTime datum);
-        //
-
-        //Werknemer
-		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId);
-        IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId);
-        IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId);
+		IReadOnlyList<Afspraak> GeefAfsprakenPerBedrijfOpDag(long id, DateTime datum);
 		//
-        
-        //Dag
+
+		//Werknemer
+		IReadOnlyList<Afspraak> GeefHuidigeAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId);
+		IReadOnlyList<Afspraak> GeefAlleAfsprakenPerWerknemerPerBedrijf(long werknemerId, long bedrijfId);
+		IReadOnlyList<Afspraak> GeefAfsprakenPerWerknemerOpDagPerBedrijf(long werknemerId, DateTime datum, long bedrijfId);
+		//
+
+		//Dag
 		IReadOnlyList<Afspraak> GeefAfsprakenPerDag(DateTime datum);
-        //
-        
-        //Bezoeker
+		//
+
+		//Bezoeker
 		Afspraak GeefHuidigeAfspraakBezoekerPerBerijf(long bezoekerId, long bedrijfId);
-        IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string voornaam, string achternaam, string email, long bedrijfId);
+		IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpNaamOfEmailPerBedrijf(string voornaam, string achternaam, string email, long bedrijfId);
 		IReadOnlyList<Afspraak> GeefAfsprakenPerBezoekerOpDagPerBedrijf(long bezoekerId, DateTime datum, long bedrijfId);
-        //
+		//
 
 		IReadOnlyList<Bezoeker> GeefAanwezigeBezoekers();
 		bool HeeftWerknemerVanAnderBedrijfEenLopendeAfspraak(Afspraak afspraak);

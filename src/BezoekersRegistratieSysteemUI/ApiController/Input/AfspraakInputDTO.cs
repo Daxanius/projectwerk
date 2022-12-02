@@ -1,17 +1,14 @@
 ﻿using System;
 
-namespace BezoekersRegistratieSysteemUI.Api.Input
-{
-	public class AfspraakInputDTO
-	{
+namespace BezoekersRegistratieSysteemUI.Api.Input {
+	public class AfspraakInputDTO {
 		/// <summary>
 		/// De constructor.
 		/// </summary>
 		/// <param name="bezoeker"></param>
 		/// <param name="werknemerId"></param>
 		/// <param name="bedrijfId"></param>
-		public AfspraakInputDTO(BezoekerInputDTO bezoeker, DateTime? stattijd, DateTime? eindttijd, long werknemerId, long bedrijfId)
-		{
+		public AfspraakInputDTO(BezoekerInputDTO bezoeker, DateTime? stattijd, DateTime? eindttijd, long werknemerId, long bedrijfId) {
 			WerknemerId = werknemerId;
 			Bezoeker = bezoeker;
 			BedrijfId = bedrijfId;

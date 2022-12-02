@@ -92,7 +92,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
 			Button b = (Button)sender;
-			AfspraakDTO afspraak = (AfspraakDTO)b.CommandParameter;
+			_ = (AfspraakDTO)b.CommandParameter;
 		}
 		#endregion
 	}

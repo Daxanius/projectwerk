@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace BezoekersRegistratieSysteemUI.Events {
@@ -17,10 +13,10 @@ namespace BezoekersRegistratieSysteemUI.Events {
 			_refreshTimer.Start();
 			_refreshTimer.Tick += (object? sender, EventArgs e) => RefreshData?.Invoke();
 
-            //Timout timer for main timer
-            _refreshTimerTimout.Interval = TimeSpan.FromSeconds(5);
-            _refreshTimerTimout.Tick += (object? sender, EventArgs e) => RefreshDataTimout?.Invoke();
-            //_refreshTimerTimout.Start();
+			//Timout timer for main timer
+			_refreshTimerTimout.Interval = TimeSpan.FromSeconds(5);
+			_refreshTimerTimout.Tick += (object? sender, EventArgs e) => RefreshDataTimout?.Invoke();
+			//_refreshTimerTimout.Start();
 		}
 	}
 }

@@ -1,12 +1,10 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 
-namespace BezoekersRegistratieSysteemBL.Interfaces
-{
+namespace BezoekersRegistratieSysteemBL.Interfaces {
 	/// <summary>
 	/// Bedrijf storage hook
 	/// </summary>
-	public interface IBedrijfRepository
-	{
+	public interface IBedrijfRepository {
 		Bedrijf VoegBedrijfToe(Bedrijf bedrijf);
 		void VerwijderBedrijf(long id);
 		void BewerkBedrijf(Bedrijf bedrijf);

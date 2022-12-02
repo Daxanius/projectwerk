@@ -1,7 +1,6 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Model.Input;
-using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -25,7 +24,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ParkeerplaatsController(ParkingContractManager parkingContractManager, ParkeerplaatsManager parkeerplaatsManager, BedrijfManager bedrijfManager) {
 			_parkingContractManager = parkingContractManager;
 			_parkeerplaatsManager = parkeerplaatsManager;
-			_bedrijfManager = bedrijfManager;	
+			_bedrijfManager = bedrijfManager;
 		}
 
 		/// <summary>
