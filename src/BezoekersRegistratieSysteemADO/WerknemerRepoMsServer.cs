@@ -385,7 +385,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		private void VerwijderWerknemer(Werknemer werknemer, Bedrijf bedrijf, string? functie) {
 			SqlConnection con = GetConnection();
 			string query = "UPDATE Werknemerbedrijf " +
-						   "SET Status = 2 " +
+						   "SET Status = NULL " +
 						   "WHERE BedrijfId = @bedrijfId " +
 						   "AND WerknemerId = @werknemerId " +
 						   "AND Status = 1";

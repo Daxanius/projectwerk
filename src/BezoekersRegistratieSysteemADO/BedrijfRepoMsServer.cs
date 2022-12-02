@@ -351,13 +351,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					//Medewerker sectie
 					if (statusId == 2) {
 						string queryMedewerker = "UPDATE WerknemerBedrijf " +
-												 "SET Status = @statusId " +
+												 "SET Status = NULL " +
 												 "WHERE BedrijfId = @bedrijfid";
 						cmdMedewerker.Transaction = trans;
 						cmdMedewerker.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
 						cmdMedewerker.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
 						cmdMedewerker.Parameters["@bedrijfid"].Value = bedrijfId;
-						cmdMedewerker.Parameters["@statusId"].Value = statusId;
+						cmdMedewerker.Parameters["@statusId"].Value = DBNull.Value;
 						cmdMedewerker.CommandText = queryMedewerker;
 						cmdMedewerker.ExecuteNonQuery();
 					}
@@ -367,7 +367,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					cmdBedrijf.Parameters.Add(new SqlParameter("@bedrijfid", SqlDbType.BigInt));
 					cmdBedrijf.Parameters.Add(new SqlParameter("@statusId", SqlDbType.Int));
 					cmdBedrijf.Parameters["@bedrijfid"].Value = bedrijfId;
-					cmdBedrijf.Parameters["@statusId"].Value = statusId;
+					cmdBedrijf.Parameters["@statusId"].Value = statusId == 2 ? DBNull.Value : statusId;
 					cmdBedrijf.ExecuteNonQuery();
 					trans.Commit();
 				}

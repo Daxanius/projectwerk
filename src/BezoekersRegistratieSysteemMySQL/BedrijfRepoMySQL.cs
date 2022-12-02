@@ -358,7 +358,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						cmdMedewerker.Parameters.Add(new MySqlParameter("@bedrijfid", MySqlDbType.Int64));
 						cmdMedewerker.Parameters.Add(new MySqlParameter("@statusId", MySqlDbType.Int32));
 						cmdMedewerker.Parameters["@bedrijfid"].Value = bedrijfId;
-						cmdMedewerker.Parameters["@statusId"].Value = statusId;
+						cmdMedewerker.Parameters["@statusId"].Value = DBNull.Value;
 						cmdMedewerker.CommandText = queryMedewerker;
 						cmdMedewerker.ExecuteNonQuery();
 					}
@@ -368,7 +368,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmdBedrijf.Parameters.Add(new MySqlParameter("@bedrijfid", MySqlDbType.Int64));
 					cmdBedrijf.Parameters.Add(new MySqlParameter("@statusId", MySqlDbType.Int32));
 					cmdBedrijf.Parameters["@bedrijfid"].Value = bedrijfId;
-					cmdBedrijf.Parameters["@statusId"].Value = statusId;
+					cmdBedrijf.Parameters["@statusId"].Value = statusId == 2 ? DBNull.Value : statusId;
 					cmdBedrijf.ExecuteNonQuery();
 					trans.Commit();
 				}
