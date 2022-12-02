@@ -6,20 +6,19 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 		// AF
 
 		#region Valid Info
-		private Bedrijf _b;
-		private string _e;
+		private readonly Bedrijf _b;
+		private readonly string _e;
 		#endregion
 
 		#region Initialiseren
-		public UnitTestWerknemerInfo()
-		{
+		public UnitTestWerknemerInfo() {
 			_b = new(10, "bedrijf", "BE0676747521", true, "012345678", "bedrijf@email.com", "bedrijfstraat 10");
 			_e = "werknemer.werknemersen@email.com";
 		}
-        #endregion
+		#endregion
 
-        #region UnitTest Bedrijf
-        [Fact]
+		#region UnitTest Bedrijf
+		[Fact]
 		public void ZetBedrijf_Valid() {
 			WerknemerInfo wi = new(_b, "werknemer.werknemersen@email.com");
 			wi.ZetBedrijf(_b);
@@ -193,43 +192,41 @@ namespace xUnitBezoekersRegistratiesysteem.Domeinen {
 
 		#region UnitTest WerknemerInfo ctor
 		[Fact]
-		public void ctor_Valid() {
+		public void Ctor_Valid() {
 			WerknemerInfo wi = new(_b, _e);
 			Assert.Equal(_b, wi.Bedrijf);
 			Assert.Equal(_e, wi.Email);
 		}
-        
+
 		[Fact]
-		public void ctor_Invalid_BedrijfLeeg() {
+		public void Ctor_Invalid_BedrijfLeeg() {
 			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(null, _e));
 		}
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        [InlineData("\r")]
-        [InlineData("\t")]
-        [InlineData("\v")]
-        [InlineData("@email.com")]
-        [InlineData("werknemer.werknemersen@email.")]
-        [InlineData("werknemer.werknemersen@.com")]
-        [InlineData("werknemer.werknemersen@email")]
-        [InlineData("werknemer.werknemersen@")]
-        [InlineData("werknemer.werknemersen")]
-        [InlineData("werknemer.werknemersen@.")]
-        [InlineData("werknemer.werknemersen.com")]
-        public void ctor_InvalidEmailFoutief(string email)
-        {
-            Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(_b, email));
-        }
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		[InlineData("\n")]
+		[InlineData("\r")]
+		[InlineData("\t")]
+		[InlineData("\v")]
+		[InlineData("@email.com")]
+		[InlineData("werknemer.werknemersen@email.")]
+		[InlineData("werknemer.werknemersen@.com")]
+		[InlineData("werknemer.werknemersen@email")]
+		[InlineData("werknemer.werknemersen@")]
+		[InlineData("werknemer.werknemersen")]
+		[InlineData("werknemer.werknemersen@.")]
+		[InlineData("werknemer.werknemersen.com")]
+		public void Ctor_InvalidEmailFoutief(string email) {
+			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(_b, email));
+		}
 
-        [Fact]
-        public void ctor_Invalid_ctorLeeg()
-        {
-            Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(null, null));
-        }
-        #endregion
-    }
+		[Fact]
+		public void Ctor_Invalid_ctorLeeg() {
+			Assert.Throws<WerknemerInfoException>(() => new WerknemerInfo(null, null));
+		}
+		#endregion
+	}
 }

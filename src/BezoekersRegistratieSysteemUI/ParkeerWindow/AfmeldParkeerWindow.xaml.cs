@@ -1,9 +1,7 @@
-﻿using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers;
-using BezoekersRegistratieSysteemUI.Model;
+﻿using BezoekersRegistratieSysteemUI.Model;
 using System.Windows;
 
-namespace BezoekersRegistratieSysteemUI.ParkeerWindow
-{
+namespace BezoekersRegistratieSysteemUI.ParkeerWindow {
 	/// <summary>
 	/// Interaction logic for RegistratieWindow.xaml
 	/// </summary>

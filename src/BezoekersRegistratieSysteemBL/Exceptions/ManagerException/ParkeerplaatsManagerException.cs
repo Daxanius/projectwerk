@@ -1,23 +1,17 @@
 ﻿using System.Runtime.Serialization;
 
-namespace BezoekersRegistratieSysteemBL.Exceptions.ManagerException
-{
-    public class ParkeerplaatsManagerException : Exception
-    {
-        public ParkeerplaatsManagerException()
-        {
-        }
-        
-        public ParkeerplaatsManagerException(string? message) : base(message)
-        {
-        }
+namespace BezoekersRegistratieSysteemBL.Exceptions.ManagerException {
+	public class ParkeerplaatsManagerException : Exception {
+		public ParkeerplaatsManagerException() {
+		}
 
-        public ParkeerplaatsManagerException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
+		public ParkeerplaatsManagerException(string? message) : base(message) {
+		}
 
-        protected ParkeerplaatsManagerException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-    }
+		public ParkeerplaatsManagerException(string? message, Exception? innerException) : base(message, innerException) {
+		}
+
+		protected ParkeerplaatsManagerException(SerializationInfo info, StreamingContext context) : base(info, context) {
+		}
+	}
 }

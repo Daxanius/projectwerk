@@ -108,19 +108,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
 		/// <param name="bezoeker">Te vergelijken bezoeker.</param>
 		/// <returns>Boolean True als alle waarden gelijk zijn | False indien één of meerdere waarde(n) verschillend zijn.</returns>
 		public bool BezoekerIsGelijk(Bezoeker bezoeker) {
-			if (bezoeker == null)
-				return false;
-			if (bezoeker.Id != Id)
-				return false;
-			if (bezoeker.Voornaam != Voornaam)
-				return false;
-			if (bezoeker.Achternaam != Achternaam)
-				return false;
-			if (bezoeker.Email != Email)
-				return false;
-			if (bezoeker.Bedrijf != Bedrijf)
-				return false;
-			return true;
+			return bezoeker is not null &&
+				bezoeker.Id == Id &&
+				bezoeker.Voornaam == Voornaam &&
+				bezoeker.Achternaam == Achternaam &&
+				bezoeker.Email == Email &&
+				bezoeker.Bedrijf == Bedrijf;
 		}
 	}
 }

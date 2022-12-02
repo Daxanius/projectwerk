@@ -10,29 +10,28 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 	public class UnitTestAfspraakController {
 		#region MOQ
 		// Moq repos
-		private Mock<IAfspraakRepository> _mockRepoAfspraak;
-		private Mock<IBedrijfRepository> _mockRepoBedrijf;
-		private Mock<IWerknemerRepository> _mockRepoWerknemer;
+		private readonly Mock<IAfspraakRepository> _mockRepoAfspraak;
+		private readonly Mock<IBedrijfRepository> _mockRepoBedrijf;
+		private readonly Mock<IWerknemerRepository> _mockRepoWerknemer;
 
 		// Managers
-		private AfspraakManager _afspraakManager;
-		private BedrijfManager _bedrijfManager;
-		private WerknemerManager _werknemerManger;
+		private readonly AfspraakManager _afspraakManager;
+		private readonly BedrijfManager _bedrijfManager;
+		private readonly WerknemerManager _werknemerManger;
 
 		// Controllers
-		private AfspraakController _afspraakController;
+		private readonly AfspraakController _afspraakController;
 		#endregion
 
 		#region Valid Info
-		private DateTime _st;
-		private DateTime _et;
+		private readonly DateTime _st;
 
-		private BezoekerInputDTO _b;
-		private WerknemerInputDTO _w;
+		private readonly BezoekerInputDTO _b;
+		private readonly WerknemerInputDTO _w;
 
-		private BedrijfInputDTO _bd;
+		private readonly BedrijfInputDTO _bd;
 
-		private AfspraakInputDTO _a;
+		private readonly AfspraakInputDTO _a;
 		#endregion
 
 		#region Initialiseren
@@ -52,7 +51,6 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 			// Data
 			_st = DateTime.Now;
-			_et = _st.AddHours(2);
 
 			_b = new("bezoeker", "bezoekersen", "bezoeker.bezoekersen@email.com", "bezoekerbedrijf");
 			_w = new("werknemer", "werknemersen", new List<WerknemerInfoInputDTO>());

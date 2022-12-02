@@ -1,25 +1,21 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Controls;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
+using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
+using BezoekersRegistratieSysteemUI.Model;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
-using BezoekersRegistratieSysteemUI.Events;
-using System.Windows.Controls.Primitives;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 	public partial class AfsprakenPage : Page, INotifyPropertyChanged {
@@ -250,25 +246,25 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 			switch (textBlock.Text) {
 				case "Huidige Afspraken":
-				NavigeerNaarTab("Huidige Afspraken");
-				UpdateHuidigeAfsprakenOpScherm();
-				break;
+					NavigeerNaarTab("Huidige Afspraken");
+					UpdateHuidigeAfsprakenOpScherm();
+					break;
 
 				case "Afspraken Werknemer":
-				NavigeerNaarTab("Afspraken Werknemer");
-				if (!werknemersAfsprakenLijstControl.HeeftData) {
-					foreach (WerknemerDTO werknemer in ApiController.GeefWerknemersVanBedrijf(GeselecteerdBedrijf).OrderByDescending(a => a.Voornaam)) {
-						WerknemerLijst.ItemSource.Add(werknemer);
+					NavigeerNaarTab("Afspraken Werknemer");
+					if (!werknemersAfsprakenLijstControl.HeeftData) {
+						foreach (WerknemerDTO werknemer in ApiController.GeefWerknemersVanBedrijf(GeselecteerdBedrijf).OrderByDescending(a => a.Voornaam)) {
+							WerknemerLijst.ItemSource.Add(werknemer);
+						}
+						werknemersAfsprakenLijstControl.HeeftData = true;
+						initieleZoekBalkWerknemers = WerknemerLijst.ItemSource.ToList();
 					}
-					werknemersAfsprakenLijstControl.HeeftData = true;
-					initieleZoekBalkWerknemers = WerknemerLijst.ItemSource.ToList();
-				}
-				break;
+					break;
 
 				case "Afspraak Op Datum":
-				NavigeerNaarTab("Afspraak Op Datum");
-				UpdateOpDatumAfsprakenOpScherm();
-				break;
+					NavigeerNaarTab("Afspraak Op Datum");
+					UpdateOpDatumAfsprakenOpScherm();
+					break;
 			}
 		}
 		private void OpenAfsprakenPopup_Click(object sender, MouseButtonEventArgs e) {
@@ -280,22 +276,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			ResetFilterSelection();
 			switch (tabIndex) {
 				case "Huidige Afspraken":
-				_huidigeAfsprakenTabIsGeselecteerd = true;
-				FilterContainerHeaders.Children[0].Opacity = 1;
-				((Grid)FilterContainer.Children[0]).Children[0].Visibility = Visibility.Visible;
-				break;
+					_huidigeAfsprakenTabIsGeselecteerd = true;
+					FilterContainerHeaders.Children[0].Opacity = 1;
+					((Grid)FilterContainer.Children[0]).Children[0].Visibility = Visibility.Visible;
+					break;
 
 				case "Afspraken Werknemer":
-				_afsprakenWerknemerTabIsGeselecteerd = true;
-				FilterContainerHeaders.Children[1].Opacity = 1;
-				((Grid)FilterContainer.Children[0]).Children[1].Visibility = Visibility.Visible;
-				break;
+					_afsprakenWerknemerTabIsGeselecteerd = true;
+					FilterContainerHeaders.Children[1].Opacity = 1;
+					((Grid)FilterContainer.Children[0]).Children[1].Visibility = Visibility.Visible;
+					break;
 
 				case "Afspraak Op Datum":
-				_afsprakenOpDatumTabIsGeselecteerd = true;
-				FilterContainerHeaders.Children[2].Opacity = 1;
-				((Grid)FilterContainer.Children[0]).Children[2].Visibility = Visibility.Visible;
-				break;
+					_afsprakenOpDatumTabIsGeselecteerd = true;
+					FilterContainerHeaders.Children[2].Opacity = 1;
+					((Grid)FilterContainer.Children[0]).Children[2].Visibility = Visibility.Visible;
+					break;
 			}
 		}
 		private void ResetFilterSelection() {

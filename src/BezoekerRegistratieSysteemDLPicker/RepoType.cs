@@ -1,6 +1,6 @@
 ﻿namespace BezoekerRegistratieSysteemDLPicker {
-    public enum RepoType {
-        ADO,
-        MYSQL
-    }
+	public enum RepoType {
+		MSSERVER,
+		MYSQL
+	}
 }
