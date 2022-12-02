@@ -113,7 +113,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			WerknemersPage werknemersPage = WerknemersPage.Instance;
 			werknemersPage.WerknemersPopup.Visibility = Visibility.Hidden;
 
-			if(werknemer is not null) {
+			if (werknemer is not null) {
 				CustomMessageBox warningMessage = new();
 				warningMessage.Show($"{werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd", "Success", ECustomMessageBoxIcon.Information);
 			}

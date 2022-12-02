@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows;
+﻿using System.Text.RegularExpressions;
 
 namespace BezoekersRegistratieSysteemUI.Nutsvoorzieningen {
 	public static class ValideerInput {

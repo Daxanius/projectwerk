@@ -12,10 +12,10 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		// Moq repos
 		private Mock<IWerknemerRepository> _mockRepoWerknemer;
 		private Mock<IBedrijfRepository> _mockRepoBedrijf;
-        private Mock<IAfspraakRepository> _mockRepoAfspraak;
+		private Mock<IAfspraakRepository> _mockRepoAfspraak;
 
-        // Managers
-        private WerknemerManager _werknemerManager;
+		// Managers
+		private WerknemerManager _werknemerManager;
 		private BedrijfManager _bedrijfManager;
 
 		// Controllers
@@ -34,14 +34,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 			// Moq repos
 			_mockRepoWerknemer = new();
 			_mockRepoBedrijf = new();
-            _mockRepoAfspraak = new();
+			_mockRepoAfspraak = new();
 
-            // Managers
-            _werknemerManager = new(_mockRepoWerknemer.Object, _mockRepoAfspraak.Object);
-            _bedrijfManager = new(_mockRepoBedrijf.Object, _mockRepoAfspraak.Object);
+			// Managers
+			_werknemerManager = new(_mockRepoWerknemer.Object, _mockRepoAfspraak.Object);
+			_bedrijfManager = new(_mockRepoBedrijf.Object, _mockRepoAfspraak.Object);
 
-            // Controllers
-            _werknemerController = new(_werknemerManager, _bedrijfManager);
+			// Controllers
+			_werknemerController = new(_werknemerManager, _bedrijfManager);
 
 			// Data
 			_w = new("werknemer", "werknemersen", new List<WerknemerInfoInputDTO>());
@@ -82,16 +82,14 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		}
 
 		[Fact]
-		public void VoegWerknemerFunctieToe_Invalid_WerknemerInfoNull()
-		{
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerInfoNull() {
 			var result = _werknemerController.VoegWerknemerFunctieToe(0, null);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 		}
 
 		[Fact]
-		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet()
-		{
+		public void VoegWerknemerFunctieToe_Invalid_WerknemerBestaatNiet() {
 			_mockRepoWerknemer.Setup(x => x.BestaatWerknemer(0)).Returns(false);
 			var result = _werknemerController.VoegWerknemerFunctieToe(0, _wi);
 			Assert.NotNull(result.Result);

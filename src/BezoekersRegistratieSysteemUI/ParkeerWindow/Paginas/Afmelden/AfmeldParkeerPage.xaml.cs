@@ -1,11 +1,7 @@
-﻿using BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Afmelden;
-using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+﻿using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,13 +16,12 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Afmelden {
 
 		private string _nummerplaat;
 
-		public string Nummerplaat
-        {
+		public string Nummerplaat {
 			get { return _nummerplaat; }
 
 			set {
 				if (value == _nummerplaat) return;
-                _nummerplaat = value.Trim();
+				_nummerplaat = value.Trim();
 				UpdatePropperty();
 			}
 		}
@@ -54,16 +49,16 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Afmelden {
 		#region Functies
 		private async void AfmeldenClick(object sender, RoutedEventArgs e) {
 			try {
-                
+
 				if (Nummerplaat.IsLeeg()) {
 					MessageBox.Show("Nummerplaat is leeg!", "Error");
 					return;
 				}
 
-                //TODO STAN
+				//TODO STAN
 				//await ApiController.Put<object>($"/afspraak/end?email={Nummerplaat}");
 
-                Nummerplaat = "";
+				Nummerplaat = "";
 
 				MessageBox.Show("U bent afgemeld", "", MessageBoxButton.OK, MessageBoxImage.Information);
 

@@ -1,12 +1,11 @@
-﻿using BezoekersRegistratieSysteemUI.Model;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas;
+﻿using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas;
+using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
+using BezoekersRegistratieSysteemUI.Model;
 using System.ComponentModel;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using BezoekersRegistratieSysteemUI.Events;
 
 namespace BezoekersRegistratieSysteemUI.Beheerder {
 	public partial class BeheerderWindow : Window, INotifyPropertyChanged {
@@ -86,59 +85,59 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 					switch (folder) {
 						case "Dashboard":
-						SideBar.DashboardTab.Tag = "Selected";
+							SideBar.DashboardTab.Tag = "Selected";
 
-						stackPanel = (StackPanel)SideBar.DashboardTab.Child;
-						textBlock = (TextBlock)stackPanel.Children[1];
-						icon = (Icon)stackPanel.Children[0];
+							stackPanel = (StackPanel)SideBar.DashboardTab.Child;
+							textBlock = (TextBlock)stackPanel.Children[1];
+							icon = (Icon)stackPanel.Children[0];
 
-						textBlock.FontWeight = FontWeights.Bold;
-						icon.Opacity = 1;
-						break;
+							textBlock.FontWeight = FontWeights.Bold;
+							icon.Opacity = 1;
+							break;
 
 						case "Bedrijven":
-						SideBar.BedrijvenTab.Tag = "Selected";
+							SideBar.BedrijvenTab.Tag = "Selected";
 
-						stackPanel = (StackPanel)SideBar.BedrijvenTab.Child;
-						textBlock = (TextBlock)stackPanel.Children[1];
-						icon = (Icon)stackPanel.Children[0];
+							stackPanel = (StackPanel)SideBar.BedrijvenTab.Child;
+							textBlock = (TextBlock)stackPanel.Children[1];
+							icon = (Icon)stackPanel.Children[0];
 
-						textBlock.FontWeight = FontWeights.Bold;
-						icon.Opacity = 1;
-						break;
+							textBlock.FontWeight = FontWeights.Bold;
+							icon.Opacity = 1;
+							break;
 
 						case "Afspraken":
-						SideBar.AfsprakenTab.Tag = "Selected";
+							SideBar.AfsprakenTab.Tag = "Selected";
 
-						stackPanel = (StackPanel)SideBar.AfsprakenTab.Child;
-						textBlock = (TextBlock)stackPanel.Children[1];
-						icon = (Icon)stackPanel.Children[0];
+							stackPanel = (StackPanel)SideBar.AfsprakenTab.Child;
+							textBlock = (TextBlock)stackPanel.Children[1];
+							icon = (Icon)stackPanel.Children[0];
 
-						textBlock.FontWeight = FontWeights.Bold;
-						icon.Opacity = 1;
-						break;
+							textBlock.FontWeight = FontWeights.Bold;
+							icon.Opacity = 1;
+							break;
 
 						case "Werknemers":
-						SideBar.WerknemersTab.Tag = "Selected";
+							SideBar.WerknemersTab.Tag = "Selected";
 
-						stackPanel = (StackPanel)SideBar.WerknemersTab.Child;
-						textBlock = (TextBlock)stackPanel.Children[1];
-						icon = (Icon)stackPanel.Children[0];
+							stackPanel = (StackPanel)SideBar.WerknemersTab.Child;
+							textBlock = (TextBlock)stackPanel.Children[1];
+							icon = (Icon)stackPanel.Children[0];
 
-						textBlock.FontWeight = FontWeights.Bold;
-						icon.Opacity = 1;
-						break;
+							textBlock.FontWeight = FontWeights.Bold;
+							icon.Opacity = 1;
+							break;
 
 						case "Parking":
-						SideBar.ParkingTab.Tag = "Selected";
+							SideBar.ParkingTab.Tag = "Selected";
 
-						stackPanel = (StackPanel)SideBar.ParkingTab.Child;
-						textBlock = (TextBlock)stackPanel.Children[1];
-						icon = (Icon)stackPanel.Children[0];
+							stackPanel = (StackPanel)SideBar.ParkingTab.Child;
+							textBlock = (TextBlock)stackPanel.Children[1];
+							icon = (Icon)stackPanel.Children[0];
 
-						textBlock.FontWeight = FontWeights.Bold;
-						icon.Opacity = 1;
-						break;
+							textBlock.FontWeight = FontWeights.Bold;
+							icon.Opacity = 1;
+							break;
 					}
 					return;
 				}

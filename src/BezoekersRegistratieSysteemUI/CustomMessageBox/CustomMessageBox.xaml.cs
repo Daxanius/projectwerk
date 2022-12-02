@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BezoekersRegistratieSysteemUI.MessageBoxes {
 	public partial class CustomMessageBox : Window, ICustomMessageBox {
@@ -25,17 +14,17 @@ namespace BezoekersRegistratieSysteemUI.MessageBoxes {
 
 			switch (icon) {
 				case ECustomMessageBoxIcon.Warning:
-				Icon.IconSource = "../WarningIcon.xaml";
-				break;
+					Icon.IconSource = "../WarningIcon.xaml";
+					break;
 				case ECustomMessageBoxIcon.Question:
-				Icon.IconSource = "../QuestionIcon.xaml";
-				break;
+					Icon.IconSource = "../QuestionIcon.xaml";
+					break;
 				case ECustomMessageBoxIcon.Information:
-				Icon.IconSource = "../InformationIcon.xaml";
-				AnnulerenButton.Visibility = Visibility.Collapsed;
-				BevestigenButton.Visibility = Visibility.Collapsed;
-				SluitButton.Visibility = Visibility.Visible;
-				break;
+					Icon.IconSource = "../InformationIcon.xaml";
+					AnnulerenButton.Visibility = Visibility.Collapsed;
+					BevestigenButton.Visibility = Visibility.Collapsed;
+					SluitButton.Visibility = Visibility.Visible;
+					break;
 			}
 
 			if (this.ShowDialog() == true) {

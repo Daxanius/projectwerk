@@ -1,8 +1,5 @@
 using BezoekerRegistratieSysteemDLPicker;
-using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemBL.Managers;
-using BezoekersRegistratieSysteemDL.ADOMS;
-using BezoekersRegistratieSysteemDL.ADOMySQL;
 
 const string ENV_DB = "BRS_DATABASE";
 //const string ENV_SQL_CONNECTION = "BRS_CONNECTION_STRING_ADO";
@@ -39,7 +36,7 @@ try {
 	repos = DLPickerFactory.GeefRepositories(connectionstring, repoType);
 } catch (Exception ex) {
 	Console.WriteLine($"{ex.Message}");
-    Environment.Exit(1);
+	Environment.Exit(1);
 	return;
 }
 

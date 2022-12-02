@@ -8,18 +8,17 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// Private lokale Interface variabele.
 		/// </summary>
 		private readonly IWerknemerRepository _werknemerRepository;
-        private readonly IAfspraakRepository _afspraakRepository;
+		private readonly IAfspraakRepository _afspraakRepository;
 
-        /// <summary>
-        /// WerknemerManager constructor krijgt een instantie van de IWerknemerRepository interface als parameter.
-        /// </summary>
-        /// <param name="werknemerRepository">Interface</param>
-        /// <remarks>Deze constructor stelt de lokale variabele [_werknemerRepository] gelijk aan een instantie van de IWerknemerRepository.</remarks>
-        public WerknemerManager(IWerknemerRepository werknemerRepository, IAfspraakRepository afspraakRepository)
-        {
-            this._werknemerRepository = werknemerRepository;
-            this._afspraakRepository = afspraakRepository;
-        }
+		/// <summary>
+		/// WerknemerManager constructor krijgt een instantie van de IWerknemerRepository interface als parameter.
+		/// </summary>
+		/// <param name="werknemerRepository">Interface</param>
+		/// <remarks>Deze constructor stelt de lokale variabele [_werknemerRepository] gelijk aan een instantie van de IWerknemerRepository.</remarks>
+		public WerknemerManager(IWerknemerRepository werknemerRepository, IAfspraakRepository afspraakRepository) {
+			this._werknemerRepository = werknemerRepository;
+			this._afspraakRepository = afspraakRepository;
+		}
 
 		/// <summary>
 		/// Voegt werknemer toe.
@@ -83,9 +82,9 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemer - werknemer mag niet leeg zijn");
 			if (!_werknemerRepository.BestaatWerknemer(werknemer))
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemer - werknemer bestaat niet");
-            if (_afspraakRepository.GeefHuidigeAfsprakenPerBedrijf(bedrijf.Id).Count > 0)
-                throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemer - werknemer heeft lopende afspraken");
-            try {
+			if (_afspraakRepository.GeefHuidigeAfsprakenPerBedrijf(bedrijf.Id).Count > 0)
+				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemer - werknemer heeft lopende afspraken");
+			try {
 				_werknemerRepository.VerwijderWerknemer(werknemer, bedrijf);
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);
