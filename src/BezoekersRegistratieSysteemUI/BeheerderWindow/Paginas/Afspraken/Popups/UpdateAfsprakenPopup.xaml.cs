@@ -132,7 +132,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 				textBox.BorderThickness = new Thickness(1);
 			}
 		}
-		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
+		private async void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			#region Controle Input
 
 			if (BeheerderWindow.GeselecteerdBedrijf is null) {
@@ -211,15 +211,15 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			var bezoekerInput = new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf);
 			var afspraakInput = new AfspraakInputDTO(bezoekerInput, startTijdDatum, eindTijdDatum, Werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
 			
-			ApiController.UpdateAfspraak(afspraakInput, oudeAfspraak.Id, oudeAfspraak.Bezoeker.Id);
+			await ApiController.UpdateAfspraak(afspraakInput, oudeAfspraak.Id, oudeAfspraak.Bezoeker.Id);
 
-			AfspraakDTO afspraak = ApiController.GeefAfspraak(oudeAfspraak.Id);
+			AfspraakDTO afspraak = await ApiController.GeefAfspraak(oudeAfspraak.Id);
 			AfspraakEvents.InvokeUpdateAfspraak(afspraak);
 
 			SluitOverlay();
 
 			CustomMessageBox customMessageBox = new();
-			customMessageBox.Show("Afspraak Is Gewijzigd", $"Success", ECustomMessageBoxIcon.Information);
+			//customMessageBox.Show("Afspraak Is Gewijzigd", $"Success", ECustomMessageBoxIcon.Information)
 		}
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
