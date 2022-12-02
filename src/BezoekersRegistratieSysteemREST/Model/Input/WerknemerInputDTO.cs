@@ -12,8 +12,8 @@ namespace BezoekersRegistratieSysteemREST.Model.Input {
 		/// <returns>De business variant</returns>
 		public Werknemer NaarBusiness(BedrijfManager bedrijfManager) {
 			Werknemer werknemer = new(Voornaam, Achternaam);
-			
-			foreach(WerknemerInfoInputDTO info in WerknemerInfo) {
+
+			foreach (WerknemerInfoInputDTO info in WerknemerInfo) {
 				Bedrijf bedrijf = bedrijfManager.GeefBedrijf(info.BedrijfId);
 
 				foreach (string functie in info.Functies) {

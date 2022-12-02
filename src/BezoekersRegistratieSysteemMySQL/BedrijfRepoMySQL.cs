@@ -1,5 +1,4 @@
-﻿using BezoekersRegistratieSysteemBL;
-using BezoekersRegistratieSysteemBL.Domeinen;
+﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
 using MySql.Data.MySqlClient;
@@ -192,7 +191,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT DISTINCT b.Id as BedrijfId, b.Naam as BedrijfNaam, b.BTWNr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
-                           "f.FunctieNaam " +
+						   "f.FunctieNaam " +
 						   "FROM Bedrijf b " +
 						   "LEFT JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId) AND wb.Status = 1 " +
 						   "LEFT JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
@@ -223,8 +222,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
 							string bedrijfMail = (string)reader["BedrijfMail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-                            bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
-                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+							bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 						}
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
 							if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
@@ -233,13 +232,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								string werknemerAnaam = (string)reader["WerknemerAnaam"];
 								werknemer = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
 							}
-                            string werknemerMail = (string)reader["WerknemerEMail"];
+							string werknemerMail = (string)reader["WerknemerEMail"];
 							string functieNaam = (string)reader["FunctieNaam"];
 							bedrijf.VoegWerknemerToeInBedrijf(werknemer, werknemerMail, functieNaam);
-                            //Halen momenteel enkel werknemers op die werkzaam zijn
-                            //Voeg dit aan qeury toe 'wb.Status as WerknemerBedrijfStatus'
-                            //string werknemerbedrijfStatus = (int)reader["WerknemerBedrijfStatus"] == 1 ? "Werkzaam" : "Niet werkzaam";
-                            werknemer.ZetStatusNaamPerBedrijf(bedrijf, "Werkzaam");
+							//Halen momenteel enkel werknemers op die werkzaam zijn
+							//Voeg dit aan qeury toe 'wb.Status as WerknemerBedrijfStatus'
+							//string werknemerbedrijfStatus = (int)reader["WerknemerBedrijfStatus"] == 1 ? "Werkzaam" : "Niet werkzaam";
+							werknemer.ZetStatusNaamPerBedrijf(bedrijf, "Werkzaam");
 						}
 					}
 					return bedrijf;
@@ -286,8 +285,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string bedrijfTeleNr = (string)reader["BedrijfTeleNr"];
 							string bedrijfMail = (string)reader["BedrijfMail"];
 							string bedrijfAdres = (string)reader["BedrijfAdres"];
-                            bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
-                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
+							bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+							bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTeleNr, bedrijfMail, bedrijfAdres);
 							bedrijven.Add(bedrijf);
 						}
 						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerId"))) {
@@ -302,9 +301,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							string functieNaam = (string)reader["FunctieNaam"];
 
 							bedrijf.VoegWerknemerToeInBedrijf(werknemer, werknemerMail, functieNaam);
-                            //Halen momenteel enkel werknemers op die werkzaam zijn
-                            //Voeg dit aan qeury toe 'wb.Status as WerknemerBedrijfStatus'
-                            //string werknemerbedrijfStatus = (int)reader["WerknemerBedrijfStatus"] == 1 ? "Werkzaam" : "Niet werkzaam";
+							//Halen momenteel enkel werknemers op die werkzaam zijn
+							//Voeg dit aan qeury toe 'wb.Status as WerknemerBedrijfStatus'
+							//string werknemerbedrijfStatus = (int)reader["WerknemerBedrijfStatus"] == 1 ? "Werkzaam" : "Niet werkzaam";
 							werknemer.ZetStatusNaamPerBedrijf(bedrijf, "Werkzaam");
 						}
 					}
@@ -345,7 +344,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								  "SET Status = @statusId " +
 								  "WHERE Id = @bedrijfid";
 			con.Open();
-            MySqlTransaction trans = con.BeginTransaction();
+			MySqlTransaction trans = con.BeginTransaction();
 			try {
 				using (MySqlCommand cmdMedewerker = con.CreateCommand())
 				using (MySqlCommand cmdBedrijf = con.CreateCommand()) {
@@ -392,11 +391,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public Bedrijf VoegBedrijfToe(Bedrijf bedrijf) {
 			MySqlConnection con = GetConnection();
 			string query = "INSERT INTO Bedrijf(Naam, BTWNr, TeleNr, Email, Adres, BTWChecked) " +
-						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked);";                          
+						   "VALUES(@naam,@btwNr,@TeleNr,@Email,@Adres,@BTWChecked);";
 			string selectId = "SELECT id FROM Bedrijf WHERE id = LAST_INSERT_ID();";
 			con.Open();
 			MySqlTransaction trans = con.BeginTransaction();
-            try {
+			try {
 				using (MySqlCommand cmdSelect = con.CreateCommand())
 				using (MySqlCommand cmdInsert = con.CreateCommand()) {
 					cmdInsert.Transaction = trans;

@@ -1,14 +1,13 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
+using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden
-{
+namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 	public partial class KiesBedrijfPage : Page {
 
 		#region Variabelen
@@ -31,16 +30,14 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden
 
 		#region Funcities
 
-		private void SpawnBedrijvenGrid()
-		{
+		private void SpawnBedrijvenGrid() {
 			gridContainer.Children.Clear();
 			int rowCount = 0;
 			int columnCount = 0;
 
 			gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
-			for (int i = 0; i < Bedrijven?.Count; i++)
-			{
+			for (int i = 0; i < Bedrijven?.Count; i++) {
 				Border border = new Border();
 				border.Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style;
 				border.Height = 85;
@@ -55,8 +52,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden
 				container.HorizontalAlignment = HorizontalAlignment.Left;
 				container.VerticalAlignment = VerticalAlignment.Center;
 
-				TextBlock bedrijfNaam = new()
-				{
+				TextBlock bedrijfNaam = new() {
 					Text = Bedrijven[i].Naam,
 					FontSize = 24,
 					FontWeight = FontWeights.Bold,
@@ -65,8 +61,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden
 					TextWrapping = TextWrapping.Wrap
 				};
 
-				Icon icon = new()
-				{
+				Icon icon = new() {
 					IconSize = 42,
 					CircleSize = 48,
 					IconSource = "../BedrijfIcon.xaml",
@@ -81,16 +76,13 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden
 
 				border.Child = container;
 
-				if (columnCount == MAX_COLUMN_COUNT - 1)
-				{
+				if (columnCount == MAX_COLUMN_COUNT - 1) {
 					columnCount = 0;
 
 					gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
 					rowCount++;
-				}
-				else
-				{
+				} else {
 					columnCount++;
 				}
 
@@ -98,15 +90,14 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden
 			}
 		}
 
-		private void GaNaarWerknemersVanBedrijfTab_Event(object sender, MouseButtonEventArgs e)
-		{
+		private void GaNaarWerknemersVanBedrijfTab_Event(object sender, MouseButtonEventArgs e) {
 			BedrijfDTO geselecteerdbedrijf = (BedrijfDTO)((Border)sender).DataContext;
 
 			Window window = Window.GetWindow(this);
 			AanmeldParkeerWindow aanmeldParkeerWindow = (AanmeldParkeerWindow)window.DataContext;
 
-            AanmeldParkeerWindow.GeselecteerdBedrijf = geselecteerdbedrijf;
-            aanmeldParkeerWindow.FrameControl.Content = new AanmeldParkeerPage();
+			AanmeldParkeerWindow.GeselecteerdBedrijf = geselecteerdbedrijf;
+			aanmeldParkeerWindow.FrameControl.Content = new AanmeldParkeerPage();
 		}
 
 		#endregion

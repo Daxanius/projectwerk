@@ -53,9 +53,9 @@ namespace BezoekersRegistratieSysteemUI.Api.Output {
 		/// De werknemer van de afpsraak.
 		/// </summary>
 		public IdInfoOutputDTO Werknemer { get; set; }
-        /// <summary>
-        /// De status van de afpsraak.
-        /// </summary>
-        public string StatusNaam { get; set; }
+		/// <summary>
+		/// De status van de afpsraak.
+		/// </summary>
+		public string StatusNaam { get; set; }
 	}
 }

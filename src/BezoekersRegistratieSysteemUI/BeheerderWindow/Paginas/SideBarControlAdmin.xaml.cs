@@ -1,8 +1,8 @@
 ﻿using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bezoekers;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
 using System.Windows;
@@ -37,21 +37,21 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 
 			switch (tab) {
 				case "Dashboard":
-				beheerderWindow.FrameControl.Content = DashBoardPage.Instance;
-				break;
+					beheerderWindow.FrameControl.Content = DashBoardPage.Instance;
+					break;
 				case "Bedrijven":
-				beheerderWindow.FrameControl.Content = BedrijvenPage.Instance;
-				break;
+					beheerderWindow.FrameControl.Content = BedrijvenPage.Instance;
+					break;
 				case "Afspraken":
-				beheerderWindow.FrameControl.Content = AfsprakenPage.Instance;
-				break;
+					beheerderWindow.FrameControl.Content = AfsprakenPage.Instance;
+					break;
 				case "Werknemers":
-				beheerderWindow.FrameControl.Content = WerknemersPage.Instance;
-				break;
-                case "Parking":
-                beheerderWindow.FrameControl.Content = ParkingPage.Instance;
-                break;
-            }
+					beheerderWindow.FrameControl.Content = WerknemersPage.Instance;
+					break;
+				case "Parking":
+					beheerderWindow.FrameControl.Content = ParkingPage.Instance;
+					break;
+			}
 		}
 
 		private void ResetSelectedTabs(Border? nieuweActiveTabBorder = null) {

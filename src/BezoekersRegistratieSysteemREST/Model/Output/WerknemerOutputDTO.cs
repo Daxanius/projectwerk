@@ -1,13 +1,10 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemBL.Managers;
 
-namespace BezoekersRegistratieSysteemREST.Model.Output
-{
+namespace BezoekersRegistratieSysteemREST.Model.Output {
 	/// <summary>
 	/// De DTO voor uitgaande werknemer informatie.
 	/// </summary>
-	public class WerknemerOutputDTO
-	{
+	public class WerknemerOutputDTO {
 
 		/// <summary>
 		/// Zet de business variant om naar de DTO.
@@ -47,8 +44,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output
 		/// <param name="achternaam"></param>
 		/// <param name="werknemerInfo"></param>
 		/// <param name="statusNaam"></param>
-		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo, string statusNaam)
-		{
+		public WerknemerOutputDTO(long id, string voornaam, string achternaam, IEnumerable<WerknemerInfoOutputDTO> werknemerInfo, string statusNaam) {
 			Id = id;
 			Voornaam = voornaam;
 			Achternaam = achternaam;

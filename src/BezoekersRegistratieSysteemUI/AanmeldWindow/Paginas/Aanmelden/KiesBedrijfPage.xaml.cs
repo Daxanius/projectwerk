@@ -1,6 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
-using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.icons.IconsPresenter;
+using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;

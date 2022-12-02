@@ -1,9 +1,11 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
-using BezoekersRegistratieSysteemUI.Model;
-using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups;
+using BezoekersRegistratieSysteemUI.Events;
+using BezoekersRegistratieSysteemUI.Model;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,9 +13,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
-using BezoekersRegistratieSysteemUI.Events;
-using System.Collections.ObjectModel;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 	public partial class WerknemersPage : Page, INotifyPropertyChanged {
