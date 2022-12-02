@@ -11,6 +11,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemUI.Api {
 	public static class ApiController {
@@ -177,7 +180,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async void Put(string url, string defaultFoutMelding = "") {
+		public static async Task Put(string url, string defaultFoutMelding = "") {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -584,8 +587,25 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		}
 
 		public static BedrijfDTO UpdateBedrijf(long bedrijfId, BedrijfInputDTO nieuwBedrijf) {
-			Task.Run(() => Put($"bedrijf/{bedrijfId}", JsonConvert.SerializeObject(nieuwBedrijf), "Er is iets mis gegaan bij het updaten van het bedrijf"));
+			string payload = JsonConvert.SerializeObject(nieuwBedrijf);
+			Task.Run(() => Put($"bedrijf/{bedrijfId}", payload));
 			return new(bedrijfId, nieuwBedrijf.Naam, nieuwBedrijf.BTW, nieuwBedrijf.TelefoonNummer, nieuwBedrijf.Email, nieuwBedrijf.Adres);
+		}
+
+		public static async Task UpdateAfspraak(AfspraakInputDTO afspraakInput, long afspraakId, long bezoekerId) {
+			string payload = JsonConvert.SerializeObject(afspraakInput);
+			await Put($"afspraak/{afspraakId}/{bezoekerId}", payload);
+		}
+
+		public static async Task<AfspraakDTO> GeefAfspraak(long afspraakId) {
+			(bool isvalid, AfspraakOutputDTO apiAfspraak) = await Get<AfspraakOutputDTO>($"afspraak/{afspraakId}");
+			if (isvalid) {
+				WerknemerDTO werknemer = new WerknemerDTO(apiAfspraak.Werknemer.Id, apiAfspraak.Werknemer.Naam.Split(";")[0], apiAfspraak.Werknemer.Naam.Split(";")[1], null);
+				BezoekerDTO bezoeker = new(apiAfspraak.Bezoeker.Id, apiAfspraak.Bezoeker.Naam.Split(";")[0], apiAfspraak.Bezoeker.Naam.Split(";")[1], apiAfspraak.Bezoeker.Email, apiAfspraak.Bezoeker.BezoekerBedrijf);
+				return new AfspraakDTO(apiAfspraak.Id, bezoeker, BeheerderWindow.GeselecteerdBedrijf.Naam, werknemer, apiAfspraak.Starttijd, apiAfspraak.Eindtijd, apiAfspraak.StatusNaam);
+			} else {
+				throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
+			}
 		}
 		#endregion
 	}

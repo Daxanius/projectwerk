@@ -109,8 +109,8 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 
 		#region UnitTest BewerkAfspraak
 		[Fact]
-		public void BewerkAfspraak_Invalid_AfspraakLeeg() {
-			var result = _afspraakController.BewerkAfspraak(-2, _a);
+		public async void BewerkAfspraak_Invalid_AfspraakLeeg() {
+			var result = _afspraakController.BewerkAfspraak(-2, 1, _a);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
@@ -119,7 +119,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		[Fact]
 		public void BewerkAfspraak_Invalid_AfspraakBestaatNiet() {
 			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(_a.NaarBusiness(_werknemerManger, _bedrijfManager))).Returns(false);
-			var result = _afspraakController.BewerkAfspraak(0, _a);
+			var result = _afspraakController.BewerkAfspraak(0, 1, _a);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);
@@ -129,7 +129,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		public void BewerkAfspraak_Invalid_AfspraakNietGewijzigd() {
 			_mockRepoAfspraak.Setup(x => x.BestaatAfspraak(0)).Returns(true);
 			_mockRepoAfspraak.Setup(x => x.GeefAfspraak(0)).Returns(_a.NaarBusiness(_werknemerManger, _bedrijfManager));
-			var result = _afspraakController.BewerkAfspraak(0, _a);
+			var result = _afspraakController.BewerkAfspraak(0, 1, _a);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);

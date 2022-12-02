@@ -89,7 +89,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 
 			ResetSelectedTabs();
 
-			beheerderWindow.FrameControl.Content = new BezoekerPage();
+			beheerderWindow.FrameControl.Content = new AanwezigeBezoekersPage();
 		}
 
 		private void ToggleAanwezigeBezoekersAchtergrond(bool aanOfUit = false) {

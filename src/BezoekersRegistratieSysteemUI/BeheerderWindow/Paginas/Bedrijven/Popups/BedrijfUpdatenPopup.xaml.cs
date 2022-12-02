@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
@@ -81,7 +82,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 				return;
 			}
 
-			if (telefoonNummer.IsLeeg() || telefoonNummer.IsTelefoonNummerGeldig()) {
+			if (telefoonNummer.IsLeeg() || !telefoonNummer.IsTelefoonNummerGeldig()) {
 				MessageBox.Show("TelefoonNummer is verplicht");
 				return;
 			}
@@ -98,7 +99,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 
 			BedrijfInputDTO nieuwBedrijf = new BedrijfInputDTO(naam, BTW, telefoonNummer, email, adres);
 			BedrijfDTO bedrijf = ApiController.UpdateBedrijf(Id, nieuwBedrijf);
-			//BedrijfEvents.InvokeNieuwBedrijfToeGevoegd(bedrijf)
+			BedrijfEvents.InvokeBedrijfGeupdate(bedrijf);
 
 			SluitOverlay(null);
 		}
