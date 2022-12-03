@@ -4,8 +4,6 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 
 namespace BezoekersRegistratieSysteemBL.Managers {
 	public class ParkeerplaatsManager {
-		private readonly Dictionary<Bedrijf, List<string>> _nummerplaten = new();
-
 		/// <summary>
 		/// Private lokale Interface variabele.
 		/// </summary>
@@ -42,7 +40,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new ParkeerplaatsManagerException("ParkeerManager - VoegNummerplaatToe - Parking is vol");
 			try {
 				_parkeerplaatsRepository.CheckNummerplaatIn(parkeerplaats);
-				_nummerplaten[parkeerplaats.Bedrijf].Add(parkeerplaats.Nummerplaat);
 			} catch (Exception ex) {
 				throw new ParkeerplaatsManagerException(ex.Message);
 			}
@@ -62,7 +59,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new ParkeerplaatsManagerException("ParkeerManager - VerwijderNummerplaat - Nummerplaat bestaat niet");
 			try {
 				_parkeerplaatsRepository.CheckNummerplaatUit(nummerplaat);
-				_nummerplaten.Values.Where(n => n.Equals(nummerplaat)).Select(n => n.Remove(nummerplaat));
 			} catch (Exception ex) {
 				throw new ParkeerplaatsManagerException(ex.Message);
 			}
@@ -86,38 +82,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			} catch (Exception ex) {
 				throw new ParkeerplaatsManagerException(ex.Message);
 			}
-		}
-
-		/// <summary>
-		/// Voegt parkingContract toe aan bedrijf in de databank adhv een parkingContract object.
-		/// </summary>
-		/// <param name="parkingContract">ParkingContract object dat toegevoegd wenst te worden aan bedrijf.</param>
-		/// <exception cref="ParkeerplaatsManagerException">"ParkingContractManager - VoegParkingContractToe - ParkingContract mag niet leeg zijn"</exception>
-		/// <exception cref="ParkeerplaatsManagerException">"ParkingContractManager - VoegParkingContractToe - ParkingContract bestaat al"</exception>
-		/// <exception cref="ParkeerplaatsManagerException">ex.Message</exception>
-		public void VoegParkingContractBedrijfToe(ParkingContract parkingContract) {
-			if (parkingContract == null)
-				throw new ParkeerplaatsManagerException("ParkeerManager - VoegBedrijfToe - ParkingContract mag niet leeg zijn");
-			if (_parkingContractRepository.GeefParkingContract(parkingContract.Bedrijf.Id) != null)
-				throw new ParkeerplaatsManagerException("ParkeerManager - VoegBedrijfToe - Bedrijf heeft reeds een parking contract");
-			_nummerplaten.Add(parkingContract.Bedrijf, new List<string>());
-		}
-
-		/// <summary>
-		/// Verwijdert gewenste parkingContract van bedrijf adhv een parkingContract object.
-		/// </summary>
-		/// <param name="parkingContract">ParkingContract object dat verwijderd wenst te worden van bedrijf.</param>
-		/// <exception cref="ParkeerplaatsManagerException">"ParkeerManager - VerwijderBedrijf - ParkingContract mag niet leeg zijn"</exception>
-		/// <exception cref="ParkeerplaatsManagerException">"ParkeerManager - VerwijderBedrijf - Bedrijf bestaat niet"</exception>
-		/// <exception cref="ParkeerplaatsManagerException">"ParkeerManager - VerwijderBedrijf - Er zijn nog geparkeerden bij dit bedrijf"</exception>
-		public void VerwijderParkingContractBedrijf(ParkingContract parkingContract) {
-			if (parkingContract == null)
-				throw new ParkeerplaatsManagerException("ParkeerManager - VerwijderBedrijf - ParkingContract mag niet leeg zijn");
-			if (_parkingContractRepository.GeefParkingContract(parkingContract.Bedrijf.Id) == null)
-				throw new ParkeerplaatsManagerException("ParkeerManager - VerwijderBedrijf - Bedrijf heeft geen parking contract");
-			if (!_nummerplaten[parkingContract.Bedrijf].Any())
-				throw new ParkeerplaatsManagerException("ParkeerManager - VerwijderBedrijf - Er zijn nog geparkeerden bij dit bedrijf");
-			_nummerplaten.Remove(parkingContract.Bedrijf);
 		}
 
 		public int GeefHuidigBezetteParkeerplaatsenPerBedrijf(Bedrijf bedrijf) {
