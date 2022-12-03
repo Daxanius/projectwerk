@@ -49,14 +49,14 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 
         #region UnitTest CheckNummerplaatIn
         [Fact]
-		public void VoegParkingContractToe_Leeg() {
+		public void CheckNummerplaatIn_Leeg() {
 			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.CheckNummerplaatIn(null);
 			});
 		}
 
 		[Fact]
-		public void VoegParkingContractToe_Bestaat() {
+		public void CheckNummerplaatIn_Bestaat() {
 			_mockRepoParkeerplaats.Setup(x => x.BestaatNummerplaat(_pp.Nummerplaat)).Returns(true);
 			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.CheckNummerplaatIn(_pp);
@@ -67,14 +67,14 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 
         #region UnitTest CheckNummerplaatUit
         [Fact]
-		public void VerwijderParkingContract_Leeg() {
+		public void CheckNummerplaatUit_Leeg() {
 			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.CheckNummerplaatUit(null);
 			});
 		}
 
 		[Fact]
-		public void VerwijderParkingContract_BestaatNiet() {
+		public void CheckNummerplaatUit_BestaatNiet() {
 			_mockRepoParkeerplaats.Setup(x => x.BestaatNummerplaat(_pp.Nummerplaat)).Returns(false);
 			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.CheckNummerplaatUit(_n);
