@@ -45,10 +45,10 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 
 			_parkeerPlaatsManager = new(_mockRepoParkeerplaats.Object, _mockRepoParkingContract.Object);
 		}
-		#endregion
+        #endregion
 
-		#region UnitTest VoegParkingContractToe
-		[Fact]
+        #region UnitTest CheckNummerplaatIn
+        [Fact]
 		public void VoegParkingContractToe_Leeg() {
 			Assert.Throws<ParkeerplaatsManagerException>(() => {
 				_parkeerPlaatsManager.CheckNummerplaatIn(null);
@@ -63,13 +63,13 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 			});
 		}
 
-		#endregion
+        #endregion
 
-		#region UnitTest VerwijderParkingContract
-		[Fact]
+        #region UnitTest CheckNummerplaatUit
+        [Fact]
 		public void VerwijderParkingContract_Leeg() {
 			Assert.Throws<ParkeerplaatsManagerException>(() => {
-				_parkeerPlaatsManager.VerwijderParkingContractBedrijf(null);
+				_parkeerPlaatsManager.CheckNummerplaatUit(null);
 			});
 		}
 
