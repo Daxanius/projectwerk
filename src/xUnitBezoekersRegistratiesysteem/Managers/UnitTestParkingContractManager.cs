@@ -61,6 +61,7 @@ namespace xUnitBezoekersRegistratieSysteem.Managers {
 			_mockRepo.Setup(x => x.BestaatParkingContract(_c)).Returns(true);
 			_mockRepo.Setup(x => x.GeefParkingContract(0)).Returns(_c);
 			ParkingContract overlappend = new(_b1, _st, _et, 12);
+			_mockRepo.Setup(x => x.IsOverLappend(overlappend)).Returns(true);
 			Assert.Throws<ParkingContractManagerException>(() => {
 				_parkingContractManager.VoegParkingContractToe(overlappend);
 			});
