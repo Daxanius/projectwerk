@@ -5,7 +5,6 @@ using BezoekersRegistratieSysteemBL.Interfaces;
 namespace BezoekersRegistratieSysteemBL.Managers {
 
 	public class ParkingContractManager {
-		private ParkeerplaatsManager _parkeerplaatsManager;
 
 		/// <summary>
 		/// Private lokale Interface variabele.
@@ -39,7 +38,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 					throw new ParkingContractManagerException("ParkingContract overlapt");
 				}
 				_parkingContractRepository.VoegParkingContractToe(parkingContract);
-				_parkeerplaatsManager.VoegParkingContractBedrijfToe(parkingContract);
 			} catch (Exception ex) {
 				throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
@@ -59,7 +57,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				if (!_parkingContractRepository.BestaatParkingContract(parkingContract))
 					throw new ParkingContractManagerException("ParkingContract bestaat niet");
 				_parkingContractRepository.VerwijderParkingContract(parkingContract);
-				_parkeerplaatsManager.VerwijderParkingContractBedrijf(parkingContract);
 			} catch (Exception ex) {
 				throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
