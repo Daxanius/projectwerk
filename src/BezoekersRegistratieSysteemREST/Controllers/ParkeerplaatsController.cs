@@ -50,7 +50,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpPost]
 		public IActionResult VoegParkingContractToe([FromBody] ParkingContractInputDTO contractData) {
 			try {
-				_parkeerplaatsManager.VoegParkingContractBedrijfToe(contractData.NaarBusiness(_bedrijfManager));
+                _parkingContractManager.VoegParkingContractToe(contractData.NaarBusiness(_bedrijfManager));
 				return Ok();
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
@@ -97,7 +97,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				ParkingContract contract = _parkingContractManager.GeefParkingContract(bedrijf);
-				_parkeerplaatsManager.VerwijderParkingContractBedrijf(contract);
+				_parkingContractManager.VerwijderParkingContract(contract);
 				return Ok();
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
