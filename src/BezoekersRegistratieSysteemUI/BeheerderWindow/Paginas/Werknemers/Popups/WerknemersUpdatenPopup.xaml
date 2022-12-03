@@ -105,18 +105,6 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label
-                                    Grid.Column="0"
-                                    Content="Functie"
-                                    Style="{StaticResource InputLabelStyle}" />
-                                <TextBox
-                                    Grid.Column="0"
-                                    VerticalContentAlignment="Center"
-                                    Background="Transparent"
-                                    FontSize="20"
-                                    PreviewTextInput="IsInputGeldigZonderCijfers"
-                                    Style="{StaticResource PopupInputStyle}"
-                                    Text="{Binding Functie}" />
                             </Grid>
                         </Grid>
                     </Grid>

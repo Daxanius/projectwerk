@@ -43,15 +43,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 				UpdatePropperty();
 			}
 		}
-		private string _functie = string.Empty;
-		public string Functie {
-			get { return _functie; }
-			set {
-				if (value == _functie) return;
-				_functie = value;
-				UpdatePropperty();
-			}
-		}
 		#endregion
 
 		public WerknemersUpdatenPopup() {
@@ -69,7 +60,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			Voornaam = Voornaam.Trim();
 			Achternaam = Achternaam.Trim();
 			Email = Email.Trim();
-			Functie = Functie.Trim();
 
 			if (Voornaam.IsLeeg()) {
 				MessageBox.Show("Voornaam mag niet leeg zijn");
@@ -86,12 +76,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 				return;
 			};
 
-			if (Functie.IsLeeg()) {
-				MessageBox.Show("Functie mag niet leeg zijn");
-				return;
-			};
-
-			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
+			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { }));
 			WerknemerDTO werknemer = ApiController.MaakWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
 			werknemer.Status = "Vrij";
 			WerknemerEvents.InvokeUpdateGeselecteerdBedrijf(werknemer);
@@ -108,7 +93,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			Voornaam = "";
 			Achternaam = "";
 			Email = "";
-			Functie = "";
 
 			WerknemersPage werknemersPage = WerknemersPage.Instance;
 			werknemersPage.WerknemersPopup.Visibility = Visibility.Hidden;
