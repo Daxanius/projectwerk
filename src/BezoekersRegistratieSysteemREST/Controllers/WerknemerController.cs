@@ -183,8 +183,15 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				Werknemer werknemer = _werknemerManager.GeefWerknemer(werknemerId);
-				werknemer.WijzigFunctie(bedrijf, oudeFunctie, nieuweFunctie);
-				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
+				WerknemerInfo info = werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf];
+
+				info.VerwijderWerknemerFunctie(oudeFunctie);
+				info.VoegWerknemerFunctieToe(nieuweFunctie);
+
+				_werknemerManager.VerwijderWerknemerFunctie(werknemer, bedrijf, oudeFunctie);
+				_werknemerManager.VoegWerknemerFunctieToe(werknemer, info);
+
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.GeefWerknemer(werknemerId)));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
