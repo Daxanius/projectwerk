@@ -39,7 +39,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Contro
 
 		private void WijzigWerknemer_Click(object sender, RoutedEventArgs e) {
 			if (ContextMenu.DataContext is WerknemerDTO werknemer) {
-
+				WerknemersPage.Instance.UpdateWerknemersPopup.Visibility = Visibility.Visible;
+				WerknemersPage.Instance.UpdateWerknemersPopup.ZetWerknemer(werknemer);
 			}
 		}
 

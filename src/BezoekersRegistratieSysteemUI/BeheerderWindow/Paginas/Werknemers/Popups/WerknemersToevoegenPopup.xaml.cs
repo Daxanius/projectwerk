@@ -14,7 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
-	public partial class WerknemersPopup : UserControl, INotifyPropertyChanged {
+	public partial class WerknemersToevoegenPopup : UserControl, INotifyPropertyChanged {
 		#region Bind Propperties
 		private string _voornaam = string.Empty;
 		public string Voornaam {
@@ -54,7 +54,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 		}
 		#endregion
 
-		public WerknemersPopup() {
+		public WerknemersToevoegenPopup() {
 			this.DataContext = this;
 			InitializeComponent();
 		}

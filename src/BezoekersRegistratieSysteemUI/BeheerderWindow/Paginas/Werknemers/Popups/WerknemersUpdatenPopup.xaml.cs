@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Api;
+﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Events;
@@ -6,7 +7,9 @@ using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -16,6 +19,8 @@ using System.Windows.Input;
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups {
 	public partial class WerknemersUpdatenPopup : UserControl, INotifyPropertyChanged {
 		#region Bind Propperties
+		private WerknemerDTO oudeWerknemer;
+
 		private string _voornaam = string.Empty;
 		public string Voornaam {
 			get { return _voornaam; }
@@ -43,6 +48,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 				UpdatePropperty();
 			}
 		}
+		private string _functie = string.Empty;
+		public string Functie {
+			get { return _functie; }
+			set {
+				if (value == _functie) return;
+				_functie = value;
+				UpdatePropperty();
+			}
+		}
+
+		public ObservableCollection<string> Functies { get; set; } = new();
 		#endregion
 
 		public WerknemersUpdatenPopup() {
@@ -54,7 +70,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			SluitOverlay(null);
 		}
 
-		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
+		private async void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			List<WerknemerInfoInputDTO> werknemerInfo = new();
 
 			Voornaam = Voornaam.Trim();
@@ -76,9 +92,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 				return;
 			};
 
-			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { }));
-			WerknemerDTO werknemer = ApiController.MaakWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
-			werknemer.Status = "Vrij";
+			if (Functie.IsLeeg()) {
+				MessageBox.Show("Functie mag niet leeg zijn");
+				return;
+			};
+
+			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
+			await ApiController.UpdateWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo), oudeWerknemer.Id.Value);
+			WerknemerDTO? werknemer = await ApiController.GeefWerknemer(oudeWerknemer.Id.Value);
 			WerknemerEvents.InvokeUpdateGeselecteerdBedrijf(werknemer);
 
 			SluitOverlay(werknemer);
@@ -89,18 +110,51 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}
 
+		private void KiesMedeFunctieClick(object sender, RoutedEventArgs e) {
+			object selectedItem = FunctieLijst.SelectedValue;
+			if (selectedItem is not string) return;
+			string functie = (string)selectedItem;
+
+			MessageBox.Show(functie);
+		}
+		private void GaTerugNaarUpdateFunctieLijstEiland(object sender, RoutedEventArgs e) {
+			FunctiesUpdatenEiland.Visibility = Visibility.Collapsed;
+			WerknemerUpdatenEiland.Visibility = Visibility.Visible;
+		}
+
+		private void OpenFunctiesUpdatenEiland(object sender, MouseButtonEventArgs e) {
+			FunctiesUpdatenEiland.Visibility = Visibility.Visible;
+			WerknemerUpdatenEiland.Visibility = Visibility.Collapsed;
+		}
+
 		private void SluitOverlay(WerknemerDTO werknemer) {
 			Voornaam = "";
 			Achternaam = "";
 			Email = "";
+			Functie = "";
 
 			WerknemersPage werknemersPage = WerknemersPage.Instance;
-			werknemersPage.WerknemersPopup.Visibility = Visibility.Hidden;
+			werknemersPage.UpdateWerknemersPopup.Visibility = Visibility.Hidden;
 
 			if (werknemer is not null) {
 				CustomMessageBox warningMessage = new();
 				warningMessage.Show($"{werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd", "Success", ECustomMessageBoxIcon.Information);
 			}
+		}
+
+		public void ZetWerknemer(WerknemerDTO werknemer) {
+			Voornaam = werknemer.Voornaam;
+			Achternaam = werknemer.Achternaam;
+			Email = werknemer.Email;
+			Functie = werknemer.Functie;
+
+			Functies.Clear();
+
+			var werknemerInfo = werknemer.WerknemerInfoLijst.ToList().Where(werknemerInfo => werknemerInfo.Bedrijf.Id == BeheerderWindow.GeselecteerdBedrijf.Id).First();
+
+			werknemerInfo.Functies.ToList().ForEach(Functies.Add);
+
+			oudeWerknemer = werknemer;
 		}
 
 		#region ProppertyChanged
