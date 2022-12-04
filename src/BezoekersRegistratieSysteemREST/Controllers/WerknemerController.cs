@@ -118,12 +118,28 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		public ActionResult<WerknemerOutputDTO> BewerkWerknemer(long werknemerId, long bedrijfId, [FromBody] WerknemerInputDTO werknemerInput) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				Werknemer werknemer = werknemerInput.NaarBusiness(_bedrijfManager);
-				werknemer.ZetId(werknemerId);
+				Werknemer werknemerOud = _werknemerManager.GeefWerknemer(werknemerId);
+				Werknemer werknemerNieuw = werknemerInput.NaarBusiness(_bedrijfManager);
+				werknemerNieuw.ZetId(werknemerId);
 
-				// Waarom heeft dit een bedrijf nodig om werknemer te weizigen?
-				_werknemerManager.BewerkWerknemer(werknemer, bedrijf);
-				return Ok(WerknemerOutputDTO.NaarDTO(werknemer));
+				// Implementatie voor de functies is questionable, maar Stan wou dit...
+
+				// Vervangt de functies voor elk bedrijf van de werknemer
+				foreach (var key in werknemerOud.GeefBedrijvenEnFunctiesPerWerknemer().Keys) {
+					WerknemerInfo infoOud = werknemerOud.GeefBedrijvenEnFunctiesPerWerknemer()[key];
+					WerknemerInfo infoNieuw = werknemerNieuw.GeefBedrijvenEnFunctiesPerWerknemer()[key];
+					
+					// Verwijder alle oude functies
+					foreach(string functie in infoOud.GeefWerknemerFuncties()) {
+						infoOud.VerwijderWerknemerFunctie(functie);
+					}
+
+					// Voegt de nieuwe info toe
+					_werknemerManager.VoegWerknemerFunctieToe(werknemerNieuw, infoNieuw);
+				}
+
+				_werknemerManager.BewerkWerknemer(werknemerNieuw, bedrijf);
+				return Ok(WerknemerOutputDTO.NaarDTO(werknemerNieuw));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}
