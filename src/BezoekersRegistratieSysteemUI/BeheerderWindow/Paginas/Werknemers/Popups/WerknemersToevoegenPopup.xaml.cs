@@ -94,7 +94,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
 			WerknemerDTO werknemer = ApiController.MaakWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
 			werknemer.Status = "Vrij";
-			WerknemerEvents.InvokeUpdateGeselecteerdBedrijf(werknemer);
+			WerknemerEvents.InvokeNieuweWerkenemer(werknemer);
 
 			SluitOverlay(werknemer);
 		}

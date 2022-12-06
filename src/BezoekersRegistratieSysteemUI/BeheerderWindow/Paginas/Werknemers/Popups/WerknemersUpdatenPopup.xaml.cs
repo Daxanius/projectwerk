@@ -100,7 +100,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, Functies));
 			await ApiController.UpdateWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo), oudeWerknemer.Id.Value);
 			WerknemerDTO? werknemer = await ApiController.GeefWerknemer(oudeWerknemer.Id.Value);
-			WerknemerEvents.InvokeUpdateGeselecteerdBedrijf(werknemer);
+			WerknemerEvents.InvokeUpdateWerkenemer(werknemer);
 
 			SluitOverlay(werknemer);
 		}

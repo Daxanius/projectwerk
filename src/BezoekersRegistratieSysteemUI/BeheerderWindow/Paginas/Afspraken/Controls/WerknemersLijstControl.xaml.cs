@@ -51,7 +51,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			//Kijk of je kan rechts klikken om iets te doen
 			WerknemerLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
 
-			WerknemerEvents.VerwijderWerknemerEvent += VerwijderWerknemer_Event;
+			WerknemerEvents.VerwijderWerknemer += VerwijderWerknemer_Event;
 		}
 		private void VerwijderWerknemer_Event(WerknemerDTO werknemer) {
 			if (this.ItemSource.Contains(werknemer)) {
