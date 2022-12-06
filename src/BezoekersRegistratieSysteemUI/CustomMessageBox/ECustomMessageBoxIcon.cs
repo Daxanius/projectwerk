@@ -2,6 +2,7 @@
 	public enum ECustomMessageBoxIcon {
 		Warning,
 		Question,
-		Information
+		Information,
+		Error
 	}
 }

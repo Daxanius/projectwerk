@@ -97,7 +97,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 				return;
 			};
 
-			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
+			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, Functies));
 			await ApiController.UpdateWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo), oudeWerknemer.Id.Value);
 			WerknemerDTO? werknemer = await ApiController.GeefWerknemer(oudeWerknemer.Id.Value);
 			WerknemerEvents.InvokeUpdateGeselecteerdBedrijf(werknemer);
@@ -110,21 +110,47 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}
 
-		private void KiesMedeFunctieClick(object sender, RoutedEventArgs e) {
+		private void VerwijderFunctieVanFunctieLijst(object sender, RoutedEventArgs e) {
 			object selectedItem = FunctieLijst.SelectedValue;
 			if (selectedItem is not string) return;
 			string functie = (string)selectedItem;
 
-			MessageBox.Show(functie);
+			Functies.Remove(functie);
 		}
-		private void GaTerugNaarUpdateFunctieLijstEiland(object sender, RoutedEventArgs e) {
+		private void GaTerugNaarWerknemerUpdatenEiland(object sender, RoutedEventArgs e) {
 			FunctiesUpdatenEiland.Visibility = Visibility.Collapsed;
 			WerknemerUpdatenEiland.Visibility = Visibility.Visible;
+			FunctieLijst.SelectedIndex = -1;
+		}
+
+		private void GaTerugNaarFunctiesUpdatenEiland(object sender, RoutedEventArgs e) {
+			NieuweFunctieTextBlock.Text = "";
+			VoegNieuweFunctieToeEiland.Visibility = Visibility.Collapsed;
+			FunctiesUpdatenEiland.Visibility = Visibility.Visible;
 		}
 
 		private void OpenFunctiesUpdatenEiland(object sender, MouseButtonEventArgs e) {
 			FunctiesUpdatenEiland.Visibility = Visibility.Visible;
 			WerknemerUpdatenEiland.Visibility = Visibility.Collapsed;
+		}
+
+		private void OpenVoegNieuweFunctieToeEilandClick(object sender, RoutedEventArgs e) {
+			VoegNieuweFunctieToeEiland.Visibility = Visibility.Visible;
+			FunctiesUpdatenEiland.Visibility = Visibility.Collapsed;
+		}
+
+		private void VoegieuweFunctieToeAanMedewerker(object sender, RoutedEventArgs e) {
+			string functie = NieuweFunctieTextBlock.Text.Trim();
+			if (functie.IsNietLeeg()) {
+				if (Functies.Any(_f => _f.ToLower() == functie.ToLower())) {
+					CustomMessageBox customMessageBox = new();
+					customMessageBox.Show("Functie bestaat al", "Error", ECustomMessageBoxIcon.Error);
+					return;
+				}
+				Functies.Add(functie);
+				GaTerugNaarFunctiesUpdatenEiland(null, null);
+			}
+			NieuweFunctieTextBlock.Text = "";
 		}
 
 		private void SluitOverlay(WerknemerDTO werknemer) {
