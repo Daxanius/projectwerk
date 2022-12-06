@@ -164,7 +164,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 
 			if (werknemer is not null) {
 				CustomMessageBox warningMessage = new();
-				warningMessage.Show($"{werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd", "Success", ECustomMessageBoxIcon.Information);
+				warningMessage.Show($"{werknemer.Voornaam} {werknemer.Achternaam} is gewijzigd", "Success", ECustomMessageBoxIcon.Information);
 			}
 		}
 
