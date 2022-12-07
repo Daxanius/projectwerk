@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace BezoekersRegistratieSysteemCLI {
 	public class DataLaagCLI {
-		private const string databaseType = "MYSQl";
+		private const string databaseType = "MSSERVER";
 		private const string sqlServerHost = $"BRS_CONNECTION_STRING_{databaseType}";
 		static void Main() {
 			//We zitten momenteel aan VoegAfspraakToe()
@@ -34,6 +34,15 @@ namespace BezoekersRegistratieSysteemCLI {
 			Werknemer bestaandWerknemer = new Werknemer(38, "MArcella", "Lawrence");
 			bestaandWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(bestaandBedrijf, "MarcellaLawrence@allphi.be", "Logistiek");
 			object result;
+
+
+            //try {
+            //    var aresult = parkingRepo.GeefAantalParkeerplaatsenVoorBedrijf(bestaandBedrijf);
+            //    Print(aresult, "VoegAfspraakToe");
+            //} catch (Exception ex) {
+            //    Error(ex);
+            //    return;
+            //}
 
 
             //try {

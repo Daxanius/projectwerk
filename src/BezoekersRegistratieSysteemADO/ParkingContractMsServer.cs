@@ -242,8 +242,25 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			}
 		}
 
-        public int GeefAantalParkeerplaatsenVoorBedrijf(long id) {
-            throw new NotImplementedException();
+        public int GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfid) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT AantalPlaatsen " +
+						   "FROM ParkingContract " +
+						   "WHERE GETDATE() BETWEEN StartTijd AND EindTijd AND BedrijfId = @bedrijfId";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters["@bedrijfId"].Value = bedrijfid;
+					var i = cmd.ExecuteScalar();					
+                    return i is null ? 0 : int.Parse(i.ToString());
+                }
+            } catch (Exception ex) {
+                throw new ParkingContractMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
         }
     }
 }
