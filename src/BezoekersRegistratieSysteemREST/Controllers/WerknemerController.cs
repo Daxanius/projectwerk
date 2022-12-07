@@ -218,7 +218,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="werknemerInput"></param>
 		/// <returns></returns>
-		[HttpPut("werkzaam")]
+		[HttpGet("werkzaam")]
 		public ActionResult<WerknemerOutputDTO?> WerknemerPotentieelWerkzaamInBedrijvenPark([FromBody] WerknemerInputDTO werknemerInput) {
 			try {
 				Werknemer werknemer = werknemerInput.NaarBusiness(_bedrijfManager);
