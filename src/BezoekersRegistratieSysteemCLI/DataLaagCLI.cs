@@ -36,13 +36,13 @@ namespace BezoekersRegistratieSysteemCLI {
 			object result;
 
 
-            try {
-                var aresult = parkeerRepo.GeefWeekoverzichtParkingVoorBedrijf(bestaandBedrijf);
-                Print(aresult, "VoegAfspraakToe");
-            } catch (Exception ex) {
-                Error(ex);
-                return;
-            }
+            //try {
+            //    var aresult = parkeerRepo.GeefWeekoverzichtParkingVoorBedrijf(bestaandBedrijf);
+            //    Print(aresult.GeefXwaardeGeparkeerdenTotaalPerWeek(), "VoegAfspraakToe");
+            //} catch (Exception ex) {
+            //    Error(ex);
+            //    return;
+            //}
 
 
             //try {
