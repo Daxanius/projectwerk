@@ -164,7 +164,10 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			}
 
 			// Tekent de nummers met een increment
-			for (int i = 0; i <= Math.Floor(_hoogsteWaarde / WaardeIncrement); i++) {
+			double capaciteit = _hoogsteWaarde / WaardeIncrement;
+			int topInc = (int)Math.Floor(capaciteit);
+
+			for (int i = 0; i <= topInc; i++) {
 				double waarde = i * WaardeIncrement;
 				double y = GeefDataPositieY(waarde);
 
@@ -177,6 +180,23 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 						Foreground,
 						PixelsPerDip),
 					new(-TextPadding, y));
+			}
+
+			// Als de hoogste waarde groter is dan de hoeveel keer
+			// increment in waarde kan, geef aan welke waarde de hoogste
+			// waarde heeft
+			if (capaciteit > topInc) {
+				double y = GeefDataPositieY(_hoogsteWaarde);
+
+				drawingContext.DrawText(new(
+					_hoogsteWaarde.ToString(),
+					CultureInfo.CurrentCulture,
+					FlowDirection.RightToLeft,
+					new(Font),
+					FontSize,
+					Foreground,
+					PixelsPerDip),
+				new(-TextPadding, y));
 			}
 
 			// Tekent de legende
