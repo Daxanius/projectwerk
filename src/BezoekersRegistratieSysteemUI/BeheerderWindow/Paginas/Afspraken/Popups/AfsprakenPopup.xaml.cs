@@ -6,6 +6,7 @@ using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -101,6 +102,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			InitializeComponent();
 
 			BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
+			WerknemerEvents.UpdateWerknemer += UpdateWerknemer_Event;
 		}
 
 		private void UpdateGeselecteerdBedrijf_Event() {
@@ -259,6 +261,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 		#endregion
 
 		#region KiesWerknemerEiland
+		private void UpdateWerknemer_Event(WerknemerDTO werknemer) {
+			var werknemerLijst = (ObservableCollection<WerknemerDTO>)MedewerkersLijstVanBedrijf.ItemsSource;
+			var werknemerDTO = werknemerLijst.FirstOrDefault(w => w.Id == werknemer.Id);
+			if (werknemerDTO is null) return;
+			int index = werknemerLijst.IndexOf(werknemerDTO);
+			if (index > -1) {
+				werknemerLijst[index] = werknemer;
+				KiesWerknemerTextBlock.Text = werknemer.ToString();
+				MedewerkersLijstVanBedrijf.Items.Refresh();
+			}
+		}
 		private void KiesMedeWerkerClick(object sender, RoutedEventArgs e) {
 			object selectedItem = MedewerkersLijstVanBedrijf.SelectedValue;
 			if (selectedItem is not WerknemerDTO) return;

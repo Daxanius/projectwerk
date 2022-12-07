@@ -65,8 +65,19 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 			BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
 			WerknemerEvents.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => _werknemerLijst.Add(werknemer);
+			WerknemerEvents.UpdateWerknemer += WerknemerGeupdate_Event;
 
 			UpdateWerknemersMetNieuweDataOpScherm();
+		}
+
+		private void WerknemerGeupdate_Event(WerknemerDTO werknemer) {
+			if (werknemer is null) return;
+			WerknemerDTO? werknemerDTO = _werknemerLijst.Where(w => w.Id == werknemer.Id).FirstOrDefault();
+			if (werknemerDTO is null) return;
+			int index = _werknemerLijst.IndexOf(werknemerDTO);
+			if (index == -1) return;
+			_werknemerLijst.RemoveAt(index);
+			_werknemerLijst.Insert(index, werknemer);
 		}
 
 		private void UpdateGeselecteerdBedrijf_Event() {

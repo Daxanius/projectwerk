@@ -59,11 +59,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			}
 		}
 
-		private void KlikOpActionButtonOpRow(object sender, RoutedEventArgs e) {
-			Button? b = sender as Button;
-			WerknemerDTO? werknemer = b?.CommandParameter as WerknemerDTO;
-		}
-
 		public void SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			if (SelectedItem is null) return;
 			WerknemerDTO werknemer = SelectedItem;

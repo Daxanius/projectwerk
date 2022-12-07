@@ -100,6 +100,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, Functies));
 			await ApiController.UpdateWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo), oudeWerknemer.Id.Value);
 			WerknemerDTO? werknemer = await ApiController.GeefWerknemer(oudeWerknemer.Id.Value);
+			werknemer.Status = oudeWerknemer.Status;
 			WerknemerEvents.InvokeUpdateWerkenemer(werknemer);
 
 			SluitOverlay(werknemer);
@@ -115,7 +116,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			if (selectedItem is not string) return;
 			string functie = (string)selectedItem;
 
-			Functies.Remove(functie);
+			if (Functies.Count > 1) {
+				Functies.Remove(functie);
+			} else {
+				CustomMessageBox customMessageBox = new();
+				customMessageBox.Show("Werknemer moet minimum 1 functie hebben", "Error", ECustomMessageBoxIcon.Error);
+				return;
+			}
 		}
 		private void GaTerugNaarWerknemerUpdatenEiland(object sender, RoutedEventArgs e) {
 			FunctiesUpdatenEiland.Visibility = Visibility.Collapsed;
