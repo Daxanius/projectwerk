@@ -267,7 +267,46 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         }
 
         public GrafiekWeek GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
-            throw new NotImplementedException();
+            SqlConnection con = GetConnection();
+            string query =  "SET LANGUAGE Dutch; " +
+							"WITH " +
+								"offset AS( " +
+									"SELECT 0 AS dOffset " +
+									"UNION ALL " +
+									"SELECT dOffset - 1 FROM offset WHERE dOffset > -6 " +
+								"), " +
+								"days AS( " +
+									"SELECT UPPER(SUBSTRING(DATENAME(WEEKDAY, CONVERT(date, DATEADD(DAY, o.dOffset, GETDATE()))), 1,2)) AS abbrDay, " +
+									"CONVERT(date, DATEADD(DAY, o.dOffset, GETDATE())) AS da " +
+									"FROM offset o " +
+								"), " +
+								"parked AS( " +
+									"SELECT d.abbrDay, (SELECT COUNT(*) FROM ParkingPlaatsen pl WHERE CONVERT(date, pl.StartTijd) = d.da AND BedrijfId = 1) as totalCheckIn, d.da " +
+									"FROM days d " +
+								") " +
+							"SELECT abbrDay, totalCheckIn FROM parked p ORDER by p.da";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters["@BedrijfId"].Value = bedrijfId;
+                    IDataReader reader = cmd.ExecuteReader();
+                    GrafiekWeek grafiek = new GrafiekWeek();
+                    while (reader.Read()) {
+                        string xwaarde = ((int)reader["abbrDay"]).ToString();
+                        int checkIn = ((int)reader["totalCheckIn"]);
+                        grafiek.VoegWaardeToe(xwaarde, checkIn);
+                    }
+                    return grafiek;
+                }
+            } catch (Exception ex) {
+                ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("bedrijfid", bedrijfId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
     }
 }
