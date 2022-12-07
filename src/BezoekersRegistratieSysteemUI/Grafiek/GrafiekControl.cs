@@ -64,7 +64,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		private double GeefDataPositie(int index) {
 			// Voor een bar hebben we geen correctie nodig
 			int correctie = 0;
-			double offset = (Width / (_langsteSet * BarMargin)) / 2;
+			double offset = Width / (_langsteSet * BarMargin);
 			switch (GrafiekType) {
 				case GrafiekType.Lijn:
 					correctie = -1;
@@ -124,9 +124,9 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			// We gaan door alle datasets gaan en ze individueel tekenen
 			foreach (var dataset in Datasets) {
 				for (int i = 0; i < dataset.Data.Count; i++) {
-					Point punt = new(i * (Width / _langsteSet), Height - (dataset.Data[i] / _maxWaarde * Height * 0.9));
-					Rect rect = new(punt, new Size(Width / (_langsteSet * BarMargin), dataset.Data[i] / _maxWaarde * Height * 0.9));
-					drawingContext.DrawRectangle(dataset.Stroke, dataset.GeefPen(), rect);
+					Size grootte = new(Width / (_langsteSet * BarMargin), dataset.Data[i] / _maxWaarde * Height * 0.9);
+					Point punt = new(GeefDataPositie(i) - (grootte.Width / 2), Height - grootte.Height);
+					drawingContext.DrawRectangle(dataset.Stroke, dataset.GeefPen(), new(punt, grootte));
 				}
 			}
 		}
