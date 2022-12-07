@@ -61,20 +61,32 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 
 		// Berekent de visuele X positie voor het weergeven
 		// van een dataset op de gegeven index-positie
-		private double GeefDataPositie(int index) {
-			// Voor een bar hebben we geen correctie nodig
+		private double GeefDataPositieX(int index) {
+			// Correcties en offsets kunnen voorkomen bij
+			// verschillende grafiektypes
 			int correctie = 0;
-			double offset = Width / (_langsteSet * BarMargin);
+			double offset = 0;
+
 			switch (GrafiekType) {
 				case GrafiekType.Lijn:
 					correctie = -1;
-					offset = 0;
+					break;
+				case GrafiekType.Bar:
+					offset = Width / (_langsteSet * BarMargin);
 					break;
 				default:
 					break;
 			}
 
 			return (index * (Width / (_langsteSet + correctie))) + offset;
+		}
+
+		private double GeefDataPositieY(double data) {
+			return Height - (data / _maxWaarde * Height * 0.9);
+		}
+
+		private double GeefDataHoogte(double data) {
+			return data / _maxWaarde * Height * 0.9;
 		}
 
 		/// <summary>
@@ -84,7 +96,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		private void TekenAchtergrond(DrawingContext drawingContext) {
 			for (int i = 0; i < _langsteSet; i++) {
 				// X positie berekenen
-				double x = GeefDataPositie(i);
+				double x = GeefDataPositieX(i);
 
 				// Verticale dotted lijn
 				for (int ii = 0; ii < Height; ii += (StrokeDot + StrokeDotPadding)) {
@@ -106,10 +118,10 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			// We gaan door alle datasets gaan en ze individueel tekenen
 			foreach (var dataset in Datasets) {
 				for (int i = 0; i < dataset.Data.Count - 1; i++) {
-					Point punt = new(i * (Width / (_langsteSet - 1)),
-						Height - (dataset.Data[i] / _maxWaarde * Height * 0.9));
-					Point puntNext = new((i + 1) * (Width / (_langsteSet - 1)),
-						Height - (dataset.Data[i + 1] / _maxWaarde * Height * 0.9));
+					Point punt = new(GeefDataPositieX(i),
+						GeefDataPositieY(dataset.Data[i]));
+					Point puntNext = new(GeefDataPositieX(i +1),
+						GeefDataPositieY(dataset.Data[i +1]));
 
 					drawingContext.DrawLine(dataset.GeefPen(), punt, puntNext);
 				}
@@ -124,8 +136,8 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			// We gaan door alle datasets gaan en ze individueel tekenen
 			foreach (var dataset in Datasets) {
 				for (int i = 0; i < dataset.Data.Count; i++) {
-					Size grootte = new(Width / (_langsteSet * BarMargin), dataset.Data[i] / _maxWaarde * Height * 0.9);
-					Point punt = new(GeefDataPositie(i) - (grootte.Width / 2), Height - grootte.Height);
+					Size grootte = new(Width / (_langsteSet * BarMargin), GeefDataHoogte(dataset.Data[i]));
+					Point punt = new(GeefDataPositieX(i) - (grootte.Width / 2), Height - grootte.Height);
 					drawingContext.DrawRectangle(dataset.Stroke, dataset.GeefPen(), new(punt, grootte));
 				}
 			}
@@ -138,7 +150,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		private void TekenInfo(DrawingContext drawingContext) {
 			// Tekent de onderste legende
 			for (int i = 0; i < KolomLabels.Count && i < _langsteSet; i++) {
-				double x = GeefDataPositie(i);
+				double x = GeefDataPositieX(i);
 				drawingContext.DrawText(new(
 						KolomLabels[i],
 						CultureInfo.CurrentCulture,
@@ -152,7 +164,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 
 			// Tekent de nummers met een increment
 			for (int i = 0; i <= _maxWaarde; i += WaardeIncrement) {
-				var y = Height - (i / _maxWaarde * Height * 0.9);
+				var y = GeefDataPositieY(i);
 
 				drawingContext.DrawText(new(
 						i.ToString(),
@@ -250,8 +262,6 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			// De dataset toevoegen
 			Datasets.Add(ds);
 			Datasets.Add(ds1);
-
-
 
 			//GrafiekType = GrafiekType.Bar;
 		}
