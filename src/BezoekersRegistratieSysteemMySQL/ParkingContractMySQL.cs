@@ -247,6 +247,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			}
 		}
 
+        /// <summary>
+        /// Geef aantal parkingplaatsen die op een huidig contract staan
+        /// </summary>
+        /// <param name="bedrijfid">bedrijfid wiens contract aantal moet weergegeven worden</param>
+        /// <returns>int aantal plaatsen</returns>
         public int GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfid) {
             MySqlConnection con = GetConnection();
             string query = "SELECT AantalPlaatsen " +

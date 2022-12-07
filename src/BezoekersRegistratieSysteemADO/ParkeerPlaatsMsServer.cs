@@ -191,10 +191,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		}
 
         /// <summary>
-        /// Returned het aantal parkeerplaatsen die bezet zijn per bedrijf
+        /// Returned het aantal bezette plaatsen op de parking per bedrijf
         /// </summary>
-        /// <param name="bedrijfId">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-        /// <returns>int aantalPlaatsenDieBezetZijn</returns>
+        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+        /// <returns>int aantal bezette plaatsen</returns>
         public int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long bedrijfId) {
             SqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
@@ -217,6 +217,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
+        /// <summary>
+        /// Returned een grafiek met dag details over de parking voor een specifiek bedrijf
+        /// </summary>
+        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+        /// <returns>Grafiek object</returns>
         public GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
             SqlConnection con = GetConnection();
             string query =  "WITH " +
@@ -273,6 +278,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
+        /// <summary>
+        /// Returned een grafiek met data over de parking voor een specifiek bedrijf
+        /// </summary>
+        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+        /// <returns>Grafiek object</returns>
         public GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
             SqlConnection con = GetConnection();
             string query =  "SET LANGUAGE Dutch; " +

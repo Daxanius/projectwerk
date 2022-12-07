@@ -191,6 +191,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			}
 		}
 
+        /// <summary>
+        /// Returned het aantal bezette plaatsen op de parking per bedrijf
+        /// </summary>
+        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+        /// <returns>int aantal bezette plaatsen</returns>
         public int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long bedrijfId) {
             MySqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
@@ -214,7 +219,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         }
 
 
-
+        /// <summary>
+        /// Returned een grafiek met dag details over de parking voor een specifiek bedrijf
+        /// </summary>
+        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+        /// <returns>Grafiek object</returns>
         public GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
             MySqlConnection con = GetConnection();
             string query =  "WITH " +
@@ -271,6 +280,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
             }
         }
 
+        /// <summary>
+        /// Returned een grafiek met data over de parking voor een specifiek bedrijf
+        /// </summary>
+        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+        /// <returns>Grafiek object</returns>
         public GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
             MySqlConnection con = GetConnection();
             string query =  "SET lc_time_names = 'nl_BE'; " +

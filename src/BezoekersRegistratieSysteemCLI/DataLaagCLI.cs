@@ -33,16 +33,19 @@ namespace BezoekersRegistratieSysteemCLI {
 			Bedrijf bestaandBedrijf = new Bedrijf(1, "allphi", "BE0838576480", true, "093961130", "info@allphi.be", "Guldensporenpark 24 9820 merelbeke");
 			Werknemer bestaandWerknemer = new Werknemer(38, "MArcella", "Lawrence");
 			bestaandWerknemer.VoegBedrijfEnFunctieToeAanWerknemer(bestaandBedrijf, "MarcellaLawrence@allphi.be", "Logistiek");
-			object result;
+			//object result;
 
 
-            //try {
-            //    var aresult = parkeerRepo.GeefWeekoverzichtParkingVoorBedrijf(bestaandBedrijf);
-            //    Print(aresult.GeefXwaardeGeparkeerdenTotaalPerWeek(), "VoegAfspraakToe");
-            //} catch (Exception ex) {
-            //    Error(ex);
-            //    return;
-            //}
+            try {
+                var result = werknemerRepo.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(bestaandWerknemer);
+                foreach (var item in result) {
+                    Print(item, "VoegAfspraakToe");
+                    Print(item.GeefBedrijvenEnFunctiesPerWerknemer(), "VoegAfspraakToe");
+                }
+            } catch (Exception ex) {
+                Error(ex);
+                return;
+            }
 
 
             //try {
