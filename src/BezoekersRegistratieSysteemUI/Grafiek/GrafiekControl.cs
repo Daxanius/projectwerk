@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -50,13 +51,13 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		/// <summary>
 		/// Met welke waarden de grafiek te incrementeren
 		/// </summary>
-		public int WaardeIncrement { get; set; } = 10;
+		public double WaardeIncrement { get; set; } = 10;
 		public double TextPadding { get; set; } = 10;
 		public double PixelsPerDip { get; set; } = 10;
 		public double BarMargin { get; set; } = 2;
 		public double LegendeMargin { get; set; } = 2;
 
-		private double _maxWaarde = 0;
+		private double _hoogsteWaarde = 0;
 		private int _langsteSet = 0;
 
 		// Berekent de visuele X positie voor het weergeven
@@ -82,11 +83,11 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		}
 
 		private double GeefDataPositieY(double data) {
-			return Height - (data / _maxWaarde * Height * 0.9);
+			return Height - (data / _hoogsteWaarde * Height * 0.9);
 		}
 
 		private double GeefDataHoogte(double data) {
-			return data / _maxWaarde * Height * 0.9;
+			return data / _hoogsteWaarde * Height * 0.9;
 		}
 
 		/// <summary>
@@ -117,7 +118,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		private void TekenDatasetsLijn(DrawingContext drawingContext) {
 			// We gaan door alle datasets gaan en ze individueel tekenen
 			foreach (var dataset in Datasets) {
-				for (int i = 0; i < dataset.Data.Count - 1; i++) {
+				for (int i = 0; i < dataset.Data.Count -1; i++) {
 					Point punt = new(GeefDataPositieX(i),
 						GeefDataPositieY(dataset.Data[i]));
 					Point puntNext = new(GeefDataPositieX(i +1),
@@ -163,11 +164,12 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			}
 
 			// Tekent de nummers met een increment
-			for (int i = 0; i <= _maxWaarde; i += WaardeIncrement) {
-				var y = GeefDataPositieY(i);
+			for (int i = 0; i <= Math.Floor(_hoogsteWaarde / WaardeIncrement); i++) {
+				double waarde = i * WaardeIncrement;
+				double y = GeefDataPositieY(waarde);
 
 				drawingContext.DrawText(new(
-						i.ToString(),
+						waarde.ToString(),
 						CultureInfo.CurrentCulture,
 						FlowDirection.RightToLeft,
 						new(Font),
@@ -203,7 +205,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		protected override void OnRender(DrawingContext drawingContext) {
 			// Haalt de grootste sets op
 			_langsteSet = Datasets.Max(s => s.Data.Count as int?) ?? 0;
-			_maxWaarde = Datasets.Max(x => x.Data.Max() as double?) ?? 0;
+			_hoogsteWaarde = Datasets.Max(x => x.Data.Max() as double?) ?? 0;
 
 			base.OnRender(drawingContext);
 			TekenAchtergrond(drawingContext);
