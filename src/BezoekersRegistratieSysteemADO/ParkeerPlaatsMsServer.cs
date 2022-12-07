@@ -119,7 +119,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			try {
 				Bedrijf bedrijf = new Bedrijf();
 				bedrijf.ZetId(bedrijfId);
-				return GeefNummerplaten(bedrijf, true).Count();
+				return GeefNummerplaten(bedrijf, true, 1).Count();
 			} catch (Exception ex) {
 				throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
@@ -132,7 +132,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// <returns>IReadOnlyList<Parkeerplaats> parkeerplaatsen</returns>
         public IReadOnlyList<Parkeerplaats> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
             try {
-                return GeefNummerplaten(bedrijf, false);
+                return GeefNummerplaten(bedrijf, true, 1);
             } catch (Exception ex) {
                 throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
             }
@@ -144,9 +144,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
         /// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
         /// <param name="bezet">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
         /// <returns>IReadOnlyList<String> Nummerplaten</returns>
-        private IReadOnlyList<Parkeerplaats> GeefNummerplaten(Bedrijf bedrijf, bool bezet) {
+        private IReadOnlyList<Parkeerplaats> GeefNummerplaten(Bedrijf bedrijf, bool? bezet, int? statusId) {
 			SqlConnection con = GetConnection();
-			string query = "SELECT pp.Nummerplaat " +
+			string query = "SELECT pp.Nummerplaat, pp.StartTijd, pp.EindTijd, pp.StatusId " +
 						   "FROM Parkingplaatsen pp";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
@@ -161,8 +161,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
 						cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
 					}
-					string bezetOfNietBezet = bezet ? "" : "NOT";
-                    query += $" AND pp.EindTijd IS {bezetOfNietBezet} NULL";
+					if (bezet.HasValue) {
+                        string bezetOfNietBezet = bezet.Value ? "" : "NOT";
+                        query += $" AND pp.EindTijd IS {bezetOfNietBezet} NULL";
+                    }
+					if (statusId.HasValue) {
+						query += " AND pp.StatusId = @StatusId";
+						cmd.Parameters.Add(new SqlParameter("@StatusId", SqlDbType.Int));
+						cmd.Parameters["@StatusId"].Value = statusId.Value;
+					}
                     
 					cmd.CommandText = query;
 					IDataReader reader = cmd.ExecuteReader();

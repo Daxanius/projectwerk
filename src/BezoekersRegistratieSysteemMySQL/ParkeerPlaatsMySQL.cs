@@ -119,7 +119,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			try {
 				Bedrijf bedrijf = new Bedrijf();
 				bedrijf.ZetId(bedrijfId);
-				return GeefNummerplaten(bedrijf, true).Count();
+				return GeefNummerplaten(bedrijf, true, 1).Count();
 			} catch (Exception ex) {
 				throw new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
@@ -130,22 +130,23 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		/// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
 		/// <returns>IReadOnlyList<String> Nummerplaten</returns>
-		public IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
-			try {
-				return GeefNummerplaten(bedrijf, false);
-			} catch (Exception ex) {
-				throw new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-			}
-		}
-		/// <summary>
-		/// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
-		/// </summary>
-		/// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-		/// <param name="bezet">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-		/// <returns>IReadOnlyList<String> Nummerplaten</returns>
-		private IReadOnlyList<string> GeefNummerplaten(Bedrijf bedrijf, bool bezet) {
+        public IReadOnlyList<Parkeerplaats> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
+            try {
+                return GeefNummerplaten(bedrijf, true, 1);
+            } catch (Exception ex) {
+                throw new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
+        /// </summary>
+        /// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
+        /// <param name="bezet">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
+        /// <returns>IReadOnlyList<String> Nummerplaten</returns>
+        private IReadOnlyList<Parkeerplaats> GeefNummerplaten(Bedrijf bedrijf, bool? bezet, int? statusId) {
 			MySqlConnection con = GetConnection();
-			string query = "SELECT pp.Nummerplaat " +
+			string query = "SELECT pp.Nummerplaat, pp.StartTijd, pp.EindTijd, pp.statusId " +
 						   "FROM Parkingplaatsen pp";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
@@ -160,17 +161,26 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						cmd.Parameters.Add(new MySqlParameter("@BTWNr", MySqlDbType.VarChar));
 						cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
 					}
-					if (bezet) {
-						query += " AND pp.EindTijd is null";
-					}
-					cmd.CommandText = query;
-					IDataReader reader = cmd.ExecuteReader();
-					List<string> nummerplaten = new List<string>();
-					while (reader.Read()) {
-						nummerplaten.Add((string)reader["Nummerplaat"]);
-					}
-					return nummerplaten.AsReadOnly();
-				}
+                    if (bezet.HasValue) {
+                        string bezetOfNietBezet = bezet.Value ? "" : "NOT";
+                        query += $" AND pp.EindTijd IS {bezetOfNietBezet} NULL";
+                    }
+                    if (statusId.HasValue) {
+                        query += " AND pp.StatusId = @StatusId";
+                        cmd.Parameters.Add(new MySqlParameter("@StatusId", SqlDbType.Int));
+                        cmd.Parameters["@StatusId"].Value = statusId.Value;
+                    }
+
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    List<Parkeerplaats> nummerplaten = new List<Parkeerplaats>();
+                    while (reader.Read()) {
+                        DateTime start = (DateTime)reader["StartTijd"];
+                        DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
+                        nummerplaten.Add(new Parkeerplaats(bedrijf, start, eind, (string)reader["Nummerplaat"]));
+                    }
+                    return nummerplaten.AsReadOnly();
+                }
 			} catch (Exception ex) {
 				ParkeerPlaatsMySQLException exx = new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("bedrijf", bedrijf);
@@ -185,9 +195,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
             throw new NotImplementedException();
         }
 
-        IReadOnlyList<Parkeerplaats> IParkeerplaatsRepository.GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
-            throw new NotImplementedException();
-        }
+
 
         public GrafiekDag GeefUuroverzichtParkingVoorBedrijf(long id) {
             throw new NotImplementedException();
@@ -196,5 +204,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
         public GrafiekWeek GeefWeekoverzichtParkingVoorBedrijf(long id) {
             throw new NotImplementedException();
         }
+
+
     }
 }

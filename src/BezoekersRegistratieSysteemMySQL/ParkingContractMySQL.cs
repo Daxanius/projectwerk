@@ -108,7 +108,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public ParkingContract GeefParkingContract(long bedrijfId) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT pc.Id, pc.StartTijd, pc.Eindtijd, pc.AantalPlaatsen, " +
-						   "b.Id As BedrijfId, b.Naam, b.BTWNr, b.TeleNR, b.Email, b.Adres, b.BTWChecked" +
+						   "b.Id As BedrijfId, b.Naam, b.BTWNr, b.TeleNR, b.Email, b.Adres, b.BTWChecked " +
 						   "FROM ParkingContract pc " +
 						   "JOIN bedrijf b ON(pc.bedrijfId = b.Id) " +
 						   "WHERE (@vandaagDatum BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
@@ -118,7 +118,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmd.CommandText = query;
 					cmd.Parameters.Add(new MySqlParameter("@vandaagDatum", MySqlDbType.Date));
 					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
-					cmd.Parameters["@StartTijd"].Value = DateTime.Today;
+					cmd.Parameters["@vandaagDatum"].Value = DateTime.Today;
 					cmd.Parameters["@bedrijfId"].Value = bedrijfId;
 					IDataReader reader = cmd.ExecuteReader();
 					ParkingContract contract = null;
@@ -134,7 +134,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						string bedrijfTele = (string)reader["TeleNR"];
 						string bedrijfMail = (string)reader["Email"];
 						string bedrijfAdres = (string)reader["Adres"];
-						bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+						bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 1 ? true : false;
 						Bedrijf bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
 						contract = new ParkingContract(contractId, bedrijf, contractStart, contractEind, contractPlaatsen);
 					}
