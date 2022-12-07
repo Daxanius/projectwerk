@@ -8,12 +8,12 @@ namespace BezoekersRegistratieSysteemBL.Domeinen {
     public class GrafiekDag {
         private Dictionary<string, int> XwaardeCheckInsPerUur { get; set; } = new Dictionary<string, int>();
         private Dictionary<string, int> XwaardeGeparkeerdenTotaalPerUur { get; set; } = new Dictionary<string, int>();
-        public void VoegWaardesToe(string xwaarde, int GeparkeerdenUurlijksPerDag, int GeparkeerdenTotaalPerDag) {
+        public void VoegWaardesToe(string xwaarde, int CheckInsPerUur, int GeparkeerdenTotaalPerUur) {
             if (XwaardeCheckInsPerUur.ContainsKey(xwaarde)) {
                 throw new Exception("Bevat al deze waarde");
             }
-            XwaardeCheckInsPerUur.Add(xwaarde, GeparkeerdenUurlijksPerDag);
-            XwaardeGeparkeerdenTotaalPerUur.Add(xwaarde, GeparkeerdenTotaalPerDag);
+            XwaardeCheckInsPerUur.Add(xwaarde, CheckInsPerUur);
+            XwaardeGeparkeerdenTotaalPerUur.Add(xwaarde, GeparkeerdenTotaalPerUur);
         }
         public IReadOnlyDictionary<string, int> GeefXwaardeCheckInsPerUur() {
             return XwaardeCheckInsPerUur;
