@@ -36,7 +36,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new ParkeerplaatsManagerException("ParkeerManager - VoegNummerplaatToe - Bedrijf heeft geen parking contract");
 			if (_parkeerplaatsRepository.BestaatNummerplaat(parkeerplaats.Nummerplaat))
 				throw new ParkeerplaatsManagerException("ParkeerManager - VoegNummerplaatToe - Nummerplaat bestaat al");
-			if (_parkingContractRepository.GeefParkingContract(parkeerplaats.Bedrijf.Id).AantalPlaatsen == _parkeerplaatsRepository.GeefHuidigBezetteParkeerplaatsenPerBedrijf(parkeerplaats.Bedrijf.Id))
+			if (_parkingContractRepository.GeefParkingContract(parkeerplaats.Bedrijf.Id).AantalPlaatsen == _parkeerplaatsRepository.GeefHuidigBezetteParkeerplaatsenVoorBedrijf(parkeerplaats.Bedrijf.Id))
 				throw new ParkeerplaatsManagerException("ParkeerManager - VoegNummerplaatToe - Parking is vol");
 			try {
 				_parkeerplaatsRepository.CheckNummerplaatIn(parkeerplaats);
@@ -72,7 +72,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="ParkeerplaatsManagerException">"ParkeerManager - GeefNummerplatenPerBedrijf - mag niet leeg zijn"</exception>
 		/// <exception cref="ParkeerplaatsManagerException">"ParkeerManager - GeefNummerplatenPerBedrijf - Bedrijf bestaat niet"</exception>
 		/// <exception cref="ParkeerplaatsManagerException">ex.Message</exception>
-		public IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
+		public IReadOnlyList<Parkeerplaats> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
 			if (bedrijf == null)
 				throw new ParkeerplaatsManagerException("ParkeerManager - GeefNummerplatenPerBedrijf - mag niet leeg zijn");
 			if (_parkingContractRepository.GeefParkingContract(bedrijf.Id) == null)
@@ -84,31 +84,47 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
-		public int GeefHuidigBezetteParkeerplaatsenPerBedrijf(Bedrijf bedrijf) {
+		public int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(Bedrijf bedrijf) {
 			if (bedrijf == null)
 				throw new ParkeerplaatsManagerException("ParkeerManager - GeefHuidigBezetteParkeerplaatsenPerBedrijf - Bedrijf mag niet leeg zijn");
-			return _parkeerplaatsRepository.GeefHuidigBezetteParkeerplaatsenPerBedrijf(bedrijf.Id);
+			return _parkeerplaatsRepository.GeefHuidigBezetteParkeerplaatsenVoorBedrijf(bedrijf.Id);
 		}
 
-		///// <summary>
-		///// 
-		///// </summary>
-		///// <param></param>
-		///// <exception cref="ParkeerplaatsManagerException"></exception>
-		//public void BewerkParkeerplaats(Parkeerplaats parkeerplaats)
-		//{
-		//    if (parkeerplaats == null)
-		//        throw new ParkeerplaatsManagerException("ParkeerManager - BewerkParkeerplaats - Parkeerplaats mag niet leeg zijn");
-		//    if (!_parkeerplaatsRepository.BestaatParkeerplaats(parkeerplaats))
-		//        throw new ParkeerplaatsManagerException("ParkeerManager - BewerkParkeerplaats - Parkeerplaats bestaat niet");
-		//    try
-		//    {
-		//        _parkeerplaatsRepository.BewerkParkeerplaats(parkeerplaats);
-		//    }
-		//    catch (Exception ex)
-		//    {
-		//        throw new ParkeerplaatsManagerException(ex.Message);
-		//    }
-		//}
-	}
+        public Grafiek GeefUuroverzichtParkingVoorBedrijf(Bedrijf bedrijf)
+        {
+            if (bedrijf == null)
+                throw new ParkeerplaatsManagerException("ParkeerManager - GeefGrafiekPerBedrijf - Bedrijf mag niet leeg zijn");
+            return _parkeerplaatsRepository.GeefUuroverzichtParkingVoorBedrijf(bedrijf.Id);
+        }
+
+        public Grafiek GeefWeekoverzichtParkingVoorBedrijf(Bedrijf bedrijf)
+        {
+            if (bedrijf == null)
+                throw new ParkeerplaatsManagerException("ParkeerManager - GeefGrafiekPerBedrijf - Bedrijf mag niet leeg zijn");
+            return _parkeerplaatsRepository.GeefWeekoverzichtParkingVoorBedrijf(bedrijf.Id);
+        }
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param></param>
+        ///// <exception cref="ParkeerplaatsManagerException"></exception>
+        //public void BewerkParkeerplaats(Parkeerplaats parkeerplaats)
+        //{
+        //    if (parkeerplaats == null)
+        //        throw new ParkeerplaatsManagerException("ParkeerManager - BewerkParkeerplaats - Parkeerplaats mag niet leeg zijn");
+        //    if (!_parkeerplaatsRepository.BestaatParkeerplaats(parkeerplaats))
+        //        throw new ParkeerplaatsManagerException("ParkeerManager - BewerkParkeerplaats - Parkeerplaats bestaat niet");
+        //    try
+        //    {
+        //        _parkeerplaatsRepository.BewerkParkeerplaats(parkeerplaats);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new ParkeerplaatsManagerException(ex.Message);
+        //    }
+        //}
+
+
+    }
 }
