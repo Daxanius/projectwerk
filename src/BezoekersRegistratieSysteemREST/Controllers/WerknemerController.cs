@@ -224,7 +224,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				Werknemer werknemer = werknemerInput.NaarBusiness(_bedrijfManager);
 				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(werknemer)));
 			} catch (Exception ex) {
-				return BadRequest(ex.Message);
+				return NotFound(ex.Message);
 			}
 		}
 	}
