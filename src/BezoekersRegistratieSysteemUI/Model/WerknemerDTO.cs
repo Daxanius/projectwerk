@@ -29,14 +29,6 @@ namespace BezoekersRegistratieSysteemUI.Model {
 			WerknemerInfoLijst = werknemerinfoLijst;
 		}
 
-		public WerknemerDTO(long id, string voornaam, string achternaam, string email, string isWerknemerVrij) {
-			Id = id;
-			Voornaam = voornaam;
-			Achternaam = achternaam;
-			Email = email;
-			Status = isWerknemerVrij;
-		}
-
 		public WerknemerDTO(long id, string voornaam, string achternaam, string email, IEnumerable<string> functie, string isWerknemerVrij) {
 			Id = id;
 			Voornaam = voornaam;

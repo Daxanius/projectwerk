@@ -21,21 +21,27 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 			InitializeComponent();
 
 			AfspraakEvents.NieuweAfspraakToegevoegd += (AfspraakDTO afspraak) => {
-				Task.Run(() => {
-					Dispatcher.Invoke(() => {
-						ItemSource.Add(afspraak);
-						List<AfspraakDTO> afspraken = ItemSource.ToList();
-						ItemSource.Clear();
-						afspraken.OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam).ToList().ForEach(a => ItemSource.Add(a));
-					});
-				});
+				List<AfspraakDTO> afspraken = ItemSource.ToList();
+				afspraken.Add(afspraak);
+				int index = afspraken.OrderByDescending(a => a.StartTijd).ThenByDescending(a => a.Bezoeker.Voornaam).ToList().IndexOf(afspraak);
+				ItemSource.Insert(index, afspraak);
 			};
+			AfspraakEvents.VerwijderAfspraak += UpdateAfspraak_Event;
+			AfspraakEvents.UpdateAfspraak += UpdateAfspraak_Event;
 
 			UpdateAfsprakenOpSchermMetNieuweData(HaalAlleAfspraken());
 
 			//Kijk of je kan rechts klikken om iets te doen
 			AfsprakenLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
 			ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
+		}
+
+		private void UpdateAfspraak_Event(AfspraakDTO afspraak) {
+			if (afspraak is null) return;
+			int index = ItemSource.IndexOf(afspraak);
+			if (index == -1) return;
+			ItemSource.RemoveAt(index);
+			ItemSource.Insert(index, afspraak);
 		}
 
 		public void AutoUpdateIntervalAfspraken() {

@@ -21,8 +21,7 @@
                 Padding="10"
                 Background="{StaticResource LichtGrijsAccent}"
                 BorderBrush="Transparent"
-                BorderThickness="0"
-                >
+                BorderThickness="0">
                 <ContextMenu.Resources>
                     <Style TargetType="ContextMenu">
                         <Setter Property="Template">

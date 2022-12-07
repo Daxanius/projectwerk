@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Api.Input;
+﻿using BezoekersRegistratieSysteemBL.Domeinen;
+using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Exceptions;
@@ -8,12 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using BezoekersRegistratieSysteemBL.Domeinen;
 
 namespace BezoekersRegistratieSysteemUI.Api {
 	public static class ApiController {
@@ -23,7 +22,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 		#region Request Methods
 
-		public static async Task<(bool, T?)> Get<T>(string url, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Get<T>(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -50,12 +49,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task<(bool, T?)> GetMetBody<T>(string url, string body, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> GetMetBody<T>(string url, string body) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -88,12 +85,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async void Get(string url, string defaultFoutMelding = "") {
+		public static async void Get(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -110,13 +105,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
-		public static async Task<(bool, T?)> Put<T>(string url, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Put<T>(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -143,12 +136,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task<(bool, T?)> Put<T>(string url, string json, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Put<T>(string url, string json) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -175,12 +166,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task Put(string url, string defaultFoutMelding = "") {
+		public static async Task Put(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -197,12 +186,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async void Put(string url, string json, string defaultFoutMelding = "") {
+		public static async Task Put(string url, string json) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -213,19 +200,18 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				using HttpClient client = new();
 				client.Timeout = _timeout;
 
-				HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, json);
+				var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+				HttpResponseMessage response = await client.PutAsync(apiUrl, httpContent);
 
 				if (!response.IsSuccessStatusCode) {
 					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
-		public async static Task Delete(string url, string defaultFoutMelding = "") {
+		public async static Task Delete(string url) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -242,13 +228,11 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
 
-		public static async Task<(bool, T?)> Post<T>(string url, string json, string defaultFoutMelding = "") {
+		public static async Task<(bool, T?)> Post<T>(string url, string json) {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -275,12 +259,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					return (false, parsed);
 				}
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
-		public static async Task<bool> Post(string url, string json = "", string defaultFoutMelding = "") {
+		public static async Task<bool> Post(string url, string json = "") {
 			try {
 				if (url.Length > 1 && url[0] == '/') {
 					url = url[1..];
@@ -299,8 +281,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 
 				return true;
 			} catch (Exception ex) {
-				if (defaultFoutMelding != "")
-					throw new FetchApiException(defaultFoutMelding, ex.InnerException);
 				throw new FetchApiException(ex.Message, ex.InnerException);
 			}
 		}
@@ -406,15 +386,17 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-		public static WerknemerOutputDTO? GeefWerknemer(long werknemerId) {
-			return Task.Run(async () => {
-				(bool isvalid, WerknemerOutputDTO werknemer) = await Get<WerknemerOutputDTO>($"werknemer/{werknemerId}");
-				if (isvalid) {
-					return werknemer;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemer");
-				}
-			}).Result;
+		public static async Task<WerknemerDTO?> GeefWerknemer(long werknemerId) {
+			(bool isvalid, WerknemerOutputDTO apiWerknemer) = await Get<WerknemerOutputDTO>($"werknemer/{werknemerId}");
+			if (isvalid) {
+				List<WerknemerInfoDTO> lijstWerknemerInfo = apiWerknemer.WerknemerInfo.Select(w => new WerknemerInfoDTO(BeheerderWindow.GeselecteerdBedrijf, w.Email, w.Functies)).ToList();
+				string emailVanGeselecteerdBedrijf = lijstWerknemerInfo.First(w => w.Bedrijf.Id == BeheerderWindow.GeselecteerdBedrijf.Id).Email;
+				WerknemerDTO werknemer = new WerknemerDTO(apiWerknemer.Id, apiWerknemer.Voornaam, apiWerknemer.Achternaam, lijstWerknemerInfo);
+				werknemer.Email = emailVanGeselecteerdBedrijf;
+				return werknemer;
+			} else {
+				throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemer");
+			}
 		}
 		public static IEnumerable<WerknemerOutputDTO>? GeefWerknemersVanBedrijf(long bedrijfId, string naam, string achternaam) {
 			return Task.Run(async () => {
@@ -468,7 +450,9 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					apiWerknemers.ForEach((api) => {
 						List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => new WerknemerInfoDTO(bedrijf, w.Email, w.Functies)).ToList());
 						WerknemerInfoOutputDTO werknemerInfo = api.WerknemerInfo.First(w => w.Bedrijf.Id == bedrijf.Id);
-						ItemSource.Add(new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, werknemerInfo.StatusNaam ?? ""));
+						var werknemer = new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, werknemerInfo.StatusNaam ?? "");
+						werknemer.WerknemerInfoLijst = lijstWerknemerInfo;
+						ItemSource.Add(werknemer);
 					});
 					return ItemSource;
 				} else {
@@ -514,7 +498,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 					BezoekerDTO bezoeker = new BezoekerDTO(apiAfspraken.Bezoeker.Id, apiAfspraken.Bezoeker.Naam.Split(";")[0], apiAfspraken.Bezoeker.Naam.Split(";")[1], apiAfspraken.Bezoeker.Email, apiAfspraken.Bezoeker.BezoekerBedrijf);
 					return new AfspraakDTO(apiAfspraken.Id, bezoeker, BeheerderWindow.GeselecteerdBedrijf.Naam, werknemer, apiAfspraken.Starttijd, apiAfspraken.Eindtijd, apiAfspraken.StatusNaam);
 				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
+					throw new FetchApiException("Er is iets fout gegaan bij het maken van een afspraak");
 				}
 			}).Result;
 		}
@@ -574,7 +558,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		}
 
 		public static void BeeindigAlleOnAfgeslotenAfspraken() {
-			Task.Run(() => Put("afspraak/end/lopend"));
+			Task.Run(async () => await Put("afspraak/end/lopend"));
 		}
 
 		public async static Task VerwijderWerknemerVanBedrijf(long id) {
@@ -604,8 +588,13 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				BezoekerDTO bezoeker = new(apiAfspraak.Bezoeker.Id, apiAfspraak.Bezoeker.Naam.Split(";")[0], apiAfspraak.Bezoeker.Naam.Split(";")[1], apiAfspraak.Bezoeker.Email, apiAfspraak.Bezoeker.BezoekerBedrijf);
 				return new AfspraakDTO(apiAfspraak.Id, bezoeker, BeheerderWindow.GeselecteerdBedrijf.Naam, werknemer, apiAfspraak.Starttijd, apiAfspraak.Eindtijd, apiAfspraak.StatusNaam);
 			} else {
-				throw new FetchApiException("Er is iets fout gegaan bij het toevoegen van het bedrijf");
+				throw new FetchApiException("Er is iets fout gegaan bij het ophalen van een afspraak");
 			}
+		}
+
+		public static async Task UpdateWerknemer(WerknemerInputDTO werknemerInput, long werknemerId) {
+			string payload = JsonConvert.SerializeObject(werknemerInput);
+			await Put($"werknemer/{werknemerId}/bedrijf/{BeheerderWindow.GeselecteerdBedrijf.Id}", payload);
 		}
 		#endregion
 	}

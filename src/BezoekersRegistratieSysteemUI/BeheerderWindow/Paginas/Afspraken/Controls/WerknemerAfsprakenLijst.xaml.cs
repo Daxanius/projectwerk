@@ -56,7 +56,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			InitializeComponent();
 			ItemSource.CollectionChanged += ItemSource_CollectionChanged;
 			AfspraakEvents.VerwijderAfspraak += VerwijderAfspraak_Event;
-			AfspraakEvents.UpdateAfspraak += AfspraakGewijzig_Event;
+			AfspraakEvents.UpdateAfspraak += UpdatedAfspraak_Event;
 		}
 
 		//Auto Columns Resize on Change
@@ -84,9 +84,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 			}
 		}
 
-		private void AfspraakGewijzig_Event(AfspraakDTO afspraak) {
+		private void UpdatedAfspraak_Event(AfspraakDTO afspraak) {
 			if (afspraak is null) return;
-			int index = ItemSource.IndexOf(ItemSource.FirstOrDefault(a => a.Id == afspraak.Id));
+			int index = ItemSource.IndexOf(afspraak);
 			if (index > -1) {
 				ItemSource.RemoveAt(index);
 				ItemSource.Insert(index, afspraak);
@@ -95,7 +95,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		private async void VerwijderAfspraak_Click(object sender, RoutedEventArgs e) {
 			if (ContextMenu.DataContext is AfspraakDTO afspraak) {
-				if (afspraak.EindTijd.IsNietLeeg()) return;
+				if (afspraak.EindTijd.IsNietLeeg() || afspraak.Status.ToLower() == "verwijderd") return;
 
 				CustomMessageBox warningMessage = new();
 				ECustomMessageBoxResult result = warningMessage.Show("Ben je het zeker?", $"Wil je deze afspraak verwijderen", ECustomMessageBoxIcon.Warning);
@@ -118,9 +118,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		}
 
 		private void VerwijderAfspraak_Event(AfspraakDTO afspraak) {
-			if (ItemSource.Where(_afspraak => _afspraak.Id == _afspraak.Id).Count() > 0) {
-				ItemSource.Remove(afspraak);
-			}
+			int index = ItemSource.IndexOf(afspraak);
+			if (index == -1) return;
+			ItemSource.RemoveAt(index);
+			ItemSource.Insert(index, afspraak);
 		}
 	}
 }

@@ -9,12 +9,12 @@ namespace BezoekersRegistratieSysteemUI.Events {
 		public readonly static DispatcherTimer _refreshTimer = new DispatcherTimer();
 		public readonly static DispatcherTimer _refreshTimerTimout = new DispatcherTimer();
 		public GlobalEvents() {
-			_refreshTimer.Interval = TimeSpan.FromSeconds(5);
+			_refreshTimer.Interval = TimeSpan.FromSeconds(500);
 			_refreshTimer.Start();
 			_refreshTimer.Tick += (object? sender, EventArgs e) => RefreshData?.Invoke();
 
 			//Timout timer for main timer
-			_refreshTimerTimout.Interval = TimeSpan.FromSeconds(5);
+			_refreshTimerTimout.Interval = TimeSpan.FromSeconds(500);
 			_refreshTimerTimout.Tick += (object? sender, EventArgs e) => RefreshDataTimout?.Invoke();
 			//_refreshTimerTimout.Start();
 		}

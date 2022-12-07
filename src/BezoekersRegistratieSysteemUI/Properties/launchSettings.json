@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BezoekersRegistratieSysteemUI": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}
