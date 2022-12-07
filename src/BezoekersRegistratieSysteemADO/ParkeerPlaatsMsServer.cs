@@ -119,33 +119,34 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			try {
 				Bedrijf bedrijf = new Bedrijf();
 				bedrijf.ZetId(bedrijfId);
-				return GeefNummerplaten(bedrijf, true).Count();
+				return GeefNummerplaten(bedrijf, true, 1).Count();
 			} catch (Exception ex) {
 				throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 			}
 		}
 
-		/// <summary>
-		/// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
-		/// </summary>
-		/// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-		/// <returns>IReadOnlyList<String> Nummerplaten</returns>
-		public IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
-			try {
-				return GeefNummerplaten(bedrijf, false);
-			} catch (Exception ex) {
-				throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-			}
-		}
-		/// <summary>
-		/// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
-		/// </summary>
-		/// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-		/// <param name="bezet">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-		/// <returns>IReadOnlyList<String> Nummerplaten</returns>
-		private IReadOnlyList<string> GeefNummerplaten(Bedrijf bedrijf, bool bezet) {
+        /// <summary>
+        /// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
+        /// </summary>
+        /// <param name="bedrijf">Bedrijf wiens parkeerplaatsen op de parking moeten gereturned worden</param>
+        /// <returns>IReadOnlyList<Parkeerplaats> parkeerplaatsen</returns>
+        public IReadOnlyList<Parkeerplaats> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
+            try {
+                return GeefNummerplaten(bedrijf, true, 1);
+            } catch (Exception ex) {
+                throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
+        /// </summary>
+        /// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
+        /// <param name="bezet">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
+        /// <returns>IReadOnlyList<String> Nummerplaten</returns>
+        private IReadOnlyList<Parkeerplaats> GeefNummerplaten(Bedrijf bedrijf, bool? bezet, int? statusId) {
 			SqlConnection con = GetConnection();
-			string query = "SELECT pp.Nummerplaat " +
+			string query = "SELECT pp.Nummerplaat, pp.StartTijd, pp.EindTijd, pp.StatusId " +
 						   "FROM Parkingplaatsen pp";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
@@ -160,14 +161,23 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
 						cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
 					}
-					if (bezet) {
-						query += " AND pp.EindTijd is null";
+					if (bezet.HasValue) {
+                        string bezetOfNietBezet = bezet.Value ? "" : "NOT";
+                        query += $" AND pp.EindTijd IS {bezetOfNietBezet} NULL";
+                    }
+					if (statusId.HasValue) {
+						query += " AND pp.StatusId = @StatusId";
+						cmd.Parameters.Add(new SqlParameter("@StatusId", SqlDbType.Int));
+						cmd.Parameters["@StatusId"].Value = statusId.Value;
 					}
+                    
 					cmd.CommandText = query;
 					IDataReader reader = cmd.ExecuteReader();
-					List<string> nummerplaten = new List<string>();
+					List<Parkeerplaats> nummerplaten = new List<Parkeerplaats>();
 					while (reader.Read()) {
-						nummerplaten.Add((string)reader["Nummerplaat"]);
+						DateTime start = (DateTime)reader["StartTijd"];
+						DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
+						nummerplaten.Add(new Parkeerplaats(bedrijf, start, eind, (string)reader["Nummerplaat"]));
 					}
 					return nummerplaten.AsReadOnly();
 				}
@@ -180,5 +190,140 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			}
 		}
 
-	}
+        /// <summary>
+        /// Returned het aantal bezette plaatsen op de parking per bedrijf
+        /// </summary>
+        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+        /// <returns>int aantal bezette plaatsen</returns>
+        public int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long bedrijfId) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+						   "FROM Parkingplaatsen " +
+						   "WHERE bedrijfId = @BedrijfId AND EindTijd IS NULL";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();                    
+                    cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+					cmd.Parameters["@BedrijfId"].Value = bedrijfId;
+                    return (int)cmd.ExecuteScalar();
+                }
+            } catch (Exception ex) {
+                ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("bedrijfid", bedrijfId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
+
+        /// <summary>
+        /// Returned een grafiek met dag details over de parking voor een specifiek bedrijf
+        /// </summary>
+        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+        /// <returns>Grafiek object</returns>
+        public GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
+            SqlConnection con = GetConnection();
+            string query =  "WITH " +
+								"hours AS( " +
+								"SELECT 0 AS hour " +
+								"UNION ALL " +
+								"SELECT hour + 1 FROM hours WHERE hour < 23 " +
+								"), " +
+							"ParkedHour AS( " +
+								"SELECT " +
+								"h.hour, " +
+								"COUNT(pp.nummerplaat) AS parkedHour, " +
+								"(SELECT COUNT(*) " +
+								"FROM parkingplaatsen pp " +
+								"WHERE " +
+                                "(pp.BedrijfId = @BedrijfId " +
+								"AND ((hour <= DATEPART(HOUR, GETDATE()) " +
+								"AND DATEPART(HOUR, pp.StartTijd) <= hour) " +
+								"AND CONVERT(DATE, pp.starttijd) = CONVERT(DATE, GETDATE())) OR CONVERT(DATE, pp.starttijd) < CONVERT(DATE, GETDATE())) " +
+								"AND (statusid = 1 AND " +
+								"(pp.eindtijd is null AND hour <= DATEPART(HOUR, GETDATE())) " +
+								"OR ( " +
+								"CONVERT(DATE, pp.EindTijd) = CONVERT(DATE, GETDATE()) AND " +
+								"DATEPART(HOUR, pp.EindTijd) >= Hour " +
+								")) " +
+								") AS parkedTotal " +
+								"FROM hours h " +
+								"LEFT JOIN parkingplaatsen pp ON(h.hour = DATEPART(HOUR, pp.StartTijd)) AND CONVERT(DATE, GETDATE()) = CONVERT(DATE, pp.starttijd) AND pp.BedrijfId = @BedrijfId " +
+								"GROUP BY h.hour " +
+							") " +
+                            "SELECT ph.hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters["@BedrijfId"].Value = bedrijfId;
+					IDataReader reader = cmd.ExecuteReader();
+					GrafiekDagDetail grafiek = new GrafiekDagDetail();
+					while (reader.Read()) {
+						string xwaarde = ((int)reader["hour"]).ToString();
+						int checkIn = ((int)reader["parkedHour"]);
+						int parkedTotal = ((int)reader["parkedTotal"]);
+						grafiek.VoegWaardesToe(xwaarde, checkIn, parkedTotal);
+					}
+					return grafiek;
+                }
+            } catch (Exception ex) {
+                ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("bedrijfid", bedrijfId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
+
+        /// <summary>
+        /// Returned een grafiek met data over de parking voor een specifiek bedrijf
+        /// </summary>
+        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+        /// <returns>Grafiek object</returns>
+        public GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
+            SqlConnection con = GetConnection();
+            string query =  "SET LANGUAGE Dutch; " +
+							"WITH " +
+								"offset AS( " +
+									"SELECT 0 AS dOffset " +
+									"UNION ALL " +
+									"SELECT dOffset - 1 FROM offset WHERE dOffset > -6 " +
+								"), " +
+								"days AS( " +
+									"SELECT UPPER(SUBSTRING(DATENAME(WEEKDAY, CONVERT(date, DATEADD(DAY, o.dOffset, GETDATE()))), 1,2)) AS abbrDay, " +
+									"CONVERT(date, DATEADD(DAY, o.dOffset, GETDATE())) AS da " +
+									"FROM offset o " +
+								"), " +
+								"parked AS( " +
+									"SELECT d.abbrDay, (SELECT COUNT(*) FROM ParkingPlaatsen pl WHERE CONVERT(date, pl.StartTijd) = d.da AND BedrijfId = 1) as totalCheckIn, d.da " +
+									"FROM days d " +
+								") " +
+							"SELECT abbrDay, totalCheckIn FROM parked p ORDER by p.da";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters["@BedrijfId"].Value = bedrijfId;
+                    IDataReader reader = cmd.ExecuteReader();
+                    GrafiekDag grafiek = new GrafiekDag();
+                    while (reader.Read()) {
+                        string xwaarde = ((int)reader["abbrDay"]).ToString();
+                        int checkIn = ((int)reader["totalCheckIn"]);
+                        grafiek.VoegWaardeToe(xwaarde, checkIn);
+                    }
+                    return grafiek;
+                }
+            } catch (Exception ex) {
+                ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("bedrijfid", bedrijfId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
+    }
 }

@@ -108,17 +108,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		public ParkingContract GeefParkingContract(long bedrijfId) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT pc.Id, pc.StartTijd, pc.Eindtijd, pc.AantalPlaatsen, " +
-						   "b.Id As BedrijfId, b.Naam, b.BTWNr, b.TeleNR, b.Email, b.Adres, b.BTWChecked" +
+						   "b.Id As BedrijfId, b.Naam, b.BTWNr, b.TeleNR, b.Email, b.Adres, b.BTWChecked " +
 						   "FROM ParkingContract pc " +
 						   "JOIN bedrijf b ON(pc.bedrijfId = b.Id) " +
-						   "WHERE (@vandaagDatum BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
+						   "WHERE (GETDATE() BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@vandaagDatum", SqlDbType.Date));
 					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmd.Parameters["@StartTijd"].Value = DateTime.Today;
 					cmd.Parameters["@bedrijfId"].Value = bedrijfId;
 					IDataReader reader = cmd.ExecuteReader();
 					ParkingContract contract = null;
@@ -241,5 +239,31 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 				con.Close();
 			}
 		}
-	}
+
+        /// <summary>
+        /// Geef aantal parkingplaatsen die op een huidig contract staan
+        /// </summary>
+        /// <param name="bedrijfid">bedrijfid wiens contract aantal moet weergegeven worden</param>
+        /// <returns>int aantal plaatsen</returns>
+        public int GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfid) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT AantalPlaatsen " +
+						   "FROM ParkingContract " +
+						   "WHERE GETDATE() BETWEEN StartTijd AND EindTijd AND BedrijfId = @bedrijfId";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters["@bedrijfId"].Value = bedrijfid;
+					var i = cmd.ExecuteScalar();					
+                    return i is null ? 0 : int.Parse(i.ToString());
+                }
+            } catch (Exception ex) {
+                throw new ParkingContractMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            } finally {
+                con.Close();
+            }
+        }
+    }
 }

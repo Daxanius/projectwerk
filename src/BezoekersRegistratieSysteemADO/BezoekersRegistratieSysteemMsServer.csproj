@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ParkeerPlaatsMsServer.cs~RF1602952.TMP" />
+    <None Remove="ParkeerPlaatsMsServer.cs~RF1f8872e.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 

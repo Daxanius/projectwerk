@@ -156,12 +156,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer bestaat niet");
 			if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf))
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer niet werkzaam bij dit bedrijf");
+			functie = Nutsvoorziening.NaamOpmaak(functie);
 			if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(functie))
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer heeft geen functie bij dit bedrijf");
 			if (_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Count() == 1)
 				throw new WerknemerManagerException("WerknemerManager - VerwijderWerknemerFunctie - werknemer moet minstens 1 functie hebben");
 			try {
-				functie = Nutsvoorziening.NaamOpmaak(functie);
 				_werknemerRepository.VerwijderWerknemerFunctie(werknemer, bedrijf, functie);
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);
@@ -315,7 +315,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <returns>IReadOnlyList van werknemer objecten.</returns>
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - GeefBezetteWerknemersOpDitMomentVoorBedrijf - bedrijf mag niet leeg zijn"</exception>
 		/// <exception cref="WerknemerManagerException">ex.Message</exception>
-		public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(Bedrijf bedrijf) {
+		public IReadOnlyList<Werknemer?> GeefBezetteWerknemersOpDitMomentVoorBedrijf(Bedrijf bedrijf) {
 			if (bedrijf == null) throw new WerknemerManagerException("WerknemerManager - GeefBezetteWerknemersOpDitMomentVoorBedrijf - bedrijf mag niet leeg zijn");
 			try {
 				return _werknemerRepository.GeefBezetteWerknemersOpDitMomentVoorBedrijf(bedrijf.Id);
@@ -323,5 +323,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new WerknemerManagerException(ex.Message);
 			}
 		}
-	}
+
+        public IReadOnlyList<Werknemer> WerknemerPotentieelReedsWerkzaamInBedrijvenpark(Werknemer werknemer)
+        {
+            return _werknemerRepository.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(werknemer);
+        }
+    }
 }

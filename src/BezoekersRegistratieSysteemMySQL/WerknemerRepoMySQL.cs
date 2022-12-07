@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
+﻿using BezoekersRegistratieSysteemBL;
+using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Interfaces;
 using BezoekersRegistratieSysteemDL.Exceptions;
 using MySql.Data.MySqlClient;
@@ -835,5 +836,71 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				con.Close();
 			}
 		}
-	}
+
+        /// <summary>
+        /// Geeft lijst van werknemer gebaseerd op voor- achternaam
+        /// </summary>
+        /// <param name="werknemer">werknemer object dat id moet krijgen.</param>
+		/// <returns>IReadOnlyList<Werknemer></returns>
+        /// <exception cref="WerknemerMsServerException">Faalt om id van werknemer te zetten.</exception>
+        public IReadOnlyList<Werknemer> WerknemerPotentieelReedsWerkzaamInBedrijvenpark(Werknemer werknemer) {
+            MySqlConnection con = GetConnection();
+            string query = "SELECT wn.id as WerknemerId, wn.ANaam as WerknemerANaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEmail, " +
+                           "b.id as BedrijfId, b.Naam as BedrijfNaam, b.btwnr as BedrijfBTW, b.TeleNr as BedrijfTeleNr, b.Email as BedrijfMail, b.Adres as BedrijfAdres, b.BTWChecked, " +
+                           "f.Functienaam " +
+                           "FROM Werknemer wn " +
+                           "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) " +
+                           "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+                           "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
+                           "WHERE wn.VNaam = @VNaam AND wn.ANaam = @ANaam " +
+                           "ORDER BY WerknemerId";
+            try {
+                using (MySqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new MySqlParameter("@VNaam", MySqlDbType.VarChar));
+                    cmd.Parameters.Add(new MySqlParameter("@ANaam", MySqlDbType.VarChar));
+                    cmd.Parameters["@VNaam"].Value = werknemer.Voornaam;
+                    cmd.Parameters["@ANaam"].Value = werknemer.Achternaam;
+                    IDataReader reader = cmd.ExecuteReader();
+                    List<Werknemer> wList = new List<Werknemer>();
+                    Werknemer w = null;
+                    Bedrijf bedrijf = null;
+                    string functieNaam = null;
+                    string werknemerMail = null;
+                    while (reader.Read()) {
+                        if (w is null || w.Id != (long)reader["WerknemerId"]) {
+                            long werknemerId = (long)reader["WerknemerId"];
+                            string werknemerVNaam = (string)reader["WerknemerVNaam"];
+                            string werknemerAnaam = (string)reader["WerknemerAnaam"];
+                            w = new Werknemer(werknemerId, werknemerVNaam, werknemerAnaam);
+                            wList.Add(w);
+                        }
+                        if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
+                            long bedrijfId = (long)reader["BedrijfId"];
+                            string bedrijfNaam = (string)reader["BedrijfNaam"];
+                            string bedrijfBTW = (string)reader["bedrijfBTW"];
+                            string bedrijfTele = (string)reader["BedrijfTeleNr"];
+                            string bedrijfMail = (string)reader["BedrijfMail"];
+                            string bedrijfAdres = (string)reader["BedrijfAdres"];
+                            bool bedrijfBTWChecked = (ulong)reader["BTWChecked"] == 0 ? false : true;
+                            bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+                        }
+                        if (String.IsNullOrWhiteSpace(functieNaam) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(bedrijf) || !werknemer.GeefBedrijvenEnFunctiesPerWerknemer()[bedrijf].GeefWerknemerFuncties().Contains(Nutsvoorziening.NaamOpmaak((string)reader["FunctieNaam"]))) {
+                            functieNaam = Nutsvoorziening.NaamOpmaak((string)reader["FunctieNaam"]);
+                            werknemerMail = (string)reader["WerknemerEmail"];
+                            w.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+                        }
+                    }
+                    return wList.AsReadOnly();
+                }
+            } catch (Exception ex) {
+                WerknemerMySQLException exx = new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("werknemer", werknemer);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
+    }
 }
