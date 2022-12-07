@@ -212,5 +212,20 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				return BadRequest(ex.Message);
 			}
 		}
+		
+		/// <summary>
+		/// Geeft aan of een werknemer al potentieel werkzaam is in een bedrijvenpark
+		/// </summary>
+		/// <param name="werknemerInput"></param>
+		/// <returns></returns>
+		[HttpGet("werkzaam")]
+		public ActionResult<WerknemerOutputDTO?> WerknemerPotentieelWerkzaamInBedrijvenPark([FromBody] WerknemerInputDTO werknemerInput) {
+			try {
+				Werknemer werknemer = werknemerInput.NaarBusiness(_bedrijfManager);
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(werknemer)));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
 	}
 }

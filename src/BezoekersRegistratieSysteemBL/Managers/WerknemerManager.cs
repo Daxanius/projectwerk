@@ -315,7 +315,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <returns>IReadOnlyList van werknemer objecten.</returns>
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - GeefBezetteWerknemersOpDitMomentVoorBedrijf - bedrijf mag niet leeg zijn"</exception>
 		/// <exception cref="WerknemerManagerException">ex.Message</exception>
-		public IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(Bedrijf bedrijf) {
+		public IReadOnlyList<Werknemer?> GeefBezetteWerknemersOpDitMomentVoorBedrijf(Bedrijf bedrijf) {
 			if (bedrijf == null) throw new WerknemerManagerException("WerknemerManager - GeefBezetteWerknemersOpDitMomentVoorBedrijf - bedrijf mag niet leeg zijn");
 			try {
 				return _werknemerRepository.GeefBezetteWerknemersOpDitMomentVoorBedrijf(bedrijf.Id);
@@ -323,5 +323,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new WerknemerManagerException(ex.Message);
 			}
 		}
-	}
+
+        public Werknemer WerknemerPotentieelReedsWerkzaamInBedrijvenpark(Werknemer werknemer)
+        {
+            return _werknemerRepository.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(werknemer);
+        }
+    }
 }
