@@ -111,14 +111,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "b.Id As BedrijfId, b.Naam, b.BTWNr, b.TeleNR, b.Email, b.Adres, b.BTWChecked " +
 						   "FROM ParkingContract pc " +
 						   "JOIN bedrijf b ON(pc.bedrijfId = b.Id) " +
-						   "WHERE (@vandaagDatum BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
+						   "WHERE (NOW() BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@vandaagDatum", MySqlDbType.Date));
 					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
-					cmd.Parameters["@vandaagDatum"].Value = DateTime.Today;
 					cmd.Parameters["@bedrijfId"].Value = bedrijfId;
 					IDataReader reader = cmd.ExecuteReader();
 					ParkingContract contract = null;

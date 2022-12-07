@@ -111,14 +111,12 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						   "b.Id As BedrijfId, b.Naam, b.BTWNr, b.TeleNR, b.Email, b.Adres, b.BTWChecked " +
 						   "FROM ParkingContract pc " +
 						   "JOIN bedrijf b ON(pc.bedrijfId = b.Id) " +
-						   "WHERE (@vandaagDatum BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
+						   "WHERE (GETDATE() BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new SqlParameter("@vandaagDatum", SqlDbType.Date));
 					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-					cmd.Parameters["@vandaagDatum"].Value = DateTime.Today;
 					cmd.Parameters["@bedrijfId"].Value = bedrijfId;
 					IDataReader reader = cmd.ExecuteReader();
 					ParkingContract contract = null;
