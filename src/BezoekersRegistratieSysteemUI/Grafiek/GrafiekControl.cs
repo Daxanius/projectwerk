@@ -14,7 +14,8 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		public List<GrafiekDataset> Datasets { get; set; } = new();
 
 		/// <summary>
-		/// De kolomnamen voor extra duidelijkheid
+		/// Kolom labels, wordt onderaan de grafiek
+		/// weergeven per data waarde (kolom).
 		/// </summary>
 		public List<string> KolomLabels { get; set; } = new();
 
@@ -52,16 +53,36 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		/// Met welke waarden de grafiek te incrementeren
 		/// </summary>
 		public double WaardeIncrement { get; set; } = 10;
+
+		/// <summary>
+		/// Tekst padding
+		/// </summary>
 		public double TextPadding { get; set; } = 10;
+
+		/// <summary>
+		/// Tekst schaal spul
+		/// </summary>
 		public double PixelsPerDip { get; set; } = 10;
+
+		/// <summary>
+		/// Ruimte tussen de bar elementen
+		/// </summary>
 		public double BarMargin { get; set; } = 2;
+
+		/// <summary>
+		/// Ruimte tussen de legende elementen
+		/// </summary>
 		public double LegendeMargin { get; set; } = 2;
 
 		private double _hoogsteWaarde = 0;
 		private int _langsteSet = 0;
 
-		// Berekent de visuele X positie voor het weergeven
-		// van een dataset op de gegeven index-positie
+		/// <summary>
+		/// Geeft de absolute X positie van een kolom
+		/// op de grafiek
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
 		private double GeefDataPositieX(int index) {
 			// Correcties en offsets kunnen voorkomen bij
 			// verschillende grafiektypes
@@ -82,10 +103,22 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			return (index * (Width / (_langsteSet + correctie))) + offset;
 		}
 
+		/// <summary>
+		/// Geeft de absolute Y positie van een stuk data
+		/// op de grafiek
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
 		private double GeefDataPositieY(double data) {
 			return Height - (data / _hoogsteWaarde * Height * 0.9);
 		}
 
+		/// <summary>
+		/// Geeft de absolute hoogte van een stuk
+		/// data op de grafiek
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
 		private double GeefDataHoogte(double data) {
 			return data / _hoogsteWaarde * Height * 0.9;
 		}
@@ -145,11 +178,11 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		}
 
 		/// <summary>
-		/// Tekent de textuele informatie
+		/// Tekent de kolom labels
 		/// </summary>
 		/// <param name="drawingContext"></param>
-		private void TekenInfo(DrawingContext drawingContext) {
-			// Tekent de onderste legende
+		private void TekenKolomLabels(DrawingContext drawingContext) {
+			// Tekent de kolom labels
 			for (int i = 0; i < KolomLabels.Count && i < _langsteSet; i++) {
 				double x = GeefDataPositieX(i);
 				drawingContext.DrawText(new(
@@ -162,14 +195,19 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 						PixelsPerDip),
 					new(x - (KolomLabels[i].Length / 2 * FontSize) + PixelsPerDip / 2, Height + TextPadding));
 			}
+		}
 
+		/// <summary>
+		/// Tekent de data referenties
+		/// </summary>
+		/// <param name="drawingContext"></param>
+		private void TekenDataReferentie(DrawingContext drawingContext) {
 			// Tekent de nummers met een increment
 			double capaciteit = _hoogsteWaarde / WaardeIncrement;
 			int topInc = (int)Math.Floor(capaciteit);
 
 			for (int i = 0; i <= topInc; i++) {
 				double waarde = i * WaardeIncrement;
-				double y = GeefDataPositieY(waarde);
 
 				drawingContext.DrawText(new(
 						waarde.ToString(),
@@ -179,15 +217,13 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 						FontSize,
 						Foreground,
 						PixelsPerDip),
-					new(-TextPadding, y));
+					new(-TextPadding, GeefDataPositieY(waarde)));
 			}
 
 			// Als de hoogste waarde groter is dan de hoeveel keer
 			// increment in waarde kan, geef aan welke waarde de hoogste
 			// waarde heeft
 			if (capaciteit > topInc) {
-				double y = GeefDataPositieY(_hoogsteWaarde);
-
 				drawingContext.DrawText(new(
 					_hoogsteWaarde.ToString(),
 					CultureInfo.CurrentCulture,
@@ -196,9 +232,11 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 					FontSize,
 					Foreground,
 					PixelsPerDip),
-				new(-TextPadding, y));
+				new(-TextPadding, GeefDataPositieY(_hoogsteWaarde)));
 			}
+		}
 
+		private void TekenLegende(DrawingContext drawingContext) {
 			// Tekent de legende
 			double labelCount = 0;
 			for (int i = 0; i < Datasets.Count; i++) {
@@ -222,13 +260,23 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			}
 		}
 
+		/// <summary>
+		/// Tekent de textuele informatie
+		/// </summary>
+		/// <param name="drawingContext"></param>
+		private void TekenInfo(DrawingContext drawingContext) {
+			TekenKolomLabels(drawingContext);
+			TekenDataReferentie(drawingContext);
+			TekenLegende(drawingContext);
+		}
+
 		protected override void OnRender(DrawingContext drawingContext) {
 			// Haalt de grootste sets op
 			_langsteSet = Datasets.Max(s => s.Data.Count as int?) ?? 0;
 			_hoogsteWaarde = Datasets.Max(x => x.Data.Max() as double?) ?? 0;
 
-			base.OnRender(drawingContext);
 			TekenAchtergrond(drawingContext);
+
 			switch (GrafiekType) {
 				case GrafiekType.Bar:
 					TekenDatasetsBar(drawingContext);
@@ -239,53 +287,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			}
 
 			TekenInfo(drawingContext);
-		}
-
-		public GrafiekControl() {
-			return;
-			// Een eerste dataset definieren
-			GrafiekDataset ds = new() {
-				Data = new() {
-					23,
-					34,
-					65,
-					65,
-					12,
-					34,
-					54
-				},
-				Label = "Spul"
-			};
-
-			GrafiekDataset ds1 = new() {
-				Data = new() {
-					65,
-					12,
-					98,
-					34,
-					45,
-					8,
-					76
-				},
-				Stroke = Brushes.OrangeRed,
-			};
-
-			// Kolommen definieren
-			KolomLabels = new() {
-				"Ma",
-				"Di",
-				"Wo",
-				"Do",
-				"Vr",
-				"Za",
-				"Zo"
-			};
-
-			// De dataset toevoegen
-			Datasets.Add(ds);
-			Datasets.Add(ds1);
-
-			//GrafiekType = GrafiekType.Bar;
+			base.OnRender(drawingContext);
 		}
 
 		static GrafiekControl() {
