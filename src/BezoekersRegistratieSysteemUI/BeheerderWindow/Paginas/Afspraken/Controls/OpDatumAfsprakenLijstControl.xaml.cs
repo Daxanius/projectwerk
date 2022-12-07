@@ -92,7 +92,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 
 		private async void VerwijderAfspraak_Click(object sender, RoutedEventArgs e) {
 			if (ContextMenu.DataContext is AfspraakDTO afspraak) {
-				if (afspraak.EindTijd.IsNietLeeg()) return;
+				if (afspraak.EindTijd.IsNietLeeg() || afspraak.Status.ToLower() == "verwijderd") return;
 
 				CustomMessageBox warningMessage = new();
 				ECustomMessageBoxResult result = warningMessage.Show("Ben je het zeker?", $"Wil je deze afspraak verwijderen", ECustomMessageBoxIcon.Warning);

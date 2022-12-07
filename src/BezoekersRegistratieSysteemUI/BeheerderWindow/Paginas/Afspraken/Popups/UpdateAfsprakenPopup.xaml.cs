@@ -210,7 +210,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			var bezoekerInput = new BezoekerInputDTO(BezoekerVoornaam, BezoekerAchternaam, BezoekerEmail, BezoekerBedrijf);
 			var afspraakInput = new AfspraakInputDTO(bezoekerInput, startTijdDatum, eindTijdDatum, Werknemer.Id.Value, BeheerderWindow.GeselecteerdBedrijf.Id);
-			
+
 			await ApiController.UpdateAfspraak(afspraakInput, oudeAfspraak.Id, oudeAfspraak.Bezoeker.Id);
 
 			AfspraakDTO afspraak = await ApiController.GeefAfspraak(oudeAfspraak.Id);
@@ -219,7 +219,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			SluitOverlay();
 
 			CustomMessageBox customMessageBox = new();
-			//customMessageBox.Show("Afspraak Is Gewijzigd", $"Success", ECustomMessageBoxIcon.Information)
+			customMessageBox.Show("Afspraak Is Gewijzigd", $"Success", ECustomMessageBoxIcon.Information);
 		}
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;
