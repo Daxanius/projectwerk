@@ -241,5 +241,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 				con.Close();
 			}
 		}
-	}
+
+        public int GeefAantalParkeerplaatsenVoorBedrijf(long id) {
+            throw new NotImplementedException();
+        }
+    }
 }

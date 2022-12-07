@@ -210,11 +210,63 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
-        public Grafiek GeefUuroverzichtParkingVoorBedrijf(long id) {
-            throw new NotImplementedException();
+        public GrafiekDag GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
+            SqlConnection con = GetConnection();
+            string query =  "WITH " +
+								"hours AS( " +
+								"SELECT 0 AS hour " +
+								"UNION ALL " +
+								"SELECT hour + 1 FROM hours WHERE hour < 23 " +
+								"), " +
+							"ParkedHour AS( " +
+								"SELECT " +
+								"h.hour, " +
+								"COUNT(pp.nummerplaat) AS parkedHour, " +
+								"(SELECT COUNT(*) " +
+								"FROM parkingplaatsen pp " +
+								"WHERE " +
+                                "(pp.BedrijfId = @BedrijfId " +
+								"AND ((hour <= DATEPART(HOUR, GETDATE()) " +
+								"AND DATEPART(HOUR, pp.StartTijd) <= hour) " +
+								"AND CONVERT(DATE, pp.starttijd) = CONVERT(DATE, GETDATE())) OR CONVERT(DATE, pp.starttijd) < CONVERT(DATE, GETDATE())) " +
+								"AND (statusid = 1 AND " +
+								"(pp.eindtijd is null AND hour <= DATEPART(HOUR, GETDATE())) " +
+								"OR ( " +
+								"CONVERT(DATE, pp.EindTijd) = CONVERT(DATE, GETDATE()) AND " +
+								"DATEPART(HOUR, pp.EindTijd) >= Hour " +
+								")) " +
+								") AS parkedTotal " +
+							"FROM hours h " +
+							"LEFT JOIN parkingplaatsen pp ON(h.hour = DATEPART(HOUR, pp.StartTijd)) AND CONVERT(DATE, GETDATE()) = CONVERT(DATE, pp.starttijd) AND pp.BedrijfId = @BedrijfId " +
+							"GROUP BY h.hour " +
+							") " +
+                            "SELECT ph.hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters["@BedrijfId"].Value = bedrijfId;
+					IDataReader reader = cmd.ExecuteReader();
+					GrafiekDag grafiek = new GrafiekDag();
+					while (reader.Read()) {
+						string xwaarde = ((int)reader["hour"]).ToString();
+						int checkIn = ((int)reader["parkedHour"]);
+						int parkedTotal = ((int)reader["parkedTotal"]);
+						grafiek.VoegWaardesToe(xwaarde, checkIn, parkedTotal);
+					}
+					return grafiek;
+                }
+            } catch (Exception ex) {
+                ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("bedrijfid", bedrijfId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
         }
 
-        public Grafiek GeefWeekoverzichtParkingVoorBedrijf(long id) {
+        public GrafiekWeek GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
             throw new NotImplementedException();
         }
     }

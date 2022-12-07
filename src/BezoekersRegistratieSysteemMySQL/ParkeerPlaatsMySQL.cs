@@ -180,5 +180,21 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				con.Close();
 			}
 		}
-	}
+
+        public int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long id) {
+            throw new NotImplementedException();
+        }
+
+        IReadOnlyList<Parkeerplaats> IParkeerplaatsRepository.GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
+            throw new NotImplementedException();
+        }
+
+        public GrafiekDag GeefUuroverzichtParkingVoorBedrijf(long id) {
+            throw new NotImplementedException();
+        }
+
+        public GrafiekWeek GeefWeekoverzichtParkingVoorBedrijf(long id) {
+            throw new NotImplementedException();
+        }
+    }
 }
