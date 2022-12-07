@@ -28,6 +28,6 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		IReadOnlyList<Werknemer> GeefVrijeWerknemersOpDitMomentVoorBedrijf(long id);
 		IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long id);
 		void GeefWerknemerId(Werknemer werknemer);
-
-	}
+        Werknemer WerknemerPotentieelReedsWerkzaamInBedrijvenpark(Werknemer werknemer);
+    }
 }

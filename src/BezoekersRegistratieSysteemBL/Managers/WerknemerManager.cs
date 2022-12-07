@@ -323,5 +323,10 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new WerknemerManagerException(ex.Message);
 			}
 		}
-	}
+
+        public Werknemer WerknemerPotentieelReedsWerkzaamInBedrijvenpark(Werknemer werknemer)
+        {
+            return _werknemerRepository.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(werknemer);
+        }
+    }
 }
