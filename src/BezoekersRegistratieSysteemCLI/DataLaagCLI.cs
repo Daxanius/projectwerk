@@ -37,7 +37,7 @@ namespace BezoekersRegistratieSysteemCLI {
 
 
             try {
-                var aresult = parkingRepo.GeefAantalParkeerplaatsenVoorBedrijf(bestaandBedrijf);
+                var aresult = parkeerRepo.GeefWeekoverzichtParkingVoorBedrijf(bestaandBedrijf);
                 Print(aresult, "VoegAfspraakToe");
             } catch (Exception ex) {
                 Error(ex);

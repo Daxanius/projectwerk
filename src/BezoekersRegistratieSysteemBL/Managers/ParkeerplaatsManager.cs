@@ -90,14 +90,14 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			return _parkeerplaatsRepository.GeefHuidigBezetteParkeerplaatsenVoorBedrijf(bedrijf.Id);
 		}
 
-        public GrafiekDag GeefUuroverzichtParkingVoorBedrijf(Bedrijf bedrijf)
+        public GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(Bedrijf bedrijf)
         {
             if (bedrijf == null)
                 throw new ParkeerplaatsManagerException("ParkeerManager - GeefGrafiekPerBedrijf - Bedrijf mag niet leeg zijn");
             return _parkeerplaatsRepository.GeefUuroverzichtParkingVoorBedrijf(bedrijf.Id);
         }
 
-        public GrafiekWeek GeefWeekoverzichtParkingVoorBedrijf(Bedrijf bedrijf)
+        public GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(Bedrijf bedrijf)
         {
             if (bedrijf == null)
                 throw new ParkeerplaatsManagerException("ParkeerManager - GeefGrafiekPerBedrijf - Bedrijf mag niet leeg zijn");

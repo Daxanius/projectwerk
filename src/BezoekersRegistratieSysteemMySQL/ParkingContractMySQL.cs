@@ -256,7 +256,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.Add(new MySqlParameter("@bedrijfId", SqlDbType.BigInt));
+                    cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
                     cmd.Parameters["@bedrijfId"].Value = bedrijfid;
                     var i = cmd.ExecuteScalar();
                     return i is null ? 0 : int.Parse(i.ToString());

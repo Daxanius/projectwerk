@@ -217,7 +217,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
-        public GrafiekDag GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
+        public GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
             SqlConnection con = GetConnection();
             string query =  "WITH " +
 								"hours AS( " +
@@ -243,9 +243,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								"DATEPART(HOUR, pp.EindTijd) >= Hour " +
 								")) " +
 								") AS parkedTotal " +
-							"FROM hours h " +
-							"LEFT JOIN parkingplaatsen pp ON(h.hour = DATEPART(HOUR, pp.StartTijd)) AND CONVERT(DATE, GETDATE()) = CONVERT(DATE, pp.starttijd) AND pp.BedrijfId = @BedrijfId " +
-							"GROUP BY h.hour " +
+								"FROM hours h " +
+								"LEFT JOIN parkingplaatsen pp ON(h.hour = DATEPART(HOUR, pp.StartTijd)) AND CONVERT(DATE, GETDATE()) = CONVERT(DATE, pp.starttijd) AND pp.BedrijfId = @BedrijfId " +
+								"GROUP BY h.hour " +
 							") " +
                             "SELECT ph.hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
             try {
@@ -255,7 +255,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
                     cmd.Parameters["@BedrijfId"].Value = bedrijfId;
 					IDataReader reader = cmd.ExecuteReader();
-					GrafiekDag grafiek = new GrafiekDag();
+					GrafiekDagDetail grafiek = new GrafiekDagDetail();
 					while (reader.Read()) {
 						string xwaarde = ((int)reader["hour"]).ToString();
 						int checkIn = ((int)reader["parkedHour"]);
@@ -273,7 +273,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
             }
         }
 
-        public GrafiekWeek GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
+        public GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
             SqlConnection con = GetConnection();
             string query =  "SET LANGUAGE Dutch; " +
 							"WITH " +
@@ -299,7 +299,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
                     cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
                     cmd.Parameters["@BedrijfId"].Value = bedrijfId;
                     IDataReader reader = cmd.ExecuteReader();
-                    GrafiekWeek grafiek = new GrafiekWeek();
+                    GrafiekDag grafiek = new GrafiekDag();
                     while (reader.Read()) {
                         string xwaarde = ((int)reader["abbrDay"]).ToString();
                         int checkIn = ((int)reader["totalCheckIn"]);
