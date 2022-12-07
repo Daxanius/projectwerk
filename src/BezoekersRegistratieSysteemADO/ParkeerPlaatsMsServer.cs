@@ -125,25 +125,26 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			}
 		}
 
-		/// <summary>
-		/// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
-		/// </summary>
-		/// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-		/// <returns>IReadOnlyList<String> Nummerplaten</returns>
-		public IReadOnlyList<string> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
-			try {
-				return GeefNummerplaten(bedrijf, false);
-			} catch (Exception ex) {
-				throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-			}
-		}
-		/// <summary>
-		/// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
-		/// </summary>
-		/// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-		/// <param name="bezet">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-		/// <returns>IReadOnlyList<String> Nummerplaten</returns>
-		private IReadOnlyList<string> GeefNummerplaten(Bedrijf bedrijf, bool bezet) {
+        /// <summary>
+        /// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
+        /// </summary>
+        /// <param name="bedrijf">Bedrijf wiens parkeerplaatsen op de parking moeten gereturned worden</param>
+        /// <returns>IReadOnlyList<Parkeerplaats> parkeerplaatsen</returns>
+        public IReadOnlyList<Parkeerplaats> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
+            try {
+                return GeefNummerplaten(bedrijf, false);
+            } catch (Exception ex) {
+                throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
+        /// </summary>
+        /// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
+        /// <param name="bezet">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
+        /// <returns>IReadOnlyList<String> Nummerplaten</returns>
+        private IReadOnlyList<Parkeerplaats> GeefNummerplaten(Bedrijf bedrijf, bool bezet) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT pp.Nummerplaat " +
 						   "FROM Parkingplaatsen pp";
@@ -160,14 +161,16 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						cmd.Parameters.Add(new SqlParameter("@BTWNr", SqlDbType.VarChar));
 						cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
 					}
-					if (bezet) {
-						query += " AND pp.EindTijd is null";
-					}
+					string bezetOfNietBezet = bezet ? "" : "NOT";
+                    query += $" AND pp.EindTijd IS {bezetOfNietBezet} NULL";
+                    
 					cmd.CommandText = query;
 					IDataReader reader = cmd.ExecuteReader();
-					List<string> nummerplaten = new List<string>();
+					List<Parkeerplaats> nummerplaten = new List<Parkeerplaats>();
 					while (reader.Read()) {
-						nummerplaten.Add((string)reader["Nummerplaat"]);
+						DateTime start = (DateTime)reader["StartTijd"];
+						DateTime? eind = !reader.IsDBNull(reader.GetOrdinal("EindTijd")) ? (DateTime)reader["EindTijd"] : null;
+						nummerplaten.Add(new Parkeerplaats(bedrijf, start, eind, (string)reader["Nummerplaat"]));
 					}
 					return nummerplaten.AsReadOnly();
 				}
@@ -180,5 +183,39 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			}
 		}
 
-	}
+        /// <summary>
+        /// Returned het aantal parkeerplaatsen die bezet zijn per bedrijf
+        /// </summary>
+        /// <param name="bedrijfId">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
+        /// <returns>int aantalPlaatsenDieBezetZijn</returns>
+        public int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long bedrijfId) {
+            SqlConnection con = GetConnection();
+            string query = "SELECT COUNT(*) " +
+						   "FROM Parkingplaatsen " +
+						   "WHERE bedrijfId = @BedrijfId AND EindTijd IS NULL";
+            try {
+                using (SqlCommand cmd = con.CreateCommand()) {
+                    con.Open();                    
+                    cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+					cmd.Parameters["@BedrijfId"].Value = bedrijfId;
+                    return (int)cmd.ExecuteScalar();
+                }
+            } catch (Exception ex) {
+                ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+                exx.Data.Add("bedrijfid", bedrijfId);
+                throw exx;
+            } finally {
+                con.Close();
+            }
+        }
+
+        public Grafiek GeefUuroverzichtParkingVoorBedrijf(long id) {
+            throw new NotImplementedException();
+        }
+
+        public Grafiek GeefWeekoverzichtParkingVoorBedrijf(long id) {
+            throw new NotImplementedException();
+        }
+    }
 }
