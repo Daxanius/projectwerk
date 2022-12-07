@@ -59,24 +59,32 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		private double _maxWaarde = 0;
 		private int _langsteSet = 0;
 
-		/// <summary>
-		/// Tekent een achtergrond gebaseerd op de grootste dataset
-		/// </summary>
-		/// <param name="drawingContext"></param>
-		private void TekenAchtergrond(DrawingContext drawingContext) {
-			// Voor een bar hebben we geen offset nodig
-			int offset = 0;
+		// Berekent de visuele X positie voor het weergeven
+		// van een dataset op de gegeven index-positie
+		private double GeefDataPositie(int index) {
+			// Voor een bar hebben we geen correctie nodig
+			int correctie = 0;
+			double offset = (Width / (_langsteSet * BarMargin)) / 2;
 			switch (GrafiekType) {
 				case GrafiekType.Lijn:
-					offset = -1;
+					correctie = -1;
+					offset = 0;
 					break;
 				default:
 					break;
 			}
 
+			return (index * (Width / (_langsteSet + correctie))) + offset;
+		}
+
+		/// <summary>
+		/// Tekent een achtergrond gebaseerd op de grootste dataset
+		/// </summary>
+		/// <param name="drawingContext"></param>
+		private void TekenAchtergrond(DrawingContext drawingContext) {
 			for (int i = 0; i < _langsteSet; i++) {
 				// X positie berekenen
-				double x = i * (Width / (_langsteSet + offset));
+				double x = GeefDataPositie(i);
 
 				// Verticale dotted lijn
 				for (int ii = 0; ii < Height; ii += (StrokeDot + StrokeDotPadding)) {
@@ -84,9 +92,8 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 				}
 
 				// Horizontale dotted lijn
-				//for (int ii = 0; ii < Width; ii += (MileStrokeDot + MileStrokeDotPadding))
-				//{
-				//    drawingContext.DrawLine(new(MileStroke, MileStrokeThickness), new(ii, height), new(ii + MileStrokeDot, height));
+				//for (int ii = 0; ii < Width; ii += (StrokeDot + StrokeDotPadding)) {
+				//	drawingContext.DrawLine(new(Stroke, StrokeThickness), new(ii, x), new(ii + StrokeDot, x));
 				//}
 			}
 		}
@@ -129,19 +136,9 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		/// </summary>
 		/// <param name="drawingContext"></param>
 		private void TekenInfo(DrawingContext drawingContext) {
-			// Voor een bar hebben we geen offset nodig
-			int offset = 0;
-			switch (GrafiekType) {
-				case GrafiekType.Lijn:
-					offset = -1;
-					break;
-				default:
-					break;
-			}
-
 			// Tekent de onderste legende
 			for (int i = 0; i < KolomLabels.Count && i < _langsteSet; i++) {
-				var width = i * (Width / (_langsteSet + offset));
+				double x = GeefDataPositie(i);
 				drawingContext.DrawText(new(
 						KolomLabels[i],
 						CultureInfo.CurrentCulture,
@@ -150,12 +147,12 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 						FontSize,
 						Foreground,
 						PixelsPerDip),
-					new(width - ((KolomLabels[i].Length / 2) * FontSize) + PixelsPerDip / 2, Height + TextPadding));
+					new(x - (KolomLabels[i].Length / 2 * FontSize) + PixelsPerDip / 2, Height + TextPadding));
 			}
 
 			// Tekent de nummers met een increment
 			for (int i = 0; i <= _maxWaarde; i += WaardeIncrement) {
-				var textHeight = Height - (i / _maxWaarde * Height * 0.9);
+				var y = Height - (i / _maxWaarde * Height * 0.9);
 
 				drawingContext.DrawText(new(
 						i.ToString(),
@@ -165,7 +162,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 						FontSize,
 						Foreground,
 						PixelsPerDip),
-					new(-TextPadding, textHeight));
+					new(-TextPadding, y));
 			}
 
 			// Tekent de legende
@@ -175,7 +172,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 				if (dataset.Label is null) continue;
 
 				var textHeight = labelCount + (Height / 2);
-				Rect rect = new(new(Width + TextPadding, textHeight + 2), new Size(10, 10));
+				Rect rect = new(new(Width + TextPadding + 10, textHeight + 2), new Size(10, 10));
 				drawingContext.DrawRectangle(dataset.Stroke, dataset.GeefPen(), rect);
 				drawingContext.DrawText(new(
 				dataset.Label,
@@ -185,7 +182,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 					FontSize,
 					Foreground,
 					PixelsPerDip),
-				new(Width + TextPadding + rect.Width + 5, textHeight));
+				new(rect.Location.X + rect.Width + 5, textHeight));
 
 				labelCount += LegendeMargin * 10;
 			}
