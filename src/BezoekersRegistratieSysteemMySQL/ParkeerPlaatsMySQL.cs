@@ -38,7 +38,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			string query = "SELECT COUNT(*) " +
 						   "FROM Parkingplaatsen " +
 						   "WHERE NummerPlaat = @nummerplaat " +
-						   "AND EindTIjd IS NULL";
+						   "AND EindTijd IS NULL AND StatusId = 1";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
@@ -91,8 +91,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public void CheckNummerplaatUit(string nummerplaat) {
 			MySqlConnection con = GetConnection();
 			string query = "UPDATE Parkingplaatsen " +
-						   "SET EindTijd = @EindTijd " +
-						   "WHERE NummerPlaat = @nummerplaat AND EindTijd IS NOT NULL";
+						   "SET EindTijd = @EindTijd, StatusId = NULL " +
+                           "WHERE NummerPlaat = @nummerplaat AND EindTijd IS NOT NULL AND StatusId = 1";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
@@ -200,7 +200,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
             MySqlConnection con = GetConnection();
             string query = "SELECT COUNT(*) " +
                            "FROM Parkingplaatsen " +
-                           "WHERE bedrijfId = @BedrijfId AND EindTijd IS NULL";
+                           "WHERE bedrijfId = @BedrijfId AND EindTijd IS NULL AND StatusId = 1";
             try {
                 using (MySqlCommand cmd = con.CreateCommand()) {
                     con.Open();
