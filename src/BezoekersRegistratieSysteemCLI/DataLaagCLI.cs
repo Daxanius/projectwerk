@@ -37,11 +37,10 @@ namespace BezoekersRegistratieSysteemCLI {
 
 
             try {
-                var result = werknemerRepo.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(bestaandWerknemer);
-                foreach (var item in result) {
-                    Print(item, "VoegAfspraakToe");
-                    Print(item.GeefBedrijvenEnFunctiesPerWerknemer(), "VoegAfspraakToe");
-                }
+                var result = parkeerRepo.GeefHuidigBezetteParkeerplaatsenVoorBedrijf(bestaandBedrijf);
+               
+                    Print(result, "VoegAfspraakToe");
+                
             } catch (Exception ex) {
                 Error(ex);
                 return;
