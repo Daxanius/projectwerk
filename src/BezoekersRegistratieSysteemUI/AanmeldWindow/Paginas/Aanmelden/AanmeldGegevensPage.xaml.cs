@@ -186,7 +186,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			(bool isvalid, AfspraakOutputDTO afspraak) = await ApiController.Post<AfspraakOutputDTO>("/afspraak", json);
 
 			if (isvalid) {
-				MessageBox.Show($"U registratie is goed ontvangen met als startijd: {afspraak.Starttijd:HH:mm - dd/MM/yyyy}");
+				MessageBox.Show($"Uw registratie werd goed ontvangen.");
 			} else {
 				MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
 			}
