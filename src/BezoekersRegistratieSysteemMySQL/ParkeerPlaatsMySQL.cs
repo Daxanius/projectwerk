@@ -207,7 +207,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                     cmd.CommandText = query;
                     cmd.Parameters.Add(new MySqlParameter("@BedrijfId", MySqlDbType.Int64));
                     cmd.Parameters["@BedrijfId"].Value = bedrijfId;
-                    return (int)cmd.ExecuteScalar();
+                    return Convert.ToInt32((long)cmd.ExecuteScalar());
                 }
             } catch (Exception ex) {
                 ParkeerPlaatsMySQLException exx = new ParkeerPlaatsMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
