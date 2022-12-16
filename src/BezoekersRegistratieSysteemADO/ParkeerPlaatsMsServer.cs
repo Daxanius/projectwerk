@@ -236,9 +236,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								"COUNT(pp.nummerplaat) AS parkedHour, " +
 								"(SELECT COUNT(*) " +
 								"FROM parkingplaatsen pp " +
-								"WHERE " +
-								"(pp.BedrijfId = @BedrijfId " +
-								"AND ((hour <= DATEPART(HOUR, GETDATE()) " +
+                                "WHERE pp.BedrijfId = @BedrijfId " +
+								"(((hour <= DATEPART(HOUR, GETDATE()) AND " +
 								"AND DATEPART(HOUR, pp.StartTijd) <= hour) " +
 								"AND CONVERT(DATE, pp.starttijd) = CONVERT(DATE, GETDATE())) OR CONVERT(DATE, pp.starttijd) < CONVERT(DATE, GETDATE())) " +
 								"AND (statusid = 1 AND " +
