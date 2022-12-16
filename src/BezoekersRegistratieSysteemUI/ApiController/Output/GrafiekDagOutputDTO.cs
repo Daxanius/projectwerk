@@ -2,10 +2,10 @@
 
 namespace BezoekersRegistratieSysteemUI.Api.Output {
 	public class GrafiekDagOutputDTO {
-		public GrafiekDagOutputDTO(List<(string, int)> geparkeerdenTotaalPerWeek) {
+		public GrafiekDagOutputDTO(IReadOnlyDictionary<string, int> geparkeerdenTotaalPerWeek) {
 			GeparkeerdenTotaalPerWeek = geparkeerdenTotaalPerWeek;
 		}
 
-		public IEnumerable<(string, int)> GeparkeerdenTotaalPerWeek { get; set; }
+		public IReadOnlyDictionary<string, int> GeparkeerdenTotaalPerWeek { get; set; }
 	}
 }

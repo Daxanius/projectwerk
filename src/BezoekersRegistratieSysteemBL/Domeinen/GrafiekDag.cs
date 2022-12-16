@@ -1,10 +1,10 @@
 ﻿namespace BezoekersRegistratieSysteemBL.Domeinen {
     public class GrafiekDag {
-        private List<(string, int)> XwaardeGeparkeerdenTotaalPerWeek { get; set; } = new List<(string, int)>();
+        private Dictionary<string, int> XwaardeGeparkeerdenTotaalPerWeek { get; set; } = new Dictionary<string, int>();
         public void VoegWaardeToe(string xwaarde, int GeparkeerdenTotaalPerWeek) {
-            XwaardeGeparkeerdenTotaalPerWeek.Add((xwaarde, GeparkeerdenTotaalPerWeek));
+            XwaardeGeparkeerdenTotaalPerWeek.Add(xwaarde, GeparkeerdenTotaalPerWeek);
         }
-        public IReadOnlyList<(string, int)> GeefXwaardeGeparkeerdenTotaalPerWeek() {
+        public IReadOnlyDictionary<string, int> GeefXwaardeGeparkeerdenTotaalPerWeek() {
             return XwaardeGeparkeerdenTotaalPerWeek;
         }
     }

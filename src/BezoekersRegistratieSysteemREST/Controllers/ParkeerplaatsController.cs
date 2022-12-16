@@ -63,7 +63,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="bedrijfId"></param>
 		/// <returns></returns>
-		[HttpGet("bedrijf/{bedrijfId}/overzicht/uur")]
+		[HttpGet("bedrijf/{bedrijfId}/overzicht/dag")]
 		public ActionResult<GrafiekDagDetailOutputDTO> GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
