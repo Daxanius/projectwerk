@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Model.Input;
+using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -37,6 +38,36 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
 				return Ok(_parkeerplaatsManager.GeefNummerplatenPerBedrijf(bedrijf));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Geef de nummerplaten van een bedrijf.
+		/// </summary>
+		/// <param name="bedrijfId"></param>
+		/// <returns></returns>
+		[HttpGet("bedrijf/{bedrijfId}/overzicht/week")]
+		public ActionResult<GrafiekDagOutputDTO> GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				return Ok(GrafiekDagOutputDTO.NaarDTO(_parkeerplaatsManager.GeefWeekoverzichtParkingVoorBedrijf(bedrijf)));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Geef de nummerplaten van een bedrijf.
+		/// </summary>
+		/// <param name="bedrijfId"></param>
+		/// <returns></returns>
+		[HttpGet("bedrijf/{bedrijfId}/overzicht/uur")]
+		public ActionResult<GrafiekDagDetailOutputDTO> GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				return Ok(GrafiekDagDetailOutputDTO.NaarDTO(_parkeerplaatsManager.GeefUuroverzichtParkingVoorBedrijf(bedrijf)));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
