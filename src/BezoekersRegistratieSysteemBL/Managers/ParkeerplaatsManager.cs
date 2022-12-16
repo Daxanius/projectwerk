@@ -90,41 +90,39 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			return _parkeerplaatsRepository.GeefHuidigBezetteParkeerplaatsenVoorBedrijf(bedrijf.Id);
 		}
 
-        public GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(Bedrijf bedrijf)
-        {
-            if (bedrijf == null)
-                throw new ParkeerplaatsManagerException("ParkeerManager - GeefGrafiekPerBedrijf - Bedrijf mag niet leeg zijn");
-            return _parkeerplaatsRepository.GeefUuroverzichtParkingVoorBedrijf(bedrijf.Id);
-        }
+		public GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(Bedrijf bedrijf) {
+			if (bedrijf == null)
+				throw new ParkeerplaatsManagerException("ParkeerManager - GeefGrafiekPerBedrijf - Bedrijf mag niet leeg zijn");
+			return _parkeerplaatsRepository.GeefUuroverzichtParkingVoorBedrijf(bedrijf.Id);
+		}
 
-        public GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(Bedrijf bedrijf)
-        {
-            if (bedrijf == null)
-                throw new ParkeerplaatsManagerException("ParkeerManager - GeefGrafiekPerBedrijf - Bedrijf mag niet leeg zijn");
-            return _parkeerplaatsRepository.GeefWeekoverzichtParkingVoorBedrijf(bedrijf.Id);
-        }
+		public GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(Bedrijf bedrijf) {
+			if (bedrijf == null)
+				throw new ParkeerplaatsManagerException("ParkeerManager - GeefGrafiekPerBedrijf - Bedrijf mag niet leeg zijn");
+			return _parkeerplaatsRepository.GeefWeekoverzichtParkingVoorBedrijf(bedrijf.Id);
+		}
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param></param>
-        ///// <exception cref="ParkeerplaatsManagerException"></exception>
-        //public void BewerkParkeerplaats(Parkeerplaats parkeerplaats)
-        //{
-        //    if (parkeerplaats == null)
-        //        throw new ParkeerplaatsManagerException("ParkeerManager - BewerkParkeerplaats - Parkeerplaats mag niet leeg zijn");
-        //    if (!_parkeerplaatsRepository.BestaatParkeerplaats(parkeerplaats))
-        //        throw new ParkeerplaatsManagerException("ParkeerManager - BewerkParkeerplaats - Parkeerplaats bestaat niet");
-        //    try
-        //    {
-        //        _parkeerplaatsRepository.BewerkParkeerplaats(parkeerplaats);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new ParkeerplaatsManagerException(ex.Message);
-        //    }
-        //}
+		///// <summary>
+		///// 
+		///// </summary>
+		///// <param></param>
+		///// <exception cref="ParkeerplaatsManagerException"></exception>
+		//public void BewerkParkeerplaats(Parkeerplaats parkeerplaats)
+		//{
+		//    if (parkeerplaats == null)
+		//        throw new ParkeerplaatsManagerException("ParkeerManager - BewerkParkeerplaats - Parkeerplaats mag niet leeg zijn");
+		//    if (!_parkeerplaatsRepository.BestaatParkeerplaats(parkeerplaats))
+		//        throw new ParkeerplaatsManagerException("ParkeerManager - BewerkParkeerplaats - Parkeerplaats bestaat niet");
+		//    try
+		//    {
+		//        _parkeerplaatsRepository.BewerkParkeerplaats(parkeerplaats);
+		//    }
+		//    catch (Exception ex)
+		//    {
+		//        throw new ParkeerplaatsManagerException(ex.Message);
+		//    }
+		//}
 
 
-    }
+	}
 }

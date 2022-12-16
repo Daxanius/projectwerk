@@ -324,9 +324,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
-        public IReadOnlyList<Werknemer> WerknemerPotentieelReedsWerkzaamInBedrijvenpark(Werknemer werknemer)
-        {
-            return _werknemerRepository.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(werknemer);
-        }
-    }
+		public IReadOnlyList<Werknemer> WerknemerPotentieelReedsWerkzaamInBedrijvenpark(Werknemer werknemer) {
+			return _werknemerRepository.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(werknemer);
+		}
+	}
 }

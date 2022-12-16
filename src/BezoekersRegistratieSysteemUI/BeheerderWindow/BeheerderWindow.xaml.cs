@@ -148,7 +148,7 @@ namespace BezoekersRegistratieSysteemUI.Beheerder {
 
 		private void BedrijfGeUpdate_Event(BedrijfDTO bedrijf) {
 			if (bedrijf is null) return;
-			if(_geselecteerdBedrijf is not null && _geselecteerdBedrijf.Id == bedrijf.Id) {
+			if (_geselecteerdBedrijf is not null && _geselecteerdBedrijf.Id == bedrijf.Id) {
 				GeselecteerdBedrijf = bedrijf;
 			}
 		}

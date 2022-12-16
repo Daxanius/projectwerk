@@ -1,6 +1,7 @@
 ﻿using BezoekersRegistratieSysteemBL.Domeinen;
 using BezoekersRegistratieSysteemBL.Managers;
 using BezoekersRegistratieSysteemREST.Model.Input;
+using BezoekersRegistratieSysteemREST.Model.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BezoekersRegistratieSysteemREST.Controllers {
@@ -43,6 +44,36 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
+		/// Geef de nummerplaten van een bedrijf.
+		/// </summary>
+		/// <param name="bedrijfId"></param>
+		/// <returns></returns>
+		[HttpGet("bedrijf/{bedrijfId}/overzicht/week")]
+		public ActionResult<GrafiekDagOutputDTO> GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				return Ok(GrafiekDagOutputDTO.NaarDTO(_parkeerplaatsManager.GeefWeekoverzichtParkingVoorBedrijf(bedrijf)));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Geef de nummerplaten van een bedrijf.
+		/// </summary>
+		/// <param name="bedrijfId"></param>
+		/// <returns></returns>
+		[HttpGet("bedrijf/{bedrijfId}/overzicht/uur")]
+		public ActionResult<GrafiekDagDetailOutputDTO> GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				return Ok(GrafiekDagDetailOutputDTO.NaarDTO(_parkeerplaatsManager.GeefUuroverzichtParkingVoorBedrijf(bedrijf)));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
 		/// Voegt een contract toe.
 		/// </summary>
 		/// <param name="contractData"></param>
@@ -50,7 +81,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpPost]
 		public IActionResult VoegParkingContractToe([FromBody] ParkingContractInputDTO contractData) {
 			try {
-                _parkingContractManager.VoegParkingContractToe(contractData.NaarBusiness(_bedrijfManager));
+				_parkingContractManager.VoegParkingContractToe(contractData.NaarBusiness(_bedrijfManager));
 				return Ok();
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);

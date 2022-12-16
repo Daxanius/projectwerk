@@ -247,30 +247,30 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			}
 		}
 
-        /// <summary>
-        /// Geef aantal parkingplaatsen die op een huidig contract staan
-        /// </summary>
-        /// <param name="bedrijfid">bedrijfid wiens contract aantal moet weergegeven worden</param>
-        /// <returns>int aantal plaatsen</returns>
-        public int GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfid) {
-            MySqlConnection con = GetConnection();
-            string query = "SELECT AantalPlaatsen " +
-                           "FROM ParkingContract " +
-                           "WHERE NOW() BETWEEN StartTijd AND EindTijd AND BedrijfId = @bedrijfId";
-            try {
-                using (MySqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    cmd.CommandText = query;
-                    cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
-                    cmd.Parameters["@bedrijfId"].Value = bedrijfid;
-                    var i = cmd.ExecuteScalar();
-                    return i is null ? 0 : int.Parse(i.ToString());
-                }
-            } catch (Exception ex) {
-                throw new ParkingContractMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-            } finally {
-                con.Close();
-            }
-        }
-    }
+		/// <summary>
+		/// Geef aantal parkingplaatsen die op een huidig contract staan
+		/// </summary>
+		/// <param name="bedrijfid">bedrijfid wiens contract aantal moet weergegeven worden</param>
+		/// <returns>int aantal plaatsen</returns>
+		public int GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfid) {
+			MySqlConnection con = GetConnection();
+			string query = "SELECT AantalPlaatsen " +
+						   "FROM ParkingContract " +
+						   "WHERE NOW() BETWEEN StartTijd AND EindTijd AND BedrijfId = @bedrijfId";
+			try {
+				using (MySqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new MySqlParameter("@bedrijfId", MySqlDbType.Int64));
+					cmd.Parameters["@bedrijfId"].Value = bedrijfid;
+					var i = cmd.ExecuteScalar();
+					return i is null ? 0 : int.Parse(i.ToString());
+				}
+			} catch (Exception ex) {
+				throw new ParkingContractMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+			} finally {
+				con.Close();
+			}
+		}
+	}
 }

@@ -128,9 +128,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				foreach (var key in werknemerOud.GeefBedrijvenEnFunctiesPerWerknemer().Keys) {
 					WerknemerInfo infoOud = werknemerOud.GeefBedrijvenEnFunctiesPerWerknemer()[key];
 					WerknemerInfo infoNieuw = werknemerNieuw.GeefBedrijvenEnFunctiesPerWerknemer()[key];
-					
+
 					// Verwijder alle oude functies
-					foreach(string functie in infoOud.GeefWerknemerFuncties()) {
+					foreach (string functie in infoOud.GeefWerknemerFuncties()) {
 						infoOud.VerwijderWerknemerFunctie(functie);
 					}
 
@@ -212,7 +212,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 				return BadRequest(ex.Message);
 			}
 		}
-		
+
 		/// <summary>
 		/// Geeft aan of een werknemer al potentieel werkzaam is in een bedrijvenpark
 		/// </summary>
