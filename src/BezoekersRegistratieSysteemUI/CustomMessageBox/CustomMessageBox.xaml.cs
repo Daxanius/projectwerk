@@ -14,23 +14,23 @@ namespace BezoekersRegistratieSysteemUI.MessageBoxes {
 
 			switch (icon) {
 				case ECustomMessageBoxIcon.Warning:
-				Icon.IconSource = "../WarningIcon.xaml";
-				break;
+					Icon.IconSource = "../WarningIcon.xaml";
+					break;
 				case ECustomMessageBoxIcon.Question:
-				Icon.IconSource = "../QuestionIcon.xaml";
-				break;
+					Icon.IconSource = "../QuestionIcon.xaml";
+					break;
 				case ECustomMessageBoxIcon.Information:
-				Icon.IconSource = "../InformationIcon.xaml";
-				AnnulerenButton.Visibility = Visibility.Collapsed;
-				BevestigenButton.Visibility = Visibility.Collapsed;
-				SluitButton.Visibility = Visibility.Visible;
-				break;
+					Icon.IconSource = "../InformationIcon.xaml";
+					AnnulerenButton.Visibility = Visibility.Collapsed;
+					BevestigenButton.Visibility = Visibility.Collapsed;
+					SluitButton.Visibility = Visibility.Visible;
+					break;
 				case ECustomMessageBoxIcon.Error:
-				Icon.IconSource = "../WarningIcon.xaml";
-				AnnulerenButton.Visibility = Visibility.Collapsed;
-				BevestigenButton.Visibility = Visibility.Collapsed;
-				SluitButton.Visibility = Visibility.Visible;
-				break;
+					Icon.IconSource = "../WarningIcon.xaml";
+					AnnulerenButton.Visibility = Visibility.Collapsed;
+					BevestigenButton.Visibility = Visibility.Collapsed;
+					SluitButton.Visibility = Visibility.Visible;
+					break;
 			}
 
 			if (this.ShowDialog() == true) {

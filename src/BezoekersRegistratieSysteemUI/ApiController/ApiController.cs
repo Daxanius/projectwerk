@@ -1,5 +1,4 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemUI.Api.Input;
+﻿using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Exceptions;
@@ -9,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -597,5 +595,27 @@ namespace BezoekersRegistratieSysteemUI.Api {
 			await Put($"werknemer/{werknemerId}/bedrijf/{BeheerderWindow.GeselecteerdBedrijf.Id}", payload);
 		}
 		#endregion
+
+		public static GrafiekDagOutputDTO? GeefParkeerplaatsWeekoverzichtVanBedrijf(long bedrijfId) {
+			return Task.Run(async () => {
+				(bool isvalid, GrafiekDagOutputDTO grafiek) = await Get<GrafiekDagOutputDTO>($"parkeerplaats/bedrijf/{bedrijfId}/overzicht/week");
+				if (isvalid) {
+					return grafiek;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de grafiek");
+				}
+			}).Result;
+		}
+
+		public static GrafiekDagDetailOutputDTO? GeefParkeerplaatsDagoverzichtVanBedrijf(long bedrijfId) {
+			return Task.Run(async () => {
+				(bool isvalid, GrafiekDagDetailOutputDTO grafiek) = await Get<GrafiekDagDetailOutputDTO>($"parkeerplaats/bedrijf/{bedrijfId}/overzicht/dag");
+				if (isvalid) {
+					return grafiek;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de grafiek");
+				}
+			}).Result;
+		}
 	}
 }

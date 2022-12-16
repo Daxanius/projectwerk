@@ -9,7 +9,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void CheckNummerplaatUit(string nummerplaat);
 		int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long id);
 		IReadOnlyList<Parkeerplaats> GeefNummerplatenPerBedrijf(Bedrijf bedrijf);
-        GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(long id);
-        GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(long id);
-    }
+		GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(long id);
+		GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(long id);
+	}
 }

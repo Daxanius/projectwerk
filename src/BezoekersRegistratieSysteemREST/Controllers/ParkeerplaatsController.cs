@@ -81,7 +81,7 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		[HttpPost]
 		public IActionResult VoegParkingContractToe([FromBody] ParkingContractInputDTO contractData) {
 			try {
-                _parkingContractManager.VoegParkingContractToe(contractData.NaarBusiness(_bedrijfManager));
+				_parkingContractManager.VoegParkingContractToe(contractData.NaarBusiness(_bedrijfManager));
 				return Ok();
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);

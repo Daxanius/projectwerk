@@ -98,16 +98,13 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
-        public int GeefAantalParkeerplaatsenVoorBedrijf(Bedrijf bedrijf)
-        {
-			try
-			{
-				if(bedrijf == null) throw new ParkingContractManagerException("Bedrijf mag niet leeg zijn");
+		public int GeefAantalParkeerplaatsenVoorBedrijf(Bedrijf bedrijf) {
+			try {
+				if (bedrijf == null) throw new ParkingContractManagerException("Bedrijf mag niet leeg zijn");
 				return _parkingContractRepository.GeefAantalParkeerplaatsenVoorBedrijf(bedrijf.Id);
-			} catch (Exception ex)
-            {
-                throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-            }
-        }
-    }
+			} catch (Exception ex) {
+				throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+			}
+		}
+	}
 }

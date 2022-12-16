@@ -240,30 +240,30 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			}
 		}
 
-        /// <summary>
-        /// Geef aantal parkingplaatsen die op een huidig contract staan
-        /// </summary>
-        /// <param name="bedrijfid">bedrijfid wiens contract aantal moet weergegeven worden</param>
-        /// <returns>int aantal plaatsen</returns>
-        public int GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfid) {
-            SqlConnection con = GetConnection();
-            string query = "SELECT AantalPlaatsen " +
+		/// <summary>
+		/// Geef aantal parkingplaatsen die op een huidig contract staan
+		/// </summary>
+		/// <param name="bedrijfid">bedrijfid wiens contract aantal moet weergegeven worden</param>
+		/// <returns>int aantal plaatsen</returns>
+		public int GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfid) {
+			SqlConnection con = GetConnection();
+			string query = "SELECT AantalPlaatsen " +
 						   "FROM ParkingContract " +
 						   "WHERE GETDATE() BETWEEN StartTijd AND EindTijd AND BedrijfId = @bedrijfId";
-            try {
-                using (SqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
-                    cmd.Parameters["@bedrijfId"].Value = bedrijfid;
-					var i = cmd.ExecuteScalar();					
-                    return i is null ? 0 : int.Parse(i.ToString());
-                }
-            } catch (Exception ex) {
-                throw new ParkingContractMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-            } finally {
-                con.Close();
-            }
-        }
-    }
+			try {
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@bedrijfId", SqlDbType.BigInt));
+					cmd.Parameters["@bedrijfId"].Value = bedrijfid;
+					var i = cmd.ExecuteScalar();
+					return i is null ? 0 : int.Parse(i.ToString());
+				}
+			} catch (Exception ex) {
+				throw new ParkingContractMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+			} finally {
+				con.Close();
+			}
+		}
+	}
 }
