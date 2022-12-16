@@ -184,7 +184,10 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		private void TekenKolomLabels(DrawingContext drawingContext) {
 			// Tekent de kolom labels
 			for (int i = 0; i < KolomLabels.Count && i < _langsteSet; i++) {
-				double x = GeefDataPositieX(i);
+				if (KolomLabels[i] is null) {
+					continue;
+				}
+                double x = GeefDataPositieX(i);
 				drawingContext.DrawText(new(
 						KolomLabels[i],
 						CultureInfo.CurrentCulture,

@@ -11,7 +11,7 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// <param name="grafiekDag"></param>
 		/// <returns></returns>
 		public static GrafiekDagOutputDTO NaarDTO(GrafiekDag grafiekDag) {
-			return new(grafiekDag.GeefXwaardeGeparkeerdenTotaalPerWeek().ToList());
+			return new(grafiekDag.GeefXwaardeGeparkeerdenTotaalPerWeek());
 		}
 
 		/// <summary>
@@ -32,13 +32,13 @@ namespace BezoekersRegistratieSysteemREST.Model.Output {
 		/// De constructor.
 		/// </summary>
 		/// <param name="geparkeerdenTotaalPerWeek"></param>
-		public GrafiekDagOutputDTO(List<(string, int)> geparkeerdenTotaalPerWeek) {
+		public GrafiekDagOutputDTO(IReadOnlyDictionary<string, int> geparkeerdenTotaalPerWeek) {
 			GeparkeerdenTotaalPerWeek = geparkeerdenTotaalPerWeek;
 		}
 
 		/// <summary>
 		/// Totaal geparkeerden per week
 		/// </summary>
-		public IEnumerable<(string, int)> GeparkeerdenTotaalPerWeek { get; set; }
+		public IReadOnlyDictionary<string, int> GeparkeerdenTotaalPerWeek { get; set; }
 	}
 }

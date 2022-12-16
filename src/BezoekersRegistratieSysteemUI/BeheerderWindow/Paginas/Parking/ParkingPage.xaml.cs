@@ -31,7 +31,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			var dataWeek = ApiController.GeefParkeerplaatsWeekoverzichtVanBedrijf(GeselecteerdBedrijf.Id);
 
 			Grafiek.KolomLabels = dataDag.CheckInsPerUur.Keys.ToList();
-			Grafiek1.KolomLabels = dataWeek.GeparkeerdenTotaalPerWeek.Select(i => i.Item1).ToList();
+			Grafiek1.KolomLabels = dataWeek.GeparkeerdenTotaalPerWeek.Keys.ToList();
 
 			GrafiekDataset dataSetCheckinsPerUur = new() {
 				Data = dataDag.CheckInsPerUur.Values.ToList().ConvertAll(x => (double)x),
@@ -46,7 +46,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			};
 
 			GrafiekDataset dataSetWeek = new() {
-				Data = dataWeek.GeparkeerdenTotaalPerWeek.Select(i => (double)i.Item2).ToList(),
+				Data = dataWeek.GeparkeerdenTotaalPerWeek.Values.ToList().ConvertAll(x => (double)x),
 				Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#404BDA")
 			};
 
