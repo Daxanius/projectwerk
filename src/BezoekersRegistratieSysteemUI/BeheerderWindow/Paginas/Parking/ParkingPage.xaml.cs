@@ -35,23 +35,23 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 
 			GrafiekDataset dataSetCheckinsPerUur = new() {
 				Data = dataDag.CheckInsPerUur.Values.ToList().ConvertAll(x => (double)x),
-				Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#404BDA"),
-				Label = "Checkins"
+				Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#272944"),
+				Label = "Huidig"
 			};
 
 			GrafiekDataset dataSetTotaalGeparkeerden = new() {
 				Data = dataDag.GeparkeerdenTotaalPerUur.Values.ToList().ConvertAll(x => (double)x),
-				Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#272944"),
-				Label = "Totaal Geparkeerden"
+				Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#404BDA"),
+				Label = "Totaal"
 			};
 
 			GrafiekDataset dataSetWeek = new() {
 				Data = dataWeek.GeparkeerdenTotaalPerWeek.Values.ToList().ConvertAll(x => (double)x),
 				Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#404BDA")
 			};
-
-			Grafiek.Datasets.Add(dataSetCheckinsPerUur);
+			
 			Grafiek.Datasets.Add(dataSetTotaalGeparkeerden);
+			Grafiek.Datasets.Add(dataSetCheckinsPerUur);
 			Grafiek1.Datasets.Add(dataSetWeek);
 		}
 
@@ -81,6 +81,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged
+
 
 		private void LineGraph_Loaded(object sender, RoutedEventArgs e) {
 			Grafiek.Width = LineGraph.RenderSize.Width * 0.75;

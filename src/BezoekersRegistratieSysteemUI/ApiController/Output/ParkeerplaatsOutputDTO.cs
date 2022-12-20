@@ -1,5 +1,4 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using System;
+﻿using System;
 
 namespace BezoekersRegistratieSysteemUI.Api.Output
 {

@@ -110,7 +110,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		/// <param name="data"></param>
 		/// <returns></returns>
 		private double GeefDataPositieY(double data) {
-			return Height - (data / _hoogsteWaarde * Height * 0.9);
+			return Height - (data / _hoogsteWaarde * Height);
 		}
 
 		/// <summary>
@@ -120,7 +120,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		/// <param name="data"></param>
 		/// <returns></returns>
 		private double GeefDataHoogte(double data) {
-			return data / _hoogsteWaarde * Height * 0.9;
+			return data / _hoogsteWaarde * Height;
 		}
 
 		/// <summary>
@@ -207,7 +207,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		private void TekenDataReferentie(DrawingContext drawingContext) {
 			// Tekent de nummers met een increment
 			double capaciteit = _hoogsteWaarde / WaardeIncrement;
-			int topInc = (int)Math.Floor(capaciteit);
+			int topInc = (int)Math.Ceiling(capaciteit);
 
 			for (int i = 0; i <= topInc; i++) {
 				double waarde = i * WaardeIncrement;
@@ -277,8 +277,12 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			// Haalt de grootste sets op
 			_langsteSet = Datasets.Max(s => s.Data.Count as int?) ?? 0;
 			_hoogsteWaarde = Datasets.Max(x => x.Data.Max() as double?) ?? 0;
+			
+			//Gigabrain Bjorn
+            double temp = Convert.ToInt32(_hoogsteWaarde / WaardeIncrement) * WaardeIncrement;
+            _hoogsteWaarde = _hoogsteWaarde < temp ? temp : temp + WaardeIncrement;
 
-			TekenAchtergrond(drawingContext);
+            TekenAchtergrond(drawingContext);
 
 			switch (GrafiekType) {
 				case GrafiekType.Bar:

@@ -1,18 +1,30 @@
-﻿using System.ComponentModel;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.Model;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls {
 	public partial class ParkingContractControl : UserControl, INotifyPropertyChanged {
 
-		public ParkingContractControl() {
+		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
+		
+        public ParkingContractControl() {
 			this.DataContext = this;
 			InitializeComponent();
 
-			//Kijk of je kan rechts klikken om iets te doen
-			//NummerplaatLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
-			//ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
-		}
+            var parkingContract = ApiController.GeefParkingContract(GeselecteerdBedrijf.Id);
+
+            TotaalAantalParkeerplaatsenBedrijf.Content = parkingContract.AantalPlaatsen;
+            BezetAantalParkeerplaatsenBedrijf.Content = ApiController.GeefHuidigBezetteParkeerplaatsenVoorBedrijf(GeselecteerdBedrijf.Id);
+            StartDatumParkingContract.Content = parkingContract.Starttijd;
+            EindDatumParkingContract.Content = parkingContract.Eindtijd;
+
+            //Kijk of je kan rechts klikken om iets te doen
+            //NummerplaatLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
+            //ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
+        }
 
 		#region ProppertyChanged
 		public event PropertyChangedEventHandler? PropertyChanged;

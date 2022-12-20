@@ -160,7 +160,7 @@
                             Margin="25,0,25,25"
                             HorizontalAlignment="Center"
                             GrafiekType="Lijn"
-                            WaardeIncrement="25" />
+                            WaardeIncrement="10" />
                     </StackPanel>
                 </Border>
                 <Border

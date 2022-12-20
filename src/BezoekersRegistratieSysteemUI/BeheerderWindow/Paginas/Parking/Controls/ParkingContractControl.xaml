@@ -13,14 +13,14 @@
     <Grid HorizontalAlignment="Center" x:Name="ParkingContractDetails">
         <Border Padding="50,0">
             <StackPanel>
-                <Label Content="23" FontSize="100" Foreground="{StaticResource GewoonBlauw}" FontWeight="SemiBold"/>
+                <Label Name="BezetAantalParkeerplaatsenBedrijf" FontSize="100" Foreground="{StaticResource GewoonBlauw}" FontWeight="SemiBold"/>
                 <Label Content="/" FontSize="100" Margin="125,-75,0,0" Foreground="{StaticResource MainBlack}" Opacity="0.4" FontWeight="SemiBold"/>
-                <Label Content="45" Margin="150,-75,0,0" FontSize="100" Foreground="{StaticResource MainBlack}" Opacity="0.4" FontWeight="SemiBold"/>
+                <Label Name="TotaalAantalParkeerplaatsenBedrijf" Margin="150,-75,0,0" FontSize="100" Foreground="{StaticResource MainBlack}" Opacity="0.4" FontWeight="SemiBold"/>
                 <Rectangle HorizontalAlignment="Stretch" Height="2" Fill="{StaticResource MainBlack}" Opacity="0.4"/>
                 <Label Content="Startdatum Contract" HorizontalAlignment="Center" Opacity="0.4" Margin="0,25,0,0" FontSize="20" FontWeight="Medium"/>
-                <Label Content="01.01.2022" HorizontalAlignment="Center" Opacity="0.4" FontSize="20" FontWeight="Medium"/>
+                <Label Name="StartDatumParkingContract" HorizontalAlignment="Center" Opacity="0.4" FontSize="20" FontWeight="Medium"/>
                 <Label Content="Einddatum Contract" HorizontalAlignment="Center" Opacity="0.4" FontSize="20" FontWeight="Medium"/>
-                <Label Content="26.06.2023" HorizontalAlignment="Center" Opacity="0.4" FontSize="20" FontWeight="Medium"/>
+                <Label Name="EindDatumParkingContract" HorizontalAlignment="Center" Opacity="0.4" FontSize="20" FontWeight="Medium"/>
             </StackPanel>
         </Border>
     </Grid>

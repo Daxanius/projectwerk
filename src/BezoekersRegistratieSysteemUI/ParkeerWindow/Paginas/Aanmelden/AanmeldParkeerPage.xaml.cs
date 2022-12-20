@@ -1,5 +1,4 @@
-﻿using BezoekersRegistratieSysteemBL.Domeinen;
-using BezoekersRegistratieSysteemUI.AanmeldWindow;
+﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
 using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
