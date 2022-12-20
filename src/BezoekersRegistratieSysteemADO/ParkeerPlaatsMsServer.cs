@@ -297,7 +297,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 									"FROM offset o " +
 								"), " +
 								"parked AS( " +
-									"SELECT d.abbrDay, (SELECT COUNT(*) FROM ParkingPlaatsen pl WHERE CONVERT(date, pl.StartTijd) = d.da AND BedrijfId = 1) as totalCheckIn, d.da " +
+                                    "SELECT d.abbrDay, (SELECT COUNT(*) FROM ParkingPlaatsen pl WHERE CONVERT(date, pl.StartTijd) = d.da AND BedrijfId = @BedrijfId) as totalCheckIn, d.da " +
 									"FROM days d " +
 								") " +
 							"SELECT abbrDay, totalCheckIn FROM parked p ORDER by p.da";
