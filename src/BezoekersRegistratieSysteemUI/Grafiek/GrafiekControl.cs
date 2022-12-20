@@ -151,11 +151,11 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		private void TekenDatasetsLijn(DrawingContext drawingContext) {
 			// We gaan door alle datasets gaan en ze individueel tekenen
 			foreach (var dataset in Datasets) {
-				for (int i = 0; i < dataset.Data.Count -1; i++) {
+				for (int i = 0; i < dataset.Data.Count - 1; i++) {
 					Point punt = new(GeefDataPositieX(i),
 						GeefDataPositieY(dataset.Data[i]));
-					Point puntNext = new(GeefDataPositieX(i +1),
-						GeefDataPositieY(dataset.Data[i +1]));
+					Point puntNext = new(GeefDataPositieX(i + 1),
+						GeefDataPositieY(dataset.Data[i + 1]));
 
 					drawingContext.DrawLine(dataset.GeefPen(), punt, puntNext);
 				}
@@ -184,7 +184,10 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 		private void TekenKolomLabels(DrawingContext drawingContext) {
 			// Tekent de kolom labels
 			for (int i = 0; i < KolomLabels.Count && i < _langsteSet; i++) {
-				double x = GeefDataPositieX(i);
+				if (KolomLabels[i] is null) {
+					continue;
+				}
+                double x = GeefDataPositieX(i);
 				drawingContext.DrawText(new(
 						KolomLabels[i],
 						CultureInfo.CurrentCulture,

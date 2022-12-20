@@ -125,26 +125,26 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			}
 		}
 
-        /// <summary>
-        /// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
-        /// </summary>
-        /// <param name="bedrijf">Bedrijf wiens parkeerplaatsen op de parking moeten gereturned worden</param>
-        /// <returns>IReadOnlyList<Parkeerplaats> parkeerplaatsen</returns>
-        public IReadOnlyList<Parkeerplaats> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
-            try {
-                return GeefNummerplaten(bedrijf, true, 1);
-            } catch (Exception ex) {
-                throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-            }
-        }
+		/// <summary>
+		/// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
+		/// </summary>
+		/// <param name="bedrijf">Bedrijf wiens parkeerplaatsen op de parking moeten gereturned worden</param>
+		/// <returns>IReadOnlyList<Parkeerplaats> parkeerplaatsen</returns>
+		public IReadOnlyList<Parkeerplaats> GeefNummerplatenPerBedrijf(Bedrijf bedrijf) {
+			try {
+				return GeefNummerplaten(bedrijf, true, 1);
+			} catch (Exception ex) {
+				throw new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+			}
+		}
 
-        /// <summary>
-        /// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
-        /// </summary>
-        /// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-        /// <param name="bezet">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
-        /// <returns>IReadOnlyList<String> Nummerplaten</returns>
-        private IReadOnlyList<Parkeerplaats> GeefNummerplaten(Bedrijf bedrijf, bool? bezet, int? statusId) {
+		/// <summary>
+		/// Returned een lijst van string nummerplaten per bedrijf, kijkt op id of BTWNr
+		/// </summary>
+		/// <param name="bedrijf">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
+		/// <param name="bezet">Bedrijf wiens nummerplaten op de parking moeten gereturned worden</param>
+		/// <returns>IReadOnlyList<String> Nummerplaten</returns>
+		private IReadOnlyList<Parkeerplaats> GeefNummerplaten(Bedrijf bedrijf, bool? bezet, int? statusId) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT pp.Nummerplaat, pp.StartTijd, pp.EindTijd, pp.StatusId " +
 						   "FROM Parkingplaatsen pp";
@@ -162,15 +162,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						cmd.Parameters["@BTWNr"].Value = bedrijf.BTW;
 					}
 					if (bezet.HasValue) {
-                        string bezetOfNietBezet = bezet.Value ? "" : "NOT";
-                        query += $" AND pp.EindTijd IS {bezetOfNietBezet} NULL";
-                    }
+						string bezetOfNietBezet = bezet.Value ? "" : "NOT";
+						query += $" AND pp.EindTijd IS {bezetOfNietBezet} NULL";
+					}
 					if (statusId.HasValue) {
 						query += " AND pp.StatusId = @StatusId";
 						cmd.Parameters.Add(new SqlParameter("@StatusId", SqlDbType.Int));
 						cmd.Parameters["@StatusId"].Value = statusId.Value;
 					}
-                    
+
 					cmd.CommandText = query;
 					IDataReader reader = cmd.ExecuteReader();
 					List<Parkeerplaats> nummerplaten = new List<Parkeerplaats>();
@@ -190,41 +190,41 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			}
 		}
 
-        /// <summary>
-        /// Returned het aantal bezette plaatsen op de parking per bedrijf
-        /// </summary>
-        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
-        /// <returns>int aantal bezette plaatsen</returns>
-        public int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long bedrijfId) {
-            SqlConnection con = GetConnection();
-            string query = "SELECT COUNT(*) " +
+		/// <summary>
+		/// Returned het aantal bezette plaatsen op de parking per bedrijf
+		/// </summary>
+		/// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+		/// <returns>int aantal bezette plaatsen</returns>
+		public int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long bedrijfId) {
+			SqlConnection con = GetConnection();
+			string query = "SELECT COUNT(*) " +
 						   "FROM Parkingplaatsen " +
 						   "WHERE bedrijfId = @BedrijfId AND EindTijd IS NULL";
-            try {
-                using (SqlCommand cmd = con.CreateCommand()) {
-                    con.Open();                    
-                    cmd.CommandText = query;
+			try {
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
 					cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
 					cmd.Parameters["@BedrijfId"].Value = bedrijfId;
-                    return (int)cmd.ExecuteScalar();
-                }
-            } catch (Exception ex) {
-                ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-                exx.Data.Add("bedrijfid", bedrijfId);
-                throw exx;
-            } finally {
-                con.Close();
-            }
-        }
+					return (int)cmd.ExecuteScalar();
+				}
+			} catch (Exception ex) {
+				ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				exx.Data.Add("bedrijfid", bedrijfId);
+				throw exx;
+			} finally {
+				con.Close();
+			}
+		}
 
-        /// <summary>
-        /// Returned een grafiek met dag details over de parking voor een specifiek bedrijf
-        /// </summary>
-        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
-        /// <returns>Grafiek object</returns>
-        public GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
-            SqlConnection con = GetConnection();
-            string query =  "WITH " +
+		/// <summary>
+		/// Returned een grafiek met dag details over de parking voor een specifiek bedrijf
+		/// </summary>
+		/// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+		/// <returns>Grafiek object</returns>
+		public GrafiekDagDetail GeefUuroverzichtParkingVoorBedrijf(long bedrijfId) {
+			SqlConnection con = GetConnection();
+			string query = "WITH " +
 								"hours AS( " +
 								"SELECT 0 AS hour " +
 								"UNION ALL " +
@@ -236,9 +236,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								"COUNT(pp.nummerplaat) AS parkedHour, " +
 								"(SELECT COUNT(*) " +
 								"FROM parkingplaatsen pp " +
-								"WHERE " +
-                                "(pp.BedrijfId = @BedrijfId " +
-								"AND ((hour <= DATEPART(HOUR, GETDATE()) " +
+                                "WHERE pp.BedrijfId = @BedrijfId " +
+								"(((hour <= DATEPART(HOUR, GETDATE()) AND " +
 								"AND DATEPART(HOUR, pp.StartTijd) <= hour) " +
 								"AND CONVERT(DATE, pp.starttijd) = CONVERT(DATE, GETDATE())) OR CONVERT(DATE, pp.starttijd) < CONVERT(DATE, GETDATE())) " +
 								"AND (statusid = 1 AND " +
@@ -252,13 +251,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								"LEFT JOIN parkingplaatsen pp ON(h.hour = DATEPART(HOUR, pp.StartTijd)) AND CONVERT(DATE, GETDATE()) = CONVERT(DATE, pp.starttijd) AND pp.BedrijfId = @BedrijfId " +
 								"GROUP BY h.hour " +
 							") " +
-                            "SELECT ph.hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
-            try {
-                using (SqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
-                    cmd.Parameters["@BedrijfId"].Value = bedrijfId;
+							"SELECT ph.hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
+			try {
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+					cmd.Parameters["@BedrijfId"].Value = bedrijfId;
 					IDataReader reader = cmd.ExecuteReader();
 					GrafiekDagDetail grafiek = new GrafiekDagDetail();
 					while (reader.Read()) {
@@ -268,24 +267,24 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						grafiek.VoegWaardesToe(xwaarde, checkIn, parkedTotal);
 					}
 					return grafiek;
-                }
-            } catch (Exception ex) {
-                ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-                exx.Data.Add("bedrijfid", bedrijfId);
-                throw exx;
-            } finally {
-                con.Close();
-            }
-        }
+				}
+			} catch (Exception ex) {
+				ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				exx.Data.Add("bedrijfid", bedrijfId);
+				throw exx;
+			} finally {
+				con.Close();
+			}
+		}
 
-        /// <summary>
-        /// Returned een grafiek met data over de parking voor een specifiek bedrijf
-        /// </summary>
-        /// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
-        /// <returns>Grafiek object</returns>
-        public GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
-            SqlConnection con = GetConnection();
-            string query =  "SET LANGUAGE Dutch; " +
+		/// <summary>
+		/// Returned een grafiek met data over de parking voor een specifiek bedrijf
+		/// </summary>
+		/// <param name="bedrijfId">Bedrijf wiens data moet teruggeven worden</param>
+		/// <returns>Grafiek object</returns>
+		public GrafiekDag GeefWeekoverzichtParkingVoorBedrijf(long bedrijfId) {
+			SqlConnection con = GetConnection();
+			string query = "SET LANGUAGE Dutch; " +
 							"WITH " +
 								"offset AS( " +
 									"SELECT 0 AS dOffset " +
@@ -302,28 +301,28 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 									"FROM days d " +
 								") " +
 							"SELECT abbrDay, totalCheckIn FROM parked p ORDER by p.da";
-            try {
-                using (SqlCommand cmd = con.CreateCommand()) {
-                    con.Open();
-                    cmd.CommandText = query;
-                    cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
-                    cmd.Parameters["@BedrijfId"].Value = bedrijfId;
-                    IDataReader reader = cmd.ExecuteReader();
-                    GrafiekDag grafiek = new GrafiekDag();
-                    while (reader.Read()) {
-                        string xwaarde = ((int)reader["abbrDay"]).ToString();
-                        int checkIn = ((int)reader["totalCheckIn"]);
-                        grafiek.VoegWaardeToe(xwaarde, checkIn);
-                    }
-                    return grafiek;
-                }
-            } catch (Exception ex) {
-                ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
-                exx.Data.Add("bedrijfid", bedrijfId);
-                throw exx;
-            } finally {
-                con.Close();
-            }
-        }
-    }
+			try {
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@BedrijfId", SqlDbType.BigInt));
+					cmd.Parameters["@BedrijfId"].Value = bedrijfId;
+					IDataReader reader = cmd.ExecuteReader();
+					GrafiekDag grafiek = new GrafiekDag();
+					while (reader.Read()) {
+						string xwaarde = ((int)reader["abbrDay"]).ToString();
+						int checkIn = ((int)reader["totalCheckIn"]);
+						grafiek.VoegWaardeToe(xwaarde, checkIn);
+					}
+					return grafiek;
+				}
+			} catch (Exception ex) {
+				ParkeerPlaatsMsServerException exx = new ParkeerPlaatsMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				exx.Data.Add("bedrijfid", bedrijfId);
+				throw exx;
+			} finally {
+				con.Close();
+			}
+		}
+	}
 }
