@@ -277,8 +277,6 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			// Haalt de grootste sets op
 			_langsteSet = Datasets.Max(s => s.Data.Count as int?) ?? 0;
 			_hoogsteWaarde = Datasets.Max(x => x.Data.Max() as double?) ?? 0;
-			double temp = Convert.ToInt32(_hoogsteWaarde / WaardeIncrement) * WaardeIncrement;
-			_hoogsteWaarde = _hoogsteWaarde < temp ? temp : _hoogsteWaarde +;
 			TekenAchtergrond(drawingContext);
 
 			switch (GrafiekType) {
