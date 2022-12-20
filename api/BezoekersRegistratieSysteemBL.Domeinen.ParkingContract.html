@@ -93,7 +93,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L13">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L15">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.#ctor*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.#ctor">ParkingContract()</h4>
@@ -106,19 +106,19 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_DateTime_System_Int32_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.%23ctor(DateTime%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_DateTime_DateTime_System_Int32_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.%23ctor(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf%2CDateTime%2CDateTime%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L20">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L36">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.#ctor*"></a>
-  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_DateTime_System_Int32_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.#ctor(DateTime,System.Int32)">ParkingContract(DateTime, Int32)</h4>
-  <div class="markdown level1 summary"><p>Constructor voor het aanmaken van een contract in de BusinessLaag.</p>
+  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_DateTime_DateTime_System_Int32_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.#ctor(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,DateTime,DateTime,System.Int32)">ParkingContract(Bedrijf, DateTime, DateTime, Int32)</h4>
+  <div class="markdown level1 summary"><p>Constructor voor het aanmaken van een parkingcontract.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ParkingContract(DateTime starttijd, int aantalPlaatsen)</code></pre>
+    <pre><code class="lang-csharp hljs">public ParkingContract(Bedrijf bedrijf, DateTime starttijd, DateTime eindtijd, int aantalPlaatsen)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -131,8 +131,18 @@
     </thead>
     <tbody>
       <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.html">Bedrijf</a></td>
+        <td><span class="parametername">bedrijf</span></td>
+        <td></td>
+      </tr>
+      <tr>
         <td><span class="xref">DateTime</span></td>
         <td><span class="parametername">starttijd</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">DateTime</span></td>
+        <td><span class="parametername">eindtijd</span></td>
         <td></td>
       </tr>
       <tr>
@@ -144,19 +154,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_DateTime_System_Nullable_DateTime__System_Int32_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.%23ctor(DateTime%2CSystem.Nullable%7BDateTime%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_System_Int64_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_DateTime_DateTime_System_Int32_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.%23ctor(System.Int64%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf%2CDateTime%2CDateTime%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L31">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L25">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.#ctor*"></a>
-  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_DateTime_System_Nullable_DateTime__System_Int32_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.#ctor(DateTime,System.Nullable{DateTime},System.Int32)">ParkingContract(DateTime, Nullable&lt;DateTime&gt;, Int32)</h4>
-  <div class="markdown level1 summary"><p>Constructor voor het aanmaken van een contract in de DataLaag.</p>
+  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract__ctor_System_Int64_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_DateTime_DateTime_System_Int32_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.#ctor(System.Int64,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,DateTime,DateTime,System.Int32)">ParkingContract(Int64, Bedrijf, DateTime, DateTime, Int32)</h4>
+  <div class="markdown level1 summary"><p>Constructor voor het aanmaken van een parkingcontract.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ParkingContract(DateTime starttijd, DateTime? eindtijd, int aantalPlaatsen)</code></pre>
+    <pre><code class="lang-csharp hljs">public ParkingContract(long id, Bedrijf bedrijf, DateTime starttijd, DateTime eindtijd, int aantalPlaatsen)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -169,12 +179,22 @@
     </thead>
     <tbody>
       <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.html">Bedrijf</a></td>
+        <td><span class="parametername">bedrijf</span></td>
+        <td></td>
+      </tr>
+      <tr>
         <td><span class="xref">DateTime</span></td>
         <td><span class="parametername">starttijd</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">DateTime</span>&gt;</td>
+        <td><span class="xref">DateTime</span></td>
         <td><span class="parametername">eindtijd</span></td>
         <td></td>
       </tr>
@@ -192,7 +212,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_AantalPlaatsen.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.AantalPlaatsen%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L8">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L10">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_AantalPlaatsen_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.AantalPlaatsen*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_AantalPlaatsen" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.AantalPlaatsen">AantalPlaatsen</h4>
@@ -219,18 +239,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Eindtijd.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Eindtijd%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Bedrijf.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Bedrijf%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L7">View Source</a>
   </span>
-  <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Eindtijd_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Eindtijd*"></a>
-  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Eindtijd" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Eindtijd">Eindtijd</h4>
+  <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Bedrijf*"></a>
+  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Bedrijf" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Bedrijf">Bedrijf</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public DateTime? Eindtijd { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public Bedrijf Bedrijf { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -242,7 +262,67 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">DateTime</span>&gt;</td>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.html">Bedrijf</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Eindtijd.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Eindtijd%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L9">View Source</a>
+  </span>
+  <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Eindtijd_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Eindtijd*"></a>
+  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Eindtijd" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Eindtijd">Eindtijd</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime Eindtijd { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DateTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Id.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Id%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L6">View Source</a>
+  </span>
+  <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Id_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Id*"></a>
+  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Id" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Id">Id</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long Id { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -252,7 +332,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Starttijd.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Starttijd%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L6">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L8">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Starttijd_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Starttijd*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_Starttijd" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.Starttijd">Starttijd</h4>
@@ -284,11 +364,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetAantalPlaatsen_System_Int32_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetAantalPlaatsen(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L64">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L88">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetAantalPlaatsen_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetAantalPlaatsen*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetAantalPlaatsen_System_Int32_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetAantalPlaatsen(System.Int32)">ZetAantalPlaatsen(Int32)</h4>
-  <div class="markdown level1 summary"><p>Zet aantal plaatsen.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt het aantal plaatsen in.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -323,24 +403,26 @@
     <tbody>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.ParkingContractException.html">ParkingContractException</a></td>
-        <td></td>
+        <td><p>&quot;ParkingContract - ZetAantalPlaatsen - Aantal plaatsen moet groter dan 0 zijn&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetEindtijd_System_Nullable_DateTime__.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetEindtijd(System.Nullable%7BDateTime%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L53">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L59">View Source</a>
   </span>
-  <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetEindtijd_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetEindtijd*"></a>
-  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetEindtijd_System_Nullable_DateTime__" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetEindtijd(System.Nullable{DateTime})">ZetEindtijd(Nullable&lt;DateTime&gt;)</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetBedrijf*"></a>
+  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">ZetBedrijf(Bedrijf)</h4>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt bedrijf in.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void ZetEindtijd(DateTime? eindtijd)</code></pre>
+    <pre><code class="lang-csharp hljs">public void ZetBedrijf(Bedrijf bedrijf)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -353,9 +435,126 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">DateTime</span>&gt;</td>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Bedrijf.html">Bedrijf</a></td>
+        <td><span class="parametername">bedrijf</span></td>
+        <td><p>Mag geen Null waarde zijn.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.ParkingContractException.html">ParkingContractException</a></td>
+        <td><p>&quot;ParkingContract - ZetBedrijf - Bedrijf mag niet leeg zijn&quot;</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetEindtijd_DateTime_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetEindtijd(DateTime)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L78">View Source</a>
+  </span>
+  <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetEindtijd_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetEindtijd*"></a>
+  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetEindtijd_DateTime_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetEindtijd(DateTime)">ZetEindtijd(DateTime)</h4>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt de eindtijd in.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ZetEindtijd(DateTime eindtijd)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DateTime</span></td>
         <td><span class="parametername">eindtijd</span></td>
-        <td></td>
+        <td><p>Mag niet na starttijd liggen.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.ParkingContractException.html">ParkingContractException</a></td>
+        <td><p>&quot;ParkingContract - ZetEindtijd - Eindtijd moet na starttijd liggen&quot;</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetId_System_Int64_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetId(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L48">View Source</a>
+  </span>
+  <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetId_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetId*"></a>
+  <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetId_System_Int64_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetId(System.Int64)">ZetId(Int64)</h4>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt bedrijf in.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ZetId(long id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">id</span></td>
+        <td><p>Mag niet onder 0 waarde zijn.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.ParkingContractException.html">ParkingContractException</a></td>
+        <td><p>&quot;ParkingContract - ZetBedrijf - Bedrijf mag niet leeg zijn&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -364,11 +563,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetStarttijd_DateTime_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetStarttijd(DateTime)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L42">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Domeinen/ParkingContract.cs/#L69">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetStarttijd_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetStarttijd*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Domeinen_ParkingContract_ZetStarttijd_DateTime_" data-uid="BezoekersRegistratieSysteemBL.Domeinen.ParkingContract.ZetStarttijd(DateTime)">ZetStarttijd(DateTime)</h4>
-  <div class="markdown level1 summary"><p>Zet starttijd.</p>
+  <div class="markdown level1 summary"><p>Controleert voorwaarden op geldigheid en stelt de startijd in.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -388,7 +587,8 @@
       <tr>
         <td><span class="xref">DateTime</span></td>
         <td><span class="parametername">starttijd</span></td>
-        <td></td>
+        <td><p>Mag geen Null/Default waarde zijn en eindtijd mag nog geen waarde hebben.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -403,7 +603,8 @@
     <tbody>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.DomeinException.ParkingContractException.html">ParkingContractException</a></td>
-        <td></td>
+        <td><p>&quot;ParkingContract - ZetStarttijd - Parking is al afgelopen&quot;</p>
+</td>
       </tr>
     </tbody>
   </table>
