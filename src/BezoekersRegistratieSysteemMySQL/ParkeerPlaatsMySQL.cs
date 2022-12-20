@@ -253,7 +253,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
                                 "LEFT JOIN groupswork.parkingplaatsen pp ON(h.hour = HOUR(pp.StartTijd)) AND DATE(now()) = DATE(pp.starttijd) AND pp.BedrijfId = @bedrijfId " +
 								"GROUP BY h.hour " +
 							") " +
-							"SELECT ph.hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
+                            "SELECT CONCAT(ph.hour,'u') as hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
@@ -263,7 +263,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					IDataReader reader = cmd.ExecuteReader();
 					GrafiekDagDetail grafiek = new GrafiekDagDetail();
 					while (reader.Read()) {
-						string xwaarde = ((long)reader["hour"]).ToString();
+						string xwaarde = (string)reader["hour"];
 						int checkIn = Convert.ToInt32((long)reader["parkedHour"]);
 						int parkedTotal = Convert.ToInt32((long)reader["parkedTotal"]);
 						grafiek.VoegWaardesToe(xwaarde, checkIn, parkedTotal);
@@ -299,7 +299,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 									"FROM offset o " +
 								"), " +
 								"parked AS( " +
-									"SELECT d.abbrDay, (SELECT COUNT(*) FROM ParkingPlaatsen pl WHERE CONVERT(pl.StartTijd, date) = d.da AND bedrijfId = 1) as totalCheckIn, d.da " +
+                                    "SELECT d.abbrDay, (SELECT COUNT(*) FROM ParkingPlaatsen pl WHERE CONVERT(pl.StartTijd, date) = d.da AND bedrijfId = @BedrijfId) as totalCheckIn, d.da " +
 									"FROM days d " +
 								") " +
 							"SELECT abbrDay, totalCheckIn FROM parked p ORDER by p.da";
