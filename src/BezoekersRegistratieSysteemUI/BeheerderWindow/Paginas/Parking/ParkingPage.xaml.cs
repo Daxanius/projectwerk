@@ -59,7 +59,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 		private void LineGraph_Loaded(object sender, RoutedEventArgs e) {
 			Grafiek.Width = LineGraph.RenderSize.Width * 0.75;
 			Grafiek.Height = LineGraph.RenderSize.Height * 0.65;
-
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -112,6 +111,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
             Grafiek.Datasets.Add(dataSetTotaalGeparkeerden);
             Grafiek.Datasets.Add(dataSetCheckinsPerUur);
             Grafiek1.Datasets.Add(dataSetWeek);
+
+            Grafiek.InvalidateVisual();
+            Grafiek1.InvalidateVisual();
         }
 	}
 }

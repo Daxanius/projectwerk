@@ -293,7 +293,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 					break;
 			}
 
-			TekenInfo(drawingContext);
+            TekenInfo(drawingContext);
 			base.OnRender(drawingContext);
 		}
 
