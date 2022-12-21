@@ -112,8 +112,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
             Grafiek.Datasets.Add(dataSetCheckinsPerUur);
             Grafiek1.Datasets.Add(dataSetWeek);
 
-            Grafiek.InvalidateVisual();
             Grafiek1.InvalidateVisual();
+            Grafiek.InvalidateVisual();
         }
 	}
 }

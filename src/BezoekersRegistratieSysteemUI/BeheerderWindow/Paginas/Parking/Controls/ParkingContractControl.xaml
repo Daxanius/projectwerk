@@ -11,11 +11,18 @@
     mc:Ignorable="d"
     FontFamily="{StaticResource Inter}">
     <Grid HorizontalAlignment="Center" x:Name="ParkingContractDetails">
-        <Border Padding="50,0">
+        <Border Padding="50,20,50,0">
             <StackPanel>
-                <Label Name="BezetAantalParkeerplaatsenBedrijf" FontSize="100" Foreground="{StaticResource GewoonBlauw}" FontWeight="SemiBold"/>
-                <Label Content="/" FontSize="100" Margin="125,-75,0,0" Foreground="{StaticResource MainBlack}" Opacity="0.4" FontWeight="SemiBold"/>
-                <Label Name="TotaalAantalParkeerplaatsenBedrijf" Margin="150,-75,0,0" FontSize="100" Foreground="{StaticResource MainBlack}" Opacity="0.4" FontWeight="SemiBold"/>
+                <Grid HorizontalAlignment="center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Name="BezetAantalParkeerplaatsenBedrijf" FontSize="100" Foreground="{StaticResource GewoonBlauw}" FontWeight="SemiBold"/>
+                    <Label Grid.Column="1" Content="/" FontSize="100" Margin="-20,20,0,0"  Foreground="{StaticResource MainBlack}" Opacity="0.4" FontWeight="SemiBold"/>
+                    <Label Grid.Column="2" Name="TotaalAantalParkeerplaatsenBedrijf" Margin="-20,40,0,0" FontSize="100" Foreground="{StaticResource MainBlack}" Opacity="0.4" FontWeight="SemiBold"/>
+                </Grid>
                 <Rectangle HorizontalAlignment="Stretch" Height="2" Fill="{StaticResource MainBlack}" Opacity="0.4"/>
                 <Label Content="Startdatum Contract" HorizontalAlignment="Center" Opacity="0.4" Margin="0,25,0,0" FontSize="20" FontWeight="Medium"/>
                 <Label Name="StartDatumParkingContract" HorizontalAlignment="Center" Opacity="0.4" FontSize="20" FontWeight="Medium"/>
