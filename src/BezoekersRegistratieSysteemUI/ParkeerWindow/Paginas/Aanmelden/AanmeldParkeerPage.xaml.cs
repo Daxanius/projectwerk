@@ -1,7 +1,10 @@
-﻿using BezoekersRegistratieSysteemUI.Api;
+﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
+using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -77,6 +80,12 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 		private async void AanmeldenKlik(object sender, RoutedEventArgs e) {
 			try {
 
+				if (AanmeldParkeerWindow.GeselecteerdBedrijf is null)
+				{
+					MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+
 				if (Nummerplaat.IsLeeg()) {
 					MessageBox.Show("Nummerplaat is leeg!", "Error");
 					return;
@@ -85,11 +94,10 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 				CustomMessageBox messagebox = new CustomMessageBox();
 				var result = messagebox.Show($"Zijn ingevoerde gegevens correct?\n\nNummerplaat: {Nummerplaat}", "Bevestiging", ECustomMessageBoxIcon.Question);
 
-				//if (result == ECustomMessageBoxResult.Sluit)
+				if (result == ECustomMessageBoxResult.Bevestigen)
+					MaakNieuweCheckIn(GeselecteerdBedrijf.Id, Nummerplaat);
 
-				//else return;
-
-				await ApiController.Put<object>($"/parkeerplaats/ckeckin={Nummerplaat}");
+				else return;
 
 				Nummerplaat = "";
 
@@ -97,8 +105,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
-
-			GaTerugNaarKiesBedrijf();
+            GaTerugNaarKiesBedrijf();
 		}
 
 		private void AnnulerenKlik(object sender, RoutedEventArgs e) {
@@ -111,10 +118,26 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 			AanmeldParkeerWindow aanmeldParkeerWindow = (AanmeldParkeerWindow)Window.GetWindow(this);
 			aanmeldParkeerWindow.FrameControl.Content = KiesBedrijfPage.Instance;
 		}
-		#endregion
+        private async void MaakNieuweCheckIn(long bedrijfsId, string nummerplaat)
+        {
+            var rawBody = new { bedrijfId = bedrijfsId, checkinTijd = DateTime.Now, nummerplaat = nummerplaat };
+            string json = JsonConvert.SerializeObject(rawBody);
 
-		#region ProppertyChanged
-		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
+            (bool isvalid, ParkeerplaatsOutputDTO parkeerplaats) = await ApiController.Post<ParkeerplaatsOutputDTO>("/parkeerplaats/checkin", json);
+
+            if (isvalid)
+            {
+                MessageBox.Show($"Uw registratie werd goed ontvangen.");
+            }
+            else
+            {
+                MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
+            }
+        }
+        #endregion
+
+        #region ProppertyChanged
+        public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged
