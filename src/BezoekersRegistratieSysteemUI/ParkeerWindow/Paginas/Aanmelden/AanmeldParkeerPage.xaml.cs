@@ -122,18 +122,14 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
         {
             var rawBody = new { bedrijfId = bedrijfsId, checkinTijd = DateTime.Now, nummerplaat = nummerplaat };
             string json = JsonConvert.SerializeObject(rawBody);
+			bool isvalid = await ApiController.Post("/parkeerplaats/checkin", json);
 
-            (bool isvalid, ParkeerplaatsOutputDTO parkeerplaats) = await ApiController.Post<ParkeerplaatsOutputDTO>("/parkeerplaats/checkin", json);
-
-            if (isvalid)
-            {
-                MessageBox.Show($"Uw registratie werd goed ontvangen.");
-            }
-            else
-            {
-                MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
-            }
-        }
+			if (isvalid) {
+				MessageBox.Show($"Uw registratie werd goed ontvangen.");
+			} else {
+				MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
+			}
+		}
         #endregion
 
         #region ProppertyChanged
