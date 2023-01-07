@@ -561,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html",
-          "hash": "aYKm/5X0Cq8zayB0vY1G0A=="
+          "hash": "0jqtkIXHbWipxxO95z9snA=="
         }
       },
       "is_incremental": false,
@@ -957,7 +957,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html",
-          "hash": "1rQgR/WIZp4H+wE3Myu/kQ=="
+          "hash": "GncMSYyThxmS4V4IwtlQzA=="
         }
       },
       "is_incremental": false,
