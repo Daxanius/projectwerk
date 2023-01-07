@@ -181,7 +181,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 				int index = HuidigeAfsprakenLijst.ItemSource.IndexOf(afspraak);
 				if (index == -1) return;
 				HuidigeAfsprakenLijst.ItemSource.RemoveAt(index);
-				if (afspraak.EindTijd is null)
+				if (afspraak.EindTijd.IsLeeg())
 					HuidigeAfsprakenLijst.ItemSource.Insert(index, afspraak);
 
 				index = OpDatumAfsprakenLijst.ItemSource.IndexOf(afspraak);
@@ -302,25 +302,25 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 
 			switch (textBlock.Text) {
 				case "Huidige Afspraken":
-					NavigeerNaarTab("Huidige Afspraken");
-					UpdateHuidigeAfsprakenOpScherm();
-					break;
+				NavigeerNaarTab("Huidige Afspraken");
+				UpdateHuidigeAfsprakenOpScherm();
+				break;
 
 				case "Afspraken Werknemer":
-					NavigeerNaarTab("Afspraken Werknemer");
-					if (!werknemersAfsprakenLijstControl.HeeftData) {
-						foreach (WerknemerDTO werknemer in ApiController.GeefWerknemersVanBedrijf(GeselecteerdBedrijf).OrderByDescending(a => a.Voornaam)) {
-							WerknemerLijst.ItemSource.Add(werknemer);
-						}
-						werknemersAfsprakenLijstControl.HeeftData = true;
-						initieleZoekBalkWerknemers = WerknemerLijst.ItemSource.ToList();
+				NavigeerNaarTab("Afspraken Werknemer");
+				if (!werknemersAfsprakenLijstControl.HeeftData) {
+					foreach (WerknemerDTO werknemer in ApiController.GeefWerknemersVanBedrijf(GeselecteerdBedrijf).OrderByDescending(a => a.Voornaam)) {
+						WerknemerLijst.ItemSource.Add(werknemer);
 					}
-					break;
+					werknemersAfsprakenLijstControl.HeeftData = true;
+					initieleZoekBalkWerknemers = WerknemerLijst.ItemSource.ToList();
+				}
+				break;
 
 				case "Afspraak Op Datum":
-					NavigeerNaarTab("Afspraak Op Datum");
-					UpdateOpDatumAfsprakenOpScherm();
-					break;
+				NavigeerNaarTab("Afspraak Op Datum");
+				UpdateOpDatumAfsprakenOpScherm();
+				break;
 			}
 		}
 		private void OpenAfsprakenPopup_Click(object sender, MouseButtonEventArgs e) {
@@ -332,22 +332,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken {
 			ResetFilterSelection();
 			switch (tabIndex) {
 				case "Huidige Afspraken":
-					_huidigeAfsprakenTabIsGeselecteerd = true;
-					FilterContainerHeaders.Children[0].Opacity = 1;
-					((Grid)FilterContainer.Children[0]).Children[0].Visibility = Visibility.Visible;
-					break;
+				_huidigeAfsprakenTabIsGeselecteerd = true;
+				FilterContainerHeaders.Children[0].Opacity = 1;
+				((Grid)FilterContainer.Children[0]).Children[0].Visibility = Visibility.Visible;
+				break;
 
 				case "Afspraken Werknemer":
-					_afsprakenWerknemerTabIsGeselecteerd = true;
-					FilterContainerHeaders.Children[1].Opacity = 1;
-					((Grid)FilterContainer.Children[0]).Children[1].Visibility = Visibility.Visible;
-					break;
+				_afsprakenWerknemerTabIsGeselecteerd = true;
+				FilterContainerHeaders.Children[1].Opacity = 1;
+				((Grid)FilterContainer.Children[0]).Children[1].Visibility = Visibility.Visible;
+				break;
 
 				case "Afspraak Op Datum":
-					_afsprakenOpDatumTabIsGeselecteerd = true;
-					FilterContainerHeaders.Children[2].Opacity = 1;
-					((Grid)FilterContainer.Children[0]).Children[2].Visibility = Visibility.Visible;
-					break;
+				_afsprakenOpDatumTabIsGeselecteerd = true;
+				FilterContainerHeaders.Children[2].Opacity = 1;
+				((Grid)FilterContainer.Children[0]).Children[2].Visibility = Visibility.Visible;
+				break;
 			}
 		}
 		private void ResetFilterSelection() {
