@@ -45,6 +45,37 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
+		public void VervangFunctieWerknemer(Werknemer werknemer, WerknemerInfo werknemerInfo) {
+			if (werknemer == null)
+				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer mag niet leeg zijn");
+			if (werknemerInfo == null)
+				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemerinfo mag niet leeg zijn");
+			if (!_werknemerRepository.BestaatWerknemer(werknemer))
+				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer bestaat niet");
+			if (!_werknemerRepository.GeefWerknemer(werknemer.Id).GeefBedrijvenEnFunctiesPerWerknemer().ContainsKey(werknemerInfo.Bedrijf))
+				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer niet werkzaam bij dit bedrijf");
+			var dbWerknemer = _werknemerRepository.GeefWerknemer(werknemer.Id);
+			var nieuweFuncties = werknemerInfo.GeefWerknemerFuncties();
+			try {
+				var oudeWerknemerInfo = dbWerknemer.GeefBedrijvenEnFunctiesPerWerknemer().Where(i => i.Key.Id == werknemerInfo.Bedrijf.Id).First();
+
+				foreach (string functie in oudeWerknemerInfo.Value.GeefWerknemerFuncties()) {
+					_werknemerRepository.VerwijderWerknemerFunctie(werknemer, werknemerInfo.Bedrijf, functie);
+				}
+
+				foreach (var functie in nieuweFuncties) {
+					string bewerkteFunctie = Nutsvoorziening.NaamOpmaak(functie);
+					if (!_werknemerRepository.BestaatFunctie(bewerkteFunctie)) {
+						VoegFunctieToe(bewerkteFunctie);
+					}
+					_werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo, bewerkteFunctie);
+
+				}
+			} catch (Exception ex) {
+				throw new WerknemerManagerException(ex.Message);
+			}
+		}
+
 		/// <summary>
 		/// Voegt functies van werknemer per bedrijf toe.
 		/// </summary>
@@ -185,8 +216,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new WerknemerManagerException("WerknemerManager - BewerkWerknemer - bedrijf mag niet leeg zijn");
 			if (!_werknemerRepository.BestaatWerknemer(werknemer))
 				throw new WerknemerManagerException("WerknemerManager - BewerkWerknemer - werknemer bestaat niet");
-			if (_werknemerRepository.GeefWerknemer(werknemer.Id).WerknemerIsGelijk(werknemer))
-				throw new WerknemerManagerException("WerknemerManager - BewerkWerknemer - werknemer is niet gewijzigd");
+			//if (_werknemerRepository.GeefWerknemer(werknemer.Id).WerknemerIsGelijk(werknemer))
+			//	throw new WerknemerManagerException("WerknemerManager - BewerkWerknemer - werknemer is niet gewijzigd")
 			try {
 				_werknemerRepository.BewerkWerknemer(werknemer, bedrijf);
 			} catch (Exception ex) {
