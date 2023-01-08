@@ -7,6 +7,7 @@ using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -60,7 +61,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 		}
 
 		private void AnnulerenButton_Click(object sender, RoutedEventArgs e) {
-			SluitOverlay(null);
+			SluitOverlay(null, null);
 		}
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
@@ -89,14 +90,26 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			if (Functie.IsLeeg()) {
 				MessageBox.Show("Functie mag niet leeg zijn");
 				return;
-			};
+			}
 
-			werknemerInfo.Add(new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie }));
-			WerknemerDTO werknemer = ApiController.MaakWerknemer(new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfo));
-			werknemer.Status = "Vrij";
-			WerknemerEvents.InvokeNieuweWerkenemer(werknemer);
+			bool bestaatWerknemerInPark = ApiController.BestaatWerknemerInPark(Voornaam, Achternaam);
+			IEnumerable<WerknemerInfoInputDTO> werknemerInfoInputDTOs = new List<WerknemerInfoInputDTO>() {
+					new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie })
+				};
 
-			SluitOverlay(werknemer);
+			WerknemerInputDTO werknemerInputDTO = new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfoInputDTOs);
+
+			if (bestaatWerknemerInPark) {
+				WerknemersPage werknemersPage = WerknemersPage.Instance;
+				this.Visibility = Visibility.Collapsed;
+				werknemersPage.WerknemerBestaatPopup.ZetData(werknemerInputDTO, $"{Voornaam} {Achternaam}", () => SluitOverlay(Voornaam, Achternaam));
+				werknemersPage.WerknemerBestaatPopup.Visibility = Visibility.Visible;
+			} else {
+				WerknemerDTO werknemer = ApiController.MaakWerknemer(werknemerInputDTO, false);
+				werknemer.Status = "Vrij";
+				WerknemerEvents.InvokeNieuweWerkenemer(werknemer);
+				SluitOverlay(Voornaam, Achternaam);
+			}
 		}
 
 		private readonly Regex regexGeenCijfers = new("[^a-zA-Z]+");
@@ -104,7 +117,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			e.Handled = regexGeenCijfers.IsMatch(e.Text);
 		}
 
-		private void SluitOverlay(WerknemerDTO werknemer) {
+		private void SluitOverlay(string? voornaam, string? achternaam) {
 			Voornaam = "";
 			Achternaam = "";
 			Email = "";
@@ -113,9 +126,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			WerknemersPage werknemersPage = WerknemersPage.Instance;
 			werknemersPage.WerknemersPopup.Visibility = Visibility.Hidden;
 
-			if (werknemer is not null) {
+			if (voornaam is not null && achternaam is not null) {
 				CustomMessageBox warningMessage = new();
-				warningMessage.Show($"{werknemer.Voornaam} {werknemer.Achternaam} is toegevoegd", "Success", ECustomMessageBoxIcon.Information);
+				warningMessage.Show($"{voornaam} {achternaam} is toegevoegd", "Success", ECustomMessageBoxIcon.Information);
 			}
 		}
 

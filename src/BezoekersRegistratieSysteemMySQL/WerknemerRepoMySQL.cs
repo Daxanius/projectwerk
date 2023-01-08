@@ -32,6 +32,31 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		}
 
 		/// <summary>
+		/// Bestaat er een werknemer met voor en achternaam
+		/// </summary>
+		/// <param name="voorNaam">De naam vanvoor</param>
+		/// <param name="achterNaam">De naam die voor de achternaam ook wel familienaam genoemd of in het engels lastname</param>
+		/// <returns></returns>
+		public bool BestaatWerknemer(string voorNaam, string achterNaam) {
+			try {
+				string sql = "SELECT * FROM werknemer WHERE VNaam = @voornaam AND ANaam = @achternaam";
+				using (MySqlConnection conn = GetConnection()) {
+					conn.Open();
+					MySqlCommand cmd = new MySqlCommand(sql, conn);
+					cmd.Parameters.AddWithValue("@voornaam", voorNaam);
+					cmd.Parameters.AddWithValue("@achternaam", achterNaam);
+					MySqlDataReader reader = cmd.ExecuteReader();
+					if (reader.HasRows) {
+						return true;
+					}
+					return false;
+				}
+			} catch (Exception ex) {
+				throw new WerknemerMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+			}
+		}
+
+		/// <summary>
 		/// Gaat na of werknemer bestaat adhv een werknemer object.
 		/// </summary>
 		/// <param name="werknemer">Werknemer object dat gecontroleerd wenst te worden.</param>
@@ -806,24 +831,38 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <param name="werknemer">werknemer object dat id moet krijgen.</param>
 		/// <exception cref="WerknemerMySQLException">Faalt om id van werknemer te zetten.</exception>
 
-		public void GeefWerknemerId(Werknemer werknemer) {
+		public void GeefWerknemerId(Werknemer werknemer, bool metEmail = true) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT w.id " +
 							"FROM Werknemer w " +
-							"JOIN Werknemerbedrijf wb ON(w.Id = wb.WerknemerId) " +
-							"WHERE wb.WerknemerEmail IN(";
+							"JOIN Werknemerbedrijf wb ON(w.Id = wb.WerknemerId) ";
+
+			if (metEmail) {
+				query += "WHERE wb.WerknemerEmail IN(";
+			} else {
+				query += "WHERE w.ANaam = @ANaam AND w.VNaam = @VNaam ";
+			}
+
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
-					int mailCount = 0;
-					foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
-						query += $"@mail{mailCount},";
-						cmd.Parameters.Add(new MySqlParameter($"@mail{mailCount}", MySqlDbType.VarChar));
-						cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
-						mailCount++;
+					if (metEmail) {
+						int mailCount = 0;
+						foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
+							query += $"@mail{mailCount},";
+							cmd.Parameters.Add(new MySqlParameter($"@mail{mailCount}", MySqlDbType.VarChar));
+							cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
+							mailCount++;
+						}
+						query = query.Substring(0, query.Length - 1);
+						query += ") LIMIT 1";
+					} else {
+						cmd.Parameters.Add(new MySqlParameter("@ANaam", MySqlDbType.VarChar));
+						cmd.Parameters["@ANaam"].Value = werknemer.Voornaam;
+						cmd.Parameters.Add(new MySqlParameter("@VNaam", MySqlDbType.VarChar));
+						cmd.Parameters["@VNaam"].Value = werknemer.Achternaam;
+						query += "LIMIT 1";
 					}
-					query = query.Substring(0, query.Length - 1);
-					query += ") LIMIT 1";
 					cmd.CommandText = query;
 					long i = (long)cmd.ExecuteScalar();
 					werknemer.ZetId(i);

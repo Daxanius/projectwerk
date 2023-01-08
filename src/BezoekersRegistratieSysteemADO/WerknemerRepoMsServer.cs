@@ -32,6 +32,31 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		}
 
 		/// <summary>
+		/// Bestaat er een werknemer met voor en achternaam
+		/// </summary>
+		/// <param name="voorNaam">De naam vanvoor</param>
+		/// <param name="achterNaam">De naam die voor de achternaam ook wel familienaam genoemd of in het engels lastname</param>
+		/// <returns></returns>
+		public bool BestaatWerknemer(string voorNaam, string achterNaam) {
+			try {
+				using (SqlConnection conn = GetConnection()) {
+					string query = "SELECT * FROM Werknemer WHERE VNaam = @VoorNaam AND ANaam = @AchterNaam";
+					SqlCommand cmd = new SqlCommand(query, conn);
+					cmd.Parameters.AddWithValue("@VoorNaam", voorNaam);
+					cmd.Parameters.AddWithValue("@AchterNaam", achterNaam);
+					conn.Open();
+					SqlDataReader reader = cmd.ExecuteReader();
+					if (reader.HasRows) {
+						return true;
+					}
+					return false;
+				}
+			} catch (SqlException ex) {
+				throw new WerknemerMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+			}
+		}
+
+		/// <summary>
 		/// Gaat na of werknemer bestaat adhv een werknemer object.
 		/// </summary>
 		/// <param name="werknemer">Werknemer object dat gecontroleerd wenst te worden.</param>
@@ -795,24 +820,38 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// </summary>
 		/// <param name="werknemer">werknemer object dat id moet krijgen.</param>
 		/// <exception cref="WerknemerMsServerException">Faalt om id van werknemer te zetten.</exception>
-		public void GeefWerknemerId(Werknemer werknemer) {
+		public void GeefWerknemerId(Werknemer werknemer, bool metEmail = true) {
 			SqlConnection con = GetConnection();
 			string query = "SELECT TOP(1) w.id " +
 							"FROM Werknemer w " +
-							"JOIN Werknemerbedrijf wb ON(w.Id = wb.WerknemerId) " +
-							"WHERE wb.WerknemerEmail IN(";
+							"JOIN Werknemerbedrijf wb ON(w.Id = wb.WerknemerId) ";
+
+			if (metEmail) {
+				query += "WHERE wb.WerknemerEmail IN(";
+			} else {
+				query += "WHERE w.ANaam = @ANaam AND w.VNaam = @VNaam ";
+			}
+
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
 					con.Open();
-					int mailCount = 0;
-					foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
-						query += $"@mail{mailCount},";
-						cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
-						cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
-						mailCount++;
+					if (metEmail) {
+						int mailCount = 0;
+						foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
+							query += $"@mail{mailCount},";
+							cmd.Parameters.Add(new SqlParameter($"@mail{mailCount}", SqlDbType.VarChar));
+							cmd.Parameters[$"@mail{mailCount}"].Value = werknemerInfo.Email;
+							mailCount++;
+						}
+						query = query.Substring(0, query.Length - 1);
+						query += ")";
+					} else {
+						cmd.CommandText = query;
+						cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.NVarChar));
+						cmd.Parameters["@ANaam"].Value = werknemer.Voornaam;
+						cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.NVarChar));
+						cmd.Parameters["@VNaam"].Value = werknemer.Achternaam;
 					}
-					query = query.Substring(0, query.Length - 1);
-					query += ")";
 					cmd.CommandText = query;
 					long i = (long)cmd.ExecuteScalar();
 					werknemer.ZetId(i);

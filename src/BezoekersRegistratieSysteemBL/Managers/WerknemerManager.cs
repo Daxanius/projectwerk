@@ -14,6 +14,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// WerknemerManager constructor krijgt een instantie van de IWerknemerRepository interface als parameter.
 		/// </summary>
 		/// <param name="werknemerRepository">Interface</param>
+		/// <param name="afspraakRepository"></param>
 		/// <remarks>Deze constructor stelt de lokale variabele [_werknemerRepository] gelijk aan een instantie van de IWerknemerRepository.</remarks>
 		public WerknemerManager(IWerknemerRepository werknemerRepository, IAfspraakRepository afspraakRepository) {
 			this._werknemerRepository = werknemerRepository;
@@ -27,12 +28,15 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerToe - werknemer mag niet leeg zijn"</exception>
 		/// <exception cref="WerknemerManagerException">"WerknemerManager - VoegWerknemerToe - werknemer bestaat al"</exception>
 		/// <exception cref="WerknemerManagerException">ex.Message</exception>
-		public Werknemer VoegWerknemerToe(Werknemer werknemer) {
+		public Werknemer VoegWerknemerToe(Werknemer werknemer, bool maakGeenNieuweWerknemerAlsNaamExists) {
 			try {
 				if (werknemer == null)
 					throw new WerknemerManagerException("WerknemerManager - VoegWerknemerToe - werknemer mag niet leeg zijn");
-
-				if (_werknemerRepository.BestaatWerknemer(werknemer)) {
+				if (maakGeenNieuweWerknemerAlsNaamExists) {
+					_werknemerRepository.GeefWerknemerId(werknemer, false);
+					VoegWerknemerBedrijfFunctiesToe(werknemer);
+					return werknemer;
+				} else if (_werknemerRepository.BestaatWerknemer(werknemer)) {
 					_werknemerRepository.GeefWerknemerId(werknemer);
 					VoegWerknemerBedrijfFunctiesToe(werknemer);
 				} else {
@@ -43,6 +47,20 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);
 			}
+		}
+
+		/// <summary>
+		///	Bestaat er al een werknemer in het bedrijven park? wie zal het weten... misschien ChatGPT
+		/// </summary>
+		/// <param name="voorNaam"></param>
+		/// <param name="achterNaam"></param>
+		/// <returns></returns>
+		/// <exception cref="WerknemerManagerException"></exception>
+		public bool BestaatWerknemer(string voorNaam, string achterNaam) {
+			if (string.IsNullOrEmpty(voorNaam)) throw new WerknemerManagerException("WerknemerManager - BestaatWerknemer - voornaam mag niet leeg zijn");
+			if (string.IsNullOrEmpty(achterNaam)) throw new WerknemerManagerException("WerknemerManager - BestaatWerknemer - achternaam mag niet leeg zijn");
+
+			return _werknemerRepository.BestaatWerknemer(voorNaam, achterNaam);
 		}
 
 		public void VervangFunctieWerknemer(Werknemer werknemer, WerknemerInfo werknemerInfo) {
