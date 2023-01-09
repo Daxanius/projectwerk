@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Client Setup </title>
+    <title>Database Setup MySQL </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Client Setup ">
+    <meta name="title" content="Database Setup MySQL ">
     <meta name="generator" content="docfx 2.56.7.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -67,26 +67,51 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="client-setup">Client Setup</h1>
+<h1 id="database-setup-mysql">Database Setup MySQL</h1>
 
-<p>In deze guide leggen wij u uit hoe u de client voor .inside kunt opzetten. De client bied een gebruikersvriendelijke
-en mooie user interface aan dat aangenaam is om te gebruiken in connectie met ons systeem.</p>
-<p>⚠️ We gaan hier verder op de <a href="server_setup.html">Server Setup</a> guide.</p>
-<h2 id="voorwaarden">Voorwaarden</h2>
-<p>Wij gaan ervan uit dat u een server heeft draaien op een publiek domein dat voor de client beschikbaar is en dat u de client al heeft gedownload en uitgepakt.</p>
-<h2 id="configuratie">Configuratie</h2>
-<p>Om de client te runnen moeten wij te client zeggen met welke REST server hij moet verbinden. Wij gaan ervan uit dat dit de server van ons is opgezet in onze <a href="server_setup.html">Server Setup</a> guide.</p>
-<p>Om de server URI in te stellen volgen we de volgende stappen:</p>
+<p>In deze guide leggen we u stapsgewijs uit hoe u een MySQL database server kan opzetten.</p>
+<h2 id="de-software">De Software</h2>
+<p>Vooreerst zal u databank software nodig hebben die op de achtergrond actief zal zijn.</p>
+<ul>
+<li>Installeer <a href="https://dev.mysql.com/downloads/installer/">MySQL</a></li>
+<li>Installeer <a href="https://www.mysql.com/products/workbench/">MySQL Workbench</a></li>
+</ul>
+<p>Deze software zal u gebruiken voor het beheren van uw data.</p>
+<p>Microsoft Express is een database engine die SQL Querries accepteert om zo verschillende database bewerkingen uit te voeren.</p>
+<p>MySQL Workbench is een grafische user interface die het eenvoudig maakt om databanken aan te maken en bewerkingen uit te voeren.</p>
+<h2 id="de-databank">De Databank</h2>
+<p>Voordat u de structuur van onze databank inlaad, moeten u eerst een databank hebben waar u mee kan gaan werken.</p>
+<p>De volgende stappen leggen uit hoe u een databank kunt aanmaken:</p>
 <ol>
-<li>Open het <code>App.config</code> bestand in de client folder</li>
-<li>Pas de value aan van de instelling genaamt <code>URI</code> naar de URI van de server</li>
-<li>Sla het bestand op</li>
+<li>Start MySQL Workbench op</li>
+<li>Klik op het plusje om een connectie toe te voegen</li>
+<li>Geef de connectie gegevens in van de databank en klik op &quot;ok&quot;</li>
+<li>Login op de databank</li>
+<li>Klik met rechtermuisknop op &quot;schemas&quot; en selecteer &quot;create schema&quot;</li>
+<li>Geef de database een naam en klik op &quot;Apply&quot;</li>
 </ol>
-<p>🏆 U heeft de client succesvol geconfigureerd!</p>
-<h2 id="starten">Starten</h2>
-<p>Dubbelklik op het .exe bestand voor de client. Als u onze prachtige UI ziet dan
-weet u dat het werkt. Werknemers kunnen nu gebruik maken van onze applicatie!</p>
-<p>🎉 De applicatie is nu klaar voor gebruik!</p>
+<p>🎉 U heeft nu een lege databank aangemaakt waar we mee aan de slag kunnen. Hoera!</p>
+<h2 id="de-structuur">De Structuur</h2>
+<p>U heeft uw databank aangemaakt, maar de databank bevat nog niet alle
+informatie die we nodig hebben om onze server te doen draaien.</p>
+<p>Om de structuur aan te maken, bieden wij een SQL script aan dat u zal moeten uitvoeren op de databank.</p>
+<ol>
+<li>Selecteer uw nieuw aangemaakte Databank</li>
+<li>Klik boven in de menubalk op &quot;new query&quot;</li>
+<li>Paste de code van het <code>CreateTables.sql</code> bestand (in de repo) in de query</li>
+<li>Klik boven in de menubalk op &quot;execute&quot;</li>
+</ol>
+<p>👍 Zie daar! U heeft succesvol uw databank klaargezet voor gebruik.</p>
+<h2 id="connectie-string">Connectie String</h2>
+<p>Om een connectie met uw databank te leggen zal u een connectie string nodig hebben.
+Een connectie string is simpelweg en lijn tekst die zegt hoe uw computer of programma met de databank in
+verbinding zal komen.</p>
+<p>Om de connectie string te verkrijgen volgt u volgende stappen:</p>
+<ol>
+<li>Klik met rechtermuisknop op uw Databank in MySQL Workbench</li>
+<li>Selecteer &quot;Copy Connection String to Clipboard&quot;</li>
+</ol>
+<p>🚀 Gelukt?! Goed dan bent u helemaal klaar voor gebruik!</p>
 </article>
           </div>
           
@@ -95,7 +120,7 @@ weet u dat het werkt. Werknemers kunnen nu gebruik maken van onze applicatie!</p
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Daxanius/projectwerk/blob/develop/docs/articles/client_setup.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Daxanius/projectwerk/blob/develop/docs/articles/db_setup_mysql.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

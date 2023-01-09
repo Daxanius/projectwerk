@@ -69,21 +69,28 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="server-setup">Server Setup</h1>
 
-<p>In deze guide leggen wij u uit hoe u de server voor .inside kunt opzetten. De server bied een centrale
+<p>In deze guide leggen wij u uit hoe u de server voor .inside kunt opzetten. De server biedt een centrale
 plek voor de data en controles aan voor de applicatie.</p>
-<p>⚠️ We gaan hier verder op de <a href="db_setup.html">Database Setup</a> guide.</p>
+<p>⚠️ We gaan hier verder op de database setup guide.</p>
 <h2 id="omgevingsvariabelen">Omgevingsvariabelen</h2>
 <p>Om de server te runnen moet de server uw database connectie string meekrijgen. Deze hebben wij verkregen
-in <a href="db_setup.html">deze</a> guide.</p>
-<p>Om de connection string aan onze server mee te geven, gaan wij een omgevingsvariabele instellen.
-Het instellen van een omgevingsvariablen:</p>
+in <a href="db_setup_express.html">deze</a> guide.</p>
+<p>Om de database technologie te specifieren, stellen we de omgevingsvariabele <code>BRS_DATABASE</code> in.
+Het instellen van omgevingsvariabelen:</p>
 <ol>
 <li>Ga naar de Windows zoekbalk en tik in &quot;omgevingsvariabelen&quot;</li>
 <li>Selecteer &quot;De omgevingsvariabelen van het systeem bewerken&quot;</li>
 <li>Klik onderaan op &quot;omgevingsvariabelen&quot;</li>
 <li>Klik op &quot;nieuw&quot;</li>
-<li>Geef het de naam <code>BRS_CONNECTION_STRING</code> met de waarde van uw connectie string</li>
+<li>Geef het de naam <code>BRS_DATABASE</code> met de waarde van uw database type.</li>
 </ol>
+<p>In het geval van MySQL wil u <code>MySQL</code> instellen, in het geval van express wil u dit als <code>MSServer</code> instellen.</p>
+<p>Om de connection string aan onze server mee te geven, gaan wij een omgevingsvariabele instellen.</p>
+<ol>
+<li>Maak een nieuwe omgevings variabele aan</li>
+<li>Geef het de naam <code>BRS_CONNECTION_STRING_[Database Type hier]</code> met de waarde van uw connectie string</li>
+</ol>
+<p>De haakjes vervang je door de database technologie dat je gebruikt bijvoorbeeld bij Express gebruik je <code>BRS_CONNECTION_STRING_MSSERVER</code>.</p>
 <p>🏆 De omgevingsvariabele is succesvol ingesteld!</p>
 <h2 id="configuratie">Configuratie</h2>
 <p>Als u onze applicatie heeft gedownload ziet u een Appsettings.json bestand. In dit bestand

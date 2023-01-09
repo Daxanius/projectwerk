@@ -561,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html",
-          "hash": "0jqtkIXHbWipxxO95z9snA=="
+          "hash": "NO9tRWOh2WdhOK2M3kJksg=="
         }
       },
       "is_incremental": false,
@@ -1233,7 +1233,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/client_setup.html",
-          "hash": "0sGbtNRFDxk0YYnGQO+yPA=="
+          "hash": "NeFAz61NL0vcscqXJVnncQ=="
         }
       },
       "is_incremental": false,
@@ -1241,11 +1241,23 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "articles/db_setup.md",
+      "source_relative_path": "articles/db_setup_express.md",
       "output": {
         ".html": {
-          "relative_path": "articles/db_setup.html",
-          "hash": "MM4Jl8oRGrVG0hYk9M90oQ=="
+          "relative_path": "articles/db_setup_express.html",
+          "hash": "6FKIzzUrg9h/WG+ES9rHJg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/db_setup_mysql.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/db_setup_mysql.html",
+          "hash": "H62AAckgniJg8G9TA9m9qA=="
         }
       },
       "is_incremental": false,
@@ -1269,7 +1281,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/manual.html",
-          "hash": "8hhXq/wrYuKxJWTOGBUxkw=="
+          "hash": "2CKkR41gzHYFpYgwQRqkFA=="
         }
       },
       "is_incremental": false,
@@ -1281,7 +1293,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/server_setup.html",
-          "hash": "42pyHWEdhCTA1rHsTGrw9w=="
+          "hash": "6I+5n1YEHVNrEvIzugqRAg=="
         }
       },
       "is_incremental": false,
@@ -1293,7 +1305,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "mJRfPSibPpA/pbiXVe3KrQ=="
+          "hash": "JA2Vxme5yV9eL/SdFSurYg=="
         }
       },
       "is_incremental": false,
@@ -1305,6 +1317,17 @@
       "output": {
         "resource": {
           "relative_path": "favicon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/example.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/example.png"
         }
       },
       "is_incremental": false,
@@ -1371,7 +1394,7 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 7,
+          "total_file_count": 8,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
