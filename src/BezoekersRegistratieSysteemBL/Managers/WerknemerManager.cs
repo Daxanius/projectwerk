@@ -45,6 +45,12 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			}
 		}
 
+		/// <summary>
+		/// Vervangt de functies van een werknemer binnen een bedrijf.
+		/// </summary>
+		/// <param name="werknemer">De werknemer waarvan de functies vervangen moet worden</param>
+		/// <param name="werknemerInfo">De functies die vervangen moeten worden</param>
+		/// <exception cref="WerknemerManagerException"></exception>
 		public void VervangFunctieWerknemer(Werknemer werknemer, WerknemerInfo werknemerInfo) {
 			if (werknemer == null)
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer mag niet leeg zijn");
@@ -68,8 +74,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 					if (!_werknemerRepository.BestaatFunctie(bewerkteFunctie)) {
 						VoegFunctieToe(bewerkteFunctie);
 					}
-					_werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo, bewerkteFunctie);
 
+					_werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo, bewerkteFunctie);
 				}
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);
