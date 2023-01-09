@@ -86,18 +86,14 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			}
 		}
 
-        [HttpGet("bedrijf/{bedrijfId}/overzicht/plaatsen")]
-        public ActionResult<int> GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfId)
-        {
-            try
-            {
-                Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-                return Ok(_parkingContractManager.GeefAantalParkeerplaatsenVoorBedrijf(bedrijf));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-    }
+		[HttpGet("bedrijf/{bedrijfId}/overzicht/plaatsen")]
+		public ActionResult<int> GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				return Ok(_parkingContractManager.GeefAantalParkeerplaatsenVoorBedrijf(bedrijf));
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+	}
 }

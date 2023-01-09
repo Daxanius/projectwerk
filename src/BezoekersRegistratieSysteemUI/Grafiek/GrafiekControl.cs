@@ -187,7 +187,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 				if (KolomLabels[i] is null) {
 					continue;
 				}
-                double x = GeefDataPositieX(i);
+				double x = GeefDataPositieX(i);
 				drawingContext.DrawText(new(
 						KolomLabels[i],
 						CultureInfo.CurrentCulture,
@@ -277,12 +277,12 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 			// Haalt de grootste sets op
 			_langsteSet = Datasets.Max(s => s.Data.Count as int?) ?? 0;
 			_hoogsteWaarde = Datasets.Max(x => x.Data.Max() as double?) ?? 0;
-			
-			//Gigabrain Bjorn
-            double temp = Convert.ToInt32(_hoogsteWaarde / WaardeIncrement) * WaardeIncrement;
-            _hoogsteWaarde = _hoogsteWaarde < temp ? temp : temp + WaardeIncrement;
 
-            TekenAchtergrond(drawingContext);
+			//Gigabrain Bjorn
+			double temp = Convert.ToInt32(_hoogsteWaarde / WaardeIncrement) * WaardeIncrement;
+			_hoogsteWaarde = _hoogsteWaarde < temp ? temp : temp + WaardeIncrement;
+
+			TekenAchtergrond(drawingContext);
 
 			switch (GrafiekType) {
 				case GrafiekType.Bar:
@@ -293,7 +293,7 @@ namespace BezoekersRegistratieSysteemUI.Grafiek {
 					break;
 			}
 
-            TekenInfo(drawingContext);
+			TekenInfo(drawingContext);
 			base.OnRender(drawingContext);
 		}
 

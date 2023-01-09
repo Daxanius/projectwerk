@@ -1,5 +1,4 @@
-﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
-using BezoekersRegistratieSysteemUI.Api;
+﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
@@ -80,8 +79,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 		private async void AanmeldenKlik(object sender, RoutedEventArgs e) {
 			try {
 
-				if (AanmeldParkeerWindow.GeselecteerdBedrijf is null)
-				{
+				if (AanmeldParkeerWindow.GeselecteerdBedrijf is null) {
 					MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
@@ -105,7 +103,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
-            GaTerugNaarKiesBedrijf();
+			GaTerugNaarKiesBedrijf();
 		}
 
 		private void AnnulerenKlik(object sender, RoutedEventArgs e) {
@@ -118,26 +116,22 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 			AanmeldParkeerWindow aanmeldParkeerWindow = (AanmeldParkeerWindow)Window.GetWindow(this);
 			aanmeldParkeerWindow.FrameControl.Content = KiesBedrijfPage.Instance;
 		}
-        private async void MaakNieuweCheckIn(long bedrijfsId, string nummerplaat)
-        {
-            var rawBody = new { bedrijfId = bedrijfsId, checkinTijd = DateTime.Now, nummerplaat = nummerplaat };
-            string json = JsonConvert.SerializeObject(rawBody);
+		private async void MaakNieuweCheckIn(long bedrijfsId, string nummerplaat) {
+			var rawBody = new { bedrijfId = bedrijfsId, checkinTijd = DateTime.Now, nummerplaat = nummerplaat };
+			string json = JsonConvert.SerializeObject(rawBody);
 
-            (bool isvalid, ParkeerplaatsOutputDTO parkeerplaats) = await ApiController.Post<ParkeerplaatsOutputDTO>("/parkeerplaats/checkin", json);
+			(bool isvalid, ParkeerplaatsOutputDTO parkeerplaats) = await ApiController.Post<ParkeerplaatsOutputDTO>("/parkeerplaats/checkin", json);
 
-            if (isvalid)
-            {
-                MessageBox.Show($"Uw registratie werd goed ontvangen.");
-            }
-            else
-            {
-                MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
-            }
-        }
-        #endregion
+			if (isvalid) {
+				MessageBox.Show($"Uw registratie werd goed ontvangen.");
+			} else {
+				MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
+			}
+		}
+		#endregion
 
-        #region ProppertyChanged
-        public void UpdatePropperty([CallerMemberName] string propertyName = null) {
+		#region ProppertyChanged
+		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged

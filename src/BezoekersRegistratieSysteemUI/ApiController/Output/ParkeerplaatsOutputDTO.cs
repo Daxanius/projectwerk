@@ -1,7 +1,6 @@
 ﻿using System;
 
-namespace BezoekersRegistratieSysteemUI.Api.Output
-{
+namespace BezoekersRegistratieSysteemUI.Api.Output {
 	/// <summary>
 	/// De DTO voor uitgaande parkeerplaats informatie.
 	/// </summary>

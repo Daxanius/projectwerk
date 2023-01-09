@@ -27,11 +27,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			this.DataContext = this;
 			InitializeComponent();
 			InitializeGraph();
-        }
+		}
 
 		private void UpdateGeselecteerdBedrijf_Event() {
 			InitializeGraph();
-        }
+		}
 
 		#region Singleton
 		private static ParkingPage instance = null;
@@ -77,43 +77,39 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			Grafiek1.Height = LineGraph.RenderSize.Height * 0.65;
 		}
 
-		private void InitializeGraph()
-		{
+		private void InitializeGraph() {
 			Grafiek.Datasets.Clear();
-            Grafiek1.Datasets.Clear();
-			
-            var dataDag = ApiController.GeefParkeerplaatsDagoverzichtVanBedrijf(GeselecteerdBedrijf.Id);
-            var dataWeek = ApiController.GeefParkeerplaatsWeekoverzichtVanBedrijf(GeselecteerdBedrijf.Id);
+			Grafiek1.Datasets.Clear();
 
-            Grafiek.KolomLabels = dataDag.CheckInsPerUur.Keys.ToList();
-            Grafiek1.KolomLabels = dataWeek.GeparkeerdenTotaalPerWeek.Keys.ToList();
+			var dataDag = ApiController.GeefParkeerplaatsDagoverzichtVanBedrijf(GeselecteerdBedrijf.Id);
+			var dataWeek = ApiController.GeefParkeerplaatsWeekoverzichtVanBedrijf(GeselecteerdBedrijf.Id);
 
-            GrafiekDataset dataSetCheckinsPerUur = new()
-            {
-                Data = dataDag.CheckInsPerUur.Values.ToList().ConvertAll(x => (double)x),
-                Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#272944"),
-                Label = "Huidig"
-            };
+			Grafiek.KolomLabels = dataDag.CheckInsPerUur.Keys.ToList();
+			Grafiek1.KolomLabels = dataWeek.GeparkeerdenTotaalPerWeek.Keys.ToList();
 
-            GrafiekDataset dataSetTotaalGeparkeerden = new()
-            {
-                Data = dataDag.GeparkeerdenTotaalPerUur.Values.ToList().ConvertAll(x => (double)x),
-                Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#404BDA"),
-                Label = "Totaal"
-            };
+			GrafiekDataset dataSetCheckinsPerUur = new() {
+				Data = dataDag.CheckInsPerUur.Values.ToList().ConvertAll(x => (double)x),
+				Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#272944"),
+				Label = "Huidig"
+			};
 
-            GrafiekDataset dataSetWeek = new()
-            {
-                Data = dataWeek.GeparkeerdenTotaalPerWeek.Values.ToList().ConvertAll(x => (double)x),
-                Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#404BDA")
-            };
+			GrafiekDataset dataSetTotaalGeparkeerden = new() {
+				Data = dataDag.GeparkeerdenTotaalPerUur.Values.ToList().ConvertAll(x => (double)x),
+				Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#404BDA"),
+				Label = "Totaal"
+			};
 
-            Grafiek.Datasets.Add(dataSetTotaalGeparkeerden);
-            Grafiek.Datasets.Add(dataSetCheckinsPerUur);
-            Grafiek1.Datasets.Add(dataSetWeek);
+			GrafiekDataset dataSetWeek = new() {
+				Data = dataWeek.GeparkeerdenTotaalPerWeek.Values.ToList().ConvertAll(x => (double)x),
+				Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#404BDA")
+			};
 
-            Grafiek1.InvalidateVisual();
-            Grafiek.InvalidateVisual();
-        }
+			Grafiek.Datasets.Add(dataSetTotaalGeparkeerden);
+			Grafiek.Datasets.Add(dataSetCheckinsPerUur);
+			Grafiek1.Datasets.Add(dataSetWeek);
+
+			Grafiek1.InvalidateVisual();
+			Grafiek.InvalidateVisual();
+		}
 	}
 }

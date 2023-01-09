@@ -16,8 +16,10 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 // Database technologie om te gebruiken (ADO/MYSQL)
 string database = (builder.Configuration[ENV_DB] ?? "mysql").Trim().ToUpper();
+
 // Houd rekening met DB type nu (ADO/MYSQL)
 string ENV_SQL_CONNECTION = $"BRS_CONNECTION_STRING_{database}";
+
 // Pak de connectionstring van de omgevingsvariablen of de user secrets
 string? connectionstring = builder.Configuration[ENV_SQL_CONNECTION] ?? Environment.GetEnvironmentVariable(ENV_SQL_CONNECTION);
 

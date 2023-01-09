@@ -236,7 +236,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								"COUNT(pp.nummerplaat) AS parkedHour, " +
 								"(SELECT COUNT(*) " +
 								"FROM parkingplaatsen pp " +
-                                "WHERE pp.BedrijfId = @BedrijfId AND " +
+								"WHERE pp.BedrijfId = @BedrijfId AND " +
 								"(((hour <= DATEPART(HOUR, GETDATE()) " +
 								"AND DATEPART(HOUR, pp.StartTijd) <= hour) " +
 								"AND CONVERT(DATE, pp.starttijd) = CONVERT(DATE, GETDATE())) OR CONVERT(DATE, pp.starttijd) < CONVERT(DATE, GETDATE())) " +
@@ -251,7 +251,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								"LEFT JOIN parkingplaatsen pp ON(h.hour = DATEPART(HOUR, pp.StartTijd)) AND CONVERT(DATE, GETDATE()) = CONVERT(DATE, pp.starttijd) AND pp.BedrijfId = @BedrijfId " +
 								"GROUP BY h.hour " +
 							") " +
-                            "SELECT CONCAT(ph.hour,'u') as hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
+							"SELECT CONCAT(ph.hour,'u') as hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
 					con.Open();
@@ -297,7 +297,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 									"FROM offset o " +
 								"), " +
 								"parked AS( " +
-                                    "SELECT d.abbrDay, (SELECT COUNT(*) FROM ParkingPlaatsen pl WHERE CONVERT(date, pl.StartTijd) = d.da AND BedrijfId = @BedrijfId) as totalCheckIn, d.da " +
+									"SELECT d.abbrDay, (SELECT COUNT(*) FROM ParkingPlaatsen pl WHERE CONVERT(date, pl.StartTijd) = d.da AND BedrijfId = @BedrijfId) as totalCheckIn, d.da " +
 									"FROM days d " +
 								") " +
 							"SELECT abbrDay, totalCheckIn FROM parked p ORDER by p.da";
