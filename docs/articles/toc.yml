@@ -2,8 +2,10 @@
   href: intro.md
 - name: Gebruikersaanwijzingen
   href: manual.md
-- name: Database Setup
-  href: db_setup.md
+- name: Database Setup Express
+  href: db_setup_express.md
+- name: Database Setup MySQL
+  href: db_setup_mysql.md
 - name: Server Setup
   href: server_setup.md
 - name: Client Setup
