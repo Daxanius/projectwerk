@@ -662,28 +662,59 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
+    
+        public static ParkingContractoutputDTO? GeefParkingContract(long bedrijfId)
+        {
+            return Task.Run(async () =>
+            {
+                (bool isvalid, ParkingContractoutputDTO parkingContract) = await Get<ParkingContractoutputDTO>($"parkingcontract/bedrijf/{bedrijfId}");
+                if (isvalid)
+                {
+                    return parkingContract;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het parkingcontract");
+                }
+            }).Result;
+        }
 
-		public static ParkingContractoutputDTO? GeefParkingContract(long bedrijfId) {
-			return Task.Run(async () => {
-				(bool isvalid, ParkingContractoutputDTO parkingContract) = await Get<ParkingContractoutputDTO>($"parkingcontract/bedrijf/{bedrijfId}");
-				if (isvalid) {
-					return parkingContract;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het parkingcontract");
-				}
-			}).Result;
-		}
+        public static int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long bedrijfId)
+        {
+            return Task.Run(async () =>
+            {
+                (bool isvalid, int aantal) = await Get<int>($"parkeerplaats/bedrijf/{bedrijfId}/overzicht/bezet");
+                if (isvalid)
+                {
+                    return aantal;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het aantal bezette parkeerplaatsen");
+                }
+            }).Result;
+        }
 
-		public static int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long bedrijfId) {
-			return Task.Run(async () => {
-				(bool isvalid, int aantal) = await Get<int>($"parkeerplaats/bedrijf/{bedrijfId}/overzicht/bezet");
-				if (isvalid) {
-					return aantal;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het aantal bezette parkeerplaatsen");
-				}
-			}).Result;
-		}
-		#endregion
-	}
+        public static IEnumerable<ParkeerplaatsDTO> GeefNummerplaten(long bedrijfId)
+        {
+            return Task.Run(async () =>
+            {
+                List<ParkeerplaatsDTO> ItemSource = new();
+                (bool isvalid, List<ParkeerplaatsOutputDTO> nummerplaten) = await Get<List<ParkeerplaatsOutputDTO>>($"parkeerplaats/bedrijf/{bedrijfId}");
+                if (isvalid)
+                {
+                    nummerplaten.ForEach((nummerplaat) =>
+                    {
+                        ItemSource.Add(new ParkeerplaatsDTO(nummerplaat.Starttijd, nummerplaat.Nummerplaat));
+                    });
+                    return ItemSource;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de nummerplaten");
+                }
+            }).Result;
+        }
+	#endregion
+    }
 }
