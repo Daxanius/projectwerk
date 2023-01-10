@@ -185,7 +185,7 @@
                                                             FontSize="16"
                                                             FontWeight="Bold"
                                                             Foreground="{StaticResource DonkerGrijs}"
-                                                            TextChanged="ZoekTermChangedWerknemers" />
+                                                            TextChanged="ZoekTextChangedWerknemers" />
                                                     </StackPanel>
                                                 </Border>
                                             </StackPanel>
