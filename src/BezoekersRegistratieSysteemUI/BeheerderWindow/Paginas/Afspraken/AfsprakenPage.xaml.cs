@@ -79,7 +79,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken{
             }
         }
 
-        private List<AfspraakDTO> initieleZoekBalkAfspraken = new();
         private string _zoekTermDatum;
         public string ZoekTermDatum
         {
@@ -90,7 +89,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken{
                 {
                     _zoekTermDatum = value.ToLower();
 
-                    List<AfspraakDTO> result = initieleZoekBalkAfspraken.Where(a => a.StartTijd.Contains(_zoekTermDatum) || 
+                    List<AfspraakDTO> result = ApiController.GeefAfsprakenOpDatumVanBedrijf(GeselecteerdBedrijf.Id, ZoekTermDatum).OrderByDescending(a => a.StartTijd).Where(a => a.StartTijd.Contains(_zoekTermDatum) || 
 					a.StartTijd.Contains(_zoekTermDatum)).ToList();
 
                     OpDatumAfsprakenLijst.ItemSource.Clear();
@@ -104,7 +103,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken{
                 else if (value.Length == 0)
                 {
                     OpDatumAfsprakenLijst.ItemSource.Clear();
-                    foreach (AfspraakDTO afspraak in initieleZoekBalkAfspraken)
+                    foreach (AfspraakDTO afspraak in ApiController.GeefAfsprakenOpDatumVanBedrijf(GeselecteerdBedrijf.Id, ZoekTermDatum).OrderByDescending(a => a.StartTijd))
                     {
                         OpDatumAfsprakenLijst.ItemSource.Add(afspraak);
                     }
@@ -300,7 +299,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken{
 				foreach (AfspraakDTO afspraak in ApiController.GeefAfsprakenOpDatumVanBedrijf(GeselecteerdBedrijf.Id, ZoekTermDatum).OrderByDescending(a => a.StartTijd)) {
 					OpDatumAfsprakenLijst.ItemSource.Add(afspraak);
 				}
-				initieleZoekBalkAfspraken = new(OpDatumAfsprakenLijst.ItemSource);
 			}
 
 			if (_geselecteerdeAfspraakOpDatumIndex != -1) {
