@@ -2,6 +2,7 @@
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Controls;
 using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.Grafiek;
 using BezoekersRegistratieSysteemUI.Model;
@@ -24,6 +25,38 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 		public int FullWidth { get; set; }
 		public int FullHeight { get; set; }
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
+        private List<ParkeerplaatsDTO> _initieleZoekTermParkeerplaats;
+        private string _zoekText;
+        public string ZoekText
+        {
+            get => _zoekText;
+            set
+            {
+                if (value.IsNietLeeg())
+                {
+                    _zoekText = value.ToLower();
+
+                    List<ParkeerplaatsDTO> result = _initieleZoekTermParkeerplaats.Where(n => n.Nummerplaat.ToLower().Contains(_zoekText) || 
+                    n.Starttijd.ToShortTimeString().ToLower().Contains(_zoekText)).ToList();
+
+                    NummerplaatLijstControl.ItemSource.Clear();
+
+                    foreach (ParkeerplaatsDTO nummerplaat in result)
+                    {
+                        NummerplaatLijstControl.ItemSource.Add(nummerplaat);
+                    }
+
+                }
+                else if (value.Length == 0)
+                {
+                    NummerplaatLijstControl.ItemSource.Clear();
+                    foreach (ParkeerplaatsDTO nummerplaat in _initieleZoekTermParkeerplaats)
+                    {
+                        NummerplaatLijstControl.ItemSource.Add(nummerplaat);
+                    }
+                }
+            }
+        }
 
         public ParkingPage() {
             this.DataContext = this;
@@ -41,7 +74,12 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			InitializeGraph();
         }
 
-		private void UpdateGeselecteerdBedrijf_Event() {
+        private void ZoekTermChanged(object sender, TextChangedEventArgs e)
+        {
+            Task.Run(() => Dispatcher.Invoke(() => ZoekText = ZoekTextTextbox.Text));
+        }
+
+        private void UpdateGeselecteerdBedrijf_Event() {
 			InitializeGraph();
             NummerplaatLijstControl.ItemSource.Clear();
             UpdatePropperty(nameof(GeselecteerdBedrijf));
@@ -50,10 +88,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 
         private void UpdateHuidigeNummerplatenOpScherm()
         {
-            foreach (ParkeerplaatsDTO parkeerplaats in ApiController.GeefNummerplaten(GeselecteerdBedrijf.Id).ToList())
+            foreach (ParkeerplaatsDTO parkeerplaats in ApiController.GeefNummerplaten(GeselecteerdBedrijf.Id).ToList().OrderBy(n => n.Starttijd))
             {
 				NummerplaatLijstControl.ItemSource.Add(parkeerplaats);
             }
+            _initieleZoekTermParkeerplaats = new(NummerplaatLijstControl.ItemSource);
         }
 
         #region Singleton

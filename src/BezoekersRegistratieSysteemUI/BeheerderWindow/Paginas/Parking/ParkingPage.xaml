@@ -196,7 +196,7 @@
                                             IconSize="50"
                                             IconSource="../VergrootGlasIcon.xaml" />
                                         <TextBox
-                                            x:Name="ZoekTermTextBoxNummerplaat"
+                                            x:Name="ZoekTextTextbox"
                                             MinWidth="200"
                                             MaxWidth="400"
                                             Padding="0,0,15,0"
@@ -206,7 +206,8 @@
                                             BorderThickness="0"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{StaticResource DonkerGrijs}" />
+                                            Foreground="{StaticResource DonkerGrijs}" 
+                                            TextChanged="ZoekTermChanged"/>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
