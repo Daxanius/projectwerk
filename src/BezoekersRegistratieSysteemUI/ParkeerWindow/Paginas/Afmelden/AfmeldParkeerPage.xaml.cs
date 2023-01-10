@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -56,15 +57,18 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Afmelden {
 				}
 
 				//TODO STAN
-				//await ApiController.Put<object>($"/afspraak/end?email={Nummerplaat}");
+				bool isValid = await ApiController.Post($"/parkeerplaats/checkout?nummerplaat={Nummerplaat}");
+                if (isValid) {
+                    MessageBox.Show($"U bent afgemeld.", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                } else {
+                    MessageBox.Show("Er is iets fout gegaan bij het afmelden in het systeem", "Error /");
+                }
+                Nummerplaat = "";
 
-				Nummerplaat = "";
-
-				MessageBox.Show("U bent afgemeld", "", MessageBoxButton.OK, MessageBoxImage.Information);
 
 			} catch (Exception ex) {
 				if (ex.Message.Contains("NotFound")) {
-					MessageBox.Show("Er is geen afspraak voor dit email adres");
+					MessageBox.Show("Deze nummerplaat is ons niet bekend.");
 					return;
 				}
 				MessageBox.Show(ex.Message, "Error");
