@@ -62,7 +62,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			return _werknemerRepository.BestaatWerknemer(voorNaam, achterNaam);
 		}
-
 		public void VervangFunctieWerknemer(Werknemer werknemer, WerknemerInfo werknemerInfo) {
 			if (werknemer == null)
 				throw new WerknemerManagerException("WerknemerManager - VoegWerknemerFunctieToe - werknemer mag niet leeg zijn");
@@ -86,8 +85,8 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 					if (!_werknemerRepository.BestaatFunctie(bewerkteFunctie)) {
 						VoegFunctieToe(bewerkteFunctie);
 					}
-					_werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo, bewerkteFunctie);
 
+					_werknemerRepository.VoegWerknemerFunctieToe(werknemer, werknemerInfo, bewerkteFunctie);
 				}
 			} catch (Exception ex) {
 				throw new WerknemerManagerException(ex.Message);
