@@ -245,18 +245,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			AfsprakenPage afsprakenPage = AfsprakenPage.Instance;
 			afsprakenPage.afsprakenPopup.Visibility = Visibility.Hidden;
 		}
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			if (_selecteditem is not null) {
-				_selecteditem.Background = Brushes.Transparent;
-			}
-			StackPanel? listViewItem = sender as StackPanel;
-
-			Border border = (Border)listViewItem.Children[0];
-			border.Background = Brushes.White;
-			border.CornerRadius = new CornerRadius(20);
-			border.Margin = new Thickness(0);
-			_selecteditem = border;
-		}
 		#endregion
 
 		#region KiesWerknemerEiland
