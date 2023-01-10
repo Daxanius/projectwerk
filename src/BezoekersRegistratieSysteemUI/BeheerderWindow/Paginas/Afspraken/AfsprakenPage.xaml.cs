@@ -46,18 +46,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken{
 			}
 		}
 
-        private List<AfspraakDTO> initieleZoekBalkAfsprakenkWerknemers = new();
         private string _zoekTermWerknemersDatum;
         public string ZoekTermWerknemersDatum
         {
-            get => _zoekTextWerknemers;
+            get => _zoekTermWerknemersDatum;
             set
             {
                 if (value.IsNietLeeg())
                 {
-                    _zoekTextWerknemers = value.ToLower();
+                    _zoekTermWerknemersDatum = value.ToLower();
 
-                    List<AfspraakDTO> result = initieleZoekBalkAfsprakenkWerknemers.Where(a => a.StartTijd.Contains(_zoekTermWerknemersDatum) ||
+                    List<AfspraakDTO> result = ApiController.GeefWerknemerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeWerknemer, ZoekTermWerknemersDatum).OrderByDescending(a => a.StartTijd).Where(a => a.StartTijd.Contains(_zoekTermWerknemersDatum) ||
                     a.StartTijd.Contains(_zoekTermWerknemersDatum)).ToList();
 
                     GeselecteerdeWerknemerAfsprakenLijst.ItemSource.Clear();
@@ -71,7 +70,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken{
                 else if (value.Length == 0)
                 {
                     GeselecteerdeWerknemerAfsprakenLijst.ItemSource.Clear();
-                    foreach (AfspraakDTO afspraak in initieleZoekBalkAfsprakenkWerknemers)
+                    foreach (AfspraakDTO afspraak in ApiController.GeefWerknemerAfsprakenVanBedrijf(GeselecteerdBedrijf.Id, GeselecteerdeWerknemer, ZoekTermWerknemersDatum).OrderByDescending(a => a.StartTijd))
                     {
                         GeselecteerdeWerknemerAfsprakenLijst.ItemSource.Add(afspraak);
                     }
@@ -159,7 +158,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken{
 		}
 
 		#region Functies
-		private void ZoekTermChangedWerknemers(object sender, TextChangedEventArgs e) => Task.Run(() => Dispatcher.Invoke(() => ZoekTextWerknemers = ZoekTextTextBoxWerknemers.Text));
+		private void ZoekTextChangedWerknemers(object sender, TextChangedEventArgs e) 
+			=> Task.Run(() => Dispatcher.Invoke(() => ZoekTextWerknemers = ZoekTextTextBoxWerknemers.Text));
+		
         private void ZoekTermKeyDownWerknemersDatum(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
@@ -355,7 +356,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken{
 					}
 					werknemersAfsprakenLijstControl.HeeftData = true;
 					initieleZoekBalkWerknemers = WerknemerLijst.ItemSource.ToList();
-                    initieleZoekBalkAfsprakenkWerknemers = GeselecteerdeWerknemerAfsprakenLijst.ItemSource.ToList();
                     }
 				break;
 
