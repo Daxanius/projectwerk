@@ -845,5 +845,26 @@ namespace BezoekersRegistratieSysteemUI.Api
                 }
             }).Result;
         }
+
+        public static IEnumerable<ParkeerplaatsDTO> GeefNummerplaten(long bedrijfId)
+        {
+            return Task.Run(async () =>
+            {
+                List<ParkeerplaatsDTO> ItemSource = new();
+                (bool isvalid, List<ParkeerplaatsOutputDTO> nummerplaten) = await Get<List<ParkeerplaatsOutputDTO>>($"parkeerplaats/bedrijf/{bedrijfId}");
+                if (isvalid)
+                {
+                    nummerplaten.ForEach((nummerplaat) =>
+                    {
+                        ItemSource.Add(new ParkeerplaatsDTO(nummerplaat.Starttijd, nummerplaat.Nummerplaat));
+                    });
+                    return ItemSource;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de nummerplaten");
+                }
+            }).Result;
+        }
     }
 }

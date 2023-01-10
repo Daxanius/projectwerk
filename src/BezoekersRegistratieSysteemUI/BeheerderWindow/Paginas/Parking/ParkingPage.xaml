@@ -69,7 +69,7 @@
                     Background="{StaticResource LichtGrijsAccent}"
                     CornerRadius="25"
                     DockPanel.Dock="Left">
-                    <StackPanel>
+                    <DockPanel>
                         <Grid DockPanel.Dock="Top">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -99,7 +99,7 @@
                             </StackPanel>
                         </Grid>
                         <controls:ParkingContractControl x:Name="ParkingContractDetail" />
-                    </StackPanel>
+                    </DockPanel>
                 </Border>
                 <Border
                     Name="BarGraph"
@@ -111,7 +111,7 @@
                     CornerRadius="25"
                     DockPanel.Dock="Bottom"
                     Loaded="BarGraph_Loaded">
-                    <StackPanel>
+                    <DockPanel>
                         <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -130,7 +130,7 @@
                             HorizontalAlignment="Center"
                             GrafiekType="Bar"
                             WaardeIncrement="25" />
-                    </StackPanel>
+                    </DockPanel>
                 </Border>
                 <Border
                     Name="LineGraph"
@@ -142,7 +142,7 @@
                     CornerRadius="25"
                     DockPanel.Dock="Bottom"
                     Loaded="LineGraph_Loaded">
-                    <StackPanel>
+                    <DockPanel>
                         <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -161,7 +161,7 @@
                             HorizontalAlignment="Center"
                             GrafiekType="Lijn"
                             WaardeIncrement="10" />
-                    </StackPanel>
+                    </DockPanel>
                 </Border>
                 <Border
                     Grid.Row="0"
@@ -170,7 +170,7 @@
                     Background="{StaticResource LichtGrijsAccent}"
                     CornerRadius="25"
                     DockPanel.Dock="Right">
-                    <StackPanel>
+                    <DockPanel>
                         <Grid Margin="0,0,0,20" DockPanel.Dock="Top">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -196,7 +196,7 @@
                                             IconSize="50"
                                             IconSource="../VergrootGlasIcon.xaml" />
                                         <TextBox
-                                            x:Name="ZoekTermTextBoxWerknemers"
+                                            x:Name="ZoekTermTextBoxNummerplaat"
                                             MinWidth="200"
                                             MaxWidth="400"
                                             Padding="0,0,15,0"
@@ -211,8 +211,8 @@
                                 </Border>
                             </StackPanel>
                         </Grid>
-                        <controls:NummerplaatLijstControl x:Name="NummerplaatLijstControl" />
-                    </StackPanel>
+                        <controls:NummerplaatLijstControl x:Name="NummerplaatLijstControl"/>
+                    </DockPanel>
                 </Border>
             </Grid>
         </DockPanel>

@@ -1,11 +1,17 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls;
 using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.Grafiek;
 using BezoekersRegistratieSysteemUI.Model;
+using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -18,8 +24,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 		public int FullWidth { get; set; }
 		public int FullHeight { get; set; }
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
-		public ParkingPage() {
-			FullWidth = (int)SystemParameters.PrimaryScreenWidth;
+
+        public ParkingPage() {
+            this.DataContext = this;
+            InitializeComponent();
+
+            UpdateGeselecteerdBedrijf_Event();
+
+            FullWidth = (int)SystemParameters.PrimaryScreenWidth;
 			FullHeight = (int)SystemParameters.PrimaryScreenHeight;
 
 			BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
@@ -31,10 +43,21 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 
 		private void UpdateGeselecteerdBedrijf_Event() {
 			InitializeGraph();
+            NummerplaatLijstControl.ItemSource.Clear();
+            UpdatePropperty(nameof(GeselecteerdBedrijf));
+            UpdateHuidigeNummerplatenOpScherm();
         }
 
-		#region Singleton
-		private static ParkingPage instance = null;
+        private void UpdateHuidigeNummerplatenOpScherm()
+        {
+            foreach (ParkeerplaatsDTO parkeerplaats in ApiController.GeefNummerplaten(GeselecteerdBedrijf.Id).ToList())
+            {
+				NummerplaatLijstControl.ItemSource.Add(parkeerplaats);
+            }
+        }
+
+        #region Singleton
+        private static ParkingPage instance = null;
 		private static readonly object padlock = new object();
 
 		public static ParkingPage Instance {
@@ -115,5 +138,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
             Grafiek1.InvalidateVisual();
             Grafiek.InvalidateVisual();
         }
-	}
+    }
 }
