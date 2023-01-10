@@ -8,12 +8,14 @@ namespace BezoekersRegistratieSysteemUI.Model {
 		public string Voornaam { get; set; }
 		public string Achternaam { get; set; }
 		public string Email { get; set; }
-		private readonly string? _functie = null;
+		public string Bedrijven {
+			get {
+				return string.Join(", ", WerknemerInfoLijst.Select(w => w.Bedrijf.Naam));
+			}
+		}
+
 		public string Functie {
 			get {
-				if (_functie is not null) {
-					return _functie;
-				}
 				var lijstVanFuncties = WerknemerInfoLijst.Select(w => string.Join(", ", w.Functies));
 				return string.Join(", ", string.Join(", ", lijstVanFuncties));
 			}
@@ -34,7 +36,6 @@ namespace BezoekersRegistratieSysteemUI.Model {
 			Voornaam = voornaam;
 			Achternaam = achternaam;
 			Email = email;
-			_functie = string.Join(", ", functie);
 			Status = isWerknemerVrij;
 		}
 

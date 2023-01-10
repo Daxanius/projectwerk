@@ -23,8 +23,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			FullHeight = (int)SystemParameters.PrimaryScreenHeight;
 
 			BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
+            GlobalEvents.RefreshData += UpdateGeselecteerdBedrijf_Event;
 
-			this.DataContext = this;
+            this.DataContext = this;
 			InitializeComponent();
 			InitializeGraph();
         }

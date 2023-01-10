@@ -94,6 +94,21 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		}
 
 		/// <summary>
+		/// Bestaat er al een werknemer met voor en achternaam in het park... wie weet dat?
+		/// </summary>
+		/// <param name="voorNaam">voornaam voor achternaam</param>
+		/// <param name="achterNaam">achternaam achter voornaam</param>
+		/// <returns>NotFound bij mislukking</returns>
+		[HttpGet("bestaat/{voorNaam}/{achterNaam}")]
+		public ActionResult<List<WerknemerOutputDTO>> BestaatWerknemer(string voorNaam, string achterNaam) {
+			try {
+				return Ok(_werknemerManager.BestaatWerknemer(voorNaam, achterNaam).Select(w => WerknemerOutputDTO.NaarDTO(w)));
+			} catch (Exception ex) {
+				return NotFound(ex.Message);
+			}
+		}
+
+		/// <summary>
 		/// Voegt een werknemer toe.
 		/// </summary>
 		/// <param name="werknemerData">De informatie van de werknemer</param>
