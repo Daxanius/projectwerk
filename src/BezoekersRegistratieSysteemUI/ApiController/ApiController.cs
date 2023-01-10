@@ -715,5 +715,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
                 }
             }).Result;
         }
+	#endregion
     }
 }
