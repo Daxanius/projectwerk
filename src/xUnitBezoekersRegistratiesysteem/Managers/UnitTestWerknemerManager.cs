@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_mockRepoAfspraak = new Mock<IAfspraakRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object, _mockRepoAfspraak.Object);
 
-			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VoegWerknemerToe(null));
+			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VoegWerknemerToe(null, false));
 		}
 
 		#endregion
