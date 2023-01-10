@@ -64,8 +64,13 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers {
 
 			BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
 			WerknemerEvents.NieuweWerknemerToegevoegd += (WerknemerDTO werknemer) => _werknemerLijst.Add(werknemer);
+			WerknemerEvents.UpdateWerknemerScherm += UpdateAlleWerknemersOpScherm_Event;
 			WerknemerEvents.UpdateWerknemer += WerknemerGeupdate_Event;
 
+			UpdateWerknemersMetNieuweDataOpScherm();
+		}
+
+		private void UpdateAlleWerknemersOpScherm_Event() {
 			UpdateWerknemersMetNieuweDataOpScherm();
 		}
 
