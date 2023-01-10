@@ -8,6 +8,10 @@ namespace BezoekersRegistratieSysteemUI.MessageBoxes {
 		public ECustomMessageBoxResult Show(string message, string title, ECustomMessageBoxIcon icon) {
 			InitializeComponent();
 
+			this.Title = "";
+			TitleLabel.Content = "";
+			TextTextBox.Text = "";
+
 			this.Title = "Opgelet !";
 			TitleLabel.Content = title;
 			TextTextBox.Text = message;

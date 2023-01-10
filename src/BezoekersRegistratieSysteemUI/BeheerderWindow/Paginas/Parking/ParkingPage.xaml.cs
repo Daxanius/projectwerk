@@ -1,10 +1,13 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Controls;
 using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.Grafiek;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
@@ -170,6 +173,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 
             Grafiek1.InvalidateVisual();
             Grafiek.InvalidateVisual();
+        }
+
+		private void VoegNummerplaatToe_Click(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            NummerplaatToevoegen_Popup.Visibility = Visibility.Visible;
         }
     }
 }

@@ -237,8 +237,8 @@
                                                             BorderThickness="0"
                                                             FontSize="16"
                                                             FontWeight="Bold"
-                                                            Foreground="{StaticResource DonkerGrijs}" 
-                                                            KeyDown="ZoekTermKeyDownWerknemersDatum"/>
+                                                            Foreground="{StaticResource DonkerGrijs}"
+                                                            KeyDown="ZoekTermKeyDownWerknemersDatum" />
                                                     </StackPanel>
                                                 </Border>
                                             </StackPanel>
@@ -269,30 +269,30 @@
                                     <StackPanel Grid.Column="1">
                                         <StackPanel HorizontalAlignment="Right">
                                             <Border
-                                                    Background="{StaticResource MainAchtergrond}"
-                                                    CornerRadius="25"
-                                                    DockPanel.Dock="Left">
+                                                Background="{StaticResource MainAchtergrond}"
+                                                CornerRadius="25"
+                                                DockPanel.Dock="Left">
                                                 <StackPanel
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Orientation="Horizontal">
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
                                                     <iconspresenter:Icon
-                                                            CircleBackground="Transparent"
-                                                            IconSize="50"
-                                                            IconSource="../VergrootGlasIcon.xaml" />
+                                                        CircleBackground="Transparent"
+                                                        IconSize="50"
+                                                        IconSource="../VergrootGlasIcon.xaml" />
                                                     <TextBox
-                                                            x:Name="ZoekTermTextBoxDatum"
-                                                            MinWidth="200"
-                                                            MaxWidth="400"
-                                                            Padding="0,0,15,0"
-                                                            VerticalAlignment="Center"
-                                                            Background="Transparent"
-                                                            BorderBrush="Transparent"
-                                                            BorderThickness="0"
-                                                            FontSize="16"
-                                                            FontWeight="Bold"
-                                                            Foreground="{StaticResource DonkerGrijs}"
-                                                            KeyDown="ZoekTermKeyDownDatum" />
+                                                        x:Name="ZoekTermTextBoxDatum"
+                                                        MinWidth="200"
+                                                        MaxWidth="400"
+                                                        Padding="0,0,15,0"
+                                                        VerticalAlignment="Center"
+                                                        Background="Transparent"
+                                                        BorderBrush="Transparent"
+                                                        BorderThickness="0"
+                                                        FontSize="16"
+                                                        FontWeight="Bold"
+                                                        Foreground="{StaticResource DonkerGrijs}"
+                                                        KeyDown="ZoekTermKeyDownDatum" />
                                                 </StackPanel>
                                             </Border>
                                         </StackPanel>

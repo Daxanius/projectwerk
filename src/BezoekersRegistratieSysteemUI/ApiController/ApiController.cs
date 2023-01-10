@@ -662,22 +662,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-    
-        public static ParkingContractoutputDTO? GeefParkingContract(long bedrijfId)
-        {
-            return Task.Run(async () =>
-            {
-                (bool isvalid, ParkingContractoutputDTO parkingContract) = await Get<ParkingContractoutputDTO>($"parkingcontract/bedrijf/{bedrijfId}");
-                if (isvalid)
-                {
-                    return parkingContract;
-                }
-                else
-                {
-                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het parkingcontract");
-                }
-            }).Result;
-        }
 
 		public static ParkingContractoutputDTO? GeefParkingContract(long bedrijfId) {
 			return Task.Run(async () => {
@@ -719,7 +703,15 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static void CheckNummerplaatOut(ParkeerplaatsDTO parkeerplaatsDto) {
 			Task.Run(async () => {
 				await Post($"parkeerplaats/checkout/{parkeerplaatsDto.Nummerplaat}");
-			});
+			}).Wait();
+		}
+
+		public static void CheckNummerplaatIn(long bedrijfId, DateTime starttijd, DateTime? eindtijd, string nummerplaat) {
+			Task.Run(async () => {
+				ParkeerplaatsInputDTO parkeerplaats = new ParkeerplaatsInputDTO(bedrijfId, starttijd, eindtijd, nummerplaat);
+				string payload = JsonConvert.SerializeObject(parkeerplaats);
+				await Post($"parkeerplaats/checkin/", payload);
+			}).Wait();
 		}
 		#endregion
 	}
