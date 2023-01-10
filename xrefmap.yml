@@ -6704,12 +6704,6 @@ references:
   commentId: M:BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatIn(BezoekersRegistratieSysteemREST.Model.Input.ParkeerplaatsInputDTO)
   fullName: BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatIn(BezoekersRegistratieSysteemREST.Model.Input.ParkeerplaatsInputDTO)
   nameWithType: ParkeerplaatsController.CheckNummerplaatIn(ParkeerplaatsInputDTO)
-- uid: BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatIn(System.String)
-  name: CheckNummerplaatIn(String)
-  href: api/BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.html#BezoekersRegistratieSysteemREST_Controllers_ParkeerplaatsController_CheckNummerplaatIn_System_String_
-  commentId: M:BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatIn(System.String)
-  fullName: BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatIn(System.String)
-  nameWithType: ParkeerplaatsController.CheckNummerplaatIn(String)
 - uid: BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatIn*
   name: CheckNummerplaatIn
   href: api/BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.html#BezoekersRegistratieSysteemREST_Controllers_ParkeerplaatsController_CheckNummerplaatIn_
@@ -6717,6 +6711,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatIn
   nameWithType: ParkeerplaatsController.CheckNummerplaatIn
+- uid: BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatUit(System.String)
+  name: CheckNummerplaatUit(String)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.html#BezoekersRegistratieSysteemREST_Controllers_ParkeerplaatsController_CheckNummerplaatUit_System_String_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatUit(System.String)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatUit(System.String)
+  nameWithType: ParkeerplaatsController.CheckNummerplaatUit(String)
+- uid: BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatUit*
+  name: CheckNummerplaatUit
+  href: api/BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.html#BezoekersRegistratieSysteemREST_Controllers_ParkeerplaatsController_CheckNummerplaatUit_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatUit
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.CheckNummerplaatUit
+  nameWithType: ParkeerplaatsController.CheckNummerplaatUit
 - uid: BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.GeefHuidigBezetteParkeerplaatsenVoorBedrijf(System.Int64)
   name: GeefHuidigBezetteParkeerplaatsenVoorBedrijf(Int64)
   href: api/BezoekersRegistratieSysteemREST.Controllers.ParkeerplaatsController.html#BezoekersRegistratieSysteemREST_Controllers_ParkeerplaatsController_GeefHuidigBezetteParkeerplaatsenVoorBedrijf_System_Int64_
