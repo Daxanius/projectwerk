@@ -100,9 +100,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="achterNaam">achternaam achter voornaam</param>
 		/// <returns>NotFound bij mislukking</returns>
 		[HttpGet("bestaat/{voorNaam}/{achterNaam}")]
-		public ActionResult<bool> BestaatWerknemer(string voorNaam, string achterNaam) {
+		public ActionResult<List<WerknemerOutputDTO>> BestaatWerknemer(string voorNaam, string achterNaam) {
 			try {
-				return Ok(_werknemerManager.BestaatWerknemer(voorNaam, achterNaam));
+				return Ok(_werknemerManager.BestaatWerknemer(voorNaam, achterNaam).Select(w => WerknemerOutputDTO.NaarDTO(w)));
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -114,9 +114,9 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// <param name="werknemerData">De informatie van de werknemer</param>
 		/// <returns>BadRequest bij mislukking</returns>
 		[HttpPost]
-		public ActionResult<WerknemerOutputDTO> VoegWerknemerToe([FromBody] WerknemerInputDTO werknemerData, [FromQuery] bool maakGeenNieuweWerknemerAlsHijBestaat) {
+		public ActionResult<WerknemerOutputDTO> VoegWerknemerToe([FromBody] WerknemerInputDTO werknemerData) {
 			try {
-				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness(_bedrijfManager), maakGeenNieuweWerknemerAlsHijBestaat)));
+				return Ok(WerknemerOutputDTO.NaarDTO(_werknemerManager.VoegWerknemerToe(werknemerData.NaarBusiness(_bedrijfManager))));
 			} catch (Exception ex) {
 				return BadRequest(ex.Message);
 			}

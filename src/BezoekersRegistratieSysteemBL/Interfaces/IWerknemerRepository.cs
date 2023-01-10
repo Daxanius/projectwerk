@@ -16,7 +16,7 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		void VerwijderWerknemerFunctie(Werknemer werknemer, Bedrijf bedrijf, string functie);
 		void BewerkWerknemer(Werknemer werknemer, Bedrijf bedrijf);
 
-		bool BestaatWerknemer(string voornaam, string achternaam);
+		List<Werknemer> BestaatWerknemer(string voornaam, string achternaam);
 		bool BestaatWerknemer(Werknemer werknemer);
 		bool BestaatWerknemer(long id);
 
@@ -30,5 +30,6 @@ namespace BezoekersRegistratieSysteemBL.Interfaces {
 		IReadOnlyList<Werknemer> GeefBezetteWerknemersOpDitMomentVoorBedrijf(long id);
 		void GeefWerknemerId(Werknemer werknemer, bool metEmail = true);
 		IReadOnlyList<Werknemer> WerknemerPotentieelReedsWerkzaamInBedrijvenpark(Werknemer werknemer);
+		bool BestaatWerknemerEmail(string email);
 	}
 }

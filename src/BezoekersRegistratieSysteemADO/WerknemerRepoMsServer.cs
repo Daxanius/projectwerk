@@ -37,22 +37,69 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 		/// <param name="voorNaam">De naam vanvoor</param>
 		/// <param name="achterNaam">De naam die voor de achternaam ook wel familienaam genoemd of in het engels lastname</param>
 		/// <returns></returns>
-		public bool BestaatWerknemer(string voorNaam, string achterNaam) {
+		public List<Werknemer> BestaatWerknemer(string voorNaam, string achterNaam) {
+			SqlConnection con = GetConnection();
+			string query = "SELECT wn.id as WerknemerId, wn.Vnaam as WerknemerVnaam, wn.Anaam as WerknemerAnaam, wb.WerknemerEmail, " +
+						   "b.id as BedrijfId, b.naam as BedrijfNaam, b.btwnr as bedrijfBTW, b.telenr as bedrijfTele, b.email as BedrijfMail, b.adres as BedrijfAdres, b.BTWChecked, " +
+						   "f.functienaam, (SELECT COUNT(*) " +
+										   "FROM Afspraak a " +
+										   "JOIN Werknemerbedrijf wbb ON wbb.Id = a.WerknemerBedrijfId " +
+										   "WHERE wbb.WerknemerId = wn.Id " +
+										   "AND a.AfspraakStatusId = 1) AS HuidigeAfsprakenAantal " +
+						   "FROM Werknemer wn " +
+						   "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) AND wb.Status = 1 " +
+						   "JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+						   "JOIN functie f ON(f.id = wb.functieid) " +
+						   "WHERE wn.ANaam = @ANaam AND wn.VNaam = @VNaam " +
+						   "ORDER BY wn.id";
 			try {
-				using (SqlConnection conn = GetConnection()) {
-					string query = "SELECT * FROM Werknemer WHERE VNaam = @VoorNaam AND ANaam = @AchterNaam";
-					SqlCommand cmd = new SqlCommand(query, conn);
-					cmd.Parameters.AddWithValue("@VoorNaam", voorNaam);
-					cmd.Parameters.AddWithValue("@AchterNaam", achterNaam);
-					conn.Open();
-					SqlDataReader reader = cmd.ExecuteReader();
-					if (reader.HasRows) {
-						return true;
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new SqlParameter("@ANaam", SqlDbType.VarChar));
+					cmd.Parameters["@ANaam"].Value = achterNaam;
+					cmd.Parameters.Add(new SqlParameter("@VNaam", SqlDbType.VarChar));
+					cmd.Parameters["VNaam"].Value = voorNaam;
+					IDataReader reader = cmd.ExecuteReader();
+					Werknemer werknemer = null;
+					List<Werknemer> werknemers = new List<Werknemer>();
+					Bedrijf bedrijf = null;
+					while (reader.Read()) {
+						if (werknemer is null || werknemer.Id != (long)reader["WerknemerId"]) {
+							long werknemerId = (long)reader["WerknemerId"];
+							string werknemerVnaam = (string)reader["WerknemerVnaam"];
+							string werknemerAnaam = (string)reader["WerknemerAnaam"];
+							werknemer = new Werknemer(werknemerId, werknemerVnaam, werknemerAnaam);
+							werknemers.Add(werknemer);
+						}
+						//TODO: Deze ordinal check mag waars weg
+						if (!reader.IsDBNull(reader.GetOrdinal("WerknemerEmail"))) {
+							if (bedrijf is null || bedrijf.Id != (long)reader["BedrijfId"]) {
+								long bedrijfId = (long)reader["BedrijfId"];
+								string bedrijfNaam = (string)reader["BedrijfNaam"];
+								string bedrijfBTW = (string)reader["bedrijfBTW"];
+								string bedrijfTele = (string)reader["bedrijfTele"];
+								string bedrijfMail = (string)reader["BedrijfMail"];
+								string bedrijfAdres = (string)reader["BedrijfAdres"];
+								bool bedrijfBTWChecked = (bool)reader["BTWChecked"];
+								bedrijf = new Bedrijf(bedrijfId, bedrijfNaam, bedrijfBTW, bedrijfBTWChecked, bedrijfTele, bedrijfMail, bedrijfAdres);
+							}
+							string werknemerMail = (string)reader["WerknemerEmail"];
+							string functieNaam = (string)reader["functienaam"];
+							werknemer.VoegBedrijfEnFunctieToeAanWerknemer(bedrijf, werknemerMail, functieNaam);
+							string statusNaam = (long)reader["HuidigeAfsprakenAantal"] == 0 ? "Vrij" : "Bezet";
+							werknemer.ZetStatusNaamPerBedrijf(bedrijf, statusNaam);
+						}
 					}
-					return false;
+					return werknemers;
 				}
-			} catch (SqlException ex) {
-				throw new WerknemerMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+			} catch (Exception ex) {
+				WerknemerMsServerException exx = new WerknemerMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				exx.Data.Add("ANaam", achterNaam);
+				exx.Data.Add("VNaam", voorNaam);
+				throw exx;
+			} finally {
+				con.Close();
 			}
 		}
 
@@ -101,11 +148,11 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 					con.Open();
 					if (werknemer is not null) {
 						if (werknemer.Id != 0) {
-							query += "WHERE wn.id = @id";
+							query += "WHERE wn.id = @id ";
 							cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt));
 							cmd.Parameters["@id"].Value = werknemer.Id;
 						} else {
-							query += "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId) " +
+							query += "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId) AND wb.status = 1 " +
 									 "WHERE wb.werknemerEmail IN(";
 							int mailCount = 0;
 							foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
@@ -115,7 +162,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								mailCount++;
 							}
 							query = query.Substring(0, query.Length - 1);
-							query += ")";
+							query += ") ";
 						}
 					}
 					if (werknemerId.HasValue) {
@@ -132,7 +179,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 						using (SqlCommand cmdWerknemerNaam = con.CreateCommand()) {
 							string queryWerknemerNaam = "SELECT COUNT(*) " +
 														"FROM Werknemer wn " +
-														"JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId)" +
+														"JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerId) AND wb.status = 1 " +
 														"WHERE wn.ANaam = @Anaam AND wn.VNaam = @Vnaam AND wb.werknemerEmail IN(";
 							int mailCount = 0;
 							foreach (var werknemerInfo in werknemer.GeefBedrijvenEnFunctiesPerWerknemer().Values) {
@@ -142,7 +189,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								mailCount++;
 							}
 							queryWerknemerNaam = queryWerknemerNaam.Substring(0, queryWerknemerNaam.Length - 1);
-							queryWerknemerNaam += ")";
+							queryWerknemerNaam += ") ";
 							cmdWerknemerNaam.CommandText = queryWerknemerNaam;
 							cmdWerknemerNaam.Parameters.Add(new SqlParameter("@Anaam", SqlDbType.VarChar));
 							cmdWerknemerNaam.Parameters.Add(new SqlParameter("@Vnaam", SqlDbType.VarChar));
@@ -161,6 +208,37 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 				WerknemerMsServerException exx = new WerknemerMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
 				exx.Data.Add("werknemer", werknemer);
 				exx.Data.Add("werknemerId", werknemerId);
+				throw exx;
+			} finally {
+				con.Close();
+			}
+		}
+
+		/// <summary>
+		/// Private methode gaat na of werknemer bestaat adhv een werknemer object of parameters werknemer id.
+		/// </summary>
+		/// <param name="email">email dat gecontrolleerd wordt</param>
+		/// <returns>Boolean - True = Bestaat | False = Bestaat niet</returns>
+		/// <exception cref="WerknemerMySQLException">Faalt om bestaan werknemer te verifiëren op basis van werknemer id of werknemer object.</exception>
+		/// <exception cref="WerknemerMySQLException">Als het email pad neemt en naam wijkt af is er exception.</exception>
+		public bool BestaatWerknemerEmail(string email) {
+			SqlConnection con = GetConnection();
+			string query = "SELECT COUNT(*) " +
+						   "FROM WerknemerBedrijf wb " +
+						   "WHERE wb.WerknemerEmail = @email AND wb.status = 1";
+			try {
+				using (SqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					cmd.Parameters.Add(new SqlParameter($"@email", SqlDbType.VarChar));
+					cmd.Parameters[$"@email"].Value = email;
+					cmd.CommandText = query;
+					int i = (int)cmd.ExecuteScalar();
+					return (i > 0);
+
+				}
+			} catch (Exception ex) {
+				WerknemerMsServerException exx = new WerknemerMsServerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+				exx.Data.Add("email", email);
 				throw exx;
 			} finally {
 				con.Close();

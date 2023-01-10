@@ -39,7 +39,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			_mockRepoAfspraak = new Mock<IAfspraakRepository>();
 			_werknemerManager = new WerknemerManager(_mockRepo.Object, _mockRepoAfspraak.Object);
 
-			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VoegWerknemerToe(null, false));
+			Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VoegWerknemerToe(null));
 		}
 
 		#endregion
@@ -83,7 +83,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 
 			//"BedrijfManager - VoegWerknemerToe - werknemer heeft afspraken"
 			_mockRepo.Setup(x => x.BestaatWerknemer(_w)).Returns(true);
-			_mockRepoAfspraak.Setup(x => x.GeefHuidigeAfsprakenPerBedrijf(_b.Id).Count).Returns(1);
+			_mockRepoAfspraak.Setup(x => x.GeefHuidigeAfsprakenPerWerknemerPerBedrijf(_w.Id, _b.Id).Count).Returns(1);
 			var ex = Assert.Throws<WerknemerManagerException>(() => _werknemerManager.VerwijderWerknemer(_w, _b));
 			Assert.Equal("WerknemerManager - VerwijderWerknemer - werknemer heeft lopende afspraken", ex.Message);
 		}

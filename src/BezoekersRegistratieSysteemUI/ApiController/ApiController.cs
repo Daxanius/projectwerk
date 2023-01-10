@@ -358,10 +358,10 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		#endregion
 
 		#region Werknemers
-		public static WerknemerDTO MaakWerknemer(WerknemerInputDTO werknemer, bool maakGeenNieuweWerknemerAlsHijBestaat) {
+		public static WerknemerDTO MaakWerknemer(WerknemerInputDTO werknemer) {
 			return Task.Run(async () => {
 				string body = JsonConvert.SerializeObject(werknemer);
-				(bool isvalid, WerknemerOutputDTO apiWerknemer) = await Post<WerknemerOutputDTO>($"werknemer?maakGeenNieuweWerknemerAlsHijBestaat={maakGeenNieuweWerknemerAlsHijBestaat}", body);
+				(bool isvalid, WerknemerOutputDTO apiWerknemer) = await Post<WerknemerOutputDTO>($"werknemer", body);
 				if (isvalid) {
 					List<WerknemerInfoDTO> lijstWerknemerInfo = apiWerknemer.WerknemerInfo.Select(w => new WerknemerInfoDTO(BeheerderWindow.GeselecteerdBedrijf, w.Email, w.Functies)).ToList();
 					string emailVanGeselecteerdBedrijf = lijstWerknemerInfo.First(w => w.Bedrijf.Id == BeheerderWindow.GeselecteerdBedrijf.Id).Email;
@@ -442,7 +442,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		}
 		public static IEnumerable<WerknemerDTO> GeefWerknemersVanBedrijf(BedrijfDTO bedrijf) {
 			return Task.Run(async () => {
-				List<WerknemerDTO> ItemSource = new();
+				List<WerknemerDTO> werknemers = new();
 				(bool isvalid, List<WerknemerOutputDTO> apiWerknemers) = await Get<List<WerknemerOutputDTO>>($"bedrijf/{bedrijf.Id}/werknemer");
 				if (isvalid) {
 					apiWerknemers.ForEach((api) => {
@@ -450,9 +450,9 @@ namespace BezoekersRegistratieSysteemUI.Api {
 						WerknemerInfoOutputDTO werknemerInfo = api.WerknemerInfo.First(w => w.Bedrijf.Id == bedrijf.Id);
 						var werknemer = new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo.Email, werknemerInfo.Functies, werknemerInfo.StatusNaam ?? "");
 						werknemer.WerknemerInfoLijst = lijstWerknemerInfo;
-						ItemSource.Add(werknemer);
+						werknemers.Add(werknemer);
 					});
-					return ItemSource;
+					return werknemers;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de werknemers");
 				}
@@ -483,14 +483,47 @@ namespace BezoekersRegistratieSysteemUI.Api {
 		public static async Task VerwijderBedrijf(long id) {
 			await Delete($"bedrijf/{id}");
 		}
-
-		public static bool BestaatWerknemerInPark(string voornaam, string achternaam) {
+		public static List<WerknemerDTO> BestaatWerknemerInPark(string voornaam, string achternaam) {
 			return Task.Run(async () => {
-				(bool isvalid, bool bestaatWerknemer) = await Get<bool>($"werknemer/bestaat/{voornaam}/{achternaam}");
+				List<WerknemerDTO> ItemSource = new();
+				(bool isvalid, List<WerknemerOutputDTO> apiWerknemers) = await Get<List<WerknemerOutputDTO>>($"werknemer/bestaat/{voornaam}/{achternaam}");
 				if (isvalid) {
-					return bestaatWerknemer;
+					apiWerknemers.ForEach((api) => {
+						List<WerknemerInfoDTO> lijstWerknemerInfo = new(api.WerknemerInfo.Select(w => {
+							BedrijfOutputDTO bedrijfOutputDTO = GeefBedrijf(w.Bedrijf.Id);
+							BedrijfDTO bedrijf = new BedrijfDTO(bedrijfOutputDTO.Naam, bedrijfOutputDTO.BTW, bedrijfOutputDTO.TelefoonNummer, bedrijfOutputDTO.Email, bedrijfOutputDTO.Adres);
+							return new WerknemerInfoDTO(bedrijf, w.Email, w.Functies);
+						}).ToList());
+
+						IEnumerable<WerknemerInfoDTO> werknemerInfo = api.WerknemerInfo.Select(w => {
+							BedrijfOutputDTO bedrijfOutputDTO = GeefBedrijf(w.Bedrijf.Id);
+							BedrijfDTO bedrijf = new BedrijfDTO(bedrijfOutputDTO.Naam, bedrijfOutputDTO.BTW, bedrijfOutputDTO.TelefoonNummer, bedrijfOutputDTO.Email, bedrijfOutputDTO.Adres);
+							return new WerknemerInfoDTO(bedrijf, w.Email, w.Functies);
+						});
+						
+						var werknemer = new WerknemerDTO(api.Id, api.Voornaam, api.Achternaam, werknemerInfo);
+						werknemer.WerknemerInfoLijst = lijstWerknemerInfo;
+						ItemSource.Add(werknemer);
+					});
+					return ItemSource;
 				} else {
 					throw new FetchApiException("Er is iets fout gegaan bij het controlleren of de werknemer al bestaat in het park");
+				}
+			}).Result;
+		}
+		public static WerknemerDTO VoegWerknemerFunctieToe(long werknemerId, WerknemerInfoInputDTO info) {
+			return Task.Run(async () => {
+				string payload = JsonConvert.SerializeObject(info);
+				(bool isvalid, WerknemerOutputDTO apiWerknemer) = await Post<WerknemerOutputDTO>($"werknemer/{werknemerId}/info", payload);
+
+				if (isvalid) {
+					List<WerknemerInfoDTO> lijstWerknemerInfo = apiWerknemer.WerknemerInfo.Select(w => new WerknemerInfoDTO(BeheerderWindow.GeselecteerdBedrijf, w.Email, w.Functies)).ToList();
+					string emailVanGeselecteerdBedrijf = lijstWerknemerInfo.First(w => w.Bedrijf.Id == BeheerderWindow.GeselecteerdBedrijf.Id).Email;
+					WerknemerDTO werknemer = new WerknemerDTO(apiWerknemer.Id, apiWerknemer.Voornaam, apiWerknemer.Achternaam, lijstWerknemerInfo);
+					werknemer.Email = emailVanGeselecteerdBedrijf;
+					return werknemer;
+				} else {
+					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van de afspraaken");
 				}
 			}).Result;
 		}

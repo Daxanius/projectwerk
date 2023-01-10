@@ -65,7 +65,7 @@ namespace xUnitBezoekersRegistratieSysteem.REST {
 		#region UnitTest VoegWerknemerToe
 		[Fact]
 		public void VoegWerknemerToe_Invalid_WerknemerLeeg() {
-			var result = _werknemerController.VoegWerknemerToe(null, false);
+			var result = _werknemerController.VoegWerknemerToe(null);
 			Assert.NotNull(result.Result);
 			Assert.Equal(typeof(BadRequestObjectResult), result.Result.GetType());
 			Assert.Null(result.Value);

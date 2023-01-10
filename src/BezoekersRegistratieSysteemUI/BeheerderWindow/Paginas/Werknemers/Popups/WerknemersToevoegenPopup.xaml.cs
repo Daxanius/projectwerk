@@ -92,20 +92,20 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 				return;
 			}
 
-			bool bestaatWerknemerInPark = ApiController.BestaatWerknemerInPark(Voornaam, Achternaam);
+			var werknemersMetZelfdeNaam = ApiController.BestaatWerknemerInPark(Voornaam, Achternaam);
 			IEnumerable<WerknemerInfoInputDTO> werknemerInfoInputDTOs = new List<WerknemerInfoInputDTO>() {
 					new WerknemerInfoInputDTO(BeheerderWindow.GeselecteerdBedrijf.Id, Email, new List<string>() { Functie })
 				};
 
 			WerknemerInputDTO werknemerInputDTO = new WerknemerInputDTO(Voornaam, Achternaam, werknemerInfoInputDTOs);
 
-			if (bestaatWerknemerInPark) {
+			if (werknemersMetZelfdeNaam.Count > 0) {
 				WerknemersPage werknemersPage = WerknemersPage.Instance;
 				this.Visibility = Visibility.Collapsed;
-				werknemersPage.WerknemerBestaatPopup.ZetData(werknemerInputDTO, $"{Voornaam} {Achternaam}", () => SluitOverlay(Voornaam, Achternaam));
+				werknemersPage.WerknemerBestaatPopup.ZetData(werknemersMetZelfdeNaam, Email, Functie, () => SluitOverlay(Voornaam, Achternaam));
 				werknemersPage.WerknemerBestaatPopup.Visibility = Visibility.Visible;
 			} else {
-				WerknemerDTO werknemer = ApiController.MaakWerknemer(werknemerInputDTO, false);
+				WerknemerDTO werknemer = ApiController.MaakWerknemer(werknemerInputDTO);
 				werknemer.Status = "Vrij";
 				WerknemerEvents.InvokeNieuweWerkenemer(werknemer);
 				SluitOverlay(Voornaam, Achternaam);
@@ -124,7 +124,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			Functie = "";
 
 			WerknemersPage werknemersPage = WerknemersPage.Instance;
-			werknemersPage.WerknemersPopup.Visibility = Visibility.Hidden;
+			werknemersPage.WerknemersPopup.Visibility = Visibility.Collapsed;
 
 			if (voornaam is not null && achternaam is not null) {
 				CustomMessageBox warningMessage = new();
