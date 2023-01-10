@@ -108,27 +108,10 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="nummerplaat"></param>
 		/// <returns></returns>
-		[HttpPost("checkout")]
-		public IActionResult CheckNummerplaatIn([FromQuery] string nummerplaat) {
+		[HttpPost("checkout/{nummerplaat}")]
+		public IActionResult CheckNummerplaatOut(string nummerplaat) {
 			try {
 				_parkeerplaatsManager.CheckNummerplaatUit(nummerplaat);
-				return Ok();
-			} catch (Exception ex) {
-				return NotFound(ex.Message);
-			}
-		}
-
-		/// <summary>
-		/// Verwijdert een contract van een bedrijf.
-		/// </summary>
-		/// <param name="bedrijfId"></param>
-		/// <returns></returns>
-		[HttpDelete("bedrijf/{bedrijfId}")]
-		public IActionResult VerwijderParkingContract(long bedrijfId) {
-			try {
-				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				ParkingContract contract = _parkingContractManager.GeefParkingContract(bedrijf);
-				_parkingContractManager.VerwijderParkingContract(contract);
 				return Ok();
 			} catch (Exception ex) {
 				return NotFound(ex.Message);

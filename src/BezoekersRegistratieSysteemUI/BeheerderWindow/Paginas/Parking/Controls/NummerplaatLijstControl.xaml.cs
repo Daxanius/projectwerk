@@ -1,4 +1,5 @@
-﻿using BezoekersRegistratieSysteemUI.MessageBoxes;
+﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -40,11 +41,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
 			ContextMenu.IsOpen = true;
 		}
 
+		private void VerwijderNummerPlaat_Click(object sender, RoutedEventArgs e) {
+			ParkeerplaatsDTO parkeerplaatsDto = ((MenuItem)sender).DataContext as ParkeerplaatsDTO;
+			ApiController.CheckNummerplaatOut(parkeerplaatsDto);
+		}
+
 		#region ProppertyChanged
 		public event PropertyChangedEventHandler? PropertyChanged;
 		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged
-	}
+    }
 }

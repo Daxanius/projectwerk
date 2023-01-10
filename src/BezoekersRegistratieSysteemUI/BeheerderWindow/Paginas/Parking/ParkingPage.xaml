@@ -206,13 +206,13 @@
                                             BorderThickness="0"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{StaticResource DonkerGrijs}" 
-                                            TextChanged="ZoekTermChanged"/>
+                                            Foreground="{StaticResource DonkerGrijs}"
+                                            TextChanged="ZoekTermChanged" />
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
                         </Grid>
-                        <controls:NummerplaatLijstControl x:Name="NummerplaatLijstControl"/>
+                        <controls:NummerplaatLijstControl x:Name="NummerplaatLijstControl" />
                     </DockPanel>
                 </Border>
             </Grid>

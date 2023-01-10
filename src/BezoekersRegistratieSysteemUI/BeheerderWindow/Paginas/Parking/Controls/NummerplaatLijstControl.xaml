@@ -8,8 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    mc:Ignorable="d"
-    FontFamily="{StaticResource Inter}">
+    FontFamily="{StaticResource Inter}"
+    mc:Ignorable="d">
     <ListView
         x:Name="NummerplaatLijst"
         Padding="0,5,0,0"
@@ -18,8 +18,7 @@
         Background="Transparent"
         BorderBrush="Transparent"
         ItemsSource="{Binding ItemSource}"
-        ScrollViewer.CanContentScroll="False"
-        >
+        ScrollViewer.CanContentScroll="False">
         <ListView.ContextMenu>
             <ContextMenu
                 Name="ContextMenu"
@@ -78,6 +77,7 @@
                 <MenuItem
                     x:Name="VerwijderMenuItem"
                     Background="{StaticResource LichtRood}"
+                    Click="VerwijderNummerPlaat_Click"
                     FontWeight="DemiBold"
                     Foreground="WhiteSmoke"
                     Header="Verwijder" />
