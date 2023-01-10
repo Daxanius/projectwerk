@@ -18,7 +18,8 @@
         Background="Transparent"
         BorderBrush="Transparent"
         ItemsSource="{Binding ItemSource}"
-        ScrollViewer.CanContentScroll="False">
+        ScrollViewer.CanContentScroll="False"
+        >
         <ListView.ContextMenu>
             <ContextMenu
                 Name="ContextMenu"
@@ -162,7 +163,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="8,15,0,15"
-                                    Content="{Binding Naam, Converter={StaticResource ElipsisConverter}}"
+                                    Content="{Binding Starttijd, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>
@@ -180,7 +181,7 @@
                             <DataTemplate>
                                 <Label
                                     Padding="8,15,0,15"
-                                    Content="{Binding Naam, Converter={StaticResource ElipsisConverter}}"
+                                    Content="{Binding Nummerplaat, Converter={StaticResource ElipsisConverter}}"
                                     FontSize="15"
                                     FontWeight="DemiBold" />
                             </DataTemplate>
