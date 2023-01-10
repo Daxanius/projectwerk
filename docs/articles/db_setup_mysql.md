@@ -50,4 +50,8 @@ Om de connectie string te verkrijgen volgt u volgende stappen:
 1. Klik met rechtermuisknop op uw Databank in MySQL Workbench
 2. Selecteer "Copy Connection String to Clipboard"
 
+## Probleem?
+Kom je toevallig de error met dit bericht tegen: `General error: 3065 
+Expression #2 of ORDER BY clause is not in SELECT list`, dan kun je [dit](https://stackoverflow.com/questions/36829911/how-to-resolve-order-by-clause-is-not-in-select-list-caused-mysql-5-7-with-sel) artikel volgen om het op te lossen.
+
 :rocket: Gelukt?! Goed dan bent u helemaal klaar voor gebruik!
