@@ -10,9 +10,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
 	public partial class NummerplaatLijstControl : UserControl, INotifyPropertyChanged {
 		public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
 		  nameof(ItemSource),
-		  typeof(ObservableCollection<BedrijfDTO>),
+		  typeof(ObservableCollection<ParkeerplaatsDTO>),
 		  typeof(NummerplaatLijstControl),
-		  new PropertyMetadata(new ObservableCollection<BedrijfDTO>())
+		  new PropertyMetadata(new ObservableCollection<ParkeerplaatsDTO>())
 		);
 
 		public ObservableCollection<ParkeerplaatsDTO> ItemSource {
@@ -38,26 +38,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
 
 			ContextMenu.DataContext = parkeerplaats;
 			ContextMenu.IsOpen = true;
-		}
-
-		private void WijzigBedrijf_Click(object sender, RoutedEventArgs e) {
-			if (ContextMenu.DataContext is ParkeerplaatsDTO parkeerplaats) {
-				//ParkingPage.Instance.bedrijfUpdatenPopup.Visibility = Visibility.Visible;
-				//ParkingPage.Instance.bedrijfUpdatenPopup.ZetBedrijf(bedrijf);
-			}
-		}
-
-		private async void VerwijderBedrijf_Click(object sender, RoutedEventArgs e) {
-			if (ContextMenu.DataContext is ParkeerplaatsDTO parkeerplaats) {
-				CustomMessageBox warningMessage = new();
-				ECustomMessageBoxResult result = warningMessage.Show("Ben je het zeker?", $"Wil je {parkeerplaats.Nummerplaat} verwijderen", ECustomMessageBoxIcon.Warning);
-
-				if (result == ECustomMessageBoxResult.Bevestigen) {
-					//await ApiController.VerwijderBedrijf(bedrijf.Id);
-					//ItemSource.Remove(bedrijf);
-					//BedrijfEvents.InvokeBedrijfVerwijderd(bedrijf);
-				}
-			}
 		}
 
 		#region ProppertyChanged

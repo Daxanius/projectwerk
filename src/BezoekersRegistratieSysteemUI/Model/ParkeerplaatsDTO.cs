@@ -10,7 +10,13 @@ namespace BezoekersRegistratieSysteemUI.Model {
 		public DateTime? Eindtijd { get; set; }
 		public string Nummerplaat { get; set; }
 
-		public ParkeerplaatsDTO(BedrijfDTO bedrijf, DateTime starttijd, string nummerplaat) {
+        public ParkeerplaatsDTO(DateTime starttijd, string nummerplaat)
+        {
+            Starttijd = starttijd;
+            Nummerplaat = nummerplaat;
+        }
+
+        public ParkeerplaatsDTO(BedrijfDTO bedrijf, DateTime starttijd, string nummerplaat) {
 			Bedrijf = bedrijf;
 			Starttijd = starttijd;
 			Nummerplaat = nummerplaat;

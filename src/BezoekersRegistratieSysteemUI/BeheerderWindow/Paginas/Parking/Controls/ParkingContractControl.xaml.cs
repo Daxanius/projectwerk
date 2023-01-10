@@ -14,6 +14,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
         public ParkingContractControl() {
 
             BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
+            GlobalEvents.RefreshData += UpdateGeselecteerdBedrijf_Event;
 
             this.DataContext = this;
 			InitializeComponent();

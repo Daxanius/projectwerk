@@ -1,3 +1,4 @@
+[![.NET](https://github.com/Daxanius/projectwerk/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Daxanius/projectwerk/actions/workflows/dotnet.yml)
 # **Welcome .inside**
 Een tool door Wout De Crop, Bjorn Galle, Stan Persoons & Balder Huybreghs in opdracht va AllPhi
 binnen het Graduaat Programmeren HoGent.

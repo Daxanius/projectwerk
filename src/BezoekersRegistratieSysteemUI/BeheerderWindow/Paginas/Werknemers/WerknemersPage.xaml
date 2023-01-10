@@ -103,6 +103,10 @@
                 <controls:WerknemersLijstControl x:Name="WerknemerLijstControl" />
             </Border>
         </DockPanel>
+        <popups:WerknemerBestaatPopup
+            x:Name="WerknemerBestaatPopup"
+            Grid.Row="0"
+            Visibility="Collapsed" />
         <popups:WerknemersToevoegenPopup
             x:Name="WerknemersPopup"
             Grid.Row="0"
