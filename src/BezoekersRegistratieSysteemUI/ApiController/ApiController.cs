@@ -662,6 +662,22 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
+    
+        public static ParkingContractoutputDTO? GeefParkingContract(long bedrijfId)
+        {
+            return Task.Run(async () =>
+            {
+                (bool isvalid, ParkingContractoutputDTO parkingContract) = await Get<ParkingContractoutputDTO>($"parkingcontract/bedrijf/{bedrijfId}");
+                if (isvalid)
+                {
+                    return parkingContract;
+                }
+                else
+                {
+                    throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het parkingcontract");
+                }
+            }).Result;
+        }
 
 		public static ParkingContractoutputDTO? GeefParkingContract(long bedrijfId) {
 			return Task.Run(async () => {
