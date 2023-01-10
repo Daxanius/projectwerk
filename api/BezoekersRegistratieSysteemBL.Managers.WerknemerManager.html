@@ -93,7 +93,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager__ctor_BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_BezoekersRegistratieSysteemBL_Interfaces_IAfspraakRepository_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.%23ctor(BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository%2CBezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L18">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L19">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager__ctor_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.#ctor*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager__ctor_BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_BezoekersRegistratieSysteemBL_Interfaces_IAfspraakRepository_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.#ctor(BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository,BezoekersRegistratieSysteemBL.Interfaces.IAfspraakRepository)">WerknemerManager(IWerknemerRepository, IAfspraakRepository)</h4>
@@ -134,10 +134,78 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BestaatWerknemer_System_String_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BestaatWerknemer(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L55">View Source</a>
+  </span>
+  <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BestaatWerknemer_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BestaatWerknemer*"></a>
+  <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BestaatWerknemer_System_String_System_String_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BestaatWerknemer(System.String,System.String)">BestaatWerknemer(String, String)</h4>
+  <div class="markdown level1 summary"><p>Bestaat er al een werknemer in het bedrijven park? wie zal het weten... misschien ChatGPT</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Werknemer&gt; BestaatWerknemer(string voorNaam, string achterNaam)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">voorNaam</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">achterNaam</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Werknemer.html">Werknemer</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.ManagerException.WerknemerManagerException.html">WerknemerManagerException</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BewerkWerknemer_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BewerkWerknemer(BezoekersRegistratieSysteemBL.Domeinen.Werknemer%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L218">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L233">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BewerkWerknemer_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BewerkWerknemer*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BewerkWerknemer_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BewerkWerknemer(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">BewerkWerknemer(Werknemer, Bedrijf)</h4>
@@ -213,7 +281,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefBezetteWerknemersOpDitMomentVoorBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefBezetteWerknemersOpDitMomentVoorBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L355">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L370">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefBezetteWerknemersOpDitMomentVoorBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefBezetteWerknemersOpDitMomentVoorBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefBezetteWerknemersOpDitMomentVoorBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefBezetteWerknemersOpDitMomentVoorBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">GeefBezetteWerknemersOpDitMomentVoorBedrijf(Bedrijf)</h4>
@@ -284,7 +352,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefVrijeWerknemersOpDitMomentVoorBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefVrijeWerknemersOpDitMomentVoorBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L339">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L354">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefVrijeWerknemersOpDitMomentVoorBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefVrijeWerknemersOpDitMomentVoorBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefVrijeWerknemersOpDitMomentVoorBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefVrijeWerknemersOpDitMomentVoorBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">GeefVrijeWerknemersOpDitMomentVoorBedrijf(Bedrijf)</h4>
@@ -355,7 +423,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemer_System_Int64_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemer(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L241">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L256">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemer_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemer*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemer_System_Int64_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemer(System.Int64)">GeefWerknemer(Int64)</h4>
@@ -426,7 +494,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemersOpFunctiePerBedrijf_System_String_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemersOpFunctiePerBedrijf(System.String%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L282">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L297">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemersOpFunctiePerBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemersOpFunctiePerBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemersOpFunctiePerBedrijf_System_String_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemersOpFunctiePerBedrijf(System.String,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">GeefWerknemersOpFunctiePerBedrijf(String, Bedrijf)</h4>
@@ -508,7 +576,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemersOpNaamPerBedrijf_System_String_System_String_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemersOpNaamPerBedrijf(System.String%2CSystem.String%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L261">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L276">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemersOpNaamPerBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemersOpNaamPerBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemersOpNaamPerBedrijf_System_String_System_String_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemersOpNaamPerBedrijf(System.String,System.String,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">GeefWerknemersOpNaamPerBedrijf(String, String, Bedrijf)</h4>
@@ -596,7 +664,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemersPerBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemersPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L301">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L316">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemersPerBedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemersPerBedrijf*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_GeefWerknemersPerBedrijf_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.GeefWerknemersPerBedrijf(BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">GeefWerknemersPerBedrijf(Bedrijf)</h4>
@@ -667,12 +735,11 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VervangFunctieWerknemer_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_WerknemerInfo_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VervangFunctieWerknemer(BezoekersRegistratieSysteemBL.Domeinen.Werknemer%2CBezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L54">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L61">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VervangFunctieWerknemer_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VervangFunctieWerknemer*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VervangFunctieWerknemer_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_WerknemerInfo_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VervangFunctieWerknemer(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo)">VervangFunctieWerknemer(Werknemer, WerknemerInfo)</h4>
-  <div class="markdown level1 summary"><p>Vervangt de functies van een werknemer binnen een bedrijf.</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -691,28 +758,11 @@
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.Werknemer.html">Werknemer</a></td>
         <td><span class="parametername">werknemer</span></td>
-        <td><p>De werknemer waarvan de functies vervangen moet worden</p>
-</td>
+        <td></td>
       </tr>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo.html">WerknemerInfo</a></td>
         <td><span class="parametername">werknemerInfo</span></td>
-        <td><p>De functies die vervangen moeten worden</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.ManagerException.WerknemerManagerException.html">WerknemerManagerException</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -722,7 +772,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VerwijderWerknemer_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VerwijderWerknemer(BezoekersRegistratieSysteemBL.Domeinen.Werknemer%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L117">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L124">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VerwijderWerknemer_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VerwijderWerknemer*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VerwijderWerknemer_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VerwijderWerknemer(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)">VerwijderWerknemer(Werknemer, Bedrijf)</h4>
@@ -788,7 +838,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VerwijderWerknemerFunctie_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VerwijderWerknemerFunctie(BezoekersRegistratieSysteemBL.Domeinen.Werknemer%2CBezoekersRegistratieSysteemBL.Domeinen.Bedrijf%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L185">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L200">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VerwijderWerknemerFunctie_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VerwijderWerknemerFunctie*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VerwijderWerknemerFunctie_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_System_String_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VerwijderWerknemerFunctie(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf,System.String)">VerwijderWerknemerFunctie(Werknemer, Bedrijf, String)</h4>
@@ -860,11 +910,6 @@
       </tr>
       <tr>
         <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.ManagerException.WerknemerManagerException.html">WerknemerManagerException</a></td>
-        <td><p>&quot;WerknemerManager - VerwijderWerknemerFunctie - werknemer niet werkzaam bij dit bedrijf&quot;</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="BezoekersRegistratieSysteemBL.Exceptions.ManagerException.WerknemerManagerException.html">WerknemerManagerException</a></td>
         <td><p>&quot;WerknemerManager - VerwijderWerknemerFunctie - werknemer heeft geen functie bij dit bedrijf&quot;</p>
 </td>
       </tr>
@@ -885,7 +930,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegFunctieToe_System_String_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegFunctieToe(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L319">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L334">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegFunctieToe_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegFunctieToe*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegFunctieToe_System_String_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegFunctieToe(System.String)">VoegFunctieToe(String)</h4>
@@ -945,7 +990,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegWerknemerFunctieToe_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_WerknemerInfo_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer%2CBezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L143">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L150">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegWerknemerFunctieToe_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerFunctieToe*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegWerknemerFunctieToe_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_WerknemerInfo_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerFunctieToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.WerknemerInfo)">VoegWerknemerFunctieToe(Werknemer, WerknemerInfo)</h4>
@@ -1031,7 +1076,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegWerknemerToe_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L30">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L31">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegWerknemerToe_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerToe*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_VoegWerknemerToe_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.VoegWerknemerToe(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)">VoegWerknemerToe(Werknemer)</h4>
@@ -1106,7 +1151,7 @@
     <a href="https://github.com/Daxanius/projectwerk/new/develop/apiSpec/new?filename=BezoekersRegistratieSysteemBL_Managers_WerknemerManager_WerknemerPotentieelReedsWerkzaamInBedrijvenpark_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_.md&amp;value=---%0Auid%3A%20BezoekersRegistratieSysteemBL.Managers.WerknemerManager.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L364">View Source</a>
+    <a href="https://github.com/Daxanius/projectwerk/blob/develop/src/BezoekersRegistratieSysteemBL/Managers/WerknemerManager.cs/#L379">View Source</a>
   </span>
   <a id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_WerknemerPotentieelReedsWerkzaamInBedrijvenpark_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.WerknemerPotentieelReedsWerkzaamInBedrijvenpark*"></a>
   <h4 id="BezoekersRegistratieSysteemBL_Managers_WerknemerManager_WerknemerPotentieelReedsWerkzaamInBedrijvenpark_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_" data-uid="BezoekersRegistratieSysteemBL.Managers.WerknemerManager.WerknemerPotentieelReedsWerkzaamInBedrijvenpark(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)">WerknemerPotentieelReedsWerkzaamInBedrijvenpark(Werknemer)</h4>

@@ -3136,6 +3136,12 @@ references:
   commentId: M:BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemer(System.Int64)
   fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemer(System.Int64)
   nameWithType: IWerknemerRepository.BestaatWerknemer(Int64)
+- uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemer(System.String,System.String)
+  name: BestaatWerknemer(String, String)
+  href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_BestaatWerknemer_System_String_System_String_
+  commentId: M:BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemer(System.String,System.String)
+  fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemer(System.String, System.String)
+  nameWithType: IWerknemerRepository.BestaatWerknemer(String, String)
 - uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemer*
   name: BestaatWerknemer
   href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_BestaatWerknemer_
@@ -3143,6 +3149,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemer
   nameWithType: IWerknemerRepository.BestaatWerknemer
+- uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemerEmail(System.String)
+  name: BestaatWerknemerEmail(String)
+  href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_BestaatWerknemerEmail_System_String_
+  commentId: M:BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemerEmail(System.String)
+  fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemerEmail(System.String)
+  nameWithType: IWerknemerRepository.BestaatWerknemerEmail(String)
+- uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemerEmail*
+  name: BestaatWerknemerEmail
+  href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_BestaatWerknemerEmail_
+  commentId: Overload:BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemerEmail
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BestaatWerknemerEmail
+  nameWithType: IWerknemerRepository.BestaatWerknemerEmail
 - uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.BewerkWerknemer(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
   name: BewerkWerknemer(Werknemer, Bedrijf)
   href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_BewerkWerknemer_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_
@@ -3195,12 +3214,12 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemer
   nameWithType: IWerknemerRepository.GeefWerknemer
-- uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  name: GeefWerknemerId(Werknemer)
-  href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_GeefWerknemerId_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_
-  commentId: M:BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  nameWithType: IWerknemerRepository.GeefWerknemerId(Werknemer)
+- uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,System.Boolean)
+  name: GeefWerknemerId(Werknemer, Boolean)
+  href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_GeefWerknemerId_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_System_Boolean_
+  commentId: M:BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,System.Boolean)
+  fullName: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer, System.Boolean)
+  nameWithType: IWerknemerRepository.GeefWerknemerId(Werknemer, Boolean)
 - uid: BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.GeefWerknemerId*
   name: GeefWerknemerId
   href: api/BezoekersRegistratieSysteemBL.Interfaces.IWerknemerRepository.html#BezoekersRegistratieSysteemBL_Interfaces_IWerknemerRepository_GeefWerknemerId_
@@ -3887,6 +3906,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.WerknemerManager
   nameWithType: WerknemerManager.WerknemerManager
+- uid: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BestaatWerknemer(System.String,System.String)
+  name: BestaatWerknemer(String, String)
+  href: api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html#BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BestaatWerknemer_System_String_System_String_
+  commentId: M:BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BestaatWerknemer(System.String,System.String)
+  fullName: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BestaatWerknemer(System.String, System.String)
+  nameWithType: WerknemerManager.BestaatWerknemer(String, String)
+- uid: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BestaatWerknemer*
+  name: BestaatWerknemer
+  href: api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html#BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BestaatWerknemer_
+  commentId: Overload:BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BestaatWerknemer
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BestaatWerknemer
+  nameWithType: WerknemerManager.BestaatWerknemer
 - uid: BezoekersRegistratieSysteemBL.Managers.WerknemerManager.BewerkWerknemer(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
   name: BewerkWerknemer(Werknemer, Bedrijf)
   href: api/BezoekersRegistratieSysteemBL.Managers.WerknemerManager.html#BezoekersRegistratieSysteemBL_Managers_WerknemerManager_BewerkWerknemer_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_
@@ -4868,6 +4900,12 @@ references:
   commentId: M:BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemer(System.Int64)
   fullName: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemer(System.Int64)
   nameWithType: WerknemerRepoMsServer.BestaatWerknemer(Int64)
+- uid: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemer(System.String,System.String)
+  name: BestaatWerknemer(String, String)
+  href: api/BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.html#BezoekersRegistratieSysteemDL_ADOMS_WerknemerRepoMsServer_BestaatWerknemer_System_String_System_String_
+  commentId: M:BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemer(System.String,System.String)
+  fullName: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemer(System.String, System.String)
+  nameWithType: WerknemerRepoMsServer.BestaatWerknemer(String, String)
 - uid: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemer*
   name: BestaatWerknemer
   href: api/BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.html#BezoekersRegistratieSysteemDL_ADOMS_WerknemerRepoMsServer_BestaatWerknemer_
@@ -4875,6 +4913,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemer
   nameWithType: WerknemerRepoMsServer.BestaatWerknemer
+- uid: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemerEmail(System.String)
+  name: BestaatWerknemerEmail(String)
+  href: api/BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.html#BezoekersRegistratieSysteemDL_ADOMS_WerknemerRepoMsServer_BestaatWerknemerEmail_System_String_
+  commentId: M:BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemerEmail(System.String)
+  fullName: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemerEmail(System.String)
+  nameWithType: WerknemerRepoMsServer.BestaatWerknemerEmail(String)
+- uid: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemerEmail*
+  name: BestaatWerknemerEmail
+  href: api/BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.html#BezoekersRegistratieSysteemDL_ADOMS_WerknemerRepoMsServer_BestaatWerknemerEmail_
+  commentId: Overload:BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemerEmail
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BestaatWerknemerEmail
+  nameWithType: WerknemerRepoMsServer.BestaatWerknemerEmail
 - uid: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.BewerkWerknemer(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
   name: BewerkWerknemer(Werknemer, Bedrijf)
   href: api/BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.html#BezoekersRegistratieSysteemDL_ADOMS_WerknemerRepoMsServer_BewerkWerknemer_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_
@@ -4927,12 +4978,12 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.GeefWerknemer
   nameWithType: WerknemerRepoMsServer.GeefWerknemer
-- uid: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  name: GeefWerknemerId(Werknemer)
-  href: api/BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.html#BezoekersRegistratieSysteemDL_ADOMS_WerknemerRepoMsServer_GeefWerknemerId_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_
-  commentId: M:BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  fullName: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  nameWithType: WerknemerRepoMsServer.GeefWerknemerId(Werknemer)
+- uid: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,System.Boolean)
+  name: GeefWerknemerId(Werknemer, Boolean)
+  href: api/BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.html#BezoekersRegistratieSysteemDL_ADOMS_WerknemerRepoMsServer_GeefWerknemerId_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_System_Boolean_
+  commentId: M:BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,System.Boolean)
+  fullName: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer, System.Boolean)
+  nameWithType: WerknemerRepoMsServer.GeefWerknemerId(Werknemer, Boolean)
 - uid: BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.GeefWerknemerId*
   name: GeefWerknemerId
   href: api/BezoekersRegistratieSysteemDL.ADOMS.WerknemerRepoMsServer.html#BezoekersRegistratieSysteemDL_ADOMS_WerknemerRepoMsServer_GeefWerknemerId_
@@ -5759,6 +5810,12 @@ references:
   commentId: M:BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemer(System.Int64)
   fullName: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemer(System.Int64)
   nameWithType: WerknemerRepoMySQL.BestaatWerknemer(Int64)
+- uid: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemer(System.String,System.String)
+  name: BestaatWerknemer(String, String)
+  href: api/BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.html#BezoekersRegistratieSysteemDL_ADOMySQL_WerknemerRepoMySQL_BestaatWerknemer_System_String_System_String_
+  commentId: M:BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemer(System.String,System.String)
+  fullName: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemer(System.String, System.String)
+  nameWithType: WerknemerRepoMySQL.BestaatWerknemer(String, String)
 - uid: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemer*
   name: BestaatWerknemer
   href: api/BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.html#BezoekersRegistratieSysteemDL_ADOMySQL_WerknemerRepoMySQL_BestaatWerknemer_
@@ -5766,6 +5823,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemer
   nameWithType: WerknemerRepoMySQL.BestaatWerknemer
+- uid: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemerEmail(System.String)
+  name: BestaatWerknemerEmail(String)
+  href: api/BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.html#BezoekersRegistratieSysteemDL_ADOMySQL_WerknemerRepoMySQL_BestaatWerknemerEmail_System_String_
+  commentId: M:BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemerEmail(System.String)
+  fullName: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemerEmail(System.String)
+  nameWithType: WerknemerRepoMySQL.BestaatWerknemerEmail(String)
+- uid: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemerEmail*
+  name: BestaatWerknemerEmail
+  href: api/BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.html#BezoekersRegistratieSysteemDL_ADOMySQL_WerknemerRepoMySQL_BestaatWerknemerEmail_
+  commentId: Overload:BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemerEmail
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BestaatWerknemerEmail
+  nameWithType: WerknemerRepoMySQL.BestaatWerknemerEmail
 - uid: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.BewerkWerknemer(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,BezoekersRegistratieSysteemBL.Domeinen.Bedrijf)
   name: BewerkWerknemer(Werknemer, Bedrijf)
   href: api/BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.html#BezoekersRegistratieSysteemDL_ADOMySQL_WerknemerRepoMySQL_BewerkWerknemer_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_BezoekersRegistratieSysteemBL_Domeinen_Bedrijf_
@@ -5818,12 +5888,12 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.GeefWerknemer
   nameWithType: WerknemerRepoMySQL.GeefWerknemer
-- uid: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  name: GeefWerknemerId(Werknemer)
-  href: api/BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.html#BezoekersRegistratieSysteemDL_ADOMySQL_WerknemerRepoMySQL_GeefWerknemerId_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_
-  commentId: M:BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  fullName: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer)
-  nameWithType: WerknemerRepoMySQL.GeefWerknemerId(Werknemer)
+- uid: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,System.Boolean)
+  name: GeefWerknemerId(Werknemer, Boolean)
+  href: api/BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.html#BezoekersRegistratieSysteemDL_ADOMySQL_WerknemerRepoMySQL_GeefWerknemerId_BezoekersRegistratieSysteemBL_Domeinen_Werknemer_System_Boolean_
+  commentId: M:BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer,System.Boolean)
+  fullName: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.GeefWerknemerId(BezoekersRegistratieSysteemBL.Domeinen.Werknemer, System.Boolean)
+  nameWithType: WerknemerRepoMySQL.GeefWerknemerId(Werknemer, Boolean)
 - uid: BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.GeefWerknemerId*
   name: GeefWerknemerId
   href: api/BezoekersRegistratieSysteemDL.ADOMySQL.WerknemerRepoMySQL.html#BezoekersRegistratieSysteemDL_ADOMySQL_WerknemerRepoMySQL_GeefWerknemerId_
@@ -6828,6 +6898,19 @@ references:
   isSpec: "True"
   fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.WerknemerController
   nameWithType: WerknemerController.WerknemerController
+- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BestaatWerknemer(System.String,System.String)
+  name: BestaatWerknemer(String, String)
+  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_BestaatWerknemer_System_String_System_String_
+  commentId: M:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BestaatWerknemer(System.String,System.String)
+  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BestaatWerknemer(System.String, System.String)
+  nameWithType: WerknemerController.BestaatWerknemer(String, String)
+- uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BestaatWerknemer*
+  name: BestaatWerknemer
+  href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_BestaatWerknemer_
+  commentId: Overload:BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BestaatWerknemer
+  isSpec: "True"
+  fullName: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BestaatWerknemer
+  nameWithType: WerknemerController.BestaatWerknemer
 - uid: BezoekersRegistratieSysteemREST.Controllers.WerknemerController.BewerkFunctie(System.Int64,System.Int64,System.String,System.String)
   name: BewerkFunctie(Int64, Int64, String, String)
   href: api/BezoekersRegistratieSysteemREST.Controllers.WerknemerController.html#BezoekersRegistratieSysteemREST_Controllers_WerknemerController_BewerkFunctie_System_Int64_System_Int64_System_String_System_String_
