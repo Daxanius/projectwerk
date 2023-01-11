@@ -51,7 +51,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             IconSize="65"
-                            IconSource="../BedrijfIcon.xaml" />
+                            IconSource="../WerknemerAfspraakIcon.xaml" />
                         <Label
                             Grid.Row="1"
                             Grid.Column="1"
