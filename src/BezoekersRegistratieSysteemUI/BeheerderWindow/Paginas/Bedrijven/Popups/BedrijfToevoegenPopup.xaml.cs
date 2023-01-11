@@ -87,8 +87,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 				return;
 			}
 
-			if (telefoonNummer.IsLeeg() || telefoonNummer.IsTelefoonNummerGeldig()) {
-				MessageBox.Show("TelefoonNummer is verplicht");
+			if (telefoonNummer.IsLeeg() || !telefoonNummer.IsTelefoonNummerGeldig()) {
+				MessageBox.Show("TelefoonNummer is verplicht en moet geldig zijn");
 				return;
 			}
 

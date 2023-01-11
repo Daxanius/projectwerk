@@ -27,8 +27,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			//TODO: :-)
 		}
 		public void TimeOutLoading() {
-			GlobalEvents._refreshTimer.Start();
-			GlobalEvents._refreshTimerTimout.Stop();
+			GlobalEvents.RefreshTimer.Start();
+			GlobalEvents.RefreshTimerTimout.Stop();
 		}
 
 		private void NieuweAfspraakToegevoegd_Event(AfspraakDTO afspraak) {

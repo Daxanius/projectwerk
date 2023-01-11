@@ -1,4 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Beheerder;
+using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using System.Collections.ObjectModel;
@@ -25,9 +27,23 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
 			this.DataContext = this;
 			InitializeComponent();
 
+			ParkingEvents.NieuweNummerplaatInGeChecked += NieuweNummerplaatInGeChecked_Event;
+			ParkingEvents.NummerplaatUitChecken += NummerplaatUitChecken_Event;
+
 			//Kijk of je kan rechts klikken om iets te doen
 			NummerplaatLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
 			ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
+		}
+
+		private void NummerplaatUitChecken_Event(ParkeerplaatsDTO parkeerplaats) {
+			int index = ItemSource.IndexOf(parkeerplaats);
+			if(index > -1) {
+				ItemSource.RemoveAt(index);
+			}
+		}
+
+		private void NieuweNummerplaatInGeChecked_Event(ParkeerplaatsDTO parkeerplaats) {
+			ItemSource.Add(parkeerplaats);
 		}
 
 		private protected void KlikOpParkeerplaatsOptions(object sender, RoutedEventArgs e) {
@@ -42,8 +58,9 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
 		}
 
 		private void VerwijderNummerPlaat_Click(object sender, RoutedEventArgs e) {
-			ParkeerplaatsDTO parkeerplaatsDto = ((MenuItem)sender).DataContext as ParkeerplaatsDTO;
-			ApiController.CheckNummerplaatOut(parkeerplaatsDto);
+			ParkeerplaatsDTO parkeerplaats = ((MenuItem)sender).DataContext as ParkeerplaatsDTO;
+			ApiController.CheckNummerplaatOut(parkeerplaats);
+			ParkingEvents.ParkeerplaatsUitChecken(parkeerplaats);
 		}
 
 		#region ProppertyChanged

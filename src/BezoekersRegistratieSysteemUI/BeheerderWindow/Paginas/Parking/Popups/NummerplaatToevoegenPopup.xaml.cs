@@ -57,26 +57,41 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups {
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			string nummerplaat = Nummerplaat.Trim();
-			DateTime? startTijd = DateTime.Parse(StartTijdText.Trim());
+			bool isStartTijdOk = DateTime.TryParse(StartTijdText.Trim(), out DateTime startTijd);
+
+			if (!isStartTijdOk) {
+				new CustomMessageBox().Show("StartTijd is niet geldig", "Error", ECustomMessageBoxIcon.Error);
+				return;
+			}
+
 			DateTime? eindTijd = null;
 
 			if (EindTijdText is not null && EindTijdText.Trim().IsNietLeeg()) {
-				eindTijd = DateTime.Parse(EindTijdText);
-			}
+				bool isEindTijdOk = DateTime.TryParse(EindTijdText.Trim(), out DateTime parsedEindTijd);
 
-			CustomMessageBox customMessageBox = new CustomMessageBox();
+				if (!isEindTijdOk) {
+					new CustomMessageBox().Show("StartTijd is niet geldig", "Error", ECustomMessageBoxIcon.Error);
+					return;
+				}
+
+				eindTijd = parsedEindTijd;
+
+				if (eindTijd <= startTijd) {
+					new CustomMessageBox().Show("EindTijd moet groter zijn dan StartTijd", "Success", ECustomMessageBoxIcon.Error);
+					return;
+				}
+			}
 
 			if (nummerplaat.IsLeeg()) {
-				customMessageBox.Show("Nummerplaat is verplicht", "Success", ECustomMessageBoxIcon.Error);;
+				new CustomMessageBox().Show("Nummerplaat is verplicht", "Success", ECustomMessageBoxIcon.Error); ;
 				return;
 			}
 
-			if (eindTijd is not null && eindTijd <= startTijd) {
-				customMessageBox.Show("EindTijd moet groter zijn dan StartTijd", "Success", ECustomMessageBoxIcon.Error);
-				return;
-			}
+			ApiController.CheckNummerplaatIn(BeheerderWindow.GeselecteerdBedrijf.Id, startTijd, eindTijd, nummerplaat);
 
-			ApiController.CheckNummerplaatIn(BeheerderWindow.GeselecteerdBedrijf.Id, DateTime.Now, eindTijd, nummerplaat);
+			ParkeerplaatsDTO parkeerplaats = new ParkeerplaatsDTO(BeheerderWindow.GeselecteerdBedrijf, startTijd, nummerplaat);
+			ParkingEvents.NieuweParkeerplaatsInChecken(parkeerplaats);
+
 			SluitOverlay(nummerplaat);
 		}
 
@@ -87,8 +102,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups {
 			Visibility = Visibility.Hidden;
 
 			if (nummerplaat is not null) {
-				CustomMessageBox customMessageBox = new();
-				customMessageBox.Show($"{nummerplaat} toegevoegd", $"Success", ECustomMessageBoxIcon.Information);
+				new CustomMessageBox().Show($"{nummerplaat} toegevoegd", $"Success", ECustomMessageBoxIcon.Information);
 			}
 		}
 
