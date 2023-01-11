@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
 using System.ComponentModel;
@@ -17,6 +18,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 		#region Variabelen
 
 		private string _email;
+		private CustomMessageBox _mb = new();
 
 		public string Email {
 			get { return _email; }
@@ -52,12 +54,14 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 		private async void AfmeldenClick(object sender, RoutedEventArgs e) {
 			try {
 				if (!Email.IsEmailGeldig()) {
-					MessageBox.Show("Email is niet geldig!", "Error");
+					_mb = new();
+					_mb.Show("Email is niet geldig!", "Error", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				if (Email.IsLeeg()) {
-					MessageBox.Show("Email is leeg!", "Error");
+					_mb = new();
+					_mb.Show("Email is leeg!", "Error", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
@@ -65,16 +69,18 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 
 				Email = "";
 
-				MessageBox.Show("U bent afgemeld", "", MessageBoxButton.OK, MessageBoxImage.Information);
+				_mb = new();
+				_mb.Show("U bent afgemeld", "Success", ECustomMessageBoxIcon.Information);
 
 				await Task.Delay(TimeSpan.FromSeconds(2));
 
 			} catch (Exception ex) {
+				_mb = new();
 				if (ex.Message.Contains("NotFound")) {
-					MessageBox.Show("Er is geen afspraak voor dit email adres");
+					_mb.Show("Er is geen afspraak voor dit email adres", "Error", ECustomMessageBoxIcon.Error);
 					return;
 				}
-				MessageBox.Show(ex.Message, "Error");
+				_mb.Show(ex.Message, "Error", ECustomMessageBoxIcon.Error);
 			}
 		}
 		#endregion
