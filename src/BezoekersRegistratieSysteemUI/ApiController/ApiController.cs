@@ -34,7 +34,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result.Split("-", StringSplitOptions.RemoveEmptyEntries).Last());
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -70,7 +70,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.SendAsync(request);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result.Split("-", StringSplitOptions.RemoveEmptyEntries).Last());
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -100,7 +100,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result.Split("-", StringSplitOptions.RemoveEmptyEntries).Last());
 				}
 			} catch (Exception ex) {
 				throw new FetchApiException(ex.Message, ex.InnerException);
@@ -121,7 +121,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsync(apiUrl, null);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result.Split("-", StringSplitOptions.RemoveEmptyEntries).Last());
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -151,7 +151,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, json);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result.Split("-", StringSplitOptions.RemoveEmptyEntries).Last());
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -181,7 +181,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsync(apiUrl, null);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result.Split("-", StringSplitOptions.RemoveEmptyEntries).Last());
 				}
 			} catch (Exception ex) {
 				throw new FetchApiException(ex.Message, ex.InnerException);
@@ -202,7 +202,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.PutAsync(apiUrl, httpContent);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result.Split("-", StringSplitOptions.RemoveEmptyEntries).Last());
 				}
 			} catch (Exception ex) {
 				throw new FetchApiException(ex.Message, ex.InnerException);
@@ -223,7 +223,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.DeleteAsync(apiUrl);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result.Split("-", StringSplitOptions.RemoveEmptyEntries).Last());
 				}
 			} catch (Exception ex) {
 				throw new FetchApiException(ex.Message, ex.InnerException);
@@ -244,7 +244,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				var response = await client.PostAsync(apiUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result.Split("-", StringSplitOptions.RemoveEmptyEntries).Last());
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -274,7 +274,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				var response = await client.PostAsync(apiUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result.Split("-", StringSplitOptions.RemoveEmptyEntries).Last());
 				}
 
 				return true;
