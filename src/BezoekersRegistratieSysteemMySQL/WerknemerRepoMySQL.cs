@@ -49,7 +49,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "FROM Werknemer wn " +
 						   "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) AND wb.Status = 1 " +
 						   "JOIN Bedrijf b ON(b.id = wb.bedrijfid) " +
-						   "JOIN functie f ON(f.id = wb.functieid) " +
+						   "JOIN Functie f ON(f.id = wb.functieid) " +
 						   "WHERE wn.ANaam = @ANaam AND wn.VNaam = @VNaam " +
 						   "ORDER BY wn.id";
 			try {
@@ -263,7 +263,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "FROM Werknemer wn " +
 						   "LEFT JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) AND wb.Status = 1 " +
 						   "LEFT JOIN Bedrijf b ON(b.id = wb.bedrijfid) " +
-						   "LEFT JOIN functie f ON(f.id = wb.functieid) " +
+						   "LEFT JOIN Functie f ON(f.id = wb.functieid) " +
 						   "WHERE wn.id = @werknemerId";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
