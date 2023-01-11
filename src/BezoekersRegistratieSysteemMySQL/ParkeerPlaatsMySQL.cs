@@ -231,7 +231,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 							"RECURSIVE hours AS( " +
 								"SELECT 0 AS hour " +
 								"UNION ALL " +
-								"SELECT hour + 1 FROM hours WHERE hour < 23 " +
+								"SELECT hour + 1 FROM hours WHERE hour < HOUR(NOW()) " +
 								"), " +
 							"ParkedHour AS( " +
 								"SELECT " +

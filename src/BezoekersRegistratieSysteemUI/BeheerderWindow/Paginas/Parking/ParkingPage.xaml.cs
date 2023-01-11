@@ -151,7 +151,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
             {
                 Data = dataDag.CheckInsPerUur.Values.ToList().ConvertAll(x => (double)x),
                 Stroke = (SolidColorBrush)new BrushConverter().ConvertFrom("#272944"),
-                Label = "Huidig"
+                Label = "Check-ins"
             };
 
             GrafiekDataset dataSetTotaalGeparkeerden = new()
