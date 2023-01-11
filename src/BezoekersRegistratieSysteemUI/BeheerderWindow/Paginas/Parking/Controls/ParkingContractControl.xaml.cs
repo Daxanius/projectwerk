@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls {
-	public partial class ParkingContractControl : UserControl, INotifyPropertyChanged {
+	public partial class ParkingContractControl : UserControl {
 
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
 		
@@ -15,27 +15,30 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
 
             BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
             GlobalEvents.RefreshData += UpdateGeselecteerdBedrijf_Event;
+            ParkingEvents.NieuweNummerplaatInGeChecked += NieuweNummerplaatInGeChecked_Event;
+			ParkingEvents.NummerplaatUitChecken += NummerplaatUitChecken_Event;
 
             this.DataContext = this;
 			InitializeComponent();
             InitializeContractInfo();
-
-            //Kijk of je kan rechts klikken om iets te doen
-            //NummerplaatLijst.ContextMenuOpening += (sender, args) => args.Handled = true;
-            //ContextMenu.ContextMenuClosing += (object sender, ContextMenuEventArgs e) => ContextMenu.DataContext = null;
         }
 
-        private void UpdateGeselecteerdBedrijf_Event()
+		private void NummerplaatUitChecken_Event(ParkeerplaatsDTO parkeerplaats) {
+			bool isOk = int.TryParse(BezetAantalParkeerplaatsenBedrijf.Content.ToString(), out int aantal);
+			if (!isOk || aantal <= 0) return;
+			BezetAantalParkeerplaatsenBedrijf.Content = aantal - 1;
+		}
+
+		private void NieuweNummerplaatInGeChecked_Event(ParkeerplaatsDTO parkeerplaats) {
+			bool isOk = int.TryParse(BezetAantalParkeerplaatsenBedrijf.Content.ToString(), out int aantal);
+			if (!isOk) return;
+			BezetAantalParkeerplaatsenBedrijf.Content = aantal + 1;
+		}
+
+		private void UpdateGeselecteerdBedrijf_Event()
         {
             InitializeContractInfo();
         }
-
-        #region ProppertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-		#endregion ProppertyChanged
 
 		private void InitializeContractInfo()
 		{
