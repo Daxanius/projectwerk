@@ -172,7 +172,7 @@
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock
-                                MinWidth="250"
+                                MinWidth="75"
                                 FontSize="12"
                                 Foreground="{StaticResource LichtGrijs}"
                                 Text="Nummerplaat" />
