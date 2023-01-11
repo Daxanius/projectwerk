@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
 using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
@@ -127,9 +128,9 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
         private async void MaakNieuweCheckIn(long bedrijfsId, string nummerplaat)
         {
 			try {
-				var rawBody = new { bedrijfId = bedrijfsId, checkinTijd = DateTime.Now, nummerplaat = nummerplaat };
-				string json = JsonConvert.SerializeObject(rawBody);
-				bool isvalid = await ApiController.Post("/parkeerplaats/checkin", json);
+				ParkeerplaatsInputDTO inputDTO = new(bedrijfsId, DateTime.Now, null, nummerplaat);
+				string payload = JsonConvert.SerializeObject(inputDTO);
+				bool isvalid = await ApiController.Post("/parkeerplaats/checkin", payload);
 
 				if (isvalid) {
 					_mb = new();
