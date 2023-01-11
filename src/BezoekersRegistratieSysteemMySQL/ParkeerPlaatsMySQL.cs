@@ -238,7 +238,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								"h.hour, " +
 								"COUNT(pp.nummerplaat) AS parkedHour, " +
 								"(SELECT COUNT(*) " +
-								"FROM Groupswork.ParkingPlaatsen pp " +
+								"FROM ParkingPlaatsen pp " +
                                 "WHERE pp.BedrijfId = @bedrijfId " +
 								"AND (((hour <= HOUR(now()) " +
 								"AND HOUR(pp.StartTijd) <= hour) " +
@@ -251,7 +251,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								")) " +
 								") AS parkedTotal " +
 								"FROM hours h " +
-                                "LEFT JOIN Groupswork.ParkingPlaatsen pp ON(h.hour = HOUR(pp.StartTijd)) AND DATE(now()) = DATE(pp.starttijd) AND pp.BedrijfId = @bedrijfId " +
+                                "LEFT JOIN ParkingPlaatsen pp ON(h.hour = HOUR(pp.StartTijd)) AND DATE(now()) = DATE(pp.starttijd) AND pp.BedrijfId = @bedrijfId " +
 								"GROUP BY h.hour " +
 							") " +
                             "SELECT CONCAT(ph.hour,'u') as hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
