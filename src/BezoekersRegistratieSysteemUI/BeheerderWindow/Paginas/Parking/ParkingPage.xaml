@@ -225,7 +225,7 @@
             x:Name="NummerplaatToevoegen_Popup"
             Grid.Row="0"
             Visibility="Collapsed" />
-        <popups:ParkingContractPopup
+        <popups:NieuwParkingContractPopup
             x:Name="NieuwParkingContract_Popup"
             Grid.Row="0"
             Visibility="Collapsed" />

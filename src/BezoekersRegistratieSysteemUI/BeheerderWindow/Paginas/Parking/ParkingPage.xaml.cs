@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls;
@@ -34,6 +35,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 
 			BedrijfEvents.GeselecteerdBedrijfChanged += InitializePage;
 			GlobalEvents.RefreshData += InitializePage;
+			ParkingEvents.ParkingContractUpdated += ParkingEvents_ParkingContractUpdated;
 		}
 
 		public string ZoekText {
@@ -94,35 +96,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			UpdateHuidigeNummerplatenOpScherm();
 		}
 
+		private void ParkingEvents_ParkingContractUpdated(ParkingContractoutputDTO parkeerplaats) {
+			InitializePage();
+		}
+
 		private void UpdateHuidigeNummerplatenOpScherm() {
 			foreach (ParkeerplaatsDTO parkeerplaats in ApiController.GeefNummerplaten(GeselecteerdBedrijf.Id).ToList().OrderBy(n => n.Starttijd)) {
 				NummerplaatLijstControl.ItemSource.Add(parkeerplaats);
 			}
 			_initieleZoekTermParkeerplaats = new(NummerplaatLijstControl.ItemSource);
 		}
-
-		#region Singleton
-		private static ParkingPage instance = null;
-		private static readonly object padlock = new object();
-
-		public static ParkingPage Instance {
-			get {
-				lock (padlock) {
-					if (instance == null) {
-						instance = new ParkingPage();
-					}
-					return instance;
-				}
-			}
-		}
-		#endregion
-
-		#region ProppertyChanged
-		public event PropertyChangedEventHandler? PropertyChanged;
-		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-		#endregion ProppertyChanged
 
 		private void LineGraph_Loaded(object sender, RoutedEventArgs e) {
 			Grafiek.Width = LineGraph.RenderSize.Width * 0.75;
@@ -194,5 +177,28 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			UpdateParkingContract_Popup.EindTijdDatePicker.SelectedDate = parkingContract.Eindtijd;
 			UpdateParkingContract_Popup.AantalPlaatsen = parkingContract.AantalPlaatsen;
 		}
+
+		#region Singleton
+		private static ParkingPage instance = null;
+		private static readonly object padlock = new object();
+
+		public static ParkingPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new ParkingPage();
+					}
+					return instance;
+				}
+			}
+		}
+		#endregion
+
+		#region ProppertyChanged
+		public event PropertyChangedEventHandler? PropertyChanged;
+		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		#endregion ProppertyChanged
 	}
 }
