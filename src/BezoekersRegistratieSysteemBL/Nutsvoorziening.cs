@@ -103,7 +103,7 @@ namespace BezoekersRegistratieSysteemBL {
 			}
 
 			try {
-				string apiUrl = $"https://controleerbtwnummer.eu/api/validate/{btwNummer}.json";
+				string apiUrl = $"http://controleerbtwnummer.eu/api/validate/{btwNummer}.json";
 
 				using HttpClient client = new();
 				// Om ervoor te zorgen dat we niet voor elk bedrijf lang moeten wachten

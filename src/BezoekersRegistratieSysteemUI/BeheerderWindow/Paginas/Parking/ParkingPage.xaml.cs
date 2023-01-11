@@ -107,29 +107,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			_initieleZoekTermParkeerplaats = new(NummerplaatLijstControl.ItemSource);
 		}
 
-		#region Singleton
-		private static ParkingPage instance = null;
-		private static readonly object padlock = new object();
-
-		public static ParkingPage Instance {
-			get {
-				lock (padlock) {
-					if (instance == null) {
-						instance = new ParkingPage();
-					}
-					return instance;
-				}
-			}
-		}
-		#endregion
-
-		#region ProppertyChanged
-		public event PropertyChangedEventHandler? PropertyChanged;
-		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-		#endregion ProppertyChanged
-
 		private void LineGraph_Loaded(object sender, RoutedEventArgs e) {
 			Grafiek.Width = LineGraph.RenderSize.Width * 0.75;
 			Grafiek.Height = LineGraph.RenderSize.Height * 0.65;
@@ -200,5 +177,28 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			UpdateParkingContract_Popup.EindTijdDatePicker.SelectedDate = parkingContract.Eindtijd;
 			UpdateParkingContract_Popup.AantalPlaatsen = parkingContract.AantalPlaatsen;
 		}
+
+		#region Singleton
+		private static ParkingPage instance = null;
+		private static readonly object padlock = new object();
+
+		public static ParkingPage Instance {
+			get {
+				lock (padlock) {
+					if (instance == null) {
+						instance = new ParkingPage();
+					}
+					return instance;
+				}
+			}
+		}
+		#endregion
+
+		#region ProppertyChanged
+		public event PropertyChangedEventHandler? PropertyChanged;
+		public void UpdatePropperty([CallerMemberName] string propertyName = null) {
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		#endregion ProppertyChanged
 	}
 }
