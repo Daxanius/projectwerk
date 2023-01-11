@@ -36,7 +36,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new ParkeerplaatsManagerException("ParkeerManager - VoegNummerplaatToe - Bedrijf heeft geen parking contract");
 			if (_parkeerplaatsRepository.BestaatNummerplaat(parkeerplaats.Nummerplaat))
 				throw new ParkeerplaatsManagerException("ParkeerManager - VoegNummerplaatToe - Nummerplaat bestaat al");
-			if (_parkingContractRepository.GeefParkingContract(parkeerplaats.Bedrijf.Id).AantalPlaatsen == _parkeerplaatsRepository.GeefHuidigBezetteParkeerplaatsenVoorBedrijf(parkeerplaats.Bedrijf.Id))
+			if (_parkingContractRepository.GeefParkingContract(parkeerplaats.Bedrijf.Id).AantalPlaatsen <= _parkeerplaatsRepository.GeefHuidigBezetteParkeerplaatsenVoorBedrijf(parkeerplaats.Bedrijf.Id))
 				throw new ParkeerplaatsManagerException("ParkeerManager - VoegNummerplaatToe - Parking is vol");
 			try {
 				_parkeerplaatsRepository.CheckNummerplaatIn(parkeerplaats);
@@ -101,28 +101,5 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 				throw new ParkeerplaatsManagerException("ParkeerManager - GeefGrafiekPerBedrijf - Bedrijf mag niet leeg zijn");
 			return _parkeerplaatsRepository.GeefWeekoverzichtParkingVoorBedrijf(bedrijf.Id);
 		}
-
-		///// <summary>
-		///// 
-		///// </summary>
-		///// <param></param>
-		///// <exception cref="ParkeerplaatsManagerException"></exception>
-		//public void BewerkParkeerplaats(Parkeerplaats parkeerplaats)
-		//{
-		//    if (parkeerplaats == null)
-		//        throw new ParkeerplaatsManagerException("ParkeerManager - BewerkParkeerplaats - Parkeerplaats mag niet leeg zijn");
-		//    if (!_parkeerplaatsRepository.BestaatParkeerplaats(parkeerplaats))
-		//        throw new ParkeerplaatsManagerException("ParkeerManager - BewerkParkeerplaats - Parkeerplaats bestaat niet");
-		//    try
-		//    {
-		//        _parkeerplaatsRepository.BewerkParkeerplaats(parkeerplaats);
-		//    }
-		//    catch (Exception ex)
-		//    {
-		//        throw new ParkeerplaatsManagerException(ex.Message);
-		//    }
-		//}
-
-
 	}
 }
