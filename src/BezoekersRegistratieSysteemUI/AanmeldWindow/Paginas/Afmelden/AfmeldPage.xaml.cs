@@ -80,7 +80,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Afmelden {
 					_mb.Show("Er is geen afspraak voor dit email adres", "Error", ECustomMessageBoxIcon.Error);
 					return;
 				}
-				_mb.Show(ex.Message, "Error", ECustomMessageBoxIcon.Error);
+				_mb.Show(ex.Message[ex.Message.IndexOf(':')..], "Error", ECustomMessageBoxIcon.Error);
 			}
 		}
 		#endregion

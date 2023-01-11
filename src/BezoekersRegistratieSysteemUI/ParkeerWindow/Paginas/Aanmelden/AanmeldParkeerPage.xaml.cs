@@ -108,7 +108,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 				Nummerplaat = "";
 
 			} catch (Exception ex) {
-				_mb.Show(ex.Message.Substring(ex.Message.LastIndexOf('-')), "Fout", ECustomMessageBoxIcon.Error);
+				_mb.Show(ex.Message[ex.Message.LastIndexOf('-')..], "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
             GaTerugNaarKiesBedrijf();
@@ -140,7 +140,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 				}
 			} catch (Exception ex) {
 				_mb = new();
-				_mb.Show(ex.Message.Substring(ex.Message.LastIndexOf('-')), "Fout", ECustomMessageBoxIcon.Error);
+				_mb.Show(ex.Message[ex.Message.LastIndexOf('-')..], "Fout", ECustomMessageBoxIcon.Error);
 			}
 		}
         #endregion
