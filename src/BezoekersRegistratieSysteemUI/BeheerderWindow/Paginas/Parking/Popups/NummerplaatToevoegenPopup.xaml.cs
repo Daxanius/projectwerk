@@ -57,6 +57,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups {
 
 		private void BevestigenButton_Click(object sender, RoutedEventArgs e) {
 			string nummerplaat = Nummerplaat.Trim();
+
+			if (nummerplaat.IsLeeg()) {
+				new CustomMessageBox().Show("Nummerplaat is verplicht", "Success", ECustomMessageBoxIcon.Error); ;
+				return;
+			}
+
+			if (StartTijdText is null || StartTijdText.IsLeeg()) {
+				new CustomMessageBox().Show("StartTijd is niet geldig", "Error", ECustomMessageBoxIcon.Error);
+				return;
+			}
+
 			bool isStartTijdOk = DateTime.TryParse(StartTijdText.Trim(), out DateTime startTijd);
 
 			if (!isStartTijdOk) {
@@ -80,11 +91,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups {
 					new CustomMessageBox().Show("EindTijd moet groter zijn dan StartTijd", "Success", ECustomMessageBoxIcon.Error);
 					return;
 				}
-			}
-
-			if (nummerplaat.IsLeeg()) {
-				new CustomMessageBox().Show("Nummerplaat is verplicht", "Success", ECustomMessageBoxIcon.Error); ;
-				return;
 			}
 
 			ApiController.CheckNummerplaatIn(BeheerderWindow.GeselecteerdBedrijf.Id, startTijd, eindTijd, nummerplaat);
