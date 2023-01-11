@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using BezoekersRegistratieSysteemUI.MessageBoxes;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -12,7 +13,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas {
 		}
 
 		private void VraagHulpKnop(object sender, MouseButtonEventArgs e) {
-			MessageBox.Show("Lukt aanmelden niet?\n\n Neem contact op met de beheerder aan de balie.", "Probleem", MessageBoxButton.OK, MessageBoxImage.Question);
+			new CustomMessageBox().Show("Lukt aanmelden niet?\n\n Neem contact op met de beheerder aan de balie.", "Probleem?", ECustomMessageBoxIcon.Information);
 		}
 	}
 }

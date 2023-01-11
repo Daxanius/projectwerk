@@ -78,22 +78,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			string adres = Adres.Trim();
 
 			if (naam.IsLeeg()) {
-				MessageBox.Show("Naam is verplicht");
+				new CustomMessageBox().Show("Naam is verplicht", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			if (telefoonNummer.IsLeeg() || !telefoonNummer.IsTelefoonNummerGeldig()) {
-				MessageBox.Show("TelefoonNummer is verplicht");
+				new CustomMessageBox().Show("TelefoonNummer is verplicht", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			if (email.IsLeeg()) {
-				MessageBox.Show("Email is verplicht");
+				new CustomMessageBox().Show("Email is verplicht", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			if (adres.IsLeeg()) {
-				MessageBox.Show("Adres is verplicht");
+				new CustomMessageBox().Show("Adres is verplicht", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
@@ -113,8 +113,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Bedrijven.Popups 
 			Visibility = Visibility.Hidden;
 
 			if (bedrijf is not null) {
-				CustomMessageBox customMessageBox = new();
-				customMessageBox.Show($"{bedrijf.Naam} Successvol Geupdate", $"Success", ECustomMessageBoxIcon.Information);
+				new CustomMessageBox().Show($"{bedrijf.Naam} Successvol Geupdate", $"Success", ECustomMessageBoxIcon.Information);
 			}
 		}
 
