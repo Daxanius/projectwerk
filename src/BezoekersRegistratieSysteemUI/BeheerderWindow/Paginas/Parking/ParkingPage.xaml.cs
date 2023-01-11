@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls;
@@ -34,6 +35,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 
 			BedrijfEvents.GeselecteerdBedrijfChanged += InitializePage;
 			GlobalEvents.RefreshData += InitializePage;
+			ParkingEvents.ParkingContractUpdated += ParkingEvents_ParkingContractUpdated;
 		}
 
 		public string ZoekText {
@@ -92,6 +94,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 
 			InitializeGraph();
 			UpdateHuidigeNummerplatenOpScherm();
+		}
+
+		private void ParkingEvents_ParkingContractUpdated(ParkingContractoutputDTO parkeerplaats) {
+			InitializePage();
 		}
 
 		private void UpdateHuidigeNummerplatenOpScherm() {
