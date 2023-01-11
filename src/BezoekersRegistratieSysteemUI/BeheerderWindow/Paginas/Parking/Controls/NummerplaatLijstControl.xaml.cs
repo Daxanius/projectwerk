@@ -37,13 +37,14 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
 
 		private void NummerplaatUitChecken_Event(ParkeerplaatsDTO parkeerplaats) {
 			int index = ItemSource.IndexOf(parkeerplaats);
-			if(index > -1) {
+			if (index > -1) {
 				ItemSource.RemoveAt(index);
 			}
 		}
 
 		private void NieuweNummerplaatInGeChecked_Event(ParkeerplaatsDTO parkeerplaats) {
-			ItemSource.Add(parkeerplaats);
+			if (parkeerplaats.Eindtijd is null)
+				ItemSource.Add(parkeerplaats);
 		}
 
 		private protected void KlikOpParkeerplaatsOptions(object sender, RoutedEventArgs e) {
@@ -69,5 +70,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged
-    }
+	}
 }
