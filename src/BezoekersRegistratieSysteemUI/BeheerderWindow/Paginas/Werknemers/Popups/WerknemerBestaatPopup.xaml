@@ -35,6 +35,7 @@
                 <Grid MaxWidth="700">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
@@ -60,7 +61,8 @@
                             FontWeight="Bold"
                             Foreground="{StaticResource DonkerBlauw}" />
                     </Grid>
-                    <Grid x:Name="InputContainer" Grid.Row="1">
+                    <Label Grid.Row="1" Padding="15" FontSize="14" Content="Er bestaat reeds een werknemer in het bedrijvenpark met deze naam" HorizontalAlignment="Center"/>
+                    <Grid x:Name="InputContainer" Grid.Row="2">
                         <Border
                             Grid.Row="1"
                             Grid.Column="1"
@@ -102,7 +104,6 @@
                                                         <StackPanel>
                                                             <Border
                                                                 Margin="0,0,20,0"
-                                                                Padding="10,0,0,0"
                                                                 Background="{TemplateBinding Background}"
                                                                 BorderBrush="Transparent"
                                                                 BorderThickness="0,0,0,1"
@@ -159,7 +160,29 @@
                                                 <GridViewColumn>
                                                     <GridViewColumn.Header>
                                                         <TextBlock
-                                                            MinWidth="250"
+                                                            MinWidth="200"
+                                                            FontSize="12"
+                                                            Foreground="{StaticResource LichtGrijs}"
+                                                            Text="Naam" />
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Padding="0,15,0,15" FontSize="15"
+                                                                FontWeight="DemiBold">
+                                                                <TextBlock.Text>
+                                                                    <MultiBinding StringFormat="{}{0} {1}">
+                                                                        <Binding Path="Voornaam" />
+                                                                        <Binding Path="Achternaam" />
+                                                                    </MultiBinding>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock
+                                                            MinWidth="200"
                                                             FontSize="12"
                                                             Foreground="{StaticResource LichtGrijs}"
                                                             Text="Functie" />
@@ -177,7 +200,7 @@
                                                 <GridViewColumn>
                                                     <GridViewColumn.Header>
                                                         <TextBlock
-                                                            MinWidth="250"
+                                                            MinWidth="200"
                                                             FontSize="12"
                                                             Foreground="{StaticResource LichtGrijs}"
                                                             Text="Bedrijf" />
@@ -220,7 +243,7 @@
                             BorderBrush="{StaticResource ButtonDonkerOranje}"
                             BorderThickness="3"
                             Click="NieuweWerknemerButton_Click"
-                            Content="Voeg nieuwe toe"
+                            Content="Voeg nieuwe werknemer toe"
                             FontSize="16"
                             Foreground="{StaticResource ButtonDonkerOranje}"
                             Style="{StaticResource ActionButtonPopup}"
@@ -232,7 +255,7 @@
                             BorderBrush="{StaticResource LichtGroen}"
                             BorderThickness="3"
                             Click="BevestigenButton_Click"
-                            Content="Geselecteerde Werknemer"
+                            Content="Voeg toe aan werknemer"
                             FontSize="16"
                             Foreground="{StaticResource LichtGroen}"
                             Style="{StaticResource ActionButtonPopup}"
