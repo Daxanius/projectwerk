@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Input;
+using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
@@ -77,6 +78,8 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups {
 				ApiController.VoegParkingContractToe(bedrijfId, StartTijd, EindTijd, AantalPlaatsen);
 			}
 
+			parkingContract = ApiController.GeefParkingContract(bedrijfId);
+			ParkingEvents.UpdateParkingContract(parkingContract!);
 			Visibility = Visibility.Collapsed;
 		}
 		private void TerugButton_Click(object sender, RoutedEventArgs e) {
@@ -90,5 +93,5 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups {
 		}
 
 		#endregion ProppertyChanged
-    }
+	}
 }
