@@ -131,54 +131,54 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 			#region Controle Input
 
 			if (BeheerderWindow.GeselecteerdBedrijf is null) {
-				MessageBox.Show("Er is geen bedrijf geselecteerd!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show("Er is geen bedrijf geselecteerd!", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			if (BezoekerVoornaam.IsLeeg()) {
-				MessageBox.Show("Voornaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show("Voornaam is niet geldig!", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			if (BezoekerAchternaam.IsLeeg()) {
-				MessageBox.Show("Achternaam is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show("Achternaam is niet geldig!", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			if (BezoekerEmail.IsLeeg()) {
-				MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show("Email is niet geldig!", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			if (!BezoekerEmail.IsEmailGeldig()) {
-				MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show("Email is niet geldig!", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			if (Werknemer is null) {
-				MessageBox.Show("Gelieve een werknemer te kiezen!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show("Gelieve een werknemer te kiezen!", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			if (Werknemer.Id is null) {
-				MessageBox.Show("Werknemer id is null, gelieve het dashboard te herstarten!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show("Werknemer id is null, gelieve het dashboard te herstarten!", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			if (StartTijd.IsLeeg()) {
-				MessageBox.Show("StartTijd is verplicht!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show("StartTijd is verplicht!", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			DateTime startTijdDatum = DateTime.Parse(StartTijd.Trim());
 			if (startTijdDatum > DateTime.Now) {
-				MessageBox.Show("StartTijd mag niet in de toekomst liggen!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show("StartTijd mag niet in de toekomst liggen!", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
 			DateTime? eindTijdDatum = null;
 			if (EindTijd is not null && !DateTime.TryParse(EindTijd.Trim(), out DateTime dateTime) && EindTijd.IsNietLeeg()) {
-				MessageBox.Show("EindTijd is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show("EindTijd is niet geldig!", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			} else {
 				if (EindTijd is not null && EindTijd.IsNietLeeg())
@@ -186,17 +186,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 				DateTime maxEindtijdVandaag = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
 				if (eindTijdDatum > maxEindtijdVandaag) {
-					MessageBox.Show($"EindTijd mag niet later dan {maxEindtijdVandaag.ToString("dd/MM/yyyy HH:mm:ss")}!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show($"EindTijd mag niet later dan {maxEindtijdVandaag.ToString("dd/MM/yyyy HH:mm:ss")}!", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				if (eindTijdDatum == startTijdDatum) {
-					MessageBox.Show($"EindTijd mag niet gelijk zijn aan StartTijd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show($"EindTijd mag niet gelijk zijn aan StartTijd", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				if (eindTijdDatum < startTijdDatum) {
-					MessageBox.Show($"EindTijd moet later zijn dan de StartTijd!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show($"EindTijd moet later zijn dan de StartTijd!", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 			}
@@ -213,8 +213,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Popups 
 
 			SluitOverlay();
 
-			CustomMessageBox customMessageBox = new();
-			customMessageBox.Show("Afspraak Is Gewijzigd", $"Success", ECustomMessageBoxIcon.Information);
+			new CustomMessageBox().Show("Afspraak Is Gewijzigd", $"Success", ECustomMessageBoxIcon.Information);
 		}
 		private void OpenMedewerkerKiezenPopup(object sender, MouseButtonEventArgs e) {
 			MedeWerkerToevoegenEiland.Visibility = Visibility.Collapsed;

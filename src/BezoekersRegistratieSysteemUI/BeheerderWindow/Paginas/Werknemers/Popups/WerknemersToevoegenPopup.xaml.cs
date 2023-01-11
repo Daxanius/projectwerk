@@ -73,22 +73,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			Functie = Functie.Trim();
 
 			if (Voornaam.IsLeeg()) {
-				MessageBox.Show("Voornaam mag niet leeg zijn");
+				new CustomMessageBox().Show("Voornaam mag niet leeg zijn", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			};
 
 			if (Achternaam.IsLeeg()) {
-				MessageBox.Show("Achternaam mag niet leeg zijn");
+				new CustomMessageBox().Show("Achternaam mag niet leeg zijn", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			};
 
 			if (Email.IsLeeg()) {
-				MessageBox.Show("Email mag niet leeg zijn");
+				new CustomMessageBox().Show("Email mag niet leeg zijn", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			};
 
 			if (Functie.IsLeeg()) {
-				MessageBox.Show("Functie mag niet leeg zijn");
+				new CustomMessageBox().Show("Functie mag niet leeg zijn", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
