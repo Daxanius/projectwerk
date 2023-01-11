@@ -77,22 +77,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			Email = Email.Trim();
 
 			if (Voornaam.IsLeeg()) {
-				MessageBox.Show("Voornaam mag niet leeg zijn");
+				new CustomMessageBox().Show("Voornaam mag niet leeg zijn", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			};
 
 			if (Achternaam.IsLeeg()) {
-				MessageBox.Show("Achternaam mag niet leeg zijn");
+				new CustomMessageBox().Show("Achternaam mag niet leeg zijn", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			};
 
 			if (Email.IsLeeg()) {
-				MessageBox.Show("Email mag niet leeg zijn");
+				new CustomMessageBox().Show("Email mag niet leeg zijn", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			};
 
 			if (Functie.IsLeeg()) {
-				MessageBox.Show("Functie mag niet leeg zijn");
+				new CustomMessageBox().Show("Functie mag niet leeg zijn", "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			};
 
@@ -118,8 +118,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			if (Functies.Count > 1) {
 				Functies.Remove(functie);
 			} else {
-				CustomMessageBox customMessageBox = new();
-				customMessageBox.Show("Werknemer moet minimum 1 functie hebben", "Error", ECustomMessageBoxIcon.Error);
+				new CustomMessageBox().Show("Werknemer moet minimum 1 functie hebben", "Error", ECustomMessageBoxIcon.Error);
 				return;
 			}
 		}
@@ -149,8 +148,7 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Popups
 			string functie = NieuweFunctieTextBlock.Text.Trim();
 			if (functie.IsNietLeeg()) {
 				if (Functies.Any(_f => _f.ToLower() == functie.ToLower())) {
-					CustomMessageBox customMessageBox = new();
-					customMessageBox.Show("Functie bestaat al", "Error", ECustomMessageBoxIcon.Error);
+					new CustomMessageBox().Show("Functie bestaat al", "Error", ECustomMessageBoxIcon.Error);
 					return;
 				}
 				Functies.Add(functie);
