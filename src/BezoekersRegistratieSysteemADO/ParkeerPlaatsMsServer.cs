@@ -229,7 +229,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 								"hours AS( " +
 								"SELECT 0 AS hour " +
 								"UNION ALL " +
-								"SELECT hour + 1 FROM hours WHERE hour < 23 " +
+								"SELECT hour + 1 FROM hours WHERE hour < DATEPART(HOUR, GETDATE()) " +
 								"), " +
 							"ParkedHour AS( " +
 								"SELECT " +
