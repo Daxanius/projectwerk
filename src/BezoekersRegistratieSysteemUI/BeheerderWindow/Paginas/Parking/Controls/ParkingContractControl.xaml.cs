@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.Model;
@@ -17,11 +18,17 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls 
             GlobalEvents.RefreshData += UpdateGeselecteerdBedrijf_Event;
             ParkingEvents.NieuweNummerplaatInGeChecked += NieuweNummerplaatInGeChecked_Event;
 			ParkingEvents.NummerplaatUitChecken += NummerplaatUitChecken_Event;
+			ParkingEvents.ParkingContractUpdated += ParkingContractUpdated_Event;
 
-            this.DataContext = this;
+
+			this.DataContext = this;
 			InitializeComponent();
             InitializeContractInfo();
         }
+
+		private void ParkingContractUpdated_Event(ParkingContractoutputDTO parkeerplaats) {
+			InitializeContractInfo();
+		}
 
 		private void NummerplaatUitChecken_Event(ParkeerplaatsDTO parkeerplaats) {
 			bool isOk = int.TryParse(BezetAantalParkeerplaatsenBedrijf.Content.ToString(), out int aantal);

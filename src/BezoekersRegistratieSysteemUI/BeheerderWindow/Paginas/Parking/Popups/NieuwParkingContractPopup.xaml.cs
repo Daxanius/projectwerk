@@ -5,6 +5,7 @@ using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
+using Newtonsoft.Json.Linq;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -12,7 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups {
-	public partial class ParkingContractPopup : UserControl, INotifyPropertyChanged {
+	public partial class NieuwParkingContractPopup : UserControl, INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		private int _aantalPlaatsen = 0;
@@ -26,27 +27,22 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups {
 			}
 		}
 
-		public ParkingContractPopup() {
+		public NieuwParkingContractPopup() {
 			this.DataContext = this;
 			InitializeComponent();
 
-			StartTijdDatePicker.SelectedDate = DateTime.Now;
+			startTijdTextBox.Text = DateTime.Now.ToString("dd/MM/yyyy");
 			EindTijdDatePicker.SelectedDate = DateTime.Now.AddYears(1);
 		}
 
 		private void MaakButton_Click(object sender, RoutedEventArgs e) {
-
-			if (!StartTijdDatePicker.SelectedDate.HasValue) {
-				new CustomMessageBox().Show("Je moet een StartTijd kiezen", "Error", ECustomMessageBoxIcon.Error);
-				return;
-			}
 
 			if (!EindTijdDatePicker.SelectedDate.HasValue) {
 				new CustomMessageBox().Show("Je moet een EindTijd kiezen", "Error", ECustomMessageBoxIcon.Error);
 				return;
 			}
 
-			DateTime StartTijd = StartTijdDatePicker.SelectedDate.Value;
+			DateTime StartTijd = DateTime.Now;
 			DateTime EindTijd = EindTijdDatePicker.SelectedDate.Value;
 
 			if (StartTijd.Month < DateTime.Now.Month || StartTijd.Day < DateTime.Now.Day || StartTijd.Year < DateTime.Now.Year) {
@@ -74,7 +70,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups {
 				ApiController.VoegParkingContractToe(bedrijfId, StartTijd, EindTijd, AantalPlaatsen);
 			}
 
+			parkingContract = ApiController.GeefParkingContract(bedrijfId);
+
+			ParkingEvents.UpdateParkingContract(parkingContract);
 			Visibility = Visibility.Collapsed;
+			
 		}
 
 		#region ProppertyChanged
