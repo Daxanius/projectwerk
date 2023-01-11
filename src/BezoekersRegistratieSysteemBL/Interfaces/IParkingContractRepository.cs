@@ -3,6 +3,7 @@
 namespace BezoekersRegistratieSysteemBL.Interfaces {
 	public interface IParkingContractRepository {
 		bool BestaatParkingContract(ParkingContract parkingContract);
+		bool BestaatParkingContractOpBedrijfId(ParkingContract parkingContract);
 		void BewerkParkingContract(ParkingContract parkingContract);
 		int GeefAantalParkeerplaatsenVoorBedrijf(long id);
 		ParkingContract? GeefParkingContract(long bedrijfId);
