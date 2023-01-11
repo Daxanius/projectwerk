@@ -57,7 +57,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Afmelden {
 				}
 
 				//TODO STAN
-				bool isValid = await ApiController.Post($"/parkeerplaats/checkout?nummerplaat={Nummerplaat}");
+				bool isValid = await ApiController.Post($"/parkeerplaats/checkout/{Nummerplaat}");
                 if (isValid) {
                     MessageBox.Show($"U bent afgemeld.", "", MessageBoxButton.OK, MessageBoxImage.Information);
                 } else {

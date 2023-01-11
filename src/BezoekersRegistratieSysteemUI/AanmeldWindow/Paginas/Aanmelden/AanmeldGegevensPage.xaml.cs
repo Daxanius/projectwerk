@@ -109,11 +109,6 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		private void AanmeldenKlik(object sender, RoutedEventArgs e) {
 			try {
 				#region Controle Input
-				Voornaam = Voornaam.Trim();
-				Achternaam = Achternaam.Trim();
-				Email = Email.Trim();
-				Bedrijf = Bedrijf.Trim();
-
 				if (RegistratieWindow.GeselecteerdBedrijf is null) {
 					MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
@@ -138,6 +133,11 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 					MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
+
+				Voornaam = Voornaam.Trim();
+				Achternaam = Achternaam.Trim();
+				Email = Email.Trim();
+				Bedrijf = Bedrijf.Trim();
 
 				WerknemerDTO? werknemer = (WerknemerDTO)WerknemersLijst.SelectedValue;
 
