@@ -177,6 +177,16 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			UpdateParkingContract_Popup.EindTijdDatePicker.SelectedDate = parkingContract.Eindtijd;
 			UpdateParkingContract_Popup.AantalPlaatsen = parkingContract.AantalPlaatsen;
 		}
+		private void VerwijderContractPopup(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+			var result = new CustomMessageBox().Show("Bent u zeker dat u dit parking contract\nwenst te verwijderen?", "Opgelet", ECustomMessageBoxIcon.Question);
+
+			if (result == ECustomMessageBoxResult.Bevestigen) {
+				ApiController.VerwijderParkingContract(GeselecteerdBedrijf.Id);
+				var parkingContract = ApiController.GeefParkingContract(GeselecteerdBedrijf.Id);
+				ParkingEvents.UpdateParkingContract(parkingContract);
+			}
+
+		}
 
 		#region Singleton
 		private static ParkingPage instance = null;
@@ -200,5 +210,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion ProppertyChanged
+
 	}
 }

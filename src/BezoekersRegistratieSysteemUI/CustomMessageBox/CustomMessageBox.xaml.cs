@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace BezoekersRegistratieSysteemUI.MessageBoxes {
@@ -14,7 +16,7 @@ namespace BezoekersRegistratieSysteemUI.MessageBoxes {
 
 			this.Title = "Opgelet !";
 			TitleLabel.Content = title;
-			TextTextBox.Text = message;
+			TextTextBox.Text = message.Split("-", StringSplitOptions.RemoveEmptyEntries).Last();
 
 			switch (icon) {
 				case ECustomMessageBoxIcon.Warning:

@@ -34,7 +34,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException(response.Content.ReadAsStringAsync().Result); ;
+					throw new FetchApiException(response.Content.ReadAsStringAsync().Result);
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -244,7 +244,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				var response = await client.PostAsync(apiUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException($"De request is niet gelukt!\n\nError: {response.Content.ReadAsStringAsync().Result}\n\nStatuscode: " + response.StatusCode);
+					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
 				}
 
 				string responseBody = await response.Content.ReadAsStringAsync();
@@ -274,7 +274,7 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				var response = await client.PostAsync(apiUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
 				if (!response.IsSuccessStatusCode) {
-					throw new FetchApiException($"De request is niet gelukt!\n\nError: {response.Content.ReadAsStringAsync().Result}\n\nStatuscode: " + response.StatusCode);
+					throw new FetchApiException($"{response.Content.ReadAsStringAsync().Result}");
 				}
 
 				return true;

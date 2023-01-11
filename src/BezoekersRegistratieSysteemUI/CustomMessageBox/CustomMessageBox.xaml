@@ -56,12 +56,19 @@
                         CanvasWidth="40"
                         IconSize="200"
                         Opacity="1" />
-                    <TextBlock
-                        x:Name="TextTextBox"
-                        Margin="0,20,0,0"
-                        VerticalAlignment="Center"
-                        FontSize="26"
-                        FontWeight="Bold" />
+                    <WrapPanel
+                        MaxWidth="600"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            x:Name="TextTextBox"
+                            MaxWidth="600"
+                            Margin="0,20,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="26"
+                            FontWeight="Bold"
+                            TextWrapping="WrapWithOverflow" />
+                    </WrapPanel>
                 </StackPanel>
                 <Button
                     x:Name="AnnulerenButton"
