@@ -1,10 +1,13 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Beheerder;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Controls;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Controls;
+using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups;
 using BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Werknemers.Controls;
 using BezoekersRegistratieSysteemUI.Events;
 using BezoekersRegistratieSysteemUI.Grafiek;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
@@ -18,16 +21,26 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
-	/// <summary>
-	/// Interaction logic for ParkingPage.xaml
-	/// </summary>
 	public partial class ParkingPage : Page, INotifyPropertyChanged {
-		public int FullWidth { get; set; }
-		public int FullHeight { get; set; }
 		public BedrijfDTO GeselecteerdBedrijf { get => BeheerderWindow.GeselecteerdBedrijf; }
         private List<ParkeerplaatsDTO> _initieleZoekTermParkeerplaats;
         private string _zoekText;
-        public string ZoekText
+
+		public ParkingPage() {
+			this.DataContext = this;
+			InitializeComponent();
+
+			UpdateGeselecteerdBedrijf_Event();
+
+			BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
+			GlobalEvents.RefreshData += UpdateGeselecteerdBedrijf_Event;
+
+			this.DataContext = this;
+			InitializeComponent();
+			InitializeGraph();
+		}
+		
+		public string ZoekText
         {
             get => _zoekText;
             set
@@ -56,23 +69,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
                     }
                 }
             }
-        }
-
-        public ParkingPage() {
-            this.DataContext = this;
-            InitializeComponent();
-
-            UpdateGeselecteerdBedrijf_Event();
-
-            FullWidth = (int)SystemParameters.PrimaryScreenWidth;
-			FullHeight = (int)SystemParameters.PrimaryScreenHeight;
-
-			BedrijfEvents.GeselecteerdBedrijfChanged += UpdateGeselecteerdBedrijf_Event;
-            GlobalEvents.RefreshData += UpdateGeselecteerdBedrijf_Event;
-
-            this.DataContext = this;
-			InitializeComponent();
-			InitializeGraph();
         }
 
         private void ZoekTermChanged(object sender, TextChangedEventArgs e)
@@ -177,6 +173,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking {
 
             Grafiek1.InvalidateVisual();
             Grafiek.InvalidateVisual();
+        }
+
+		private void VoegNummerplaatToe_Click(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            NummerplaatToevoegen_Popup.Visibility = Visibility.Visible;
         }
     }
 }

@@ -108,8 +108,8 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <param name="nummerplaat"></param>
 		/// <returns></returns>
-		[HttpPost("checkout")]
-		public IActionResult CheckNummerplaatUit([FromQuery] string nummerplaat) {
+		[HttpPost("checkout/{nummerplaat}")]
+		public IActionResult CheckNummerplaatUit(string nummerplaat) {
 			try {
 				_parkeerplaatsManager.CheckNummerplaatUit(nummerplaat);
 				return Ok();

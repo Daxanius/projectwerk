@@ -151,6 +151,9 @@
 		<Page Update="BeheerderWindow\Paginas\Bedrijven\Popups\BedrijfUpdatenPopup.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		</Page>
+		<Page Update="BeheerderWindow\Paginas\Parking\Popups\NummerplaatToevoegenPopup.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		</Page>
 		<Page Update="ParkeerWindow\Paginas\Aanmelden\AanmeldParkeerPage.xaml">
 		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		</Page>

@@ -57,31 +57,10 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Afspraken.Control
 		}
 
 		#region Functies
-		private void KlikOpRow(object sender, MouseButtonEventArgs e) {
-			if (_selecteditem is not null) {
-				_selecteditem.Background = Brushes.Transparent;
-				_selecteditem.BorderThickness = new Thickness(0);
-			}
-			StackPanel? listViewItem = sender as StackPanel;
-
-			Border border = (Border)listViewItem.Children[0];
-			border.Background = Brushes.White;
-			border.BorderThickness = new Thickness(1);
-			border.BorderBrush = Brushes.WhiteSmoke;
-			border.CornerRadius = new CornerRadius(20);
-			border.Margin = new Thickness(0, 0, 20, 0);
-			_selecteditem = border;
-		}
-
 		private void VerwijderAfspraak_Event(AfspraakDTO afspraak) {
 			if (ItemSource.Contains(afspraak)) {
 				ItemSource.Remove(afspraak);
 			}
-		}
-
-		private void KlikOpAfspraakOptions(object sender, RoutedEventArgs e) {
-			Button b = (Button)sender;
-			_ = (AfspraakDTO)b.CommandParameter;
 		}
 		#endregion
 	}
