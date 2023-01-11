@@ -289,15 +289,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			MySqlConnection con = GetConnection();
 			string query = "SET lc_time_names = 'nl_BE'; " +
 							"WITH " +
-								"RECURSIVE offset AS( " +
+								"RECURSIVE aoffset AS( " +
 									"SELECT 0 AS dOffset " +
 									"UNION ALL " +
-									"SELECT dOffset - 1 FROM offset WHERE dOffset > -6 " +
+									"SELECT dOffset - 1 FROM aoffset WHERE dOffset > -6 " +
 								"), " +
 								"days AS( " +
 									"SELECT UPPER(SUBSTRING(DAYNAME(CONVERT(DATE_ADD(NOW(), INTERVAL o.dOffset DAY), date)), 1,2)) AS abbrDay, " +
 									"CONVERT(DATE_ADD(NOW(), INTERVAL o.dOffset DAY), date) AS da " +
-									"FROM offset o " +
+									"FROM aoffset o " +
 								"), " +
 								"parked AS( " +
                                     "SELECT d.abbrDay, (SELECT COUNT(*) FROM ParkingPlaatsen pl WHERE CONVERT(pl.StartTijd, date) = d.da AND bedrijfId = @BedrijfId) as totalCheckIn, d.da " +
