@@ -79,7 +79,7 @@
                             </Grid.ColumnDefinitions>
                             <Label
                                 Grid.Column="0"
-                                Content="Aantal plaatsen"
+                                Content="Starttijd"
                                 Style="{StaticResource InputLabelStyle}" />
                             <TextBox
                                 x:Name="startTijdTextBox"
