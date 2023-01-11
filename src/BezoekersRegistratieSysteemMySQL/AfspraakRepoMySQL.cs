@@ -339,7 +339,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 										 "SET StartTijd = @start, " +
 										 "EindTijd = @eind, " +
 										 "WerknemerBedrijfId = (SELECT wb.Id " +
-																"FROM WerknemerBedrijf wb " +
+																"FROM Werknemerbedrijf wb " +
 																"WHERE wb.BedrijfId = @bedrijfId AND " +
 																"wb.WerknemerId = @werknemerId AND " +
 																"wb.FunctieId = (SELECT f.Id " +
@@ -440,10 +440,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
 						   "f.FunctieNaam, afs.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
-						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
+						   "JOIN Werknemerbedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 						   "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
-						   "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
+						   "JOIN Bedrijf b ON(wb.BedrijfId = b.Id) " +
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
 						   "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
 						   "WHERE a.Id = @afspraakid";
@@ -656,10 +656,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
 						   "f.FunctieNaam, afs.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
-						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
+						   "JOIN Werknemerbedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 						   "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
-						   "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
+						   "JOIN Bedrijf b ON(wb.BedrijfId = b.Id) " +
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
 						   "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
 						   "WHERE a.AfspraakStatusId = 1";
@@ -865,10 +865,10 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "w.Id as WerknemerId, w.VNaam as WerknemerVNaam, w.ANaam as WerknemerANaam, wb.WerknemerEmail, " +
 						   "f.FunctieNaam, afs.AfspraakStatusNaam " +
 						   "FROM Afspraak a " +
-						   "JOIN WerknemerBedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
+						   "JOIN Werknemerbedrijf as wb ON(a.WerknemerBedrijfId = wb.Id) " +
 						   "JOIN Bezoeker bz ON(a.BezoekerId = bz.Id) " +
 						   "JOIN Werknemer w ON(wb.WerknemerId = w.Id) " +
-						   "JOIN bedrijf b ON(wb.BedrijfId = b.Id) " +
+						   "JOIN Bedrijf b ON(wb.BedrijfId = b.Id) " +
 						   "JOIN Functie f ON(wb.FunctieId = f.Id) " +
 						   "JOIN AfspraakStatus afs ON (afs.Id = a.AfspraakStatusId) " +
 						   "WHERE 1=1";
