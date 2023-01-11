@@ -32,7 +32,7 @@
                 Grid.Column="1"
                 Background="{StaticResource MainAchtergrond}"
                 CornerRadius="20">
-                <Grid MaxWidth="700">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -61,11 +61,20 @@
                             FontWeight="Bold"
                             Foreground="{StaticResource DonkerBlauw}" />
                     </Grid>
-                    <Label Grid.Row="1" Padding="15" FontSize="14" Content="Er bestaat reeds een werknemer in het bedrijvenpark met deze naam" HorizontalAlignment="Center"/>
-                    <Grid x:Name="InputContainer" Grid.Row="2">
+                    <Label
+                        Grid.Row="1"
+                        Padding="15"
+                        HorizontalAlignment="Center"
+                        Content="Er bestaat reeds een werknemer in het bedrijvenpark met deze naam"
+                        FontSize="18" />
+                    <Grid
+                        x:Name="InputContainer"
+                        Grid.Row="2"
+                        Margin="10">
                         <Border
                             Grid.Row="1"
                             Grid.Column="1"
+                            Padding="5,20,5,20"
                             Background="{StaticResource LichtGrijsAccent}"
                             CornerRadius="20">
                             <Grid MaxWidth="700">
@@ -77,7 +86,6 @@
                                     x:Name="WerknemersMetZelfdeNaam"
                                     Grid.Row="0"
                                     MaxHeight="500"
-                                    Margin="20,50,20,20"
                                     Background="Transparent"
                                     FontFamily="Inter"
                                     ScrollViewer.CanContentScroll="False"
@@ -167,7 +175,9 @@
                                                     </GridViewColumn.Header>
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Padding="0,15,0,15" FontSize="15"
+                                                            <TextBlock
+                                                                Padding="10,15,0,15"
+                                                                FontSize="15"
                                                                 FontWeight="DemiBold">
                                                                 <TextBlock.Text>
                                                                     <MultiBinding StringFormat="{}{0} {1}">
@@ -222,49 +232,16 @@
                             </Grid>
                         </Border>
                     </Grid>
-                    <Grid
+                    <StackPanel
                         Grid.Row="3"
-                        Margin="0,40"
+                        Margin="25"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="20" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Button
-                            x:Name="AnnulerenButton"
-                            Grid.Column="0"
-                            Margin="10,5"
-                            BorderBrush="{StaticResource ButtonDonkerOranje}"
-                            BorderThickness="3"
-                            Click="NieuweWerknemerButton_Click"
-                            Content="Voeg nieuwe werknemer toe"
-                            FontSize="16"
-                            Foreground="{StaticResource ButtonDonkerOranje}"
-                            Style="{StaticResource ActionButtonPopup}"
-                            Tag="Rood" />
-                        <Button
-                            x:Name="BevestigenButton"
-                            Grid.Column="1"
-                            Margin="10,5"
-                            BorderBrush="{StaticResource LichtGroen}"
-                            BorderThickness="3"
-                            Click="BevestigenButton_Click"
-                            Content="Voeg toe aan werknemer"
-                            FontSize="16"
-                            Foreground="{StaticResource LichtGroen}"
-                            Style="{StaticResource ActionButtonPopup}"
-                            Tag="Groen" />
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
                         <Button
                             x:Name="TerugButton"
-                            Grid.Row="2"
-                            Grid.ColumnSpan="2"
-                            Padding="20,5"
+                            Margin="10"
+                            Padding="10,5"
                             BorderBrush="{StaticResource DonkerRood}"
                             BorderThickness="3"
                             Click="TerugButton_Click"
@@ -273,7 +250,31 @@
                             Foreground="{StaticResource DonkerRood}"
                             Style="{StaticResource ActionButtonPopup}"
                             Tag="Rood" />
-                    </Grid>
+                        <Button
+                            x:Name="AnnulerenButton"
+                            Margin="10"
+                            Padding="10,5"
+                            BorderBrush="{StaticResource ButtonDonkerOranje}"
+                            BorderThickness="3"
+                            Click="NieuweWerknemerButton_Click"
+                            Content="Voeg nieuwe werknemer"
+                            FontSize="16"
+                            Foreground="{StaticResource ButtonDonkerOranje}"
+                            Style="{StaticResource ActionButtonPopup}"
+                            Tag="Rood" />
+                        <Button
+                            x:Name="BevestigenButton"
+                            Margin="10"
+                            Padding="10,5"
+                            BorderBrush="{StaticResource LichtGroen}"
+                            BorderThickness="3"
+                            Click="BevestigenButton_Click"
+                            Content="Voeg toe aan werknemer"
+                            FontSize="16"
+                            Foreground="{StaticResource LichtGroen}"
+                            Style="{StaticResource ActionButtonPopup}"
+                            Tag="Groen" />
+                    </StackPanel>
                 </Grid>
             </Border>
         </Grid>

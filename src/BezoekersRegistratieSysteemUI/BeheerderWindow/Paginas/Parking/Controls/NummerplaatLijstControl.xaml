@@ -70,17 +70,12 @@
                     </Style>
                 </ContextMenu.Resources>
                 <MenuItem
-                    Background="{StaticResource ButtonOranje}"
-                    FontWeight="DemiBold"
-                    Foreground="{StaticResource MainAchtergrond}"
-                    Header="Wijzig" />
-                <MenuItem
                     x:Name="VerwijderMenuItem"
                     Background="{StaticResource LichtRood}"
                     Click="VerwijderNummerPlaat_Click"
                     FontWeight="DemiBold"
                     Foreground="WhiteSmoke"
-                    Header="Verwijder" />
+                    Header="Check uit" />
             </ContextMenu>
         </ListView.ContextMenu>
         <ListView.Style>

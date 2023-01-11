@@ -70,11 +70,11 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Dashboard.Control
 		}
 
 		private void AfsprakenLijst_ScrollChanged(object sender, ScrollChangedEventArgs e) {
-			if (GlobalEvents._refreshTimerTimout.IsEnabled == true) {
+			if (GlobalEvents.RefreshTimerTimout.IsEnabled == true) {
 				return;
 			}
-			GlobalEvents._refreshTimerTimout.Start();
-			GlobalEvents._refreshTimer.Stop();
+			GlobalEvents.RefreshTimerTimout.Start();
+			GlobalEvents.RefreshTimer.Stop();
 		}
 	}
 }
