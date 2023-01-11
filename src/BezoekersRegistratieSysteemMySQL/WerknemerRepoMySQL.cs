@@ -497,7 +497,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					if (!String.IsNullOrWhiteSpace(functie)) {
-						query += " AND FunctieId = (SELECT Id FROM FUNCTIE WHERE FunctieNaam = @FunctieNaam)";
+						query += " AND FunctieId = (SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam)";
 						cmd.Parameters.Add(new MySqlParameter("@FunctieNaam", MySqlDbType.VarChar));
 						cmd.Parameters["@FunctieNaam"].Value = functie;
 					}
