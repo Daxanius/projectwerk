@@ -28,7 +28,6 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 		#region Variabelen
 
 		private string _nummerplaat;
-		private CustomMessageBox _mb;
 
 		public string Nummerplaat {
 			get { return _nummerplaat; }
@@ -69,13 +68,10 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 			this.DataContext = this;
 			InitializeComponent();
 
-			_mb = new();
-
 			GeselecteerdBedrijf = AanmeldParkeerWindow.GeselecteerdBedrijf;
 
 			if (GeselecteerdBedrijf is null) {
-				_mb = new();
-				_mb.Show("Bedrijf is niet gekozen", "Error", ECustomMessageBoxIcon.Error);
+				new CustomMessageBox().Show("Bedrijf is niet gekozen", "Error", ECustomMessageBoxIcon.Error);
 				((AanmeldParkeerWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
 				return;
 			}
@@ -87,19 +83,16 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 
 				if (AanmeldParkeerWindow.GeselecteerdBedrijf is null)
 				{
-					_mb = new();
-					_mb.Show("Er is geen bedrijf geselecteerd", "Fout", ECustomMessageBoxIcon.Error);
+					new CustomMessageBox().Show("Er is geen bedrijf geselecteerd", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				if (Nummerplaat.IsLeeg()) {
-					_mb = new();
-					_mb.Show("Nummerplaat is leeg", "Fout", ECustomMessageBoxIcon.Error);
+					new CustomMessageBox().Show("Nummerplaat is leeg", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
-				_mb = new();
-				var result = _mb.Show($"Zijn ingevoerde gegevens correct?\n\nNummerplaat: {Nummerplaat}", "Bevestiging", ECustomMessageBoxIcon.Question);
+				var result = new CustomMessageBox().Show($"Zijn ingevoerde gegevens correct?\n\nNummerplaat: {Nummerplaat}", "Bevestiging", ECustomMessageBoxIcon.Question);
 
 				if (result == ECustomMessageBoxResult.Bevestigen)
 					MaakNieuweCheckIn(GeselecteerdBedrijf.Id, Nummerplaat);
@@ -109,7 +102,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 				Nummerplaat = "";
 
 			} catch (Exception ex) {
-				_mb.Show(ex.Message[ex.Message.LastIndexOf('-')..], "Fout", ECustomMessageBoxIcon.Error);
+				new CustomMessageBox().Show(ex.Message[ex.Message.LastIndexOf('-')..], "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
             GaTerugNaarKiesBedrijf();
@@ -133,15 +126,12 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 				bool isvalid = await ApiController.Post("/parkeerplaats/checkin", payload);
 
 				if (isvalid) {
-					_mb = new();
-					_mb.Show("Uw registratie werd goed ontvangen.", "Success", ECustomMessageBoxIcon.Information);
+					new CustomMessageBox().Show("Uw registratie werd goed ontvangen.", "Success", ECustomMessageBoxIcon.Information);
 				} else {
-					_mb = new();
-					_mb.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /", ECustomMessageBoxIcon.Error);
+					new CustomMessageBox().Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /", ECustomMessageBoxIcon.Error);
 				}
 			} catch (Exception ex) {
-				_mb = new();
-				_mb.Show(ex.Message[ex.Message.LastIndexOf('-')..], "Fout", ECustomMessageBoxIcon.Error);
+				new CustomMessageBox().Show(ex.Message[ex.Message.LastIndexOf('-')..], "Fout", ECustomMessageBoxIcon.Error);
 			}
 		}
         #endregion
