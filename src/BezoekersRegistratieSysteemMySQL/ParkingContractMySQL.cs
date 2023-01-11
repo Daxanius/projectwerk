@@ -51,7 +51,44 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					}
 					query += " AND pc.StartTijd = @StartTijd " +
 							 "AND pc.EindTijd = @EindTijd " +
-							 "AND pc.AantalPlaatsen = @AantalPlaatsen";
+							 "AND pc.AantalPlaatsen = @AantalPlaatsen AND StatusId = 1";
+					cmd.CommandText = query;
+					cmd.Parameters.Add(new MySqlParameter("@StartTijd", MySqlDbType.Date));
+					cmd.Parameters.Add(new MySqlParameter("@EindTijd", MySqlDbType.Date));
+					cmd.Parameters.Add(new MySqlParameter("@AantalPlaatsen", MySqlDbType.Int32));
+					cmd.Parameters["@StartTijd"].Value = parkingContract.Starttijd.Date;
+					cmd.Parameters["@EindTijd"].Value = parkingContract.Eindtijd.Date;
+					cmd.Parameters["@AantalPlaatsen"].Value = parkingContract.AantalPlaatsen;
+					long i = (long)cmd.ExecuteScalar();
+					return (i > 0);
+				}
+			} catch (Exception ex) {
+				throw new ParkingContractMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
+			} finally {
+				con.Close();
+			}
+		}
+		/// <summary>
+		/// Kijkt of een parkingcontract bestaat aan de hand van bedrijfId of BTWNr, start-, einddatum en aantalplaatsen
+		/// </summary>
+		/// <returns>True = bestaat | False = bestaat NIET</returns>
+		public bool BestaatParkingContractOpBedrijfId(ParkingContract parkingContract) {
+			MySqlConnection con = GetConnection();
+			string query = "SELECT COUNT(*) " +
+						   "FROM ParkingContract pc";
+			try {
+				using (MySqlCommand cmd = con.CreateCommand()) {
+					con.Open();
+					if (parkingContract.Bedrijf.Id != 0) {
+						query += " WHERE pc.BedrijfId = @BedrijfId AND StatusId = 1";
+						cmd.Parameters.Add(new MySqlParameter("@BedrijfId", MySqlDbType.Int64));
+						cmd.Parameters["@BedrijfId"].Value = parkingContract.Bedrijf.Id;
+					} else {
+						query += " JOIN Bedrijf b ON(pc.bedrijfId = b.Id) " +
+								 "WHERE b.BTWNr = @BTWNr AND StatusId = 1";
+						cmd.Parameters.Add(new MySqlParameter("@BTWNr", MySqlDbType.VarChar));
+						cmd.Parameters["@BTWNr"].Value = parkingContract.Bedrijf.BTW;
+					}
 					cmd.CommandText = query;
 					cmd.Parameters.Add(new MySqlParameter("@StartTijd", MySqlDbType.Date));
 					cmd.Parameters.Add(new MySqlParameter("@EindTijd", MySqlDbType.Date));
@@ -111,7 +148,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "b.Id As BedrijfId, b.Naam, b.BTWNr, b.TeleNR, b.Email, b.Adres, b.BTWChecked " +
 						   "FROM ParkingContract pc " +
 						   "JOIN bedrijf b ON(pc.bedrijfId = b.Id) " +
-						   "WHERE (NOW() BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
+						   "WHERE (NOW() BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId AND StatusId = 1";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
@@ -153,13 +190,13 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			MySqlConnection con = GetConnection();
 			string query = "UPDATE ParkingContract " +
 						   "SET Statusid = 2 " +
-						   "WHERE Id = @id";
+						   "WHERE Id = @Id";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
 					cmd.CommandText = query;
-					cmd.Parameters.Add(new MySqlParameter("@id", MySqlDbType.Int64));
-					cmd.Parameters["@id"].Value = parkingContract.Id;
+					cmd.Parameters.Add(new MySqlParameter("@Id", MySqlDbType.Int64));
+					cmd.Parameters["@Id"].Value = parkingContract.Id;
 					cmd.ExecuteNonQuery();
 				}
 			} catch (Exception ex) {
@@ -198,6 +235,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmdSelect.CommandText = querySelect;
 					long i = (long)cmdSelect.ExecuteScalar();
 					parkingContract.ZetId(i);
+					trans.Commit();
 				}
 			} catch (Exception ex) {
 				throw new ParkingContractMySQLException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);

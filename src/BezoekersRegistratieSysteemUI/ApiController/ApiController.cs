@@ -651,7 +651,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-
 		public static GrafiekDagDetailOutputDTO? GeefParkeerplaatsDagoverzichtVanBedrijf(long bedrijfId) {
 			return Task.Run(async () => {
 				(bool isvalid, GrafiekDagDetailOutputDTO grafiek) = await Get<GrafiekDagDetailOutputDTO>($"parkeerplaats/bedrijf/{bedrijfId}/overzicht/dag");
@@ -662,18 +661,12 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-
 		public static ParkingContractoutputDTO? GeefParkingContract(long bedrijfId) {
 			return Task.Run(async () => {
-				(bool isvalid, ParkingContractoutputDTO parkingContract) = await Get<ParkingContractoutputDTO>($"parkingcontract/bedrijf/{bedrijfId}");
-				if (isvalid) {
-					return parkingContract;
-				} else {
-					throw new FetchApiException("Er is iets fout gegaan bij het ophalen van het parkingcontract");
-				}
+				(bool isvalid, ParkingContractoutputDTO parkingContract) = await Get<ParkingContractoutputDTO?>($"parkingcontract/bedrijf/{bedrijfId}");
+				return parkingContract;
 			}).Result;
 		}
-
 		public static int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long bedrijfId) {
 			return Task.Run(async () => {
 				(bool isvalid, int aantal) = await Get<int>($"parkeerplaats/bedrijf/{bedrijfId}/overzicht/bezet");
@@ -684,7 +677,6 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-
 		public static IEnumerable<ParkeerplaatsDTO> GeefNummerplaten(long bedrijfId) {
 			return Task.Run(async () => {
 				List<ParkeerplaatsDTO> ItemSource = new();
@@ -699,18 +691,35 @@ namespace BezoekersRegistratieSysteemUI.Api {
 				}
 			}).Result;
 		}
-
 		public static void CheckNummerplaatOut(ParkeerplaatsDTO parkeerplaatsDto) {
 			Task.Run(async () => {
 				await Post($"parkeerplaats/checkout/{parkeerplaatsDto.Nummerplaat}");
 			}).Wait();
 		}
-
 		public static void CheckNummerplaatIn(long bedrijfId, DateTime starttijd, DateTime? eindtijd, string nummerplaat) {
 			Task.Run(async () => {
 				ParkeerplaatsInputDTO parkeerplaats = new ParkeerplaatsInputDTO(bedrijfId, starttijd, eindtijd, nummerplaat);
 				string payload = JsonConvert.SerializeObject(parkeerplaats);
 				await Post($"parkeerplaats/checkin/", payload);
+			}).Wait();
+		}
+		public static void VoegParkingContractToe(long bedrijfId, DateTime starttijd, DateTime eindtijd, int aantalPlaatsen) {
+			Task.Run(async () => {
+				ParkingContractInputDTO parkeerplaats = new ParkingContractInputDTO(bedrijfId, starttijd, eindtijd, aantalPlaatsen);
+				string payload = JsonConvert.SerializeObject(parkeerplaats);
+				await Post($"parkingcontract", payload);
+			}).Wait();
+		}
+		public static void UpdateParkingContract(long bedrijfId, DateTime starttijd, DateTime eindtijd, int aantalPlaatsen) {
+			Task.Run(async () => {
+				ParkingContractInputDTO parkeerplaats = new ParkingContractInputDTO(bedrijfId, starttijd, eindtijd, aantalPlaatsen);
+				string payload = JsonConvert.SerializeObject(parkeerplaats);
+				await Put($"parkingcontract", payload);
+			}).Wait();
+		}
+		public static void VerwijderParkingContract(long bedrijfId) {
+			Task.Run(async () => {
+				await Delete($"parkingcontract/bedrijf/{bedrijfId}");
 			}).Wait();
 		}
 		#endregion
