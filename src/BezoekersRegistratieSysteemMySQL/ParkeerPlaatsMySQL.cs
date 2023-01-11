@@ -38,7 +38,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			string query = "SELECT COUNT(*) " +
 						   "FROM ParkingPlaatsen " +
 						   "WHERE NummerPlaat = @nummerplaat " +
-						   "AND EindTIjd IS NULL";
+                           "AND EindTijd IS NULL AND StatusId = 1";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();

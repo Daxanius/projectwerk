@@ -84,7 +84,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
 						   "FROM Bedrijf " +
-						   "WHERE 1=1";
+						   "WHERE Status = 1 ";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
