@@ -16,7 +16,7 @@ namespace BezoekersRegistratieSysteemUI.MessageBoxes {
 
 			this.Title = "Opgelet !";
 			TitleLabel.Content = title;
-			TextTextBox.Text = message.Split("-", StringSplitOptions.RemoveEmptyEntries).Last();
+			TextTextBox.Text = message;
 
 			switch (icon) {
 				case ECustomMessageBoxIcon.Warning:
