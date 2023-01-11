@@ -174,7 +174,7 @@
                                                             IconSize="50"
                                                             IconSource="../VergrootGlasIcon.xaml" />
                                                         <TextBox
-                                                            x:Name="ZoekTextTextBoxWerknemers"
+                                                            x:Name="ZoekTermTextBoxWerknemers"
                                                             MinWidth="200"
                                                             MaxWidth="400"
                                                             Padding="0,0,15,0"
@@ -185,7 +185,7 @@
                                                             FontSize="16"
                                                             FontWeight="Bold"
                                                             Foreground="{StaticResource DonkerGrijs}"
-                                                            TextChanged="ZoekTextChangedWerknemers" />
+                                                            TextChanged="ZoekTermChangedWerknemers" />
                                                     </StackPanel>
                                                 </Border>
                                             </StackPanel>
@@ -212,36 +212,45 @@
                                             FontWeight="Bold"
                                             Foreground="{StaticResource DonkerBlauw}"
                                             Text="Werknemer Afspraken" />
-                                        <StackPanel Grid.Column="1">
-                                            <StackPanel HorizontalAlignment="Right">
-                                                <Border
-                                                    Background="{StaticResource MainAchtergrond}"
-                                                    CornerRadius="25"
-                                                    DockPanel.Dock="Left">
-                                                    <StackPanel
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Orientation="Horizontal">
-                                                        <iconspresenter:Icon
-                                                            CircleBackground="Transparent"
-                                                            IconSize="50"
-                                                            IconSource="../VergrootGlasIcon.xaml" />
-                                                        <TextBox
-                                                            x:Name="ZoekTermTextBoxWerknemersDatum"
-                                                            MinWidth="200"
-                                                            MaxWidth="400"
-                                                            Padding="0,0,15,0"
-                                                            VerticalAlignment="Center"
-                                                            Background="Transparent"
-                                                            BorderBrush="Transparent"
-                                                            BorderThickness="0"
-                                                            FontSize="16"
-                                                            FontWeight="Bold"
-                                                            Foreground="{StaticResource DonkerGrijs}"
-                                                            KeyDown="ZoekTermKeyDownWerknemersDatum" />
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
+                                        <StackPanel
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            Orientation="Horizontal">
+                                            <Border CornerRadius="15">
+                                                <DatePicker
+                                                    x:Name="DatePicker_Werknemer"
+                                                    BorderThickness="0"
+                                                    SelectedDateChanged="DatumFilterTextBox_SelectedDateChanged">
+                                                    <DatePicker.Resources>
+                                                        <Style TargetType="{x:Type DatePickerTextBox}">
+                                                            <Setter Property="Control.Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate>
+                                                                        <Button
+                                                                            Background="Transparent"
+                                                                            BorderBrush="Transparent"
+                                                                            BorderThickness="0"
+                                                                            Click="OpenDatePickerMenu_Click"
+                                                                            Content="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}, StringFormat=d}"
+                                                                            Cursor="Hand"
+                                                                            Foreground="{StaticResource DonkerBlauw}"
+                                                                            Style="{StaticResource ActionButtonDatePicker}"
+                                                                            Tag="Werknemer" />
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </DatePicker.Resources>
+                                                </DatePicker>
+                                            </Border>
+                                            <iconspresenter:Icon
+                                                CircleBackground="{StaticResource DonkerBlauw}"
+                                                Cursor="Hand"
+                                                DockPanel.Dock="Right"
+                                                IconPadding="0, 0, 2.5, 1"
+                                                IconSize="40"
+                                                IconSource="../ReloadIcon.xaml"
+                                                MouseLeftButtonDown="ResetDatumFilter" />
                                         </StackPanel>
                                     </Grid>
                                     <controls:WerknemerAfsprakenLijst x:Name="GeselecteerdeWerknemerAfsprakenLijst" />
@@ -266,36 +275,45 @@
                                         FontWeight="Bold"
                                         Foreground="{StaticResource DonkerBlauw}"
                                         Text="Afspraken Op Datum" />
-                                    <StackPanel Grid.Column="1">
-                                        <StackPanel HorizontalAlignment="Right">
-                                            <Border
-                                                Background="{StaticResource MainAchtergrond}"
-                                                CornerRadius="25"
-                                                DockPanel.Dock="Left">
-                                                <StackPanel
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Orientation="Horizontal">
-                                                    <iconspresenter:Icon
-                                                        CircleBackground="Transparent"
-                                                        IconSize="50"
-                                                        IconSource="../VergrootGlasIcon.xaml" />
-                                                    <TextBox
-                                                        x:Name="ZoekTermTextBoxDatum"
-                                                        MinWidth="200"
-                                                        MaxWidth="400"
-                                                        Padding="0,0,15,0"
-                                                        VerticalAlignment="Center"
-                                                        Background="Transparent"
-                                                        BorderBrush="Transparent"
-                                                        BorderThickness="0"
-                                                        FontSize="16"
-                                                        FontWeight="Bold"
-                                                        Foreground="{StaticResource DonkerGrijs}"
-                                                        KeyDown="ZoekTermKeyDownDatum" />
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        Orientation="Horizontal">
+                                        <Border CornerRadius="15">
+                                            <DatePicker
+                                                x:Name="DatePicker_OpDatum"
+                                                BorderThickness="0"
+                                                SelectedDateChanged="DatumFilterTextBox_SelectedDateChanged">
+                                                <DatePicker.Resources>
+                                                    <Style TargetType="{x:Type DatePickerTextBox}">
+                                                        <Setter Property="Control.Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <Button
+                                                                        Background="Transparent"
+                                                                        BorderBrush="Transparent"
+                                                                        BorderThickness="0"
+                                                                        Click="OpenDatePickerMenu_Click"
+                                                                        Content="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}, StringFormat=d}"
+                                                                        Cursor="Hand"
+                                                                        Foreground="{StaticResource DonkerBlauw}"
+                                                                        Style="{StaticResource ActionButtonDatePicker}"
+                                                                        Tag="OpDatum" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </DatePicker.Resources>
+                                            </DatePicker>
+                                        </Border>
+                                        <iconspresenter:Icon
+                                            CircleBackground="{StaticResource DonkerBlauw}"
+                                            Cursor="Hand"
+                                            DockPanel.Dock="Right"
+                                            IconPadding="0, 0, 2.5, 1"
+                                            IconSize="40"
+                                            IconSource="../ReloadIcon.xaml"
+                                            MouseLeftButtonDown="ResetDatumFilter" />
                                     </StackPanel>
                                 </Grid>
                                 <controls:OpDatumAfsprakenLijstControl x:Name="OpDatumAfsprakenLijst" />
