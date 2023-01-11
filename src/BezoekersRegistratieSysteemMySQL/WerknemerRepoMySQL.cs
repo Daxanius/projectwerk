@@ -48,7 +48,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 										   "AND a.AfspraakStatusId = 1) AS HuidigeAfsprakenAantal " +
 						   "FROM Werknemer wn " +
 						   "JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) AND wb.Status = 1 " +
-						   "JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+						   "JOIN Bedrijf b ON(b.id = wb.bedrijfid) " +
 						   "JOIN functie f ON(f.id = wb.functieid) " +
 						   "WHERE wn.ANaam = @ANaam AND wn.VNaam = @VNaam " +
 						   "ORDER BY wn.id";
@@ -224,7 +224,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public bool BestaatWerknemerEmail(string email) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
-						   "FROM WerknemerBedrijf wb " +
+						   "FROM Werknemerbedrijf wb " +
 						   "WHERE wb.WerknemerEmail = @email AND wb.status = 1 ";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
@@ -262,7 +262,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 										   "AND a.AfspraakStatusId = 1) AS HuidigeAfsprakenAantal " +
 						   "FROM Werknemer wn " +
 						   "LEFT JOIN Werknemerbedrijf wb ON(wn.id = wb.werknemerid) AND wb.Status = 1 " +
-						   "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+						   "LEFT JOIN Bedrijf b ON(b.id = wb.bedrijfid) " +
 						   "LEFT JOIN functie f ON(f.id = wb.functieid) " +
 						   "WHERE wn.id = @werknemerId";
 			try {
@@ -375,7 +375,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 										   "AND a.AfspraakStatusId = 1) AS HuidigeAfsprakenAantal " +
 						   "FROM Werknemer wn " +
 						   "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) AND wb.Status = 1 " +
-						   "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+						   "LEFT JOIN Bedrijf b ON(b.id = wb.bedrijfid) " +
 						   "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
 						   "WHERE 1=1";
 			try {
@@ -530,7 +530,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <remarks>Voegt een entry toe aan de werknemer bedrijf tabel in de databank.</remarks>
 		public void VoegWerknemerFunctieToe(Werknemer werknemer, WerknemerInfo werknemerInfo, string functie) {
 			MySqlConnection con = GetConnection();
-			string queryInsert = "INSERT INTO WerknemerBedrijf (BedrijfId, WerknemerId, WerknemerEmail, FunctieId) " +
+			string queryInsert = "INSERT INTO Werknemerbedrijf (BedrijfId, WerknemerId, WerknemerEmail, FunctieId) " +
 								 "VALUES(@bedrijfId,@werknemerId, @email,(SELECT Id FROM Functie WHERE FunctieNaam = @FunctieNaam))";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
@@ -696,7 +696,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 					cmdWerknemer.Parameters["@ANaam"].Value = werknemer.Achternaam;
 					cmdWerknemer.ExecuteNonQuery();
 					//Portie werknemerBedrijf
-					string queryWerknemerBedrijf = "UPDATE WerknemerBedrijf SET WerknemerEMail = @mail WHERE WerknemerId = @Wid AND Bedrijfid = @Bid";
+					string queryWerknemerBedrijf = "UPDATE Werknemerbedrijf SET WerknemerEMail = @mail WHERE WerknemerId = @Wid AND Bedrijfid = @Bid";
 					cmdWerknemerBedrijf.CommandText = queryWerknemerBedrijf;
 					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@mail", MySqlDbType.VarChar));
 					cmdWerknemerBedrijf.Parameters.Add(new MySqlParameter("@Wid", MySqlDbType.Int64));
@@ -786,7 +786,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "f.Functienaam " +
 						   "FROM Werknemer wn " +
 						   "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) AND wb.Status = 1 " +
-						   "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+						   "LEFT JOIN Bedrijf b ON(b.id = wb.bedrijfid) " +
 						   "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
 						   "WHERE b.Id = @bedrijfId AND (SELECT COUNT(*) " +
 														"FROM Afspraak a " +
@@ -851,7 +851,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "f.Functienaam " +
 						   "FROM Werknemer wn " +
 						   "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) AND wb.Status = 1 " +
-						   "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+						   "LEFT JOIN Bedrijf b ON(b.id = wb.bedrijfid) " +
 						   "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
 						   "WHERE b.Id = @bedrijfId AND (SELECT COUNT(*) " +
 														"FROM Afspraak a " +
@@ -967,7 +967,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "f.Functienaam " +
 						   "FROM Werknemer wn " +
 						   "LEFT JOIN Werknemerbedrijf wb ON(wb.werknemerId = wn.id) " +
-						   "LEFT JOIN bedrijf b ON(b.id = wb.bedrijfid) " +
+						   "LEFT JOIN Bedrijf b ON(b.id = wb.bedrijfid) " +
 						   "LEFT JOIN Functie f ON(f.id = wb.FunctieId) " +
 						   "WHERE wn.VNaam = @VNaam AND wn.ANaam = @ANaam " +
 						   "ORDER BY WerknemerId";

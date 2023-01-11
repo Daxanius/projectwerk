@@ -110,7 +110,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			string query = "SELECT pc.Id, pc.StartTijd, pc.Eindtijd, pc.AantalPlaatsen, " +
 						   "b.Id As BedrijfId, b.Naam, b.BTWNr, b.TeleNR, b.Email, b.Adres, b.BTWChecked " +
 						   "FROM ParkingContract pc " +
-						   "JOIN bedrijf b ON(pc.bedrijfId = b.Id) " +
+						   "JOIN Bedrijf b ON(pc.bedrijfId = b.Id) " +
 						   "WHERE (NOW() BETWEEN pc.StartTijd AND pc.EindTijd) AND pc.bedrijfId = @bedrijfId";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
