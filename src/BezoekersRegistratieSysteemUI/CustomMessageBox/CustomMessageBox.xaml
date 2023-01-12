@@ -7,104 +7,122 @@
     xmlns:local="clr-namespace:BezoekersRegistratieSysteemUI.MessageBoxes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Opgelet"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Center"
     AllowsTransparency="True"
     Background="Transparent"
     FontFamily="{StaticResource Inter}"
     ResizeMode="NoResize"
-    SizeToContent="WidthAndHeight"
     Topmost="True"
     WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     WindowStyle="None"
     mc:Ignorable="d">
-    <Border Background="{StaticResource MainAchtergrond}" CornerRadius="25">
-        <Grid Margin="80">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label
-                x:Name="TitleLabel"
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                HorizontalAlignment="Center"
-                FontSize="40"
-                FontWeight="Bold"
-                Foreground="{StaticResource DonkerBlauw}" />
-            <StackPanel
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Orientation="Horizontal">
-                <iconspresenter:Icon
-                    x:Name="Icon"
-                    CanvasWidth="40"
-                    IconSize="200"
-                    Opacity="1" />
-                <TextBlock
-                    x:Name="TextTextBox"
-                    Margin="0,10,0,0"
+    <Grid>
+        <Grid Background="Black" Opacity=".4" />
+        <Border
+            MaxWidth="1000"
+            MaxHeight="700"
+            Background="{StaticResource MainAchtergrond}"
+            BorderThickness="5"
+            CornerRadius="25"
+            Opacity="1">
+            <Grid Margin="80">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    x:Name="TitleLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    FontSize="40"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource DonkerBlauw}" />
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal">
+                    <iconspresenter:Icon
+                        x:Name="Icon"
+                        CanvasWidth="40"
+                        IconSize="200"
+                        Opacity="1" />
+                    <WrapPanel
+                        MaxWidth="600"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            x:Name="TextTextBox"
+                            MaxWidth="600"
+                            Margin="0,20,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="26"
+                            FontWeight="Bold"
+                            TextWrapping="WrapWithOverflow" />
+                    </WrapPanel>
+                </StackPanel>
+                <Button
+                    x:Name="AnnulerenButton"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="0,25,35,0"
+                    Padding="15,0"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    FontSize="18"
-                    FontWeight="Bold" />
-            </StackPanel>
-            <Button
-                x:Name="AnnulerenButton"
-                Grid.Row="2"
-                Grid.Column="0"
-                Margin="0,25,35,0"
-                Padding="15,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Background="Transparent"
-                BorderBrush="{StaticResource DonkerRood}"
-                BorderThickness="3"
-                Click="Button_Click"
-                Content="Annuleren"
-                FontSize="24"
-                FontWeight="Bold"
-                Foreground="{StaticResource DonkerRood}"
-                Style="{StaticResource ActionButtonPopup}" />
-            <Button
-                x:Name="BevestigenButton"
-                Grid.Row="2"
-                Grid.Column="1"
-                Margin="35,25,0,0"
-                Padding="15,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Background="Transparent"
-                BorderBrush="{StaticResource ButtonGroen}"
-                BorderThickness="3"
-                Click="Button_Click"
-                Content="Bevestigen"
-                FontSize="24"
-                FontWeight="Bold"
-                Foreground="{StaticResource ButtonGroen}"
-                Style="{StaticResource ActionButtonPopup}" />
-            <Button
-                x:Name="SluitButton"
-                Grid.Row="2"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Padding="15,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="Transparent"
-                BorderBrush="{StaticResource ButtonGroen}"
-                BorderThickness="3"
-                Click="Button_Click"
-                Content="Sluit"
-                FontSize="24"
-                FontWeight="Bold"
-                Foreground="{StaticResource ButtonGroen}"
-                Style="{StaticResource ActionButtonPopup}"
-                Visibility="Collapsed" />
-        </Grid>
-    </Border>
+                    Background="Transparent"
+                    BorderBrush="{StaticResource DonkerRood}"
+                    BorderThickness="3"
+                    Click="Button_Click"
+                    Content="Annuleren"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource DonkerRood}"
+                    Style="{StaticResource ActionButtonPopup}" />
+                <Button
+                    x:Name="BevestigenButton"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="35,25,0,0"
+                    Padding="15,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    BorderBrush="{StaticResource ButtonGroen}"
+                    BorderThickness="3"
+                    Click="Button_Click"
+                    Content="Bevestigen"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource ButtonGroen}"
+                    Style="{StaticResource ActionButtonPopup}" />
+                <Button
+                    x:Name="SluitButton"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Padding="15,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    BorderBrush="{StaticResource ButtonGroen}"
+                    BorderThickness="3"
+                    Click="Button_Click"
+                    Content="Sluit"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource ButtonGroen}"
+                    Style="{StaticResource ActionButtonPopup}"
+                    Visibility="Collapsed" />
+            </Grid>
+        </Border>
+    </Grid>
 </Window>

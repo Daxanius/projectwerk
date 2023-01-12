@@ -53,11 +53,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas.Parking.Popups {
 
 			DateTime EindTijd = EindTijdDatePicker.SelectedDate.Value;
 
-			if (StartTijd.Month < DateTime.Now.Month || StartTijd.Day < DateTime.Now.Day || StartTijd.Year < DateTime.Now.Year) {
-				new CustomMessageBox().Show("Je StartTijd mag niet in het verleden zijn", "Error", ECustomMessageBoxIcon.Error);
-				return;
-			}
-
 			if (StartTijd >= EindTijd) {
 				new CustomMessageBox().Show("StartTijd mag niet groter of gelijk zijn dan EindTijd", "Error", ECustomMessageBoxIcon.Error);
 				return;

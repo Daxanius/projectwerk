@@ -84,7 +84,27 @@
                                 FontWeight="Bold"
                                 Foreground="{StaticResource DonkerBlauw}"
                                 Text="Parking Contract" />
-                            <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                            <StackPanel
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                                <Border
+                                    Margin="0,0,10,0"
+                                    Background="{StaticResource MainAchtergrond}"
+                                    CornerRadius="25"
+                                    DockPanel.Dock="Left">
+                                    <StackPanel
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                        <iconspresenter:Icon
+                                            CircleBackground="{StaticResource DonkerBlauw}"
+                                            Cursor="Hand"
+                                            IconSize="50"
+                                            IconSource="../ParkingContractIcon.xaml"
+                                            MouseLeftButtonDown="OpenEditContractPopup" />
+                                    </StackPanel>
+                                </Border>
                                 <Border
                                     Background="{StaticResource MainAchtergrond}"
                                     CornerRadius="25"
@@ -95,9 +115,11 @@
                                         Orientation="Horizontal">
                                         <iconspresenter:Icon
                                             CircleBackground="{StaticResource DonkerBlauw}"
+                                            Cursor="Hand"
+                                            IconPadding="0 0 4 0"
                                             IconSize="50"
-                                            IconSource="../ParkingContractIcon.xaml"
-                                            MouseLeftButtonDown="OpenEditContractPopup" />
+                                            IconSource="../DeleteIcon.xaml"
+                                            MouseLeftButtonDown="VerwijderContractPopup" />
                                     </StackPanel>
                                 </Border>
                             </StackPanel>

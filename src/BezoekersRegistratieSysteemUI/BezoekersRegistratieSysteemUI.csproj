@@ -37,6 +37,7 @@
 	  <Page Remove="Icons\BezoekerIcon.xaml" />
 	  <Page Remove="Icons\DashboardIcon.xaml" />
 	  <Page Remove="Icons\DefaultLeeg.xaml" />
+	  <Page Remove="icons\DeleteIcon.xaml" />
 	  <Page Remove="Icons\DotsIcon.xaml" />
 	  <Page Remove="Icons\HuidigeAfspraakIcon.xaml" />
 	  <Page Remove="Icons\LijstIcon.xaml" />
@@ -66,6 +67,9 @@
 	  </Resource>
 	  <Resource Include="Icons\BezoekerIcon.xaml" />
 	  <Resource Include="Icons\DashboardIcon.xaml" />
+	  <Resource Include="icons\DeleteIcon.xaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
 	  <Resource Include="Icons\HuidigeAfspraakIcon.xaml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
