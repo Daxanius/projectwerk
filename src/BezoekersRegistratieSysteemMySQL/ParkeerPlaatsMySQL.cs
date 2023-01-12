@@ -36,9 +36,9 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public bool BestaatNummerplaat(string nummerplaat) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
-						   "FROM Parkingplaatsen " +
+						   "FROM ParkingPlaatsen " +
 						   "WHERE NummerPlaat = @nummerplaat " +
-						   "AND EindTIjd IS NULL";
+                           "AND EindTijd IS NULL AND StatusId = 1";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
@@ -61,7 +61,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		public void CheckNummerplaatIn(Parkeerplaats parkeerplaats) {
 			MySqlConnection con = GetConnection();
-			string query = "INSERT INTO Parkingplaatsen(NummerPlaat, StartTijd, EindTijd, BedrijfId) " +
+			string query = "INSERT INTO ParkingPlaatsen(NummerPlaat, StartTijd, EindTijd, BedrijfId) " +
 						   "VALUES(@NummerPlaat, @StartTijd, @EindTijd, @BedrijfId)";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
@@ -90,7 +90,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// </summary>
 		public void CheckNummerplaatUit(string nummerplaat) {
 			MySqlConnection con = GetConnection();
-			string query = "UPDATE Parkingplaatsen " +
+			string query = "UPDATE ParkingPlaatsen " +
 						   "SET EindTijd = @EindTijd, " +
 						   "StatusId = NULL " +
                            "WHERE NummerPlaat = @nummerplaat AND EindTijd IS NULL AND StatusId = 1";
@@ -148,7 +148,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		private IReadOnlyList<Parkeerplaats> GeefNummerplaten(Bedrijf bedrijf, bool? bezet, int? statusId) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT pp.Nummerplaat, pp.StartTijd, pp.EindTijd, pp.statusId " +
-						   "FROM Parkingplaatsen pp";
+						   "FROM ParkingPlaatsen pp";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
@@ -200,8 +200,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		public int GeefHuidigBezetteParkeerplaatsenVoorBedrijf(long bedrijfId) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
-						   "FROM Parkingplaatsen " +
-						   "WHERE bedrijfId = @BedrijfId AND EindTijd IS NULL";
+						   "FROM ParkingPlaatsen " +
+						   "WHERE BedrijfId = @BedrijfId AND EindTijd IS NULL";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
@@ -238,7 +238,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								"h.hour, " +
 								"COUNT(pp.nummerplaat) AS parkedHour, " +
 								"(SELECT COUNT(*) " +
-								"FROM groupswork.parkingplaatsen pp " +
+								"FROM ParkingPlaatsen pp " +
                                 "WHERE pp.BedrijfId = @bedrijfId " +
 								"AND (((hour <= HOUR(now()) " +
 								"AND HOUR(pp.StartTijd) <= hour) " +
@@ -251,7 +251,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 								")) " +
 								") AS parkedTotal " +
 								"FROM hours h " +
-                                "LEFT JOIN groupswork.parkingplaatsen pp ON(h.hour = HOUR(pp.StartTijd)) AND DATE(now()) = DATE(pp.starttijd) AND pp.BedrijfId = @bedrijfId " +
+                                "LEFT JOIN ParkingPlaatsen pp ON(h.hour = HOUR(pp.StartTijd)) AND DATE(now()) = DATE(pp.starttijd) AND pp.BedrijfId = @bedrijfId " +
 								"GROUP BY h.hour " +
 							") " +
                             "SELECT CONCAT(ph.hour,'u') as hour, ph.parkedHour, ph.parkedTotal FROM ParkedHour ph ORDER BY ph.hour";
@@ -289,15 +289,15 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 			MySqlConnection con = GetConnection();
 			string query = "SET lc_time_names = 'nl_BE'; " +
 							"WITH " +
-								"RECURSIVE offset AS( " +
+								"RECURSIVE aoffset AS( " +
 									"SELECT 0 AS dOffset " +
 									"UNION ALL " +
-									"SELECT dOffset - 1 FROM offset WHERE dOffset > -6 " +
+									"SELECT dOffset - 1 FROM aoffset WHERE dOffset > -6 " +
 								"), " +
 								"days AS( " +
 									"SELECT UPPER(SUBSTRING(DAYNAME(CONVERT(DATE_ADD(NOW(), INTERVAL o.dOffset DAY), date)), 1,2)) AS abbrDay, " +
 									"CONVERT(DATE_ADD(NOW(), INTERVAL o.dOffset DAY), date) AS da " +
-									"FROM offset o " +
+									"FROM aoffset o " +
 								"), " +
 								"parked AS( " +
                                     "SELECT d.abbrDay, (SELECT COUNT(*) FROM ParkingPlaatsen pl WHERE CONVERT(pl.StartTijd, date) = d.da AND bedrijfId = @BedrijfId) as totalCheckIn, d.da " +

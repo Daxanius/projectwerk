@@ -34,9 +34,6 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 					throw new ParkingContractManagerException("ParkingContract mag niet leeg zijn");
 				if (_parkingContractRepository.BestaatParkingContract(parkingContract))
 					throw new ParkingContractManagerException("ParkingContract bestaat al");
-				if (_parkingContractRepository.IsOverLappend(parkingContract)) {
-					throw new ParkingContractManagerException("ParkingContract overlapt");
-				}
 				_parkingContractRepository.VoegParkingContractToe(parkingContract);
 			} catch (Exception ex) {
 				throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
@@ -56,6 +53,7 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 					throw new ParkingContractManagerException("ParkingContract mag niet leeg zijn");
 				if (!_parkingContractRepository.BestaatParkingContract(parkingContract))
 					throw new ParkingContractManagerException("ParkingContract bestaat niet");
+				parkingContract.ZetId(_parkingContractRepository.GeefParkingContract(parkingContract.Bedrijf.Id).Id);
 				_parkingContractRepository.VerwijderParkingContract(parkingContract);
 			} catch (Exception ex) {
 				throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);
@@ -73,8 +71,9 @@ namespace BezoekersRegistratieSysteemBL.Managers {
 			try {
 				if (parkingContract == null)
 					throw new ParkingContractManagerException("ParkingContract mag niet leeg zijn");
-				if (!_parkingContractRepository.BestaatParkingContract(parkingContract))
+				if (!_parkingContractRepository.BestaatParkingContractOpBedrijfId(parkingContract))
 					throw new ParkingContractManagerException("ParkingContract bestaat niet");
+				parkingContract.ZetId(_parkingContractRepository.GeefParkingContract(parkingContract.Bedrijf.Id).Id);
 				_parkingContractRepository.BewerkParkingContract(parkingContract);
 			} catch (Exception ex) {
 				throw new ParkingContractManagerException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} {ex.Message}", ex);

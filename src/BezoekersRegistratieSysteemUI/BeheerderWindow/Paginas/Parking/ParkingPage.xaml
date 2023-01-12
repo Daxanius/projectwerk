@@ -20,6 +20,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <DockPanel
+            x:Name="parkingBody"
             Grid.Row="0"
             Margin="40"
             LastChildFill="True">
@@ -95,7 +96,8 @@
                                         <iconspresenter:Icon
                                             CircleBackground="{StaticResource DonkerBlauw}"
                                             IconSize="50"
-                                            IconSource="../ParkingContractIcon.xaml" />
+                                            IconSource="../ParkingContractIcon.xaml"
+                                            MouseLeftButtonDown="OpenEditContractPopup" />
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
@@ -221,6 +223,14 @@
         </DockPanel>
         <popups:NummerplaatToevoegenPopup
             x:Name="NummerplaatToevoegen_Popup"
+            Grid.Row="0"
+            Visibility="Collapsed" />
+        <popups:NieuwParkingContractPopup
+            x:Name="NieuwParkingContract_Popup"
+            Grid.Row="0"
+            Visibility="Collapsed" />
+        <popups:UpdateParkingContractPopup
+            x:Name="UpdateParkingContract_Popup"
             Grid.Row="0"
             Visibility="Collapsed" />
     </Grid>

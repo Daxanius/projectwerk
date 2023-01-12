@@ -83,8 +83,8 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		private bool BestaatBedrijf(Bedrijf? bedrijf, long? bedrijfId, string? bedrijfsnaam) {
 			MySqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
-						   "FROM bedrijf " +
-						   "WHERE 1=1";
+						   "FROM Bedrijf " +
+						   "WHERE Status = 1 ";
 			try {
 				using (MySqlCommand cmd = con.CreateCommand()) {
 					con.Open();
@@ -115,7 +115,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		/// <exception cref="BedrijfMySQLException">Faalt bedrijf te wijzigen.</exception>
 		public void BewerkBedrijf(Bedrijf bedrijf) {
 			MySqlConnection con = GetConnection();
-			string query = "UPDATE bedrijf " +
+			string query = "UPDATE Bedrijf " +
 						   "SET Naam = @naam, " +
 						   "BTWNr = @btwnr, " +
 						   "TeleNr = @telenr, " +
@@ -193,7 +193,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 						   "wn.Id as WerknemerId, wn.ANaam as WerknemerAnaam, wn.VNaam as WerknemerVNaam, wb.WerknemerEMail, " +
 						   "f.FunctieNaam " +
 						   "FROM Bedrijf b " +
-						   "LEFT JOIN WerknemerBedrijf wb ON(b.id = wb.BedrijfId) AND wb.Status = 1 " +
+						   "LEFT JOIN Werknemerbedrijf wb ON(b.id = wb.BedrijfId) AND wb.Status = 1 " +
 						   "LEFT JOIN Werknemer wn ON(wn.id = wb.WerknemerId) " +
 						   "LEFT JOIN Functie f ON(wb.FunctieId = f.Id) " +
 						   "WHERE 1=1";
@@ -340,7 +340,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 		private void VeranderStatusBedrijf(long bedrijfId, int statusId) {
 			//Wanneer bedrijf word verwijderd (status 2), medewerkers zijn dan ontslagen (status 2)
 			MySqlConnection con = GetConnection();
-			string queryBedrijf = "UPDATE bedrijf " +
+			string queryBedrijf = "UPDATE Bedrijf " +
 								  "SET Status = @statusId " +
 								  "WHERE Id = @bedrijfid";
 			con.Open();
@@ -350,7 +350,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMySQL {
 				using (MySqlCommand cmdBedrijf = con.CreateCommand()) {
 					//Medewerker sectie
 					if (statusId == 2) {
-						string queryMedewerker = "UPDATE WerknemerBedrijf " +
+						string queryMedewerker = "UPDATE Werknemerbedrijf " +
 												 "SET Status = @statusId " +
 												 "WHERE BedrijfId = @bedrijfid";
 						cmdMedewerker.Transaction = trans;

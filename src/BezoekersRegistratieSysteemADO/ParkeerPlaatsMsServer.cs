@@ -38,7 +38,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			string query = "SELECT COUNT(*) " +
 						   "FROM Parkingplaatsen " +
 						   "WHERE NummerPlaat = @nummerplaat " +
-						   "AND EindTIjd IS NULL";
+                           "AND EindTIjd IS NULL AND StatusId = 1";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
 					con.Open();

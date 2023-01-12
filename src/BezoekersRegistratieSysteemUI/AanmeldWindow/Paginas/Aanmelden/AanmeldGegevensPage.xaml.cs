@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
 using BezoekersRegistratieSysteemUI.Api.Output;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using Newtonsoft.Json;
@@ -25,6 +26,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 		#region Variabelen
 
 		private string _voornaam;
+
 		public string Voornaam {
 			get { return _voornaam; }
 			set {
@@ -93,7 +95,7 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			GeselecteerdBedrijf = RegistratieWindow.GeselecteerdBedrijf;
 
 			if (GeselecteerdBedrijf is null) {
-				MessageBox.Show("Bedrijf is niet gekozen", "Error");
+				new CustomMessageBox().Show("Bedrijf is niet gekozen", "Error", ECustomMessageBoxIcon.Error);
 				((RegistratieWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
 				return;
 			}
@@ -110,27 +112,27 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			try {
 				#region Controle Input
 				if (RegistratieWindow.GeselecteerdBedrijf is null) {
-					MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show("Er is geen bedrijf geselecteerd", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				if (Achternaam.IsLeeg()) {
-					MessageBox.Show("Achternaam is verplicht", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show("Achternaam is verplicht", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				if (Voornaam.IsLeeg()) {
-					MessageBox.Show("Voornaam is verplicht", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show("Voornaam is verplicht", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				if (Email.IsLeeg()) {
-					MessageBox.Show("Email is verplicht", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show("Email is verplicht", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				if (!Email.IsEmailGeldig()) {
-					MessageBox.Show("Email is niet geldig!", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show("Email is niet geldig!", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
@@ -142,12 +144,12 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				WerknemerDTO? werknemer = (WerknemerDTO)WerknemersLijst.SelectedValue;
 
 				if (werknemer is null) {
-					MessageBox.Show("Gelieve een werknemer te kiezen", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show("Gelieve een werknemer te kiezen", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				if (werknemer.Id is null) {
-					MessageBox.Show("Werknemer id is null, gelieve het aanmeldscherm te herstarten", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show("Werknemer id is null, gelieve het aanmeldscherm te herstarten", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
@@ -156,14 +158,14 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 				BezoekerDTO bezoeker = new(Voornaam, Achternaam, Email, Bedrijf);
 
 				if (werknemer.Id.HasValue) {
-					MessageBoxResult result = MessageBox.Show($"Zijn ingevoerde gegevens correct?" +
-						$"\n\nNaam: {Voornaam} {Achternaam}\nEmail: {Email}\nBedrijf: {Bedrijf}", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
-					if (result == MessageBoxResult.Yes)
+					ECustomMessageBoxResult result = new CustomMessageBox().Show($"Zijn ingevoerde gegevens correct?" +
+						$"\n\nNaam: {Voornaam} {Achternaam}\nEmail: {Email}\nBedrijf: {Bedrijf}", "Bevestiging", ECustomMessageBoxIcon.Question);
+					if (result == ECustomMessageBoxResult.Bevestigen)
 						MaakNieuweAfspraak(GeselecteerdBedrijf.Id, werknemer.Id.Value, bezoeker);
 					else return;
 				}
 			} catch (Exception ex) {
-				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show(ex.Message, "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
 			GaTerugNaarKiesBedrijf();
@@ -186,9 +188,9 @@ namespace BezoekersRegistratieSysteemUI.AanmeldWindow.Paginas.Aanmelden {
 			(bool isvalid, AfspraakOutputDTO afspraak) = await ApiController.Post<AfspraakOutputDTO>("/afspraak", json);
 
 			if (isvalid) {
-				MessageBox.Show($"Uw registratie werd goed ontvangen.");
+				new CustomMessageBox().Show($"Uw registratie werd goed ontvangen.", "Success", ECustomMessageBoxIcon.Information);
 			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
+				new CustomMessageBox().Show("Er is iets fout gegaan bij het registreren in het systeem", "Error", ECustomMessageBoxIcon.Error);
 			}
 		}
 

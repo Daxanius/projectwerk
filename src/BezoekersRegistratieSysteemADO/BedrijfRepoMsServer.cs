@@ -84,7 +84,7 @@ namespace BezoekersRegistratieSysteemDL.ADOMS {
 			SqlConnection con = GetConnection();
 			string query = "SELECT COUNT(*) " +
 						   "FROM bedrijf " +
-						   "WHERE 1=1";
+						   "WHERE Status = 1 ";
 			try {
 				using (SqlCommand cmd = con.CreateCommand()) {
 					con.Open();

@@ -30,10 +30,11 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet("bedrijf/{bedrijfId}")]
-		public ActionResult<ParkingContractOutputDTO> GeefParkingContract(long bedrijfId) {
+		public ActionResult<ParkingContractOutputDTO?> GeefParkingContract(long bedrijfId) {
 			try {
 				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-				return Ok(_parkingContractManager.GeefParkingContract(bedrijf));
+				var parkingContract = _parkingContractManager.GeefParkingContract(bedrijf);
+				return Ok(parkingContract);
 			} catch (Exception ex) {
 				return NotFound(ex.Message);
 			}
@@ -86,18 +87,14 @@ namespace BezoekersRegistratieSysteemREST.Controllers {
 			}
 		}
 
-        [HttpGet("bedrijf/{bedrijfId}/overzicht/plaatsen")]
-        public ActionResult<int> GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfId)
-        {
-            try
-            {
-                Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
-                return Ok(_parkingContractManager.GeefAantalParkeerplaatsenVoorBedrijf(bedrijf));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-    }
+		[HttpGet("bedrijf/{bedrijfId}/overzicht/plaatsen")]
+		public ActionResult<int> GeefAantalParkeerplaatsenVoorBedrijf(long bedrijfId) {
+			try {
+				Bedrijf bedrijf = _bedrijfManager.GeefBedrijf(bedrijfId);
+				return Ok(_parkingContractManager.GeefAantalParkeerplaatsenVoorBedrijf(bedrijf));
+			} catch (Exception ex) {
+				return BadRequest(ex.Message);
+			}
+		}
+	}
 }

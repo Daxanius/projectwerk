@@ -22,9 +22,6 @@ namespace BezoekersRegistratieSysteemUI.BeheerderWindowPaginas {
 			GlobalEvents.RefreshData += AutoUpdateIntervalAfspraken_Event;
 			GlobalEvents.RefreshDataTimout += TimeOutLoading;
 			AfspraakEvents.NieuweAfspraakToegevoegd += NieuweAfspraakToegevoegd_Event;
-
-			//this.NavigationService.Navigate()
-			//TODO: :-)
 		}
 		public void TimeOutLoading() {
 			GlobalEvents.RefreshTimer.Start();

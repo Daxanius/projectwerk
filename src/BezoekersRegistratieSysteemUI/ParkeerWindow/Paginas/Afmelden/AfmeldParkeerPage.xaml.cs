@@ -1,4 +1,5 @@
 ﻿using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Nutsvoorzieningen;
 using System;
 using System.ComponentModel;
@@ -52,26 +53,26 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Afmelden {
 			try {
 
 				if (Nummerplaat.IsLeeg()) {
-					MessageBox.Show("Nummerplaat is leeg!", "Error");
+					new CustomMessageBox().Show("Nummerplaat is leeg!", "Error", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				//TODO STAN
 				bool isValid = await ApiController.Post($"/parkeerplaats/checkout/{Nummerplaat}");
                 if (isValid) {
-                    MessageBox.Show($"U bent afgemeld.", "", MessageBoxButton.OK, MessageBoxImage.Information);
+					new CustomMessageBox().Show($"U bent afgemeld.", "Success", ECustomMessageBoxIcon.Information);
                 } else {
-                    MessageBox.Show("Er is iets fout gegaan bij het afmelden in het systeem", "Error /");
+					new CustomMessageBox().Show("Er is iets fout gegaan bij het afmelden in het systeem", "Error", ECustomMessageBoxIcon.Error);
                 }
                 Nummerplaat = "";
 
 
 			} catch (Exception ex) {
 				if (ex.Message.Contains("NotFound")) {
-					MessageBox.Show("Deze nummerplaat is ons niet bekend.");
+					new CustomMessageBox().Show("Deze nummerplaat is ons niet bekend.", "Error", ECustomMessageBoxIcon.Error);
 					return;
 				}
-				MessageBox.Show(ex.Message, "Error");
+				new CustomMessageBox().Show(ex.Message, "Error", ECustomMessageBoxIcon.Error);
 			}
 		}
 		#endregion

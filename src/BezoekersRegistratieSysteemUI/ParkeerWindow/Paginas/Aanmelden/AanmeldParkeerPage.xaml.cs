@@ -1,5 +1,6 @@
 ﻿using BezoekersRegistratieSysteemUI.AanmeldWindow;
 using BezoekersRegistratieSysteemUI.Api;
+using BezoekersRegistratieSysteemUI.Api.Input;
 using BezoekersRegistratieSysteemUI.Api.Output;
 using BezoekersRegistratieSysteemUI.MessageBoxes;
 using BezoekersRegistratieSysteemUI.Model;
@@ -70,7 +71,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 			GeselecteerdBedrijf = AanmeldParkeerWindow.GeselecteerdBedrijf;
 
 			if (GeselecteerdBedrijf is null) {
-				MessageBox.Show("Bedrijf is niet gekozen", "Error");
+				new CustomMessageBox().Show("Bedrijf is niet gekozen", "Error", ECustomMessageBoxIcon.Error);
 				((AanmeldParkeerWindow)Window.GetWindow(this)).FrameControl.Content = KiesBedrijfPage.Instance;
 				return;
 			}
@@ -82,17 +83,16 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 
 				if (AanmeldParkeerWindow.GeselecteerdBedrijf is null)
 				{
-					MessageBox.Show("Er is geen bedrijf geselecteerd", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+					new CustomMessageBox().Show("Er is geen bedrijf geselecteerd", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
 				if (Nummerplaat.IsLeeg()) {
-					MessageBox.Show("Nummerplaat is leeg!", "Error");
+					new CustomMessageBox().Show("Nummerplaat is leeg", "Fout", ECustomMessageBoxIcon.Error);
 					return;
 				}
 
-				CustomMessageBox messagebox = new CustomMessageBox();
-				var result = messagebox.Show($"Zijn ingevoerde gegevens correct?\n\nNummerplaat: {Nummerplaat}", "Bevestiging", ECustomMessageBoxIcon.Question);
+				var result = new CustomMessageBox().Show($"Zijn ingevoerde gegevens correct?\n\nNummerplaat: {Nummerplaat}", "Bevestiging", ECustomMessageBoxIcon.Question);
 
 				if (result == ECustomMessageBoxResult.Bevestigen)
 					MaakNieuweCheckIn(GeselecteerdBedrijf.Id, Nummerplaat);
@@ -102,7 +102,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 				Nummerplaat = "";
 
 			} catch (Exception ex) {
-				MessageBox.Show(ex.Message, "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+				new CustomMessageBox().Show(ex.Message[ex.Message.LastIndexOf('-')..], "Fout", ECustomMessageBoxIcon.Error);
 				return;
 			}
             GaTerugNaarKiesBedrijf();
@@ -120,14 +120,18 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 		}
         private async void MaakNieuweCheckIn(long bedrijfsId, string nummerplaat)
         {
-            var rawBody = new { bedrijfId = bedrijfsId, checkinTijd = DateTime.Now, nummerplaat = nummerplaat };
-            string json = JsonConvert.SerializeObject(rawBody);
-			bool isvalid = await ApiController.Post("/parkeerplaats/checkin", json);
+			try {
+				ParkeerplaatsInputDTO inputDTO = new(bedrijfsId, DateTime.Now, null, nummerplaat);
+				string payload = JsonConvert.SerializeObject(inputDTO);
+				bool isvalid = await ApiController.Post("/parkeerplaats/checkin", payload);
 
-			if (isvalid) {
-				MessageBox.Show($"Uw registratie werd goed ontvangen.");
-			} else {
-				MessageBox.Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /");
+				if (isvalid) {
+					new CustomMessageBox().Show("Uw registratie werd goed ontvangen.", "Success", ECustomMessageBoxIcon.Information);
+				} else {
+					new CustomMessageBox().Show("Er is iets fout gegaan bij het registreren in het systeem", "Error /", ECustomMessageBoxIcon.Error);
+				}
+			} catch (Exception ex) {
+				new CustomMessageBox().Show(ex.Message[ex.Message.LastIndexOf('-')..], "Fout", ECustomMessageBoxIcon.Error);
 			}
 		}
         #endregion

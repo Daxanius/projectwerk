@@ -15,6 +15,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 		private const int MAX_COLUMN_COUNT = 3;
 
 		public List<BedrijfDTO> Bedrijven;
+		public List<BedrijfDTO> BedrijvenMetContract = new();
 
 		#endregion
 
@@ -24,6 +25,13 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 
 			if (Bedrijven is null) {
 				Bedrijven = ApiController.GeefBedrijven().ToList();
+				foreach (BedrijfDTO bedrijf in Bedrijven)
+				{
+					if (ApiController.GeefParkingContract(bedrijf.Id) != null)
+					{
+                        BedrijvenMetContract.Add(bedrijf);
+					}
+				}     
 				SpawnBedrijvenGrid();
 			}
 		}
@@ -37,14 +45,14 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 
 			gridContainer.RowDefinitions.Add(new() { Height = new GridLength(1, GridUnitType.Star) });
 
-			for (int i = 0; i < Bedrijven?.Count; i++) {
+			for (int i = 0; i < BedrijvenMetContract?.Count; i++) {
 				Border border = new Border();
 				border.Style = Application.Current.Resources["BedrijvenBorderGridStyle"] as Style;
 				border.Height = 85;
 				border.MinWidth = 350;
 				border.Margin = new Thickness(10);
 				border.MouseLeftButtonDown += GaNaarWerknemersVanBedrijfTab_Event;
-				border.DataContext = Bedrijven[i];
+				border.DataContext = BedrijvenMetContract[i];
 
 				StackPanel container = new();
 				container.Margin = new Thickness(5);
@@ -53,7 +61,7 @@ namespace BezoekersRegistratieSysteemUI.ParkeerWindow.Paginas.Aanmelden {
 				container.VerticalAlignment = VerticalAlignment.Center;
 
 				TextBlock bedrijfNaam = new() {
-					Text = Bedrijven[i].Naam,
+					Text = BedrijvenMetContract[i].Naam,
 					FontSize = 24,
 					FontWeight = FontWeights.Bold,
 					TextAlignment = TextAlignment.Center,
