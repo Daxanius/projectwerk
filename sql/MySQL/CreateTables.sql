@@ -79,8 +79,7 @@ CREATE TABLE IF NOT EXISTS Groupswork.ParkingContract(
 	BedrijfId BIGINT NOT NULL,
 	AantalPlaatsen INT NOT NULL,
 	StatusId INT NULL DEFAULT 1,
-	CONSTRAINT FK_ParkingContract_Bedrijf_Id FOREIGN KEY (BedrijfId) REFERENCES Groupswork.Bedrijf(Id),
-	CONSTRAINT UN_Start_Eind_Bedrijf UNIQUE (StartTijd, EindTijd, BedrijfId, StatusId)
+	CONSTRAINT FK_ParkingContract_Bedrijf_Id FOREIGN KEY (BedrijfId) REFERENCES Groupswork.Bedrijf(Id)
 );
 
 CREATE TABLE IF NOT EXISTS Groupswork.ParkingPlaatsen(

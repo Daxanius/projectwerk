@@ -535,8 +535,8 @@ BEGIN
   
   label: 
 WHILE (ModifiedTotal < MemTotal) DO
-	SET cWerknemerBedrijfId = FLOOR(RAND()*((SELECT COUNT(*) FROM Groupswork.WerknemerBedrijf))+1);
-	IF((SELECT COUNT(*) FROM Groupswork.WerknemerBedrijf WHERE Id = cWerknemerBedrijfId AND Status = 1) = 0) THEN
+	SET cWerknemerBedrijfId = FLOOR(RAND()*((SELECT COUNT(*) FROM Groupswork.Werknemerbedrijf))+1);
+	IF((SELECT COUNT(*) FROM Groupswork.Werknemerbedrijf WHERE Id = cWerknemerBedrijfId AND Status = 1) = 0) THEN
 		ITERATE label;
 	END	IF;
 	/*

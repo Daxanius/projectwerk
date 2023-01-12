@@ -21,9 +21,10 @@ INSERT INTO Groupswork.AfspraakStatus
 
 INSERT INTO Groupswork.Bezoeker
 	(Vnaam, ANaam, Email, EigenBedrijf)
-	VALUES('Bart', 'Smis', 'BartSmis@Outlook.com', 'Smisses NV'),
-		  ('Niet', 'Geert', 'NietGeert@Outlook.com', 'NietGeert NV'),
-		  ('David', 'Brex', 'Davidbrex@Outlook.com', 'Dominos');
+	VALUES('Wout', 'De Crop', 'woutdecrop@gmail.com', 'Hogent'),
+		  ('Stan', 'Persoons', 'stanpersoons@gmail.com', 'Hogent'),
+          ('Balder', 'Huybreghs', 'balderhuybreghs@gmail.com', 'Hogent'),
+		  ('Bjorn', 'Galle', 'bjorngalle@gmail.com', 'Hogent');
 
 INSERT INTO Groupswork.Werknemer
 	(VNaam, ANaam)
@@ -148,7 +149,7 @@ INSERT INTO Groupswork.Bedrijf
 		('walters people','BE0874633459','092105740','gent@walterspeople.com','guldensporenpark 25 9820 merelbeke', 1);
 
 
-INSERT INTO Groupswork.WerknemerBedrijf(BedrijfId, WerknemerId, FunctieId,WerknemerEmail)
+INSERT INTO Groupswork.Werknemerbedrijf(BedrijfId, WerknemerId, FunctieId,WerknemerEmail)
 VALUES(14, 1, 2, 'RubyTucker@linak.cn'),
 (3, 1, 6, 'RubyTucker@cerence.com'),
 (2, 2, 4, 'SharonCunningham@orbid.be'),
